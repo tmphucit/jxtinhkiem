@@ -1,0 +1,40 @@
+
+*
+***** S3Relay Start (@ 2021/12/07 00:20:53.072) >>>>>
+*
+
+[2021/12/07 00:20:53] 1 -- Initializing ...
+[2021/12/07 00:20:53] 2 -- Create Channel: [Stock, GM] <00000000> GM
+[2021/12/07 00:20:53] 3 -- Create Channel: [Stock] <00000001> 世界
+[2021/12/07 00:20:53] 4 -- friend timing update db: start
+[2021/12/07 00:20:53] 5 -- relay server startup
+[2021/12/07 00:20:53] 6 -- root client create: 127.0.0.1
+[2021/12/07 00:20:53] 7 -- root client close: 127.0.0.1
+[2021/12/07 00:20:53] 8 -- DBRole client create: 127.0.0.1
+[2021/12/07 00:20:53] 9 -- gateway client create: 127.0.0.1
+[2021/12/07 00:20:53] 10 -- host server startup
+[2021/12/07 00:20:53] 11 -- tong server startup
+[2021/12/07 00:20:53] 12 -- chat server startup
+[2021/12/07 00:20:53] 13 -- SockThread start success
+[2021/12/07 00:20:53] 14 -- tong database open ok!
+[2021/12/07 00:20:53] 15 -- tongset init ok !
+[2021/12/07 00:20:53] 16 -- Initialize OK
+[2021/12/07 00:21:05] 17 -- host connect create: 127.0.0.1
+[2021/12/07 00:21:05] 18 -- chat connect create: 127.0.0.1
+[2021/12/07 00:21:05] 19 -- tong connect create: 127.0.0.1
+[2021/12/07 00:21:56] 20 -- load someone: NewSource
+[2021/12/07 00:21:56] 21 -- player login: volam1 [NewSource] (0100007F, 00000000)
+[2021/12/07 00:21:56] 22 -- Query ChannelID: \S from (0100007F, 00000000)
+[2021/12/07 00:21:56] 23 -- Create Channel: <00000002> \S16777343
+[2021/12/07 00:21:56] 24 -- Query ChannelID: 世界 from (0100007F, 00000000)
+[2021/12/07 00:21:56] 25 -- Query ChannelID: GM from (0100007F, 00000000)
+[2021/12/07 00:21:56] 26 -- Query ChannelID: \B from (0100007F, 00000000)
+[2021/12/07 00:21:56] 27 -- Create Channel: <00000003> \B16777343
+[2021/12/07 00:21:56] 28 -- sync friend list: NewSource (full)
+[2021/12/07 00:21:56] 29 -- Subscribe Channel: 00000002 by (0100007F,00000000)
+[2021/12/07 00:21:56] 30 -- Subscribe Channel: 00000001 by (0100007F,00000000)
+[2021/12/07 00:21:56] 31 -- Subscribe Channel: GM <00000000> by (0100007F,00000000)
+[2021/12/07 00:21:56] 32 -- Subscribe Channel: 00000003 by (0100007F,00000000)
+[2021/12/07 00:24:50] 33 -- Destroy Channel: <00000002> \S16777343
+[2021/12/07 00:24:50] 34 -- Destroy Channel: <00000003> \B16777343
+[2021/12/07 00:24:50] 35 -- player logout: volam1

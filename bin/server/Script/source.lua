@@ -1,0 +1,17 @@
+hopqua = 67
+mangcau = 68
+dua = 69
+dudu = 70
+xoai = 71
+sung = 72
+buoi = 121
+le = 122
+cam = 123
+chuoi = 124
+hong = 125
+mambac = 126
+mamvang = 127
+mambacnguqua = 136
+mamvangnguqua = 137
+lixinho = 138
+lixilon = 139

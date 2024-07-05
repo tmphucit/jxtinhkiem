@@ -1,0 +1,41 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: DBBackupLoad - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "c:\Temp\RSP123.tmp" with contents
+[
+/nologo /MT /W3 /GX /O2 /I "..\..\..\SwordOnline\lib" /I "..\..\..\SwordOnline\Headers" /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Release/DBBackupLoad.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\工作\SwordOnline\Utility\Sources\DBBackupLoad\DBBackupLoadDlg.cpp"
+"D:\工作\SwordOnline\Utility\Sources\DBBackupLoad\DBDumpLoad.cpp"
+]
+Creating command line "cl.exe @c:\Temp\RSP123.tmp" 
+Creating temporary file "c:\Temp\RSP124.tmp" with contents
+[
+/nologo /subsystem:windows /incremental:no /pdb:"Release/DBBackupLoad.pdb" /machine:I386 /out:"Release/DBBackupLoad.exe" 
+".\Release\DBBackupLoad.obj"
+".\Release\DBBackupLoadDlg.obj"
+".\Release\DBDumpLoad.obj"
+".\Release\DBTable.obj"
+".\Release\StdAfx.obj"
+".\Release\DBBackupLoad.res"
+".\libdb41s.lib"
+]
+Creating command line "link.exe @c:\Temp\RSP124.tmp"
+<h3>Output Window</h3>
+Compiling...
+DBBackupLoadDlg.cpp
+DBDumpLoad.cpp
+Generating Code...
+Linking...
+
+
+
+<h3>Results</h3>
+DBBackupLoad.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

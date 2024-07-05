@@ -1,0 +1,63 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: JXGM - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "D:\temp\RSP229.tmp" with contents
+[
+/nologo /MTd /W3 /Gm /GX /ZI /Od /I "..\..\..\SwordOnline\Sources\MultiServer\Rainbow" /I "..\..\..\SwordOnline\Sources\MultiServer\Rainbow\Interface" /I "..\..\..\SwordOnline\Sources\MultiServer\Common" /I "..\..\..\SwordOnline\Headers" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "JXGM_EXPORTS" /FR"Debug/" /Fp"Debug/JXGM.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"F:\DownLoads\Utility\Sources\AutoMap\JXGM\JXGM.cpp"
+"F:\DownLoads\Utility\Sources\AutoMap\JXGM\KConnect.cpp"
+"F:\DownLoads\Utility\Sources\AutoMap\JXGM\KSystemConnect.cpp"
+"F:\DownLoads\Utility\Sources\AutoMap\JXGM\ksystemonline.cpp"
+]
+Creating command line "cl.exe @D:\temp\RSP229.tmp" 
+Creating temporary file "D:\temp\RSP22A.tmp" with contents
+[
+netapi32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /incremental:yes /pdb:"Debug/JXGM.pdb" /debug /machine:I386 /def:".\JXGM.def" /out:"../../../bin/client/JXGM.dll" /implib:"Debug/JXGM.lib" /pdbtype:sept /libpath:"..\..\..\SwordOnline\Sources\MultiServer\Common\Debug" 
+.\Debug\JXGM.obj
+.\Debug\KConnect.obj
+.\Debug\KSystemConnect.obj
+.\Debug\ksystemonline.obj
+.\Debug\KThread.obj
+.\Debug\StdAfx.obj
+..\..\..\Swordonline\Lib\debug\common.lib
+..\..\..\Swordonline\Lib\debug\engine.lib
+]
+Creating command line "link.exe @D:\temp\RSP22A.tmp"
+<h3>Output Window</h3>
+Compiling...
+JXGM.cpp
+f:\downloads\swordonline\sources\kernel\zport.h(457) : error C2065: 'SAFE_DELETE' : undeclared identifier
+F:\DownLoads\Utility\Sources\AutoMap\JXGM\JXGM.cpp(13) : fatal error C1083: Cannot open include file: 'Library.h': No such file or directory
+KConnect.cpp
+f:\downloads\swordonline\sources\kernel\zport.h(457) : error C2065: 'SAFE_DELETE' : undeclared identifier
+f:\downloads\swordonline\sources\kernel\iclient.h(17) : warning C4099: 'IClient' : type name first seen using 'struct' now seen using 'class'
+        f:\downloads\utility\sources\automap\jxgm\kconnect.h(17) : see declaration of 'IClient'
+f:\downloads\swordonline\sources\kernel\iclient.h(30) : warning C4099: 'IClient' : type name first seen using 'struct' now seen using 'class'
+        f:\downloads\utility\sources\automap\jxgm\kconnect.h(17) : see declaration of 'IClient'
+f:\downloads\swordonline\sdk\platformsdk\include\buffer.h(33) : warning C4200: nonstandard extension used : zero-sized array in struct/union
+f:\downloads\swordonline\sdk\platformsdk\include\buffer.h(98) : warning C4200: nonstandard extension used : zero-sized array in struct/union
+F:\DownLoads\Utility\Sources\AutoMap\JXGM\KConnect.cpp(54) : error C2664: 'RegisterMsgFilter' : cannot convert parameter 2 from 'void (void *,const unsigned long &)' to 'void (__cdecl *)(void *,const unsigned long &)'
+        None of the functions with this name in scope match the target type
+KSystemConnect.cpp
+f:\downloads\swordonline\sources\kernel\core\kprotocol.h(8) : fatal error C1083: Cannot open include file: '../Sources/Core/src/GameDataDef.h': No such file or directory
+ksystemonline.cpp
+f:\downloads\swordonline\sources\kernel\zport.h(457) : error C2065: 'SAFE_DELETE' : undeclared identifier
+f:\downloads\swordonline\sources\kernel\iclient.h(17) : warning C4099: 'IClient' : type name first seen using 'struct' now seen using 'class'
+        f:\downloads\utility\sources\automap\jxgm\kconnect.h(17) : see declaration of 'IClient'
+f:\downloads\swordonline\sources\kernel\iclient.h(30) : warning C4099: 'IClient' : type name first seen using 'struct' now seen using 'class'
+        f:\downloads\utility\sources\automap\jxgm\kconnect.h(17) : see declaration of 'IClient'
+Generating Code...
+Ö´ÐÐ cl.exe Ê±³ö´í.
+
+
+
+<h3>Results</h3>
+JXGM.dll - 1 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

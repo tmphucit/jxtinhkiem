@@ -1,0 +1,54 @@
+--------Author: Ohishu
+----Ly Do: Vi Faction La Tieng Hoa Nen Tao 1 Script Lien Thong De Su Dung !
+
+function kiemtraft()
+if GetFaction() == "Thieu Lam Phai" then
+	return 1
+	elseif GetFaction() == "Thien Vuong Bang" then
+	return 2
+	elseif GetFaction() == "Duong Mon" then
+	return 3
+	elseif GetFaction() == "Ngu Doc Giao" then
+	return 4
+	elseif GetFaction() == "Nga My Phai" then
+	return 5
+	elseif GetFaction() == "Thuy Yen Mon" then
+	return 6
+	elseif GetFaction() == "Cai Bang" then
+	return 7
+	elseif GetFaction() == "Thien Nhan Giao" then
+	return 8
+	elseif GetFaction() == "Vo Dang Phai" then
+	return 9
+	elseif GetFaction() == "Con Lon Phai" then
+	return 10
+elseif GetFaction() == "" then
+	return 11
+end
+	end
+
+function tenmonphai()
+	if kiemtraft() == 1 then
+		return "Thieu Lam"
+	elseif kiemtraft() == 2 then
+		return "Thien Vuong"
+	elseif kiemtraft() == 3 then
+		return "Duong Mon"
+	elseif kiemtraft() == 4 then
+		return "Ngu Doc"
+	elseif kiemtraft() == 5 then
+		return "Nga My"
+	elseif kiemtraft() == 6 then
+		return "Thuy Yen"
+	elseif kiemtraft() == 7 then
+		return "Cai Bang"
+	elseif kiemtraft() == 8 then
+		return "Thien Nhan"
+	elseif kiemtraft() == 9 then
+		return "Vo Dang"
+	elseif kiemtraft() == 10 then
+		return "Con Lon"
+	elseif kiemtraft() == 11 then
+		return ""
+	end
+end

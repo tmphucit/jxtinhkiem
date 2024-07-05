@@ -1,0 +1,37 @@
+
+*
+***** S3Relay Start (@ 2021/12/07 00:09:27.840) >>>>>
+*
+
+[2021/12/07 00:09:30] 1 -- Initializing ...
+[2021/12/07 00:09:30] 2 -- Create Channel: [Stock, GM] <00000000> GM
+[2021/12/07 00:09:30] 3 -- Create Channel: [Stock] <00000001>  ¿ΩÁ
+[2021/12/07 00:09:30] 4 -- friend timing update db: start
+[2021/12/07 00:09:30] 5 -- relay server startup
+[2021/12/07 00:09:30] 6 -- root client create: 127.0.0.1
+[2021/12/07 00:09:30] 7 -- root client close: 127.0.0.1
+[2021/12/07 00:09:30] 8 -- DBRole client create: 127.0.0.1
+[2021/12/07 00:09:30] 9 -- FAIL: gateway client - 127.0.0.1
+[2021/12/07 00:09:30] 10 -- enable reclient: gateway
+[2021/12/07 00:09:30] 11 -- host server startup
+[2021/12/07 00:09:30] 12 -- tong server startup
+[2021/12/07 00:09:30] 13 -- chat server startup
+[2021/12/07 00:09:30] 14 -- SockThread start success
+[2021/12/07 00:09:30] 15 -- tong database open ok!
+[2021/12/07 00:09:30] 16 -- tongset init ok !
+[2021/12/07 00:09:30] 17 -- Initialize OK
+[2021/12/07 00:09:36] 18 -- Uninitializing ...
+[2021/12/07 00:09:36] 19 -- disable reclient: gateway
+[2021/12/07 00:09:36] 20 -- SockThread stop success
+[2021/12/07 00:09:36] 21 -- chat server shutdown
+[2021/12/07 00:09:36] 22 -- tong server shutdown
+[2021/12/07 00:09:36] 23 -- host server shutdown
+[2021/12/07 00:09:36] 24 -- DBRole client close: 127.0.0.1
+[2021/12/07 00:09:36] 25 -- relay server shutdown
+[2021/12/07 00:09:36] 26 -- friend timing update db: stop
+[2021/12/07 00:09:36] 27 -- Uninitialize OK
+
+*
+***** S3Relay Stop (@ 2021/12/07 00:09:36.204) <<<<<
+*
+

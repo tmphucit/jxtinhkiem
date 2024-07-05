@@ -1,0 +1,9 @@
+--description: ??? ??? ??????? ??
+--author: ??	
+--date: 2003/6/13
+
+
+function main()
+Msg2Player("Chµo mõng c¸c h¹ ®Õn víi Vâ L©m BÝch Long")
+
+end;

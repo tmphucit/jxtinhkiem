@@ -1,0 +1,80 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: VersionMaker - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x804 /fo"Debug/VersionMaker.res" /d "_DEBUG" "F:\DownLoads\Utility\Sources\VersionTools\VersionMaker\VersionMaker.rc"" 
+Creating temporary file "D:\temp\RSP1C2.tmp" with contents
+[
+/nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Debug/VersionMaker.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"F:\DownLoads\Utility\Sources\VersionTools\VersionMaker\AboutDlg.cpp"
+"F:\DownLoads\Utility\Sources\VersionTools\VersionMaker\FilePath.cpp"
+"F:\DownLoads\Utility\Sources\VersionTools\VersionMaker\FileUpdateAttribute.cpp"
+"F:\DownLoads\Utility\Sources\VersionTools\VersionMaker\KLEFile.cpp"
+"F:\DownLoads\Utility\Sources\VersionTools\VersionMaker\KLEFileEnumerate.cpp"
+"F:\DownLoads\Utility\Sources\VersionTools\VersionMaker\KLEFilePathMgr.cpp"
+"F:\DownLoads\Utility\Sources\VersionTools\VersionMaker\SourceDest.cpp"
+"F:\DownLoads\Utility\Sources\VersionTools\VersionMaker\VersionMaker.cpp"
+"F:\DownLoads\Utility\Sources\VersionTools\VersionMaker\VersionMakerDlg.cpp"
+]
+Creating command line "cl.exe @D:\temp\RSP1C2.tmp" 
+Creating temporary file "D:\temp\RSP1C3.tmp" with contents
+[
+/nologo /MTd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Debug/VersionMaker.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"F:\DownLoads\Utility\Sources\VersionTools\VersionMaker\StdAfx.cpp"
+]
+Creating command line "cl.exe @D:\temp\RSP1C3.tmp" 
+Creating temporary file "D:\temp\RSP1C4.tmp" with contents
+[
+imagehlp.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/VersionMaker.pdb" /debug /machine:I386 /out:"Debug/VersionMaker.exe" /pdbtype:sept 
+.\Debug\AboutDlg.obj
+.\Debug\FilePath.obj
+.\Debug\FileUpdateAttribute.obj
+.\Debug\KLEFile.obj
+.\Debug\KLEFileEnumerate.obj
+.\Debug\KLEFilePathMgr.obj
+.\Debug\SourceDest.obj
+.\Debug\StdAfx.obj
+.\Debug\VersionMaker.obj
+.\Debug\VersionMakerDlg.obj
+.\Debug\VersionMaker.res
+.\Engine.lib
+]
+Creating command line "link.exe @D:\temp\RSP1C4.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+AboutDlg.cpp
+FilePath.cpp
+FileUpdateAttribute.cpp
+KLEFile.cpp
+KLEFileEnumerate.cpp
+KLEFilePathMgr.cpp
+SourceDest.cpp
+VersionMaker.cpp
+VersionMakerDlg.cpp
+Generating Code...
+Linking...
+VersionMakerDlg.obj : error LNK2001: unresolved external symbol "public: virtual __thiscall RecordProcess::~RecordProcess(void)" (??1RecordProcess@@UAE@XZ)
+VersionMakerDlg.obj : error LNK2001: unresolved external symbol "public: class std::vector<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> >,class std::allocator<class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > > > __thiscall UpdateRelativeFileProcess::GetResult(void)" (?GetResult@UpdateRelativeFileProcess@@QAE?AV?$vector@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@V?$allocator@V?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@2@@std@@XZ)
+VersionMakerDlg.obj : error LNK2001: unresolved external symbol "public: void __thiscall RecordProcess::AnalyseRecordStream(class std::basic_istream<char,struct std::char_traits<char> > &)" (?AnalyseRecordStream@RecordProcess@@QAEXAAV?$basic_istream@DU?$char_traits@D@std@@@std@@@Z)
+VersionMakerDlg.obj : error LNK2001: unresolved external symbol "public: void __thiscall RecordProcess::AddProcessFunction(class ItermProcess *)" (?AddProcessFunction@RecordProcess@@QAEXPAVItermProcess@@@Z)
+VersionMakerDlg.obj : error LNK2001: unresolved external symbol "public: __thiscall RecordProcess::RecordProcess(void)" (??0RecordProcess@@QAE@XZ)
+VersionMakerDlg.obj : error LNK2001: unresolved external symbol "public: __thiscall UpdateRelativeFileProcess::UpdateRelativeFileProcess(void)" (??0UpdateRelativeFileProcess@@QAE@XZ)
+VersionMakerDlg.obj : error LNK2001: unresolved external symbol "public: virtual __thiscall CompStringNotMatchCase::~CompStringNotMatchCase(void)" (??1CompStringNotMatchCase@@UAE@XZ)
+VersionMakerDlg.obj : error LNK2001: unresolved external symbol "public: __thiscall CompStringNotMatchCase::CompStringNotMatchCase(class std::basic_string<char,struct std::char_traits<char>,class std::allocator<char> > const &)" (??0CompStringNotMatchCase@@QAE@ABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@@Z)
+Debug/VersionMaker.exe : fatal error LNK1120: 8 unresolved externals
+Ö´ÐÐ link.exe Ê±³ö´í.
+
+
+
+<h3>Results</h3>
+VersionMaker.exe - 1 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

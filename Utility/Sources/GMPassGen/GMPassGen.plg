@@ -1,0 +1,40 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: GMPassGen - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x804 /fo"Debug/GMPassGen.res" /d "_DEBUG" /d "_AFXDLL" "F:\DownLoads\Utility\Sources\GMPassGen\GMPassGen.rc"" 
+Creating temporary file "D:\temp\RSP9F.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/GMPassGen.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"F:\DownLoads\Utility\Sources\GMPassGen\GMPassGen.cpp"
+"F:\DownLoads\Utility\Sources\GMPassGen\GMPassGenDlg.cpp"
+]
+Creating command line "cl.exe @D:\temp\RSP9F.tmp" 
+Creating temporary file "D:\temp\RSPA0.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/GMPassGen.pch" /Yc"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"F:\DownLoads\Utility\Sources\GMPassGen\StdAfx.cpp"
+]
+Creating command line "cl.exe @D:\temp\RSPA0.tmp" 
+Creating command line "link.exe /nologo /subsystem:windows /incremental:yes /pdb:"Debug/GMPassGen.pdb" /debug /machine:I386 /out:"Debug/GMPassGen.exe" /pdbtype:sept  .\Debug\GMPassGen.obj .\Debug\GMPassGenDlg.obj .\Debug\StdAfx.obj .\Debug\GMPassGen.res "
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+StdAfx.cpp
+Compiling...
+GMPassGen.cpp
+GMPassGenDlg.cpp
+Generating Code...
+Linking...
+
+
+
+<h3>Results</h3>
+GMPassGen.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

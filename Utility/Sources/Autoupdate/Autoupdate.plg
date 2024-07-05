@@ -1,0 +1,69 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Autoupdate - Win32 Release--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\PC\AppData\Local\Temp\RSP5526.tmp" with contents
+[
+/nologo /MD /W3 /GX /O2 /D "WIN32" /D "NDEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /Fp"Release/Autoupdate.pch" /Yu"stdafx.h" /Fo"Release/" /Fd"Release/" /FD /c 
+"D:\Source Code JX\swrod3\Utility\Sources\Autoupdate\Autoupdate.cpp"
+]
+Creating command line "cl.exe @C:\Users\PC\AppData\Local\Temp\RSP5526.tmp" 
+Creating temporary file "C:\Users\PC\AppData\Local\Temp\RSP5527.tmp" with contents
+[
+common.lib commonVc7.lib zip.lib Wininet.lib /nologo /subsystem:windows /incremental:no /pdb:"Release/Autoupdate.pdb" /machine:I386 /out:"../../RUN_vc7/Autoupdate.exe" 
+".\Release\Autoupdate.obj"
+".\Release\AutoupdateDlg.obj"
+".\Release\StartDlg.obj"
+".\Release\StdAfx.obj"
+".\Release\webbrowser2.obj"
+".\Release\Autoupdate.res"
+]
+Creating command line "link.exe @C:\Users\PC\AppData\Local\Temp\RSP5527.tmp"
+<h3>Output Window</h3>
+Compiling...
+Autoupdate.cpp
+D:\Source Code JX\swrod3\Utility\Sources\Autoupdate\Autoupdate.cpp(4) : fatal error C1853: 'Release/Autoupdate.pch' is not a precompiled header file created with this compiler
+Error executing cl.exe.
+
+
+
+<h3>Results</h3>
+Autoupdate.exe - 1 error(s), 0 warning(s)
+<h3>
+--------------------Configuration: Autoupdate - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\PC\AppData\Local\Temp\RSP569F.tmp" with contents
+[
+/nologo /MDd /W3 /Gm /GX /ZI /Od /I "..\..\headers" /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_AFXDLL" /D "_MBCS" /FR"Debug/" /Fp"Debug/Autoupdate.pch" /Yu"stdafx.h" /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"D:\Source Code JX\swrod3\Utility\Sources\Autoupdate\Autoupdate.cpp"
+]
+Creating command line "cl.exe @C:\Users\PC\AppData\Local\Temp\RSP569F.tmp" 
+Creating temporary file "C:\Users\PC\AppData\Local\Temp\RSP56A0.tmp" with contents
+[
+commonVc7.lib Wininet.lib zip.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/Autoupdate.pdb" /debug /machine:I386 /out:"../../RUN_vc7/Autoupdate.exe" /pdbtype:sept 
+".\Debug\Autoupdate.obj"
+".\Debug\AutoupdateDlg.obj"
+".\Debug\StartDlg.obj"
+".\Debug\StdAfx.obj"
+".\Debug\webbrowser2.obj"
+".\Debug\Autoupdate.res"
+]
+Creating command line "link.exe @C:\Users\PC\AppData\Local\Temp\RSP56A0.tmp"
+<h3>Output Window</h3>
+Compiling...
+Autoupdate.cpp
+d:\source code jx\swrod3\utility\sources\autoupdate\autoupdate.cpp(4) : fatal error C1853: 'Debug/Autoupdate.pch' is not a precompiled header file created with this compiler
+Error executing cl.exe.
+
+
+
+<h3>Results</h3>
+Autoupdate.exe - 1 error(s), 0 warning(s)
+</pre>
+</body>
+</html>

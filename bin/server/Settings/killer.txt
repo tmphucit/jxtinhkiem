@@ -1,0 +1,52 @@
+Id	TenBoss	Cap	IdNpc	PosX	PosY	ThongTin
+1	Co Thanh Duong	20	876			Han dang o Duoc Vuong Coc Toa do 309/228. Ta khong tin giet duoc han.
+2	Quan Thien Van	20	877			Han dang o Duoc Vuong Coc Toa do 307/216. Ta khong tin giet duoc han.
+3	Ha Thieu Hung	20	878			Han dang o Duoc Vuong Coc Toa do 296/203. Ta khong tin giet duoc han.
+4	To Co Ngam	30	879			Han dang o Bach Van Dong Toa Do 242/200. Ta khong tin giet duoc han
+5	Ho Nhat Lang	30	880			Han dang o Bach Van Dong Toa Do 229/193. Ta khong tin giet duoc han
+6	Hoang Van Kiep	30	881			Han dang o Bach Van Dong Toa Do 204/199. Ta khong tin giet duoc han
+7	Giang Tram Nhan	30	882			Han dang o Bach Van Dong Toa Do 219/192. Ta khong tin giet duoc han
+8	Canh Dung Phuc	40	883			Han dang o Bach Thuy Dong Toa Do 202/192. Ta khong tin giet duoc han
+9	Khuong Tu Dao	40	884			Han dang o Bach Thuy Dong Toa Do 193/196. Ta khong tin giet duoc han
+10	Khong Dong Nhan	40	885			Han dang o Bach Thuy Dong Toa Do 198/202. Ta khong tin giet duoc han
+11	Lang Tan Trung	40	886			Han dang o Bach Thuy Dong Toa Do 197/192. Ta khong tin giet duoc han
+12	Diep Duc Anh	40	887			Han dang o Bach Thuy Dong Toa Do 201/188. Ta khong tin giet duoc han
+13	Lac Nhi Kim	50	888			Han dang o Thanh Loa Dao Toa Do 202/192. Ta khong tin giet duoc han
+14	Mac Nam Truc	50	889			Han dang o Thanh Loa Dao Toa Do 214/191. Ta khong tin giet duoc han
+15	Tan Tu Du	50	890			Han dang o Thanh Loa Dao Toa Do 229/196. Ta khong tin giet duoc han
+16	Co Vo Thuong	50	891			Han dang o Thanh Loa Dao Toa Do 236/209. Ta khong tin giet duoc han
+17	Lieu Tu Gia	50	892			Han dang o Thanh Loa Dao Toa Do 212/204. Ta khong tin giet duoc han
+18	Thi Dai Thieu	50	893			Han dang o Thanh Loa Dao Toa Do 224/208. Ta khong tin giet duoc han
+19	Ton Van Buu 	60	894			Han dang o Hoa Lang Dong Toa Do 195/198. Ta khong tin giet duoc han
+20	Dong Bat Phuc	60	895			Han dang o Hoa Lang Dong Toa Do 190/192. Ta khong tin giet duoc han
+21	Duong Bac Van	60	896			Han dang o Hoa Lang Dong Toa Do 196/180. Ta khong tin giet duoc han
+22	Dao Dao Chu 	60	897			Han dang o Hoa Lang Dong Toa Do 209/183. Ta khong tin giet duoc han
+23	Dien Vo Dao	60	898			Han dang o Hoa Lang Dong Toa Do 217/199. Ta khong tin giet duoc han
+24	Vien Niem Tich	60	899			Han dang o Hoa Lang Dong Toa Do 210/198. Ta khong tin giet duoc han
+25	Trinh Trac Quan	60	900			Han dang o Hoa Lang Dong Toa Do 207/204. Ta khong tin giet duoc han
+26	Chuong Nguyen Sung	70	901			Han dang o Truong Giang Nguyen Dau Toa Do 264/374. Ta khong tin giet duoc han
+27	Ta Trong Hau	70	902			Han dang o Truong Giang Nguyen Dau Toa Do 282/370. Ta khong tin giet duoc han
+28	Vu Cuu Do	70	903			Han dang o Truong Giang Nguyen Dau Toa Do 278/357. Ta khong tin giet duoc han
+29	Vien Thien Tho 	70	904			Han dang o Truong Giang Nguyen Dau Toa Do 301/365. Ta khong tin giet duoc han
+30	Nhac Thuong Con	70	905			Han dang o Truong Giang Nguyen Dau Toa Do 289/368. Ta khong tin giet duoc han
+31	Chiem Phuc Van	70	906			Han dang o Truong Giang Nguyen Dau Toa Do 306/354. Ta khong tin giet duoc han
+32	Gia Gioi Nhan	70	907			Han dang o Truong Giang Nguyen Dau Toa Do 311/367. Ta khong tin giet duoc han
+33	Trinh Cuu Nhat	70	908			Han dang o Truong Giang Nguyen Dau Toa Do 298/380. Ta khong tin giet duoc han
+34	Chu So Ba 	80	909			Han dang o Xi Vuu Dong Toa do 219/195. Ta khong tin giet duoc han
+35	Trang Minh Trung	80	910			Han dang o Xi Vuu Dong Toa do 222/189. Ta khong tin giet duoc han
+36	Cam Chinh Co 	80	911			Han dang o Xi Vuu Dong Toa do 230/193. Ta khong tin giet duoc han
+37	Vu Nhat The 	80	912			Han dang o Xi Vuu Dong Toa do 229/199. Ta khong tin giet duoc han
+38	Duong Phong Dat	80	913			Han dang o Xi Vuu Dong Toa do 213/199. Ta khong tin giet duoc han
+39	Ha Sinh Vong	80	914			Han dang o Xi Vuu Dong Toa do 219/200. Ta khong tin giet duoc han
+40	Tang Chi Oan	80	915			Han dang o Xi Vuu Dong Toa do 232/190. Ta khong tin giet duoc han
+41	Ve Bien Thanh	80	916			Han dang o Xi Vuu Dong Toa do 233/197. Ta khong tin giet duoc han
+42	Co Thu Dang	80	917			Han dang o Xi Vuu Dong Toa do 230/200. Ta khong tin giet duoc han
+43	Gia Cat Kinh Hong	90	918			Han dang o Nhan Thach Dong 9X Toa do 200/195. Ta khong tin giet duoc han
+44	Phan Ngat Nhan	90	919			Han dang o Nhan Thach Dong 9X Toa do 209/190. Ta khong tin giet duoc han
+45	Lien Hinh Thai	90	920			Han dang o Nhan Thach Dong 9X Toa do 210/197. Ta khong tin giet duoc han
+46	Bao Triet Son 	90	921			Han dang o Nhan Thach Dong 9X Toa do 219/187. Ta khong tin giet duoc han
+47	Van Ho Tinh	90	922			Han dang o Nhan Thach Dong 9X Toa do 217/205. Ta khong tin giet duoc han
+48	Tru Thien Man	90	923			Han dang o Nhan Thach Dong 9X Toa do 219/200. Ta khong tin giet duoc han
+49	Doan Lang Nguyet	90	924			Han dang o Nhan Thach Dong 9X Toa do 232/190. Ta khong tin giet duoc han
+50	Ta Dat Minh	90	925			Han dang o Nhan Thach Dong 9X Toa do 233/197. Ta khong tin giet duoc han
+51	Nham Thuong Khung	90	926			Han dang o Nhan Thach Dong 9X Toa do 230/200. Ta khong tin giet duoc han

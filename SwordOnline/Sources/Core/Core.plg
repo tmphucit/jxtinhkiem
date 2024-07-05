@@ -1,0 +1,131 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: Core - Win32 Server Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating temporary file "C:\Users\PHUCDE~1\AppData\Local\Temp\RSPADD2.tmp" with contents
+[
+/nologo /MTd /W2 /Gm /GX /Zi /Od /I "..\engine\src" /I "..\engine\include" /I "..\Network" /I "..\..\Headers" /D "_DEBUG" /D "_SERVER" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "CORE_EXPORTS" /FR"ServerDebug/" /Fp"ServerDebug/Core.pch" /Yu"KCore.h" /Fo"ServerDebug/" /Fd"ServerDebug/" /FD /LD /GZ /c 
+"D:\Source JX\Jx1Source\SwordOnline\Sources\Core\Src\KNpc.cpp"
+]
+Creating command line "cl.exe @C:\Users\PHUCDE~1\AppData\Local\Temp\RSPADD2.tmp" 
+Creating temporary file "C:\Users\PHUCDE~1\AppData\Local\Temp\RSPADD3.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib lualibdll.lib Ws2_32.lib Winmm.lib Shlwapi.lib /nologo /dll /incremental:no /pdb:"ServerDebug/CoreServer.pdb" /map:"ServerDebug/CoreServer.map" /debug /machine:I386 /nodefaultlib:"libc.lib" /nodefaultlib:"libcmt.lib" /nodefaultlib:"msvcrt.lib" /nodefaultlib:"libcd.lib" /nodefaultlib:"msvcrtd.lib" /out:"ServerDebug\CoreServer.dll" /implib:"ServerDebug/CoreServer.lib" /pdbtype:sept /libpath:"../../lib/" 
+".\ServerDebug\KPartnerSkill.obj"
+".\ServerDebug\KPlayerPartner.obj"
+".\ServerDebug\KThiefSkill.obj"
+".\ServerDebug\KMissle.obj"
+".\ServerDebug\KMissleRes.obj"
+".\ServerDebug\KMissleSet.obj"
+".\ServerDebug\KSkillList.obj"
+".\ServerDebug\KSkillManager.obj"
+".\ServerDebug\KSkills.obj"
+".\ServerDebug\KSkillSpecial.obj"
+".\ServerDebug\KFaction.obj"
+".\ServerDebug\KNpc.obj"
+".\ServerDebug\KNpcAI.obj"
+".\ServerDebug\KNpcAttribModify.obj"
+".\ServerDebug\KNpcDeathCalcExp.obj"
+".\ServerDebug\KNpcFindPath.obj"
+".\ServerDebug\KNpcGold.obj"
+".\ServerDebug\KNpcRes.obj"
+".\ServerDebug\KNpcResList.obj"
+".\ServerDebug\KNpcResNode.obj"
+".\ServerDebug\KNpcSet.obj"
+".\ServerDebug\KNpcTemplate.obj"
+".\ServerDebug\KPlayer.obj"
+".\ServerDebug\KPlayerChat.obj"
+".\ServerDebug\KPlayerDBFuns.obj"
+".\ServerDebug\KPlayerFaction.obj"
+".\ServerDebug\KPlayerMenuState.obj"
+".\ServerDebug\KPlayerPK.obj"
+".\ServerDebug\KPlayerSet.obj"
+".\ServerDebug\KPlayerTask.obj"
+".\ServerDebug\KPlayerTeam.obj"
+".\ServerDebug\KPlayerTong.obj"
+".\ServerDebug\KPlayerTrade.obj"
+".\ServerDebug\KSprControl.obj"
+".\ServerDebug\KBasPropTbl.obj"
+".\ServerDebug\KBuySell.obj"
+".\ServerDebug\KInventory.obj"
+".\ServerDebug\KItem.obj"
+".\ServerDebug\KItemChangeRes.obj"
+".\ServerDebug\KItemGenerator.obj"
+".\ServerDebug\KItemList.obj"
+".\ServerDebug\KItemSet.obj"
+".\ServerDebug\KObj.obj"
+".\ServerDebug\KObjSet.obj"
+".\ServerDebug\KViewItem.obj"
+".\ServerDebug\KCore.obj"
+".\ServerDebug\KSubWorld.obj"
+".\ServerDebug\KSubWorldSet.obj"
+".\ServerDebug\KWeatherMgr.obj"
+".\ServerDebug\KRegion.obj"
+".\ServerDebug\KWorldMsg.obj"
+".\ServerDebug\KMath.obj"
+".\ServerDebug\KGMProcess.obj"
+".\ServerDebug\KNewProtocolProcess.obj"
+".\ServerDebug\KProtocol.obj"
+".\ServerDebug\KProtocolProcess.obj"
+".\ServerDebug\ScriptFuns.obj"
+".\ServerDebug\KScriptValueSet.obj"
+".\ServerDebug\KSortScript.obj"
+".\ServerDebug\CoreServerShell.obj"
+".\ServerDebug\KWeather.obj"
+".\ServerDebug\KMagicDesc.obj"
+".\ServerDebug\KGMCommand.obj"
+".\ServerDebug\KMission.obj"
+".\ServerDebug\KTaskFuns.obj"
+".\ServerDebug\KOption.obj"
+".\ServerDebug\KMapMusic.obj"
+".\ServerDebug\KLadder.obj"
+".\ServerDebug\stdafx.obj"
+"..\..\Lib\debug\engine.lib"
+"..\..\Lib\debug\common.lib"
+".\Src\USBKey\EP1KDL20.LIB"
+".\Src\USBKey\EpsForJoLib.lib"
+]
+Creating command line "link.exe @C:\Users\PHUCDE~1\AppData\Local\Temp\RSPADD3.tmp"
+<h3>Output Window</h3>
+Compiling...
+KNpc.cpp
+Linking...
+   Creating library ServerDebug/CoreServer.lib and object ServerDebug/CoreServer.exp
+ServerDebug\CoreServer.dll : warning LNK4084: total image size 881582080 exceeds max (268435456); image may not run
+Creating temporary file "C:\Users\PHUCDE~1\AppData\Local\Temp\RSPAFB9.bat" with contents
+[
+@echo off
+md ..\..\..\bin\server\debug
+md ..\..\lib\debug
+copy ServerDebug\CoreServer.map ..\..\..\bin\server\Coreserver.map
+copy ServerDebug\CoreServer.pdb ..\..\..\bin\server\Coreserver.pdb
+copy ServerDebug\CoreServer.dll ..\..\..\bin\server\Coreserver.dll
+copy ServerDebug\CoreServer.map ..\..\..\bin\server\debug\Coreserver.map
+copy ServerDebug\CoreServer.pdb ..\..\..\bin\server\debug\Coreserver.pdb
+copy ServerDebug\CoreServer.dll ..\..\..\bin\server\debug\Coreserver.dll
+copy ServerDebug\CoreServer.lib ..\..\lib\debug\CoreServer.lib
+]
+Creating command line "C:\Users\PHUCDE~1\AppData\Local\Temp\RSPAFB9.bat"
+
+A subdirectory or file ..\..\..\bin\server\debug already exists.
+A subdirectory or file ..\..\lib\debug already exists.
+        1 file(s) copied.
+        1 file(s) copied.
+The process cannot access the file because it is being used by another process.
+        0 file(s) copied.
+        1 file(s) copied.
+        1 file(s) copied.
+        1 file(s) copied.
+        1 file(s) copied.
+
+
+
+<h3>Results</h3>
+CoreServer.dll - 0 error(s), 1 warning(s)
+</pre>
+</body>
+</html>

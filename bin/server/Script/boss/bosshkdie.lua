@@ -1,0 +1,3 @@
+function OnDeath()
+Msg2SubWorld("Boss Hoµng Kim ®· bÞ tiªu diÖt !!!!!!!!!!")
+end

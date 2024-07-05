@@ -1,0 +1,337 @@
+function main()
+if (GetTask(27) == 0) then
+Say("<color=green>Sö Gi¶ S¸t Thñ: <color> Ng­¬i ®Õn ®©y muèn lµm g× ch¨ng?",3,
+"NhËn nhiÖm vô Boss S¸t thñ/nhannv1",
+"GhÐp lÖnh bµi, s¸t thñ gi¶n./ghks",
+"Tho¸t/no")
+else
+Say("<color=green>Sö Gi¶ S¸t Thñ: <color> Ng­¬i ®Õn ®©y muèn lµm g× ch¨ng?",6,
+"Tr¶ nhiÖm vô Boss S¸t Thñ/tnvst",
+"Di chuyÓn ®Õn Boss S¸t Thñ /dichuyen",
+"Xem nhiÖm vô ®ang lµm /xemnv",
+"Huû nhiÖm vô/bnvst",
+"GhÐp lÖnh bµi, s¸t thñ gi¶n/ghks",
+"Tho¸t/no")
+end
+end
+
+function tnvst()
+if GetTask(27) == 99 then
+	SetTask(27,0)
+	Msg2Player("B¹n ®· hoµn thµnh nhiÖm vô vµ nhËn ®­îc 5 ®iÓm danh väng")
+	AddRepute(5)
+	 
+else
+Talk(1,"","<color=green>Sø Gi¶ S¸t Thñ <color>: H·y hoµn thµnh nhiÖm vô råi quay l¹i gÆp ta. ")
+end
+end
+
+function bnvst()
+Say("B¹n cã ch¾c ch¾n muèn hñy nhiÖm vô kh«ng? ",2,
+"Ta muèn hñy nhiÖm vô/xacnhanhuynv",
+"Tho¸t./no")
+end
+function xacnhanhuynv()
+nl = GetCash()
+if GetCash() >= 20000 then
+	Pay(20000)
+	if GetCash() == (nl-20000) then
+		SetTask(27,0)
+		Talk(1,"","<color=green>Sø Gi¶ S¸t Thñ <color>: B¹n ®· hñy nhiÖm vô thµnh c«ng !")
+	else
+	Talk(1,"","hack ha em")
+	end
+else
+Talk(1,"","<color=green>Sø Gi¶ S¸t Thñ <color>: Ng­êi kh«ng mang ®ñ <color=yellow>20000<color> l­îng")
+end
+end
+function manglevel()
+if GetLevel() <= 90 then
+return 0
+elseif GetLevel() > 90 and GetLevel() <= 120 then
+return 10
+elseif GetLevel() > 120 and GetLevel() <= 150 then
+return 20
+else
+return  30
+end
+end
+
+function nhannv1()
+Say("<color=green>Sö Gi¶ S¸t Thñ: <color> §Ó nhËn nhiÖm vô <color=fire>Boss S¸t thñ <color> cÇn cã <color=fire>5000 <color> l­îng",2,
+"NhËn nhiÖm vô/nhannv",
+"Tho¸t/no")
+end;
+function nhannv()
+ngay = tonumber(date("%d"))
+if GetLevel() < 90 then
+	if GetCash() < 2500 then
+		Msg2Player("B¹n kh«ng mang ®ñ 2500 l­îng. Kh«ng thÓ nhËn nhiÖm vô ! ")
+		return
+	else
+		Pay(2500)
+	end
+elseif GetLevel() >= 90 and GetLevel() < 120 then
+	if GetCash() < 5000 then
+		Msg2Player("B¹n kh«ng mang ®ñ 5000 l­îng. Kh«ng thÓ nhËn nhiÖm vô ! ")
+		return
+	else
+		Pay(5000)
+	end
+elseif GetLevel() >= 120 and GetLevel() < 150 then
+	if GetCash() < 7500 then
+		Msg2Player("B¹n kh«ng mang ®ñ 7500 l­îng. Kh«ng thÓ nhËn nhiÖm vô ! ")
+		return
+	else
+		Pay(7500)
+	end	
+elseif GetLevel() >= 150 then
+	if GetCash() < 10000 then
+		Msg2Player("B¹n kh«ng mang ®ñ 10000 l­îng. Kh«ng thÓ nhËn nhiÖm vô ! ")
+		return
+	else
+		Pay(10000)
+	end
+end
+if GetTask(136) == ngay then
+	if GetTask(137) < 8 then
+                                axs={1,4,5,7,8}  
+		i = random(1,5)
+                          
+		SetTask(137,GetTask(137)+1)
+		SetTask(27,axs[i]+manglevel())
+		Msg2Player("NhiÖm vô thø: "..GetTask(137).."/8")
+		nhannv2()	
+	else
+		Talk(1,"","<color=green>Sø Gi¶ S¸t Thñ <color>: H«m nay b¹n ®· tiªu diÖt ®ñ <color=red>8<color> Boss S¸t Thñ")
+	end
+else
+
+	SetTask(136,ngay)
+	SetTask(137,0)
+	SetTask(82,0)
+	SetTask(9,0)
+	SetTask(2,0)
+	SetTask(3,0)
+	nhannv()
+end
+
+end
+
+function dichuyen()
+if GetTask(27) == 0 or GetTask(27) > getn(mangboss) then
+Msg2Player("Kh«ng thÓ sö dông chøc n¨ng nµy !")
+return
+end
+
+NewWorld(mangboss[GetTask(27)][5],mangboss[GetTask(27)][3],mangboss[GetTask(27)][4])
+SetFightState(1)
+Msg2Player("§· di chuyÓn ®Õn vÞ trÝ Boss S¸t Thñ ")
+end
+function xemnv()
+if GetTask(27) == 99 then
+Talk(1,"","B¹n ®· hoµn thµnh nhiÖm vô !")
+else
+Talk(1,"","NhiÖm vô tiªu diÖt: <color=red>"..mangboss[GetTask(27)][1].."<color>  ë <color=yellow>"..mangboss[GetTask(27)][2].."<color> "..(mangboss[GetTask(27)][3]/8).."/"..(mangboss[GetTask(27)][4]/16).."")
+end
+end
+function nhannv2()
+NewWorld(mangboss[GetTask(27)][5],mangboss[GetTask(27)][3],mangboss[GetTask(27)][4])
+SetFightState(1)
+Msg2Player("H·y tiªu diÖt: "..mangboss[GetTask(27)][1]..". H¾n ta ®ang ë "..mangboss[GetTask(27)][2].." "..(mangboss[GetTask(27)][3]/8).."/"..(mangboss[GetTask(27)][4]/16).."")
+end
+
+function tinhngay()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+tinhngay1 = 0
+for k=1,getn(mang) do
+	if thang > mang[k][1] then
+	tinhngay1 = tinhngay1 + mang[k][2]
+	end
+end
+tinhngay1 = tinhngay1 + ngay
+return tinhngay1
+end
+
+mang = {
+{1,31},
+{2,28},
+{3,31},
+{4,30},
+{5,31},
+{6,30},
+{7,31},
+{8,31},
+{9,30},
+{10,31},
+{11,30},
+{12,31},
+}
+mangboss = {
+{"ThiÕu L©m S¸t Thñ - CÊp 71","Ba L¨ng HuyÖn",183*8,16*191,53},
+{"§­êng M«n S¸t Thñ - CÊp 71","Ba L¨ng HuyÖn",193*8,16*183,53},
+{"Nga Mi S¸t Thñ - CÊp 71","Ba L¨ng HuyÖn",217*8,16*187,53},
+{"C¸i Bang S¸t Thñ - CÊp 71","Ba L¨ng HuyÖn",222*8,16*199,53},
+{"Vâ §ang S¸t Thñ - CÊp 71","Ba L¨ng HuyÖn",219*8,16*212,53},
+{"Thiªn V­¬ng S¸t Thñ - CÊp 71","Ba L¨ng HuyÖn",223*8,16*191,53},
+{"Ngò §éc S¸t Thñ - CÊp 71","Ba L¨ng HuyÖn",208*8,16*188,53},
+{"Thóy Yªn S¸t Thñ - CÊp 71","Ba L¨ng HuyÖn",201*8,16*184,53},
+{"Thiªn NhÉn S¸t Thñ - CÊp 71","Ba L¨ng HuyÖn",186*8,16*211,53},
+{"C«n L«n S¸t Thñ - CÊp 71","Ba L¨ng HuyÖn",205*8,16*212,53},
+{"ThiÕu L©m S¸t Thñ - CÊp 91","TÇn L¨ng",209*8,16*210,187},
+{"§­êng M«n S¸t Thñ - CÊp 91","TÇn L¨ng",200*8,16*214,187},
+{"Nga Mi S¸t Thñ - CÊp 91","TÇn L¨ng",189*8,16*201,187},
+{"C¸i Bang S¸t Thñ - CÊp 91","TÇn L¨ng",183*8,16*204,187},
+{"Vâ §ang S¸t Thñ - CÊp 91","TÇn L¨ng",179*8,16*214,187},
+{"Thiªn V­¬ng S¸t Thñ - CÊp 91","D­îc V­¬ng §éng",213*8,16*191,101},
+{"Ngò §éc S¸t Thñ - CÊp 91","D­îc V­¬ng §éng",222*8,16*196,101},
+{"Thóy Yªn S¸t Thñ - CÊp 91","D­îc V­¬ng §éng",208*8,16*194,101},
+{"Thiªn NhÉn S¸t Thñ - CÊp 91","D­îc V­¬ng §éng",206*8,16*190,101},
+{"C«n L«n S¸t Thñ - CÊp 91","D­îc V­¬ng §éng",201*8,16*199,101},
+{"ThiÕu L©m S¸t Thñ - CÊp 121","Xi V­u §éng",1865,3123,75},
+{"§­êng M«n S¸t Thñ - CÊp 121","Xi V­u §éng",1821,3143,75},
+{"Nga Mi S¸t Thñ - CÊp 121","Xi V­u §éng",1829,3194,75},
+{"C¸i Bang S¸t Thñ - CÊp 121","Xi V­u §éng",1725,3256,75},
+{"Vâ §ang S¸t Thñ - CÊp 121","Xi V­u §éng",1692,3294,75},
+{"Thiªn V­¬ng S¸t Thñ - CÊp 121","Xi V­u §éng",1691,3200,75},
+{"Ngò §éc S¸t Thñ - CÊp 121","Xi V­u §éng",1690,3135,75},
+{"Thóy Yªn S¸t Thñ - CÊp 121","Xi V­u §éng",1756,3110,75},
+{"Thiªn NhÉn S¸t Thñ - CÊp 121","Xi V­u §éng",1621,3200,75},
+{"C«n L«n S¸t Thñ - CÊp 121","Xi V­u §éng",1650,3235,75},
+{"ThiÕu L©m S¸t Thñ - CÊp 151","L©m Du Quan",206*8,16*213,102},
+{"§­êng M«n S¸t Thñ - CÊp 151","L©m Du Quan",204*8,16*205,102},
+{"Nga Mi S¸t Thñ - CÊp 151","L©m Du Quan",217*8,16*206,102},
+{"C¸i Bang S¸t Thñ - CÊp 151","L©m Du Quan",226*8,16*204,102},
+{"Vâ §ang S¸t Thñ - CÊp 151","L©m Du Quan",238*8,16*210,102},
+{"Thiªn V­¬ng S¸t Thñ - CÊp 151","L©m Du Quan",237*8,16*215,102},
+{"Ngò §éc S¸t Thñ - CÊp 151","L©m Du Quan",233*8,16*222,102},
+{"Thóy Yªn S¸t Thñ - CÊp 151","L©m Du Quan",219*8,16*218,102},
+{"Thiªn NhÉn S¸t Thñ - CÊp 151","L©m Du Quan",226*8,16*213,102},
+{"C«n L«n S¸t Thñ - CÊp 151","L©m Du Quan",216*8,16*209,102}
+}
+
+
+
+
+
+
+
+function ghks()
+Say("<color=green>Sö Gi¶ S¸t Thñ: <color> §Ó ghÐp <color=fire>Hoµng Kim S¸t <color> can co <color=fire> LÖnh bµi s¸t thñ vµ ng©n l­îng",3,
+"GhÐp S¸t Thñ Gi¶n/glbst",
+"GhÐp LÖnh Bµi V­ît ¶i/glbva",
+--"GhÐp Hoµng Kim S¸t (TiÓu)/ghkst",
+"Tho¸t/no")
+end;
+function ghksd1()
+Talk(1,"","<color=green>NhiÕp ThÝ TrÇn <color>: Chøc n¨ng sÏ më l¹i khi cã Trang BÞ Hoµng Kim")
+
+end
+function glbva()
+nl = GetCash()
+sl1 = GetItemCount(151)
+sl2 = GetItemCount(152)
+sl3 = GetItemCount(153)
+sl4 = GetItemCount(154)
+sl5 = GetItemCount(155)
+if (sl1 >= 1) and (sl2 >= 1) and (sl3 >= 1) and (sl4 >= 1) and (sl5 >= 1) and (nl >= 50000) then
+Pay(50000)
+DelItem(151)
+DelItem(152)
+DelItem(153)
+DelItem(154)
+DelItem(155)
+if (GetItemCount(151) == (sl1-1)) and (GetItemCount(152) == (sl2-1)) and (GetItemCount(153) == (sl3-1)) and (GetItemCount(154) == (sl4-1)) and (GetItemCount(155) == (sl5-1)) and (GetCash() == (nl-50000)) then
+AddEventItem(156)
+AddRepute(1)
+Msg2Player("B¹n nhËn ®­îc 1 ®iÓm Danh Väng ")
+Msg2Player("B¹n nhËn ®­îc 1 LÖnh Bµi Liªn Hoµn Ai");
+Talk(0,"")
+else
+Msg2Player("Hack a cung yeu !");
+end
+else
+Talk(1,"no","Ng­¬i kh«ng ®ñ <color=red>5 chiÕc S¸t thñ gi¶n ngò hµnh vµ 5 v¹n l­îng <color> ,kh«ng thÓ ghÐp")
+end
+end;
+
+function glbst()
+nl = GetCash()
+sl1 = GetItemCount(130)
+sl2 = GetItemCount(131)
+sl3 = GetItemCount(132)
+sl4 = GetItemCount(133)
+sl5 = GetItemCount(134)
+if (sl1 >= 1) and (sl2 >= 1) and (sl3 >= 1) and (sl4 >= 1) and (sl5 >= 1) and (nl >= 10000) then
+Pay(10000)
+DelItem(130)
+DelItem(131)
+DelItem(132)
+DelItem(133)
+DelItem(134)
+if (GetItemCount(130) == (sl1-1)) and (GetItemCount(131) == (sl2-1)) and (GetItemCount(132) == (sl3-1)) and (GetItemCount(133) == (sl4-1)) and (GetItemCount(134) == (sl5-1)) and (GetCash() == (nl-10000)) then
+AddEventItem(random(151,155))
+Msg2Player("B¹n nhËn ®­îc 1 S¸t Thñ Gi¶n");
+Talk(0,"")
+else
+Msg2Player("Hack a cung yeu !");
+end
+else
+Talk(1,"no","Ng­¬i kh«ng ®ñ <color=red>5 chiÕc S¸t thñ lÖnh 5 ngò hµnh vµ 1 v¹n l­îng <color> ,kh«ng thÓ ghÐp")
+end
+end;
+
+function ghkst()
+nl = GetCash()
+sl1 = GetItemCount(151)
+sl2 = GetItemCount(152)
+sl3 = GetItemCount(153)
+sl4 = GetItemCount(154)
+sl5 = GetItemCount(155)
+if (sl1 >= 3) and (sl2 >= 3) and (sl3 >= 3) and (sl4 >= 3) and (sl5 >= 3) and (nl >= 100000) then
+Pay(100000)
+for k=1,3 do
+DelItem(151)
+DelItem(152)
+DelItem(153)
+DelItem(154)
+DelItem(155)
+end
+if (GetItemCount(151) == (sl1-3)) and (GetItemCount(152) == (sl2-3)) and (GetItemCount(153) == (sl3-3)) and (GetItemCount(154) == (sl4-3)) and (GetItemCount(155) == (sl5-3)) and (GetCash() == (nl-100000)) then
+AddEventItem(128)
+Msg2Player("B¹n nhËm ®­îc 1 Hoµng kim s¸t (tiÓu)");
+Talk(0,"")
+else
+Msg2Player("Hack a cung yeu !");
+end
+else
+Talk(1,"no","Ng­¬i kh«ng ®ñ <color=red>3 chiÕc S¸t thñ gi¶n ngò hµnh mçi lo¹i vµ 10 v¹n l­îng <color> ,kh«ng thÓ ghÐp")
+end
+
+end;
+
+function ghksd()
+nl = GetCash()
+sl = GetItemCount(151)
+if (sl >= 20) and (nl >= 500000) then
+Pay(50000)
+for i=1,20 do
+DelItem(151)
+end
+if (GetItemCount(151) == (sl-20)) and (GetCash() == (nl-500000)) then
+AddEventItem(129)
+Msg2Player("B¹n nhËn ®­îc 1 Hoµng kim s¸t (§¹i)");
+Talk(0,"")
+else
+Msg2Player("Hack a cung yeu !");
+end
+else
+Talk(1,"no","Ng­¬i kh«ng ®ñ <color=red>20 S¸t thñ gi¶n va 50 v¹n l­îng <color> , kh«ng thÓ ghÐp")
+end
+end;
+
+
+function no()
+
+end;

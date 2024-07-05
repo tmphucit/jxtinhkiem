@@ -1,0 +1,27 @@
+名称	道具种类	具体类别	详细类别	动画文件名	对应物件索引	宽度	高度	说明文字	五行属性	价格	等级	是否叠放	基础属性1类型	基础属性1最小值	基础属性1最大值	基础属性2类型	基础属性2最小值	基础属性2最大值	基础属性3类型	基础属性3最小值	基础属性3最大值	基础属性4类型	基础属性4最小值	基础属性4最大值	基础属性5类型	基础属性5最小值	基础属性5最大值	基础属性6类型	基础属性6最小值	基础属性6最大值	基础属性7类型	基础属性7最小值	基础属性7最大值	需求属性1类型	需求属性1数值	需求属性2类型	需求属性2数值	需求属性3类型	需求属性3数值	需求属性4类型	需求属性4数值	需求属性5类型	需求属性5数值	需求属性6类型	需求属性6数值
+Phi phong Lang Van	0	12	0	\spr\item\equip\pifengtubiao\pifeng_01.spr	338	1	1	Phi Phong Lang Van	5	999	1	0																						36	1										
+Phi phong Tuyet The	0	12	0	\spr\item\equip\pifengtubiao\pifeng_02.spr	338	1	1	Phi Phong Tuyet The	5	999	2	0																						36	2										
+Phi phong Pha Quan (Dich chuyen tuc thoi)	0	12	0	\spr\item\equip\pifengtubiao\pifeng_03.spr	338	1	1	Phi phong Pha Quan (Dich chuyen tuc thoi)	5	999	3	0																						36	3										
+Phi phong Ngao Tuyet  (Dich chuyen tuc thoi)	0	12	0	\spr\item\equip\pifengtubiao\pifeng_04.spr	338	1	1	Phi phong Ngao Tuyet  (Dich chuyen tuc thoi)	5	999	4	0																						36	4										
+Phi phong Ngao Tuyet (Xac suat hoa giai sat thuong)	0	12	0	\spr\item\equip\pifengtubiao\pifeng_04.spr	338	1	1	Phi phong Ngao Tuyet (Xac suat hoa giai sat thuong)	5	999	5	0																						36	5										
+Phi phong Kinh Loi (Dich chuyen tuc thoi)	0	12	0	\spr\item\equip\pifengtubiao\pifeng_05.spr	338	1	1	Phi phong Kinh Loi (Dich chuyen tuc thoi)	5	999	6	0																						36	6										
+Phi phong Kinh Loi (Xac suat hoa giai sat thuong)	0	12	0	\spr\item\equip\pifengtubiao\pifeng_05.spr	338	1	1	Phi phong Kinh Loi (Xac suat hoa giai sat thuong)	5	999	7	0																						36	7										
+Phi phong Kinh Loi (Trong kich)	0	12	0	\spr\item\equip\pifengtubiao\pifeng_05.spr	338	1	1	Phi phong Kinh Loi (Trong kich)	5	999	8	0																						36	8										
+Phi phong Ngu Phong (Dich chuyen tuc thoi)	0	12	0	\spr\item\equip\pifengtubiao\pifeng_06.spr	338	1	1	Phi phong Ngu Phong (Dich chuyen tuc thoi)	5	999	9	0																						36	9										
+Phi phong Ngu Phong (Xac suat hoa giai sat thuong)	0	12	0	\spr\item\equip\pifengtubiao\pifeng_06.spr	338	1	1	Phi phong Ngu Phong (Xac suat hoa giai sat thuong)	5	999	10	0																						36	10										
+Phi phong Ngu Phong (Trong kich)	0	12	0	\spr\item\equip\pifengtubiao\pifeng_06.spr	338	1	1	Phi phong Ngu Phong (Trong kich)	5	999	11	0																						36	11										
+Phi Phong Phe Quang (Dich chuyen tuc thoi)	0	12	0	\spr\item\equip\pifengtubiao\pifeng_07.spr	338	1	1	Phi Phong Phe Quang (Dich chuyen tuc thoi)	5	999	12	0																						36	12										
+Phi Phong Phe Quang (Hoa giai sat thuong)	0	12	0	\spr\item\equip\pifengtubiao\pifeng_07.spr	338	1	1	Phi Phong Phe Quang (Hoa giai sat thuong)	5	999	13	0																						36	13										
+Phi Phong Phe Quang (Trong kich)	0	12	0	\spr\item\equip\pifengtubiao\pifeng_07.spr	338	1	1	Phi Phong Phe Quang (Trong kich)	5	999	14	0																						36	14										
+Phi phong Khap Than	0	12	0	\spr\item\equip\pifengtubiao\pifeng_08.spr	338	1	1	Phi Phong	5	999	15	0																						36	15										
+Phi phong Khap Than	0	12	0	\spr\item\equip\pifengtubiao\pifeng_08.spr	338	1	1	Phi Phong	5	999	16	0																						36	16										
+Phi phong Khap Than	0	12	0	\spr\item\equip\pifengtubiao\pifeng_08.spr	338	1	1	Phi Phong	5	999	17	0																						36	17										
+Phi phong Kinh Thien	0	12	0	\spr\item\equip\pifengtubiao\pifeng_09.spr	338	1	1	Phi Phong	5	999	18	0																						36	18										
+Phi phong Kinh Thien	0	12	0	\spr\item\equip\pifengtubiao\pifeng_09.spr	338	1	1	Phi Phong	5	999	19	0																						36	19										
+Phi phong Kinh Thien	0	12	0	\spr\item\equip\pifengtubiao\pifeng_09.spr	338	1	1	Phi Phong	5	999	20	0																						36	20										
+Phi phong Vo Cuc	0	12	0	\spr\item\equip\pifengtubiao\pifeng_10.spr	338	1	1	Phi Phong	5	999	21	0																						36	21										
+Phi phong Vo Cuc	0	12	0	\spr\item\equip\pifengtubiao\pifeng_10.spr	338	1	1	Phi Phong	5	999	22	0																						36	22										
+Phi phong Vo Cuc	0	12	0	\spr\item\equip\pifengtubiao\pifeng_10.spr	338	1	1	Phi Phong	5	999	23	0																						36	23										
+Phi Phong cao cap	0	12	0	\spr\item\equip\pifengtubiao\pifeng_11.spr	338	1	1	Phi Phong	5	999	24	0																						36	24										
+Phi Phong cao cap	0	12	0	\spr\item\equip\pifengtubiao\pifeng_11.spr	338	1	1	Phi Phong	5	999	25	0																						36	25										
+Phi Phong cao cap	0	12	0	\spr\item\equip\pifengtubiao\pifeng_11.spr	338	1	1	Phi Phong	5	999	26	0																						36	26										
