@@ -9,42 +9,41 @@
 #endif // _MSC_VER >= 1000
 
 #ifndef __AFXWIN_H__
-    #error include 'stdafx.h' before including this file for PCH
+#error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include "resource.h"       // main symbols
+#include "resource.h" // main symbols
 
 /////////////////////////////////////////////////////////////////////////////
 // CHostAppApp:
 // See HostApp.cpp for the implementation of this class
 //
 
-class CHostAppApp : public CWinApp
-{
+class CHostAppApp : public CWinApp {
 public:
-    CHostAppApp();
+  CHostAppApp();
 
-// Overrides
-    // ClassWizard generated virtual function overrides
-    //{{AFX_VIRTUAL(CHostAppApp)
-    public:
-    virtual BOOL InitInstance();
-    //}}AFX_VIRTUAL
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CHostAppApp)
+public:
+  virtual BOOL InitInstance();
+  //}}AFX_VIRTUAL
 
-// Implementation
+  // Implementation
 
-    //{{AFX_MSG(CHostAppApp)
-    afx_msg void OnAppAbout();
-        // NOTE - the ClassWizard will add and remove member functions here.
-        //    DO NOT EDIT what you see in these blocks of generated code !
-    //}}AFX_MSG
-    DECLARE_MESSAGE_MAP()
+  //{{AFX_MSG(CHostAppApp)
+  afx_msg void OnAppAbout();
+  // NOTE - the ClassWizard will add and remove member functions here.
+  //    DO NOT EDIT what you see in these blocks of generated code !
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
-
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Developer Studio will insert additional declarations immediately before the previous line.
+// Microsoft Developer Studio will insert additional declarations immediately
+// before the previous line.
 
 #endif // !defined(AFX_HOSTAPP_H__A9C94DE7_1663_11D2_A499_00805FC1C042__INCLUDED_)

@@ -1,45 +1,31 @@
 
 
-#include "stdafx.h"
 #include "ActiveTest.h"
-
+#include "stdafx.h"
 
 // Spawn a thread to a test
-void ActiveTest::run (TestResult *result)
-{
-    CWinThread *thread;
-    
-    setTestResult (result);
-    m_runCompleted.ResetEvent ();
+void ActiveTest::run(TestResult *result) {
+  CWinThread *thread;
 
-    thread = AfxBeginThread (threadFunction, 
-        this, 
-        THREAD_PRIORITY_NORMAL, 
-        0, 
-        CREATE_SUSPENDED);
-    
-    DuplicateHandle (GetCurrentProcess (), 
-        thread->m_hThread,
-        GetCurrentProcess (), 
-        &m_threadHandle, 
-        0, 
-        FALSE, 
-        DUPLICATE_SAME_ACCESS);
+  setTestResult(result);
+  m_runCompleted.ResetEvent();
 
-    thread->ResumeThread ();
+  thread = AfxBeginThread(threadFunction, this, THREAD_PRIORITY_NORMAL, 0,
+                          CREATE_SUSPENDED);
 
+  DuplicateHandle(GetCurrentProcess(), thread->m_hThread, GetCurrentProcess(),
+                  &m_threadHandle, 0, FALSE, DUPLICATE_SAME_ACCESS);
+
+  thread->ResumeThread();
 }
-
 
 // Simple execution thread.  Assuming that an ActiveTest instance
 // only creates one of these at a time.
-UINT ActiveTest::threadFunction (LPVOID thisInstance)
-{
-    ActiveTest *test = (ActiveTest *)thisInstance;
+UINT ActiveTest::threadFunction(LPVOID thisInstance) {
+  ActiveTest *test = (ActiveTest *)thisInstance;
 
-    test->run ();
-    test->m_runCompleted.SetEvent ();
+  test->run();
+  test->m_runCompleted.SetEvent();
 
-    return 0;
+  return 0;
 }
-

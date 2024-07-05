@@ -2,7 +2,7 @@
 //	文件名		：	KThread.h
 //	创建者		：	万里
 //	创建时间	：	2003-5-1 21:16:13
-//	功能描述	：	
+//	功能描述	：
 //
 // -------------------------------------------------------------------------
 #ifndef __KTHREAD_H__
@@ -10,23 +10,21 @@
 
 #include "WTypes.h"
 
-class KThread
-{
+class KThread {
 public:
-	KThread();
-	virtual ~KThread();
-	HANDLE m_hStop;	// Thread running signal
-	HANDLE m_hProcessor;		// Thread handle
+  KThread();
+  virtual ~KThread();
+  HANDLE m_hStop;      // Thread running signal
+  HANDLE m_hProcessor; // Thread handle
 
-	virtual BOOL Stop();
-	virtual HANDLE Start();
+  virtual BOOL Stop();
+  virtual HANDLE Start();
 
-	virtual BOOL IsAskingStop();
+  virtual BOOL IsAskingStop();
 
-	static unsigned  __stdcall ThreadFun( void * lpParam );
+  static unsigned __stdcall ThreadFun(void *lpParam);
 
-	virtual DWORD Main(LPVOID lpParam) = 0;
+  virtual DWORD Main(LPVOID lpParam) = 0;
 };
-
 
 #endif // __KTHREAD_H__

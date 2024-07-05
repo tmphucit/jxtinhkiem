@@ -2,20 +2,13 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
 #include "ItermProcessTypeCheck.h"
+#include "stdafx.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-ItermProcessTypeCheck::ItermProcessTypeCheck(string Type)
-:m_value(Type)
-{
+ItermProcessTypeCheck::ItermProcessTypeCheck(string Type) : m_value(Type) {}
 
-}
-
-ItermProcessTypeCheck::~ItermProcessTypeCheck()
-{
-
-}
+ItermProcessTypeCheck::~ItermProcessTypeCheck() {}

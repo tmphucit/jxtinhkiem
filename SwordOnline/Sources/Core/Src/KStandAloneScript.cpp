@@ -8,12 +8,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-KStandAloneScript::KStandAloneScript()
-{
+KStandAloneScript::KStandAloneScript() {}
 
-}
-
-KStandAloneScript::~KStandAloneScript()
-{
-
-}
+KStandAloneScript::~KStandAloneScript() {}

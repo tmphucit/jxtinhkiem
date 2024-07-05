@@ -21,7 +21,7 @@
 // LIB version initialization functions
 //--------------------------------------------------------------------------
 
-typedef VOID (__cdecl *DEBUGEVENTFUNCTION)(INT level, CHAR *message);
+typedef VOID(__cdecl *DEBUGEVENTFUNCTION)(INT level, CHAR *message);
 
 extern "C" BOOL __stdcall InitializeGdiplus(DEBUGEVENTFUNCTION);
 extern "C" VOID __stdcall UninitializeGdiplus();
@@ -33,7 +33,7 @@ extern "C" VOID __stdcall UninitializeGdiplus();
 //--------------------------------------------------------------------------
 
 extern "C" {
-typedef BOOL (CALLBACK * ImageAbort)(VOID *);
+typedef BOOL(CALLBACK *ImageAbort)(VOID *);
 typedef ImageAbort DrawImageAbort;
 typedef ImageAbort GetThumbnailImageAbort;
 }
@@ -51,7 +51,8 @@ typedef ImageAbort GetThumbnailImageAbort;
 // FALSE, the enumeration process is aborted.  Otherwise, it continues.
 
 extern "C" {
-typedef BOOL (CALLBACK * EnumerateMetafileProc)(EmfPlusRecordType,UINT,UINT,const BYTE*,VOID*);
+typedef BOOL(CALLBACK *EnumerateMetafileProc)(EmfPlusRecordType, UINT, UINT,
+                                              const BYTE *, VOID *);
 }
 
 //--------------------------------------------------------------------------
@@ -76,10 +77,10 @@ typedef BOOL (CALLBACK * EnumerateMetafileProc)(EmfPlusRecordType,UINT,UINT,cons
 
 typedef float REAL;
 
-#define REAL_MAX            FLT_MAX
-#define REAL_MIN            FLT_MIN
-#define REAL_TOLERANCE     (FLT_MIN * 100)
-#define REAL_EPSILON        1.192092896e-07F        /* FLT_EPSILON */
+#define REAL_MAX FLT_MAX
+#define REAL_MIN FLT_MIN
+#define REAL_TOLERANCE (FLT_MIN * 100)
+#define REAL_EPSILON 1.192092896e-07F /* FLT_EPSILON */
 
 //--------------------------------------------------------------------------
 // Forward declarations of various internal classes
@@ -97,32 +98,31 @@ class CharacterRange;
 // Return values from any GDI+ API
 //--------------------------------------------------------------------------
 
-enum Status
-{
-    Ok = 0,
-    GenericError = 1,
-    InvalidParameter = 2,
-    OutOfMemory = 3,
-    ObjectBusy = 4,
-    InsufficientBuffer = 5,
-    NotImplemented = 6,
-    Win32Error = 7,
-    WrongState = 8,
-    Aborted = 9,
+enum Status {
+  Ok = 0,
+  GenericError = 1,
+  InvalidParameter = 2,
+  OutOfMemory = 3,
+  ObjectBusy = 4,
+  InsufficientBuffer = 5,
+  NotImplemented = 6,
+  Win32Error = 7,
+  WrongState = 8,
+  Aborted = 9,
 #ifdef DCR_USE_NEW_135429
-    FileNotFound = 10,
-    ValueOverflow = 11,
-    AccessDenied = 12,
-    UnknownImageFormat = 13,
-    FontFamilyNotFound = 14,
-    FontStyleNotFound = 15,
-    NotTrueTypeFont = 16,
+  FileNotFound = 10,
+  ValueOverflow = 11,
+  AccessDenied = 12,
+  UnknownImageFormat = 13,
+  FontFamilyNotFound = 14,
+  FontStyleNotFound = 15,
+  NotTrueTypeFont = 16,
 #else
-    NotFound = 10,
-    ValueOverflow = 11,
+  NotFound = 10,
+  ValueOverflow = 11,
 #endif
-    UnsupportedGdiplusVersion = 17,
-    GdiplusNotInitialized
+  UnsupportedGdiplusVersion = 17,
+  GdiplusNotInitialized
 
 };
 
@@ -131,55 +131,38 @@ enum Status
 //  (floating-point coordinates)
 //--------------------------------------------------------------------------
 
-class SizeF
-{
+class SizeF {
 public:
+  // Default constructor
+  SizeF() { Width = Height = 0.0f; }
 
-   // Default constructor
-    SizeF()
-    {
-        Width = Height = 0.0f;
-    }
+  SizeF(IN const SizeF &size) {
+    Width = size.Width;
+    Height = size.Height;
+  }
 
-    SizeF(IN const SizeF& size)
-    {
-        Width = size.Width;
-        Height = size.Height;
-    }
+  SizeF(IN REAL width, IN REAL height) {
+    Width = width;
+    Height = height;
+  }
 
-    SizeF(IN REAL width,
-          IN REAL height)
-    {
-        Width = width;
-        Height = height;
-    }
+  SizeF operator+(IN const SizeF &sz) const {
+    return SizeF(Width + sz.Width, Height + sz.Height);
+  }
 
-    SizeF operator+(IN const SizeF& sz) const
-    {
-        return SizeF(Width + sz.Width,
-                     Height + sz.Height);
-    }
+  SizeF operator-(IN const SizeF &sz) const {
+    return SizeF(Width - sz.Width, Height - sz.Height);
+  }
 
-    SizeF operator-(IN const SizeF& sz) const
-    {
-        return SizeF(Width - sz.Width,
-                     Height - sz.Height);
-    }
+  BOOL Equals(IN const SizeF &sz) const {
+    return (Width == sz.Width) && (Height == sz.Height);
+  }
 
-    BOOL Equals(IN const SizeF& sz) const
-    {
-        return (Width == sz.Width) && (Height == sz.Height);
-    }
-
-    BOOL Empty() const
-    {
-        return (Width == 0.0f && Height == 0.0f);
-    }
+  BOOL Empty() const { return (Width == 0.0f && Height == 0.0f); }
 
 public:
-
-    REAL Width;
-    REAL Height;
+  REAL Width;
+  REAL Height;
 };
 
 //--------------------------------------------------------------------------
@@ -187,55 +170,38 @@ public:
 //  (integer coordinates)
 //--------------------------------------------------------------------------
 
-class Size
-{
+class Size {
 public:
+  // Default constructor
+  Size() { Width = Height = 0; }
 
-   // Default constructor
-    Size()
-    {
-        Width = Height = 0;
-    }
+  Size(IN const Size &size) {
+    Width = size.Width;
+    Height = size.Height;
+  }
 
-    Size(IN const Size& size)
-    {
-        Width = size.Width;
-        Height = size.Height;
-    }
+  Size(IN INT width, IN INT height) {
+    Width = width;
+    Height = height;
+  }
 
-    Size(IN INT width,
-         IN INT height)
-    {
-        Width = width;
-        Height = height;
-    }
+  Size operator+(IN const Size &sz) const {
+    return Size(Width + sz.Width, Height + sz.Height);
+  }
 
-    Size operator+(IN const Size& sz) const
-    {
-        return Size(Width + sz.Width,
-                    Height + sz.Height);
-    }
+  Size operator-(IN const Size &sz) const {
+    return Size(Width - sz.Width, Height - sz.Height);
+  }
 
-    Size operator-(IN const Size& sz) const
-    {
-        return Size(Width - sz.Width,
-                    Height - sz.Height);
-    }
+  BOOL Equals(IN const Size &sz) const {
+    return (Width == sz.Width) && (Height == sz.Height);
+  }
 
-    BOOL Equals(IN const Size& sz) const
-    {
-        return (Width == sz.Width) && (Height == sz.Height);
-    }
-
-    BOOL Empty() const
-    {
-        return (Width == 0 && Height == 0);
-    }
+  BOOL Empty() const { return (Width == 0 && Height == 0); }
 
 public:
-
-    INT Width;
-    INT Height;
+  INT Width;
+  INT Height;
 };
 
 //--------------------------------------------------------------------------
@@ -243,54 +209,40 @@ public:
 //  (floating-point coordinates)
 //--------------------------------------------------------------------------
 
-class PointF
-{
+class PointF {
 public:
-   PointF()
-   {
-       X = Y = 0.0f;
-   }
+  PointF() { X = Y = 0.0f; }
 
-   PointF(IN const PointF &point)
-   {
-       X = point.X;
-       Y = point.Y;
-   }
+  PointF(IN const PointF &point) {
+    X = point.X;
+    Y = point.Y;
+  }
 
-   PointF(IN const SizeF &size)
-   {
-       X = size.Width;
-       Y = size.Height;
-   }
+  PointF(IN const SizeF &size) {
+    X = size.Width;
+    Y = size.Height;
+  }
 
-   PointF(IN REAL x,
-          IN REAL y)
-   {
-       X = x;
-       Y = y;
-   }
+  PointF(IN REAL x, IN REAL y) {
+    X = x;
+    Y = y;
+  }
 
-   PointF operator+(IN const PointF& point) const
-   {
-       return PointF(X + point.X,
-                     Y + point.Y);
-   }
+  PointF operator+(IN const PointF &point) const {
+    return PointF(X + point.X, Y + point.Y);
+  }
 
-   PointF operator-(IN const PointF& point) const
-   {
-       return PointF(X - point.X,
-                     Y - point.Y);
-   }
+  PointF operator-(IN const PointF &point) const {
+    return PointF(X - point.X, Y - point.Y);
+  }
 
-   BOOL Equals(IN const PointF& point)
-   {
-       return (X == point.X) && (Y == point.Y);
-   }
+  BOOL Equals(IN const PointF &point) {
+    return (X == point.X) && (Y == point.Y);
+  }
 
 public:
-
-    REAL X;
-    REAL Y;
+  REAL X;
+  REAL Y;
 };
 
 //--------------------------------------------------------------------------
@@ -298,54 +250,40 @@ public:
 //  (integer coordinates)
 //--------------------------------------------------------------------------
 
-class Point
-{
+class Point {
 public:
-   Point()
-   {
-       X = Y = 0;
-   }
+  Point() { X = Y = 0; }
 
-   Point(IN const Point &point)
-   {
-       X = point.X;
-       Y = point.Y;
-   }
+  Point(IN const Point &point) {
+    X = point.X;
+    Y = point.Y;
+  }
 
-   Point(IN const Size &size)
-   {
-       X = size.Width;
-       Y = size.Height;
-   }
+  Point(IN const Size &size) {
+    X = size.Width;
+    Y = size.Height;
+  }
 
-   Point(IN INT x,
-         IN INT y)
-   {
-       X = x;
-       Y = y;
-   }
+  Point(IN INT x, IN INT y) {
+    X = x;
+    Y = y;
+  }
 
-   Point operator+(IN const Point& point) const
-   {
-       return Point(X + point.X,
-                    Y + point.Y);
-   }
+  Point operator+(IN const Point &point) const {
+    return Point(X + point.X, Y + point.Y);
+  }
 
-   Point operator-(IN const Point& point) const
-   {
-       return Point(X - point.X,
-                    Y - point.Y);
-   }
+  Point operator-(IN const Point &point) const {
+    return Point(X - point.X, Y - point.Y);
+  }
 
-   BOOL Equals(IN const Point& point)
-   {
-       return (X == point.X) && (Y == point.Y);
-   }
+  BOOL Equals(IN const Point &point) {
+    return (X == point.X) && (Y == point.Y);
+  }
 
 public:
-
-    INT X;
-    INT Y;
+  INT X;
+  INT Y;
 };
 
 //--------------------------------------------------------------------------
@@ -353,202 +291,139 @@ public:
 //  (floating-point coordinates)
 //--------------------------------------------------------------------------
 
-class RectF
-{
+class RectF {
 public:
+  // Default constructor
 
-    // Default constructor
+  RectF() { X = Y = Width = Height = 0.0f; }
 
-    RectF()
-    {
-        X = Y = Width = Height = 0.0f;
-    }
+  RectF(IN REAL x, IN REAL y, IN REAL width, IN REAL height) {
+    X = x;
+    Y = y;
+    Width = width;
+    Height = height;
+  }
 
-    RectF(IN REAL x,
-          IN REAL y,
-          IN REAL width,
-          IN REAL height)
-    {
-        X = x;
-        Y = y;
-        Width = width;
-        Height = height;
-    }
+  RectF(IN const PointF &location, IN const SizeF &size) {
+    X = location.X;
+    Y = location.Y;
+    Width = size.Width;
+    Height = size.Height;
+  }
 
-    RectF(IN const PointF& location,
-          IN const SizeF& size)
-    {
-        X = location.X;
-        Y = location.Y;
-        Width = size.Width;
-        Height = size.Height;
-    }
+  RectF *Clone() const { return new RectF(X, Y, Width, Height); }
 
-    RectF* Clone() const
-    {
-        return new RectF(X, Y, Width, Height);
-    }
+  VOID GetLocation(OUT PointF *point) const {
+    point->X = X;
+    point->Y = Y;
+  }
 
-    VOID GetLocation(OUT PointF* point) const
-    {
-        point->X = X;
-        point->Y = Y;
-    }
+  VOID GetSize(OUT SizeF *size) const {
+    size->Width = Width;
+    size->Height = Height;
+  }
 
-    VOID GetSize(OUT SizeF* size) const
-    {
-        size->Width = Width;
-        size->Height = Height;
-    }
+  VOID GetBounds(OUT RectF *rect) const {
+    rect->X = X;
+    rect->Y = Y;
+    rect->Width = Width;
+    rect->Height = Height;
+  }
 
-    VOID GetBounds(OUT RectF* rect) const
-    {
-        rect->X = X;
-        rect->Y = Y;
-        rect->Width = Width;
-        rect->Height = Height;
-    }
+  // Return the left, top, right, and bottom
+  // coordinates of the rectangle
 
-    // Return the left, top, right, and bottom
-    // coordinates of the rectangle
+  REAL GetLeft() const { return X; }
 
-    REAL GetLeft() const
-    {
-        return X;
-    }
+  REAL GetTop() const { return Y; }
 
-    REAL GetTop() const
-    {
-        return Y;
-    }
+  REAL GetRight() const { return X + Width; }
 
-    REAL GetRight() const
-    {
-        return X+Width;
-    }
+  REAL GetBottom() const { return Y + Height; }
 
-    REAL GetBottom() const
-    {
-        return Y+Height;
-    }
+  // Determine if the rectangle is empty
+  BOOL IsEmptyArea() const {
+    return (Width <= REAL_EPSILON) || (Height <= REAL_EPSILON);
+  }
 
-    // Determine if the rectangle is empty
-    BOOL IsEmptyArea() const
-    {
-        return (Width <= REAL_EPSILON) || (Height <= REAL_EPSILON);
-    }
+  BOOL Equals(IN const RectF &rect) const {
+    return X == rect.X && Y == rect.Y && Width == rect.Width &&
+           Height == rect.Height;
+  }
 
-    BOOL Equals(IN const RectF & rect) const
-    {
-        return X == rect.X &&
-               Y == rect.Y &&
-               Width == rect.Width &&
-               Height == rect.Height;
-    }
+  BOOL Contains(IN REAL x, IN REAL y) const {
+    return x >= X && x < X + Width && y >= Y && y < Y + Height;
+  }
 
-    BOOL Contains(IN REAL x,
-                  IN REAL y) const
-    {
-        return x >= X && x < X+Width &&
-               y >= Y && y < Y+Height;
-    }
+  BOOL Contains(IN const PointF &pt) const { return Contains(pt.X, pt.Y); }
 
-    BOOL Contains(IN const PointF& pt) const
-    {
-        return Contains(pt.X, pt.Y);
-    }
+  BOOL Contains(IN const RectF &rect) const {
+    return (X <= rect.X) && (rect.GetRight() <= GetRight()) && (Y <= rect.Y) &&
+           (rect.GetBottom() <= GetBottom());
+  }
 
-    BOOL Contains(IN const RectF& rect) const
-    {
-        return (X <= rect.X) && (rect.GetRight() <= GetRight()) &&
-               (Y <= rect.Y) && (rect.GetBottom() <= GetBottom());
-    }
+  VOID Inflate(IN REAL dx, IN REAL dy) {
+    X -= dx;
+    Y -= dy;
+    Width += 2 * dx;
+    Height += 2 * dy;
+  }
 
-    VOID Inflate(IN REAL dx,
-                 IN REAL dy)
-    {
-        X -= dx;
-        Y -= dy;
-        Width += 2*dx;
-        Height += 2*dy;
-    }
+  VOID Inflate(IN const PointF &point) { Inflate(point.X, point.Y); }
 
-    VOID Inflate(IN const PointF& point)
-    {
-        Inflate(point.X, point.Y);
-    }
+  // Intersect the current rect with the specified object
 
-    // Intersect the current rect with the specified object
+  BOOL Intersect(IN const RectF &rect) { return Intersect(*this, *this, rect); }
 
-    BOOL Intersect(IN const RectF& rect)
-    {
-        return Intersect(*this, *this, rect);
-    }
+  // Intersect rect a and b and save the result into c
+  // Notice that c may be the same object as a or b.
 
-    // Intersect rect a and b and save the result into c
-    // Notice that c may be the same object as a or b.
+  static BOOL Intersect(OUT RectF &c, IN const RectF &a, IN const RectF &b) {
+    REAL right = min(a.GetRight(), b.GetRight());
+    REAL bottom = min(a.GetBottom(), b.GetBottom());
+    REAL left = max(a.GetLeft(), b.GetLeft());
+    REAL top = max(a.GetTop(), b.GetTop());
 
-    static BOOL Intersect(OUT RectF& c,
-                          IN const RectF& a,
-                          IN const RectF& b)
-    {
-        REAL right = min(a.GetRight(), b.GetRight());
-        REAL bottom = min(a.GetBottom(), b.GetBottom());
-        REAL left = max(a.GetLeft(), b.GetLeft());
-        REAL top = max(a.GetTop(), b.GetTop());
+    c.X = left;
+    c.Y = top;
+    c.Width = right - left;
+    c.Height = bottom - top;
+    return !c.IsEmptyArea();
+  }
 
-        c.X = left;
-        c.Y = top;
-        c.Width = right - left;
-        c.Height = bottom - top;
-        return !c.IsEmptyArea();
-    }
+  // Determine if the specified rect intersects with the
+  // current rect object.
 
-    // Determine if the specified rect intersects with the
-    // current rect object.
+  BOOL IntersectsWith(IN const RectF &rect) const {
+    return (GetLeft() < rect.GetRight() && GetTop() < rect.GetTop() &&
+            GetRight() > rect.GetLeft() && GetBottom() > rect.GetTop());
+  }
 
-    BOOL IntersectsWith(IN const RectF& rect) const
-    {
-        return (GetLeft() < rect.GetRight() &&
-                GetTop() < rect.GetTop() &&
-                GetRight() > rect.GetLeft() &&
-                GetBottom() > rect.GetTop());
-    }
+  static BOOL Union(OUT RectF &c, IN const RectF &a, IN const RectF &b) {
+    REAL right = max(a.GetRight(), b.GetRight());
+    REAL bottom = max(a.GetBottom(), b.GetBottom());
+    REAL left = min(a.GetLeft(), b.GetLeft());
+    REAL top = min(a.GetTop(), b.GetTop());
 
-    static BOOL Union(OUT RectF& c,
-                      IN const RectF& a,
-                      IN const RectF& b)
-    {
-        REAL right = max(a.GetRight(), b.GetRight());
-        REAL bottom = max(a.GetBottom(), b.GetBottom());
-        REAL left = min(a.GetLeft(), b.GetLeft());
-        REAL top = min(a.GetTop(), b.GetTop());
+    c.X = left;
+    c.Y = top;
+    c.Width = right - left;
+    c.Height = bottom - top;
+    return !c.IsEmptyArea();
+  }
 
-        c.X = left;
-        c.Y = top;
-        c.Width = right - left;
-        c.Height = bottom - top;
-        return !c.IsEmptyArea();
-    }
+  VOID Offset(IN const PointF &point) { Offset(point.X, point.Y); }
 
-    VOID Offset(IN const PointF& point)
-    {
-        Offset(point.X, point.Y);
-    }
-
-    VOID Offset(IN REAL dx,
-                IN REAL dy)
-    {
-        X += dx;
-        Y += dy;
-    }
+  VOID Offset(IN REAL dx, IN REAL dy) {
+    X += dx;
+    Y += dy;
+  }
 
 public:
-
-    REAL X;
-    REAL Y;
-    REAL Width;
-    REAL Height;
+  REAL X;
+  REAL Y;
+  REAL Width;
+  REAL Height;
 };
 
 //--------------------------------------------------------------------------
@@ -556,271 +431,191 @@ public:
 //  (integer coordinates)
 //--------------------------------------------------------------------------
 
-class Rect
-{
+class Rect {
 public:
+  // Default constructor
 
-    // Default constructor
+  Rect() { X = Y = Width = Height = 0; }
 
-    Rect()
-    {
-        X = Y = Width = Height = 0;
-    }
+  Rect(IN INT x, IN INT y, IN INT width, IN INT height) {
+    X = x;
+    Y = y;
+    Width = width;
+    Height = height;
+  }
 
-    Rect(IN INT x,
-         IN INT y,
-         IN INT width,
-         IN INT height)
-    {
-        X = x;
-        Y = y;
-        Width = width;
-        Height = height;
-    }
+  Rect(IN const Point &location, IN const Size &size) {
+    X = location.X;
+    Y = location.Y;
+    Width = size.Width;
+    Height = size.Height;
+  }
 
-    Rect(IN const Point& location,
-         IN const Size& size)
-    {
-        X = location.X;
-        Y = location.Y;
-        Width = size.Width;
-        Height = size.Height;
-    }
+  Rect *Clone() const { return new Rect(X, Y, Width, Height); }
 
-    Rect* Clone() const
-    {
-        return new Rect(X, Y, Width, Height);
-    }
+  VOID GetLocation(OUT Point *point) const {
+    point->X = X;
+    point->Y = Y;
+  }
 
-    VOID GetLocation(OUT Point* point) const
-    {
-        point->X = X;
-        point->Y = Y;
-    }
+  VOID GetSize(OUT Size *size) const {
+    size->Width = Width;
+    size->Height = Height;
+  }
 
-    VOID GetSize(OUT Size* size) const
-    {
-        size->Width = Width;
-        size->Height = Height;
-    }
+  VOID GetBounds(OUT Rect *rect) const {
+    rect->X = X;
+    rect->Y = Y;
+    rect->Width = Width;
+    rect->Height = Height;
+  }
 
-    VOID GetBounds(OUT Rect* rect) const
-    {
-        rect->X = X;
-        rect->Y = Y;
-        rect->Width = Width;
-        rect->Height = Height;
-    }
+  // Return the left, top, right, and bottom
+  // coordinates of the rectangle
 
-    // Return the left, top, right, and bottom
-    // coordinates of the rectangle
+  INT GetLeft() const { return X; }
 
-    INT GetLeft() const
-    {
-        return X;
-    }
+  INT GetTop() const { return Y; }
 
-    INT GetTop() const
-    {
-        return Y;
-    }
+  INT GetRight() const { return X + Width; }
 
-    INT GetRight() const
-    {
-        return X+Width;
-    }
+  INT GetBottom() const { return Y + Height; }
 
-    INT GetBottom() const
-    {
-        return Y+Height;
-    }
+  // Determine if the rectangle is empty
+  BOOL IsEmptyArea() const { return (Width <= 0) || (Height <= 0); }
 
-    // Determine if the rectangle is empty
-    BOOL IsEmptyArea() const
-    {
-        return (Width <= 0) || (Height <= 0);
-    }
+  BOOL Equals(IN const Rect &rect) const {
+    return X == rect.X && Y == rect.Y && Width == rect.Width &&
+           Height == rect.Height;
+  }
 
-    BOOL Equals(IN const Rect & rect) const
-    {
-        return X == rect.X &&
-               Y == rect.Y &&
-               Width == rect.Width &&
-               Height == rect.Height;
-    }
+  BOOL Contains(IN INT x, IN INT y) const {
+    return x >= X && x < X + Width && y >= Y && y < Y + Height;
+  }
 
-    BOOL Contains(IN INT x,
-                  IN INT y) const
-    {
-        return x >= X && x < X+Width &&
-               y >= Y && y < Y+Height;
-    }
+  BOOL Contains(IN const Point &pt) const { return Contains(pt.X, pt.Y); }
 
-    BOOL Contains(IN const Point& pt) const
-    {
-        return Contains(pt.X, pt.Y);
-    }
+  BOOL Contains(IN Rect &rect) const {
+    return (X <= rect.X) && (rect.GetRight() <= GetRight()) && (Y <= rect.Y) &&
+           (rect.GetBottom() <= GetBottom());
+  }
 
-    BOOL Contains(IN Rect& rect) const
-    {
-        return (X <= rect.X) && (rect.GetRight() <= GetRight()) &&
-               (Y <= rect.Y) && (rect.GetBottom() <= GetBottom());
-    }
+  VOID Inflate(IN INT dx, IN INT dy) {
+    X -= dx;
+    Y -= dy;
+    Width += 2 * dx;
+    Height += 2 * dy;
+  }
 
-    VOID Inflate(IN INT dx,
-                 IN INT dy)
-    {
-        X -= dx;
-        Y -= dy;
-        Width += 2*dx;
-        Height += 2*dy;
-    }
+  VOID Inflate(IN const Point &point) { Inflate(point.X, point.Y); }
 
-    VOID Inflate(IN const Point& point)
-    {
-        Inflate(point.X, point.Y);
-    }
+  // Intersect the current rect with the specified object
 
-    // Intersect the current rect with the specified object
+  BOOL Intersect(IN const Rect &rect) { return Intersect(*this, *this, rect); }
 
-    BOOL Intersect(IN const Rect& rect)
-    {
-        return Intersect(*this, *this, rect);
-    }
+  // Intersect rect a and b and save the result into c
+  // Notice that c may be the same object as a or b.
 
-    // Intersect rect a and b and save the result into c
-    // Notice that c may be the same object as a or b.
+  static BOOL Intersect(OUT Rect &c, IN const Rect &a, IN const Rect &b) {
+    INT right = min(a.GetRight(), b.GetRight());
+    INT bottom = min(a.GetBottom(), b.GetBottom());
+    INT left = max(a.GetLeft(), b.GetLeft());
+    INT top = max(a.GetTop(), b.GetTop());
 
-    static BOOL Intersect(OUT Rect& c,
-                          IN const Rect& a,
-                          IN const Rect& b)
-    {
-        INT right = min(a.GetRight(), b.GetRight());
-        INT bottom = min(a.GetBottom(), b.GetBottom());
-        INT left = max(a.GetLeft(), b.GetLeft());
-        INT top = max(a.GetTop(), b.GetTop());
+    c.X = left;
+    c.Y = top;
+    c.Width = right - left;
+    c.Height = bottom - top;
+    return !c.IsEmptyArea();
+  }
 
-        c.X = left;
-        c.Y = top;
-        c.Width = right - left;
-        c.Height = bottom - top;
-        return !c.IsEmptyArea();
-    }
+  // Determine if the specified rect intersects with the
+  // current rect object.
 
-    // Determine if the specified rect intersects with the
-    // current rect object.
+  BOOL IntersectsWith(IN const Rect &rect) const {
+    return (GetLeft() < rect.GetRight() && GetTop() < rect.GetTop() &&
+            GetRight() > rect.GetLeft() && GetBottom() > rect.GetTop());
+  }
 
-    BOOL IntersectsWith(IN const Rect& rect) const
-    {
-        return (GetLeft() < rect.GetRight() &&
-                GetTop() < rect.GetTop() &&
-                GetRight() > rect.GetLeft() &&
-                GetBottom() > rect.GetTop());
-    }
+  static BOOL Union(OUT Rect &c, IN const Rect &a, IN const Rect &b) {
+    INT right = max(a.GetRight(), b.GetRight());
+    INT bottom = max(a.GetBottom(), b.GetBottom());
+    INT left = min(a.GetLeft(), b.GetLeft());
+    INT top = min(a.GetTop(), b.GetTop());
 
-    static BOOL Union(OUT Rect& c,
-                      IN const Rect& a,
-                      IN const Rect& b)
-    {
-        INT right = max(a.GetRight(), b.GetRight());
-        INT bottom = max(a.GetBottom(), b.GetBottom());
-        INT left = min(a.GetLeft(), b.GetLeft());
-        INT top = min(a.GetTop(), b.GetTop());
+    c.X = left;
+    c.Y = top;
+    c.Width = right - left;
+    c.Height = bottom - top;
+    return !c.IsEmptyArea();
+  }
 
-        c.X = left;
-        c.Y = top;
-        c.Width = right - left;
-        c.Height = bottom - top;
-        return !c.IsEmptyArea();
-    }
+  VOID Offset(IN const Point &point) { Offset(point.X, point.Y); }
 
-    VOID Offset(IN const Point& point)
-    {
-        Offset(point.X, point.Y);
-    }
-
-    VOID Offset(IN INT dx,
-                IN INT dy)
-    {
-        X += dx;
-        Y += dy;
-    }
+  VOID Offset(IN INT dx, IN INT dy) {
+    X += dx;
+    Y += dy;
+  }
 
 public:
-
-    INT X;
-    INT Y;
-    INT Width;
-    INT Height;
+  INT X;
+  INT Y;
+  INT Width;
+  INT Height;
 };
 
 // A user must mange memory for PathData.
 
-class PathData
-{
+class PathData {
 public:
-    PathData()
-    {
-        Count = 0;
-        Points = NULL;
-        Types = NULL;
+  PathData() {
+    Count = 0;
+    Points = NULL;
+    Types = NULL;
+  }
+
+  ~PathData() {
+    if (Points != NULL) {
+      delete Points;
     }
 
-    ~PathData()
-    {
-        if (Points != NULL)
-        {
-            delete Points;
-        }
-
-        if (Types != NULL)
-        {
-            delete Types;
-        }
+    if (Types != NULL) {
+      delete Types;
     }
+  }
 
 #ifdef DCR_USE_NEW_250932
 
 private:
-    PathData(const PathData &);
-    PathData& operator=(const PathData &);
+  PathData(const PathData &);
+  PathData &operator=(const PathData &);
 
 #endif
 
 public:
-    INT Count;
-    PointF* Points;
-    BYTE* Types;
+  INT Count;
+  PointF *Points;
+  BYTE *Types;
 };
-
 
 //-----------------------------
 // text character range
 //-----------------------------
 
-class CharacterRange
-{
+class CharacterRange {
 public:
-    CharacterRange(
-        INT first,
-        INT length
-    ) :
-        First   (first),
-        Length  (length)
-    {}
+  CharacterRange(INT first, INT length) : First(first), Length(length) {}
 
-    CharacterRange() : First(0), Length(0)
-    {}
+  CharacterRange() : First(0), Length(0) {}
 
-    CharacterRange & operator = (const CharacterRange &rhs)
-    {
-        First  = rhs.First;
-        Length = rhs.Length;
-        return *this;
-    }
+  CharacterRange &operator=(const CharacterRange &rhs) {
+    First = rhs.First;
+    Length = rhs.Length;
+    return *this;
+  }
 
-    INT First;
-    INT Length;
+  INT First;
+  INT Length;
 };
 
 #endif // !_GDIPLUSTYPES_HPP

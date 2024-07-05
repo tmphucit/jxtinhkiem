@@ -11,22 +11,24 @@
 //---------------------------------------------------------------------------
 #include "KBitmap16.h"
 //---------------------------------------------------------------------------
-class ENGINE_API KBmpFile24
-{
+class ENGINE_API KBmpFile24 {
 private:
-	long		m_nWidth;
-	long		m_nHeight;
-	long		m_nBytesPerLine;
+  long m_nWidth;
+  long m_nHeight;
+  long m_nBytesPerLine;
 
-	BOOL		Decode(PVOID pBuffer, PVOID pBitmap);
-	BOOL		Encode(PVOID pBuffer, PVOID pBitmap);
-	static BOOL SaveBuffer(LPSTR lpFileName, PVOID pBitmap, int nPitch, int nWidth, int nHeight, bool bIs24Bit);
+  BOOL Decode(PVOID pBuffer, PVOID pBitmap);
+  BOOL Encode(PVOID pBuffer, PVOID pBitmap);
+  static BOOL SaveBuffer(LPSTR lpFileName, PVOID pBitmap, int nPitch,
+                         int nWidth, int nHeight, bool bIs24Bit);
 
 public:
-	BOOL		Load(LPSTR lpFileName, KBitmap16* lpBitmap);
-	BOOL		Save(LPSTR lpFileName, KBitmap16* lpBitmap);
-	static BOOL SaveBuffer24(LPSTR lpFileName, PVOID pBitmap, int nPitch, int nWidth, int nHeight);
-	static BOOL SaveBuffer32(LPSTR lpFileName, PVOID pBitmap, int nPitch, int nWidth, int nHeight);
+  BOOL Load(LPSTR lpFileName, KBitmap16 *lpBitmap);
+  BOOL Save(LPSTR lpFileName, KBitmap16 *lpBitmap);
+  static BOOL SaveBuffer24(LPSTR lpFileName, PVOID pBitmap, int nPitch,
+                           int nWidth, int nHeight);
+  static BOOL SaveBuffer32(LPSTR lpFileName, PVOID pBitmap, int nPitch,
+                           int nWidth, int nHeight);
 };
 //---------------------------------------------------------------------------
 #endif

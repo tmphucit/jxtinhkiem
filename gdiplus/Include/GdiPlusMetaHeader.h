@@ -15,27 +15,27 @@
 #ifndef _GDIPLUSMETAHEADER_H
 #define _GDIPLUSMETAHEADER_H
 
-typedef struct
-{
-    DWORD   iType;              // Record type EMR_HEADER
-    DWORD   nSize;              // Record size in bytes.  This may be greater
-                                // than the sizeof(ENHMETAHEADER).
-    RECTL   rclBounds;          // Inclusive-inclusive bounds in device units
-    RECTL   rclFrame;           // Inclusive-inclusive Picture Frame of metafile in .01 mm units
-    DWORD   dSignature;         // Signature.  Must be ENHMETA_SIGNATURE.
-    DWORD   nVersion;           // Version number
-    DWORD   nBytes;             // Size of the metafile in bytes
-    DWORD   nRecords;           // Number of records in the metafile
-    WORD    nHandles;           // Number of handles in the handle table
-                                // Handle index zero is reserved.
-    WORD    sReserved;          // Reserved.  Must be zero.
-    DWORD   nDescription;       // Number of chars in the unicode description string
-                                // This is 0 if there is no description string
-    DWORD   offDescription;     // Offset to the metafile description record.
-                                // This is 0 if there is no description string
-    DWORD   nPalEntries;        // Number of entries in the metafile palette.
-    SIZEL   szlDevice;          // Size of the reference device in pels
-    SIZEL   szlMillimeters;     // Size of the reference device in millimeters
+typedef struct {
+  DWORD iType;     // Record type EMR_HEADER
+  DWORD nSize;     // Record size in bytes.  This may be greater
+                   // than the sizeof(ENHMETAHEADER).
+  RECTL rclBounds; // Inclusive-inclusive bounds in device units
+  RECTL
+  rclFrame; // Inclusive-inclusive Picture Frame of metafile in .01 mm units
+  DWORD dSignature;     // Signature.  Must be ENHMETA_SIGNATURE.
+  DWORD nVersion;       // Version number
+  DWORD nBytes;         // Size of the metafile in bytes
+  DWORD nRecords;       // Number of records in the metafile
+  WORD nHandles;        // Number of handles in the handle table
+                        // Handle index zero is reserved.
+  WORD sReserved;       // Reserved.  Must be zero.
+  DWORD nDescription;   // Number of chars in the unicode description string
+                        // This is 0 if there is no description string
+  DWORD offDescription; // Offset to the metafile description record.
+                        // This is 0 if there is no description string
+  DWORD nPalEntries;    // Number of entries in the metafile palette.
+  SIZEL szlDevice;      // Size of the reference device in pels
+  SIZEL szlMillimeters; // Size of the reference device in millimeters
 } ENHMETAHEADER3;
 
 // Aldus Placeable Metafiles
@@ -53,24 +53,22 @@ typedef struct
 // Each placeable metafile begins with a 22-byte header,
 //  followed by a standard metafile:
 
-#include <pshpack2.h>   // set structure packing to 2
+#include <pshpack2.h> // set structure packing to 2
 
-typedef struct
-{
-    INT16           Left;
-    INT16           Top;
-    INT16           Right;
-    INT16           Bottom;
+typedef struct {
+  INT16 Left;
+  INT16 Top;
+  INT16 Right;
+  INT16 Bottom;
 } APMRect16;
 
-typedef struct
-{
-    UINT32          Key;            // GDIP_WMF_ALDUSKEY
-    INT16           Hmf;            // Metafile HANDLE number (always 0)
-    APMRect16       BoundingBox;    // Coordinates in metafile units
-    INT16           Inch;           // Number of metafile units per inch
-    UINT32          Reserved;       // Reserved (always 0)
-    INT16           Checksum;       // Checksum value for previous 10 WORDs
+typedef struct {
+  UINT32 Key;            // GDIP_WMF_ALDUSKEY
+  INT16 Hmf;             // Metafile HANDLE number (always 0)
+  APMRect16 BoundingBox; // Coordinates in metafile units
+  INT16 Inch;            // Number of metafile units per inch
+  UINT32 Reserved;       // Reserved (always 0)
+  INT16 Checksum;        // Checksum value for previous 10 WORDs
 } APMFileHeader;
 
 #include <poppack.h>
@@ -105,109 +103,98 @@ typedef struct
 // initial value of 0.
 
 // If the metafile was recorded with a reference Hdc that was a display.
-#define GDIP_EMFPLUSFLAGS_DISPLAY       0x00000001
+#define GDIP_EMFPLUSFLAGS_DISPLAY 0x00000001
 
-class MetafileHeader
-{
+class MetafileHeader {
 public:
-    MetafileType        Type;
-    UINT                Size;               // Size of the metafile (in bytes)
-    UINT                Version;            // EMF+, EMF, or WMF version
-    UINT                EmfPlusFlags;
-    REAL                DpiX;
-    REAL                DpiY;
-    INT                 X;                  // Bounds in device units
-    INT                 Y;
-    INT                 Width;
-    INT                 Height;
-    union
-    {
-        METAHEADER      WmfHeader;
-        ENHMETAHEADER3  EmfHeader;
-    };
-    INT                 EmfPlusHeaderSize;  // size of the EMF+ header in file
-    INT                 LogicalDpiX;        // Logical Dpi of reference Hdc
-    INT                 LogicalDpiY;        // usually valid only for EMF+ files
+  MetafileType Type;
+  UINT Size;    // Size of the metafile (in bytes)
+  UINT Version; // EMF+, EMF, or WMF version
+  UINT EmfPlusFlags;
+  REAL DpiX;
+  REAL DpiY;
+  INT X; // Bounds in device units
+  INT Y;
+  INT Width;
+  INT Height;
+  union {
+    METAHEADER WmfHeader;
+    ENHMETAHEADER3 EmfHeader;
+  };
+  INT EmfPlusHeaderSize; // size of the EMF+ header in file
+  INT LogicalDpiX;       // Logical Dpi of reference Hdc
+  INT LogicalDpiY;       // usually valid only for EMF+ files
 
 public:
-    // Get the metafile type
-    MetafileType GetType() const { return Type; }
+  // Get the metafile type
+  MetafileType GetType() const { return Type; }
 
-    // Get the size of the metafile in BYTEs
-    UINT GetMetafileSize() const { return Size; }
+  // Get the size of the metafile in BYTEs
+  UINT GetMetafileSize() const { return Size; }
 
-    // If IsEmfPlus, this is the EMF+ version; else it is the WMF or EMF version
-    UINT GetVersion() const { return Version; }
+  // If IsEmfPlus, this is the EMF+ version; else it is the WMF or EMF version
+  UINT GetVersion() const { return Version; }
 
-    // Get the EMF+ flags associated with the metafile
-    UINT GetEmfPlusFlags() const { return EmfPlusFlags; }
+  // Get the EMF+ flags associated with the metafile
+  UINT GetEmfPlusFlags() const { return EmfPlusFlags; }
 
-    // Get the X Dpi of the metafile
-    REAL GetDpiX() const { return DpiX; }
+  // Get the X Dpi of the metafile
+  REAL GetDpiX() const { return DpiX; }
 
-    // Get the Y Dpi of the metafile
-    REAL GetDpiY() const { return DpiY; }
+  // Get the Y Dpi of the metafile
+  REAL GetDpiY() const { return DpiY; }
 
-    // Get the bounds of the metafile in device units
-    VOID GetBounds (OUT Rect *rect) const
-    {
-        rect->X = X;
-        rect->Y = Y;
-        rect->Width = Width;
-        rect->Height = Height;
+  // Get the bounds of the metafile in device units
+  VOID GetBounds(OUT Rect *rect) const {
+    rect->X = X;
+    rect->Y = Y;
+    rect->Width = Width;
+    rect->Height = Height;
+  }
+
+  // Is it any type of WMF (standard or Aldus Placeable Metafile)?
+  BOOL IsWmf() const {
+    return ((Type == MetafileTypeWmf) || (Type == MetafileTypeWmfAldus));
+  }
+
+  // Is this an Aldus Placeable Metafile?
+  BOOL IsWmfAldus() const { return (Type == MetafileTypeWmf); }
+
+  // Is this an EMF (not an EMF+)?
+  BOOL IsEmf() const { return (Type == MetafileTypeEmf); }
+
+  // Is this an EMF or EMF+ file?
+  BOOL IsEmfOrEmfPlus() const { return (Type >= MetafileTypeEmf); }
+
+  // Is this an EMF+ file?
+  BOOL IsEmfPlus() const { return (Type >= MetafileTypeEmfPlusOnly); }
+
+  // Is this an EMF+ dual (has dual, down-level records) file?
+  BOOL IsEmfPlusDual() const { return (Type == MetafileTypeEmfPlusDual); }
+
+  // Is this an EMF+ only (no dual records) file?
+  BOOL IsEmfPlusOnly() const { return (Type == MetafileTypeEmfPlusOnly); }
+
+  // If it's an EMF+ file, was it recorded against a display Hdc?
+  BOOL IsDisplay() const {
+    return (IsEmfPlus() && ((EmfPlusFlags & GDIP_EMFPLUSFLAGS_DISPLAY) != 0));
+  }
+
+  // Get the WMF header of the metafile (if it is a WMF)
+  const METAHEADER *GetWmfHeader() const {
+    if (IsWmf()) {
+      return &WmfHeader;
     }
-    
-    // Is it any type of WMF (standard or Aldus Placeable Metafile)?
-    BOOL IsWmf() const
-    {
-       return ((Type == MetafileTypeWmf) || (Type == MetafileTypeWmfAldus));
+    return NULL;
+  }
+
+  // Get the EMF header of the metafile (if it is an EMF)
+  const ENHMETAHEADER3 *GetEmfHeader() const {
+    if (IsEmfOrEmfPlus()) {
+      return &EmfHeader;
     }
-
-    // Is this an Aldus Placeable Metafile?
-    BOOL IsWmfAldus() const { return (Type == MetafileTypeWmf); }
-
-    // Is this an EMF (not an EMF+)?
-    BOOL IsEmf() const { return (Type == MetafileTypeEmf); }
-
-    // Is this an EMF or EMF+ file?
-    BOOL IsEmfOrEmfPlus() const { return (Type >= MetafileTypeEmf); }
-
-    // Is this an EMF+ file?
-    BOOL IsEmfPlus() const { return (Type >= MetafileTypeEmfPlusOnly); }
-
-    // Is this an EMF+ dual (has dual, down-level records) file?
-    BOOL IsEmfPlusDual() const { return (Type == MetafileTypeEmfPlusDual); }
-
-    // Is this an EMF+ only (no dual records) file?
-    BOOL IsEmfPlusOnly() const { return (Type == MetafileTypeEmfPlusOnly); }
-
-    // If it's an EMF+ file, was it recorded against a display Hdc?
-    BOOL IsDisplay() const
-    {
-        return (IsEmfPlus() &&
-                ((EmfPlusFlags & GDIP_EMFPLUSFLAGS_DISPLAY) != 0));
-    }
-
-    // Get the WMF header of the metafile (if it is a WMF)
-    const METAHEADER * GetWmfHeader() const
-    {
-        if (IsWmf())
-        {
-            return &WmfHeader;
-        }
-        return NULL;
-    }
-
-    // Get the EMF header of the metafile (if it is an EMF)
-    const ENHMETAHEADER3 * GetEmfHeader() const
-    {
-        if (IsEmfOrEmfPlus())
-        {
-            return &EmfHeader;
-        }
-        return NULL;
-    }
+    return NULL;
+  }
 };
 
 #endif
-

@@ -1,6 +1,6 @@
 /***********************************************************************************
-	test_algobase.cpp
-		
+        test_algobase.cpp
+
  * Copyright (c) 1997
  * Mark of the Unicorn, Inc.
  *
@@ -14,85 +14,83 @@
 
 ***********************************************************************************/
 
-# include "Prefix.h"
-# if defined (EH_NEW_HEADERS)
-# ifdef __SUNPRO_CC
-# include <stdio.h>
-# endif
+#include "Prefix.h"
+#if defined(EH_NEW_HEADERS)
+#ifdef __SUNPRO_CC
+#include <stdio.h>
+#endif
 #include <algorithm>
-# else
+#else
 #include <algo.h>
-# endif
-#include "Tests.h"
+#endif
 #include "LeakCheck.h"
 #include "TestClass.h"
+#include "Tests.h"
 
 // EH_USE_STD
 
 enum { kBufferSize = 100 };
 
-struct test_uninitialized_copy
-{
-    test_uninitialized_copy()
-        : stuff( new TestClass[kBufferSize] ), end_of_stuff(stuff + kBufferSize) {
-        gTestController.SetCurrentTestName("uninitialized_copy()");
-        }
+struct test_uninitialized_copy {
+  test_uninitialized_copy()
+      : stuff(new TestClass[kBufferSize]), end_of_stuff(stuff + kBufferSize) {
+    gTestController.SetCurrentTestName("uninitialized_copy()");
+  }
 
-    ~test_uninitialized_copy() { delete[] stuff; }
-	
-    void operator()( TestClass* buffer ) const
-    {
-        EH_STD::uninitialized_copy((TestClass*)stuff, (TestClass*)end_of_stuff, buffer );
-        EH_ASSERT( EH_STD::equal( (TestClass*)stuff, (TestClass*)end_of_stuff, buffer ) );
-        stl_destroy( buffer, buffer+kBufferSize );
-    }
-	
+  ~test_uninitialized_copy() { delete[] stuff; }
+
+  void operator()(TestClass *buffer) const {
+    EH_STD::uninitialized_copy((TestClass *)stuff, (TestClass *)end_of_stuff,
+                               buffer);
+    EH_ASSERT(
+        EH_STD::equal((TestClass *)stuff, (TestClass *)end_of_stuff, buffer));
+    stl_destroy(buffer, buffer + kBufferSize);
+  }
+
 private:
-    TestClass * stuff;
-    TestClass * end_of_stuff;
+  TestClass *stuff;
+  TestClass *end_of_stuff;
 };
 
-struct test_uninitialized_fill
-{
-    test_uninitialized_fill() {
-        gTestController.SetCurrentTestName("uninitialized_fill()");
-    }
+struct test_uninitialized_fill {
+  test_uninitialized_fill() {
+    gTestController.SetCurrentTestName("uninitialized_fill()");
+  }
 
-    void operator()( TestClass* buffer ) const
-    {
-        TestClass* buf_end = buffer + kBufferSize;
-        EH_STD::uninitialized_fill( buffer, buf_end, testValue );
-        for ( EH_CSTD::size_t i = 0; i < kBufferSize; i++ )
-            EH_ASSERT( buffer[i] == testValue );
-        stl_destroy( buffer, buf_end );
-    }
+  void operator()(TestClass *buffer) const {
+    TestClass *buf_end = buffer + kBufferSize;
+    EH_STD::uninitialized_fill(buffer, buf_end, testValue);
+    for (EH_CSTD::size_t i = 0; i < kBufferSize; i++)
+      EH_ASSERT(buffer[i] == testValue);
+    stl_destroy(buffer, buf_end);
+  }
+
 private:
-    TestClass testValue;
+  TestClass testValue;
 };
 
-struct test_uninitialized_fill_n
-{
-    test_uninitialized_fill_n() {
-        gTestController.SetCurrentTestName("uninitialized_fill_n()");
-    }
-    void operator()( TestClass* buffer ) const
-    {
-        TestClass* end = buffer + kBufferSize;        
-        EH_STD::uninitialized_fill_n( buffer, (EH_CSTD::size_t)kBufferSize, testValue );
-        for ( EH_CSTD::size_t i = 0; i < kBufferSize; i++ )
-            EH_ASSERT( buffer[i] == testValue );
-        stl_destroy( buffer, end );
-    }
+struct test_uninitialized_fill_n {
+  test_uninitialized_fill_n() {
+    gTestController.SetCurrentTestName("uninitialized_fill_n()");
+  }
+  void operator()(TestClass *buffer) const {
+    TestClass *end = buffer + kBufferSize;
+    EH_STD::uninitialized_fill_n(buffer, (EH_CSTD::size_t)kBufferSize,
+                                 testValue);
+    for (EH_CSTD::size_t i = 0; i < kBufferSize; i++)
+      EH_ASSERT(buffer[i] == testValue);
+    stl_destroy(buffer, end);
+  }
+
 private:
-    TestClass testValue;
+  TestClass testValue;
 };
 
-void test_algobase()
-{
+void test_algobase() {
   // force alignment
-  double arr[ sizeof(TestClass) * kBufferSize ];
-  TestClass* c = (TestClass*)arr;
-  WeakCheck( c, test_uninitialized_copy() );
-  WeakCheck( c, test_uninitialized_fill() );
-  WeakCheck( c, test_uninitialized_fill_n() );
+  double arr[sizeof(TestClass) * kBufferSize];
+  TestClass *c = (TestClass *)arr;
+  WeakCheck(c, test_uninitialized_copy());
+  WeakCheck(c, test_uninitialized_fill());
+  WeakCheck(c, test_uninitialized_fill_n());
 }

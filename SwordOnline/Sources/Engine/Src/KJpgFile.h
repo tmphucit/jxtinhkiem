@@ -9,15 +9,16 @@
 #ifndef KJpgFile_H
 #define KJpgFile_H
 //---------------------------------------------------------------------------
-#include "KMemClass.h"
 #include "KBitmap16.h"
+#include "KMemClass.h"
 //---------------------------------------------------------------------------
-class ENGINE_API KJpgFile
-{
+class ENGINE_API KJpgFile {
 private:
-	KMemClass	m_Buffer;
+  KMemClass m_Buffer;
+
 public:
-	BOOL		Load(LPSTR lpFileName, KBitmap16* lpBitmap, unsigned uRGBMask16 = ((unsigned)-1));
+  BOOL Load(LPSTR lpFileName, KBitmap16 *lpBitmap,
+            unsigned uRGBMask16 = ((unsigned)-1));
 };
 //---------------------------------------------------------------------------
 #endif

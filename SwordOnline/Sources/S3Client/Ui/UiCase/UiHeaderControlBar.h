@@ -6,22 +6,24 @@
 ------------------------------------------------------------------------------------------
 *****************************************************************************************/
 #pragma once
-#include "../Elem/WndToolBar.h"
 #include "../Elem/WndButton.h"
+#include "../Elem/WndToolBar.h"
 
-class KUiHeaderControlBar : public KWndToolBar
-{
+class KUiHeaderControlBar : public KWndToolBar {
 public:
-	//----界面面板统一的接口函数----
-	static KUiHeaderControlBar* OpenWindow();	//打开窗口，返回唯一的一个类对象实例
-	static void				CloseWindow();		//关闭窗口
-	static void				LoadScheme(const char* pScheme);//载入界面方案
-	static void				DefaultScheme(const char* pScheme);//重新初始化界面
-	static KUiHeaderControlBar* GetSelf()	{return m_pSelf;}
+  //----界面面板统一的接口函数----
+  static KUiHeaderControlBar *
+  OpenWindow();              // 打开窗口，返回唯一的一个类对象实例
+  static void CloseWindow(); // 关闭窗口
+  static void LoadScheme(const char *pScheme);    // 载入界面方案
+  static void DefaultScheme(const char *pScheme); // 重新初始化界面
+  static KUiHeaderControlBar *GetSelf() { return m_pSelf; }
+
 private:
-	~KUiHeaderControlBar() {}
-	void	Initialize();							//初始化
-	void	Breathe();
+  ~KUiHeaderControlBar() {}
+  void Initialize(); // 初始化
+  void Breathe();
+
 private:
-	static KUiHeaderControlBar*	m_pSelf;
+  static KUiHeaderControlBar *m_pSelf;
 };

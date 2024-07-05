@@ -1,16 +1,16 @@
 /********************************************************************
-	created:	2003/02/14
-	file base:	NodeList
-	file ext:	h
-	author:		liupeng
-	
-	purpose:	Data struct and define
+        created:	2003/02/14
+        file base:	NodeList
+        file ext:	h
+        author:		liupeng
+
+        purpose:	Data struct and define
 *********************************************************************/
 #ifndef __INCLUDE_NODELIST_H__
 #define __INCLUDE_NODELIST_H__
 
-#if defined (_MSC_VER) && (_MSC_VER >= 1020)
-	#pragma once
+#if defined(_MSC_VER) && (_MSC_VER >= 1020)
+#pragma once
 #endif
 
 #include <wtypes.h>
@@ -24,105 +24,88 @@ namespace OnlineGameLib {
 /*
  * CNodeList
  */
-class CNodeList
-{
+class CNodeList {
 public:
+  class Node {
+  public:
+    Node *Next() const { return m_pNext; };
 
-	class Node
-    {
-	public:
+    void Next(Node *pNext);
 
-		Node *Next() const { return m_pNext; };
+    void AddToList(CNodeList *pList);
 
-		void Next( Node *pNext );
+    void RemoveFromList();
 
-		void AddToList( CNodeList *pList );
+  protected:
+    Node();
+    ~Node();
 
-		void RemoveFromList();
+  private:
+    friend class CNodeList;
 
-	protected:
+    void Unlink();
 
-		Node();
-		~Node();
+    Node *m_pNext;
+    Node *m_pPrev;
 
-	private:
+    CNodeList *m_pList;
+  };
 
-		friend class CNodeList;
+  CNodeList();
 
-		void Unlink();
+  void PushNode(Node *pNode);
 
-		Node *m_pNext;
-		Node *m_pPrev;
+  Node *PopNode();
 
-		CNodeList *m_pList;
-	};
+  Node *Head() const { return m_pHead; };
 
-	CNodeList();
+  size_t Count() const { return m_numNodes; };
 
-	void PushNode( Node *pNode );
-
-	Node *PopNode();
-
-	Node *Head() const { return m_pHead; };
-
-	size_t Count() const { return m_numNodes; };
-
-	bool Empty() const { return ( 0 == m_numNodes ); };
+  bool Empty() const { return (0 == m_numNodes); };
 
 private:
+  friend void Node::RemoveFromList();
 
-	friend void Node::RemoveFromList();
+  void RemoveNode(Node *pNode);
 
-	void RemoveNode( Node *pNode );
+  Node *m_pHead;
 
-	Node *m_pHead; 
-
-	size_t m_numNodes;
+  size_t m_numNodes;
 };
 
-inline void CNodeList::Node::Next( Node *pNext )
-{
-	m_pNext = pNext;
+inline void CNodeList::Node::Next(Node *pNext) {
+  m_pNext = pNext;
 
-	if ( pNext )
-	{
-		pNext->m_pPrev = this;
-	}
+  if (pNext) {
+    pNext->m_pPrev = this;
+  }
 }
 
 /*
  * TNodeList
  */
 
-template <class T> class TNodeList : public CNodeList
-{
+template <class T> class TNodeList : public CNodeList {
 public:
-         
-	T *PopNode();
-   
-	T *Head() const;
+  T *PopNode();
 
-	static T *Next( const T *pNode );
+  T *Head() const;
+
+  static T *Next(const T *pNode);
 };
 
-template <class T>
-T *TNodeList<T>::PopNode()
-{
-	return static_cast< T* >( CNodeList::PopNode() );
+template <class T> T *TNodeList<T>::PopNode() {
+  return static_cast<T *>(CNodeList::PopNode());
 }
 
-template <class T>
-T *TNodeList<T>::Head() const
-{
-	return static_cast< T* >( CNodeList::Head() );
+template <class T> T *TNodeList<T>::Head() const {
+  return static_cast<T *>(CNodeList::Head());
 }
 
-template <class T>
-T *TNodeList<T>::Next( const T *pNode )
-{
-	return static_cast< T* >( pNode->Next() );
+template <class T> T *TNodeList<T>::Next(const T *pNode) {
+  return static_cast<T *>(pNode->Next());
 }
 
-} // End of namespace OnlineGameLib	
+} // End of namespace OnlineGameLib
 
 #endif // __INCLUDE_NODELIST_H__

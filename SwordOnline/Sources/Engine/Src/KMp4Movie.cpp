@@ -6,25 +6,24 @@
 // Code:	Daniel Wang
 // Desc:	MPEG-4 Movie Play Class
 //---------------------------------------------------------------------------
-#include "KWin32.h"
-#include "KDebug.h"
-#include "KMemBase.h"
-#include "KKeyboard.h"
 #include "KMp4Movie.h"
+#include "KDebug.h"
+#include "KKeyboard.h"
+#include "KMemBase.h"
+#include "KWin32.h"
 //---------------------------------------------------------------------------
 // 函数:	Open
 // 功能:	打开AVI文件
 // 参数:	FileName	文件名
 // 返回:	TRUE－成功	FALSE－失败
 //---------------------------------------------------------------------------
-BOOL KMp4Movie::Open(LPSTR FileName)
-{
-	// 打开音频AVI文件
-	m_Audio.Open(FileName);
-	// 打开视频AVI文件
-	m_Video.Open(FileName);
+BOOL KMp4Movie::Open(LPSTR FileName) {
+  // 打开音频AVI文件
+  m_Audio.Open(FileName);
+  // 打开视频AVI文件
+  m_Video.Open(FileName);
 
-	return TRUE;
+  return TRUE;
 }
 //---------------------------------------------------------------------------
 // 函数:	Close
@@ -32,12 +31,11 @@ BOOL KMp4Movie::Open(LPSTR FileName)
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KMp4Movie::Close()
-{
-	// 关闭音频流
-	m_Audio.Close();
-	// 关闭视频流
-	m_Video.Close();
+void KMp4Movie::Close() {
+  // 关闭音频流
+  m_Audio.Close();
+  // 关闭视频流
+  m_Video.Close();
 }
 //---------------------------------------------------------------------------
 // 函数:	Play
@@ -45,11 +43,10 @@ void KMp4Movie::Close()
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KMp4Movie::Play(int nX/* =0 */, int nY/* =0 */,int nZoom/* =0 */)
-{
-	m_Audio.Play();
-	Sleep(750); //MSDN说音频比视频满0.75秒
-	m_Video.Play(nX, nY, nZoom);
+void KMp4Movie::Play(int nX /* =0 */, int nY /* =0 */, int nZoom /* =0 */) {
+  m_Audio.Play();
+  Sleep(750); // MSDN说音频比视频满0.75秒
+  m_Video.Play(nX, nY, nZoom);
 }
 //---------------------------------------------------------------------------
 // 函数:	Stop
@@ -57,21 +54,19 @@ void KMp4Movie::Play(int nX/* =0 */, int nY/* =0 */,int nZoom/* =0 */)
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KMp4Movie::Stop()
-{
-	m_Audio.Stop();
-	m_Video.Stop();
+void KMp4Movie::Stop() {
+  m_Audio.Stop();
+  m_Video.Stop();
 }
 //---------------------------------------------------------------------------
 // 函数:	Seek
-// 功能:	
+// 功能:
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KMp4Movie::Seek(int nPercent)
-{
-	m_Audio.Seek(nPercent);
-	m_Video.Seek(nPercent);
+void KMp4Movie::Seek(int nPercent) {
+  m_Audio.Seek(nPercent);
+  m_Video.Seek(nPercent);
 }
 //---------------------------------------------------------------------------
 // 函数:	Rewind
@@ -79,10 +74,9 @@ void KMp4Movie::Seek(int nPercent)
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KMp4Movie::Rewind()
-{
-	m_Audio.Rewind();
-	m_Video.Rewind();
+void KMp4Movie::Rewind() {
+  m_Audio.Rewind();
+  m_Video.Rewind();
 }
 //---------------------------------------------------------------------------
 // 函数:	WaitForEnd
@@ -90,38 +84,34 @@ void KMp4Movie::Rewind()
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KMp4Movie::WaitForEnd()
-{
-	MSG	 Msg;
+void KMp4Movie::WaitForEnd() {
+  MSG Msg;
 
-	while (TRUE)
-	{
-		// 等待消息，释放CPU资源
-		WaitMessage();
+  while (TRUE) {
+    // 等待消息，释放CPU资源
+    WaitMessage();
 
-		// 中途关闭程序
-		if (!GetMessage(&Msg, NULL, 0, 0))
-		{
-			PostQuitMessage(0);
-			break;
-		}
+    // 中途关闭程序
+    if (!GetMessage(&Msg, NULL, 0, 0)) {
+      PostQuitMessage(0);
+      break;
+    }
 
-		// ESCAPE键跳过播放
-		if ((Msg.message == WM_KEYDOWN) && (Msg.wParam == VK_ESCAPE))
-		{
-			Close(); // 避免解码线程填充已经释放的内存
-			break;
-		}
+    // ESCAPE键跳过播放
+    if ((Msg.message == WM_KEYDOWN) && (Msg.wParam == VK_ESCAPE)) {
+      Close(); // 避免解码线程填充已经释放的内存
+      break;
+    }
 
-		// 播放完成通告消息
-		if (Msg.message == WM_MP4MOVIE_END)
-			break;
-		
-		// 播放完成通告没有收到时的补救处理
-		if (!m_Video.IsPlaying())
-			break;
-		
-		DispatchMessage(&Msg);
-	}
+    // 播放完成通告消息
+    if (Msg.message == WM_MP4MOVIE_END)
+      break;
+
+    // 播放完成通告没有收到时的补救处理
+    if (!m_Video.IsPlaying())
+      break;
+
+    DispatchMessage(&Msg);
+  }
 }
 //---------------------------------------------------------------------------

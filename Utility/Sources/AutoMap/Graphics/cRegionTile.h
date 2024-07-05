@@ -9,17 +9,15 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
 #include "iGraphics.h"
 
-class cRegionTile  
-{
+class cRegionTile {
 public:
-	cRegionTile();
-	virtual ~cRegionTile();
+  cRegionTile();
+  virtual ~cRegionTile();
 
-	stTile m_stTile;
-	stTile* GetTile(){return &m_stTile;}
+  stTile m_stTile;
+  stTile *GetTile() { return &m_stTile; }
 };
 
 #endif // !defined(AFX_cRegionTile_H__1EBCBBDF_0C5B_4348_80BE_E27823E679B8__INCLUDED_)

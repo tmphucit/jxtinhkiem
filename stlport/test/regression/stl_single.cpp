@@ -1,7 +1,6 @@
 // STLport regression testsuite component.
 // To compile as a separate example, please #define MAIN.
 #define SINGLE
-#include "stl_test.h"
 #include "accum1.cpp"
 #include "accum2.cpp"
 #include "adjdiff0.cpp"
@@ -209,6 +208,8 @@
 #include "stblptn1.cpp"
 #include "stblsrt1.cpp"
 #include "stblsrt2.cpp"
+#include "stl_test.cpp"
+#include "stl_test.h"
 #include "swap1.cpp"
 #include "swprnge1.cpp"
 #include "times.cpp"
@@ -232,4 +233,3 @@
 #include "vec6.cpp"
 #include "vec7.cpp"
 #include "vec8.cpp"
-#include "stl_test.cpp"

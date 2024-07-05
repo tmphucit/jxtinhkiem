@@ -1,14 +1,15 @@
-// FindStringNotMatchCase.cpp: implementation of the FindStringNotMatchCase class.
+// FindStringNotMatchCase.cpp: implementation of the FindStringNotMatchCase
+// class.
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "VersionMaker.h"
 #include "FindStringNotMatchCase.h"
+#include "VersionMaker.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -16,13 +17,7 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-FindStringNotMatchCase::FindStringNotMatchCase(const string& Target)
-:m_Target(Target)
-{
+FindStringNotMatchCase::FindStringNotMatchCase(const string &Target)
+    : m_Target(Target) {}
 
-}
-
-FindStringNotMatchCase::~FindStringNotMatchCase()
-{
-
-}
+FindStringNotMatchCase::~FindStringNotMatchCase() {}

@@ -11,18 +11,16 @@
 
 #include "cCommand.h"
 
-class cCmdObjAdd : public cCommand  
-{
+class cCmdObjAdd : public cCommand {
 public:
-	cCmdObjAdd(iCommandMachine* p);
-	virtual ~cCmdObjAdd();
+  cCmdObjAdd(iCommandMachine *p);
+  virtual ~cCmdObjAdd();
 
-	stCommand_AddObj& GetParam()
-	{return  *( (stCommand_AddObj*) GetBuffer() );};
+  stCommand_AddObj &GetParam() { return *((stCommand_AddObj *)GetBuffer()); };
 
-	eDoType Redo();
-	eDoType Undo();
-	eDoType Do() ;
+  eDoType Redo();
+  eDoType Undo();
+  eDoType Do();
 };
 
 #endif // !defined(AFX_CCMDOBJADD_H__5103B4FD_1F98_4635_9B92_BFCFDECE626A__INCLUDED_)

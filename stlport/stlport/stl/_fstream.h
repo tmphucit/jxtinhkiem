@@ -2,19 +2,19 @@
  * Copyright (c) 1999
  * Silicon Graphics Computer Systems, Inc.
  *
- * Copyright (c) 1999 
+ * Copyright (c) 1999
  * Boris Fomitchev
  *
  * This material is provided "as is", with absolutely no warranty expressed
  * or implied. Any use is at your own risk.
  *
- * Permission to use or copy this software for any purpose is hereby granted 
+ * Permission to use or copy this software for any purpose is hereby granted
  * without fee, provided the above notices are retained on all copies.
  * Permission to modify the code and to distribute modified code is granted,
  * provided the above notices are retained, and a notice that the code was
  * modified is included with the above copyright notice.
  *
- */ 
+ */
 // This header defines classes basic_filebuf, basic_ifstream,
 // basic_ofstream, and basic_fstream.  These classes represent
 // streambufs and streams whose sources or destinations are files.
@@ -27,7 +27,7 @@
 #endif
 
 #ifndef _STLP_INTERNAL_STREAMBUF
-# include <stl/_streambuf.h>
+#include <stl/_streambuf.h>
 #endif
 
 #ifndef _STLP_INTERNAL_ISTREAM_H
@@ -42,34 +42,33 @@
 #include <stl/_stdio_file.h>
 #endif
 
-#if !defined (_STLP_USE_UNIX_IO) && !defined(_STLP_USE_WIN32_IO) \
-    && ! defined (_STLP_USE_UNIX_EMULATION_IO) && !defined (_STLP_USE_STDIO_IO)
+#if !defined(_STLP_USE_UNIX_IO) && !defined(_STLP_USE_WIN32_IO) &&             \
+    !defined(_STLP_USE_UNIX_EMULATION_IO) && !defined(_STLP_USE_STDIO_IO)
 
-# if defined (_STLP_UNIX)  || defined (__CYGWIN__) || defined (__amigaos__)
+#if defined(_STLP_UNIX) || defined(__CYGWIN__) || defined(__amigaos__)
 // open/close/read/write
-#  define _STLP_USE_UNIX_IO
-# elif defined (_STLP_WIN32)  && ! defined (__CYGWIN__)
+#define _STLP_USE_UNIX_IO
+#elif defined(_STLP_WIN32) && !defined(__CYGWIN__)
 // CreateFile/ReadFile/WriteFile
-#  define _STLP_USE_WIN32_IO
-# elif defined (_STLP_WIN16) || defined (_STLP_WIN32) || defined (_STLP_MAC)
+#define _STLP_USE_WIN32_IO
+#elif defined(_STLP_WIN16) || defined(_STLP_WIN32) || defined(_STLP_MAC)
 // _open/_read/_write
-#  define _STLP_USE_UNIX_EMULATION_IO
-# else
+#define _STLP_USE_UNIX_EMULATION_IO
+#else
 // fopen/fread/fwrite
-#  define _STLP_USE_STDIO_IO
-# endif /* _STLP_UNIX */
+#define _STLP_USE_STDIO_IO
+#endif /* _STLP_UNIX */
 
 #endif /* mode selection */
 
-
-#if defined (_STLP_USE_WIN32_IO)
-typedef void* _STLP_fd;
-#elif defined (_STLP_USE_UNIX_EMULATION_IO) || defined (_STLP_USE_STDIO_IO) || defined (_STLP_USE_UNIX_IO)
+#if defined(_STLP_USE_WIN32_IO)
+typedef void *_STLP_fd;
+#elif defined(_STLP_USE_UNIX_EMULATION_IO) || defined(_STLP_USE_STDIO_IO) ||   \
+    defined(_STLP_USE_UNIX_IO)
 typedef int _STLP_fd;
 #else
 #error "Configure i/o !"
 #endif
-
 
 _STLP_BEGIN_NAMESPACE
 
@@ -78,23 +77,23 @@ _STLP_BEGIN_NAMESPACE
 // dependent code from basic_filebuf<>.
 
 class _STLP_CLASS_DECLSPEC _Filebuf_base {
-public:                      // Opening and closing files.
+public: // Opening and closing files.
   _Filebuf_base();
 
-  bool _M_open(const char*, ios_base::openmode, long __protection);
-  bool _M_open(const char*, ios_base::openmode);
+  bool _M_open(const char *, ios_base::openmode, long __protection);
+  bool _M_open(const char *, ios_base::openmode);
   bool _M_open(int __id, ios_base::openmode = ios_base::__default_mode);
   bool _M_close();
 
-public:                      // Low-level I/O, like Unix read/write
-  ptrdiff_t _M_read(char* __buf,  ptrdiff_t __n);
+public: // Low-level I/O, like Unix read/write
+  ptrdiff_t _M_read(char *__buf, ptrdiff_t __n);
   streamoff _M_seek(streamoff __offset, ios_base::seekdir __dir);
   streamoff _M_file_size();
-  bool _M_write(char* __buf,  ptrdiff_t __n);
+  bool _M_write(char *__buf, ptrdiff_t __n);
 
-public:                      // Memory-mapped I/O.
-  void* _M_mmap(streamoff __offset, streamoff __len);
-  void _M_unmap(void* __mmap_base, streamoff __len);
+public: // Memory-mapped I/O.
+  void *_M_mmap(streamoff __offset, streamoff __len);
+  void _M_unmap(void *__mmap_base, streamoff __len);
 
 public:
   // Returns a value n such that, if pos is the file pointer at the
@@ -104,57 +103,56 @@ public:
   // In Windows text mode, however, it bumps the file position by n + m,
   // where m is the number of newlines in the range.  That's because an
   // internal \n corresponds to an external two-character sequence.
-  streamoff _M_get_offset(char* __first, char* __last) {
-#if defined (_STLP_UNIX) || defined (_STLP_MAC)
+  streamoff _M_get_offset(char *__first, char *__last) {
+#if defined(_STLP_UNIX) || defined(_STLP_MAC)
     return __last - __first;
 #else // defined (_STLP_WIN32) || defined (_STLP_WIN16) || defined (_STLP_DOS)
-    return ( (_M_openmode & ios_base::binary) != 0 )
-      ? (__last - __first)
-      : count(__first, __last, '\n') + (__last - __first);
+    return ((_M_openmode & ios_base::binary) != 0)
+               ? (__last - __first)
+               : count(__first, __last, '\n') + (__last - __first);
 #endif
   }
 
-  // Returns true if we're in binary mode or if we're using an OS or file 
+  // Returns true if we're in binary mode or if we're using an OS or file
   // system where there is no distinction between text and binary mode.
   bool _M_in_binary_mode() const {
-# if defined (_STLP_UNIX) || defined (_STLP_MAC)  || defined(__BEOS__) || defined (__amigaos__)
+#if defined(_STLP_UNIX) || defined(_STLP_MAC) || defined(__BEOS__) ||          \
+    defined(__amigaos__)
     return true;
-# elif defined (_STLP_WIN32) || defined (_STLP_WIN16) || defined (_STLP_DOS) || defined (_STLP_VM)
+#elif defined(_STLP_WIN32) || defined(_STLP_WIN16) || defined(_STLP_DOS) ||    \
+    defined(_STLP_VM)
     return (_M_openmode & ios_base::binary) != 0;
-# else 
-#   error "Port!"
-# endif
+#else
+#error "Port!"
+#endif
   }
 
-protected:                      // Static data members.
+protected: // Static data members.
   static size_t _M_page_size;
 
-protected:                      // Data members.
+protected: // Data members.
   _STLP_fd _M_file_id;
-# ifdef _STLP_USE_STDIO_IO
+#ifdef _STLP_USE_STDIO_IO
   // for stdio, the whole FILE* is being kept here
-  FILE* _M_file;
-# endif
-# ifdef _STLP_USE_WIN32_IO
-  void* _M_view_id; 
-# endif
+  FILE *_M_file;
+#endif
+#ifdef _STLP_USE_WIN32_IO
+  void *_M_view_id;
+#endif
 
-  ios_base::openmode _M_openmode     ;
-  unsigned char      _M_is_open      ;
-  unsigned char      _M_should_close ;
-  unsigned char      _M_regular_file ;
+  ios_base::openmode _M_openmode;
+  unsigned char _M_is_open;
+  unsigned char _M_should_close;
+  unsigned char _M_regular_file;
 
-public :
-  static size_t  _STLP_CALL __page_size() { return _M_page_size; } 
-  int  __o_mode() const { return (int)_M_openmode; } 
-  bool __is_open()      const { return (_M_is_open !=0 ); } 
-  bool __should_close() const { return (_M_should_close != 0); } 
+public:
+  static size_t _STLP_CALL __page_size() { return _M_page_size; }
+  int __o_mode() const { return (int)_M_openmode; }
+  bool __is_open() const { return (_M_is_open != 0); }
+  bool __should_close() const { return (_M_should_close != 0); }
   bool __regular_file() const { return (_M_regular_file != 0); }
   _STLP_fd __get_fd() const { return _M_file_id; }
 };
-
-
-
 
 //----------------------------------------------------------------------
 // Class basic_filebuf<>.
@@ -162,83 +160,81 @@ public :
 // Forward declaration of two helper classes.
 template <class _Traits> class _Noconv_input;
 _STLP_TEMPLATE_NULL
-class _Noconv_input<char_traits<char> >;
+class _Noconv_input<char_traits<char>>;
 
 template <class _Traits> class _Noconv_output;
 _STLP_TEMPLATE_NULL
-class _Noconv_output< char_traits<char> >;
+class _Noconv_output<char_traits<char>>;
 
 // There is a specialized version of underflow, for basic_filebuf<char>,
 // in fstream.cxx.
 
-template <class _CharT, class _Traits>
-class _Underflow;
+template <class _CharT, class _Traits> class _Underflow;
 
- _STLP_TEMPLATE_NULL class _Underflow< char, char_traits<char> >;
+_STLP_TEMPLATE_NULL class _Underflow<char, char_traits<char>>;
 
 template <class _CharT, class _Traits>
-class basic_filebuf : public basic_streambuf<_CharT, _Traits>
-{
-public:                         // Types.
-  typedef _CharT                     char_type;
+class basic_filebuf : public basic_streambuf<_CharT, _Traits> {
+public: // Types.
+  typedef _CharT char_type;
   typedef typename _Traits::int_type int_type;
   typedef typename _Traits::pos_type pos_type;
   typedef typename _Traits::off_type off_type;
-  typedef _Traits                    traits_type;
+  typedef _Traits traits_type;
 
   typedef typename _Traits::state_type _State_type;
   typedef basic_streambuf<_CharT, _Traits> _Base;
   typedef basic_filebuf<_CharT, _Traits> _Self;
 
-public:                         // Constructors, destructor.
-  basic_filebuf();  
+public: // Constructors, destructor.
+  basic_filebuf();
   ~basic_filebuf();
-  
-public:                         // Opening and closing files.
+
+public: // Opening and closing files.
   bool is_open() const { return _M_base.__is_open(); }
 
-  _Self* open(const char* __s, ios_base::openmode __m) {
+  _Self *open(const char *__s, ios_base::openmode __m) {
     return _M_base._M_open(__s, __m) ? this : 0;
   }
 
-# ifndef _STLP_NO_EXTENSIONS
+#ifndef _STLP_NO_EXTENSIONS
   // These two version of open() and file descriptor getter are extensions.
-  _Self* open(const char* __s, ios_base::openmode __m,
-		      long __protection) {
+  _Self *open(const char *__s, ios_base::openmode __m, long __protection) {
     return _M_base._M_open(__s, __m, __protection) ? this : 0;
   }
-  
+
   _STLP_fd fd() const { return _M_base.__get_fd(); }
 
-  _Self* open(int __id, ios_base::openmode _Init_mode = ios_base::__default_mode) {
+  _Self *open(int __id,
+              ios_base::openmode _Init_mode = ios_base::__default_mode) {
     return this->_M_open(__id, _Init_mode);
   }
-# endif
+#endif
 
-  _Self* _M_open(int __id, ios_base::openmode _Init_mode = ios_base::__default_mode) {
+  _Self *_M_open(int __id,
+                 ios_base::openmode _Init_mode = ios_base::__default_mode) {
     return _M_base._M_open(__id, _Init_mode) ? this : 0;
   }
 
-  _Self* close();
+  _Self *close();
 
-protected:                      // Virtual functions from basic_streambuf.
+protected: // Virtual functions from basic_streambuf.
   virtual streamsize showmanyc();
   virtual int_type underflow();
 
   virtual int_type pbackfail(int_type = traits_type::eof());
   virtual int_type overflow(int_type = traits_type::eof());
 
-  virtual basic_streambuf<_CharT, _Traits>* setbuf(char_type*, streamsize);
+  virtual basic_streambuf<_CharT, _Traits> *setbuf(char_type *, streamsize);
   virtual pos_type seekoff(off_type, ios_base::seekdir,
                            ios_base::openmode = ios_base::in | ios_base::out);
   virtual pos_type seekpos(pos_type,
                            ios_base::openmode = ios_base::in | ios_base::out);
 
   virtual int sync();
-  virtual void imbue(const locale&);
+  virtual void imbue(const locale &);
 
-private:                        // Helper functions.
-
+private: // Helper functions.
   // Precondition: we are currently in putback input mode.  Effect:
   // switches back to ordinary input mode.
   void _M_exit_putback_mode() {
@@ -258,7 +254,7 @@ private:                        // Helper functions.
   int_type _M_output_error();
   bool _M_unshift();
 
-  bool _M_allocate_buffers(_CharT* __buf, streamsize __n);
+  bool _M_allocate_buffers(_CharT *__buf, streamsize __n);
   bool _M_allocate_buffers();
   void _M_deallocate_buffers();
 
@@ -273,142 +269,132 @@ private:                        // Helper functions.
       this->setg(0, 0, 0);
       this->setp(0, 0);
     }
-    
+
     pos_type __result(__off);
     __result.state(__state);
     return __result;
   }
-  
+
   bool _M_seek_init(bool __do_unshift);
 
-  void _M_setup_codecvt(const locale&);
+  void _M_setup_codecvt(const locale &);
 
-private:                        // Data members used in all modes.
-
+private: // Data members used in all modes.
   _Filebuf_base _M_base;
 
-private:                        // Locale-related information.
-
+private: // Locale-related information.
   unsigned char _M_constant_width;
   unsigned char _M_always_noconv;
-  
+
   // private:                        // Mode flags.
-  unsigned char _M_int_buf_dynamic;  // True if internal buffer is heap allocated,
+  unsigned char
+      _M_int_buf_dynamic; // True if internal buffer is heap allocated,
   // false if it was supplied by the user.
   unsigned char _M_in_input_mode;
   unsigned char _M_in_output_mode;
   unsigned char _M_in_error_mode;
   unsigned char _M_in_putback_mode;
-  
+
   // Internal buffer: characters seen by the filebuf's clients.
-  _CharT* _M_int_buf;
-  _CharT* _M_int_buf_EOS;
-  
+  _CharT *_M_int_buf;
+  _CharT *_M_int_buf_EOS;
+
   // External buffer: characters corresponding to the external file.
-  char* _M_ext_buf;
-  char* _M_ext_buf_EOS;
+  char *_M_ext_buf;
+  char *_M_ext_buf_EOS;
 
   // The range [_M_ext_buf, _M_ext_buf_converted) contains the external
   // characters corresponding to the sequence in the internal buffer.  The
   // range [_M_ext_buf_converted, _M_ext_buf_end) contains characters that
   // have been read into the external buffer but have not been converted
   // to an internal sequence.
-  char* _M_ext_buf_converted;
-  char* _M_ext_buf_end;
+  char *_M_ext_buf_converted;
+  char *_M_ext_buf_end;
 
   // State corresponding to beginning of internal buffer.
   _State_type _M_state;
 
-private:                        // Data members used only in input mode.
-
+private: // Data members used only in input mode.
   // Similar to _M_state except that it corresponds to
   // the end of the internal buffer instead of the beginning.
   _State_type _M_end_state;
 
   // This is a null pointer unless we are in mmap input mode.
-  void*     _M_mmap_base;
+  void *_M_mmap_base;
   streamoff _M_mmap_len;
 
-private:                        // Data members used only in putback mode.
-  _CharT* _M_saved_eback;
-  _CharT* _M_saved_gptr;
-  _CharT* _M_saved_egptr;
+private: // Data members used only in putback mode.
+  _CharT *_M_saved_eback;
+  _CharT *_M_saved_gptr;
+  _CharT *_M_saved_egptr;
 
   typedef codecvt<_CharT, char, _State_type> _Codecvt;
-  const _Codecvt* _M_codecvt;
+  const _Codecvt *_M_codecvt;
 
-  int _M_width;                 // Width of the encoding (if constant), else 1
-  int _M_max_width;             // Largest possible width of single character.
-
+  int _M_width;     // Width of the encoding (if constant), else 1
+  int _M_max_width; // Largest possible width of single character.
 
   enum { _S_pback_buf_size = 8 };
   _CharT _M_pback_buf[_S_pback_buf_size];
 
   // for _Noconv_output
 public:
-  bool _M_write(char* __buf,  ptrdiff_t __n) {return _M_base._M_write(__buf, __n); }
+  bool _M_write(char *__buf, ptrdiff_t __n) {
+    return _M_base._M_write(__buf, __n);
+  }
 
 public:
-  int_type
-  _M_do_noconv_input() {
+  int_type _M_do_noconv_input() {
     _M_ext_buf_converted = _M_ext_buf_end;
-    this->setg((char_type*)_M_ext_buf, (char_type*)_M_ext_buf, (char_type*)_M_ext_buf_end);
+    this->setg((char_type *)_M_ext_buf, (char_type *)_M_ext_buf,
+               (char_type *)_M_ext_buf_end);
     return traits_type::to_int_type(*_M_ext_buf);
   }
 };
 
-# if defined (_STLP_USE_TEMPLATE_EXPORT)
-_STLP_EXPORT_TEMPLATE_CLASS basic_filebuf<char, char_traits<char> >;
-#  if ! defined (_STLP_NO_WCHAR_T)
-_STLP_EXPORT_TEMPLATE_CLASS basic_filebuf<wchar_t, char_traits<wchar_t> >;
-#  endif
-# endif /* _STLP_USE_TEMPLATE_EXPORT */
+#if defined(_STLP_USE_TEMPLATE_EXPORT)
+_STLP_EXPORT_TEMPLATE_CLASS basic_filebuf<char, char_traits<char>>;
+#if !defined(_STLP_NO_WCHAR_T)
+_STLP_EXPORT_TEMPLATE_CLASS basic_filebuf<wchar_t, char_traits<wchar_t>>;
+#endif
+#endif /* _STLP_USE_TEMPLATE_EXPORT */
 
 // public:
 // helper class.
-template <class _CharT>
-struct _Filebuf_Tmp_Buf
-{
-  _CharT* _M_ptr;
+template <class _CharT> struct _Filebuf_Tmp_Buf {
+  _CharT *_M_ptr;
   _Filebuf_Tmp_Buf(ptrdiff_t __n) : _M_ptr(0) { _M_ptr = new _CharT[__n]; }
   ~_Filebuf_Tmp_Buf() { delete[] _M_ptr; }
 };
-
 
 //
 // This class had to be designed very carefully to work
 // with Visual C++.
 //
-template <class _Traits>
-class _Noconv_output {
+template <class _Traits> class _Noconv_output {
 public:
   typedef typename _Traits::char_type char_type;
-  static bool  _STLP_CALL _M_doit(basic_filebuf<char_type, _Traits >*, 
-                                  char_type*, char_type*)
-  {
-      return false; 
+  static bool _STLP_CALL _M_doit(basic_filebuf<char_type, _Traits> *,
+                                 char_type *, char_type *) {
+    return false;
   }
 };
 
 _STLP_TEMPLATE_NULL
-class _STLP_CLASS_DECLSPEC _Noconv_output< char_traits<char> > {
+class _STLP_CLASS_DECLSPEC _Noconv_output<char_traits<char>> {
 public:
-  static bool  _STLP_CALL
-  _M_doit(basic_filebuf<char, char_traits<char> >* __buf, 
-          char* __first, char* __last)
-  {
+  static bool _STLP_CALL _M_doit(basic_filebuf<char, char_traits<char>> *__buf,
+                                 char *__first, char *__last) {
     ptrdiff_t __n = __last - __first;
     if (__buf->_M_write(__first, __n)) {
       return true;
-    }
-    else
-      return false; 
+    } else
+      return false;
   }
 };
 
 //----------------------------------------------------------------------
 // basic_filebuf<> helper functions.
-
 
 //----------------------------------------
 // Helper functions for switching between modes.
@@ -417,24 +403,22 @@ public:
 // This class had to be designed very carefully to work
 // with Visual C++.
 //
-template <class _Traits>
-class _Noconv_input {
+template <class _Traits> class _Noconv_input {
 public:
   typedef typename _Traits::int_type int_type;
   typedef typename _Traits::char_type char_type;
 
   static inline int_type _STLP_CALL
-  _M_doit(basic_filebuf<char_type, _Traits>*) 
-  {
+  _M_doit(basic_filebuf<char_type, _Traits> *) {
     return 0;
   }
 };
 
 _STLP_TEMPLATE_NULL
-class _Noconv_input<char_traits<char> > {
+class _Noconv_input<char_traits<char>> {
 public:
   static inline int _STLP_CALL
-  _M_doit(basic_filebuf<char, char_traits<char> >* __buf)  {
+  _M_doit(basic_filebuf<char, char_traits<char>> *__buf) {
     return __buf->_M_do_noconv_input();
   }
 };
@@ -442,39 +426,38 @@ public:
 // underflow() may be called for one of two reasons.  (1) We've
 // been going through the special putback buffer, and we need to move back
 // to the regular internal buffer.  (2) We've exhausted the internal buffer,
-// and we need to replentish it.  
-template <class _CharT, class _Traits>
-class _Underflow {
+// and we need to replentish it.
+template <class _CharT, class _Traits> class _Underflow {
 public:
   typedef typename _Traits::int_type int_type;
-  typedef _Traits                    traits_type;
-  
-  static int_type _STLP_CALL _M_doit(basic_filebuf<_CharT, _Traits>* __this);
-};
+  typedef _Traits traits_type;
 
+  static int_type _STLP_CALL _M_doit(basic_filebuf<_CharT, _Traits> *__this);
+};
 
 // Specialization of underflow: if the character type is char, maybe
 // we can use mmap instead of read.
 _STLP_TEMPLATE_NULL
-class _STLP_CLASS_DECLSPEC _Underflow< char, char_traits<char> > {
+class _STLP_CLASS_DECLSPEC _Underflow<char, char_traits<char>> {
 public:
   typedef char_traits<char>::int_type int_type;
   typedef char_traits<char> traits_type;
-  static  int _STLP_CALL _M_doit(basic_filebuf<char, traits_type >* __this);
+  static int _STLP_CALL _M_doit(basic_filebuf<char, traits_type> *__this);
 };
 
 // There is a specialized version of underflow, for basic_filebuf<char>,
 // in fstream.cxx.
 
 template <class _CharT, class _Traits>
-_STLP_TYPENAME_ON_RETURN_TYPE _Underflow<_CharT, _Traits>::int_type // _STLP_CALL
- _Underflow<_CharT, _Traits>::_M_doit(basic_filebuf<_CharT, _Traits>* __this)
-{
+_STLP_TYPENAME_ON_RETURN_TYPE
+    _Underflow<_CharT, _Traits>::int_type // _STLP_CALL
+    _Underflow<_CharT, _Traits>::_M_doit(
+        basic_filebuf<_CharT, _Traits> *__this) {
   if (!__this->_M_in_input_mode) {
     if (!__this->_M_switch_to_input_mode())
       return traits_type::eof();
   }
-  
+
   else if (__this->_M_in_putback_mode) {
     __this->_M_exit_putback_mode();
     if (__this->gptr() != __this->egptr()) {
@@ -482,75 +465,74 @@ _STLP_TYPENAME_ON_RETURN_TYPE _Underflow<_CharT, _Traits>::int_type // _STLP_CAL
       return __c;
     }
   }
-  
+
   return __this->_M_underflow_aux();
 }
 
-#if defined( _STLP_USE_TEMPLATE_EXPORT ) && ! defined (_STLP_NO_WCHAR_T)
-_STLP_EXPORT_TEMPLATE_CLASS _Underflow<wchar_t, char_traits<wchar_t> >;
+#if defined(_STLP_USE_TEMPLATE_EXPORT) && !defined(_STLP_NO_WCHAR_T)
+_STLP_EXPORT_TEMPLATE_CLASS _Underflow<wchar_t, char_traits<wchar_t>>;
 #endif
-
 
 //----------------------------------------------------------------------
 // Class basic_ifstream<>
 
 template <class _CharT, class _Traits>
-class basic_ifstream : public basic_istream<_CharT, _Traits>
-{
-public:                         // Types
-  typedef _CharT                     char_type;
+class basic_ifstream : public basic_istream<_CharT, _Traits> {
+public: // Types
+  typedef _CharT char_type;
   typedef typename _Traits::int_type int_type;
   typedef typename _Traits::pos_type pos_type;
   typedef typename _Traits::off_type off_type;
-  typedef _Traits                    traits_type;
+  typedef _Traits traits_type;
 
-  typedef basic_ios<_CharT, _Traits>                _Basic_ios;
-  typedef basic_istream<_CharT, _Traits>            _Base;
-  typedef basic_filebuf<_CharT, _Traits>            _Buf;
+  typedef basic_ios<_CharT, _Traits> _Basic_ios;
+  typedef basic_istream<_CharT, _Traits> _Base;
+  typedef basic_filebuf<_CharT, _Traits> _Buf;
 
-public:                         // Constructors, destructor.
-
-  basic_ifstream() : 
-    basic_ios<_CharT, _Traits>(),  basic_istream<_CharT, _Traits>(0), _M_buf() {
-      this->init(&_M_buf);
+public: // Constructors, destructor.
+  basic_ifstream()
+      : basic_ios<_CharT, _Traits>(), basic_istream<_CharT, _Traits>(0),
+        _M_buf() {
+    this->init(&_M_buf);
   }
 
-  explicit basic_ifstream(const char* __s, ios_base::openmode __mod = ios_base::in) : 
-    basic_ios<_CharT, _Traits>(),  basic_istream<_CharT, _Traits>(0),
-    _M_buf() {
-      this->init(&_M_buf);
-      if (!_M_buf.open(__s, __mod | ios_base::in))
-	this->setstate(ios_base::failbit);
+  explicit basic_ifstream(const char *__s,
+                          ios_base::openmode __mod = ios_base::in)
+      : basic_ios<_CharT, _Traits>(), basic_istream<_CharT, _Traits>(0),
+        _M_buf() {
+    this->init(&_M_buf);
+    if (!_M_buf.open(__s, __mod | ios_base::in))
+      this->setstate(ios_base::failbit);
   }
 
-# ifndef _STLP_NO_EXTENSIONS
-  explicit basic_ifstream(int __id, ios_base::openmode __mod = ios_base::in) : 
-    basic_ios<_CharT, _Traits>(),  basic_istream<_CharT, _Traits>(0), _M_buf() {
+#ifndef _STLP_NO_EXTENSIONS
+  explicit basic_ifstream(int __id, ios_base::openmode __mod = ios_base::in)
+      : basic_ios<_CharT, _Traits>(), basic_istream<_CharT, _Traits>(0),
+        _M_buf() {
     this->init(&_M_buf);
     if (!_M_buf.open(__id, __mod | ios_base::in))
       this->setstate(ios_base::failbit);
   }
-  basic_ifstream(const char* __s, ios_base::openmode __m,
-		 long __protection) : 
-    basic_ios<_CharT, _Traits>(),  basic_istream<_CharT, _Traits>(0), _M_buf() {
+  basic_ifstream(const char *__s, ios_base::openmode __m, long __protection)
+      : basic_ios<_CharT, _Traits>(), basic_istream<_CharT, _Traits>(0),
+        _M_buf() {
     this->init(&_M_buf);
     if (!_M_buf.open(__s, __m | ios_base::in, __protection))
-      this->setstate(ios_base::failbit);  
+      this->setstate(ios_base::failbit);
   }
-  
-# endif
+
+#endif
 
   ~basic_ifstream() {}
 
-public:                         // File and buffer operations.
-  basic_filebuf<_CharT, _Traits>* rdbuf() const
-    { return __CONST_CAST(_Buf*,&_M_buf); }
-
-  bool is_open() {
-    return this->rdbuf()->is_open();
+public: // File and buffer operations.
+  basic_filebuf<_CharT, _Traits> *rdbuf() const {
+    return __CONST_CAST(_Buf *, &_M_buf);
   }
 
-  void open(const char* __s, ios_base::openmode __mod = ios_base::in) {
+  bool is_open() { return this->rdbuf()->is_open(); }
+
+  void open(const char *__s, ios_base::openmode __mod = ios_base::in) {
     if (!this->rdbuf()->open(__s, __mod | ios_base::in))
       this->setstate(ios_base::failbit);
   }
@@ -560,70 +542,68 @@ public:                         // File and buffer operations.
       this->setstate(ios_base::failbit);
   }
 
-
 private:
   basic_filebuf<_CharT, _Traits> _M_buf;
 };
-
 
 //----------------------------------------------------------------------
 // Class basic_ofstream<>
 
 template <class _CharT, class _Traits>
-class basic_ofstream : public basic_ostream<_CharT, _Traits>
-{
-public:                         // Types
-  typedef _CharT                     char_type;
+class basic_ofstream : public basic_ostream<_CharT, _Traits> {
+public: // Types
+  typedef _CharT char_type;
   typedef typename _Traits::int_type int_type;
   typedef typename _Traits::pos_type pos_type;
   typedef typename _Traits::off_type off_type;
-  typedef _Traits                    traits_type;
+  typedef _Traits traits_type;
 
-  typedef basic_ios<_CharT, _Traits>                _Basic_ios;
-  typedef basic_ostream<_CharT, _Traits>            _Base;
-  typedef basic_filebuf<_CharT, _Traits>            _Buf;
+  typedef basic_ios<_CharT, _Traits> _Basic_ios;
+  typedef basic_ostream<_CharT, _Traits> _Base;
+  typedef basic_filebuf<_CharT, _Traits> _Buf;
 
-public:                         // Constructors, destructor.
-  basic_ofstream() : 
-    basic_ios<_CharT, _Traits>(), 
-    basic_ostream<_CharT, _Traits>(0), _M_buf() {
-      this->init(&_M_buf);
+public: // Constructors, destructor.
+  basic_ofstream()
+      : basic_ios<_CharT, _Traits>(), basic_ostream<_CharT, _Traits>(0),
+        _M_buf() {
+    this->init(&_M_buf);
   }
-  explicit basic_ofstream(const char* __s, ios_base::openmode __mod = ios_base::out) 
-    : basic_ios<_CharT, _Traits>(), basic_ostream<_CharT, _Traits>(0),
-      _M_buf() {
-	this->init(&_M_buf);
-	if (!_M_buf.open(__s, __mod | ios_base::out))
-	  this->setstate(ios_base::failbit);
+  explicit basic_ofstream(const char *__s,
+                          ios_base::openmode __mod = ios_base::out)
+      : basic_ios<_CharT, _Traits>(), basic_ostream<_CharT, _Traits>(0),
+        _M_buf() {
+    this->init(&_M_buf);
+    if (!_M_buf.open(__s, __mod | ios_base::out))
+      this->setstate(ios_base::failbit);
   }
 
-# ifndef _STLP_NO_EXTENSIONS
-  explicit basic_ofstream(int __id, ios_base::openmode __mod = ios_base::out) 
-    : basic_ios<_CharT, _Traits>(), basic_ostream<_CharT, _Traits>(0),
-    _M_buf() {
- 	this->init(&_M_buf);
- 	if (!_M_buf.open(__id, __mod | ios_base::out))
- 	  this->setstate(ios_base::failbit);
+#ifndef _STLP_NO_EXTENSIONS
+  explicit basic_ofstream(int __id, ios_base::openmode __mod = ios_base::out)
+      : basic_ios<_CharT, _Traits>(), basic_ostream<_CharT, _Traits>(0),
+        _M_buf() {
+    this->init(&_M_buf);
+    if (!_M_buf.open(__id, __mod | ios_base::out))
+      this->setstate(ios_base::failbit);
   }
-  basic_ofstream(const char* __s, ios_base::openmode __m, long __protection) : 
-    basic_ios<_CharT, _Traits>(),  basic_ostream<_CharT, _Traits>(0), _M_buf() {
+  basic_ofstream(const char *__s, ios_base::openmode __m, long __protection)
+      : basic_ios<_CharT, _Traits>(), basic_ostream<_CharT, _Traits>(0),
+        _M_buf() {
     this->init(&_M_buf);
     if (!_M_buf.open(__s, __m | ios_base::out, __protection))
-      this->setstate(ios_base::failbit);  
+      this->setstate(ios_base::failbit);
   }
-# endif
-  
+#endif
+
   ~basic_ofstream() {}
 
-public:                         // File and buffer operations.
-  basic_filebuf<_CharT, _Traits>* rdbuf() const
-    { return __CONST_CAST(_Buf*,&_M_buf); } 
-
-  bool is_open() {
-    return this->rdbuf()->is_open();
+public: // File and buffer operations.
+  basic_filebuf<_CharT, _Traits> *rdbuf() const {
+    return __CONST_CAST(_Buf *, &_M_buf);
   }
 
-  void open(const char* __s, ios_base::openmode __mod= ios_base::out) {
+  bool is_open() { return this->rdbuf()->is_open(); }
+
+  void open(const char *__s, ios_base::openmode __mod = ios_base::out) {
     if (!this->rdbuf()->open(__s, __mod | ios_base::out))
       this->setstate(ios_base::failbit);
   }
@@ -637,68 +617,67 @@ private:
   basic_filebuf<_CharT, _Traits> _M_buf;
 };
 
-
 //----------------------------------------------------------------------
 // Class basic_fstream<>
 
 template <class _CharT, class _Traits>
-class basic_fstream : public basic_iostream<_CharT, _Traits>
-{
-public:                         // Types
-  typedef _CharT                     char_type;
+class basic_fstream : public basic_iostream<_CharT, _Traits> {
+public: // Types
+  typedef _CharT char_type;
   typedef typename _Traits::int_type int_type;
   typedef typename _Traits::pos_type pos_type;
   typedef typename _Traits::off_type off_type;
-  typedef _Traits                    traits_type;
+  typedef _Traits traits_type;
 
-  typedef basic_ios<_CharT, _Traits>                _Basic_ios;
-  typedef basic_iostream<_CharT, _Traits>           _Base;
-  typedef basic_filebuf<_CharT, _Traits>            _Buf;
+  typedef basic_ios<_CharT, _Traits> _Basic_ios;
+  typedef basic_iostream<_CharT, _Traits> _Base;
+  typedef basic_filebuf<_CharT, _Traits> _Buf;
 
-public:                         // Constructors, destructor.
-  
-  basic_fstream()   
-    : basic_ios<_CharT, _Traits>(), basic_iostream<_CharT, _Traits>(0), _M_buf() {
-      this->init(&_M_buf);
+public: // Constructors, destructor.
+  basic_fstream()
+      : basic_ios<_CharT, _Traits>(), basic_iostream<_CharT, _Traits>(0),
+        _M_buf() {
+    this->init(&_M_buf);
   }
 
-  explicit basic_fstream(const char* __s,
-                         ios_base::openmode __mod = ios_base::in | ios_base::out) :
-    basic_ios<_CharT, _Traits>(), basic_iostream<_CharT, _Traits>(0), _M_buf() {
-      this->init(&_M_buf);
-      if (!_M_buf.open(__s, __mod))
-	this->setstate(ios_base::failbit);
+  explicit basic_fstream(const char *__s,
+                         ios_base::openmode __mod = ios_base::in |
+                                                    ios_base::out)
+      : basic_ios<_CharT, _Traits>(), basic_iostream<_CharT, _Traits>(0),
+        _M_buf() {
+    this->init(&_M_buf);
+    if (!_M_buf.open(__s, __mod))
+      this->setstate(ios_base::failbit);
   }
 
-# ifndef _STLP_NO_EXTENSIONS
-  explicit basic_fstream(int __id,
-                         ios_base::openmode __mod = ios_base::in | ios_base::out) :
-    basic_ios<_CharT, _Traits>(), basic_iostream<_CharT, _Traits>(0), _M_buf() {
+#ifndef _STLP_NO_EXTENSIONS
+  explicit basic_fstream(int __id, ios_base::openmode __mod = ios_base::in |
+                                                              ios_base::out)
+      : basic_ios<_CharT, _Traits>(), basic_iostream<_CharT, _Traits>(0),
+        _M_buf() {
     this->init(&_M_buf);
     if (!_M_buf.open(__id, __mod))
       this->setstate(ios_base::failbit);
   }
-  basic_fstream(const char* __s, ios_base::openmode __m, long __protection) : 
-    basic_ios<_CharT, _Traits>(),  basic_iostream<_CharT, _Traits>(0), _M_buf() {
+  basic_fstream(const char *__s, ios_base::openmode __m, long __protection)
+      : basic_ios<_CharT, _Traits>(), basic_iostream<_CharT, _Traits>(0),
+        _M_buf() {
     this->init(&_M_buf);
     if (!_M_buf.open(__s, __m, __protection))
-      this->setstate(ios_base::failbit);  
+      this->setstate(ios_base::failbit);
   }
-# endif    
+#endif
   ~basic_fstream() {}
 
-public:                         // File and buffer operations.
-
-  basic_filebuf<_CharT, _Traits>* rdbuf() const
-    { return __CONST_CAST(_Buf*,&_M_buf); } 
-
-  bool is_open() {
-    return this->rdbuf()->is_open();
+public: // File and buffer operations.
+  basic_filebuf<_CharT, _Traits> *rdbuf() const {
+    return __CONST_CAST(_Buf *, &_M_buf);
   }
 
-  void open(const char* __s, 
-	    ios_base::openmode __mod = 
-	    ios_base::in | ios_base::out) {
+  bool is_open() { return this->rdbuf()->is_open(); }
+
+  void open(const char *__s,
+            ios_base::openmode __mod = ios_base::in | ios_base::out) {
     if (!this->rdbuf()->open(__s, __mod))
       this->setstate(ios_base::failbit);
   }
@@ -714,27 +693,26 @@ private:
 
 _STLP_END_NAMESPACE
 
-# if !defined (_STLP_LINK_TIME_INSTANTIATION)
-#  include <stl/_fstream.c>
-# endif
+#if !defined(_STLP_LINK_TIME_INSTANTIATION)
+#include <stl/_fstream.c>
+#endif
 
 _STLP_BEGIN_NAMESPACE
 
-# if defined (_STLP_USE_TEMPLATE_EXPORT)
-_STLP_EXPORT_TEMPLATE_CLASS basic_ifstream<char, char_traits<char> >;
-_STLP_EXPORT_TEMPLATE_CLASS basic_ofstream<char, char_traits<char> >;
-_STLP_EXPORT_TEMPLATE_CLASS basic_fstream<char, char_traits<char> >;
-#  if ! defined (_STLP_NO_WCHAR_T)
-_STLP_EXPORT_TEMPLATE_CLASS basic_ifstream<wchar_t, char_traits<wchar_t> >;
-_STLP_EXPORT_TEMPLATE_CLASS basic_ofstream<wchar_t, char_traits<wchar_t> >;
-_STLP_EXPORT_TEMPLATE_CLASS basic_fstream<wchar_t, char_traits<wchar_t> >;
-#  endif
-# endif /* _STLP_USE_TEMPLATE_EXPORT */
+#if defined(_STLP_USE_TEMPLATE_EXPORT)
+_STLP_EXPORT_TEMPLATE_CLASS basic_ifstream<char, char_traits<char>>;
+_STLP_EXPORT_TEMPLATE_CLASS basic_ofstream<char, char_traits<char>>;
+_STLP_EXPORT_TEMPLATE_CLASS basic_fstream<char, char_traits<char>>;
+#if !defined(_STLP_NO_WCHAR_T)
+_STLP_EXPORT_TEMPLATE_CLASS basic_ifstream<wchar_t, char_traits<wchar_t>>;
+_STLP_EXPORT_TEMPLATE_CLASS basic_ofstream<wchar_t, char_traits<wchar_t>>;
+_STLP_EXPORT_TEMPLATE_CLASS basic_fstream<wchar_t, char_traits<wchar_t>>;
+#endif
+#endif /* _STLP_USE_TEMPLATE_EXPORT */
 
 _STLP_END_NAMESPACE
 
 #endif /* _STLP_FSTREAM */
-
 
 // Local Variables:
 // mode:C++

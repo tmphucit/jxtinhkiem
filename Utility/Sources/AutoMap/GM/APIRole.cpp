@@ -5,98 +5,86 @@
 //	文件说明		:	Role API 的工具类实现
 //////////////////////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
+#include "APIRole.h"
 #include "GM.h"
 #include "GMCore.h"
 #include "GMMessages.h"
-#include "APIRole.h"
+#include "stdafx.h"
 
-KRoleApiTool::KRoleApiTool()
-{
-	m_pGMCoreRef = NULL;
+KRoleApiTool::KRoleApiTool() { m_pGMCoreRef = NULL; }
+
+void KRoleApiTool::Init(KGameMasterCore *pGMCore, LPCSTR strAccountName,
+                        LPCSTR strRoleName, LPCSTR strGameWorldName) {
+  ASSERT(strlen(strAccountName));
+  ASSERT(strlen(strRoleName));
+  ASSERT(strlen(strGameWorldName));
+  m_pGMCoreRef = pGMCore;
+  m_strAccountName = strAccountName;
+  m_strRoleName = strRoleName;
+  m_strGameWorldName = strGameWorldName;
 }
 
-void KRoleApiTool::Init(KGameMasterCore* pGMCore, LPCSTR strAccountName,
-						LPCSTR strRoleName, LPCSTR strGameWorldName)
-{
-	ASSERT(strlen(strAccountName));
-	ASSERT(strlen(strRoleName));
-	ASSERT(strlen(strGameWorldName));
-	m_pGMCoreRef = pGMCore;
-	m_strAccountName = strAccountName;
-	m_strRoleName = strRoleName;
-	m_strGameWorldName = strGameWorldName;
+KRoleApiTool::~KRoleApiTool() {
+  // todo
 }
 
-KRoleApiTool::~KRoleApiTool()
-{
-	//todo
+STDMETHODIMP KRoleApiTool::get_Name(BSTR *pVal) {
+  AFX_MANAGE_STATE(AfxGetStaticModuleState())
+
+  *pVal = m_strRoleName.AllocSysString();
+
+  return S_OK;
 }
 
+STDMETHODIMP KRoleApiTool::SendMessageToThis(BSTR strMessage) {
+  AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
-STDMETHODIMP KRoleApiTool::get_Name(BSTR *pVal)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState())
-
-	*pVal = m_strRoleName.AllocSysString();
-
-	return S_OK;
+  return m_pGMCoreRef->SendMessage(m_strAccountName, m_strRoleName,
+                                   CString(strMessage));
 }
 
-STDMETHODIMP KRoleApiTool::SendMessageToThis(BSTR strMessage)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState())
+STDMETHODIMP KRoleApiTool::PutInJail(long Minutes) {
+  AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
-	return m_pGMCoreRef->SendMessage(m_strAccountName, m_strRoleName, CString(strMessage));
+  return m_pGMCoreRef->PutInJail(m_strAccountName, m_strRoleName,
+                                 m_strGameWorldName, Minutes);
 }
 
+STDMETHODIMP KRoleApiTool::FreeFromJail() {
+  AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
-STDMETHODIMP KRoleApiTool::PutInJail(long Minutes)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState())
-
-	return m_pGMCoreRef->PutInJail(m_strAccountName, m_strRoleName, m_strGameWorldName, Minutes);
+  return m_pGMCoreRef->FreeFromJail(m_strAccountName, m_strRoleName,
+                                    m_strGameWorldName);
 }
 
-STDMETHODIMP KRoleApiTool::FreeFromJail()
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState())
+STDMETHODIMP KRoleApiTool::ShutUp(long Minutes) {
+  AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
-	return m_pGMCoreRef->FreeFromJail(m_strAccountName, m_strRoleName, m_strGameWorldName);
+  // TODO: Add your implementation code here
+
+  return E_FAIL;
 }
 
-STDMETHODIMP KRoleApiTool::ShutUp(long Minutes)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState())
+STDMETHODIMP KRoleApiTool::get_PlayerAccountName(BSTR *pVal) {
+  AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
-	// TODO: Add your implementation code here
+  *pVal = m_strAccountName.AllocSysString();
 
-	return E_FAIL;
+  return S_OK;
 }
 
-STDMETHODIMP KRoleApiTool::get_PlayerAccountName(BSTR *pVal)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState())
+STDMETHODIMP KRoleApiTool::FreeChat() {
+  AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
-	*pVal = m_strAccountName.AllocSysString();
+  // TODO: Add your implementation code here
 
-	return S_OK;
+  return E_FAIL;
 }
 
-STDMETHODIMP KRoleApiTool::FreeChat()
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState())
+STDMETHODIMP KRoleApiTool::get_RoleInGameWorldName(BSTR *pVal) {
+  AFX_MANAGE_STATE(AfxGetStaticModuleState())
 
-	// TODO: Add your implementation code here
+  *pVal = m_strGameWorldName.AllocSysString();
 
-	return E_FAIL;
-}
-
-STDMETHODIMP KRoleApiTool::get_RoleInGameWorldName(BSTR *pVal)
-{
-	AFX_MANAGE_STATE(AfxGetStaticModuleState())
-
-	*pVal = m_strGameWorldName.AllocSysString();
-
-	return S_OK;
+  return S_OK;
 }

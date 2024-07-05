@@ -1,24 +1,23 @@
 // STLport regression testsuite component.
 // To compile as a separate example, please #define MAIN.
 
-#include <vector>
 #include <algorithm>
 #include <iostream>
 #include <iterator>
+#include <vector>
 
-#ifdef MAIN 
+#ifdef MAIN
 #define copy4_test main
 #endif
 
-#if !defined (STLPORT) || defined(__STL_USE_NAMESPACES)
+#if !defined(STLPORT) || defined(__STL_USE_NAMESPACES)
 using namespace std;
 #endif
-int copy4_test(int, char**)
-{
-  cout<<"Results of copy4_test:"<<endl;
+int copy4_test(int, char **) {
+  cout << "Results of copy4_test:" << endl;
   typedef vector<int> IVec;
   vector<int> v1(10);
-  for(int loc = 0; loc < v1.size(); loc++)
+  for (int loc = 0; loc < v1.size(); loc++)
     v1[loc] = loc;
   vector<int> v2;
   insert_iterator<IVec> i(v2, v2.begin());

@@ -6,109 +6,112 @@
 // Code:	边城浪子
 // Desc:	Obj Class
 //---------------------------------------------------------------------------
-#ifndef	KObjSetH
-#define	KObjSetH
+#ifndef KObjSetH
+#define KObjSetH
 
-#include "KObj.h"
 #include "KLinkArray.h"
+#include "KObj.h"
 
-#define		MAX_OBJ_NAME_COLOR		16
+#define MAX_OBJ_NAME_COLOR 16
 
-typedef struct
-{
-	char	m_szCopyRight[31];
-	BYTE	m_btVersion;
-	DWORD	m_dwNum;
+typedef struct {
+  char m_szCopyRight[31];
+  BYTE m_btVersion;
+  DWORD m_dwNum;
 } KObjMapDataHead;
 
-typedef struct
-{
-	int		m_nTemplateID;
-	int		m_nState;
-	int		m_nDir;
-	int		m_nPos[3];
-	DWORD	m_dwScriptLength;
-	char	m_szScript[80];
+typedef struct {
+  int m_nTemplateID;
+  int m_nState;
+  int m_nDir;
+  int m_nPos[3];
+  DWORD m_dwScriptLength;
+  char m_szScript[80];
 } KObjMapData;
 
-typedef struct
-{
-	int		m_nItemID;
-	int		m_nMoneyNum;
-	int		m_nItemWidth;
-	int		m_nItemHeight;
-	int		m_nColorID;
-	int		m_nMovieFlag;
-	int		m_nSoundFlag;
-	char	m_szName[FILE_NAME_LENGTH];
-	BOOL	m_bByPlayer;
+typedef struct {
+  int m_nItemID;
+  int m_nMoneyNum;
+  int m_nItemWidth;
+  int m_nItemHeight;
+  int m_nColorID;
+  int m_nMovieFlag;
+  int m_nSoundFlag;
+  char m_szName[FILE_NAME_LENGTH];
+  BOOL m_bByPlayer;
 } KObjItemInfo;
 
-class KObjSet
-{
+class KObjSet {
 public:
-	KTabFile	m_cTabFile;
-	KTabFile	m_cMoneyFile;
-	int			m_nObjID;
+  KTabFile m_cTabFile;
+  KTabFile m_cMoneyFile;
+  int m_nObjID;
 #ifndef _SERVER
-	DWORD		m_dwNameColor[MAX_OBJ_NAME_COLOR];
-	int			m_nShowNameFlag;		// 是否全部显示 item 和 money 类的 object 的名字在头顶上
+  DWORD m_dwNameColor[MAX_OBJ_NAME_COLOR];
+  int m_nShowNameFlag; // 是否全部显示 item 和 money 类的 object 的名字在头顶上
 #endif
 private:
-	KLinkArray	m_UseIdx;
-	KLinkArray	m_FreeIdx;
+  KLinkArray m_UseIdx;
+  KLinkArray m_FreeIdx;
+
 public:
-	KObjSet();
-	~KObjSet();
-	BOOL	Init();
-	int		GetID();
-	void	Remove(int nIdx);
+  KObjSet();
+  ~KObjSet();
+  BOOL Init();
+  int GetID();
+  void Remove(int nIdx);
 #ifdef _SERVER
-	// 添加一个obj，返回在obj数组中的位置编号（如果 < 0 ，失败）
-	int		Add(int nDataID, KMapPos MapPos, KObjItemInfo sItemInfo);
+  // 添加一个obj，返回在obj数组中的位置编号（如果 < 0 ，失败）
+  int Add(int nDataID, KMapPos MapPos, KObjItemInfo sItemInfo);
 
-	// 从obj数据文件中载入相应数据
-	int		AddData(int nDataID, KMapPos MapPos, int nMoneyNum = 0, int nItemID = 0, int nItemWidth = 0, int nItemHeight = 0);
+  // 从obj数据文件中载入相应数据
+  int AddData(int nDataID, KMapPos MapPos, int nMoneyNum = 0, int nItemID = 0,
+              int nItemWidth = 0, int nItemHeight = 0);
 
-	int		AddMoneyObj(KMapPos MapPos, int nMoneyNum);
-	int		AddPropObj(KMapPos MapPos, int nDataID, int nColorID);
+  int AddMoneyObj(KMapPos MapPos, int nMoneyNum);
+  int AddPropObj(KMapPos MapPos, int nDataID, int nColorID);
 
-	// 服务器端载入一个Region的所有Obj
-	BOOL	ServerLoadRegionObj(char *lpszMapPath, int nRegionX, int nRegionY, int nSubWorld);
+  // 服务器端载入一个Region的所有Obj
+  BOOL ServerLoadRegionObj(char *lpszMapPath, int nRegionX, int nRegionY,
+                           int nSubWorld);
 
-	// 服务器端载入一个Region的所有Obj
-	BOOL	ServerLoadRegionObj(int nSubWorld, KPakFile *pFile, DWORD dwDataSize);
+  // 服务器端载入一个Region的所有Obj
+  BOOL ServerLoadRegionObj(int nSubWorld, KPakFile *pFile, DWORD dwDataSize);
 
-	// 设定obj所带的物件信息，包括物件id，物件在装备栏中的长、宽
-	BOOL	SetObjItem(int nObjIndex, int nItemID, int nItemWidth, int nItemHeight);
+  // 设定obj所带的物件信息，包括物件id，物件在装备栏中的长、宽
+  BOOL SetObjItem(int nObjIndex, int nItemID, int nItemWidth, int nItemHeight);
 
-	BOOL	SyncAdd(int nID, int nClient);
+  BOOL SyncAdd(int nID, int nClient);
 #endif
 
 #ifndef _SERVER
-	int		AddData(int nDataID, int nSubWorld, int nRegion, int nMapX, int nMapY, int nOffX, int nOffY);
-	int		ClientAdd(int nID, int nDataID, int nState, int nDir, int nCurFrame, int nXpos, int nYpos, KObjItemInfo sInfo);
-	BOOL	ClientLoadRegionObj(char *lpszMapPath, int nRegionX, int nRegionY, int nSubWorld, int nRegion);
-	BOOL	ClientLoadRegionObj(KPakFile *pFile, DWORD dwDataSize);
-	void	RemoveIfClientOnly(int nIdx);
-	int		SearchObjAt(int nX, int nY, int nRange);
-	DWORD	GetNameColor(int nColorID);
-	void	SetShowNameFlag(BOOL bFlag);
-	BOOL	CheckShowName();
+  int AddData(int nDataID, int nSubWorld, int nRegion, int nMapX, int nMapY,
+              int nOffX, int nOffY);
+  int ClientAdd(int nID, int nDataID, int nState, int nDir, int nCurFrame,
+                int nXpos, int nYpos, KObjItemInfo sInfo);
+  BOOL ClientLoadRegionObj(char *lpszMapPath, int nRegionX, int nRegionY,
+                           int nSubWorld, int nRegion);
+  BOOL ClientLoadRegionObj(KPakFile *pFile, DWORD dwDataSize);
+  void RemoveIfClientOnly(int nIdx);
+  int SearchObjAt(int nX, int nY, int nRange);
+  DWORD GetNameColor(int nColorID);
+  void SetShowNameFlag(BOOL bFlag);
+  BOOL CheckShowName();
 #endif
-	int		FindID(int nID);
-	int		FindName(char *lpszObjName);
+  int FindID(int nID);
+  int FindName(char *lpszObjName);
+
 private:
-	int		FindFree();
-	int		CheckClientKind(int nKind);
-	int		GetDataIDKind(int nDataID);
+  int FindFree();
+  int CheckClientKind(int nKind);
+  int GetDataIDKind(int nDataID);
 #ifdef _SERVER
-	int		GetMoneyDataId(int nMoney);
+  int GetMoneyDataId(int nMoney);
 #endif
 };
 
-extern	KObjSet	ObjSet;
-extern	char	g_szObjKind[Obj_Kind_Num][32];
+extern KObjSet ObjSet;
+extern char g_szObjKind[Obj_Kind_Num][32];
 
 #endif
 
@@ -144,10 +147,3 @@ extern	char	g_szObjKind[Obj_Kind_Num][32];
 管理这个新物件；至此，新物件已经产生出来了，但是它的各项参数还没有最终设定完成，
 需要以后服务器端发过来的同步信息才能最终得到正确的表现。
 */
-
-
-
-
-
-
-

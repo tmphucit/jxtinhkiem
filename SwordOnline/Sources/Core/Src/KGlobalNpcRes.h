@@ -1,9 +1,6 @@
 #ifndef KGlobalNpcResH
-#define	KGlobalNpcResH
+#define KGlobalNpcResH
 
-class KGlobalNpcRes
-{
-	
-};
+class KGlobalNpcRes {};
 
-#endif //KGlobalNpcResH
+#endif // KGlobalNpcResH

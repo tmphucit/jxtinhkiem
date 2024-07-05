@@ -2,20 +2,19 @@
 // To compile as a separate example, please #define MAIN.
 
 #include <algorithm>
-#include <vector>
 #include <iostream>
 #include <iterator>
+#include <vector>
 
-#ifdef MAIN 
+#ifdef MAIN
 #define pheap1_test main
 #endif
 
-#if !defined (STLPORT) || defined(__STL_USE_NAMESPACES)
+#if !defined(STLPORT) || defined(__STL_USE_NAMESPACES)
 using namespace std;
 #endif
-int pheap1_test(int, char**)
-{
-  cout<<"Results of pheap1_test:"<<endl;
+int pheap1_test(int, char **) {
+  cout << "Results of pheap1_test:" << endl;
   vector<int> v;
 
   v.push_back(1);

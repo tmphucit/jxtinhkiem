@@ -36,11 +36,9 @@ extern "C" {
 // Memory Allocation APIs
 //----------------------------------------------------------------------------
 
-void* WINGDIPAPI
-GdipAlloc(size_t size);
+void *WINGDIPAPI GdipAlloc(size_t size);
 
-void WINGDIPAPI
-GdipFree(void* ptr);
+void WINGDIPAPI GdipFree(void *ptr);
 
 #ifdef __cplusplus
 }

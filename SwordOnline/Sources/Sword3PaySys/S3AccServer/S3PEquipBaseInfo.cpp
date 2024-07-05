@@ -9,41 +9,26 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PEquipBaseInfo::S3PEquipBaseInfo(int iid)
-{
-	char buf[200];
-	sprintf(buf,"%d",iid);
-	m_primaryFields["iid"] = buf;
-	Init();
-	Load();
+S3PEquipBaseInfo::S3PEquipBaseInfo(int iid) {
+  char buf[200];
+  sprintf(buf, "%d", iid);
+  m_primaryFields["iid"] = buf;
+  Init();
+  Load();
 }
 
-S3PEquipBaseInfo::S3PEquipBaseInfo()
-{
-	Init();
+S3PEquipBaseInfo::S3PEquipBaseInfo() { Init(); }
+
+S3PEquipBaseInfo::~S3PEquipBaseInfo() { Clear(); }
+
+S3PDBConnection *S3PEquipBaseInfo::GetConn() {
+  return S3PDBConnector::Instance()->ApplyDBConnection(def_ROLEDB);
 }
 
-S3PEquipBaseInfo::~S3PEquipBaseInfo()
-{
-	Clear();
+S3PTableDAO *S3PEquipBaseInfo::GetTableDAO() {
+  return new S3PEquipBaseInfoDAO(m_pConn);
 }
 
-S3PDBConnection	* S3PEquipBaseInfo::GetConn()
-{
-	return S3PDBConnector::Instance()->ApplyDBConnection(def_ROLEDB);
-}
+std::string S3PEquipBaseInfo::GetAutoIncrementField() { return "iid"; }
 
-S3PTableDAO * S3PEquipBaseInfo::GetTableDAO()
-{
-	return new S3PEquipBaseInfoDAO(m_pConn);
-}
-
-std::string S3PEquipBaseInfo::GetAutoIncrementField()
-{
-	return "iid";
-}
-
-std::string S3PEquipBaseInfo::GetMandatoryField()
-{
-	return "cInfoText";
-}
+std::string S3PEquipBaseInfo::GetMandatoryField() { return "cInfoText"; }

@@ -6,48 +6,42 @@
 #ifndef __UiSlectItemShop_H__
 #define __UiSlectItemShop_H__
 
-#include "../Elem/WndButton.h"
-#include "../Elem/WndText.h"
-#include "../Elem/WndEdit.h"
 #include "../../../core/src/gamedatadef.h"
+#include "../Elem/WndButton.h"
+#include "../Elem/WndEdit.h"
+#include "../Elem/WndText.h"
 
-
-class KBuySlectItemShop: protected KWndImage
-{
+class KBuySlectItemShop : protected KWndImage {
 public:
-
-	static KBuySlectItemShop*	OpenWindow(KUiObjAtContRegion* pObj,
-			KUiItemBuySelInfo* pPriceInfon);	
-	static KBuySlectItemShop*	GetIfVisible();			
-	static void			CloseWindow(bool bDestroy);	
-private:
-	KBuySlectItemShop();
-	~KBuySlectItemShop() {}
-	int		Initialize();								//初始化
-	void	Show();
-	void	Hide();
-	void	LoadScheme(const char* pScheme);			//载入界面方案
-	int		WndProc(unsigned int uMsg, unsigned int uParam, int nParam);
-	void	OnCancel();
+  static KBuySlectItemShop *OpenWindow(KUiObjAtContRegion *pObj,
+                                       KUiItemBuySelInfo *pPriceInfon);
+  static KBuySlectItemShop *GetIfVisible();
+  static void CloseWindow(bool bDestroy);
 
 private:
-	static KBuySlectItemShop*	m_pSelf;
-	KWndText32			m_ItemName;
-	KWndText32			m_Money;
+  KBuySlectItemShop();
+  ~KBuySlectItemShop() {}
+  int Initialize(); // 初始化
+  void Show();
+  void Hide();
+  void LoadScheme(const char *pScheme); // 载入界面方案
+  int WndProc(unsigned int uMsg, unsigned int uParam, int nParam);
+  void OnCancel();
 
-	
-	KWndButton			m_OkBtn;
-	KWndButton			m_CancelBtn;
+private:
+  static KBuySlectItemShop *m_pSelf;
+  KWndText32 m_ItemName;
+  KWndText32 m_Money;
 
-	KUiObjAtContRegion	m_ItemInfo;
-	KUiItemBuySelInfo	m_PriceInfo;
-	KWndImage           m_Image;
+  KWndButton m_OkBtn;
+  KWndButton m_CancelBtn;
 
+  KUiObjAtContRegion m_ItemInfo;
+  KUiItemBuySelInfo m_PriceInfo;
+  KWndImage m_Image;
 
-	unsigned int		m_uNormalPriceColor;
-	unsigned int		m_uNotEnoughMoneyPriceColor;
-
+  unsigned int m_uNormalPriceColor;
+  unsigned int m_uNotEnoughMoneyPriceColor;
 };
-
 
 #endif // __UiTradeConfirm_H__

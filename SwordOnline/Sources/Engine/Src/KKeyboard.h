@@ -9,24 +9,24 @@
 #ifndef KKeyboard_H
 #define KKeyboard_H
 //---------------------------------------------------------------------------
-#define KEY_SHIFT			1
-#define KEY_CTRL			2
-#define KEY_ALT				4
+#define KEY_SHIFT 1
+#define KEY_CTRL 2
+#define KEY_ALT 4
 //---------------------------------------------------------------------------
-class ENGINE_API KKeyboard
-{
+class ENGINE_API KKeyboard {
 protected:
-	BYTE		m_NewBuf[256];
-	BYTE		m_OldBuf[256];
-	BYTE		m_FuncKey;
-	void		MakeMessage(int nKey);
-	void		MakeFuncKey();
+  BYTE m_NewBuf[256];
+  BYTE m_OldBuf[256];
+  BYTE m_FuncKey;
+  void MakeMessage(int nKey);
+  void MakeFuncKey();
+
 public:
-	KKeyboard();
-	void		UpdateState();
-	BOOL		IsDown(BYTE byKey);
-	BYTE		GetFuncKey(){return m_FuncKey;};
+  KKeyboard();
+  void UpdateState();
+  BOOL IsDown(BYTE byKey);
+  BYTE GetFuncKey() { return m_FuncKey; };
 };
-extern ENGINE_API KKeyboard* g_pKeyboard;
+extern ENGINE_API KKeyboard *g_pKeyboard;
 //---------------------------------------------------------------------------
 #endif /* keyboard_H */

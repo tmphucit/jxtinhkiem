@@ -5,13 +5,13 @@
 
 /*
  *
- *  This wrapper is needed for Borland C++ 5.0 to get STLport 
+ *  This wrapper is needed for Borland C++ 5.0 to get STLport
  *  header properly included
  */
 #ifndef __STLPORT_BC_cstring_H
-#  define  __STLPORT_BC_cstring_H
+#define __STLPORT_BC_cstring_H
 
-#  include  <..\cstring.>
+#include <..\cstring.>
 
 #endif
 // Local Variables:

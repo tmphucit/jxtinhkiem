@@ -11,23 +11,21 @@
 
 #include "NetClient.h"
 
-class CRelayClient : public CNetClient  
-{
+class CRelayClient : public CNetClient {
 public:
-	CRelayClient(class CRelayCenter* pRelayCenter, BOOL bAutoFree);
-	virtual ~CRelayClient();
+  CRelayClient(class CRelayCenter *pRelayCenter, BOOL bAutoFree);
+  virtual ~CRelayClient();
 
 protected:
-	virtual void RecvPackage(const void* pData, size_t size);
-	virtual void DeleteThis() {delete this;}
+  virtual void RecvPackage(const void *pData, size_t size);
+  virtual void DeleteThis() { delete this; }
 
 protected:
-	virtual void OnStartupFail();
-	virtual void OnShutdownFail();
+  virtual void OnStartupFail();
+  virtual void OnShutdownFail();
 
-	virtual void OnServerEventCreate();
-	virtual void OnServerEventClose();
+  virtual void OnServerEventCreate();
+  virtual void OnServerEventClose();
 };
-
 
 #endif // !defined(AFX_RELAYCLIENT_H__63FC1085_B9C1_49FA_AAC5_C0552E371E27__INCLUDED_)

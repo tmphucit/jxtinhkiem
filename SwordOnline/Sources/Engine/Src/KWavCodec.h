@@ -9,7 +9,6 @@
 #ifndef KWavCodec_H
 #define KWavCodec_H
 //---------------------------------------------------------------------------
-DWORD	g_ImaAdpcmDecode(PVOID lpIn, int nInLen, PVOID lpOut, int nBlockAlign);
+DWORD g_ImaAdpcmDecode(PVOID lpIn, int nInLen, PVOID lpOut, int nBlockAlign);
 //---------------------------------------------------------------------------
 #endif
-

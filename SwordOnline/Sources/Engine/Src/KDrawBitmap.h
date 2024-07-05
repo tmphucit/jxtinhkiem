@@ -9,6 +9,6 @@
 #ifndef KDrawBitmap_H
 #define KDrawBitmap_H
 //---------------------------------------------------------------------------
-void g_DrawBitmap(void* node, void* canvas);
+void g_DrawBitmap(void *node, void *canvas);
 //---------------------------------------------------------------------------
 #endif

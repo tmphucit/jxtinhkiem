@@ -2,13 +2,13 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "VersionMaker.h"
 #include "SourceDest.h"
+#include "VersionMaker.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -16,26 +16,11 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-SourceDest::SourceDest(const char * Source,const char * Dest)
-:m_sSource(Source)
-,m_sDest(Dest)
-{
+SourceDest::SourceDest(const char *Source, const char *Dest)
+    : m_sSource(Source), m_sDest(Dest) {}
 
-}
+SourceDest::~SourceDest() {}
 
-SourceDest::~SourceDest()
-{
+string SourceDest::GetSource() { return m_sSource; }
 
-}
-
-string SourceDest::GetSource()
-{
-	return m_sSource;
-
-}
-
-string SourceDest::GetDest()
-{
-	return m_sDest;
-
-}
+string SourceDest::GetDest() { return m_sDest; }

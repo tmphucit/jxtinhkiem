@@ -10,39 +10,37 @@
 /////////////////////////////////////////////////////////////////////////////
 // CCQStatic window
 
-class CCQStatic : public CStatic
-{
-// Construction
+class CCQStatic : public CStatic {
+  // Construction
 public:
-	CCQStatic();
+  CCQStatic();
 
-// Attributes
+  // Attributes
 public:
-
-// Operations
+  // Operations
 public:
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CCQStatic)
+  //}}AFX_VIRTUAL
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CCQStatic)
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // Implementation
 public:
-	virtual ~CCQStatic();
+  virtual ~CCQStatic();
 
-	// Generated message map functions
+  // Generated message map functions
 protected:
-	//{{AFX_MSG(CCQStatic)
-	afx_msg void OnPaint();
-	//}}AFX_MSG
+  //{{AFX_MSG(CCQStatic)
+  afx_msg void OnPaint();
+  //}}AFX_MSG
 
-	DECLARE_MESSAGE_MAP()
+  DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_CQSTATIC_H__8673767F_0FF6_47D4_B606_3A41C786DC82__INCLUDED_)

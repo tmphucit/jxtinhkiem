@@ -1,7 +1,8 @@
 #pragma once
 
-extern struct iRepresentShell*	g_pRepresent;
+extern struct iRepresentShell *g_pRepresent;
 
-void		 IR_UpdateTime();
+void IR_UpdateTime();
 unsigned int IR_GetCurrentTime();
-void		 IR_NextFrame(int& nFrame, int nTotalFrame, unsigned int uInterval, unsigned int& uFlipTime);
+void IR_NextFrame(int &nFrame, int nTotalFrame, unsigned int uInterval,
+                  unsigned int &uFlipTime);

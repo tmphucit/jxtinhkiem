@@ -9,58 +9,52 @@
 #include "TestCase.h"
 #endif
 
-
-
-
-
-class MulticasterTest : public TestCase
-{
+class MulticasterTest : public TestCase {
 public:
-    class Observer : public MulticastObserver
-    {
-    public:
-        int             m_state;
-        std::string     m_lastAddressReceived;
+  class Observer : public MulticastObserver {
+  public:
+    int m_state;
+    std::string m_lastAddressReceived;
 
-                        Observer () : m_state (0) {}
-                        Observer (std::string initialAddress, int state) 
-                            : m_lastAddressReceived (initialAddress), m_state (state) {}
+    Observer() : m_state(0) {}
+    Observer(std::string initialAddress, int state)
+        : m_lastAddressReceived(initialAddress), m_state(state) {}
 
-        virtual void    accept (std::string address, Value Value)
-        { m_lastAddressReceived = address; m_state++; }
+    virtual void accept(std::string address, Value Value) {
+      m_lastAddressReceived = address;
+      m_state++;
+    }
+  };
 
-    };
-
-    Multicaster                 *m_multicaster;
-    Observer                    *m_o1;
-    Observer                    *m_o2;
-    Observer                    *m_o3;
-    Observer                    *m_o4;
-
+  Multicaster *m_multicaster;
+  Observer *m_o1;
+  Observer *m_o2;
+  Observer *m_o3;
+  Observer *m_o4;
 
 protected:
-    void                        setUp ();
-    void                        tearDown ();
+  void setUp();
+  void tearDown();
 
-    void                        testSinglePublish ();
-    void                        testMultipleHomogenousPublish ();
-    void                        testMultipleHeterogenousPublish ();
-    void                        testSingleUnsubscribe ();
-    void                        testMultipleUnsubscribe ();
-    void                        testSimpleUnsubscribeAll ();
-    void                        testComplexUnsubscribeAll ();
+  void testSinglePublish();
+  void testMultipleHomogenousPublish();
+  void testMultipleHeterogenousPublish();
+  void testSingleUnsubscribe();
+  void testMultipleUnsubscribe();
+  void testSimpleUnsubscribeAll();
+  void testComplexUnsubscribeAll();
 
 public:
-                                MulticasterTest (std::string name);
-    virtual                     ~MulticasterTest ();
+  MulticasterTest(std::string name);
+  virtual ~MulticasterTest();
 
-    static Test                 *suite ();
-
+  static Test *suite();
 };
 
-
-inline bool operator== (const MulticasterTest::Observer& o1, const MulticasterTest::Observer& o2)
-{ return o1.m_state == o2.m_state && o1.m_lastAddressReceived == o2.m_lastAddressReceived; }
-
+inline bool operator==(const MulticasterTest::Observer &o1,
+                       const MulticasterTest::Observer &o2) {
+  return o1.m_state == o2.m_state &&
+         o1.m_lastAddressReceived == o2.m_lastAddressReceived;
+}
 
 #endif

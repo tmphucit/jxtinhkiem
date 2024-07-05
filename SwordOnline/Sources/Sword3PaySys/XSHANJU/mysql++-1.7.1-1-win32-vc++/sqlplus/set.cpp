@@ -2,4 +2,4 @@
 
 #include "set3.hh"
 
-template class Set<set<string> >;
+template class Set<set<string>>;

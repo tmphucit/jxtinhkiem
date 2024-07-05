@@ -7,28 +7,28 @@
 // Desc:	Header File
 //---------------------------------------------------------------------------
 
-#ifndef	KItemChangeResH
-#define	KItemChangeResH
+#ifndef KItemChangeResH
+#define KItemChangeResH
 
 #include "KTabFile.h"
 
-class KItemChangeRes
-{
+class KItemChangeRes {
 private:
-	KTabFile	m_MeleeWeapon;
-	KTabFile	m_RangeWeapon;
-	KTabFile	m_Armor;
-	KTabFile	m_Helm;
-	KTabFile	m_Horse;
-	KTabFile	m_Fifong;
+  KTabFile m_MeleeWeapon;
+  KTabFile m_RangeWeapon;
+  KTabFile m_Armor;
+  KTabFile m_Helm;
+  KTabFile m_Horse;
+  KTabFile m_Fifong;
+
 public:
-	BOOL		Init();
-	int			GetWeaponRes(int nDetail, int nParti, int nLevel);
-	int			GetArmorRes(int nParti, int nLevel);
-	int			GetHelmRes(int nParti, int nLevel);
-	int			GetHorseRes(int nParti, int nLevel);
-	int			GetFifongRes(int nParti, int nLevel);
+  BOOL Init();
+  int GetWeaponRes(int nDetail, int nParti, int nLevel);
+  int GetArmorRes(int nParti, int nLevel);
+  int GetHelmRes(int nParti, int nLevel);
+  int GetHorseRes(int nParti, int nLevel);
+  int GetFifongRes(int nParti, int nLevel);
 };
 
-extern KItemChangeRes	g_ItemChangeRes;
+extern KItemChangeRes g_ItemChangeRes;
 #endif

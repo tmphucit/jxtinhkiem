@@ -2,19 +2,13 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
 #include "cTemplateAnimation.h"
+#include "stdafx.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cTemplateAnimation::cTemplateAnimation()
-{
+cTemplateAnimation::cTemplateAnimation() {}
 
-}
-
-cTemplateAnimation::~cTemplateAnimation()
-{
-
-}
+cTemplateAnimation::~cTemplateAnimation() {}

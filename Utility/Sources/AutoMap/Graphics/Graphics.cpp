@@ -1,9 +1,9 @@
 // Graphics.cpp : Defines the initialization routines for the DLL.
 //
 
-#include "stdafx.h"
 #include "Graphics.h"
 #include "cGraphics3d.h"
+#include "stdafx.h"
 
 #include "afxsock.h"
 
@@ -39,7 +39,7 @@ char g_strError[] = "dx Error!";
 //
 //		It is very important that this macro appear in each
 //		function, prior to any calls into MFC.  This means that
-//		it must appear as the first statement within the 
+//		it must appear as the first statement within the
 //		function, even before any object variable declarations
 //		as their constructors may generate calls into the MFC
 //		DLL.
@@ -52,20 +52,19 @@ char g_strError[] = "dx Error!";
 // CGraphicsApp
 
 BEGIN_MESSAGE_MAP(CGraphicsApp, CWinApp)
-	//{{AFX_MSG_MAP(CGraphicsApp)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CGraphicsApp)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//    DO NOT EDIT what you see in these blocks of generated code!
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CGraphicsApp construction
 
-CGraphicsApp::CGraphicsApp()
-{
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
-	AfxSocketInit();
+CGraphicsApp::CGraphicsApp() {
+  // TODO: add construction code here,
+  // Place all significant initialization in InitInstance
+  AfxSocketInit();
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -73,26 +72,24 @@ CGraphicsApp::CGraphicsApp()
 
 CGraphicsApp theApp;
 
-iGraphics* Graphics_CreateGraphics(eEngineType eType, long verson1 ,long verson2 )
-{
-	iGraphics*  p = NULL;
-	switch (verson1)
-	{
-	case Graphics_3D:
-		p = new cGraphics3D; 
-		break;
-	}
-	return p;
+iGraphics *Graphics_CreateGraphics(eEngineType eType, long verson1,
+                                   long verson2) {
+  iGraphics *p = NULL;
+  switch (verson1) {
+  case Graphics_3D:
+    p = new cGraphics3D;
+    break;
+  }
+  return p;
 }
 
-float FloatToInt(float a)
-{
-	float f_0 = 0.000001f;
-	float f_1 = 1 - f_0;
-	float f = a - floor(a);
-	if ( f < f_0)
-		a = floor(a);
-	else if (f > f_1)
-		a = floor(a) + 1.f;
-	return a;
+float FloatToInt(float a) {
+  float f_0 = 0.000001f;
+  float f_1 = 1 - f_0;
+  float f = a - floor(a);
+  if (f < f_0)
+    a = floor(a);
+  else if (f > f_1)
+    a = floor(a) + 1.f;
+  return a;
 }

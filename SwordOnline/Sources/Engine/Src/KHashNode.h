@@ -6,22 +6,20 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Header File
 //---------------------------------------------------------------------------
-#ifndef	KHashNode_H
-#define	KHashNode_H
+#ifndef KHashNode_H
+#define KHashNode_H
 //---------------------------------------------------------------------------
-#include "KStrNode.h"
 #include "KHashTable.h"
+#include "KStrNode.h"
 //---------------------------------------------------------------------------
-class ENGINE_API KHashNode : public KStrNode
-{
+class ENGINE_API KHashNode : public KStrNode {
 private:
-	KHashTable* m_pHashTable;
+  KHashTable *m_pHashTable;
+
 public:
-	KHashNode();
-	void SetName(char* pStr);
-	void SetHashTable(KHashTable* pTable){
-		m_pHashTable = pTable;
-	}
+  KHashNode();
+  void SetName(char *pStr);
+  void SetHashTable(KHashTable *pTable) { m_pHashTable = pTable; }
 };
 //---------------------------------------------------------------------------
 #endif

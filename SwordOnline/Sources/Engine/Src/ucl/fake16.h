@@ -24,7 +24,6 @@
    <markus@oberhumer.com>
  */
 
-
 /*
  * NOTE:
  *   this file is *only* for testing the strict 16-bit memory model
@@ -37,12 +36,11 @@
  *   Usage: #include "src/fake16.h" at the top of <ucl/uclconf.h>
  */
 
-
 #ifndef __UCLFAKE16BIT_H
 #define __UCLFAKE16BIT_H
 
 #ifdef __UCLCONF_H
-#  error "include this file before uclconf.h"
+#error "include this file before uclconf.h"
 #endif
 
 #include <limits.h>
@@ -53,7 +51,7 @@
 extern "C" {
 #endif
 
-#define __UCL16BIT_H        /* do not use <ucl/ucl16bit.h> */
+#define __UCL16BIT_H /* do not use <ucl/ucl16bit.h> */
 
 #define __UCL_STRICT_16BIT
 #define __UCL_FAKE_STRICT_16BIT
@@ -61,10 +59,10 @@ extern "C" {
 #define UCL_99_UNSUPPORTED
 #define UCL_999_UNSUPPORTED
 
-typedef unsigned short      ucl_uint;
-typedef short               ucl_int;
-#define UCL_UINT_MAX        USHRT_MAX
-#define UCL_INT_MAX         SHRT_MAX
+typedef unsigned short ucl_uint;
+typedef short ucl_int;
+#define UCL_UINT_MAX USHRT_MAX
+#define UCL_INT_MAX SHRT_MAX
 
 #if 1
 #define __UCL_NO_UNALIGNED
@@ -78,4 +76,3 @@ typedef short               ucl_int;
 #endif
 
 #endif /* already included */
-

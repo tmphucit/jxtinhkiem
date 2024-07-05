@@ -1,6 +1,6 @@
 /***********************************************************************************
-	test_bitset.cpp
-	
+        test_bitset.cpp
+
  * Copyright (c) 1997
  * Mark of the Unicorn, Inc.
  *
@@ -14,26 +14,22 @@
 
 ***********************************************************************************/
 #include "Prefix.h"
-#if defined( EH_BITSET_IMPLEMENTED )
-#include "Tests.h"
-#include <bitset>
-#include "TestClass.h"
+#if defined(EH_BITSET_IMPLEMENTED)
 #include "LeakCheck.h"
-#include "test_construct.h"
+#include "TestClass.h"
+#include "Tests.h"
 #include "test_assign_op.h"
-#include "test_push_back.h"
+#include "test_construct.h"
 #include "test_insert.h"
+#include "test_push_back.h"
 #include "test_push_front.h"
+#include <bitset>
 
 typedef bitset<100> TestBitset;
 
-inline sequence_container_tag
-container_category(const TestBitset&)
-{
+inline sequence_container_tag container_category(const TestBitset &) {
   return sequence_container_tag();
 }
 
-void test_bitset()
-{
-}
+void test_bitset() {}
 #endif // EH_BITSET_IMPLEMENTED

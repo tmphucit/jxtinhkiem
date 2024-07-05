@@ -6,17 +6,15 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Simple double linked node class
 //---------------------------------------------------------------------------
-#include "KWin32.h"
+#include "KHashList.h"
 #include "KDebug.h"
 #include "KStrBase.h"
-#include "KHashList.h"
+#include "KWin32.h"
 //---------------------------------------------------------------------------
 // 函数:	KHashList
 // 功能:	构造
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-KHashList::KHashList()
-{
-}
+KHashList::KHashList() {}
 //--------------------------------------------------------------------------------

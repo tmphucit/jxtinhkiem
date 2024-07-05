@@ -6,13 +6,13 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Graphics Drawing Functions
 //---------------------------------------------------------------------------
-#include "KWin32.h"
-#include "KDDraw.h"
-#include "KCanvas.h"
 #include "KDrawBase.h"
+#include "KCanvas.h"
+#include "KDDraw.h"
+#include "KWin32.h"
 //---------------------------------------------------------------------------
-#define ABS(a)			((a > 0) ? a : -a)
-#define SIGN(a)			((a > 0) ? 1 : -1)
+#define ABS(a) ((a > 0) ? a : -a)
+#define SIGN(a) ((a > 0) ? 1 : -1)
 //---------------------------------------------------------------------------
 // 函数:	Draw Pixel
 // 功能:	绘制一个点
@@ -21,24 +21,23 @@
 //			color	颜色
 // 返回:	void
 //---------------------------------------------------------------------------
-void g_DrawPixel(void* node, void* canvas)
-{
-	KDrawNode* pNode = (KDrawNode *)node;
-	KCanvas* pCanvas = (KCanvas *)canvas;
-	long nX = pNode->m_nX;
-	long nY = pNode->m_nY;
-	long nColor = pNode->m_nColor;
+void g_DrawPixel(void *node, void *canvas) {
+  KDrawNode *pNode = (KDrawNode *)node;
+  KCanvas *pCanvas = (KCanvas *)canvas;
+  long nX = pNode->m_nX;
+  long nY = pNode->m_nY;
+  long nColor = pNode->m_nColor;
 
-	int nPitch;
-	void* lpBuffer = pCanvas->LockCanvas(nPitch);
-	if (lpBuffer == NULL)
-		return;
+  int nPitch;
+  void *lpBuffer = pCanvas->LockCanvas(nPitch);
+  if (lpBuffer == NULL)
+    return;
 
-	RECT ClipRect;
-	pCanvas->GetClipRect(&ClipRect);
+  RECT ClipRect;
+  pCanvas->GetClipRect(&ClipRect);
 
-	__asm
-	{
+  __asm
+      {
 		mov		eax, nY
 		cmp		eax, ClipRect.top
 		jl		loc_PutPixel_exit
@@ -61,8 +60,8 @@ void g_DrawPixel(void* node, void* canvas)
 		mov		[edi], ax
 
 	loc_PutPixel_exit:
-	}
-	pCanvas->UnlockCanvas();
+      }
+  pCanvas->UnlockCanvas();
 }
 //---------------------------------------------------------------------------
 // 函数:	PutPixelAlpha
@@ -77,26 +76,25 @@ void g_DrawPixel(void* node, void* canvas)
 //			g3 = (g1 * alpha + g2 * (32 - alpha)) / 32
 //			b3 = (b1 * alpha + b2 * (32 - alpha)) / 32
 //---------------------------------------------------------------------------
-void g_DrawPixelAlpha(void* node, void* canvas)
-{
-	KDrawNode* pNode = (KDrawNode *)node;
-	KCanvas* pCanvas = (KCanvas *)canvas;
-	long nX = pNode->m_nX;
-	long nY = pNode->m_nY;
-	long nColor = pNode->m_nColor;
-	long nAlpha = pNode->m_nAlpha;
-	long nMask32 = pCanvas->m_nMask32;
+void g_DrawPixelAlpha(void *node, void *canvas) {
+  KDrawNode *pNode = (KDrawNode *)node;
+  KCanvas *pCanvas = (KCanvas *)canvas;
+  long nX = pNode->m_nX;
+  long nY = pNode->m_nY;
+  long nColor = pNode->m_nColor;
+  long nAlpha = pNode->m_nAlpha;
+  long nMask32 = pCanvas->m_nMask32;
 
-	int nPitch;
-	void* lpBuffer = pCanvas->LockCanvas(nPitch);
-	if (lpBuffer == NULL)
-		return;
+  int nPitch;
+  void *lpBuffer = pCanvas->LockCanvas(nPitch);
+  if (lpBuffer == NULL)
+    return;
 
-	RECT ClipRect;
-	pCanvas->GetClipRect(&ClipRect);
+  RECT ClipRect;
+  pCanvas->GetClipRect(&ClipRect);
 
-	__asm
-	{
+  __asm
+      {
 		mov     eax, nY
 		cmp		eax, ClipRect.top
 		jl		loc_PutPixelAlpha_exit
@@ -144,8 +142,8 @@ void g_DrawPixelAlpha(void* node, void* canvas)
 		mov     [edi], ax
 
 	loc_PutPixelAlpha_exit:
-	}
-	pCanvas->UnlockCanvas();
+      }
+  pCanvas->UnlockCanvas();
 }
 //---------------------------------------------------------------------------
 // 函数:	DrawLine
@@ -157,67 +155,59 @@ void g_DrawPixelAlpha(void* node, void* canvas)
 //			color	颜色值
 // 返回:	void
 //---------------------------------------------------------------------------
-void g_DrawLine(void* node, void* canvas)
-{
-	KDrawNode* pNode = (KDrawNode *)node;
-	KCanvas* pCanvas = (KCanvas *)canvas;
-	long x1 = pNode->m_nX;
-	long y1 = pNode->m_nY;
-	long x2 = pNode->m_nWidth;
-	long y2 = pNode->m_nHeight;
-	KDrawNode LineNode;
-	LineNode.m_nColor = pNode->m_nColor;
+void g_DrawLine(void *node, void *canvas) {
+  KDrawNode *pNode = (KDrawNode *)node;
+  KCanvas *pCanvas = (KCanvas *)canvas;
+  long x1 = pNode->m_nX;
+  long y1 = pNode->m_nY;
+  long x2 = pNode->m_nWidth;
+  long y2 = pNode->m_nHeight;
+  KDrawNode LineNode;
+  LineNode.m_nColor = pNode->m_nColor;
 
-	long d, x, y, ax, ay, sx, sy, dx, dy;
-	
-	dx = x2 - x1;
-	ax = abs(dx) << 1;
-	sx = SIGN(dx);
-	
-	dy = y2 - y1;
-	ay = abs(dy) << 1;
-	sy = SIGN(dy);
-	
-	x  = x1;
-	y  = y1;
-	
-	if (ax > ay) 
-	{
-		d = ay - (ax >> 1);
-		while (x != x2)
-		{
-			LineNode.m_nX = x;
-			LineNode.m_nY = y;
-			g_DrawPixel(&LineNode, pCanvas);
-			if (d >= 0)
-			{
-				y += sy;
-				d -= ax;
-			}
-			x += sx;
-			d += ay;
-		}
-	}
-	else
-	{
-		d = ax - (ay >> 1);
-		while (y != y2)
-		{
-			LineNode.m_nX = x;
-			LineNode.m_nY = y;
-			g_DrawPixel(&LineNode, pCanvas);
-			if (d >= 0)
-			{
-				x += sx;
-				d -= ay;
-			}
-			y += sy;
-			d += ax;
-		}
-	}
-	LineNode.m_nX = x;
-	LineNode.m_nY = y;
-	g_DrawPixel(&LineNode, pCanvas);
+  long d, x, y, ax, ay, sx, sy, dx, dy;
+
+  dx = x2 - x1;
+  ax = abs(dx) << 1;
+  sx = SIGN(dx);
+
+  dy = y2 - y1;
+  ay = abs(dy) << 1;
+  sy = SIGN(dy);
+
+  x = x1;
+  y = y1;
+
+  if (ax > ay) {
+    d = ay - (ax >> 1);
+    while (x != x2) {
+      LineNode.m_nX = x;
+      LineNode.m_nY = y;
+      g_DrawPixel(&LineNode, pCanvas);
+      if (d >= 0) {
+        y += sy;
+        d -= ax;
+      }
+      x += sx;
+      d += ay;
+    }
+  } else {
+    d = ax - (ay >> 1);
+    while (y != y2) {
+      LineNode.m_nX = x;
+      LineNode.m_nY = y;
+      g_DrawPixel(&LineNode, pCanvas);
+      if (d >= 0) {
+        x += sx;
+        d -= ay;
+      }
+      y += sy;
+      d += ax;
+    }
+  }
+  LineNode.m_nX = x;
+  LineNode.m_nY = y;
+  g_DrawPixel(&LineNode, pCanvas);
 }
 //---------------------------------------------------------------------------
 // 函数:	Draw Line Alpha
@@ -226,72 +216,64 @@ void g_DrawLine(void* node, void* canvas)
 //			x2		X2坐标
 //			y1		Y1坐标
 //			y2		Y2坐标
-//			color	颜色值 
+//			color	颜色值
 //			alpha	透明值
 // 返回:	void
 //---------------------------------------------------------------------------
-void g_DrawLineAlpha(void* node, void* canvas)
-{
-	KDrawNode* pNode = (KDrawNode *)node;
-	KCanvas* pCanvas = (KCanvas *)canvas;
-	long x1 = pNode->m_nX;
-	long y1 = pNode->m_nY;
-	long x2 = pNode->m_nWidth;
-	long y2 = pNode->m_nHeight;
-	KDrawNode LineNode;
-	LineNode.m_nColor = pNode->m_nColor;
-	LineNode.m_nAlpha = pNode->m_nAlpha;
-	
-	long d, x, y, ax, ay, sx, sy, dx, dy;
-	
-	dx = x2 - x1;
-	ax = abs(dx) << 1;
-	sx = SIGN(dx);
-	
-	dy = y2 - y1;
-	ay = abs(dy) << 1;
-	sy = SIGN(dy);
-	
-	x  = x1;
-	y  = y1;
-	
-	if (ax > ay) 
-	{
-		d = ay - (ax >> 1);
-		while (x != x2)
-		{
-			LineNode.m_nX = x;
-			LineNode.m_nY = y;
-			g_DrawPixelAlpha(&LineNode, pCanvas);
-			if (d >= 0)
-			{
-				y += sy;
-				d -= ax;
-			}
-			x += sx;
-			d += ay;
-		}
-	}
-	else
-	{
-		d = ax - (ay >> 1);
-		while (y != y2)
-		{
-			LineNode.m_nX = x;
-			LineNode.m_nY = y;
-			g_DrawPixelAlpha(&LineNode, pCanvas);
-			if (d >= 0)
-			{
-				x += sx;
-				d -= ay;
-			}
-			y += sy;
-			d += ax;
-		}
-	}
-	LineNode.m_nX = x;
-	LineNode.m_nY = y;
-	g_DrawPixelAlpha(&LineNode, pCanvas);
+void g_DrawLineAlpha(void *node, void *canvas) {
+  KDrawNode *pNode = (KDrawNode *)node;
+  KCanvas *pCanvas = (KCanvas *)canvas;
+  long x1 = pNode->m_nX;
+  long y1 = pNode->m_nY;
+  long x2 = pNode->m_nWidth;
+  long y2 = pNode->m_nHeight;
+  KDrawNode LineNode;
+  LineNode.m_nColor = pNode->m_nColor;
+  LineNode.m_nAlpha = pNode->m_nAlpha;
+
+  long d, x, y, ax, ay, sx, sy, dx, dy;
+
+  dx = x2 - x1;
+  ax = abs(dx) << 1;
+  sx = SIGN(dx);
+
+  dy = y2 - y1;
+  ay = abs(dy) << 1;
+  sy = SIGN(dy);
+
+  x = x1;
+  y = y1;
+
+  if (ax > ay) {
+    d = ay - (ax >> 1);
+    while (x != x2) {
+      LineNode.m_nX = x;
+      LineNode.m_nY = y;
+      g_DrawPixelAlpha(&LineNode, pCanvas);
+      if (d >= 0) {
+        y += sy;
+        d -= ax;
+      }
+      x += sx;
+      d += ay;
+    }
+  } else {
+    d = ax - (ay >> 1);
+    while (y != y2) {
+      LineNode.m_nX = x;
+      LineNode.m_nY = y;
+      g_DrawPixelAlpha(&LineNode, pCanvas);
+      if (d >= 0) {
+        x += sx;
+        d -= ay;
+      }
+      y += sy;
+      d += ax;
+    }
+  }
+  LineNode.m_nX = x;
+  LineNode.m_nY = y;
+  g_DrawPixelAlpha(&LineNode, pCanvas);
 }
 
 //---------------------------------------------------------------------------
@@ -300,37 +282,35 @@ void g_DrawLineAlpha(void* node, void* canvas)
 // 参数:	nX, nY, nWidth, nHeight, nColor
 // 返回:	void
 //---------------------------------------------------------------------------
-void g_Clear(void* node, void* canvas)
-{
-	KDrawNode* pNode = (KDrawNode *)node;
-	KCanvas* pCanvas = (KCanvas *)canvas;
+void g_Clear(void *node, void *canvas) {
+  KDrawNode *pNode = (KDrawNode *)node;
+  KCanvas *pCanvas = (KCanvas *)canvas;
 
-	long nX = pNode->m_nX;// x coord
-	long nY = pNode->m_nY;// y coord
-	long nWidth = pNode->m_nWidth;// width of sprite
-	long nHeight = pNode->m_nHeight;// height of sprite
-	int  nColor  = pNode->m_nColor;//  color
+  long nX = pNode->m_nX;           // x coord
+  long nY = pNode->m_nY;           // y coord
+  long nWidth = pNode->m_nWidth;   // width of sprite
+  long nHeight = pNode->m_nHeight; // height of sprite
+  int nColor = pNode->m_nColor;    //  color
 
-	// 对绘制区域进行裁剪
-	KClipper Clipper;
-	if (!pCanvas->MakeClip(nX, nY, nWidth, nHeight, &Clipper))
-		return;
+  // 对绘制区域进行裁剪
+  KClipper Clipper;
+  if (!pCanvas->MakeClip(nX, nY, nWidth, nHeight, &Clipper))
+    return;
 
-	int nPitch;
-	void* lpBuffer = pCanvas->LockCanvas(nPitch);
-	if (lpBuffer == NULL)
-		return;
+  int nPitch;
+  void *lpBuffer = pCanvas->LockCanvas(nPitch);
+  if (lpBuffer == NULL)
+    return;
 
-	// 计算屏幕下一行的偏移
-	long ScreenOffset = nPitch - Clipper.width * 2;
+  // 计算屏幕下一行的偏移
+  long ScreenOffset = nPitch - Clipper.width * 2;
 
-	// 绘制函数的汇编代码
-	__asm
-	{
-//---------------------------------------------------------------------------
-//  计算 EDI 指向屏幕起点的偏移量 (以字节计)
-//  edi = (nPitch*Clipper.y + nX)*2 + lpBuffer
-//---------------------------------------------------------------------------
+  // 绘制函数的汇编代码
+  __asm
+      {//---------------------------------------------------------------------------
+       //  计算 EDI 指向屏幕起点的偏移量 (以字节计)
+       //  edi = (nPitch*Clipper.y + nX)*2 + lpBuffer
+       //---------------------------------------------------------------------------
 		mov		eax, nPitch
 		mov		ebx, Clipper.y
 		mul		ebx
@@ -340,16 +320,16 @@ void g_Clear(void* node, void* canvas)
 		mov		edi, lpBuffer
 		add		edi, eax
 		mov		ecx, Clipper.height
-//---------------------------------------------------------------------------
-//  eax = nColor
-//---------------------------------------------------------------------------
+           //---------------------------------------------------------------------------
+           //  eax = nColor
+           //---------------------------------------------------------------------------
 		mov		eax, nColor
 		mov     bx, ax
 		shl     eax,16
 		mov     ax,bx
-//---------------------------------------------------------------------------
-//  color tranfer
-//---------------------------------------------------------------------------
+           //---------------------------------------------------------------------------
+           //  color tranfer
+           //---------------------------------------------------------------------------
 
 	loc_Clear_0001:
 		push	ecx
@@ -369,8 +349,8 @@ void g_Clear(void* node, void* canvas)
 		pop		ecx
 		dec		ecx
 		jnz		loc_Clear_0001
-	}
-	pCanvas->UnlockCanvas();
+      }
+  pCanvas->UnlockCanvas();
 }
 //---------------------------------------------------------------------------
 // 函数:	Clear a region on canvas
@@ -378,38 +358,35 @@ void g_Clear(void* node, void* canvas)
 // 参数:	nX, nY, nWidth, nHeight, nColor
 // 返回:	void
 //---------------------------------------------------------------------------
-void g_DotClear(void* node, void* canvas)
-{
-	KDrawNode* pNode = (KDrawNode *)node;
-	KCanvas* pCanvas = (KCanvas *)canvas;
+void g_DotClear(void *node, void *canvas) {
+  KDrawNode *pNode = (KDrawNode *)node;
+  KCanvas *pCanvas = (KCanvas *)canvas;
 
-	long nX = pNode->m_nX;// x coord
-	long nY = pNode->m_nY;// y coord
-	long nWidth = pNode->m_nWidth;// width of sprite
-	long nHeight = pNode->m_nHeight;// height of sprite
-	int  nColor  = pNode->m_nColor;//  color
+  long nX = pNode->m_nX;           // x coord
+  long nY = pNode->m_nY;           // y coord
+  long nWidth = pNode->m_nWidth;   // width of sprite
+  long nHeight = pNode->m_nHeight; // height of sprite
+  int nColor = pNode->m_nColor;    //  color
 
-	// 对绘制区域进行裁剪
-	KClipper Clipper;
-	if (!pCanvas->MakeClip(nX, nY, nWidth, nHeight, &Clipper))
-		return;
+  // 对绘制区域进行裁剪
+  KClipper Clipper;
+  if (!pCanvas->MakeClip(nX, nY, nWidth, nHeight, &Clipper))
+    return;
 
-	int nPitch;
-	void* lpBuffer = pCanvas->LockCanvas(nPitch);
-	if (lpBuffer == NULL)
-		return;
+  int nPitch;
+  void *lpBuffer = pCanvas->LockCanvas(nPitch);
+  if (lpBuffer == NULL)
+    return;
 
-	// 计算屏幕下一行的偏移
-	long ScreenOffset = nPitch - Clipper.width * 2;
+  // 计算屏幕下一行的偏移
+  long ScreenOffset = nPitch - Clipper.width * 2;
 
-	
-	// 绘制函数的汇编代码
-	__asm
-	{
-//---------------------------------------------------------------------------
-//  计算 EDI 指向屏幕起点的偏移量 (以字节计)
-//  edi = (nPitch*Clipper.y + nX)*2 + lpBuffer
-//---------------------------------------------------------------------------
+  // 绘制函数的汇编代码
+  __asm
+      {//---------------------------------------------------------------------------
+       //  计算 EDI 指向屏幕起点的偏移量 (以字节计)
+       //  edi = (nPitch*Clipper.y + nX)*2 + lpBuffer
+       //---------------------------------------------------------------------------
 		mov		eax, nPitch
 		mov		ebx, Clipper.y
 		mul		ebx
@@ -419,13 +396,13 @@ void g_DotClear(void* node, void* canvas)
 		mov		edi, lpBuffer
 		add		edi, eax
 		mov		ecx, Clipper.height
-//---------------------------------------------------------------------------
-//  eax = nColor
-//---------------------------------------------------------------------------
+           //---------------------------------------------------------------------------
+           //  eax = nColor
+           //---------------------------------------------------------------------------
 		mov		eax, nColor
-//---------------------------------------------------------------------------
-//  color tranfer
-//---------------------------------------------------------------------------
+           //---------------------------------------------------------------------------
+           //  color tranfer
+           //---------------------------------------------------------------------------
 
 loc_DotClear_0001:
 		push	ecx
@@ -460,11 +437,9 @@ loc_DotClear_0005:
 		dec		ecx
 		jnz		loc_DotClear_0001
 loc_DotClear_0006:
-	}
-	pCanvas->UnlockCanvas();
+      }
+  pCanvas->UnlockCanvas();
 }
-
-
 
 //---------------------------------------------------------------------------
 // 函数:	Clear a region on canvas with alpha
@@ -473,39 +448,37 @@ loc_DotClear_0006:
 // 返回:	void
 // Modify By Freeway Chen in 2003.7.6, USE MMX Register
 //---------------------------------------------------------------------------
-void g_ClearAlpha(void* node, void* canvas)
-{
-	KDrawNode* pNode = (KDrawNode *)node;
-	KCanvas* pCanvas = (KCanvas *)canvas;
+void g_ClearAlpha(void *node, void *canvas) {
+  KDrawNode *pNode = (KDrawNode *)node;
+  KCanvas *pCanvas = (KCanvas *)canvas;
 
-	long nX = pNode->m_nX;// x coord
-	long nY = pNode->m_nY;// y coord
-	long nWidth = pNode->m_nWidth;// width of sprite
-	long nHeight = pNode->m_nHeight;// height of sprite
-	int  nColor  = pNode->m_nColor;//  color
-	long nAlpha = pNode->m_nAlpha;
-	long nMask32 = pCanvas->m_nMask32;
+  long nX = pNode->m_nX;           // x coord
+  long nY = pNode->m_nY;           // y coord
+  long nWidth = pNode->m_nWidth;   // width of sprite
+  long nHeight = pNode->m_nHeight; // height of sprite
+  int nColor = pNode->m_nColor;    //  color
+  long nAlpha = pNode->m_nAlpha;
+  long nMask32 = pCanvas->m_nMask32;
 
-	// 对绘制区域进行裁剪
-	KClipper Clipper;
-	if (!pCanvas->MakeClip(nX, nY, nWidth, nHeight, &Clipper))
-		return;
+  // 对绘制区域进行裁剪
+  KClipper Clipper;
+  if (!pCanvas->MakeClip(nX, nY, nWidth, nHeight, &Clipper))
+    return;
 
-	int nPitch;
-	void* lpBuffer = pCanvas->LockCanvas(nPitch);
-	if (lpBuffer == NULL)
-		return;
+  int nPitch;
+  void *lpBuffer = pCanvas->LockCanvas(nPitch);
+  if (lpBuffer == NULL)
+    return;
 
-	// 计算屏幕下一行的偏移
-	long ScreenOffset = nPitch - Clipper.width * 2;
-	
-	// 绘制函数的汇编代码
-	__asm
-	{
-//---------------------------------------------------------------------------
-//  计算 EDI 指向屏幕起点的偏移量 (以字节计)
-//  edi = (nPitch*Clipper.y + nX)*2 + lpBuffer
-//---------------------------------------------------------------------------
+  // 计算屏幕下一行的偏移
+  long ScreenOffset = nPitch - Clipper.width * 2;
+
+  // 绘制函数的汇编代码
+  __asm
+      {//---------------------------------------------------------------------------
+       //  计算 EDI 指向屏幕起点的偏移量 (以字节计)
+       //  edi = (nPitch*Clipper.y + nX)*2 + lpBuffer
+       //---------------------------------------------------------------------------
 		mov		eax, nPitch
 		mov		ebx, Clipper.y
 		mul		ebx
@@ -515,48 +488,48 @@ void g_ClearAlpha(void* node, void* canvas)
 		mov		edi, lpBuffer
 		add		edi, eax
         
-        mov     esi, nMask32    // esi:  nMask32
+        mov     esi, nMask32 // esi:  nMask32
 
 		mov		ecx, nColor
 		mov		bx, cx
 		sal		ecx, 16
 		mov		cx, bx
-		and		ecx, esi        // esi:  nMask32
-        movd    mm1, ecx        // mm1: nMaskColor
+		and		ecx, esi // esi:  nMask32
+        movd    mm1, ecx // mm1: nMaskColor
 
         mov     ecx, nAlpha
         mov     eax, 0x20
-        movd    mm3, ecx        // mm3: nAlpha
+        movd    mm3, ecx // mm3: nAlpha
         sub     eax, ecx
-        movd    ecx, mm1        // mm1: nMaskColor
+        movd    ecx, mm1 // mm1: nMaskColor
         imul    eax, ecx      
-        movd    mm1, eax        // mm1: nMaskColor * (32 - nAlpha)
+        movd    mm1, eax // mm1: nMaskColor * (32 - nAlpha)
 
 		mov		ecx, Clipper.height
 
         movd    mm6, Clipper.width
 
-//---------------------------------------------------------------------------
-//  color tranfer
-//---------------------------------------------------------------------------
+           //---------------------------------------------------------------------------
+           //  color tranfer
+           //---------------------------------------------------------------------------
 
 loc_ClearAlpha_0001:
 		movd    mm7, ecx 
-		movd	edx, mm6        // Clipper.width
+		movd	edx, mm6 // Clipper.width
 
 loc_ClearAlpha_0002:
   	    mov     ax, [edi]
 		mov		cx, ax
 		sal		eax, 16
-		movd	ebx, mm3        // mm3: nAlpha
+		movd	ebx, mm3 // mm3: nAlpha
 		mov		ax, cx
-		and		eax, esi        // esi:  nMask32 
+		and		eax, esi // esi:  nMask32 
 
 		imul	eax, ebx
-        movd    ecx, mm1          // mm1: nMaskColor * (32 - nAlpha)
+        movd    ecx, mm1 // mm1: nMaskColor * (32 - nAlpha)
 		add		eax, ecx
 		sar		eax, 5
-		and		eax, esi         // esi:  nMask32
+		and		eax, esi // esi:  nMask32
 
 		mov		bx, ax
 		sar		eax, 16
@@ -572,7 +545,7 @@ loc_ClearAlpha_0002:
 		dec		ecx
 		jnz		loc_ClearAlpha_0001
         emms
-	}
-	pCanvas->UnlockCanvas();
+      }
+  pCanvas->UnlockCanvas();
 }
 //---------------------------------------------------------------------------

@@ -7,34 +7,35 @@
 *****************************************************************************************/
 #pragma once
 
-#include "../elem/WndButton.h"
-#include "../elem/WndText.h"
-#include "../elem/WndObjContainer.h"
 #include "../Elem/WndShowAnimate.h"
+#include "../elem/WndButton.h"
+#include "../elem/WndObjContainer.h"
+#include "../elem/WndText.h"
 
 struct KUiObjAtRegion;
 
-class KUiItemCheckBox : protected KWndShowAnimate
-{
+class KUiItemCheckBox : protected KWndShowAnimate {
 public:
-	static KUiItemCheckBox* OpenWindow();		//打开窗口，返回唯一的一个类对象实例
-	static KUiItemCheckBox* GetIfVisible();		//如果窗口正被显示，则返回实例指针
-	static void			CloseWindow();		//关闭窗口
-	static void			LoadScheme(const char* pScheme);//载入界面方案
-	void			UpdateItem(KUiObjAtRegion* pItem, int bAdd);//物品变化更新
+  static KUiItemCheckBox *OpenWindow();   // 打开窗口，返回唯一的一个类对象实例
+  static KUiItemCheckBox *GetIfVisible(); // 如果窗口正被显示，则返回实例指针
+  static void CloseWindow();              // 关闭窗口
+  static void LoadScheme(const char *pScheme);      // 载入界面方案
+  void UpdateItem(KUiObjAtRegion *pItem, int bAdd); // 物品变化更新
 private:
-	KUiItemCheckBox() {}
-	~KUiItemCheckBox() {}
-	void	Initialize();							//初始化
-	int		WndProc(unsigned int uMsg, unsigned int uParam, int nParam);//窗口函数
-	void	UpdateData();
-	void	OnItemPickDrop(ITEM_PICKDROP_PLACE* pPickPos, ITEM_PICKDROP_PLACE* pDropPos);
-	void    OnLeftShiftClickItem(KUiDraggedObject* pItem);
-	void	OnGetMoney(int nMoney);
-private:
-	static KUiItemCheckBox*		m_pSelf;
-private:
+  KUiItemCheckBox() {}
+  ~KUiItemCheckBox() {}
+  void Initialize();                                               // 初始化
+  int WndProc(unsigned int uMsg, unsigned int uParam, int nParam); // 窗口函数
+  void UpdateData();
+  void OnItemPickDrop(ITEM_PICKDROP_PLACE *pPickPos,
+                      ITEM_PICKDROP_PLACE *pDropPos);
+  void OnLeftShiftClickItem(KUiDraggedObject *pItem);
+  void OnGetMoney(int nMoney);
 
-	KWndButton			m_CloseBtn;
-	KWndObjectMatrix	m_ItemBox;
+private:
+  static KUiItemCheckBox *m_pSelf;
+
+private:
+  KWndButton m_CloseBtn;
+  KWndObjectMatrix m_ItemBox;
 };

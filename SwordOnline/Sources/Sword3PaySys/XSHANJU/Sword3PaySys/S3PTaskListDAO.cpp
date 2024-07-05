@@ -14,21 +14,10 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PTaskListDAO::S3PTaskListDAO(S3PDBConnection * pConn)
-{
-	m_pConn =pConn;
-}
+S3PTaskListDAO::S3PTaskListDAO(S3PDBConnection *pConn) { m_pConn = pConn; }
 
-S3PTaskListDAO::~S3PTaskListDAO()
-{
-}
+S3PTaskListDAO::~S3PTaskListDAO() {}
 
-S3PDBConnection * S3PTaskListDAO::GetConnection()
-{
-	return m_pConn;
-}
+S3PDBConnection *S3PTaskListDAO::GetConnection() { return m_pConn; }
 
-std::string S3PTaskListDAO::GetTableName()
-{
-	return "Task_List";
-}
+std::string S3PTaskListDAO::GetTableName() { return "Task_List"; }

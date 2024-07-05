@@ -11,12 +11,10 @@
 
 #include "S3PRole.h"
 
-class S3PRoleList : public S3PTableObjList<S3PRole>  
-{
+class S3PRoleList : public S3PTableObjList<S3PRole> {
 public:
-	S3PRoleList(std::string cAccName);
-	virtual ~S3PRoleList();
-
+  S3PRoleList(std::string cAccName);
+  virtual ~S3PRoleList();
 };
 
 #endif // !defined(AFX_S3PROLELIST_H__F6DD88CE_DECF_46D1_A7A3_3417A55E4345__INCLUDED_)

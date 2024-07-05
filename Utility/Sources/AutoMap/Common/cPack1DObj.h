@@ -11,13 +11,12 @@
 
 #include "cPack1D.h"
 
-class cPack1DObj : public cPack1D  
-{
+class cPack1DObj : public cPack1D {
 public:
-	cPack1DObj();
-	virtual ~cPack1DObj();
+  cPack1DObj();
+  virtual ~cPack1DObj();
 
-	BOOL LoadTemplate(LPCSTR szFile,char** buffer, DWORD& size);
+  BOOL LoadTemplate(LPCSTR szFile, char **buffer, DWORD &size);
 };
 
 #endif // !defined(AFX_CPACK1DOBJ_H__5928124E_78A6_4CB7_8AA8_C31E7AEFB682__INCLUDED_)

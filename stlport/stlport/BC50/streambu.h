@@ -5,14 +5,14 @@
 
 /*
  *
- *  This wrapper is needed for Borland C++ 5.0 to get STLport 
+ *  This wrapper is needed for Borland C++ 5.0 to get STLport
  *  header properly included
  */
 
 #ifndef __STLPORT_BC_streambuf_H
-#  define  __STLPORT_BC_streambuf_H
+#define __STLPORT_BC_streambuf_H
 
-#  include  <..\streambuf.>
+#include <..\streambuf.>
 
 #endif
 

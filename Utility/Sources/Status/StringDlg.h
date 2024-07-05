@@ -11,46 +11,45 @@
 // CStringDlg dialog
 #include "iStatus.h"
 
-class CStringDlg : public CDialog
-{
-// Construction
+class CStringDlg : public CDialog {
+  // Construction
 public:
-	CStringDlg(CWnd* pParent = NULL);   // standard constructor
-	CString m_strTitle;
-	void SetTitle(LPCSTR sTitle){m_strTitle = sTitle;};
+  CStringDlg(CWnd *pParent = NULL); // standard constructor
+  CString m_strTitle;
+  void SetTitle(LPCSTR sTitle) { m_strTitle = sTitle; };
 
-// Dialog Data
-	//{{AFX_DATA(CStringDlg)
-	enum { IDD = IDD_STRING };
-	CString	m_strString;
-	//}}AFX_DATA
+  // Dialog Data
+  //{{AFX_DATA(CStringDlg)
+  enum { IDD = IDD_STRING };
+  CString m_strString;
+  //}}AFX_DATA
 
-	eMaskSetting m_eWant;
-	void GetSetting(stSetting& st);
-	void SetSetting(const stSetting& st);
-	
-	void SetString(eMaskSetting eWant, const CString& s);
-	void GetString(eMaskSetting eWant, CString& s);
+  eMaskSetting m_eWant;
+  void GetSetting(stSetting &st);
+  void SetSetting(const stSetting &st);
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CStringDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
+  void SetString(eMaskSetting eWant, const CString &s);
+  void GetString(eMaskSetting eWant, CString &s);
 
-// Implementation
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CStringDlg)
 protected:
+  virtual void DoDataExchange(CDataExchange *pDX); // DDX/DDV support
+                                                   //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CStringDlg)
-	virtual BOOL OnInitDialog();
-	afx_msg void OnOk();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  // Implementation
+protected:
+  // Generated message map functions
+  //{{AFX_MSG(CStringDlg)
+  virtual BOOL OnInitDialog();
+  afx_msg void OnOk();
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_STRINGDLG_H__852CC05E_254D_4144_AFDB_EA503105FF92__INCLUDED_)

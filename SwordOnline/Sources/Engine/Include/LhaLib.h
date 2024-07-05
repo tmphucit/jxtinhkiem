@@ -11,19 +11,15 @@
 //---------------------------------------------------------------------------
 #ifdef __cplusplus
 extern "C" {
-#endif 
+#endif
 //---------------------------------------------------------------------------
-void	lha_encode(unsigned char* pIn, 
-				   unsigned long nIn,
-				   unsigned char* pOut,
-				   unsigned long* pnOut);
-void	lha_decode(unsigned char* pIn,
-				   unsigned long nIn,
-				   unsigned char* pOut,
-				   unsigned long* pnOut);
+void lha_encode(unsigned char *pIn, unsigned long nIn, unsigned char *pOut,
+                unsigned long *pnOut);
+void lha_decode(unsigned char *pIn, unsigned long nIn, unsigned char *pOut,
+                unsigned long *pnOut);
 //---------------------------------------------------------------------------
 #ifdef __cplusplus
 }
-#endif 
+#endif
 //---------------------------------------------------------------------------
 #endif

@@ -9,64 +9,52 @@
 /*  ÐÞ¸ÄÈÕÆÚ : 8/26/2002                          */
 /**************************************************/
 
+#include "TestRunner.h"
+#include "TestCaller.h"
 #include "TestCase.h"
 #include "TestSuite.h"
-#include "TestCaller.h"
-#include "TestRunner.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-
-void TestRunner::printBanner ()
-{
-    cout << "Usage: driver [ -wait ] testName, where name is the name of a test case class" << endl;
+void TestRunner::printBanner() {
+  cout << "Usage: driver [ -wait ] testName, where name is the name of a test "
+          "case class"
+       << endl;
 }
 
+void TestRunner::run(string testCase) {
+  if (testCase == "") {
+    printBanner();
+    return;
+  }
 
-void TestRunner::run (string testCase)
-{
-    if (testCase == "")
-	{
-        printBanner ();
-        return;
+  Test *testToRun = NULL;
+
+  for (mappings::iterator it = m_mappings.begin(); it != m_mappings.end();
+       ++it) {
+    if ((*it).first == testCase) {
+      testToRun = (*it).second;
+      run(testToRun);
     }
+  }
 
-    Test *testToRun = NULL;
-
-    for (mappings::iterator it = m_mappings.begin ();
-            it != m_mappings.end ();
-            ++it) {
-        if ((*it).first == testCase) {
-            testToRun = (*it).second;
-            run (testToRun);
-        }
-    }
-
-    if (!testToRun) {
-        cout << "Test " << testCase << " not found." << endl;
-        return;
-    } 
+  if (!testToRun) {
+    cout << "Test " << testCase << " not found." << endl;
+    return;
+  }
 }
 
-
-TestRunner::~TestRunner ()
-{
-    for (mappings::iterator it = m_mappings.begin ();
-             it != m_mappings.end ();
-             ++it)
-        delete it->second;
-
+TestRunner::~TestRunner() {
+  for (mappings::iterator it = m_mappings.begin(); it != m_mappings.end(); ++it)
+    delete it->second;
 }
 
+void TestRunner::run(Test *test) {
+  TextTestResult result;
 
-void TestRunner::run (Test *test)
-{
-    TextTestResult  result;
+  test->run(&result);
 
-    test->run (&result);
-
-    cout << result << endl;
+  cout << result << endl;
 }
-

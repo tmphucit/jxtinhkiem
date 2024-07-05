@@ -1,4 +1,4 @@
-using ::streambuf;
+using ::fstream;
 using ::ifstream;
 using ::ofstream;
-using ::fstream;
+using ::streambuf;

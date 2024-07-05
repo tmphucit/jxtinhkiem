@@ -2,13 +2,13 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "Command.h"
 #include "cCmdGroundToggleGrid.h"
+#include "Command.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -16,51 +16,41 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cCmdGroundToggleGrid::cCmdGroundToggleGrid(iCommandMachine* p):cCommand(p)
-{
+cCmdGroundToggleGrid::cCmdGroundToggleGrid(iCommandMachine *p) : cCommand(p) {}
 
+cCmdGroundToggleGrid::~cCmdGroundToggleGrid() {}
+
+void cCmdGroundToggleGrid::SetGroundParam(BitOPEnum e, MapeditParamEnum pm) {
+  iGround::stParam param;
+  param.lMapeditEnum = pm;
+  param.eOPMapedit = e;
+  param.mask = iGround::MASK_MAPEDIT;
+  GetGround()->SetParam(param);
 }
 
-cCmdGroundToggleGrid::~cCmdGroundToggleGrid()
-{
-
+eDoType cCmdGroundToggleGrid::Undo() {
+  if (m_eParam & Mapedit_Grid)
+    SetGroundParam(Bit_Add, Mapedit_Grid);
+  else
+    SetGroundParam(Bit_Remove, Mapedit_Grid);
+  return DO_CANUNDO;
 }
 
-void cCmdGroundToggleGrid::SetGroundParam(BitOPEnum e, MapeditParamEnum pm)
-{
-	iGround::stParam param;
-	param.lMapeditEnum = pm;
-	param.eOPMapedit = e;
-	param.mask = iGround::MASK_MAPEDIT;
-	GetGround()->SetParam(param);
+eDoType cCmdGroundToggleGrid::Redo() {
+  if (m_eParam & Mapedit_Grid)
+    SetGroundParam(Bit_Remove, Mapedit_Grid);
+  else
+    SetGroundParam(Bit_Add, Mapedit_Grid);
+  return DO_CANUNDO;
 }
 
-eDoType cCmdGroundToggleGrid::Undo()
-{
-	if (m_eParam & Mapedit_Grid)
-		SetGroundParam(Bit_Add,Mapedit_Grid);
-	else
-		SetGroundParam(Bit_Remove,Mapedit_Grid);
-	return DO_CANUNDO;
-}
+eDoType cCmdGroundToggleGrid::Do() {
+  iGround::stParam param;
+  param.mask = 0;
+  GetGround()->GetParam(param);
+  m_eParam = param.lMapeditEnum;
 
-eDoType cCmdGroundToggleGrid::Redo()
-{
-	if (m_eParam & Mapedit_Grid)
-		SetGroundParam(Bit_Remove,Mapedit_Grid);
-	else
-		SetGroundParam(Bit_Add,Mapedit_Grid);
-	return DO_CANUNDO;
-}
+  Redo();
 
-eDoType cCmdGroundToggleGrid::Do()
-{
-	iGround::stParam param;
-	param.mask = 0;
-	GetGround()->GetParam(param);
-	m_eParam = param.lMapeditEnum;
-
-	Redo();
-
-	return DO_CANUNDO;
+  return DO_CANUNDO;
 }

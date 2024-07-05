@@ -12,16 +12,17 @@
 #include "KMusic.h"
 #include "KWavFile.h"
 //---------------------------------------------------------------------------
-class ENGINE_API KWavMusic : public KMusic
-{
+class ENGINE_API KWavMusic : public KMusic {
 private:
-	KWavFile		m_WavFile;
+  KWavFile m_WavFile;
+
 public:
-	BOOL			Open(LPSTR FileName);
-	void			Rewind();
+  BOOL Open(LPSTR FileName);
+  void Rewind();
+
 protected:
-	void			InitSoundFormat();
-	DWORD			ReadWaveData(LPBYTE lpBuf, DWORD dwLen);
+  void InitSoundFormat();
+  DWORD ReadWaveData(LPBYTE lpBuf, DWORD dwLen);
 };
 //---------------------------------------------------------------------------
 #endif

@@ -2,15 +2,15 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "Graphics.h"
 #include "cFont.h"
+#include "Graphics.h"
+#include "stdafx.h"
 
 #include "cGraphics.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -18,29 +18,21 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cFont::cFont(cGraphics* p)
-{
-	m_ulCount = 1;
-	m_pGraphics = p;
+cFont::cFont(cGraphics *p) {
+  m_ulCount = 1;
+  m_pGraphics = p;
 }
 
-cFont::~cFont()
-{
-}
+cFont::~cFont() {}
 
 /**************************************************************************/
-//com interface	
+// com interface
 /**************************************************************************/
-ULONG cFont::AddRef() 
-{
-	return ++m_ulCount;
-}
+ULONG cFont::AddRef() { return ++m_ulCount; }
 
-ULONG cFont::Release() 
-{
-	ULONG count = --m_ulCount;
-	if (!count)
-		delete this;
-	return count;
+ULONG cFont::Release() {
+  ULONG count = --m_ulCount;
+  if (!count)
+    delete this;
+  return count;
 }
-

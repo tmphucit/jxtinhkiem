@@ -14,30 +14,28 @@
 using namespace std;
 
 struct iRepresentShell;
-class KInlinePicSink : public IInlinePicEngineSink
-{
+class KInlinePicSink : public IInlinePicEngineSink {
 public:
-	KInlinePicSink();
-	BOOL Init(iRepresentShell*);
-	BOOL UnInit();
-	
+  KInlinePicSink();
+  BOOL Init(iRepresentShell *);
+  BOOL UnInit();
 
 protected:
-	iRepresentShell* m_pRepShell;
-	vector<KUiImageRef>	m_Images;
-	vector<KImageParam> m_ImageParams;
+  iRepresentShell *m_pRepShell;
+  vector<KUiImageRef> m_Images;
+  vector<KImageParam> m_ImageParams;
 
-	vector<KUiImageRef> m_CustomImages;
-	vector<KImageParam> m_CustomImageParams;
+  vector<KUiImageRef> m_CustomImages;
+  vector<KImageParam> m_CustomImageParams;
 
 public:
-	//动态加载图片,获取一个WORD,即图片的索引
-	long AddCustomInlinePic(unsigned short& wIndex, const char* szSprPathName);
-	//动态卸载图片
-	long RemoveCustomInlinePic(unsigned short wIndex);
-	
-	long GetPicSize(unsigned short wIndex, int& cx, int& cy);
-	long DrawPic(unsigned short wIndex, int x, int y);
+  // 动态加载图片,获取一个WORD,即图片的索引
+  long AddCustomInlinePic(unsigned short &wIndex, const char *szSprPathName);
+  // 动态卸载图片
+  long RemoveCustomInlinePic(unsigned short wIndex);
+
+  long GetPicSize(unsigned short wIndex, int &cx, int &cy);
+  long DrawPic(unsigned short wIndex, int x, int y);
 };
 
 #endif //__TEXTPIC_H__

@@ -10,42 +10,26 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PFightSkill::S3PFightSkill()
-{
-	Init();
+S3PFightSkill::S3PFightSkill() { Init(); }
+
+S3PFightSkill::S3PFightSkill(int iid) {
+  char buf[200];
+  sprintf(buf, "%d", iid);
+  m_primaryFields["iid"] = buf;
+  Init();
+  Load();
 }
 
-S3PFightSkill::S3PFightSkill(int iid)
-{
-	char buf[200];
-	sprintf(buf,"%d",iid);
-	m_primaryFields["iid"] = buf;
-	Init();
-	Load();
+S3PFightSkill::~S3PFightSkill() { Clear(); }
+
+S3PDBConnection *S3PFightSkill::GetConn() {
+  return S3PDBConnector::Instance()->ApplyDBConnection(def_ROLEDB);
 }
 
-S3PFightSkill::~S3PFightSkill()
-{
-	Clear();
+S3PTableDAO *S3PFightSkill::GetTableDAO() {
+  return new S3PFightSkillDAO(m_pConn);
 }
 
+std::string S3PFightSkill::GetAutoIncrementField() { return "iid"; }
 
-S3PDBConnection	* S3PFightSkill::GetConn()
-{
-	return S3PDBConnector::Instance()->ApplyDBConnection(def_ROLEDB);
-}
-
-S3PTableDAO * S3PFightSkill::GetTableDAO()
-{
-	return new S3PFightSkillDAO(m_pConn);
-}
-
-std::string S3PFightSkill::GetAutoIncrementField()
-{
-	return "iid";
-}
-
-std::string S3PFightSkill::GetMandatoryField()
-{
-	return "iFightSkill";
-}
+std::string S3PFightSkill::GetMandatoryField() { return "iFightSkill"; }

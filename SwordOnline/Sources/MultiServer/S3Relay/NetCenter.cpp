@@ -2,101 +2,85 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
 #include "NetCenter.h"
+#include "stdafx.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CNetCenter::CNetCenter()
-{
+CNetCenter::CNetCenter() {}
 
+CNetCenter::~CNetCenter() {}
+
+BOOL CNetCenter::Initialize() {
+  AUTOLOCKWRITE(m_lockAccess);
+
+  OnBuildup();
+
+  return TRUE;
 }
 
-CNetCenter::~CNetCenter()
-{
+BOOL CNetCenter::Uninitialize() {
+  AUTOLOCKWRITE(m_lockAccess);
 
+  for (CLIENTSET::iterator it = m_setClient.begin(); it != m_setClient.end();
+       it++) {
+    CNetClient *pClient = (*it);
+    assert(pClient);
+    if (pClient)
+      pClient->Shutdown();
+  }
+  m_setClient.clear();
+
+  OnClearup();
+
+  return TRUE;
 }
 
+void CNetCenter::_NotifyServerEventCreate(CNetClient *pClient) {
+  AUTOLOCKWRITE(m_lockAccess);
 
-BOOL CNetCenter::Initialize()
-{
-	AUTOLOCKWRITE(m_lockAccess);
+  OnServerEventCreate(pClient);
 
-	OnBuildup();
-
-	return TRUE;
+  m_setClient.insert(pClient);
 }
 
-BOOL CNetCenter::Uninitialize()
-{
-	AUTOLOCKWRITE(m_lockAccess);
+void CNetCenter::_NotifyServerEventClose(CNetClient *pClient) {
+  AUTOLOCKWRITE(m_lockAccess);
 
-	for (CLIENTSET::iterator it = m_setClient.begin(); it != m_setClient.end(); it++)
-	{
-		CNetClient* pClient = (*it);
-		assert(pClient);
-		if (pClient)
-			pClient->Shutdown();
-	}
-	m_setClient.clear();
+  m_setClient.erase(pClient);
 
-	OnClearup();
-
-	return TRUE;
+  OnServerEventClose(pClient);
 }
 
-
-void CNetCenter::_NotifyServerEventCreate(CNetClient* pClient)
-{
-	AUTOLOCKWRITE(m_lockAccess);
-
-	OnServerEventCreate(pClient);
-
-	m_setClient.insert(pClient);
+size_t CNetCenter::GetClientCount() {
+  AUTOLOCKREAD(m_lockAccess);
+  return m_setClient.size();
 }
 
-void CNetCenter::_NotifyServerEventClose(CNetClient* pClient)
-{
-	AUTOLOCKWRITE(m_lockAccess);
+BOOL CNetCenter::BroadPackage(const void *pData, size_t size) {
+  AUTOLOCKREAD(m_lockAccess);
 
-	m_setClient.erase(pClient);
+  for (CLIENTSET::iterator it = m_setClient.begin(); it != m_setClient.end();
+       it++) {
+    CNetClient *pNetClient = (*it);
+    assert(pNetClient);
+    if (pNetClient)
+      pNetClient->SendPackage(pData, size);
+  }
 
-	OnServerEventClose(pClient);
+  return TRUE;
 }
 
-size_t CNetCenter::GetClientCount() 
-{
-	AUTOLOCKREAD(m_lockAccess);
-	return m_setClient.size();
-}
+BOOL CNetCenter::Route() {
+  AUTOLOCKREAD(m_lockAccess);
 
-BOOL CNetCenter::BroadPackage(const void* pData, size_t size)
-{
-	AUTOLOCKREAD(m_lockAccess);
+  for (CLIENTSET::iterator it = m_setClient.begin(); it != m_setClient.end();
+       it++) {
+    CNetClient *pNetClient = *it;
+    pNetClient->Route();
+  }
 
-	for (CLIENTSET::iterator it = m_setClient.begin(); it != m_setClient.end(); it++)
-	{
-		CNetClient* pNetClient = (*it);
-		assert(pNetClient);
-		if (pNetClient)
-			pNetClient->SendPackage(pData, size);
-	}
-
-	return TRUE;
-}
-
-
-BOOL CNetCenter::Route()
-{
-	AUTOLOCKREAD(m_lockAccess);
-
-	for (CLIENTSET::iterator it = m_setClient.begin(); it != m_setClient.end(); it++)
-	{
-		CNetClient* pNetClient = *it;
-		pNetClient->Route();
-	}
-
-	return TRUE;
+  return TRUE;
 }

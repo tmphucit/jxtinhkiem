@@ -9,29 +9,27 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include "NetClient.h"
 #include "NetCenter.h"
+#include "NetClient.h"
 
-class CDBCenter : public CNetCenter  
-{
+class CDBCenter : public CNetCenter {
 public:
-	CDBCenter();
-	virtual ~CDBCenter();
+  CDBCenter();
+  virtual ~CDBCenter();
 
 public:
-	BOOL TraceInfo();
+  BOOL TraceInfo();
 };
 
-class CDBClient : public CNetClient  
-{
+class CDBClient : public CNetClient {
 public:
-	CDBClient(class CDBCenter* pRootCenter, BOOL bAutoFree);
-	virtual ~CDBClient();
+  CDBClient(class CDBCenter *pRootCenter, BOOL bAutoFree);
+  virtual ~CDBClient();
 
 protected:
-	virtual void RecvPackage(const void* pData, size_t size);
-	virtual void OnServerEventCreate();
-	virtual void OnServerEventClose();
+  virtual void RecvPackage(const void *pData, size_t size);
+  virtual void OnServerEventCreate();
+  virtual void OnServerEventClose();
 
 private:
 };

@@ -1,14 +1,14 @@
 #ifndef KAutoMutexH
-#define	KAutoMutexH
+#define KAutoMutexH
 
 class KMutex;
 
-class ENGINE_API KAutoMutex
-{
+class ENGINE_API KAutoMutex {
 private:
-	KMutex*		m_pMutex;
+  KMutex *m_pMutex;
+
 public:
-	KAutoMutex(KMutex* pMutex);
-	~KAutoMutex();
+  KAutoMutex(KMutex *pMutex);
+  ~KAutoMutex();
 };
 #endif

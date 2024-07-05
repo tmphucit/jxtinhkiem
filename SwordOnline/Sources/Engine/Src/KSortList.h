@@ -12,25 +12,25 @@
 #include "KMemClass.h"
 //---------------------------------------------------------------------------
 typedef struct {
-	DWORD	HashCode;
-	PVOID	ListItem;
+  DWORD HashCode;
+  PVOID ListItem;
 } SORT, *PSORT;
 //---------------------------------------------------------------------------
-class ENGINE_API KSortList
-{
+class ENGINE_API KSortList {
 private:
-	KMemClass	m_ListMem;
-	KMemClass	m_SortMem;
-	int			m_nItemNum;
-	int			m_nItemSize;
-	int 		m_nItemCount;
+  KMemClass m_ListMem;
+  KMemClass m_SortMem;
+  int m_nItemNum;
+  int m_nItemSize;
+  int m_nItemCount;
+
 public:
-	KSortList();
-	~KSortList();
-	BOOL		Init(int nItemSize, int ItemCount);
-	BOOL		Insert(DWORD dwHashCode, PVOID pvItem);
-	BOOL		Search(DWORD dwHashCode, PVOID pvItem);
-	void		Free();
+  KSortList();
+  ~KSortList();
+  BOOL Init(int nItemSize, int ItemCount);
+  BOOL Insert(DWORD dwHashCode, PVOID pvItem);
+  BOOL Search(DWORD dwHashCode, PVOID pvItem);
+  void Free();
 };
 //---------------------------------------------------------------------------
 #endif

@@ -6,37 +6,30 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Simple double linked node class
 //---------------------------------------------------------------------------
-#include "KWin32.h"
+#include "KHashNode.h"
 #include "KDebug.h"
 #include "KStrBase.h"
-#include "KHashNode.h"
+#include "KWin32.h"
 //---------------------------------------------------------------------------
 // 函数:	KHashNode
 // 功能:	构造
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-KHashNode::KHashNode(void)
-{
-	m_pHashTable = NULL;
-}
+KHashNode::KHashNode(void) { m_pHashTable = NULL; }
 //---------------------------------------------------------------------------
 // 函数:	SetName
 // 功能:	set node name
 // 参数:	char*
 // 返回:	void
 //---------------------------------------------------------------------------
-void KHashNode::SetName(char* pStr)
-{
-	if (KStrNode::IsLinked())
-	{
-		m_pHashTable->Delete(m_Name);
-		KStrNode::SetName(pStr);
-		m_pHashTable->Add(this);
-	}
-	else
-	{
-		KStrNode::SetName(pStr);
-	}
+void KHashNode::SetName(char *pStr) {
+  if (KStrNode::IsLinked()) {
+    m_pHashTable->Delete(m_Name);
+    KStrNode::SetName(pStr);
+    m_pHashTable->Add(this);
+  } else {
+    KStrNode::SetName(pStr);
+  }
 }
 //--------------------------------------------------------------------------------

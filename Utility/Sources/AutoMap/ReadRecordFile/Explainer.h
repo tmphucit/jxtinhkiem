@@ -9,12 +9,10 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-class Explainer  
-{
+class Explainer {
 public:
-	Explainer();
-	virtual ~Explainer();
-
+  Explainer();
+  virtual ~Explainer();
 };
 
 #endif // !defined(AFX_EXPLAINER_H__D2B7AF48_BE0B_4C61_B7AC_E88D8FE32B54__INCLUDED_)

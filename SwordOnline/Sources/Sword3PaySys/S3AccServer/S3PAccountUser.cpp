@@ -12,23 +12,15 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PAccountUserDAO::S3PAccountUserDAO( S3PDBConnection* pConn )
-{
-	m_pConn = pConn;
+S3PAccountUserDAO::S3PAccountUserDAO(S3PDBConnection *pConn) {
+  m_pConn = pConn;
 }
 
-S3PAccountUserDAO::~S3PAccountUserDAO()
-{
+S3PAccountUserDAO::~S3PAccountUserDAO() {}
 
-}
+S3PDBConnection *S3PAccountUserDAO::GetConnection() { return m_pConn; }
 
-S3PDBConnection* S3PAccountUserDAO::GetConnection()
-{
-	return m_pConn;
-}
-
-std::string S3PAccountUserDAO::GetTableName()
-{
-	return "admins";
-	return "user";
+std::string S3PAccountUserDAO::GetTableName() {
+  return "admins";
+  return "user";
 }

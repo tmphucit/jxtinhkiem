@@ -2,92 +2,74 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
 #include "RelayCenter.h"
 #include "S3Relay.h"
+#include "stdafx.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CRelayCenter::CRelayCenter()
-{
+CRelayCenter::CRelayCenter() {}
 
+CRelayCenter::~CRelayCenter() {}
+
+void CRelayCenter::OnBuildup() { AUTOLOCKWRITE(m_lockIpMap); }
+
+void CRelayCenter::OnClearup() {
+  AUTOLOCKWRITE(m_lockIpMap);
+
+  m_mapIp2Client.clear();
 }
 
-CRelayCenter::~CRelayCenter()
-{
+void CRelayCenter::OnServerEventCreate(CNetClient *pClient) {
+  AUTOLOCKWRITE(m_lockIpMap);
 
+  m_mapIp2Client[pClient->GetSvrIP()] = (CRelayClient *)pClient;
 }
 
+void CRelayCenter::OnServerEventClose(CNetClient *pClient) {
+  AUTOLOCKWRITE(m_lockIpMap);
 
-void CRelayCenter::OnBuildup()
-{
-	AUTOLOCKWRITE(m_lockIpMap);
-
+  m_mapIp2Client.erase(pClient->GetSvrIP());
 }
 
-void CRelayCenter::OnClearup()
-{
-	AUTOLOCKWRITE(m_lockIpMap);
+BOOL CRelayCenter::FindRelayClientByIP(DWORD IP, CNetClientDup *pClntDup) {
+  AUTOLOCKREAD(m_lockIpMap);
 
-	m_mapIp2Client.clear();
+  IP2CLIENTMAP::iterator it = m_mapIp2Client.find(IP);
+  if (it == m_mapIp2Client.end())
+    return FALSE;
+
+  CRelayClient *pRelayClnt = (*it).second;
+  if (!pRelayClnt)
+    return FALSE;
+
+  if (pClntDup != NULL)
+    *pClntDup = *pRelayClnt;
+  return TRUE;
 }
 
-void CRelayCenter::OnServerEventCreate(CNetClient* pClient)
-{
-	AUTOLOCKWRITE(m_lockIpMap);
+BOOL CRelayCenter::TraceInfo() {
+  AUTOLOCKREAD(m_lockIpMap);
 
-	m_mapIp2Client[pClient->GetSvrIP()] = (CRelayClient*)pClient;
-}
+  std::_tstring info("message: [RelayCenter] ");
+  char buffer[_MAX_PATH];
 
-void CRelayCenter::OnServerEventClose(CNetClient* pClient)
-{
-	AUTOLOCKWRITE(m_lockIpMap);
+  sprintf(buffer, "<total: %d> : ", m_mapIp2Client.size());
+  info.append(buffer);
 
-	m_mapIp2Client.erase(pClient->GetSvrIP());
-}
+  size_t idx = 0;
+  for (IP2CLIENTMAP::iterator it = m_mapIp2Client.begin();
+       it != m_mapIp2Client.end(); it++) {
+    if (it != m_mapIp2Client.begin())
+      info.append(", ");
 
+    sprintf(buffer, "%08X", (*it).first);
+    info.append(buffer);
+  }
 
-BOOL CRelayCenter::FindRelayClientByIP(DWORD IP, CNetClientDup* pClntDup)
-{
-	AUTOLOCKREAD(m_lockIpMap);
+  rTRACE(info.c_str());
 
-	IP2CLIENTMAP::iterator it = m_mapIp2Client.find(IP);
-	if (it == m_mapIp2Client.end())
-		return FALSE;
-
-	CRelayClient* pRelayClnt = (*it).second;
-	if (!pRelayClnt)
-		return FALSE;
-
-	if (pClntDup != NULL)
-		*pClntDup = *pRelayClnt;
-	return TRUE;
-}
-
-
-BOOL CRelayCenter::TraceInfo()
-{
-	AUTOLOCKREAD(m_lockIpMap);
-
-	std::_tstring info("message: [RelayCenter] ");
-	char buffer[_MAX_PATH];
-
-	sprintf(buffer, "<total: %d> : ", m_mapIp2Client.size());
-	info.append(buffer);
-
-	size_t idx = 0;
-	for (IP2CLIENTMAP::iterator it = m_mapIp2Client.begin(); it != m_mapIp2Client.end(); it++)
-	{
-		if (it != m_mapIp2Client.begin())
-			info.append(", ");
-
-		sprintf(buffer, "%08X", (*it).first);
-		info.append(buffer);
-	}
-
-	rTRACE(info.c_str());
-
-	return TRUE;
+  return TRUE;
 }

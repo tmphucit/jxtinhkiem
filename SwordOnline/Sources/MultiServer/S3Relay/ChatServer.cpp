@@ -2,102 +2,85 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
 #include "ChatServer.h"
 #include "ChatConnect.h"
 #include "S3Relay.h"
+#include "stdafx.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CChatServer::CChatServer()
-{
+CChatServer::CChatServer() {}
 
+CChatServer::~CChatServer() {}
+
+CNetConnect *CChatServer::CreateConnect(CNetServer *pNetServer,
+                                        unsigned long id) {
+  return new CChatConnect((CChatServer *)pNetServer, id);
 }
 
-CChatServer::~CChatServer()
-{
+void CChatServer::DestroyConnect(CNetConnect *pConn) { delete pConn; }
 
+void CChatServer::OnBuildup() {
+  AUTOLOCKWRITE(m_lockIpMap);
+
+  rTRACE("chat server startup");
 }
 
+void CChatServer::OnClearup() {
+  AUTOLOCKWRITE(m_lockIpMap);
 
-CNetConnect* CChatServer::CreateConnect(CNetServer* pNetServer, unsigned long id)
-{
-	return new CChatConnect((CChatServer*)pNetServer, id);
+  m_mapIp2Connect.clear();
+
+  rTRACE("chat server shutdown");
 }
 
-void CChatServer::DestroyConnect(CNetConnect* pConn)
-{
-	delete pConn;
+void CChatServer::OnClientConnectCreate(CNetConnect *pConn) {
+  AUTOLOCKWRITE(m_lockIpMap);
+
+  m_mapIp2Connect[pConn->GetIP()] = (CChatConnect *)pConn;
 }
 
+void CChatServer::OnClientConnectClose(CNetConnect *pConn) {
+  AUTOLOCKWRITE(m_lockIpMap);
 
-void CChatServer::OnBuildup()
-{
-	AUTOLOCKWRITE(m_lockIpMap);
-
-	rTRACE("chat server startup");
+  m_mapIp2Connect.erase(pConn->GetIP());
 }
 
-void CChatServer::OnClearup()
-{
-	AUTOLOCKWRITE(m_lockIpMap);
+CNetConnectDup CChatServer::FindChatConnectByIP(DWORD IP) {
+  AUTOLOCKREAD(m_lockIpMap);
 
-	m_mapIp2Connect.clear();
+  IP2CONNECTMAP::iterator it = m_mapIp2Connect.find(IP);
+  if (it == m_mapIp2Connect.end())
+    return CNetConnectDup();
 
-	rTRACE("chat server shutdown");
+  CChatConnect *pChatConn = (*it).second;
+  if (!pChatConn)
+    return CNetConnectDup();
+
+  return CNetConnectDup(*pChatConn);
 }
 
-void CChatServer::OnClientConnectCreate(CNetConnect* pConn)
-{
-	AUTOLOCKWRITE(m_lockIpMap);
+BOOL CChatServer::TraceInfo() {
+  AUTOLOCKREAD(m_lockIpMap);
 
-	m_mapIp2Connect[pConn->GetIP()] = (CChatConnect*)pConn;
-}
+  std::_tstring info("message: [ChatServer] ");
+  char buffer[_MAX_PATH];
 
-void CChatServer::OnClientConnectClose(CNetConnect* pConn)
-{
-	AUTOLOCKWRITE(m_lockIpMap);
+  sprintf(buffer, "<total: %d> : ", m_mapIp2Connect.size());
+  info.append(buffer);
 
-	m_mapIp2Connect.erase(pConn->GetIP());
-}
+  for (IP2CONNECTMAP::iterator it = m_mapIp2Connect.begin();
+       it != m_mapIp2Connect.end(); it++) {
+    if (it != m_mapIp2Connect.begin())
+      info.append(", ");
 
-CNetConnectDup CChatServer::FindChatConnectByIP(DWORD IP)
-{
-	AUTOLOCKREAD(m_lockIpMap);
+    sprintf(buffer, "%08X", (*it).first);
+    info.append(buffer);
+  }
 
-	IP2CONNECTMAP::iterator it = m_mapIp2Connect.find(IP);
-	if (it == m_mapIp2Connect.end())
-		return CNetConnectDup();
+  rTRACE(info.c_str());
 
-	CChatConnect* pChatConn = (*it).second;
-	if (!pChatConn)
-		return CNetConnectDup();
-
-	return CNetConnectDup(*pChatConn);
-}
-
-BOOL CChatServer::TraceInfo()
-{
-	AUTOLOCKREAD(m_lockIpMap);
-
-	std::_tstring info("message: [ChatServer] ");
-	char buffer[_MAX_PATH];
-
-	sprintf(buffer, "<total: %d> : ", m_mapIp2Connect.size());
-	info.append(buffer);
-
-	for (IP2CONNECTMAP::iterator it = m_mapIp2Connect.begin(); it != m_mapIp2Connect.end(); it++)
-	{
-		if (it != m_mapIp2Connect.begin())
-			info.append(", ");
-
-		sprintf(buffer, "%08X", (*it).first);
-		info.append(buffer);
-	}
-
-	rTRACE(info.c_str());
-
-	return TRUE;
+  return TRUE;
 }

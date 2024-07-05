@@ -11,19 +11,18 @@
 //---------------------------------------------------------------------------
 #include "KBitmap.h"
 //---------------------------------------------------------------------------
-class ENGINE_API KPcxFile
-{
+class ENGINE_API KPcxFile {
 private:
-	long		m_nWidth;
-	long		m_nHeight;
+  long m_nWidth;
+  long m_nHeight;
 
 private:
-	void		Decode(void* lpDes, void* lpSrc);
-	void		Encode(void* lpDes, void* lpSrc);
+  void Decode(void *lpDes, void *lpSrc);
+  void Encode(void *lpDes, void *lpSrc);
 
 public:
-	BOOL		Load(LPSTR lpFileName, KBitmap* lpBitmap);
-	BOOL		Save(LPSTR lpFileName, KBitmap* lpBitmap);
+  BOOL Load(LPSTR lpFileName, KBitmap *lpBitmap);
+  BOOL Save(LPSTR lpFileName, KBitmap *lpBitmap);
 };
 //---------------------------------------------------------------------------
 #endif

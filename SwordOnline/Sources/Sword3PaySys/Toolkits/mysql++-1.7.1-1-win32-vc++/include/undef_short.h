@@ -5,7 +5,7 @@
 // defs.h
 #undef use_exceptions
 
-// base.h           
+// base.h
 #undef BadQuery
 #undef MysqlCon
 #undef Connection
@@ -21,10 +21,10 @@
 // field_names.h
 #undef FieldNames
 
-//query.h
+// query.h
 #undef Query
 
-//string.h
+// string.h
 #undef BadConversion
 #undef ColData
 

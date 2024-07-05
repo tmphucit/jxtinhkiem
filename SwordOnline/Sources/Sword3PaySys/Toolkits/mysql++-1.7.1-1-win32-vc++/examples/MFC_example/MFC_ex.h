@@ -8,5 +8,4 @@
 
 #include "resource.h"
 
-
 #endif // !defined(AFX_MFC_EX_H__68D1D68C_8A8A_11D5_A223_0050BAF07801__INCLUDED_)

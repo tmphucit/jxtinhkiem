@@ -9,44 +9,43 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-#include <set>
 #include "NetClient.h"
+#include <set>
 
-class CNetCenter  
-{
+class CNetCenter {
 public:
-	CNetCenter();
-	virtual ~CNetCenter();
+  CNetCenter();
+  virtual ~CNetCenter();
 
 public:
-	BOOL Initialize();
-	BOOL Uninitialize();
+  BOOL Initialize();
+  BOOL Uninitialize();
 
-	size_t GetClientCount();
+  size_t GetClientCount();
 
-	BOOL BroadPackage(const void* pData, size_t size);
+  BOOL BroadPackage(const void *pData, size_t size);
 
 private:
-	typedef std::set<CNetClient*>	CLIENTSET;
-	CLIENTSET m_setClient;
+  typedef std::set<CNetClient *> CLIENTSET;
+  CLIENTSET m_setClient;
 
 public:
-	void _NotifyServerEventCreate(CNetClient* pClient);
-	void _NotifyServerEventClose(CNetClient* pClient);
+  void _NotifyServerEventCreate(CNetClient *pClient);
+  void _NotifyServerEventClose(CNetClient *pClient);
 
 protected:
-	virtual void OnBuildup() {}
-	virtual void OnClearup() {}
+  virtual void OnBuildup() {}
+  virtual void OnClearup() {}
 
-	virtual void OnServerEventCreate(CNetClient* pClient) {}
-	virtual void OnServerEventClose(CNetClient* pClient) {}
+  virtual void OnServerEventCreate(CNetClient *pClient) {}
+  virtual void OnServerEventClose(CNetClient *pClient) {}
 
 private:
-	CLockMRSW m_lockAccess;
-	CLockMRSW m_lockServer;
+  CLockMRSW m_lockAccess;
+  CLockMRSW m_lockServer;
 
 public:
-	BOOL Route();
+  BOOL Route();
 };
 
 #endif // !defined(AFX_NETCENTER_H__7D615C7A_1D62_4EBC_B25C_7748DC4EEF6F__INCLUDED_)

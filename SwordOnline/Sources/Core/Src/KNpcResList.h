@@ -15,30 +15,28 @@
 #include "KNpcResNode.h"
 #include "KPlayerMenuState.h"
 
-class KNpcResList : public KList
-{
+class KNpcResList : public KList {
 public:
-	CActionName				m_cActionName;
-	CActionName				m_cNpcAction;
-	CStateMagicTable		m_cStateTable;
-	KPlayerMenuStateGraph	m_cMenuState;
+  CActionName m_cActionName;
+  CActionName m_cNpcAction;
+  CStateMagicTable m_cStateTable;
+  KPlayerMenuStateGraph m_cMenuState;
 
 private:
-
-	// 查找同名的 NpcResNode 并返回节点
-	KNpcResNode*		FindNpcRes(char *lpszNpcName);
+  // 查找同名的 NpcResNode 并返回节点
+  KNpcResNode *FindNpcRes(char *lpszNpcName);
 
 public:
-    KNpcResList();
-    ~KNpcResList();
-	
-    // 初始化 ActionName
-	BOOL				Init();
-	// 添加一个 NpcResNode 并返回节点，如果已存在，直接返回节点
-	KNpcResNode*		AddNpcRes(char *lpszNpcName);
+  KNpcResList();
+  ~KNpcResList();
+
+  // 初始化 ActionName
+  BOOL Init();
+  // 添加一个 NpcResNode 并返回节点，如果已存在，直接返回节点
+  KNpcResNode *AddNpcRes(char *lpszNpcName);
 };
 #ifndef _SERVER
-extern KNpcResList	g_NpcResList;
+extern KNpcResList g_NpcResList;
 #endif
 
 #endif

@@ -6,12 +6,12 @@
 // Code:	Huyi(Spe)
 // Desc:	Tab File Operation Class
 //---------------------------------------------------------------------------
-#include "KWin32.h"
 #include "KDebug.h"
-#include "KStrBase.h"
 #include "KFile.h"
 #include "KFilePath.h"
 #include "KPakFile.h"
+#include "KStrBase.h"
+#include "KWin32.h"
 #ifndef _SERVER
 #include "KCodec.h"
 #endif
@@ -23,10 +23,9 @@
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-KTabFile::KTabFile()
-{
-	m_Width		= 0;
-	m_Height	= 0;
+KTabFile::KTabFile() {
+  m_Width = 0;
+  m_Height = 0;
 }
 //---------------------------------------------------------------------------
 // 函数:	~KTabFile
@@ -34,10 +33,7 @@ KTabFile::KTabFile()
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-KTabFile::~KTabFile()
-{
-	Clear();
-}
+KTabFile::~KTabFile() { Clear(); }
 //---------------------------------------------------------------------------
 // 函数:	Load
 // 功能:	加载一个Tab文件
@@ -45,31 +41,29 @@ KTabFile::~KTabFile()
 // 返回:	TRUE		成功
 //			FALSE		失败
 //---------------------------------------------------------------------------
-BOOL KTabFile::Load(LPSTR FileName)
-{
-	KPakFile	File;
-	DWORD		dwSize;
-	PVOID		Buffer;
+BOOL KTabFile::Load(LPSTR FileName) {
+  KPakFile File;
+  DWORD dwSize;
+  PVOID Buffer;
 
-	// check file name
-	if (FileName[0] == 0)
-		return FALSE;
+  // check file name
+  if (FileName[0] == 0)
+    return FALSE;
 
-	if (!File.Open(FileName))
-	{
-		g_DebugLog("Can't open tab file : %s", FileName);
-		return FALSE;
-	}
+  if (!File.Open(FileName)) {
+    g_DebugLog("Can't open tab file : %s", FileName);
+    return FALSE;
+  }
 
-	dwSize = File.Size();
+  dwSize = File.Size();
 
-	Buffer = m_Memory.Alloc(dwSize);
+  Buffer = m_Memory.Alloc(dwSize);
 
-	File.Read(Buffer, dwSize);
+  File.Read(Buffer, dwSize);
 
-	CreateTabOffset();
+  CreateTabOffset();
 
-	return TRUE;
+  return TRUE;
 }
 
 //---------------------------------------------------------------------------
@@ -78,103 +72,91 @@ BOOL KTabFile::Load(LPSTR FileName)
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KTabFile::CreateTabOffset()
-{
-	int		nWidth, nHeight, nOffset, nSize;
-	BYTE	*Buffer;
-	TABOFFSET *TabBuffer;
+void KTabFile::CreateTabOffset() {
+  int nWidth, nHeight, nOffset, nSize;
+  BYTE *Buffer;
+  TABOFFSET *TabBuffer;
 
-	nWidth	= 1;
-	nHeight	= 1;
-	nOffset = 0;
+  nWidth = 1;
+  nHeight = 1;
+  nOffset = 0;
 
-	Buffer	= (BYTE *)m_Memory.GetMemPtr();
-	nSize	= m_Memory.GetMemLen();
+  Buffer = (BYTE *)m_Memory.GetMemPtr();
+  nSize = m_Memory.GetMemLen();
 
-	// 读第一行决定有多少列
-	while (*Buffer != 0x0d && *Buffer != 0x0a)
-	{
-		if (*Buffer == 0x09)
-		{
-			nWidth++;
-		}
-		Buffer++;
-		nOffset++;
-	}
-	if (*Buffer == 0x0d && *(Buffer + 1) == 0x0a)
-	{
-		Buffer += 2;	// 0x0a跳过		
-		nOffset += 2;	// 0x0a跳过
-	}
-	else
-	{
-		Buffer += 1;	// 0x0a跳过		
-		nOffset += 1;	// 0x0a跳过
-	}
-	while(nOffset < nSize)
-	{
-		while (*Buffer != 0x0d && *Buffer != 0x0a)
-		{
-			Buffer++;
-			nOffset++;
-			if (nOffset >= nSize)
-				break;
-		}
-		nHeight++;
-		if (*Buffer == 0x0d && *(Buffer + 1) == 0x0a)
-		{
-			Buffer += 2;	// 0x0a跳过		
-			nOffset += 2;	// 0x0a跳过
-		}
-		else
-		{
-			Buffer += 1;	// 0x0a跳过		
-			nOffset += 1;	// 0x0a跳过
-		}
-	}
-	m_Width		= nWidth;
-	m_Height	= nHeight;
+  // 读第一行决定有多少列
+  while (*Buffer != 0x0d && *Buffer != 0x0a) {
+    if (*Buffer == 0x09) {
+      nWidth++;
+    }
+    Buffer++;
+    nOffset++;
+  }
+  if (*Buffer == 0x0d && *(Buffer + 1) == 0x0a) {
+    Buffer += 2;  // 0x0a跳过
+    nOffset += 2; // 0x0a跳过
+  } else {
+    Buffer += 1;  // 0x0a跳过
+    nOffset += 1; // 0x0a跳过
+  }
+  while (nOffset < nSize) {
+    while (*Buffer != 0x0d && *Buffer != 0x0a) {
+      Buffer++;
+      nOffset++;
+      if (nOffset >= nSize)
+        break;
+    }
+    nHeight++;
+    if (*Buffer == 0x0d && *(Buffer + 1) == 0x0a) {
+      Buffer += 2;  // 0x0a跳过
+      nOffset += 2; // 0x0a跳过
+    } else {
+      Buffer += 1;  // 0x0a跳过
+      nOffset += 1; // 0x0a跳过
+    }
+  }
+  m_Width = nWidth;
+  m_Height = nHeight;
 
-	TabBuffer = (TABOFFSET *)m_OffsetTable.Alloc(m_Width * m_Height * sizeof (TABOFFSET));
-	Buffer = (BYTE *)m_Memory.GetMemPtr();
+  TabBuffer =
+      (TABOFFSET *)m_OffsetTable.Alloc(m_Width * m_Height * sizeof(TABOFFSET));
+  Buffer = (BYTE *)m_Memory.GetMemPtr();
 
-	nOffset = 0;
-	int nLength;
-	for (int i = 0; i < nHeight; i++)
-	{
-		for (int j = 0; j < nWidth; j++)
-		{
-			TabBuffer->dwOffset = nOffset;	
-			nLength = 0;
-			while(*Buffer != 0x09 && *Buffer != 0x0d && *Buffer != 0x0a && nOffset < nSize)
-			{
-				Buffer++;
-				nOffset++;
-				nLength++;
-			}
-			Buffer++;	// 0x09或0x0d或0x0a(linux)跳过
-			nOffset++;
-			TabBuffer->dwLength = nLength;
-			TabBuffer++;
-			if (*(Buffer - 1) == 0x0a || *(Buffer - 1) == 0x0d)	//	本行已经结束了，虽然可能没到nWidth //for linux modified [wxb 2003-7-29]
-			{
-				for (int k = j+1; k < nWidth; k++)
-				{
-					TabBuffer->dwOffset = nOffset;
-					TabBuffer->dwLength = 0;
-					TabBuffer++;					
-				}
-				break;
-			}
-		}
+  nOffset = 0;
+  int nLength;
+  for (int i = 0; i < nHeight; i++) {
+    for (int j = 0; j < nWidth; j++) {
+      TabBuffer->dwOffset = nOffset;
+      nLength = 0;
+      while (*Buffer != 0x09 && *Buffer != 0x0d && *Buffer != 0x0a &&
+             nOffset < nSize) {
+        Buffer++;
+        nOffset++;
+        nLength++;
+      }
+      Buffer++; // 0x09或0x0d或0x0a(linux)跳过
+      nOffset++;
+      TabBuffer->dwLength = nLength;
+      TabBuffer++;
+      if (*(Buffer - 1) == 0x0a ||
+          *(Buffer - 1) == 0x0d) //	本行已经结束了，虽然可能没到nWidth //for
+                                 // linux modified [wxb 2003-7-29]
+      {
+        for (int k = j + 1; k < nWidth; k++) {
+          TabBuffer->dwOffset = nOffset;
+          TabBuffer->dwLength = 0;
+          TabBuffer++;
+        }
+        break;
+      }
+    }
 
-		//modified for linux [wxb 2003-7-29]
-		if (*(Buffer - 1) == 0x0d && *Buffer == 0x0a)
-		{
-			Buffer++;				// 0x0a跳过	
-			nOffset++;				// 0x0a跳过	
-		}
-	}
+    // modified for linux [wxb 2003-7-29]
+    if (*(Buffer - 1) == 0x0d && *Buffer == 0x0a) {
+      Buffer++;  // 0x0a跳过
+      nOffset++; // 0x0a跳过
+    }
+  }
 }
 
 //---------------------------------------------------------------------------
@@ -183,18 +165,16 @@ void KTabFile::CreateTabOffset()
 // 参数:	szColumn
 // 返回:	第几列
 //---------------------------------------------------------------------------
-int KTabFile::Str2Col(LPSTR szColumn)
-{
-	int	nStrLen = g_StrLen(szColumn);
-	char	szTemp[4];
+int KTabFile::Str2Col(LPSTR szColumn) {
+  int nStrLen = g_StrLen(szColumn);
+  char szTemp[4];
 
-	g_StrCpy(szTemp, szColumn);
-	g_StrUpper(szTemp);
-	if (nStrLen == 1)
-	{
-		return (szTemp[0] - 'A');
-	}
-	return ((szTemp[0] - 'A' + 1) * 26 + szTemp[1] - 'A') + 1;
+  g_StrCpy(szTemp, szColumn);
+  g_StrUpper(szTemp);
+  if (nStrLen == 1) {
+    return (szTemp[0] - 'A');
+  }
+  return ((szTemp[0] - 'A' + 1) * 26 + szTemp[1] - 'A') + 1;
 }
 
 //---------------------------------------------------------------------------
@@ -207,17 +187,17 @@ int KTabFile::Str2Col(LPSTR szColumn)
 //			dwSize			返回字符串的最大长度
 // 返回:	是否成功
 //---------------------------------------------------------------------------
-BOOL KTabFile::GetString(int nRow, LPSTR szColumn, LPSTR lpDefault, LPSTR lpRString, DWORD dwSize, BOOL bColumnLab)
-{
-	int nColumn;
-	if (bColumnLab)
-		nColumn = FindColumn(szColumn);
-	else
-		nColumn = Str2Col(szColumn);
-	if (GetValue(nRow - 1, nColumn - 1, lpRString, dwSize))
-		return TRUE;
-	g_StrCpyLen(lpRString, lpDefault, dwSize);
-	return FALSE;
+BOOL KTabFile::GetString(int nRow, LPSTR szColumn, LPSTR lpDefault,
+                         LPSTR lpRString, DWORD dwSize, BOOL bColumnLab) {
+  int nColumn;
+  if (bColumnLab)
+    nColumn = FindColumn(szColumn);
+  else
+    nColumn = Str2Col(szColumn);
+  if (GetValue(nRow - 1, nColumn - 1, lpRString, dwSize))
+    return TRUE;
+  g_StrCpyLen(lpRString, lpDefault, dwSize);
+  return FALSE;
 }
 //---------------------------------------------------------------------------
 // 函数:	GetString
@@ -229,16 +209,16 @@ BOOL KTabFile::GetString(int nRow, LPSTR szColumn, LPSTR lpDefault, LPSTR lpRStr
 //			dwSize			返回字符串的最大长度
 // 返回:	是否成功
 //---------------------------------------------------------------------------
-BOOL KTabFile::GetString(LPSTR szRow, LPSTR szColumn, LPSTR lpDefault, LPSTR lpRString, DWORD dwSize)
-{
-	int nRow, nColumn;
+BOOL KTabFile::GetString(LPSTR szRow, LPSTR szColumn, LPSTR lpDefault,
+                         LPSTR lpRString, DWORD dwSize) {
+  int nRow, nColumn;
 
-	nRow = FindRow(szRow);
-	nColumn = FindColumn(szColumn);
-	if (GetValue(nRow - 1, nColumn - 1, lpRString, dwSize))
-		return TRUE;
-	g_StrCpyLen(lpRString, lpDefault, dwSize);
-	return FALSE;
+  nRow = FindRow(szRow);
+  nColumn = FindColumn(szColumn);
+  if (GetValue(nRow - 1, nColumn - 1, lpRString, dwSize))
+    return TRUE;
+  g_StrCpyLen(lpRString, lpDefault, dwSize);
+  return FALSE;
 }
 //---------------------------------------------------------------------------
 // 函数:	GetString
@@ -250,12 +230,12 @@ BOOL KTabFile::GetString(LPSTR szRow, LPSTR szColumn, LPSTR lpDefault, LPSTR lpR
 //			dwSize			返回字符串的最大长度
 // 返回:	是否成功
 //---------------------------------------------------------------------------
-BOOL KTabFile::GetString(int nRow, int nColumn, LPSTR lpDefault, LPSTR lpRString, DWORD dwSize)
-{
-	if (GetValue(nRow - 1, nColumn - 1,  lpRString, dwSize))
-		return TRUE;
-	g_StrCpyLen(lpRString, lpDefault, dwSize);
-	return FALSE;
+BOOL KTabFile::GetString(int nRow, int nColumn, LPSTR lpDefault,
+                         LPSTR lpRString, DWORD dwSize) {
+  if (GetValue(nRow - 1, nColumn - 1, lpRString, dwSize))
+    return TRUE;
+  g_StrCpyLen(lpRString, lpDefault, dwSize);
+  return FALSE;
 }
 //---------------------------------------------------------------------------
 // 函数:	GetInteger
@@ -266,24 +246,21 @@ BOOL KTabFile::GetString(int nRow, int nColumn, LPSTR lpDefault, LPSTR lpRString
 //			pnValue			返回值
 // 返回:	是否成功
 //---------------------------------------------------------------------------
-BOOL KTabFile::GetInteger(int nRow, LPSTR szColumn, int nDefault, int *pnValue, BOOL bColumnLab)
-{
-	char	Buffer[32];
-	int		nColumn;
-	if (bColumnLab)
-		nColumn = FindColumn(szColumn);
-	else
-		nColumn = Str2Col(szColumn);
-	if (GetValue(nRow - 1, nColumn - 1, Buffer, sizeof(Buffer)))
-	{
-		*pnValue = atoi(Buffer);
-		return TRUE;
-	}
-	else
-	{
-		*pnValue = nDefault;
-		return FALSE;
-	}
+BOOL KTabFile::GetInteger(int nRow, LPSTR szColumn, int nDefault, int *pnValue,
+                          BOOL bColumnLab) {
+  char Buffer[32];
+  int nColumn;
+  if (bColumnLab)
+    nColumn = FindColumn(szColumn);
+  else
+    nColumn = Str2Col(szColumn);
+  if (GetValue(nRow - 1, nColumn - 1, Buffer, sizeof(Buffer))) {
+    *pnValue = atoi(Buffer);
+    return TRUE;
+  } else {
+    *pnValue = nDefault;
+    return FALSE;
+  }
 }
 //---------------------------------------------------------------------------
 // 函数:	GetInteger
@@ -294,23 +271,20 @@ BOOL KTabFile::GetInteger(int nRow, LPSTR szColumn, int nDefault, int *pnValue, 
 //			pnValue			返回值
 // 返回:	是否成功
 //---------------------------------------------------------------------------
-BOOL KTabFile::GetInteger(LPSTR szRow, LPSTR szColumn, int nDefault, int *pnValue)
-{
-	int		nRow, nColumn;
-	char	Buffer[32];
+BOOL KTabFile::GetInteger(LPSTR szRow, LPSTR szColumn, int nDefault,
+                          int *pnValue) {
+  int nRow, nColumn;
+  char Buffer[32];
 
-	nRow = FindRow(szRow);
-	nColumn = FindColumn(szColumn);
-	if (GetValue(nRow - 1, nColumn - 1, Buffer, sizeof(Buffer)))
-	{
-		*pnValue = atoi(Buffer);
-		return TRUE;
-	}
-	else
-	{
-		*pnValue = nDefault;
-		return FALSE;
-	}
+  nRow = FindRow(szRow);
+  nColumn = FindColumn(szColumn);
+  if (GetValue(nRow - 1, nColumn - 1, Buffer, sizeof(Buffer))) {
+    *pnValue = atoi(Buffer);
+    return TRUE;
+  } else {
+    *pnValue = nDefault;
+    return FALSE;
+  }
 }
 //---------------------------------------------------------------------------
 // 函数:	GetInteger
@@ -321,20 +295,16 @@ BOOL KTabFile::GetInteger(LPSTR szRow, LPSTR szColumn, int nDefault, int *pnValu
 //			pnValue			返回值
 // 返回:	是否成功
 //---------------------------------------------------------------------------
-BOOL KTabFile::GetInteger(int nRow, int nColumn, int nDefault, int *pnValue)
-{
-	char	Buffer[32];
+BOOL KTabFile::GetInteger(int nRow, int nColumn, int nDefault, int *pnValue) {
+  char Buffer[32];
 
-	if (GetValue(nRow - 1, nColumn - 1, Buffer, sizeof(Buffer)))
-	{
-		*pnValue = atoi(Buffer);
-		return TRUE;
-	}
-	else
-	{
-		*pnValue = nDefault;
-		return TRUE;
-	}
+  if (GetValue(nRow - 1, nColumn - 1, Buffer, sizeof(Buffer))) {
+    *pnValue = atoi(Buffer);
+    return TRUE;
+  } else {
+    *pnValue = nDefault;
+    return TRUE;
+  }
 }
 //---------------------------------------------------------------------------
 // 函数:	GetFloat
@@ -345,24 +315,21 @@ BOOL KTabFile::GetInteger(int nRow, int nColumn, int nDefault, int *pnValue)
 //			pnValue			返回值
 // 返回:	是否成功
 //---------------------------------------------------------------------------
-BOOL KTabFile::GetFloat(int nRow, LPSTR szColumn, float fDefault, float *pfValue, BOOL bColumnLab)
-{
-	char	Buffer[32];
-	int		nColumn;
-	if (bColumnLab)
-		nColumn = FindColumn(szColumn);
-	else
-		nColumn = Str2Col(szColumn);
-	if (GetValue(nRow - 1, nColumn - 1, Buffer, sizeof(Buffer)))
-	{
-		*pfValue = (float)atof(Buffer);
-		return TRUE;
-	}
-	else
-	{
-		*pfValue = fDefault;
-		return FALSE;
-	}
+BOOL KTabFile::GetFloat(int nRow, LPSTR szColumn, float fDefault,
+                        float *pfValue, BOOL bColumnLab) {
+  char Buffer[32];
+  int nColumn;
+  if (bColumnLab)
+    nColumn = FindColumn(szColumn);
+  else
+    nColumn = Str2Col(szColumn);
+  if (GetValue(nRow - 1, nColumn - 1, Buffer, sizeof(Buffer))) {
+    *pfValue = (float)atof(Buffer);
+    return TRUE;
+  } else {
+    *pfValue = fDefault;
+    return FALSE;
+  }
 }
 //---------------------------------------------------------------------------
 // 函数:	GetFloat
@@ -373,23 +340,20 @@ BOOL KTabFile::GetFloat(int nRow, LPSTR szColumn, float fDefault, float *pfValue
 //			pnValue			返回值
 // 返回:	是否成功
 //---------------------------------------------------------------------------
-BOOL KTabFile::GetFloat(LPSTR szRow, LPSTR szColumn, float fDefault, float *pfValue)
-{
-	int		nRow, nColumn;
-	char	Buffer[32];
+BOOL KTabFile::GetFloat(LPSTR szRow, LPSTR szColumn, float fDefault,
+                        float *pfValue) {
+  int nRow, nColumn;
+  char Buffer[32];
 
-	nRow = FindRow(szRow);
-	nColumn = FindColumn(szColumn);
-	if (GetValue(nRow - 1, nColumn - 1, Buffer, sizeof(Buffer)))
-	{
-		*pfValue = (float)atof(Buffer);
-		return TRUE;
-	}
-	else
-	{
-		*pfValue = fDefault;
-		return FALSE;
-	}
+  nRow = FindRow(szRow);
+  nColumn = FindColumn(szColumn);
+  if (GetValue(nRow - 1, nColumn - 1, Buffer, sizeof(Buffer))) {
+    *pfValue = (float)atof(Buffer);
+    return TRUE;
+  } else {
+    *pfValue = fDefault;
+    return FALSE;
+  }
 }
 //---------------------------------------------------------------------------
 // 函数:	GetFloat
@@ -400,20 +364,16 @@ BOOL KTabFile::GetFloat(LPSTR szRow, LPSTR szColumn, float fDefault, float *pfVa
 //			pnValue			返回值
 // 返回:	是否成功
 //---------------------------------------------------------------------------
-BOOL KTabFile::GetFloat(int nRow, int nColumn, float fDefault, float *pfValue)
-{
-	char	Buffer[32];
-	
-	if (GetValue(nRow - 1, nColumn - 1, Buffer, sizeof(Buffer)))
-	{
-		*pfValue = (float)atof(Buffer);
-		return TRUE;
-	}
-	else
-	{
-		*pfValue = fDefault;
-		return FALSE;
-	}
+BOOL KTabFile::GetFloat(int nRow, int nColumn, float fDefault, float *pfValue) {
+  char Buffer[32];
+
+  if (GetValue(nRow - 1, nColumn - 1, Buffer, sizeof(Buffer))) {
+    *pfValue = (float)atof(Buffer);
+    return TRUE;
+  } else {
+    *pfValue = fDefault;
+    return FALSE;
+  }
 }
 //---------------------------------------------------------------------------
 // 函数:	GetValue
@@ -425,36 +385,31 @@ BOOL KTabFile::GetFloat(int nRow, int nColumn, float fDefault, float *pfValue)
 //			dwSize			返回字符串的最大长度
 // 返回:	是否成功
 //---------------------------------------------------------------------------
-BOOL KTabFile::GetValue(int nRow, int nColumn, LPSTR lpRString, DWORD dwSize)
-{
-	if (nRow >= m_Height || nColumn >= m_Width || nRow < 0 || nColumn < 0)
-		return FALSE;
+BOOL KTabFile::GetValue(int nRow, int nColumn, LPSTR lpRString, DWORD dwSize) {
+  if (nRow >= m_Height || nColumn >= m_Width || nRow < 0 || nColumn < 0)
+    return FALSE;
 
-	TABOFFSET	*TempOffset;
-	LPSTR		Buffer;
+  TABOFFSET *TempOffset;
+  LPSTR Buffer;
 
-	Buffer = (LPSTR)m_Memory.GetMemPtr();
-	TempOffset = (TABOFFSET *)m_OffsetTable.GetMemPtr();
-	TempOffset += nRow * m_Width + nColumn;
+  Buffer = (LPSTR)m_Memory.GetMemPtr();
+  TempOffset = (TABOFFSET *)m_OffsetTable.GetMemPtr();
+  TempOffset += nRow * m_Width + nColumn;
 
-	ZeroMemory(lpRString, dwSize);
-	Buffer += TempOffset->dwOffset;
-	if (TempOffset->dwLength == 0)
-	{
-		return FALSE;
-	}
-	if (dwSize > TempOffset->dwLength)
-	{
-		memcpy(lpRString, Buffer, TempOffset->dwLength);
-		lpRString[TempOffset->dwLength] = 0;
-	}
-	else
-	{
-		memcpy(lpRString, Buffer, dwSize);
-		lpRString[dwSize] = 0;
-	}
+  ZeroMemory(lpRString, dwSize);
+  Buffer += TempOffset->dwOffset;
+  if (TempOffset->dwLength == 0) {
+    return FALSE;
+  }
+  if (dwSize > TempOffset->dwLength) {
+    memcpy(lpRString, Buffer, TempOffset->dwLength);
+    lpRString[TempOffset->dwLength] = 0;
+  } else {
+    memcpy(lpRString, Buffer, dwSize);
+    lpRString[dwSize] = 0;
+  }
 
-	return TRUE;
+  return TRUE;
 }
 //---------------------------------------------------------------------------
 // 函数:	Clear
@@ -462,10 +417,9 @@ BOOL KTabFile::GetValue(int nRow, int nColumn, LPSTR lpRString, DWORD dwSize)
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KTabFile::Clear()
-{
-	m_Memory.Free();
-	m_OffsetTable.Free();
+void KTabFile::Clear() {
+  m_Memory.Free();
+  m_OffsetTable.Free();
 }
 //---------------------------------------------------------------------------
 // 函数:	FindRow
@@ -473,16 +427,15 @@ void KTabFile::Clear()
 // 参数:	szRow（行关键字）
 // 返回:	int
 //---------------------------------------------------------------------------
-int KTabFile::FindRow(LPSTR szRow)
-{
-	char	szTemp[128];
-	for (int i = 0; i < m_Height; i++)	// 从1开始，跳过第一行的字段行
-	{
-		GetValue(i, 0, szTemp, g_StrLen(szRow));
-		if (g_StrCmp(szTemp, szRow))
-			return i + 1; //改动此处为加一 by Romandou,即返回以1为起点的标号
-	}
-	return -1;
+int KTabFile::FindRow(LPSTR szRow) {
+  char szTemp[128];
+  for (int i = 0; i < m_Height; i++) // 从1开始，跳过第一行的字段行
+  {
+    GetValue(i, 0, szTemp, g_StrLen(szRow));
+    if (g_StrCmp(szTemp, szRow))
+      return i + 1; // 改动此处为加一 by Romandou,即返回以1为起点的标号
+  }
+  return -1;
 }
 //---------------------------------------------------------------------------
 // 函数:	FindColumn
@@ -490,16 +443,15 @@ int KTabFile::FindRow(LPSTR szRow)
 // 参数:	szColumn（行关键字）
 // 返回:	int
 //---------------------------------------------------------------------------
-int KTabFile::FindColumn(LPSTR szColumn)
-{
-	char	szTemp[128];
-	for (int i = 0; i < m_Width; i++)	// 从1开始，跳过第一列的字段行
-	{
-		GetValue(0, i, szTemp, g_StrLen(szColumn));
-		if (g_StrCmp(szTemp, szColumn))
-			return i + 1;//改动此处为加一 by Romandou,即返回以1为起点的标号
-	}
-	return -1;
+int KTabFile::FindColumn(LPSTR szColumn) {
+  char szTemp[128];
+  for (int i = 0; i < m_Width; i++) // 从1开始，跳过第一列的字段行
+  {
+    GetValue(0, i, szTemp, g_StrLen(szColumn));
+    if (g_StrCmp(szTemp, szColumn))
+      return i + 1; // 改动此处为加一 by Romandou,即返回以1为起点的标号
+  }
+  return -1;
 }
 
 //---------------------------------------------------------------------------
@@ -508,18 +460,14 @@ int KTabFile::FindColumn(LPSTR szColumn)
 // 参数:	szColumn
 // 返回:	第几列
 //---------------------------------------------------------------------------
-void KTabFile::Col2Str(int nCol, LPSTR szColumn)
-{
+void KTabFile::Col2Str(int nCol, LPSTR szColumn) {
 
-	if (nCol < 26)
-	{
-		szColumn[0] = 'A' + nCol;
-		szColumn[1]	= 0;
-	}
-	else
-	{
-		szColumn[0] = 'A' + (nCol / 26 - 1);
-		szColumn[1] = 'A' + nCol % 26;
-		szColumn[2] = 0;
-	}
+  if (nCol < 26) {
+    szColumn[0] = 'A' + nCol;
+    szColumn[1] = 0;
+  } else {
+    szColumn[0] = 'A' + (nCol / 26 - 1);
+    szColumn[1] = 'A' + nCol % 26;
+    szColumn[2] = 0;
+  }
 }

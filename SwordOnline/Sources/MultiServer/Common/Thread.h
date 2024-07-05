@@ -1,22 +1,22 @@
 /********************************************************************
-	created:	2003/02/14
-	file base:	Thread
-	file ext:	h
-	author:		liupeng
-	
-	purpose:	
+        created:	2003/02/14
+        file base:	Thread
+        file ext:	h
+        author:		liupeng
+
+        purpose:
 *********************************************************************/
 #ifndef __INCLUDE_THREAD_H__
 #define __INCLUDE_THREAD_H__
 
-#if defined (_MSC_VER) && (_MSC_VER >= 1020)
-	#pragma once
+#if defined(_MSC_VER) && (_MSC_VER >= 1020)
+#pragma once
 #endif
 
 #ifndef _WINDOWS_
-	#define WIN32_LEAN_AND_MEAN
-		#include <windows.h>
-	#undef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#undef WIN32_LEAN_AND_MEAN
 #endif
 
 /*
@@ -29,47 +29,43 @@ namespace Win32 {
 /*
  * CThread
  */
-class CThread 
-{
+class CThread {
 public:
-   
-	CThread();
-      
-	virtual ~CThread();
+  CThread();
 
-	HANDLE GetHandle() const;
+  virtual ~CThread();
 
-	void Wait() const;
+  HANDLE GetHandle() const;
 
-	bool Wait(DWORD timeoutMillis) const;
+  void Wait() const;
 
-	void Start();
+  bool Wait(DWORD timeoutMillis) const;
 
-	void Terminate( DWORD exitCode = 0 );
+  void Start();
+
+  void Terminate(DWORD exitCode = 0);
 
 private:
+  virtual int Run() = 0;
 
-	virtual int Run() = 0;
+  virtual int Run1() = 0;
 
-	virtual int Run1() = 0;
+  static unsigned int __stdcall ThreadFunction(void *pV);
 
-	static unsigned int __stdcall ThreadFunction( void *pV );
+  static unsigned int __stdcall ThreadFunction1(void *pV);
 
-	static unsigned int __stdcall ThreadFunction1( void *pV );
+  HANDLE m_hThread;
 
-	HANDLE m_hThread;
+  HANDLE m_hThread1;
 
-	HANDLE m_hThread1;
-
-	/*
-	 * No copies do not implement
-	 */
-	CThread( const CThread &rhs );
-	CThread &operator=( const CThread &rhs );
-
+  /*
+   * No copies do not implement
+   */
+  CThread(const CThread &rhs);
+  CThread &operator=(const CThread &rhs);
 };
 
-} // End of namespace OnlineGameLib
-} // End of namespace Win32
+} // namespace Win32
+} // namespace OnlineGameLib
 
 #endif //__INCLUDE_THREAD_H__

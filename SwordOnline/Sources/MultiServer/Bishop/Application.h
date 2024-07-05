@@ -1,88 +1,78 @@
 /********************************************************************
-	created:	2003/05/30
-	file base:	Application
-	file ext:	h
-	author:		liupeng
-	
-	purpose:	
+        created:	2003/05/30
+        file base:	Application
+        file ext:	h
+        author:		liupeng
+
+        purpose:
 *********************************************************************/
 #ifndef __INCLUDE_APPLICATION_H__
 #define __INCLUDE_APPLICATION_H__
 
 #include "mutex.h"
 
-#include "Network.h"
 #include "Intercessor.h"
+#include "Network.h"
 
-class CBishopApp
-{
+class CBishopApp {
 public:
+  CBishopApp();
+  CBishopApp(HINSTANCE hInstance);
 
-	CBishopApp();
-	CBishopApp( HINSTANCE hInstance );
+  virtual ~CBishopApp();
 
-	virtual ~CBishopApp();
-	
-	int Run();
+  int Run();
 
 protected:
-	
-	/*
-	 * Login dialog
-	 */
-	bool LoginSystem();
+  /*
+   * Login dialog
+   */
+  bool LoginSystem();
 
-	static BOOL CALLBACK LoginDlgProc( HWND hwndDlg,
-		UINT message, 
-		WPARAM wParam, 
-		LPARAM lParam );
+  static BOOL CALLBACK LoginDlgProc(HWND hwndDlg, UINT message, WPARAM wParam,
+                                    LPARAM lParam);
 
-	static void EnterToAffirm( HWND hwndDlg );
-	static void LeaveToAffirm( HWND hwndDlg );
-	static bool CheckUserInfo( HWND hwndDlg );
+  static void EnterToAffirm(HWND hwndDlg);
+  static void LeaveToAffirm(HWND hwndDlg);
+  static bool CheckUserInfo(HWND hwndDlg);
 
-	static DWORD WINAPI ServerLoginRoutine( HWND hwndDlg );
-	
-	static void SendAnnounceText( HWND hwndDlg, const char *pText, UINT uLength, UINT uOption, BOOL bAllGS );
-	static void EnableGameSvrCtrl( HWND hwndDlg, BOOL nEnable );
-	static void EnableCtrl( HWND hwndDlg, UINT nCtrlID, BOOL nEnable );
-	
-	/*
-	 * Main dialog
-	 */
-	BOOL RegisterMainWndClass();
-	UINT MainDialog();
+  static DWORD WINAPI ServerLoginRoutine(HWND hwndDlg);
 
-	static BOOL CALLBACK MainWndProc( HWND hwnd, 
-                           UINT msg,
-                           WPARAM wParam,
-                           LPARAM lParam );
+  static void SendAnnounceText(HWND hwndDlg, const char *pText, UINT uLength,
+                               UINT uOption, BOOL bAllGS);
+  static void EnableGameSvrCtrl(HWND hwndDlg, BOOL nEnable);
+  static void EnableCtrl(HWND hwndDlg, UINT nCtrlID, BOOL nEnable);
 
-	static void InitMainDlg( HWND hDlg );
-	static void CloseMainDlg( HWND hDlg );
-	static void UpdateVariable( HWND hDlg );
+  /*
+   * Main dialog
+   */
+  BOOL RegisterMainWndClass();
+  UINT MainDialog();
+
+  static BOOL CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam,
+                                   LPARAM lParam);
+
+  static void InitMainDlg(HWND hDlg);
+  static void CloseMainDlg(HWND hDlg);
+  static void UpdateVariable(HWND hDlg);
 
 private:
-	
-	static void AddGameServerInfo( HWND hDlg, UINT nID, const char *pInfo );
-	static void DelGameServerInfo( HWND hDlg, UINT nID );
-	
-	enum enumServerLoginErrorCode
-	{
-		enumConnectFailed	= 0xA1,
-		enumUsrNamePswdErr,
-		enumIPPortErr,
-		enumException
-	};
+  static void AddGameServerInfo(HWND hDlg, UINT nID, const char *pInfo);
+  static void DelGameServerInfo(HWND hDlg, UINT nID);
 
-	OnlineGameLib::Win32::CMutex m_theOnlyOneInstance;
-	static HINSTANCE			 m_hInst;
+  enum enumServerLoginErrorCode {
+    enumConnectFailed = 0xA1,
+    enumUsrNamePswdErr,
+    enumIPPortErr,
+    enumException
+  };
 
-	static CNetwork				 m_theNetwork;
+  OnlineGameLib::Win32::CMutex m_theOnlyOneInstance;
+  static HINSTANCE m_hInst;
 
-	static CIntercessor			 *m_pIntercessor;
-	
+  static CNetwork m_theNetwork;
 
+  static CIntercessor *m_pIntercessor;
 };
 
 #endif // __INCLUDE_APPLICATION_H__

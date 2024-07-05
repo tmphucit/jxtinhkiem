@@ -1,328 +1,291 @@
-#include "KWin32.h"
 #include "KImageRes.h"
 #include "JpgLib.h"
-#include "KPakFile.h"
 #include "KDDraw.h"
-#include "crtdbg.h"
 #include "KFilePath.h"
+#include "KPakFile.h"
 #include "KPakList.h"
+#include "KWin32.h"
+#include "crtdbg.h"
 
-KImageRes::KImageRes()
-{
-}
+KImageRes::KImageRes() {}
 
-KImageRes::~KImageRes()
-{
-}
+KImageRes::~KImageRes() {}
 
 // 释放内存
-void KImageRes::Release()
-{
-}
+void KImageRes::Release() {}
 
 //***********************************************************
-ImageResBmp::ImageResBmp()
-{
-	ResetVar();
-}
+ImageResBmp::ImageResBmp() { ResetVar(); }
 
-ImageResBmp::~ImageResBmp()
-{
-	Release();
-}
+ImageResBmp::~ImageResBmp() { Release(); }
 
 // 将成员变量置为初始值
-void ImageResBmp::ResetVar()
-{
-	m_pData = NULL;
-	m_nWidth = 0;
-	m_nHeight = 0;
-	m_nType = ISI_T_BITMAP16;
+void ImageResBmp::ResetVar() {
+  m_pData = NULL;
+  m_nWidth = 0;
+  m_nHeight = 0;
+  m_nType = ISI_T_BITMAP16;
 
-	m_nMemUsed = 0;
-	m_bLastFrameUsed = false;
+  m_nMemUsed = 0;
+  m_bLastFrameUsed = false;
 }
 
 // 创建内存资源
-bool ImageResBmp::CreateImage(const char* szImage, int nWidth, int nHeight, unsigned int nType)
-{
-	if (!szImage || !szImage[0])
-		return false;
+bool ImageResBmp::CreateImage(const char *szImage, int nWidth, int nHeight,
+                              unsigned int nType) {
+  if (!szImage || !szImage[0])
+    return false;
 
-	if (nType != ISI_T_BITMAP16)
-		goto error;
+  if (nType != ISI_T_BITMAP16)
+    goto error;
 
-	Release();
+  Release();
 
-	m_nWidth = nWidth;
-	m_nHeight = nHeight;
+  m_nWidth = nWidth;
+  m_nHeight = nHeight;
 
-	m_pData = new BYTE[nWidth * nHeight * 2];
-	m_nMemUsed = nWidth * nHeight * 2;
-	return true;
+  m_pData = new BYTE[nWidth * nHeight * 2];
+  m_nMemUsed = nWidth * nHeight * 2;
+  return true;
 
 error:
-	Release();
-	return false;
+  Release();
+  return false;
 }
 
 // 从文件载入资源
-bool ImageResBmp::LoadImage(char* szImage, unsigned int nType)
-{
-	if (!szImage || !szImage[0] || nType != ISI_T_BITMAP16)
-		return false;
+bool ImageResBmp::LoadImage(char *szImage, unsigned int nType) {
+  if (!szImage || !szImage[0] || nType != ISI_T_BITMAP16)
+    return false;
 
-	Release();
+  Release();
 
-	m_nType = nType;
+  m_nType = nType;
 
-	if(!LoadJpegFile(szImage))
-			return false;
+  if (!LoadJpegFile(szImage))
+    return false;
 
-	return true;
+  return true;
 }
 
-bool ImageResBmp::LoadJpegFile(char* szImage)
-{
-	KPakFile	File;
-	PBYTE		pJpg = NULL;
-	JPEG_INFO	JpegInfo;
+bool ImageResBmp::LoadJpegFile(char *szImage) {
+  KPakFile File;
+  PBYTE pJpg = NULL;
+  JPEG_INFO JpegInfo;
 
-	if (File.Open(szImage))
-	{
-		// 不在包内
-		pJpg = new BYTE[File.Size()];
-		if (!pJpg)
-			goto error;
+  if (File.Open(szImage)) {
+    // 不在包内
+    pJpg = new BYTE[File.Size()];
+    if (!pJpg)
+      goto error;
 
-		// read file into mem buffer
-		File.Read(pJpg, File.Size());
+    // read file into mem buffer
+    File.Read(pJpg, File.Size());
 
-		bool bRGB565 = true;
-		if(g_pDirectDraw && g_pDirectDraw->GetRGBBitMask16() == RGB_555)
-			bRGB565 = false;
+    bool bRGB565 = true;
+    if (g_pDirectDraw && g_pDirectDraw->GetRGBBitMask16() == RGB_555)
+      bRGB565 = false;
 
-		// decode init
-		if (!jpeg_decode_init(!bRGB565, TRUE))
-			goto error;
+    // decode init
+    if (!jpeg_decode_init(!bRGB565, TRUE))
+      goto error;
 
-		// decode info
-		if (!jpeg_decode_info(pJpg, &JpegInfo))
-			goto error;
+    // decode info
+    if (!jpeg_decode_info(pJpg, &JpegInfo))
+      goto error;
 
-		m_nWidth = JpegInfo.width;
-		m_nHeight = JpegInfo.height;
+    m_nWidth = JpegInfo.width;
+    m_nHeight = JpegInfo.height;
 
-		m_pData = new BYTE[m_nWidth * m_nHeight * 2];
+    m_pData = new BYTE[m_nWidth * m_nHeight * 2];
 
-		// decode frame
-		if (!jpeg_decode_data((PWORD)m_pData, &JpegInfo))
-			goto error;
+    // decode frame
+    if (!jpeg_decode_data((PWORD)m_pData, &JpegInfo))
+      goto error;
 
-		SAFE_DELETE_ARRAY(pJpg);
-		m_nMemUsed = m_nWidth * m_nHeight * 2;
-	}
-	else
-	{
-		// 在包内
-		//to do
-		//从压缩包中读取spr头部数据，填写m_pData和m_nWidth,m_nHeight，参照上面代码
-	}
+    SAFE_DELETE_ARRAY(pJpg);
+    m_nMemUsed = m_nWidth * m_nHeight * 2;
+  } else {
+    // 在包内
+    // to do
+    // 从压缩包中读取spr头部数据，填写m_pData和m_nWidth,m_nHeight，参照上面代码
+  }
 
-	return true;
+  return true;
 
 error:
-	SAFE_DELETE_ARRAY(pJpg);
-	Release();
-	return false;
+  SAFE_DELETE_ARRAY(pJpg);
+  Release();
+  return false;
 }
 
 // 释放内存
-void ImageResBmp::Release()
-{
-	SAFE_DELETE_ARRAY(m_pData);
-	ResetVar();
+void ImageResBmp::Release() {
+  SAFE_DELETE_ARRAY(m_pData);
+  ResetVar();
 }
 
 //*************************************************************
 
-ImageResSpr::ImageResSpr()
-{
-	ResetVar();
-}
+ImageResSpr::ImageResSpr() { ResetVar(); }
 
-ImageResSpr::~ImageResSpr()
-{
-	Release();
-}
+ImageResSpr::~ImageResSpr() { Release(); }
 
 // 将成员变量置为初始值
-void ImageResSpr::ResetVar()
-{
-	m_bInPackage = false;
-	ZeroMemory((void*)&m_Header, sizeof(SPRHEAD));
-	m_pPal24		= NULL;
-	m_pPal16		= NULL;
-	m_pFrameInfo	= NULL;
+void ImageResSpr::ResetVar() {
+  m_bInPackage = false;
+  ZeroMemory((void *)&m_Header, sizeof(SPRHEAD));
+  m_pPal24 = NULL;
+  m_pPal16 = NULL;
+  m_pFrameInfo = NULL;
 
-	m_nMemUsed = 0;
-	m_bLastFrameUsed = false;
+  m_nMemUsed = 0;
+  m_bLastFrameUsed = false;
 }
 
 // 创建内存资源
-bool ImageResSpr::CreateImage(const char* szImage, int nWidth, int nHeight, unsigned int nType)
-{
-	return false;
+bool ImageResSpr::CreateImage(const char *szImage, int nWidth, int nHeight,
+                              unsigned int nType) {
+  return false;
 }
 
 // 从文件载入资源
-bool ImageResSpr::LoadImage(char* szImage, unsigned int nType)
-{
-	if (!szImage || !szImage[0] || nType != ISI_T_SPR)
-		return false;
+bool ImageResSpr::LoadImage(char *szImage, unsigned int nType) {
+  if (!szImage || !szImage[0] || nType != ISI_T_SPR)
+    return false;
 
-	Release();
+  Release();
 
-	m_nType = nType;
+  m_nType = nType;
 
-	if(!LoadSprFile(szImage))
-		return false;
+  if (!LoadSprFile(szImage))
+    return false;
 
-	return true;
+  return true;
 }
 
-bool ImageResSpr::LoadSprFile(char* szImage)
-{
-	_ASSERT(szImage);
-	if(!szImage || !szImage[0])
-		return false;
+bool ImageResSpr::LoadSprFile(char *szImage) {
+  _ASSERT(szImage);
+  if (!szImage || !szImage[0])
+    return false;
 
-	if(!g_pPakList)
-		return false;
+  if (!g_pPakList)
+    return false;
 
-	KFile file;
-	char Pack_Path[MAX_PATH];
-	Pack_Path[0] = '\\';
-	g_GetPackPath(Pack_Path + 1, (LPSTR)szImage);
-	
-	if(Pack_Path[1] == '\\') 
-		szImage = Pack_Path + 1;
-	else 
-		szImage = Pack_Path;
+  KFile file;
+  char Pack_Path[MAX_PATH];
+  Pack_Path[0] = '\\';
+  g_GetPackPath(Pack_Path + 1, (LPSTR)szImage);
 
-	bool bInPackage = false;
-	PBYTE pTemp, pFileData = NULL;
-	if(file.Open((LPSTR)szImage))
-	{
-		SPRHEAD*	pHeader;
-		SPROFFS* 	pOffset;
-		PBYTE		pSprite;
+  if (Pack_Path[1] == '\\')
+    szImage = Pack_Path + 1;
+  else
+    szImage = Pack_Path;
 
-		pFileData = pTemp = new BYTE[file.Size()];
-		if (!pTemp)
-			goto error;
+  bool bInPackage = false;
+  PBYTE pTemp, pFileData = NULL;
+  if (file.Open((LPSTR)szImage)) {
+    SPRHEAD *pHeader;
+    SPROFFS *pOffset;
+    PBYTE pSprite;
 
-		// read data from file
-		file.Read(pTemp, file.Size());
+    pFileData = pTemp = new BYTE[file.Size()];
+    if (!pTemp)
+      goto error;
 
-		// check file header setup sprite member
-		pHeader = (SPRHEAD*)pTemp;
-		if (!g_MemComp(pHeader->Comment, "SPR", 3))
-			goto error;
+    // read data from file
+    file.Read(pTemp, file.Size());
 
-		m_Header = *pHeader;
+    // check file header setup sprite member
+    pHeader = (SPRHEAD *)pTemp;
+    if (!g_MemComp(pHeader->Comment, "SPR", 3))
+      goto error;
 
-		// setup palette pointer
-		pTemp += sizeof(SPRHEAD);
-		m_pPal24 = new KPAL24[pHeader->Colors];
-		memcpy(m_pPal24, pTemp, pHeader->Colors * sizeof(KPAL24));
+    m_Header = *pHeader;
 
-		// setup offset pointer
-		pTemp += pHeader->Colors * sizeof(KPAL24);
-		pOffset = (SPROFFS*)pTemp;
+    // setup palette pointer
+    pTemp += sizeof(SPRHEAD);
+    m_pPal24 = new KPAL24[pHeader->Colors];
+    memcpy(m_pPal24, pTemp, pHeader->Colors * sizeof(KPAL24));
 
-		// setup sprite pointer
-		pTemp += pHeader->Frames * sizeof(SPROFFS);
-		pSprite = (LPBYTE)pTemp; // 相对偏移
+    // setup offset pointer
+    pTemp += pHeader->Colors * sizeof(KPAL24);
+    pOffset = (SPROFFS *)pTemp;
 
-		m_pFrameInfo = new SPRFRAME*[m_Header.Frames];
-		ZeroMemory(m_pFrameInfo, sizeof(SPRFRAME*) * m_Header.Frames);
+    // setup sprite pointer
+    pTemp += pHeader->Frames * sizeof(SPROFFS);
+    pSprite = (LPBYTE)pTemp; // 相对偏移
 
-		for(int i=0; i<pHeader->Frames; i++)
-		{
-			SPRFRAME* pFrame = (SPRFRAME*)(pSprite + pOffset[i].Offset); 
-			
-			m_pFrameInfo[i] = (SPRFRAME*)new BYTE[pOffset[i].Length];
-			memcpy(m_pFrameInfo[i], pFrame, pOffset[i].Length);
-		}
+    m_pFrameInfo = new SPRFRAME *[m_Header.Frames];
+    ZeroMemory(m_pFrameInfo, sizeof(SPRFRAME *) * m_Header.Frames);
 
-		SAFE_DELETE_ARRAY(pFileData);
-	}
-	else
-	{
-		m_bInPackage = true;
-		// 文件在包内
-		int index = g_pPakList->Search((LPSTR)szImage, 0, 0);
-		if(index == -1)
-			goto error;
+    for (int i = 0; i < pHeader->Frames; i++) {
+      SPRFRAME *pFrame = (SPRFRAME *)(pSprite + pOffset[i].Offset);
 
-		ZSPRPackFile *pack = g_pPakList->getPackFile(index);
-		if(!pack)
-			goto error;
+      m_pFrameInfo[i] = (SPRFRAME *)new BYTE[pOffset[i].Length];
+      memcpy(m_pFrameInfo[i], pFrame, pOffset[i].Length);
+    }
 
-		//to do
-		//从压缩包中读取spr头部数据，填写m_Header和m_pPal24，参照上面代码
+    SAFE_DELETE_ARRAY(pFileData);
+  } else {
+    m_bInPackage = true;
+    // 文件在包内
+    int index = g_pPakList->Search((LPSTR)szImage, 0, 0);
+    if (index == -1)
+      goto error;
 
-		m_pFrameInfo = new SPRFRAME*[m_Header.Frames];
-		ZeroMemory(m_pFrameInfo, sizeof(SPRFRAME*) * m_Header.Frames);
-	}
+    ZSPRPackFile *pack = g_pPakList->getPackFile(index);
+    if (!pack)
+      goto error;
 
-	return true;
+    // to do
+    // 从压缩包中读取spr头部数据，填写m_Header和m_pPal24，参照上面代码
+
+    m_pFrameInfo = new SPRFRAME *[m_Header.Frames];
+    ZeroMemory(m_pFrameInfo, sizeof(SPRFRAME *) * m_Header.Frames);
+  }
+
+  return true;
 
 error:
-	SAFE_DELETE_ARRAY(pFileData);
-	Release();
-	return false;
+  SAFE_DELETE_ARRAY(pFileData);
+  Release();
+  return false;
 }
 
-bool ImageResSpr::PrepareFrameData(char *pszImage, int nFrame)
-{
-	if(m_bInPackage)
-	{
-		//to do
-		//从压缩包中读取这个spr的第nFrame帧的数据，分配并填写m_pFrameInfo[nFrame]
-	}
-	return true;
+bool ImageResSpr::PrepareFrameData(char *pszImage, int nFrame) {
+  if (m_bInPackage) {
+    // to do
+    // 从压缩包中读取这个spr的第nFrame帧的数据，分配并填写m_pFrameInfo[nFrame]
+  }
+  return true;
 }
 
-int ImageResSpr::GetPixelAlpha(int nFrame, int x, int y)
-{
-	int nAlpha = 0;
+int ImageResSpr::GetPixelAlpha(int nFrame, int x, int y) {
+  int nAlpha = 0;
 
-	if (nFrame < 0 && nFrame >= m_Header.Frames)
-		return nAlpha;
+  if (nFrame < 0 && nFrame >= m_Header.Frames)
+    return nAlpha;
 
-	if(!m_pFrameInfo[nFrame])
-		return nAlpha;
+  if (!m_pFrameInfo[nFrame])
+    return nAlpha;
 
-	SPRFRAME* pFrame = m_pFrameInfo[nFrame];
-	SPRHEAD *header = &m_Header;
+  SPRFRAME *pFrame = m_pFrameInfo[nFrame];
+  SPRHEAD *header = &m_Header;
 
-	if (header && pFrame)
-	{
-		x -= pFrame->OffsetX;
-		y -= pFrame->OffsetY;
-		if (x >= 0  && x < pFrame->Width && y >= 0 && y < pFrame->Height)
-		{
-			int	nNumPixels = pFrame->Width;
-			void*	pSprite =  pFrame->Sprite;
-			y++;
-			_asm
-			{
-				//使SDI指向sprite中的图形数据位置
+  if (header && pFrame) {
+    x -= pFrame->OffsetX;
+    y -= pFrame->OffsetY;
+    if (x >= 0 && x < pFrame->Width && y >= 0 && y < pFrame->Height) {
+      int nNumPixels = pFrame->Width;
+      void *pSprite = pFrame->Sprite;
+      y++;
+      _asm
+      {
+        // 使SDI指向sprite中的图形数据位置
 				mov		esi, pSprite
 			dec_line:
-				dec		y				//减掉一行
+				dec		y // 减掉一行
 				jz		last_line
 				
 				mov		edx, nNumPixels
@@ -353,29 +316,26 @@ int ImageResSpr::GetPixelAlpha(int nFrame, int x, int y)
 				sub		edx, eax
 				jg		last_line_alpha_block
 				mov		nAlpha, ebx
-			}
-		}
-	}
-	
-	return nAlpha;
+      }
+    }
+  }
+
+  return nAlpha;
 }
 
 // 释放内存
-void ImageResSpr::Release()
-{
-	SAFE_DELETE_ARRAY(m_pPal24);
-	SAFE_DELETE_ARRAY(m_pPal16);
+void ImageResSpr::Release() {
+  SAFE_DELETE_ARRAY(m_pPal24);
+  SAFE_DELETE_ARRAY(m_pPal16);
 
-	// 释放所有贴图和spr数据
-	if(m_pFrameInfo)
-	{
-		for(int i=0; i<m_Header.Frames; i++)
-		{
-			// 释放第i帧的数据
-			SAFE_DELETE_ARRAY(m_pFrameInfo[i]);
-		}
-	}
-	
-	SAFE_DELETE_ARRAY(m_pFrameInfo);
-	ResetVar();
+  // 释放所有贴图和spr数据
+  if (m_pFrameInfo) {
+    for (int i = 0; i < m_Header.Frames; i++) {
+      // 释放第i帧的数据
+      SAFE_DELETE_ARRAY(m_pFrameInfo[i]);
+    }
+  }
+
+  SAFE_DELETE_ARRAY(m_pFrameInfo);
+  ResetVar();
 }

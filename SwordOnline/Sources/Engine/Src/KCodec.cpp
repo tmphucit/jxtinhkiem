@@ -6,12 +6,12 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Data Compress / Decompress Base Class
 //---------------------------------------------------------------------------
-#include "KWin32.h"
+#include "KCodec.h"
 #include "KDebug.h"
 #include "KMemBase.h"
-#include "KCodec.h"
+#include "KWin32.h"
 //---------------------------------------------------------------------------
-//#include "KCodecLha.h"
+// #include "KCodecLha.h"
 #include "KCodecLzo.h"
 //---------------------------------------------------------------------------
 // 函数:	GetPackLen
@@ -20,9 +20,8 @@
 // 返回:	压缩输出缓存的最小长度(in Bytes)
 // 注释:	有可能压缩后的数据比源数据多, 所以需要得到输出缓冲区的最小长度
 //---------------------------------------------------------------------------
-DWORD KCodec::GetPackLen(DWORD dwDataLen)
-{
-	return (dwDataLen + dwDataLen / 10 + 1024);
+DWORD KCodec::GetPackLen(DWORD dwDataLen) {
+  return (dwDataLen + dwDataLen / 10 + 1024);
 }
 //---------------------------------------------------------------------------
 // 函数:	Encode
@@ -31,11 +30,10 @@ DWORD KCodec::GetPackLen(DWORD dwDataLen)
 // 返回:	TRUE		成功
 //			FALSE		失败
 //---------------------------------------------------------------------------
-BOOL KCodec::Encode(TCodeInfo* pCodeInfo)
-{
-	g_MemCopyMmx(pCodeInfo->lpPack, pCodeInfo->lpData, pCodeInfo->dwDataLen);
-	pCodeInfo->dwPackLen = pCodeInfo->dwDataLen;
-	return TRUE;
+BOOL KCodec::Encode(TCodeInfo *pCodeInfo) {
+  g_MemCopyMmx(pCodeInfo->lpPack, pCodeInfo->lpData, pCodeInfo->dwDataLen);
+  pCodeInfo->dwPackLen = pCodeInfo->dwDataLen;
+  return TRUE;
 }
 //---------------------------------------------------------------------------
 // 函数:	Decode
@@ -44,11 +42,10 @@ BOOL KCodec::Encode(TCodeInfo* pCodeInfo)
 // 返回:	TRUE		成功
 //			FALSE		失败
 //---------------------------------------------------------------------------
-BOOL KCodec::Decode(TCodeInfo* pCodeInfo)
-{
-	g_MemCopyMmx(pCodeInfo->lpData, pCodeInfo->lpPack, pCodeInfo->dwPackLen);
-	pCodeInfo->dwDataLen = pCodeInfo->dwPackLen;
-	return TRUE;
+BOOL KCodec::Decode(TCodeInfo *pCodeInfo) {
+  g_MemCopyMmx(pCodeInfo->lpData, pCodeInfo->lpPack, pCodeInfo->dwPackLen);
+  pCodeInfo->dwDataLen = pCodeInfo->dwPackLen;
+  return TRUE;
 }
 //---------------------------------------------------------------------------
 // 函数:	g_InitCodec
@@ -57,25 +54,22 @@ BOOL KCodec::Decode(TCodeInfo* pCodeInfo)
 //			nCompressMethod		压缩方法
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_InitCodec(KCodec** ppCodec, int nCompressMethod)
-{
-	*ppCodec = NULL;
+ENGINE_API void g_InitCodec(KCodec **ppCodec, int nCompressMethod) {
+  *ppCodec = NULL;
 
-	switch (nCompressMethod)
-	{
-	case CODEC_NONE:
-		*ppCodec = new KCodec;
-		break;
-//
-//	case CODEC_LHA:
-//		*ppCodec = new KCodecLha;
-//		break;
+  switch (nCompressMethod) {
+  case CODEC_NONE:
+    *ppCodec = new KCodec;
+    break;
+    //
+    //	case CODEC_LHA:
+    //		*ppCodec = new KCodecLha;
+    //		break;
 
-	case CODEC_LZO:
-		*ppCodec = new KCodecLzo;
-		break;
-		
-	}
+  case CODEC_LZO:
+    *ppCodec = new KCodecLzo;
+    break;
+  }
 }
 //---------------------------------------------------------------------------
 // 函数:	g_FreeCodec
@@ -84,27 +78,23 @@ ENGINE_API void g_InitCodec(KCodec** ppCodec, int nCompressMethod)
 //			nCompressMethod		压缩方法
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_FreeCodec(KCodec** ppCodec, int nCompressMethod)
-{
-	if (*ppCodec == NULL)
-		return;
+ENGINE_API void g_FreeCodec(KCodec **ppCodec, int nCompressMethod) {
+  if (*ppCodec == NULL)
+    return;
 
-	switch (nCompressMethod)
-	{
-	case CODEC_NONE:
-		delete (KCodec *)*ppCodec;
-		break;
-//
-//	case CODEC_LHA:
-//		delete (KCodecLha *)*ppCodec;
-//		break;
+  switch (nCompressMethod) {
+  case CODEC_NONE:
+    delete (KCodec *)*ppCodec;
+    break;
+    //
+    //	case CODEC_LHA:
+    //		delete (KCodecLha *)*ppCodec;
+    //		break;
 
-	case CODEC_LZO:
-		delete (KCodecLzo *)*ppCodec;
-		break;
-
-	}
-	*ppCodec = NULL;
+  case CODEC_LZO:
+    delete (KCodecLzo *)*ppCodec;
+    break;
+  }
+  *ppCodec = NULL;
 }
 //---------------------------------------------------------------------------
-

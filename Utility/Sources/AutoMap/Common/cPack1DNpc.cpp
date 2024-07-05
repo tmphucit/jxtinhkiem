@@ -2,24 +2,17 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
 #include "cPack1DNpc.h"
+#include "stdafx.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cPack1DNpc::cPack1DNpc()
-{
+cPack1DNpc::cPack1DNpc() {}
 
-}
+cPack1DNpc::~cPack1DNpc() {}
 
-cPack1DNpc::~cPack1DNpc()
-{
-
-}
-
-BOOL cPack1DNpc::LoadTemplate(LPCSTR szFile,char** buffer, DWORD& size)
-{
-	return TRUE;
+BOOL cPack1DNpc::LoadTemplate(LPCSTR szFile, char **buffer, DWORD &size) {
+  return TRUE;
 }

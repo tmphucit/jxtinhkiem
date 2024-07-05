@@ -11,13 +11,12 @@
 
 #include "cBNode.h"
 
-class cBNodeRoot : public cBNode  
-{
+class cBNodeRoot : public cBNode {
 public:
-	cBNodeRoot();
-	virtual ~cBNodeRoot();
-	virtual VersortEnum GetVersortType();
-	virtual void GetSortLine(float& k,float& b);
+  cBNodeRoot();
+  virtual ~cBNodeRoot();
+  virtual VersortEnum GetVersortType();
+  virtual void GetSortLine(float &k, float &b);
 };
 
 #endif // !defined(AFX_CBNODEROOT_H__74949C01_5D3D_4054_8E0E_8D90F9A32543__INCLUDED_)

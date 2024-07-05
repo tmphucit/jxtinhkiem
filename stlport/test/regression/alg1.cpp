@@ -4,17 +4,15 @@
 #include <algorithm>
 #include <iostream>
 
-
-#ifdef MAIN 
+#ifdef MAIN
 #define alg1_test main
 #endif
 
-#if !defined (STLPORT) || defined(__STL_USE_NAMESPACES)
+#if !defined(STLPORT) || defined(__STL_USE_NAMESPACES)
 using namespace std;
 #endif
-int alg1_test(int, char**)
-{
-  cout<<"Results of alg1_test:"<<endl;
+int alg1_test(int, char **) {
+  cout << "Results of alg1_test:" << endl;
   int i = std::min(4, 7);
   cout << "min(4, 7) = " << i << endl;
   char c = std::max('a', 'z');

@@ -11,16 +11,16 @@
 //---------------------------------------------------------------------------
 #include "KPakData.h"
 //---------------------------------------------------------------------------
-class ENGINE_API KPakTool
-{
+class ENGINE_API KPakTool {
 private:
-	KCodec*		m_pCodec;
-	int			m_nCompressMethod;
+  KCodec *m_pCodec;
+  int m_nCompressMethod;
+
 public:
-	KPakTool();
-	~KPakTool();
-	BOOL		Pack(LPSTR InFile, LPSTR OutFile, int nMethod);
-	BOOL		UnPack(LPSTR InFile, LPSTR OutFile);
+  KPakTool();
+  ~KPakTool();
+  BOOL Pack(LPSTR InFile, LPSTR OutFile, int nMethod);
+  BOOL UnPack(LPSTR InFile, LPSTR OutFile);
 };
 //---------------------------------------------------------------------------
 #endif

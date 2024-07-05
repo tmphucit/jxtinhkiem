@@ -16,12 +16,13 @@
 #define _ATL_APARTMENT_THREADED
 
 #include <atlbase.h>
-//You may derive a class from CComModule and use it if you want to override
-//something, but do not change the name of _Module
+// You may derive a class from CComModule and use it if you want to override
+// something, but do not change the name of _Module
 extern CComModule _Module;
 #include <atlcom.h>
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_STDAFX_H__1ABC5698_7057_4EF5_92E7_2806997FC695__INCLUDED)

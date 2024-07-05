@@ -91,7 +91,6 @@ typedef DashStyle GpDashStyle;
 typedef LineCap GpLineCap;
 typedef DashCap GpDashCap;
 
-
 typedef PenAlignment GpPenAlignment;
 
 typedef LineJoin GpLineJoin;
@@ -103,5 +102,4 @@ typedef MatrixOrder GpMatrixOrder;
 typedef FlushIntention GpFlushIntention;
 typedef PathData GpPathData;
 
-#endif  // !_GDIPLUSGPSTUBS.HPP
-
+#endif // !_GDIPLUSGPSTUBS.HPP

@@ -9,10 +9,8 @@
 
 #ifndef _SERVER
 
+#include "KClientNpc.h"
 #include "KCore.h"
 #include "KSubWorld.h"
-#include "KClientNpc.h"
-
-
 
 #endif

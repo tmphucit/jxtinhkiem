@@ -6,17 +6,13 @@
 //                                         //
 //-----------------------------------------//
 
-#include "StdAfx.h"
 #include "S3PResultVBC.h"
+#include "StdAfx.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PResultVBC::S3PResultVBC()
-{
-}
+S3PResultVBC::S3PResultVBC() {}
 
-S3PResultVBC::~S3PResultVBC()
-{
-}
+S3PResultVBC::~S3PResultVBC() {}

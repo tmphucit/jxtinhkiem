@@ -7,9 +7,8 @@
 *****************************************************************************************/
 #pragma once
 
-class KUiChannelSubscibe
-{
+class KUiChannelSubscibe {
 public:
-	KUiChannelSubscibe();
-	~KUiChannelSubscibe();
+  KUiChannelSubscibe();
+  ~KUiChannelSubscibe();
 };

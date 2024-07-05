@@ -8,16 +8,15 @@
 #if _MSC_VER > 1000
 #pragma once
 #endif // _MSC_VER > 1000
-#include<string>
-#include"ci_string1.h"
+#include "ci_string1.h"
+#include <string>
 using namespace std;
-class FilePath  
-{
+class FilePath {
 public:
-	FilePath(const string&  FileFullPath,const string&  FileHalfPath);
-	virtual ~FilePath();
-    string FullPath;
-	string HalfPath;
+  FilePath(const string &FileFullPath, const string &FileHalfPath);
+  virtual ~FilePath();
+  string FullPath;
+  string HalfPath;
 };
 
 #endif // !defined(AFX_FILEPATH_H__6AACB391_B888_4F42_8534_9CF2FF786158__INCLUDED_)

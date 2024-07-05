@@ -1,275 +1,248 @@
 /********************************************************************
-	created:	2003/04/15
-	file base:	ServerStage
-	file ext:	h
-	author:		liupeng
-	
-	purpose:	
+        created:	2003/04/15
+        file base:	ServerStage
+        file ext:	h
+        author:		liupeng
+
+        purpose:
 *********************************************************************/
 #ifndef __INCLUDE_SERVERSTAGE_H__
 #define __INCLUDE_SERVERSTAGE_H__
 
-#pragma warning(disable : 4786)  // identifier was truncated to '255' characters 
-                                 // in the debug information
+#pragma warning(disable : 4786) // identifier was truncated to '255' characters
+                                // in the debug information
 
+#include ".\Interface\IServer.h"
+#include "Event.h"
 #include "SocketServer.h"
 #include "tstring.h"
-#include "Event.h"
-#include ".\Interface\IServer.h"
 
-#include <map>
-#include <stack>
 #include <list>
+#include <map>
 #include <queue>
+#include <stack>
 
 /*
  * class CIOCPServer
  */
-class CIOCPServer : public IServer, public OnlineGameLib::Win32::CSocketServer
-{
+class CIOCPServer : public IServer, public OnlineGameLib::Win32::CSocketServer {
 public:
+  /*
+   * Inherit and public the IServer interface
+   */
 
-	/*
-	 * Inherit and public the IServer interface
-	 */
+  STDMETHOD(Startup)();
+  STDMETHOD(Cleanup)();
 
-	STDMETHOD( Startup )( );
-	STDMETHOD( Cleanup )( );
+  STDMETHOD(OpenService)
+  (const unsigned long &ulnAddressToListenOn,
+   const unsigned short &usnPortToListenOn,
+   const unsigned short &usnPortToListenOn1 = 0);
 
-	STDMETHOD( OpenService )( const unsigned long &ulnAddressToListenOn,
-			const unsigned short &usnPortToListenOn, const unsigned short &usnPortToListenOn1 = 0 );
-	
-	STDMETHOD( CloseService )();
+  STDMETHOD(CloseService)();
 
-	STDMETHOD( RegisterMsgFilter )( LPVOID lpParam, 
-		CALLBACK_SERVER_EVENT pfnEventNotify );
-	STDMETHOD( RegisterMsgFilter )( const unsigned long ulnClientID, 
-		IMessageProcess* pfnMsgNotify );
+  STDMETHOD(RegisterMsgFilter)
+  (LPVOID lpParam, CALLBACK_SERVER_EVENT pfnEventNotify);
+  STDMETHOD(RegisterMsgFilter)
+  (const unsigned long ulnClientID, IMessageProcess *pfnMsgNotify);
 
-	STDMETHOD( PreparePackSink )( );
-	STDMETHOD( PackDataToClient )( const unsigned long &ulnClientID,
-			const void * const	pData,
-			const size_t		&datalength );
+  STDMETHOD(PreparePackSink)();
+  STDMETHOD(PackDataToClient)
+  (const unsigned long &ulnClientID, const void *const pData,
+   const size_t &datalength);
 
-	STDMETHOD( SendPackToClient )( const unsigned long &ulnClientID /* -1 */ );
-	
-	STDMETHOD( SendData )( const unsigned long &ulnClientID,
-			const void * const	pData,
-			const size_t		&datalength );
+  STDMETHOD(SendPackToClient)(const unsigned long &ulnClientID /* -1 */);
 
-	STDMETHOD_( const void *, GetPackFromClient )( 
-			const unsigned long &ulnClientID,
-			size_t				&datalength );
+  STDMETHOD(SendData)
+  (const unsigned long &ulnClientID, const void *const pData,
+   const size_t &datalength);
 
-	STDMETHOD( ShutdownClient )( const unsigned long &ulnClientID );
+  STDMETHOD_(const void *, GetPackFromClient)
+  (const unsigned long &ulnClientID, size_t &datalength);
 
-	STDMETHOD( SetShutdownClient)( const unsigned long &ulnClientID );
+  STDMETHOD(ShutdownClient)(const unsigned long &ulnClientID);
 
-	STDMETHOD_( size_t, GetClientCount )( );
+  STDMETHOD(SetShutdownClient)(const unsigned long &ulnClientID);
 
-	STDMETHOD_( const char *, GetClientInfo )( const unsigned long &ulnClientID );
+  STDMETHOD_(size_t, GetClientCount)();
 
-	/*
-     *  IUnknown COM Interface Methods
-     */
-    STDMETHOD ( QueryInterface ) ( REFIID riid, void** ppv );
-    STDMETHOD_( ULONG, AddRef ) ( );
-    STDMETHOD_( ULONG, Release ) ( );
-	
+  STDMETHOD_(const char *, GetClientInfo)(const unsigned long &ulnClientID);
+
+  /*
+   *  IUnknown COM Interface Methods
+   */
+  STDMETHOD(QueryInterface)(REFIID riid, void **ppv);
+  STDMETHOD_(ULONG, AddRef)();
+  STDMETHOD_(ULONG, Release)();
+
 public:
+  CIOCPServer(size_t nPlayerMaxCount, size_t nPrecision, size_t maxFreeSockets,
+              size_t maxFreeBuffers, size_t maxFreeBuffers_Cache,
+              size_t bufferSize_Cache = 8192, size_t bufferSize = 1024,
+              size_t numThreads = 0);
 
-	CIOCPServer(
-		size_t nPlayerMaxCount,
-		size_t nPrecision,
-		size_t maxFreeSockets,
-		size_t maxFreeBuffers,
-		size_t maxFreeBuffers_Cache,
-		size_t bufferSize_Cache = 8192,
-		size_t bufferSize = 1024,
-		size_t numThreads = 0 );
-
-	virtual ~CIOCPServer();
-	
-protected:
-
-	virtual void OnConnectionEstablished( Socket *pSocket,
-         OnlineGameLib::Win32::CIOBuffer *pAddress );
-	
-	virtual bool OnConnectionClosing( Socket *pSocket );
-	virtual void OnConnectionClosed( Socket *pSocket );
-	
-	virtual void ReadCompleted( Socket *pSocket,
-		OnlineGameLib::Win32::CIOBuffer *pBuffer );
+  virtual ~CIOCPServer();
 
 protected:
+  virtual void
+  OnConnectionEstablished(Socket *pSocket,
+                          OnlineGameLib::Win32::CIOBuffer *pAddress);
 
-	size_t GetMinimumMessageSize();
+  virtual bool OnConnectionClosing(Socket *pSocket);
+  virtual void OnConnectionClosed(Socket *pSocket);
 
-	size_t GetMessageSize( const OnlineGameLib::Win32::CIOBuffer *pBuffer );
+  virtual void ReadCompleted(Socket *pSocket,
+                             OnlineGameLib::Win32::CIOBuffer *pBuffer);
 
-	OnlineGameLib::Win32::CIOBuffer *ProcessDataStream( Socket *pSocket,
-				OnlineGameLib::Win32::CIOBuffer *pBuffer);
+protected:
+  size_t GetMinimumMessageSize();
 
-	void ProcessMessage( Socket *pSocket,
-				OnlineGameLib::Win32::CIOBuffer *pBuffer);
+  size_t GetMessageSize(const OnlineGameLib::Win32::CIOBuffer *pBuffer);
 
-	void ProcessCommand( Socket *pSocket,
-				const OnlineGameLib::Win32::CIOBuffer *pBuffer);
-	
+  OnlineGameLib::Win32::CIOBuffer *
+  ProcessDataStream(Socket *pSocket, OnlineGameLib::Win32::CIOBuffer *pBuffer);
+
+  void ProcessMessage(Socket *pSocket,
+                      OnlineGameLib::Win32::CIOBuffer *pBuffer);
+
+  void ProcessCommand(Socket *pSocket,
+                      const OnlineGameLib::Win32::CIOBuffer *pBuffer);
+
 private:
-	
-	LONG	m_lRefCount;
+  LONG m_lRefCount;
 
-	OnlineGameLib::Win32::CIOBuffer::Allocator	m_theCacheAllocator;
+  OnlineGameLib::Win32::CIOBuffer::Allocator m_theCacheAllocator;
 
-	const size_t m_nPlayerMaxCount;
-	const size_t m_nPrecision;
-	
-	const size_t m_nNetworkBufferMaxLen;
+  const size_t m_nPlayerMaxCount;
+  const size_t m_nPrecision;
 
-	LPVOID					m_lpCallBackParam;
-	CALLBACK_SERVER_EVENT	m_pfnCallBackServerEvent;
-	
-	/*
-	 * Client information
-	 */
-	typedef struct tagClientNode
-	{
-		OnlineGameLib::Win32::CSocketServer::Socket		*pSocket;
-		
-		OnlineGameLib::Win32::CCriticalSection			csReadAction;
-		
-		OnlineGameLib::Win32::CIOBuffer					*pRecvBuffer;
-		OnlineGameLib::Win32::CIOBuffer					*pReadBuffer;
-		
-		OnlineGameLib::Win32::CCriticalSection			csWriteAction;
-		
-		OnlineGameLib::Win32::CIOBuffer					*pWriteBuffer;
+  const size_t m_nNetworkBufferMaxLen;
 
-        unsigned    uKeyMode;
-		unsigned	uServerKey;
-		unsigned	uClientKey;
+  LPVOID m_lpCallBackParam;
+  CALLBACK_SERVER_EVENT m_pfnCallBackServerEvent;
 
-	}CLIENT_NODE, NEAR *PCLIENT_NODE, FAR *LPCLIENT_NODE;
+  /*
+   * Client information
+   */
+  typedef struct tagClientNode {
+    OnlineGameLib::Win32::CSocketServer::Socket *pSocket;
 
-	typedef std::map< size_t, LPCLIENT_NODE > CLIENT_MANAGER;
+    OnlineGameLib::Win32::CCriticalSection csReadAction;
 
-	OnlineGameLib::Win32::CCriticalSection	m_csCM;
+    OnlineGameLib::Win32::CIOBuffer *pRecvBuffer;
+    OnlineGameLib::Win32::CIOBuffer *pReadBuffer;
 
-	CLIENT_MANAGER							m_theClientManager;
+    OnlineGameLib::Win32::CCriticalSection csWriteAction;
 
-	/*
-	 * ATTENTION :
-	 *
-	 * Convert stack to queue, because of a specific usage in the S3Server
-	 * But stack can decrease hit the target of memory cache in system
-	 *
-	 * Modify on 2002.5.14
-	 */
-	typedef std::queue< size_t >	QUEUE;
-	//typedef std::stack< size_t >	STACK;
-	typedef std::list< size_t >		LIST;
+    OnlineGameLib::Win32::CIOBuffer *pWriteBuffer;
 
-	OnlineGameLib::Win32::CCriticalSection	m_csFCN;
+    unsigned uKeyMode;
+    unsigned uServerKey;
+    unsigned uClientKey;
 
-	//STACK			m_freeClientNode;
-	QUEUE			m_freeClientNode;
+  } CLIENT_NODE, NEAR *PCLIENT_NODE, FAR *LPCLIENT_NODE;
 
-	/*
-	 * use m_csUCN same as m_csCM
-	 */
-	//OnlineGameLib::Win32::CCriticalSection	m_csUCN;
+  typedef std::map<size_t, LPCLIENT_NODE> CLIENT_MANAGER;
 
-	LIST			m_usedClientNode;
+  OnlineGameLib::Win32::CCriticalSection m_csCM;
 
-	/*
-	 * Helper
-	 */
+  CLIENT_MANAGER m_theClientManager;
 
-	class CTaskQueue
-	{
-	public:
-		
-		~CTaskQueue();
+  /*
+   * ATTENTION :
+   *
+   * Convert stack to queue, because of a specific usage in the S3Server
+   * But stack can decrease hit the target of memory cache in system
+   *
+   * Modify on 2002.5.14
+   */
+  typedef std::queue<size_t> QUEUE;
+  // typedef std::stack< size_t >	STACK;
+  typedef std::list<size_t> LIST;
 
-		void Push( void *pItem );
-		void *Pop();
+  OnlineGameLib::Win32::CCriticalSection m_csFCN;
 
-	private:
+  // STACK			m_freeClientNode;
+  QUEUE m_freeClientNode;
 
-		OnlineGameLib::Win32::CCriticalSection m_cs;
+  /*
+   * use m_csUCN same as m_csCM
+   */
+  // OnlineGameLib::Win32::CCriticalSection	m_csUCN;
 
-		typedef std::stack< void * >	TASK_STACK;
+  LIST m_usedClientNode;
 
-		TASK_STACK		m_theTaskStack;
+  /*
+   * Helper
+   */
 
-	};
+  class CTaskQueue {
+  public:
+    ~CTaskQueue();
 
-	bool _SendDataEx( LPCLIENT_NODE pNode,
-			const void * const	pData,
-			const size_t		&datalength );
+    void Push(void *pItem);
+    void *Pop();
 
-	/*
-	 * Helper for process user login & logout
-	 */
-	CTaskQueue	m_theAddClientQueue;
-	CTaskQueue	m_theDelClientQueue;
+  private:
+    OnlineGameLib::Win32::CCriticalSection m_cs;
 
-	OnlineGameLib::Win32::CEvent	m_hQuitHelper;
+    typedef std::stack<void *> TASK_STACK;
 
-	HANDLE							m_hHelperThread;
+    TASK_STACK m_theTaskStack;
+  };
 
-	static unsigned int __stdcall HelperThreadFunction( void *pParam );
-	
-	unsigned int _HelperThreadFunction();
+  bool _SendDataEx(LPCLIENT_NODE pNode, const void *const pData,
+                   const size_t &datalength);
 
-	bool _HelperAddClient();
-	bool _HelperDelClient();
-	
+  /*
+   * Helper for process user login & logout
+   */
+  CTaskQueue m_theAddClientQueue;
+  CTaskQueue m_theDelClientQueue;
+
+  OnlineGameLib::Win32::CEvent m_hQuitHelper;
+
+  HANDLE m_hHelperThread;
+
+  static unsigned int __stdcall HelperThreadFunction(void *pParam);
+
+  unsigned int _HelperThreadFunction();
+
+  bool _HelperAddClient();
+  bool _HelperDelClient();
 };
 
 /*
  * class CServerFactory
  */
-class CServerFactory : public IServerFactory
-{
+class CServerFactory : public IServerFactory {
 public:
+  STDMETHOD(SetEnvironment)
+  (const size_t &nPlayerMaxCount, const size_t &nPrecision,
+   const size_t &maxFreeBuffers_Cache, const size_t &bufferSize_Cache);
 
-	STDMETHOD( SetEnvironment )
-		(
-			const size_t &nPlayerMaxCount,
-			const size_t &nPrecision,
-			const size_t &maxFreeBuffers_Cache,
-			const size_t &bufferSize_Cache
-		);
+  STDMETHOD(CreateServerInterface)
+  (REFIID riid, void **ppv);
 
-	STDMETHOD( CreateServerInterface )
-		(
-			REFIID riid, 
-			void** ppv
-		);
-
-	/*
-     *  IUnknown COM Interface Methods
-     */
-    STDMETHOD ( QueryInterface ) ( REFIID riid, void** ppv );
-    STDMETHOD_( ULONG, AddRef ) ( );
-    STDMETHOD_( ULONG, Release ) ( );
+  /*
+   *  IUnknown COM Interface Methods
+   */
+  STDMETHOD(QueryInterface)(REFIID riid, void **ppv);
+  STDMETHOD_(ULONG, AddRef)();
+  STDMETHOD_(ULONG, Release)();
 
 public:
-
-	CServerFactory();
-	virtual ~CServerFactory();
+  CServerFactory();
+  virtual ~CServerFactory();
 
 private:
+  long m_lRefCount;
 
-	long			m_lRefCount;
+  size_t m_nPlayerMaxCount;
+  size_t m_nPrecision;
 
-	size_t m_nPlayerMaxCount;
-	size_t m_nPrecision;
-
-	size_t m_maxFreeBuffers_Cache;
-	size_t m_bufferSize_Cache;
+  size_t m_maxFreeBuffers_Cache;
+  size_t m_bufferSize_Cache;
 };
 
 #endif // __INCLUDE_SERVERSTAGE_H__

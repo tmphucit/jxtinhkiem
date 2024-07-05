@@ -6,22 +6,21 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Implements a simple mutex object for thread synchronization
 //---------------------------------------------------------------------------
-#include "KWin32.h"
-#include "KDebug.h"
 #include "KMutex.h"
+#include "KDebug.h"
+#include "KWin32.h"
 
-KMutex::KMutex()
-{
+KMutex::KMutex() {
 #ifdef WIN32
 #ifdef SINGLE_PROCESS
-	InitializeCriticalSection(&m_CriticalSection);
+  InitializeCriticalSection(&m_CriticalSection);
 #else
-	m_hMutex = CreateMutex(NULL, FALSE, NULL);
-	if (!m_hMutex)
-		g_MessageBox("KMutex::KMutex() CreateMutex() failed!");
+  m_hMutex = CreateMutex(NULL, FALSE, NULL);
+  if (!m_hMutex)
+    g_MessageBox("KMutex::KMutex() CreateMutex() failed!");
 #endif
 #else
-     int rc = pthread_mutex_init(&mutex, NULL);
+  int rc = pthread_mutex_init(&mutex, NULL);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -30,17 +29,16 @@ KMutex::KMutex()
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-KMutex::~KMutex()
-{
+KMutex::~KMutex() {
 #ifdef WIN32
 #ifdef SINGLE_PROCESS
-	DeleteCriticalSection(&m_CriticalSection);
+  DeleteCriticalSection(&m_CriticalSection);
 #else
-	CloseHandle(m_hMutex);
+  CloseHandle(m_hMutex);
 #endif
 #else
-     int rc = pthread_mutex_destroy(&mutex);
-     printf("create mutex%d\n", rc);
+  int rc = pthread_mutex_destroy(&mutex);
+  printf("create mutex%d\n", rc);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -49,16 +47,15 @@ KMutex::~KMutex()
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KMutex::Lock(void)
-{
+void KMutex::Lock(void) {
 #ifdef WIN32
 #ifdef SINGLE_PROCESS
-	EnterCriticalSection(&m_CriticalSection);
+  EnterCriticalSection(&m_CriticalSection);
 #else
-	WaitForSingleObject(m_hMutex, INFINITE);
+  WaitForSingleObject(m_hMutex, INFINITE);
 #endif
 #else
-     int rc = pthread_mutex_lock(&mutex);
+  int rc = pthread_mutex_lock(&mutex);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -67,15 +64,14 @@ void KMutex::Lock(void)
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KMutex::Unlock(void)
-{
+void KMutex::Unlock(void) {
 #ifdef WIN32
 #ifdef SINGLE_PROCESS
-	LeaveCriticalSection(&m_CriticalSection);
+  LeaveCriticalSection(&m_CriticalSection);
 #else
-	ReleaseMutex(m_hMutex);
+  ReleaseMutex(m_hMutex);
 #endif
 #else
-     int rc = pthread_mutex_unlock(&mutex);
+  int rc = pthread_mutex_unlock(&mutex);
 #endif
 }

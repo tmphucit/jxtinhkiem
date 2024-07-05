@@ -2,13 +2,13 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "Command.h"
 #include "cCmdSaveDocument.h"
+#include "Command.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -16,29 +16,20 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cCmdSaveDocument::cCmdSaveDocument(iCommandMachine* p) : cCommand(p)
-{
-	
+cCmdSaveDocument::cCmdSaveDocument(iCommandMachine *p) : cCommand(p) {}
+
+cCmdSaveDocument::~cCmdSaveDocument() {}
+
+eDoType cCmdSaveDocument::Do() {
+  iGround::stParam param;
+  param.mask = iGround::MASK_COMMAND;
+  param.eCommand = iGround::GCOM_SAVE;
+  strcpy(param.szFile, GetParam().strFile);
+  GetGround()->SetParam(param);
+
+  return DO_CANNOTUNDO;
 }
 
-cCmdSaveDocument::~cCmdSaveDocument()
-{
-
+stCommand_Document &cCmdSaveDocument::GetParam() {
+  return *((stCommand_Document *)GetBuffer());
 }
-
-eDoType	cCmdSaveDocument::Do()
-{
-	iGround::stParam param;
-	param.mask = iGround::MASK_COMMAND;
-	param.eCommand = iGround::GCOM_SAVE;
-	strcpy(param.szFile,GetParam().strFile);
-	GetGround()->SetParam(param);
-
-	return DO_CANNOTUNDO;
-}
-
-stCommand_Document& cCmdSaveDocument::GetParam()
-{
-	return *((stCommand_Document*)GetBuffer());
-}
-

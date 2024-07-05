@@ -1,11 +1,11 @@
 // AutoMap.cpp : Defines the initialization routines for the DLL.
 //
 
-#include "stdafx.h"
 #include "AutoMap.h"
 #include "cAutoGround.h"
+#include "stdafx.h"
 
-//#pragma comment(lib,"common.lib")
+// #pragma comment(lib,"common.lib")
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -31,7 +31,7 @@ static char THIS_FILE[] = __FILE__;
 //
 //		It is very important that this macro appear in each
 //		function, prior to any calls into MFC.  This means that
-//		it must appear as the first statement within the 
+//		it must appear as the first statement within the
 //		function, even before any object variable declarations
 //		as their constructors may generate calls into the MFC
 //		DLL.
@@ -44,19 +44,18 @@ static char THIS_FILE[] = __FILE__;
 // CAutoMapApp
 
 BEGIN_MESSAGE_MAP(CAutoMapApp, CWinApp)
-	//{{AFX_MSG_MAP(CAutoMapApp)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CAutoMapApp)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//    DO NOT EDIT what you see in these blocks of generated code!
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CAutoMapApp construction
 
-CAutoMapApp::CAutoMapApp()
-{
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
+CAutoMapApp::CAutoMapApp() {
+  // TODO: add construction code here,
+  // Place all significant initialization in InitInstance
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -64,18 +63,15 @@ CAutoMapApp::CAutoMapApp()
 
 CAutoMapApp theApp;
 
-
-
 //////////////////////////////////////////////////////////////////
-//create
+// create
 
-iAutoGround* AutoMap_CreateAutoGround(int size, LPCSTR szTerrainFolder,LPCSTR szConnectionFolder,LPCSTR szExt)
-{
-	cAutoGround* p;
-	p = new cAutoGround;
-	p->SetTileSize(size);
-	p->SetTerrainFolder(szTerrainFolder,szExt);
-	p->SetConnectionFolder(szConnectionFolder,szExt);
-	return p;
+iAutoGround *AutoMap_CreateAutoGround(int size, LPCSTR szTerrainFolder,
+                                      LPCSTR szConnectionFolder, LPCSTR szExt) {
+  cAutoGround *p;
+  p = new cAutoGround;
+  p->SetTileSize(size);
+  p->SetTerrainFolder(szTerrainFolder, szExt);
+  p->SetConnectionFolder(szConnectionFolder, szExt);
+  return p;
 }
-

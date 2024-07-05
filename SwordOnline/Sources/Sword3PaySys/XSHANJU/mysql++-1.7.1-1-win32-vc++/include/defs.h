@@ -27,4 +27,3 @@ class FieldNames;
 const bool use_exceptions = true;
 
 #endif
-

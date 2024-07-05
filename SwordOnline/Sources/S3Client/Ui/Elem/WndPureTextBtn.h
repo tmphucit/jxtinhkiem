@@ -6,48 +6,50 @@
 ------------------------------------------------------------------------------------------
 *****************************************************************************************/
 #pragma once
-#include "WndWindow.h"
 #include "../../../core/src/gamedatadef.h" //chatitem Ken Nguyen
+#include "WndWindow.h"
 
-#define	WNDPTB_MAX_TEXT_LEN	64
+#define WNDPTB_MAX_TEXT_LEN 64
 
-#define	WNDPTB_S_CENTRE_ALIGN	0x00008000
+#define WNDPTB_S_CENTRE_ALIGN 0x00008000
 
-#define	WNDPTB_F_BE_PRESSEDDOWN	0x00000001
-#define	WNDPTB_F_OVER			0x00000002
-#define	WNDPTB_F_CHECK			0x00000004
+#define WNDPTB_F_BE_PRESSEDDOWN 0x00000001
+#define WNDPTB_F_OVER 0x00000002
+#define WNDPTB_F_CHECK 0x00000004
 
-class KWndPureTextBtn : public KWndWindow
-{
-
-public:
-	KWndPureTextBtn();
-	virtual int		Init(KIniFile* pIniFile, const char* pSection);	//初始化
-	virtual void	PaintWindow();									//绘制窗口
-	void			SetText(const char* pText, int nLen = -1);		//设置文本文字
-	virtual int		WndProc(unsigned int uMsg, unsigned int uParam, int nParam);//窗口函数
-	void			CheckButton(int bChecked);
-	void			Clone(KWndPureTextBtn* pCopy);
-	void			SetColor(unsigned int uNormal, unsigned int uNormalBorder, unsigned int uOver,
-					unsigned int uOverBorder, unsigned int uSel, unsigned int uSelBorder); //dinh mau chu~
-private:
-	void			AdjustPosition();
-private:
-	unsigned int	m_Flag;
-	char			m_sText[WNDPTB_MAX_TEXT_LEN];
-	int				m_nTextLen;			//字符串的存储长度
-	unsigned int	m_NormalColor;
-	unsigned int	m_OverColor;
-	unsigned int	m_PressedColor;
-	unsigned int	m_NormalBorderColor;
-	unsigned int	m_OverBorderColor;
-	unsigned int	m_PressedBorderColor;
-	int		m_nFontSize;
+class KWndPureTextBtn : public KWndWindow {
 
 public:
-	ChatItem		m_Item; //
-	int				m_X;
-	int				m_Y;
-	bool			m_bHaveItem;//
-	void			SetItemInfo(ChatItem * pItem);//
+  KWndPureTextBtn();
+  virtual int Init(KIniFile *pIniFile, const char *pSection); // 初始化
+  virtual void PaintWindow();                                 // 绘制窗口
+  void SetText(const char *pText, int nLen = -1);             // 设置文本文字
+  virtual int WndProc(unsigned int uMsg, unsigned int uParam,
+                      int nParam); // 窗口函数
+  void CheckButton(int bChecked);
+  void Clone(KWndPureTextBtn *pCopy);
+  void SetColor(unsigned int uNormal, unsigned int uNormalBorder,
+                unsigned int uOver, unsigned int uOverBorder, unsigned int uSel,
+                unsigned int uSelBorder); // dinh mau chu~
+private:
+  void AdjustPosition();
+
+private:
+  unsigned int m_Flag;
+  char m_sText[WNDPTB_MAX_TEXT_LEN];
+  int m_nTextLen; // 字符串的存储长度
+  unsigned int m_NormalColor;
+  unsigned int m_OverColor;
+  unsigned int m_PressedColor;
+  unsigned int m_NormalBorderColor;
+  unsigned int m_OverBorderColor;
+  unsigned int m_PressedBorderColor;
+  int m_nFontSize;
+
+public:
+  ChatItem m_Item; //
+  int m_X;
+  int m_Y;
+  bool m_bHaveItem;                  //
+  void SetItemInfo(ChatItem *pItem); //
 };

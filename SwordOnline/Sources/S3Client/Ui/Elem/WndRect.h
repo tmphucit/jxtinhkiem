@@ -8,16 +8,18 @@
 #pragma once
 #include "WndWindow.h"
 
-class KWndRect : public KWndWindow
-{
+class KWndRect : public KWndWindow {
 public:
-	virtual int	Init(KIniFile* pIniFile, const char* pSection);//初始化
-	virtual int		PtInWindow(int x, int y);	//判断一个点是否在窗口范围内,传入的是绝对坐标
-	void	SetColor(unsigned int uColor);
-	void	Clone(KWndRect* pCopy);
-	KWndRect() { m_uColor = 0; }
+  virtual int Init(KIniFile *pIniFile, const char *pSection); // 初始化
+  virtual int PtInWindow(int x,
+                         int y); // 判断一个点是否在窗口范围内,传入的是绝对坐标
+  void SetColor(unsigned int uColor);
+  void Clone(KWndRect *pCopy);
+  KWndRect() { m_uColor = 0; }
+
 protected:
-	void	PaintWindow();
+  void PaintWindow();
+
 private:
-	unsigned int	m_uColor;
+  unsigned int m_uColor;
 };

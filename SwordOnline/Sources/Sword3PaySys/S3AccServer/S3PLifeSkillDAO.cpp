@@ -13,22 +13,10 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PLifeSkillDAO::S3PLifeSkillDAO(S3PDBConnection *pConn)
-{
-	m_pConn=pConn;
-}
+S3PLifeSkillDAO::S3PLifeSkillDAO(S3PDBConnection *pConn) { m_pConn = pConn; }
 
-S3PLifeSkillDAO::~S3PLifeSkillDAO()
-{
+S3PLifeSkillDAO::~S3PLifeSkillDAO() {}
 
-}
+S3PDBConnection *S3PLifeSkillDAO::GetConnection() { return m_pConn; }
 
-S3PDBConnection * S3PLifeSkillDAO::GetConnection()
-{
-	return m_pConn;
-}
-
-std::string S3PLifeSkillDAO::GetTableName()
-{
-	return "LifeSkill";
-}
+std::string S3PLifeSkillDAO::GetTableName() { return "LifeSkill"; }

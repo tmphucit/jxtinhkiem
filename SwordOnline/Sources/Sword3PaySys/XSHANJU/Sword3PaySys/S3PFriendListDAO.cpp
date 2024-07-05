@@ -15,22 +15,10 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PFriendListDAO::S3PFriendListDAO(S3PDBConnection * pConn)
-{
-	m_pConn=pConn;
-}
+S3PFriendListDAO::S3PFriendListDAO(S3PDBConnection *pConn) { m_pConn = pConn; }
 
-S3PFriendListDAO::~S3PFriendListDAO()
-{
+S3PFriendListDAO::~S3PFriendListDAO() {}
 
-}
+S3PDBConnection *S3PFriendListDAO::GetConnection() { return m_pConn; }
 
-S3PDBConnection * S3PFriendListDAO::GetConnection()
-{
-	return m_pConn;
-}
-
-std::string S3PFriendListDAO::GetTableName()
-{
-	return "Friend_List";
-}
+std::string S3PFriendListDAO::GetTableName() { return "Friend_List"; }

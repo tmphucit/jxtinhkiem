@@ -1,7 +1,8 @@
 // TestServerDlg.h : header file
 //
 
-#if !defined(AFX_TESTSERVERDLG_H__DD2BC316_AE02_4464_AC56_84528A014734__INCLUDED_)
+#if !defined(                                                                  \
+    AFX_TESTSERVERDLG_H__DD2BC316_AE02_4464_AC56_84528A014734__INCLUDED_)
 #define AFX_TESTSERVERDLG_H__DD2BC316_AE02_4464_AC56_84528A014734__INCLUDED_
 
 #if _MSC_VER > 1000
@@ -11,41 +12,41 @@
 /////////////////////////////////////////////////////////////////////////////
 // CTestServerDlg dialog
 
-class CTestServerDlg : public CDialog
-{
-// Construction
+class CTestServerDlg : public CDialog {
+  // Construction
 public:
-	void AddString(LPCSTR szAccount, LPCSTR szChat);
-	CTestServerDlg(CWnd* pParent = NULL);	// standard constructor
+  void AddString(LPCSTR szAccount, LPCSTR szChat);
+  CTestServerDlg(CWnd *pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(CTestServerDlg)
-	enum { IDD = IDD_TESTSERVER_DIALOG };
-	CListCtrl	m_listMessage;
-	//}}AFX_DATA
+  // Dialog Data
+  //{{AFX_DATA(CTestServerDlg)
+  enum { IDD = IDD_TESTSERVER_DIALOG };
+  CListCtrl m_listMessage;
+  //}}AFX_DATA
 
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CTestServerDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);	// DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CTestServerDlg)
 protected:
-	HICON m_hIcon;
+  virtual void DoDataExchange(CDataExchange *pDX); // DDX/DDV support
+                                                   //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CTestServerDlg)
-	virtual BOOL OnInitDialog();
-	afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
-	afx_msg void OnPaint();
-	afx_msg HCURSOR OnQueryDragIcon();
-	virtual void OnOK();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  // Implementation
+protected:
+  HICON m_hIcon;
+
+  // Generated message map functions
+  //{{AFX_MSG(CTestServerDlg)
+  virtual BOOL OnInitDialog();
+  afx_msg void OnSysCommand(UINT nID, LPARAM lParam);
+  afx_msg void OnPaint();
+  afx_msg HCURSOR OnQueryDragIcon();
+  virtual void OnOK();
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_TESTSERVERDLG_H__DD2BC316_AE02_4464_AC56_84528A014734__INCLUDED_)

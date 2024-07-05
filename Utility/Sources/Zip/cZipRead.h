@@ -12,31 +12,35 @@
 #include "iZip.h"
 #include "unzipper.h"
 
-class cZipRead : public iZipRead  
-{
+class cZipRead : public iZipRead {
 public:
-	ULONG m_ulCount;
-	ULONG AddRef() { return ++m_ulCount; };
-	ULONG Release() { int n = --m_ulCount; if (n == 0) delete this; return n;};
-	cZipRead();
-	virtual ~cZipRead();
-	
-	CUnzipper m_unzipper;
+  ULONG m_ulCount;
+  ULONG AddRef() { return ++m_ulCount; };
+  ULONG Release() {
+    int n = --m_ulCount;
+    if (n == 0)
+      delete this;
+    return n;
+  };
+  cZipRead();
+  virtual ~cZipRead();
 
-	bool load(LPCSTR szZipFile) ;		//load a .zip file from disk
+  CUnzipper m_unzipper;
 
-	bool locate(LPCSTR szFile) ;		//locate a file then can read
-	int	length() ;						//length of the file located
-	int	read(void* buf, int* bufsize) ;
+  bool load(LPCSTR szZipFile); // load a .zip file from disk
 
-	BOOL Open(LPCSTR szFile) ;
-	DWORD GetLength();
-	UINT Read(void* lpBuf, UINT nCount) ;
+  bool locate(LPCSTR szFile); // locate a file then can read
+  int length();               // length of the file located
+  int read(void *buf, int *bufsize);
 
-	char* m_pBuffer;
-	char* m_pPos;
-	int m_nLength;
-	int m_nBufferLength;
+  BOOL Open(LPCSTR szFile);
+  DWORD GetLength();
+  UINT Read(void *lpBuf, UINT nCount);
+
+  char *m_pBuffer;
+  char *m_pPos;
+  int m_nLength;
+  int m_nBufferLength;
 };
 
 #endif // !defined(AFX_CZIPREAD_H__8BEB3149_F41F_4919_BEB1_03C3138F04CD__INCLUDED_)

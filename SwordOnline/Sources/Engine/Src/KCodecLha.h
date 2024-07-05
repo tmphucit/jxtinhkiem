@@ -11,11 +11,10 @@
 //---------------------------------------------------------------------------
 #include "KCodec.h"
 //---------------------------------------------------------------------------
-class ENGINE_API KCodecLha : public KCodec
-{
+class ENGINE_API KCodecLha : public KCodec {
 public:
-	virtual BOOL	Encode(TCodeInfo* pCodeInfo);
-	virtual BOOL	Decode(TCodeInfo* pCodeInfo);
+  virtual BOOL Encode(TCodeInfo *pCodeInfo);
+  virtual BOOL Decode(TCodeInfo *pCodeInfo);
 };
 //---------------------------------------------------------------------------
 #endif

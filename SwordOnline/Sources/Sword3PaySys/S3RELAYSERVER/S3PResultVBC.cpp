@@ -8,10 +8,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PResultVBC::S3PResultVBC()
-{
-}
+S3PResultVBC::S3PResultVBC() {}
 
-S3PResultVBC::~S3PResultVBC()
-{
-}
+S3PResultVBC::~S3PResultVBC() {}

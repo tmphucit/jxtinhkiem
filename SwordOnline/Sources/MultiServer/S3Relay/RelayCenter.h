@@ -13,30 +13,29 @@
 #include "RelayClient.h"
 #include <map>
 
-class CRelayCenter : public CNetCenter  
-{
+class CRelayCenter : public CNetCenter {
 public:
-	CRelayCenter();
-	virtual ~CRelayCenter();
+  CRelayCenter();
+  virtual ~CRelayCenter();
 
 protected:
-	virtual void OnBuildup();
-	virtual void OnClearup();
+  virtual void OnBuildup();
+  virtual void OnClearup();
 
-	virtual void OnServerEventCreate(CNetClient* pClient);
-	virtual void OnServerEventClose(CNetClient* pClient);
+  virtual void OnServerEventCreate(CNetClient *pClient);
+  virtual void OnServerEventClose(CNetClient *pClient);
 
 private:
-	typedef std::map<DWORD, CRelayClient*>	IP2CLIENTMAP;
-	IP2CLIENTMAP m_mapIp2Client;
+  typedef std::map<DWORD, CRelayClient *> IP2CLIENTMAP;
+  IP2CLIENTMAP m_mapIp2Client;
 
-	CLockMRSW m_lockIpMap;
-
-public:
-	BOOL FindRelayClientByIP(DWORD IP, class CNetClientDup* pClntDup);
+  CLockMRSW m_lockIpMap;
 
 public:
-	BOOL TraceInfo();
+  BOOL FindRelayClientByIP(DWORD IP, class CNetClientDup *pClntDup);
+
+public:
+  BOOL TraceInfo();
 };
 
 #endif // !defined(AFX_RELAYCENTER_H__7E3E4D53_5038_46C8_9B9F_84311729CA97__INCLUDED_)

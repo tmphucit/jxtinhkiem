@@ -13,33 +13,32 @@
 #include "TongConnect.h"
 #include <map>
 
-class CTongServer : public CNetServer  
-{
+class CTongServer : public CNetServer {
 public:
-	CTongServer();
-	virtual ~CTongServer();
+  CTongServer();
+  virtual ~CTongServer();
 
 protected:
-	virtual CNetConnect* CreateConnect(CNetServer* pNetServer, unsigned long id);
-	virtual void DestroyConnect(CNetConnect* pConn);
+  virtual CNetConnect *CreateConnect(CNetServer *pNetServer, unsigned long id);
+  virtual void DestroyConnect(CNetConnect *pConn);
 
-	virtual void OnBuildup();
-	virtual void OnClearup();
+  virtual void OnBuildup();
+  virtual void OnClearup();
 
-	virtual void OnClientConnectCreate(CNetConnect* pConn);
-	virtual void OnClientConnectClose(CNetConnect* pConn);
+  virtual void OnClientConnectCreate(CNetConnect *pConn);
+  virtual void OnClientConnectClose(CNetConnect *pConn);
 
 private:
-	typedef std::map<DWORD, CTongConnect*>	IP2CONNECTMAP;
-	IP2CONNECTMAP m_mapIp2Connect;
+  typedef std::map<DWORD, CTongConnect *> IP2CONNECTMAP;
+  IP2CONNECTMAP m_mapIp2Connect;
 
-	CLockMRSW m_lockIpMap;
-
-public:
-	class CNetConnectDup FindTongConnectByIP(DWORD IP);
+  CLockMRSW m_lockIpMap;
 
 public:
-	BOOL TraceInfo();
+  class CNetConnectDup FindTongConnectByIP(DWORD IP);
+
+public:
+  BOOL TraceInfo();
 };
 
 #endif // !defined(AFX_TONGSERVER_H__01285A06_8149_4948_ABD4_175225328427__INCLUDED_)

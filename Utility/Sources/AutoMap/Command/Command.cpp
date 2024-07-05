@@ -1,9 +1,8 @@
 // Command.cpp : Defines the initialization routines for the DLL.
 //
 
-#include "stdafx.h"
 #include "Command.h"
-
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -29,7 +28,7 @@ static char THIS_FILE[] = __FILE__;
 //
 //		It is very important that this macro appear in each
 //		function, prior to any calls into MFC.  This means that
-//		it must appear as the first statement within the 
+//		it must appear as the first statement within the
 //		function, even before any object variable declarations
 //		as their constructors may generate calls into the MFC
 //		DLL.
@@ -42,19 +41,18 @@ static char THIS_FILE[] = __FILE__;
 // CCommandApp
 
 BEGIN_MESSAGE_MAP(CCommandApp, CWinApp)
-	//{{AFX_MSG_MAP(CCommandApp)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CCommandApp)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//    DO NOT EDIT what you see in these blocks of generated code!
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CCommandApp construction
 
-CCommandApp::CCommandApp()
-{
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
+CCommandApp::CCommandApp() {
+  // TODO: add construction code here,
+  // Place all significant initialization in InitInstance
 }
 
 /////////////////////////////////////////////////////////////////////////////

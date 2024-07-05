@@ -5,14 +5,14 @@
 
 /*
  *
- *  This wrapper is needed for Borland C++ 5.0 to get STLport 
+ *  This wrapper is needed for Borland C++ 5.0 to get STLport
  *  header properly included
  */
 
 #ifndef __STLPORT_BC_iomanip_H
-#  define  __STLPORT_BC_iomanip_H
+#define __STLPORT_BC_iomanip_H
 
-#  include  <..\iomanip.>
+#include <..\iomanip.>
 
 #endif
 

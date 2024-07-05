@@ -11,43 +11,39 @@
 #include "KStdAfx.h"
 #include "S3PDBSocketPool.h"
 
-typedef struct tag_DBSOCKETSERVERPARAM
-{
-	SOCKET serverSocket;
-	int* piRunSignal;
-	S3PDBSocketPool* pSocketPool;
-}_DBSOCKETSERVERPARAM, *_LPDBSOCKETSERVERPARAM;
+typedef struct tag_DBSOCKETSERVERPARAM {
+  SOCKET serverSocket;
+  int *piRunSignal;
+  S3PDBSocketPool *pSocketPool;
+} _DBSOCKETSERVERPARAM, *_LPDBSOCKETSERVERPARAM;
 
-class S3PDBSocketServer  
-{
+class S3PDBSocketServer {
 public:
-	static SOCKET CreateSocket( int iPort );
-	static BOOL SendUDP( SOCKET s,
-		DWORD dwTargetIP,
-		int iTargetPort,
-		IBYTE buf[def_UDPSIZE],
-		DWORD dwSize );
-public:
-	S3PDBSocketServer( SOCKET s, S3PDBSocketPool* pPool = NULL );
-	S3PDBSocketServer( int iPort, S3PDBSocketPool* pPool = NULL );
-	virtual ~S3PDBSocketServer();
+  static SOCKET CreateSocket(int iPort);
+  static BOOL SendUDP(SOCKET s, DWORD dwTargetIP, int iTargetPort,
+                      IBYTE buf[def_UDPSIZE], DWORD dwSize);
 
-	virtual HANDLE Start();
-	virtual BOOL Stop();
+public:
+  S3PDBSocketServer(SOCKET s, S3PDBSocketPool *pPool = NULL);
+  S3PDBSocketServer(int iPort, S3PDBSocketPool *pPool = NULL);
+  virtual ~S3PDBSocketServer();
+
+  virtual HANDLE Start();
+  virtual BOOL Stop();
 
 protected:
-	virtual void CreateEnablePoolEvent();
-	virtual BOOL ReleaseSocket();
-	virtual BOOL CreateSocket();
+  virtual void CreateEnablePoolEvent();
+  virtual BOOL ReleaseSocket();
+  virtual BOOL CreateSocket();
 
-	int* m_piRunSignal;
-	int m_iPort;
-	SOCKET m_Socket;
-	HANDLE m_hServer;
-	DWORD m_dwServerThreadId;
-	S3PDBSocketPool* m_pSocketPool;
-	_DBSOCKETSERVERPARAM m_ServerParam;
-	HANDLE m_hEnablePool;
+  int *m_piRunSignal;
+  int m_iPort;
+  SOCKET m_Socket;
+  HANDLE m_hServer;
+  DWORD m_dwServerThreadId;
+  S3PDBSocketPool *m_pSocketPool;
+  _DBSOCKETSERVERPARAM m_ServerParam;
+  HANDLE m_hEnablePool;
 };
 
-#endif	// _S3PDBSOCKETSERVER_H_
+#endif // _S3PDBSOCKETSERVER_H_

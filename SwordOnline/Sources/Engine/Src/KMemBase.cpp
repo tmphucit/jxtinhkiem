@@ -6,43 +6,37 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Memory base functions
 //---------------------------------------------------------------------------
-#include "KWin32.h"
-#include "KDebug.h"
-#include "KNode.h"
-#include "KList.h"
 #include "KMemBase.h"
+#include "KDebug.h"
+#include "KList.h"
+#include "KNode.h"
+#include "KWin32.h"
 #include <string.h>
 //---------------------------------------------------------------------------
-class KMemNode : public KNode
-{
+class KMemNode : public KNode {
 public:
-	DWORD	m_dwMemSize;//内存大小
-	DWORD	m_dwMemSign;//内存标志
+  DWORD m_dwMemSize; // 内存大小
+  DWORD m_dwMemSign; // 内存标志
 };
 //---------------------------------------------------------------------------
-class KMemList : public KList
-{
+class KMemList : public KList {
 public:
-	~KMemList()
-	{
-		KMemNode* pNode = (KMemNode*)GetHead();
-		while (pNode)
-		{
-			g_DebugLog("KMemList::Leak Detected, Size = %d", pNode->m_dwMemSize);
-			pNode = (KMemNode*)pNode->GetNext();
-		}
-	};
-	void ShowUsage()
-	{
-		KMemNode* pNode = (KMemNode*)GetHead();
-		DWORD dwMemSize = 0;
-		while (pNode)
-		{
-			dwMemSize += pNode->m_dwMemSize;
-			pNode = (KMemNode*)pNode->GetNext();
-		}
-		g_DebugLog("Memory Usage Size = %d KB", dwMemSize / 1024);
-	}
+  ~KMemList() {
+    KMemNode *pNode = (KMemNode *)GetHead();
+    while (pNode) {
+      g_DebugLog("KMemList::Leak Detected, Size = %d", pNode->m_dwMemSize);
+      pNode = (KMemNode *)pNode->GetNext();
+    }
+  };
+  void ShowUsage() {
+    KMemNode *pNode = (KMemNode *)GetHead();
+    DWORD dwMemSize = 0;
+    while (pNode) {
+      dwMemSize += pNode->m_dwMemSize;
+      pNode = (KMemNode *)pNode->GetNext();
+    }
+    g_DebugLog("Memory Usage Size = %d KB", dwMemSize / 1024);
+  }
 };
 static KMemList m_MemList;
 //---------------------------------------------------------------------------
@@ -53,15 +47,14 @@ static KMemList m_MemList;
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_MemInfo()
-{
-//	MEMORYSTATUS stat;
-	
-//	GlobalMemoryStatus(&stat);
-	
-//	g_DebugLog("Total Physical Memory = %d MB", stat.dwTotalPhys >> 20);
-//	g_DebugLog("Total Virtual Memory = %d MB", stat.dwTotalVirtual >> 20);
-//	g_DebugLog("%d percent of memory is in use.", stat.dwMemoryLoad);
+ENGINE_API void g_MemInfo() {
+  //	MEMORYSTATUS stat;
+
+  //	GlobalMemoryStatus(&stat);
+
+  //	g_DebugLog("Total Physical Memory = %d MB", stat.dwTotalPhys >> 20);
+  //	g_DebugLog("Total Virtual Memory = %d MB", stat.dwTotalVirtual >> 20);
+  //	g_DebugLog("%d percent of memory is in use.", stat.dwMemoryLoad);
 }
 //---------------------------------------------------------------------------
 // 函数:	g_MemAlloc
@@ -69,29 +62,27 @@ ENGINE_API void g_MemInfo()
 // 参数:	dwSize		内存块大小
 // 返回:	lpMem (lpMem = NULL 表示分配失败)
 //---------------------------------------------------------------------------
-ENGINE_API LPVOID g_MemAlloc(DWORD dwSize)
-{
-//	HANDLE hHeap = GetProcessHeap();
-	PBYTE  lpMem = NULL;
-	DWORD  dwHeapSize = dwSize + sizeof(KMemNode);
+ENGINE_API LPVOID g_MemAlloc(DWORD dwSize) {
+  //	HANDLE hHeap = GetProcessHeap();
+  PBYTE lpMem = NULL;
+  DWORD dwHeapSize = dwSize + sizeof(KMemNode);
 
-//	lpMem = (PBYTE)HeapAlloc(hHeap, 0, dwHeapSize);
-	lpMem = (PBYTE)new char[dwHeapSize];
-	if (NULL == lpMem)
-	{
-		g_MessageBox("g_MemAlloc() Failed, Size = %d", dwSize);
-		return NULL;
-	}
+  //	lpMem = (PBYTE)HeapAlloc(hHeap, 0, dwHeapSize);
+  lpMem = (PBYTE) new char[dwHeapSize];
+  if (NULL == lpMem) {
+    g_MessageBox("g_MemAlloc() Failed, Size = %d", dwSize);
+    return NULL;
+  }
 
-	KMemNode* pNode = (KMemNode*)lpMem;
-	pNode->m_pPrev = NULL;
-	pNode->m_pNext = NULL;
-	pNode->m_dwMemSize = dwSize;
-	pNode->m_dwMemSign = MEMSIGN;
-	m_MemList.AddHead(pNode);
-	
-	return (lpMem + sizeof(KMemNode));
-//	return 0;
+  KMemNode *pNode = (KMemNode *)lpMem;
+  pNode->m_pPrev = NULL;
+  pNode->m_pNext = NULL;
+  pNode->m_dwMemSize = dwSize;
+  pNode->m_dwMemSign = MEMSIGN;
+  m_MemList.AddHead(pNode);
+
+  return (lpMem + sizeof(KMemNode));
+  //	return 0;
 }
 //---------------------------------------------------------------------------
 // 函数:	g_MemFree
@@ -99,21 +90,19 @@ ENGINE_API LPVOID g_MemAlloc(DWORD dwSize)
 // 参数:	lpMem		要释放的内存指针
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_MemFree(LPVOID lpMem)
-{
-//	HANDLE hHeap = GetProcessHeap();
-	if (lpMem == NULL)
-		return;
-	lpMem = (PBYTE)lpMem - sizeof(KMemNode);
-	KMemNode* pNode = (KMemNode *)lpMem;
-	if (pNode->m_dwMemSign != MEMSIGN)
-	{
-		g_MessageBox("g_MemFree() Failed, Size = %d", pNode->m_dwMemSize);
-		return;
-	}
-	pNode->Remove();
-//	HeapFree(hHeap, 0, lpMem);
-	delete[] lpMem;
+ENGINE_API void g_MemFree(LPVOID lpMem) {
+  //	HANDLE hHeap = GetProcessHeap();
+  if (lpMem == NULL)
+    return;
+  lpMem = (PBYTE)lpMem - sizeof(KMemNode);
+  KMemNode *pNode = (KMemNode *)lpMem;
+  if (pNode->m_dwMemSign != MEMSIGN) {
+    g_MessageBox("g_MemFree() Failed, Size = %d", pNode->m_dwMemSize);
+    return;
+  }
+  pNode->Remove();
+  //	HeapFree(hHeap, 0, lpMem);
+  delete[] lpMem;
 }
 //---------------------------------------------------------------------------
 // 函数:	MemoryCopy
@@ -123,11 +112,10 @@ ENGINE_API void g_MemFree(LPVOID lpMem)
 //			dwLen	:	拷贝长度
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_MemCopy(PVOID lpDest, PVOID lpSrc, DWORD dwLen)
-{	
+ENGINE_API void g_MemCopy(PVOID lpDest, PVOID lpSrc, DWORD dwLen) {
 #ifdef WIN32
-	__asm
-	{
+  __asm
+      {
 		mov		edi, lpDest
 		mov		esi, lpSrc
 		mov		ecx, dwLen
@@ -137,9 +125,9 @@ ENGINE_API void g_MemCopy(PVOID lpDest, PVOID lpSrc, DWORD dwLen)
 		mov     ecx, ebx
 		and     ecx, 3
 		rep     movsb
-	}
+      }
 #else
-     memcpy(lpDest, lpSrc, dwLen);
+  memcpy(lpDest, lpSrc, dwLen);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -150,11 +138,10 @@ ENGINE_API void g_MemCopy(PVOID lpDest, PVOID lpSrc, DWORD dwLen)
 //			dwLen	:	拷贝长度
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_MemCopyMmx(PVOID lpDest, PVOID lpSrc, DWORD dwLen)
-{
+ENGINE_API void g_MemCopyMmx(PVOID lpDest, PVOID lpSrc, DWORD dwLen) {
 #ifdef WIN32
-	__asm
-	{
+  __asm
+      {
 		mov		edi, lpDest
 		mov		esi, lpSrc
 		mov		ecx, dwLen
@@ -177,9 +164,9 @@ loc_copy_mmx2:
 		and     ecx, 7
 		rep     movsb
 		emms
-	}
+      }
 #else
-     memcpy(lpDest, lpSrc, dwLen);
+  memcpy(lpDest, lpSrc, dwLen);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -189,13 +176,12 @@ loc_copy_mmx2:
 //			lpSrc	:	内存块2
 //			dwLen	:	比较长度
 // 返回:	TRUE	:	相同
-//			FALSE	:	不同	
+//			FALSE	:	不同
 //---------------------------------------------------------------------------
-ENGINE_API BOOL g_MemComp(PVOID lpDest, PVOID lpSrc, DWORD dwLen)
-{	
+ENGINE_API BOOL g_MemComp(PVOID lpDest, PVOID lpSrc, DWORD dwLen) {
 #ifdef WIN32
-	__asm
-	{
+  __asm
+      {
 		mov		edi, lpDest
 		mov		esi, lpSrc
 		mov		ecx, dwLen
@@ -207,14 +193,15 @@ ENGINE_API BOOL g_MemComp(PVOID lpDest, PVOID lpSrc, DWORD dwLen)
 		and     ecx, 3
 		rep     cmpsb
 		jne		loc_not_equal
-	};
-	return TRUE;
+      }
+  ;
+  return TRUE;
 
 loc_not_equal:
 
-	return FALSE;
+  return FALSE;
 #else
-     return (0 == memcmp(lpDest, lpSrc, dwLen));
+  return (0 == memcmp(lpDest, lpSrc, dwLen));
 #endif
 }
 //---------------------------------------------------------------------------
@@ -225,11 +212,10 @@ loc_not_equal:
 //			byFill	:	填充字节
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_MemFill(PVOID lpDest, DWORD dwLen, BYTE byFill)
-{
+ENGINE_API void g_MemFill(PVOID lpDest, DWORD dwLen, BYTE byFill) {
 #ifdef WIN32
-	__asm
-	{
+  __asm
+      {
 		mov		edi, lpDest
 		mov		ecx, dwLen
 		mov		al, byFill
@@ -243,9 +229,9 @@ ENGINE_API void g_MemFill(PVOID lpDest, DWORD dwLen, BYTE byFill)
 		mov     ecx, ebx
 		and		ecx, 3
 		rep     stosb
-	}
+      }
 #else
-     memset(lpDest, byFill, dwLen);
+  memset(lpDest, byFill, dwLen);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -256,11 +242,10 @@ ENGINE_API void g_MemFill(PVOID lpDest, DWORD dwLen, BYTE byFill)
 //			wFill	:	填充字
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_MemFill(PVOID lpDest, DWORD dwLen, WORD wFill)
-{	
+ENGINE_API void g_MemFill(PVOID lpDest, DWORD dwLen, WORD wFill) {
 #ifdef WIN32
-	__asm
-	{
+  __asm
+      {
 		mov		edi, lpDest
 		mov		ecx, dwLen
 		mov		ax, wFill
@@ -273,9 +258,9 @@ ENGINE_API void g_MemFill(PVOID lpDest, DWORD dwLen, WORD wFill)
 		mov     ecx, ebx
 		and		ecx, 1
 		rep     stosw
-	}
+      }
 #else
-     memset(lpDest, wFill & 0xff, dwLen);
+  memset(lpDest, wFill & 0xff, dwLen);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -286,18 +271,17 @@ ENGINE_API void g_MemFill(PVOID lpDest, DWORD dwLen, WORD wFill)
 //			dwFill	:	填充字
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_MemFill(PVOID lpDest, DWORD dwLen, DWORD dwFill)
-{	
+ENGINE_API void g_MemFill(PVOID lpDest, DWORD dwLen, DWORD dwFill) {
 #ifdef WIN32
-	__asm
-	{
+  __asm
+      {
 		mov		edi, lpDest
 		mov		ecx, dwLen
 		mov		eax, dwFill
 		rep     stosd
-	}
+      }
 #else
-     memset(lpDest, dwFill & 0xff, dwLen);
+  memset(lpDest, dwFill & 0xff, dwLen);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -307,11 +291,10 @@ ENGINE_API void g_MemFill(PVOID lpDest, DWORD dwLen, DWORD dwFill)
 //			dwLen	:	内存长度
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_MemZero(PVOID lpDest, DWORD dwLen)
-{
+ENGINE_API void g_MemZero(PVOID lpDest, DWORD dwLen) {
 #ifdef WIN32
-	__asm
-	{
+  __asm
+      {
 		mov		ecx, dwLen
 		mov		edi, lpDest
 		xor     eax, eax
@@ -321,9 +304,9 @@ ENGINE_API void g_MemZero(PVOID lpDest, DWORD dwLen)
 		mov     ecx, ebx
 		and		ecx, 3
 		rep     stosb
-	}
+      }
 #else
-     memset(lpDest, 0, dwLen);
+  memset(lpDest, 0, dwLen);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -334,11 +317,10 @@ ENGINE_API void g_MemZero(PVOID lpDest, DWORD dwLen)
 //			dwXor	:	异或字节
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_MemXore(PVOID lpDest, DWORD dwLen, DWORD dwXor)
-{
+ENGINE_API void g_MemXore(PVOID lpDest, DWORD dwLen, DWORD dwXor) {
 #ifdef WIN32
-	__asm
-	{
+  __asm
+  {
 		mov		edi, lpDest
 		mov		ecx, dwLen
 		mov		eax, dwXor
@@ -351,12 +333,12 @@ loc_xor_loop:
 		dec		ecx
 		jnz		loc_xor_loop
 loc_xor_exit:
-	}
+  }
 #else
-     unsigned long *ptr = (unsigned long *)lpDest;
-     while((long)dwLen > 0) {
-       *ptr++ ^= dwXor;
-       dwLen -= sizeof(unsigned long);
-     }
+  unsigned long *ptr = (unsigned long *)lpDest;
+  while ((long)dwLen > 0) {
+    *ptr++ ^= dwXor;
+    dwLen -= sizeof(unsigned long);
+  }
 #endif
 }

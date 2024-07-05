@@ -6,18 +6,15 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Simple double linked node class
 //---------------------------------------------------------------------------
-#include "KWin32.h"
+#include "KStrNode.h"
 #include "KDebug.h"
 #include "KMemBase.h"
-#include "KStrNode.h"
+#include "KWin32.h"
 //---------------------------------------------------------------------------
 // 函数:	KStrNode
 // 功能:	构造
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-KStrNode::KStrNode(void)
-{
-	g_MemZero(m_Name, sizeof(m_Name));
-}
+KStrNode::KStrNode(void) { g_MemZero(m_Name, sizeof(m_Name)); }
 //--------------------------------------------------------------------------------

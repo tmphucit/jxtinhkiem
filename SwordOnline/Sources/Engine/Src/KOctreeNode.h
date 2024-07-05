@@ -2,29 +2,28 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#ifndef	KOctreeNodeH
+#ifndef KOctreeNodeH
 #define KOctreeNodeH
 
-class ENGINE_API KOctreeNode  
-{
+class ENGINE_API KOctreeNode {
 public:
-	DWORD	dwRef;
-	DWORD	dwRed;
-	DWORD	dwGreen;
-	DWORD	dwBlue;
-	DWORD	dwIndex;	// 索引值
-	KOctreeNode	*tChild[8];
-public:
-	KOctreeNode();
-	BOOL	Insert(BYTE r, BYTE g, BYTE b, int n, int m);
-	int		QueryIndex(BYTE r, BYTE g, BYTE b, int layer);
-	int		Merge();
-	BOOL	IsLeaf();
-	BOOL	IsFather();
-	int		RefenceSum();
-	void	Free();
-	virtual ~KOctreeNode();
+  DWORD dwRef;
+  DWORD dwRed;
+  DWORD dwGreen;
+  DWORD dwBlue;
+  DWORD dwIndex; // 索引值
+  KOctreeNode *tChild[8];
 
+public:
+  KOctreeNode();
+  BOOL Insert(BYTE r, BYTE g, BYTE b, int n, int m);
+  int QueryIndex(BYTE r, BYTE g, BYTE b, int layer);
+  int Merge();
+  BOOL IsLeaf();
+  BOOL IsFather();
+  int RefenceSum();
+  void Free();
+  virtual ~KOctreeNode();
 };
 
 #endif

@@ -14,39 +14,40 @@
 class cActor;
 class cMissle;
 
-typedef std::list<cMissle*> MissleList;
+typedef std::list<cMissle *> MissleList;
 typedef MissleList::iterator itMissle;
 
-class cStatusTest : public cStatus  
-{
+class cStatusTest : public cStatus {
 public:
-	cStatusTest();
-	virtual ~cStatusTest();
-	void Clear();
+  cStatusTest();
+  virtual ~cStatusTest();
+  void Clear();
 
-	BOOL Create();
-	cActor* m_pNpc;
-	MissleList m_listMissle;
-	
-	iObj* m_pMenu;
+  BOOL Create();
+  cActor *m_pNpc;
+  MissleList m_listMissle;
 
-	enum {TEST_NUM = 200,};
-	cActor* m_aNpcTest[TEST_NUM];
+  iObj *m_pMenu;
 
-	BOOL OnTimer(UINT nIDEvent);
-	BOOL OnLButtonDown(UINT nFlags, CPoint point);
-	BOOL OnRButtonDown(UINT nFlags, CPoint point);
-	
-	void OffsetObj(cActor* p, cPoint pt);
-	BOOL OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+  enum {
+    TEST_NUM = 200,
+  };
+  cActor *m_aNpcTest[TEST_NUM];
 
-	BOOL OnNewDocument(LPCTSTR lpszPathName);
-	BOOL OnOpenDocument(LPCTSTR lpszPathName);
-	BOOL OnSaveDocument(LPCTSTR lpszPathName);
-	void RandomWalk(cActor* pObj);
+  BOOL OnTimer(UINT nIDEvent);
+  BOOL OnLButtonDown(UINT nFlags, CPoint point);
+  BOOL OnRButtonDown(UINT nFlags, CPoint point);
 
-	enum RunEnum{RUN_USER,RUN_TESTMAP,RUN_RANDOM};
-	RunEnum m_eRun;
+  void OffsetObj(cActor *p, cPoint pt);
+  BOOL OnKeyDown(UINT nChar, UINT nRepCnt, UINT nFlags);
+
+  BOOL OnNewDocument(LPCTSTR lpszPathName);
+  BOOL OnOpenDocument(LPCTSTR lpszPathName);
+  BOOL OnSaveDocument(LPCTSTR lpszPathName);
+  void RandomWalk(cActor *pObj);
+
+  enum RunEnum { RUN_USER, RUN_TESTMAP, RUN_RANDOM };
+  RunEnum m_eRun;
 };
 
 #endif // !defined(AFX_CSTATUSTEST_H__215C729A_1AD8_42C1_B181_2BDD23CA5A66__INCLUDED_)

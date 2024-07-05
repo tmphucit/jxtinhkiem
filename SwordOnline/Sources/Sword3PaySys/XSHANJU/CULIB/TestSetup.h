@@ -13,24 +13,22 @@
 class Test;
 class TestResult;
 
-
-class TestSetup : public TestDecorator 
-{
-    REFERENCEOBJECT (TestSetup)
+class TestSetup : public TestDecorator {
+  REFERENCEOBJECT(TestSetup)
 
 public:
-                    TestSetup (Test *test) : TestDecorator (test) {}
-                    run (TestResult *result);
+  TestSetup(Test *test) : TestDecorator(test) {}
+  run(TestResult *result);
 
 protected:
-    void            setUp () {}
-    void            tearDown () {}
-
+  void setUp() {}
+  void tearDown() {}
 };
 
-
-inline TestSetup::run (TestResult *result)
-{ setUp (); TestDecorator::run (result); tearDown (); }
+inline TestSetup::run(TestResult *result) {
+  setUp();
+  TestDecorator::run(result);
+  tearDown();
+}
 
 #endif
-

@@ -6,5 +6,6 @@
 ------------------------------------------------------------------------------------------
 *****************************************************************************************/
 
-
-void ALW_GetWndPosition(int& nX, int& nY, int nWidth, int nHeight, bool bUseInputParamPos = false, bool bIgnoreCursorPos = false);
+void ALW_GetWndPosition(int &nX, int &nY, int nWidth, int nHeight,
+                        bool bUseInputParamPos = false,
+                        bool bIgnoreCursorPos = false);

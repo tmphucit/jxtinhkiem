@@ -11,16 +11,15 @@
 
 #include "cActor.h"
 
-class cMissle  : public cActor
-{
+class cMissle : public cActor {
 public:
-	cMissle();
-	virtual ~cMissle();
+  cMissle();
+  virtual ~cMissle();
 
-	int m_nLife;
-	int m_nBlock;
-	
-	virtual BOOL Run();
+  int m_nLife;
+  int m_nBlock;
+
+  virtual BOOL Run();
 };
 
 #endif // !defined(AFX_CMISSLE_H__F28E7AC8_F3F7_4CBF_A00D_BD2466834BBE__INCLUDED_)

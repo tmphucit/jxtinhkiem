@@ -12,17 +12,18 @@
 #include "KLAviFile.h"
 #include "KLMp3Music.h"
 //---------------------------------------------------------------------------
-class KLMp4Audio : public KLMp3Music
-{
+class KLMp4Audio : public KLMp3Music {
 private:
-	KLAviFile		m_AviFile;
+  KLAviFile m_AviFile;
+
 public:
-	void			Seek(int nPercent);
-	void			Rewind();
+  void Seek(int nPercent);
+  void Rewind();
+
 protected:
-	BOOL			Mp3FileOpen(LPSTR FileName);
-	DWORD			Mp3FileRead(PBYTE pBuf, DWORD dwLen);
-	DWORD			Mp3FileSeek(LONG lOffset);
+  BOOL Mp3FileOpen(LPSTR FileName);
+  DWORD Mp3FileRead(PBYTE pBuf, DWORD dwLen);
+  DWORD Mp3FileSeek(LONG lOffset);
 };
 //---------------------------------------------------------------------------
 #endif

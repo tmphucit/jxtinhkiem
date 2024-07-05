@@ -6,17 +6,13 @@
 //                                         //
 //-----------------------------------------//
 
-#include "stdafx.h"
 #include "S3PDBConVBC.h"
+#include "stdafx.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PDBConVBC::S3PDBConVBC()
-{
-}
+S3PDBConVBC::S3PDBConVBC() {}
 
-S3PDBConVBC::~S3PDBConVBC()
-{
-}
+S3PDBConVBC::~S3PDBConVBC() {}

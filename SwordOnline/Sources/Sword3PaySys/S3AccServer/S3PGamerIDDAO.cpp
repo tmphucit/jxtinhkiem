@@ -12,22 +12,10 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PGamerIDDAO::S3PGamerIDDAO( S3PDBConnection * pConn )
-{
-	m_pConn = pConn;
-}
+S3PGamerIDDAO::S3PGamerIDDAO(S3PDBConnection *pConn) { m_pConn = pConn; }
 
-S3PGamerIDDAO::~S3PGamerIDDAO()
-{
+S3PGamerIDDAO::~S3PGamerIDDAO() {}
 
-}
+S3PDBConnection *S3PGamerIDDAO::GetConnection() { return m_pConn; }
 
-S3PDBConnection* S3PGamerIDDAO::GetConnection()
-{
-	return m_pConn;
-}
-
-std::string S3PGamerIDDAO::GetTableName()
-{
-	return "gamerid";
-}
+std::string S3PGamerIDDAO::GetTableName() { return "gamerid"; }

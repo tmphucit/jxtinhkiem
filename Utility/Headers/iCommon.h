@@ -1,9 +1,9 @@
 #ifndef ICOMMON_H
 #define ICOMMON_H
 
-#include "ipublic.h"
 #include "iColor.h"
+#include "ipublic.h"
 
-_declspec(dllexport) int NameToID(CString aStr[], const CString& s);
+_declspec(dllexport) int NameToID(CString aStr[], const CString &s);
 
 #endif

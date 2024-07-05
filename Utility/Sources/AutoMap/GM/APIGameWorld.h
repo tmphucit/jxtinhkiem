@@ -11,40 +11,37 @@
 #include "GameMaster_i.h"
 
 class KGameMasterCore;
-class KGameWorldApiTool :
-	public CComObjectRootEx<CComSingleThreadModel>,
-	public IDispatchImpl<IKGameWorld, &IID_IKGameWorld, &LIBID_GameMasterLib>,
-	public KAPIChild
-{
+class KGameWorldApiTool
+    : public CComObjectRootEx<CComSingleThreadModel>,
+      public IDispatchImpl<IKGameWorld, &IID_IKGameWorld, &LIBID_GameMasterLib>,
+      public KAPIChild {
 public:
-	KGameWorldApiTool();
-	void Init(KGameMasterCore*, LPCSTR strGWName, DWORD dwIP);
-	virtual ~KGameWorldApiTool();
+  KGameWorldApiTool();
+  void Init(KGameMasterCore *, LPCSTR strGWName, DWORD dwIP);
+  virtual ~KGameWorldApiTool();
 
 protected:
-	CString m_strGWName;
-	DWORD m_dwIP;
-	KGameMasterCore* m_pGMCoreRef;
+  CString m_strGWName;
+  DWORD m_dwIP;
+  KGameMasterCore *m_pGMCoreRef;
 
 public:
-	LPCSTR GetChildName() { return m_strGWName; }
+  LPCSTR GetChildName() { return m_strGWName; }
 
 public:
-	STDMETHOD(get_IsRunning)(/*[out, retval]*/ BOOL *pVal);
-	STDMETHOD(get_Name)(/*[out, retval]*/ BSTR *pVal);
-	STDMETHOD(get_OnlineCount)(/*[out, retval]*/long *pVal);
-	STDMETHOD(BroadCast)(/*[in]*/BSTR strMessage);
+  STDMETHOD(get_IsRunning)(/*[out, retval]*/ BOOL *pVal);
+  STDMETHOD(get_Name)(/*[out, retval]*/ BSTR *pVal);
+  STDMETHOD(get_OnlineCount)(/*[out, retval]*/ long *pVal);
+  STDMETHOD(BroadCast)(/*[in]*/ BSTR strMessage);
 
-	typedef CComCreator< CComObjectNoLock < KGameWorldApiTool > > _CreatorClass;
+  typedef CComCreator<CComObjectNoLock<KGameWorldApiTool>> _CreatorClass;
 
-DECLARE_PROTECT_FINAL_CONSTRUCT()
+  DECLARE_PROTECT_FINAL_CONSTRUCT()
 
-BEGIN_COM_MAP(KGameWorldApiTool)
-	COM_INTERFACE_ENTRY(IKGameWorld)
-	COM_INTERFACE_ENTRY(IDispatch)
-END_COM_MAP()
-
-
+  BEGIN_COM_MAP(KGameWorldApiTool)
+  COM_INTERFACE_ENTRY(IKGameWorld)
+  COM_INTERFACE_ENTRY(IDispatch)
+  END_COM_MAP()
 };
 
 #endif //__APIGAMEWORLD_H__

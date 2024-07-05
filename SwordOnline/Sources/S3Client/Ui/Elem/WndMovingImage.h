@@ -8,17 +8,18 @@
 #pragma once
 #include "WndImage.h"
 
-class KWndMovingImage : public KWndImage
-{
+class KWndMovingImage : public KWndImage {
 public:
-	virtual int		Init(KIniFile* pIniFile, const char* pSection);//初始化
-	void			SetMoveValue(int nCurrentValue, int nFullValue);
-	KWndMovingImage();
+  virtual int Init(KIniFile *pIniFile, const char *pSection); // 初始化
+  void SetMoveValue(int nCurrentValue, int nFullValue);
+  KWndMovingImage();
+
 protected:
-	void	Clone(KWndMovingImage* pCopy);
-protected:	
-	POINT	m_oFixPos;
-	SIZE	m_MoveRange;
-	int		m_nCurrentValue;
-	int		m_nFullValue;
+  void Clone(KWndMovingImage *pCopy);
+
+protected:
+  POINT m_oFixPos;
+  SIZE m_MoveRange;
+  int m_nCurrentValue;
+  int m_nFullValue;
 };
