@@ -25,9 +25,11 @@
 
 extern iRepresentShell *g_pRepresentShell;
 
-#define SCHEME_INI_TASKNOTE "任务记事.ini"
-#define SCHEME_INI_SYSTEM "任务记事-系统任务分页.ini"
-#define SCHEME_INI_PERSONAL "任务记事-个人记事分页.ini"
+#define SCHEME_INI_TASKNOTE "UiTaskNote.ini"
+#define SCHEME_INI_SYSTEM "UiTaskNote_System.ini"
+#define SCHEME_INI_PERSONAL "UiTaskNote_Personal.ini"
+#define SCHEME_INI_EVENT "UiTaskNote_Event.ini"
+#define SCHEME_INI_BIND "UiTaskNote_Bind.ini"
 
 //////////////////////////////////////////////////////////////////////////
 // Editor
@@ -168,6 +170,104 @@ void KUiTaskNote_System::UpdateView() {
 }
 
 //////////////////////////////////////////////////////////////////////////
+// Page: Event
+//////////////////////////////////////////////////////////////////////////
+// constructor
+
+void KUiTaskNote_Event::Initialize() {}
+
+void KUiTaskNote_Event::LoadScheme(const char *pScheme) {
+  char Buff[128];
+  KIniFile Ini;
+  sprintf(Buff, "%s\\%s", pScheme, SCHEME_INI_EVENT);
+  if (Ini.Load(Buff)) {
+    KWndPage::Init(&Ini, "Main");
+  }
+}
+
+int KUiTaskNote_Event::WndProc(unsigned int uMsg, unsigned int uParam,
+                               int nParam) {
+  int nResult = 0;
+  switch (uMsg) {
+  case WND_N_LIST_ITEM_SEL:
+    break;
+  case WND_N_BUTTON_CLICK:
+    break;
+  default:
+    nResult = KWndPage::WndProc(uMsg, uParam, nParam);
+    break;
+  }
+  return nResult;
+}
+
+//////////////////////////////////////////////////////////////////////////
+// Page: Bind
+//////////////////////////////////////////////////////////////////////////
+// constructor
+void KUiTaskNote_Bind::Initialize() {
+  AddChild(&m_BtnDelete);
+  AddChild(&m_RecordList);
+}
+
+void KUiTaskNote_Bind::LoadScheme(const char *pScheme) {
+  char Buff[128];
+  KIniFile Ini;
+  sprintf(Buff, "%s\\%s", pScheme, SCHEME_INI_SYSTEM);
+  if (Ini.Load(Buff)) {
+    KWndPage::Init(&Ini, "Main");
+    m_BtnDelete.Init(&Ini, "DeleteBtn");
+    m_RecordList.Init(&Ini, "List");
+  }
+}
+
+int KUiTaskNote_Bind::WndProc(unsigned int uMsg, unsigned int uParam,
+                              int nParam) {
+  int nResult = 0;
+  switch (uMsg) {
+  case WND_N_LIST_ITEM_SEL:
+    if (uParam == (unsigned int)(KWndWindow *)&m_RecordList)
+      m_BtnDelete.Enable(nParam >= 0);
+    nResult = 1;
+    break;
+  case WND_N_BUTTON_CLICK:
+    if (uParam == (unsigned int)(KWndWindow *)&m_BtnDelete) {
+      OnDelete(m_RecordList.GetMessageListBox()->GetCurSel());
+      nResult = 1;
+    }
+    break;
+  default:
+    nResult = KWndPage::WndProc(uMsg, uParam, nParam);
+    break;
+  }
+  return nResult;
+}
+
+void KUiTaskNote_Bind::OnDelete(int nIndex) {
+  if (KTaskDataFile::RemoveBindRecord(nIndex)) {
+    m_RecordList.GetMessageListBox()->RemoveAMessage(nIndex);
+    if (nIndex >= m_RecordList.GetMessageListBox()->GetMsgCount()) {
+      nIndex--;
+    }
+    m_RecordList.GetMessageListBox()->SetCurSel(nIndex);
+  }
+}
+
+void KUiTaskNote_Bind::UpdateView() {
+  m_RecordList.GetMessageListBox()->Clear();
+  int nCount = KTaskDataFile::GetBindRecordCount();
+  if (nCount > 0) {
+    m_RecordList.GetMessageListBox()->SetCapability(nCount); //+4是多留些空间
+    for (int i = 0; i < nCount; i++) {
+      const TASK_BIND_RECORD *pRecord = KTaskDataFile::GetBindRecord(i);
+      if (pRecord == NULL)
+        break;
+      m_RecordList.GetMessageListBox()->AddOneMessage(pRecord->cBuffer,
+                                                      pRecord->nContentLen);
+    }
+  }
+}
+
+//////////////////////////////////////////////////////////////////////////
 //  The main class of this file: KUiTaskNote.
 //////////////////////////////////////////////////////////////////////////
 KUiTaskNote *KUiTaskNote::m_pSelf = NULL;
@@ -178,7 +278,7 @@ KUiTaskNote::KUiTaskNote() {}
 // destructor
 KUiTaskNote::~KUiTaskNote() {}
 
-// opennnnnnnnnnnnnnnnnnnnnnnnnnn
+// open
 KUiTaskNote *KUiTaskNote::OpenWindow() {
   if (m_pSelf == NULL) {
     m_pSelf = new KUiTaskNote;
@@ -219,6 +319,7 @@ void KUiTaskNote::InitData() {
   KTaskDataFile::LoadData();
   m_PersonalPad.UpdateView();
   m_SystemPad.UpdateView();
+  m_BindPad.UpdateView();
 }
 
 // 保存数据
@@ -237,20 +338,28 @@ void KUiTaskNote::LoadScheme(const char *pScheme) {
       m_pSelf->Init(&Ini, "Main");
       m_pSelf->m_BtnSystem.Init(&Ini, "SystemBtn");
       m_pSelf->m_BtnPersonal.Init(&Ini, "PersonalBtn");
+      m_pSelf->m_BtnEvent.Init(&Ini, "BulletinBtn");
+      m_pSelf->m_BtnBind.Init(&Ini, "ItemBindBtn");
       m_pSelf->m_BtnClose.Init(&Ini, "CloseBtn");
 
       m_pSelf->m_SystemPad.LoadScheme(pScheme);
       m_pSelf->m_PersonalPad.LoadScheme(pScheme);
+      m_pSelf->m_EventPad.LoadScheme(pScheme);
+      m_pSelf->m_BindPad.LoadScheme(pScheme);
     }
   }
 }
 
 // Initialize
 void KUiTaskNote::Initialize() {
+  m_EventPad.Initialize();
+  AddPage(&m_EventPad, &m_BtnEvent);
   m_SystemPad.Initialize();
   AddPage(&m_SystemPad, &m_BtnSystem);
   m_PersonalPad.Initialize();
   AddPage(&m_PersonalPad, &m_BtnPersonal);
+  m_BindPad.Initialize();
+  AddPage(&m_BindPad, &m_BtnBind);
 
   AddChild(&m_BtnClose);
 
@@ -269,8 +378,8 @@ int KUiTaskNote::WndProc(unsigned int uMsg, unsigned int uParam, int nParam) {
       OnClose();
       nResult = true;
     } else {
-      if (uParam == (unsigned int)(KWndWindow *)&m_BtnPersonal)
-        m_PersonalPad.Show();
+      if (uParam == (unsigned int)(KWndWindow *)&m_BtnEvent)
+        m_EventPad.Show();
       nResult = KWndPageSet::WndProc(uMsg, uParam, nParam);
     }
   } else {
@@ -281,25 +390,43 @@ int KUiTaskNote::WndProc(unsigned int uMsg, unsigned int uParam, int nParam) {
 
 void KUiTaskNote::OnClose() { CloseWindow(true); }
 
-void KUiTaskNote::WakeUp(const char *pSystemRecord, int nLen,
+void KUiTaskNote::WakeUp(BYTE btType, const char *pRecord, int nLen,
                          unsigned int uValue) {
-  if (pSystemRecord && nLen > 0) {
+  if (nLen > 0) {
     if (m_pSelf == NULL)
       KTaskDataFile::LoadData();
 
-    TASK_SYSTEM_RECORD Record;
-    Record.tTime = time(&Record.tTime);
-    Record.uReserved = uValue;
-    Record.nContentLen = nLen;
-    Record.pBuffer = pSystemRecord;
-    bool bInserted = KTaskDataFile::InsertSystemRecord(&Record);
+    bool bsInserted = false;
+    bool bbInserted = false;
+    switch (btType) {
+    case 1:
+      TASK_SYSTEM_RECORD sRecord;
+      sRecord.tTime = time(&sRecord.tTime);
+      sRecord.uReserved = uValue;
+      sRecord.nContentLen = nLen;
+      sRecord.pBuffer = pRecord;
+      bsInserted = KTaskDataFile::InsertSystemRecord(&sRecord);
+      break;
+    case 2:
+      TASK_BIND_RECORD bRecord;
+      bRecord.tTime = time(&bRecord.tTime);
+      bRecord.uReserved = uValue;
+      bRecord.nContentLen = nLen;
+      bRecord.pBuffer = pRecord;
+      bbInserted = KTaskDataFile::InsertBindRecord(&bRecord);
+      break;
+    default:
+      break;
+    }
 
     if (m_pSelf == NULL) {
-      if (bInserted)
+      if (bsInserted || bbInserted)
         KTaskDataFile::SaveData();
       KTaskDataFile::ClearAll();
-    } else if (bInserted) {
+    } else if (bsInserted) {
       m_pSelf->m_SystemPad.UpdateView();
+    } else if (bbInserted) {
+      m_pSelf->m_BindPad.UpdateView();
     }
   }
 }

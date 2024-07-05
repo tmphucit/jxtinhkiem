@@ -53,10 +53,10 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Winmm.lib dsound.lib dxguid.lib /nologo /dll /machine:I386
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Winmm.lib dsound.lib dxguid.lib /nologo /dll /map /debug /machine:I386
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy Release\KLVideo.dll ..\..\..\bin\client\KLVideo.dll	copy Release\KLVideo.dll ..\..\..\bin\client\release\KLVideo.dll
+PostBuild_Cmds=md ..\..\..\bin\client\	copy Release\KLVideo.dll ..\..\..\bin\client\KLVideo.dll	md ..\..\..\bin\client\release\	copy Release\KLVideo.dll ..\..\..\bin\client\release\KLVideo.dll
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "KLVideo - Win32 Debug"
@@ -83,10 +83,10 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Winmm.lib dsound.lib dxguid.lib /nologo /dll /debug /machine:I386 /pdbtype:sept /libpath:"D:\mssdk\lib"
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Winmm.lib dsound.lib dxguid.lib /nologo /dll /map /debug /machine:I386 /pdbtype:sept /libpath:"D:\mssdk\lib"
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy Debug\KLVideo.dll ..\..\..\bin\client\KLVideo.dll	copy Debug\KLVideo.pdb ..\..\..\bin\client\KLVideo.pdb	copy Debug\KLVideo.dll ..\..\..\bin\client\debug\KLVideo.dll	copy Debug\KLVideo.pdb ..\..\..\bin\client\debug\KLVideo.pdb
+PostBuild_Cmds=md ..\..\..\bin\client\	copy Debug\KLVideo.dll ..\..\..\bin\client\KLVideo.dll	copy Debug\KLVideo.pdb ..\..\..\bin\client\KLVideo.pdb	md ..\..\..\bin\client\debug\	copy Debug\KLVideo.dll ..\..\..\bin\client\debug\KLVideo.dll	copy Debug\KLVideo.pdb ..\..\..\bin\client\debug\KLVideo.pdb
 # End Special Build Tool
 
 !ENDIF 

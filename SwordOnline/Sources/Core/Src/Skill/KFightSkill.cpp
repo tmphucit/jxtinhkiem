@@ -43,10 +43,10 @@ BOOL KFightSkill::GetInfoFromTabFile(KITabFile *pSkillsSettingFile, int nRow) {
   pSkillsSettingFile->GetInteger(nRow, "TargetSelf", 0, &m_bTargetSelf, TRUE);
 
 #ifndef _SERVER
-  pSkillsSettingFile->GetString(nRow, "SkillIcon", "", m_szSkillIcon, 80);
+  pSkillsSettingFile->GetString(
+      nRow, "SkillIcon", "\\spr\\skill\\图标\\通用.spr", m_szSkillIcon, 80);
   if (!m_szSkillIcon[0])
-    strcpy(m_szSkillIcon,
-           "\\s\\spr\\skill\\图标\\通用.sprpr\\skill\\图标\\通用.spr");
+    strcpy(m_szSkillIcon, "\\spr\\skill\\图标\\通用.spr");
   pSkillsSettingFile->GetInteger(nRow, "LRSkill", 0, (int *)&m_eLRSkillInfo);
   pSkillsSettingFile->GetString(nRow, "PreCastSpr", "", m_szPreCastEffectFile,
                                 100);

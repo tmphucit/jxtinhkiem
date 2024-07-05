@@ -24,10 +24,13 @@
 #define MAX_SENTENCE_LENGTH 254 // 聊天每个语句最大长度
 
 #define FILE_NAME_LENGTH 80
+#define OBJ_NAME_LENGTH 40
 #define PLAYER_PICKUP_CLIENT_DISTANCE 63
 #define defMAX_EXEC_OBJ_SCRIPT_DISTANCE 200
 #define defMAX_PLAYER_SEND_MOVE_FRAME 5
 #define PLAYER_PICKUP_SERVER_DISTANCE 40000
+
+#define MAX_PERCENT 100
 #define MAX_INT 0x7fffffff
 
 #define ROLE_NO 2
@@ -35,9 +38,72 @@
 #define PLAYER_FEMALE_NPCTEMPLATEID -2
 
 #define PLAYER_SHARE_EXP_DISTANCE 1024
-#define GAME_FPS 18
+
 #define MAX_DEATH_PUNISH_PK_VALUE 10 // PK处罚，PK值从 0 到 10
 
+#define GAME_FPS 18
+//----------------- them auto -----------------------------
+#define defMAX_ARRAY_AUTO 50
+#define defAUTO_TIME_OVERLOOK 100
+#define defAUTO_TIME_RESET_OVERLOOKL 10000
+#define defAUTO_USESKILL_MANA_LOW 30
+#define defMAX_ARRAY_STATESKILL 3
+#define defMAX_AUTO_SPACETIME 500
+#define defMAX_EAT_SPACETIME 1500
+#define defMAX_AUTO_SPACETIME_JB 15000
+#define defMAX_AUTO_MOVEMPSL 15
+#define defMAX_AUTO_FILTERL 40
+#define defMAX_BUY_POTION 5
+#define def_RETURN_FROM_PORTAL_STEP 5000
+
+#define TASKVALUE_EXPENHANCE 1017
+#define TASKVALUE_X2_EXP 172
+
+#define REGION_CELL_SIZE_X 32
+#define REGION_CELL_SIZE_Y 32
+
+enum {
+  enumRoomNotEnough1,
+  enumRoomNotEnough2,
+  enumRoomNotEnough4,
+  enumRoomNotEnough6,
+};
+
+enum PAUTO_OPTION {
+  eSortItem = 48,
+  eBuyItem,
+  eInventoryIM,
+  eRepairEquip,
+  eReturnPortal,
+  eAutoTuiDuocPham,
+  eABanItem,
+  enumcount,
+};
+
+enum MONEYUNIT {
+  moneyunit_money = 0, // 头
+  moneyunit_extpoint,  // 身体
+  moneyunit_fuyuan,    // 腰带
+  moneyunit_repute,    // 武器
+  moneyunit_accum,
+  moneyunit_honor,
+  moneyunit_respect,
+  moneyunit_num,
+};
+
+enum PickUpItem {
+  enumPickUpEarn,
+  enumPickEventItem,
+  enumPickItemColor,
+  enumPickUpAll,
+  enumPickNum,
+};
+
+enum Move_Mode {
+  Move_Mode_Free,
+  Move_Mode_Area,
+  Move_Mode_Mps,
+};
 enum ITEM_PART {
   itempart_head = 0, // 头
   itempart_body,     // 身体
@@ -163,6 +229,7 @@ enum ITEM_POSITION {
 #define MAX_HORSE 6
 
 #define MAX_NPC_TYPE 300
+#define MAX_NPCPARAM 4
 #define MAX_NPC_LEVEL 100
 
 #define MAX_NPC_DIR 64
@@ -233,6 +300,13 @@ enum NPCCAMP {
   camp_num,     // 阵营数
 };
 
+enum NPCFIGHT2 // trang thai chien dau
+{
+  fight_none = 0, // trang thai luyen cong
+  fight_active,   // trang thai chien dau
+  fight_num,      // num
+};
+
 enum ITEM_IN_ENVIRO_PROP {
   IIEP_NORMAL = 0,  // 一般/正常/可用
   IIEP_NOT_USEABLE, // 不可用/不可装配
@@ -287,6 +361,10 @@ struct KUiRegion {
   int v;      // 左上角起点纵坐标
   int Width;  // 区域横宽
   int Height; // 区域纵宽
+};
+struct KUiNpcSpr {
+  char ImageFile[128];
+  unsigned short MaxFrame;
 };
 
 //==================================
@@ -343,6 +421,12 @@ struct KUiObjAtRegion {
   KUiRegion Region;
 };
 
+struct KUiTimeBoxInfo {
+  char szTitle[32];
+  int nTime;
+  char szAction[64];
+};
+
 struct KUiAuToRegion {
   int nReturn;
   int nMana;
@@ -382,6 +466,7 @@ struct KUiAuToRegion {
   BOOL bNgaMy5;
   int nBoQuaPK;
   int nPhamViTuVe;
+  int nGuiTienNew;
 };
 
 struct KUiAuToTreoMay {
@@ -499,6 +584,7 @@ enum PLAYER_ACTION_LIST {
 //==================================
 //	系统消息分类
 //==================================
+
 enum SYS_MESSAGE_TYPE {
   SMT_NORMAL = 0, // 不参加分类的消息
   SMT_SYSTEM,     // 系统，连接相关
@@ -522,20 +608,20 @@ enum SYS_MESSAGE_CONFIRM_TYPE {
   SMCT_UI_ATTRIBUTE_SKILLS, // 打开属性页面技能页面
   SMCT_UI_TEAM_INVITE,      // 答应或拒绝加入队伍的邀请,
   //						pParamBuf
-  // 指向一个KUiPlayerItem结构的数据，表示邀情人(队长)
+  //指向一个KUiPlayerItem结构的数据，表示邀情人(队长)
   SMCT_UI_TEAM_APPLY, // 答应或拒绝加入队伍的申请,
   //						pParamBuf
-  // 指向一个KUiPlayerItem结构的数据，表示申请人
+  //指向一个KUiPlayerItem结构的数据，表示申请人
   SMCT_UI_TEAM,      // 打开队伍管理面板
   SMCT_UI_INTERVIEW, // 打开聊天对话界面,
   //						pParamBuf
-  // 指向一个KUiPlayerItem结构的数据，表示发来消息的好友
+  //指向一个KUiPlayerItem结构的数据，表示发来消息的好友
   SMCT_UI_FRIEND_INVITE, // 批准或拒绝别人加自己为好友
   //						pParamBuf
-  // 指向一个KUiPlayerItem结构的数据，表示发出好友邀请的人
+  //指向一个KUiPlayerItem结构的数据，表示发出好友邀请的人
   SMCT_UI_TRADE, // 答应或拒绝交易的请求,
   //						pParamBuf
-  // 指向一个KUiPlayerItem结构的数据，表示发出交易邀请的人
+  //指向一个KUiPlayerItem结构的数据，表示发出交易邀请的人
   SMCT_DISCONNECT,         // 断线
   SMCT_UI_TONG_JOIN_APPLY, // 答应或拒绝加入帮会的申请
 };
@@ -755,11 +841,13 @@ struct KUiTeamItem {
 //	队伍信息
 //==================================
 struct KUiPlayerTeam {
-  bool bTeamLeader;  // 玩家自己是否队长
-  char cNumMember;   // 队员数目
-  char cNumTojoin;   // 欲加入的人员的数目
-  bool bOpened;      // 队伍是否允许其他人加入
-  int nTeamServerID; // 队伍在服务器上的id，用于标识该队伍，-1 为空
+  bool bTeamLeader; // 玩家自己是否队长
+  char cNumMember;  // 队员数目
+  char cNumTojoin;  // 欲加入的人员的数目
+  bool bOpened;     // 队伍是否允许其他人加入
+  int nModePick;
+  bool bPKFollowCaptain; // 队伍是否允许其他人加入
+  int nTeamServerID;     // 队伍在服务器上的id，用于标识该队伍，-1 为空
   int nCaptainPower;
 };
 
@@ -811,10 +899,6 @@ struct KNpcSpeicalEnchant
         char	NameModify[16];
 };
 */
-struct KStateControl {
-  int nSkillId;
-  int nLeftTime;
-};
 
 struct KMapPos {
   int nSubWorld;
@@ -835,6 +919,9 @@ enum OPTIONS_LIST {
   OPTION_SOUND_VALUE, // 音效音量	nParam = 音量大小（取值为0到-10000）
   OPTION_BRIGHTNESS,  // 亮度调节	nParam = 亮度大小（取值为0到-100）
   OPTION_WEATHER,     // 天气效果开关 nParam = (int)(bool)bEnable 是否开启
+  OPTION_HIDE_PLAYER,
+  OPTION_HIDE_SKILL,
+  OPTION_HIDE_NPC,
 };
 
 //==================================
@@ -947,12 +1034,17 @@ enum PLAYER_BRIEF_PROP {
 
 // 新闻消息的类型定义
 enum NEWS_MESSAGE_TYPE {
-  NEWSMESSAGE_NORMAL,   // 一般消息，显示（一次）就消息消亡了
-                        // 无时间参数
+  NEWSMESSAGE_NORMAL, // 一般消息，显示（一次）就消息消亡了
+                      // 无时间参数
   NEWSMESSAGE_COUNTING, // 倒计（秒）数消息，计数到0时，就消息就消亡了。
                         // 时间参数中的数据结构中仅秒数据有效，倒计数以秒为单位。
   NEWSMESSAGE_TIMEEND, // 定时消息，定时到时，消息就消完了，否则每半分钟显示一次。
                        // 时间参数表示消亡的指定时间。
+  NEWSMESSAGE_NORMAL_1, // moi them
+
+  NEWSMESSAGE_COUNTING_1, // moi them
+
+  NEWSMESSAGE_TIMEEND_1, // moi them
 };
 
 #define MAX_MESSAGE_LENGTH 512
@@ -961,6 +1053,16 @@ struct KNewsMessage {
   int nType;                     // 消息类型
   char sMsg[MAX_MESSAGE_LENGTH]; // 消息内容
   int nMsgLen;                   // 消息内容存储长度
+};
+struct KNewsMessage1 {
+  int nType;
+  char sMsg[MAX_MESSAGE_LENGTH];
+  int nMsgLen;
+};
+struct KNewsMessage2 {
+  int nType;
+  char sMsg[MAX_MESSAGE_LENGTH];
+  int nMsgLen;
 };
 
 struct KRankIndex {
@@ -989,7 +1091,7 @@ struct KMissionRecord {
 
 //---------------------------- 帮会相关 ------------------------
 
-#define defTONG_MAX_DIRECTOR 7
+#define defTONG_MAX_DIRECTOR 3
 #define defTONG_MAX_MANAGER 50
 #define defTONG_MAX_MEMBER 100
 
@@ -1095,6 +1197,12 @@ struct KUiGameObjectWithName {
   int nData;
   int nParam;
   unsigned int uParam;
+};
+
+enum NPCFIGHT {
+  enumFightNone = 0,
+  enumFightActive,
+  enumFightNum,
 };
 
 struct KUiTopTKNewData {
@@ -1205,6 +1313,13 @@ struct KUiTopTKNewData {
   WORD m_Top10BaoVat;
 };
 
+#define MAX_AUTO_LIST 15
+
 //-------------------------- 帮会相关 end ----------------------
+
+struct KStateControl {
+  int nSkillId;
+  int nLeftTime;
+};
 
 #endif

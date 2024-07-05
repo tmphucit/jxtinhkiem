@@ -91,6 +91,8 @@ int KWndImage::PtInWindow(int x, int y) {
 //--------------------------------------------------------------------------
 void KWndImage::SetFrame(int nFrame) { m_Image.nFrame = nFrame; }
 
+void KWndImage::SetMaxFrame(int nMaxFrame) { m_Image.nNumFrames = nMaxFrame; }
+
 void KWndImage::SetImage(short nType, const char *pszImgName,
                          bool bAdjustWndSize) {
   m_Image.nType = nType;
@@ -105,7 +107,12 @@ void KWndImage::SetImage(short nType, const char *pszImgName,
       SetSize(Param.nWidth, Param.nHeight);
   }
 }
-
+void KWndImage::RemoveImage() {
+  memset(m_Image.szImage, 0, sizeof(m_Image.szImage));
+  m_Image.nNumFrames = 0;
+  m_Image.uImage = 0;
+  m_Image.nFlipTime = IR_GetCurrentTime();
+}
 void KWndImage::UpdateTimer() { m_Image.nFlipTime = IR_GetCurrentTime(); }
 
 //--------------------------------------------------------------------------

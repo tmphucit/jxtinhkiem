@@ -430,8 +430,8 @@ public:
   // 设置偏色列表
   virtual unsigned int SetAdjustColorList(
       unsigned int
-          *puColorList,   // 偏色的颜色列表，每个颜色为一个unsigned int数，
-                          // 用32bit数以0RGB的格式表示颜色，每个分量8bit。
+          *puColorList, // 偏色的颜色列表，每个颜色为一个unsigned int数，
+                        // 用32bit数以0RGB的格式表示颜色，每个分量8bit。
       unsigned int uCount // 颜色列表中颜色数的数目
   );
 

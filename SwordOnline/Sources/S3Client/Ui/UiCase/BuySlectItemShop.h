@@ -11,16 +11,16 @@
 #include "../Elem/WndEdit.h"
 #include "../Elem/WndText.h"
 
-class KBuySlectItemShop : protected KWndImage {
+class KBuySelectItemShop : protected KWndImage {
 public:
-  static KBuySlectItemShop *OpenWindow(KUiObjAtContRegion *pObj,
-                                       KUiItemBuySelInfo *pPriceInfon);
-  static KBuySlectItemShop *GetIfVisible();
+  static KBuySelectItemShop *OpenWindow(KUiObjAtContRegion *pObj,
+                                        KUiItemBuySelInfo *pPriceInfon);
+  static KBuySelectItemShop *GetIfVisible();
   static void CloseWindow(bool bDestroy);
 
 private:
-  KBuySlectItemShop();
-  ~KBuySlectItemShop() {}
+  KBuySelectItemShop();
+  ~KBuySelectItemShop() {}
   int Initialize(); // ≥ı ºªØ
   void Show();
   void Hide();
@@ -29,7 +29,7 @@ private:
   void OnCancel();
 
 private:
-  static KBuySlectItemShop *m_pSelf;
+  static KBuySelectItemShop *m_pSelf;
   KWndText32 m_ItemName;
   KWndText32 m_Money;
 

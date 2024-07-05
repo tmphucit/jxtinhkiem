@@ -549,48 +549,48 @@ typedef struct _DDCAPS_DX5 {
   /* 64*/ DWORD dwRops[DD_ROP_SPACE];  // ROPS supported
   /* 84*/ DDSCAPS ddsCaps; // DDSCAPS structure has all the general capabilities
   /* 88*/ DWORD
-  dwMinOverlayStretch; // minimum overlay stretch factor multiplied by 1000,
-                       // eg 1000 == 1.0, 1300 == 1.3
+      dwMinOverlayStretch; // minimum overlay stretch factor multiplied by 1000,
+                           // eg 1000 == 1.0, 1300 == 1.3
   /* 8c*/ DWORD
-  dwMaxOverlayStretch; // maximum overlay stretch factor multiplied by 1000,
-                       // eg 1000 == 1.0, 1300 == 1.3
+      dwMaxOverlayStretch; // maximum overlay stretch factor multiplied by 1000,
+                           // eg 1000 == 1.0, 1300 == 1.3
   /* 90*/ DWORD
-  dwMinLiveVideoStretch; // minimum live video stretch factor multiplied by
-                         // 1000, eg 1000 == 1.0, 1300 == 1.3
+      dwMinLiveVideoStretch; // minimum live video stretch factor multiplied by
+                             // 1000, eg 1000 == 1.0, 1300 == 1.3
   /* 94*/ DWORD
-  dwMaxLiveVideoStretch; // maximum live video stretch factor multiplied by
-                         // 1000, eg 1000 == 1.0, 1300 == 1.3
+      dwMaxLiveVideoStretch; // maximum live video stretch factor multiplied by
+                             // 1000, eg 1000 == 1.0, 1300 == 1.3
   /* 98*/ DWORD
-  dwMinHwCodecStretch; // minimum hardware codec stretch factor multiplied
-                       // by 1000, eg 1000 == 1.0, 1300 == 1.3
+      dwMinHwCodecStretch; // minimum hardware codec stretch factor multiplied
+                           // by 1000, eg 1000 == 1.0, 1300 == 1.3
   /* 9c*/ DWORD
-  dwMaxHwCodecStretch;       // maximum hardware codec stretch factor multiplied
+      dwMaxHwCodecStretch;   // maximum hardware codec stretch factor multiplied
                              // by 1000, eg 1000 == 1.0, 1300 == 1.3
   /* a0*/ DWORD dwReserved1; // reserved
   /* a4*/ DWORD dwReserved2; // reserved
   /* a8*/ DWORD dwReserved3; // reserved
   /* ac*/ DWORD dwSVBCaps; // driver specific capabilities for System->Vmem blts
   /* b0*/ DWORD
-  dwSVBCKeyCaps; // driver color key capabilities for System->Vmem blts
+      dwSVBCKeyCaps; // driver color key capabilities for System->Vmem blts
   /* b4*/ DWORD dwSVBFXCaps; // driver FX capabilities for System->Vmem blts
   /* b8*/ DWORD dwSVBRops[DD_ROP_SPACE]; // ROPS supported for System->Vmem blts
   /* d8*/ DWORD dwVSBCaps; // driver specific capabilities for Vmem->System blts
   /* dc*/ DWORD
-  dwVSBCKeyCaps; // driver color key capabilities for Vmem->System blts
+      dwVSBCKeyCaps; // driver color key capabilities for Vmem->System blts
   /* e0*/ DWORD dwVSBFXCaps; // driver FX capabilities for Vmem->System blts
   /* e4*/ DWORD dwVSBRops[DD_ROP_SPACE]; // ROPS supported for Vmem->System blts
   /*104*/ DWORD
-  dwSSBCaps; // driver specific capabilities for System->System blts
+      dwSSBCaps; // driver specific capabilities for System->System blts
   /*108*/ DWORD
-  dwSSBCKeyCaps; // driver color key capabilities for System->System blts
+      dwSSBCKeyCaps; // driver color key capabilities for System->System blts
   /*10c*/ DWORD dwSSBFXCaps; // driver FX capabilities for System->System blts
   /*110*/ DWORD
-  dwSSBRops[DD_ROP_SPACE];        // ROPS supported for System->System blts
+      dwSSBRops[DD_ROP_SPACE];    // ROPS supported for System->System blts
                                   // Members added for DX5:
   /*130*/ DWORD dwMaxVideoPorts;  // maximum number of usable video ports
   /*134*/ DWORD dwCurrVideoPorts; // current number of video ports used
   /*138*/ DWORD
-  dwSVBCaps2; // more driver specific capabilities for System->Vmem blts
+      dwSVBCaps2; // more driver specific capabilities for System->Vmem blts
   /*13c*/ DWORD dwNLVBCaps; // driver specific capabilities for non-local->local
                             // vidmem blts
   /*140*/ DWORD dwNLVBCaps2;    // more driver specific capabilities
@@ -598,9 +598,9 @@ typedef struct _DDCAPS_DX5 {
   /*144*/ DWORD dwNLVBCKeyCaps; // driver color key capabilities for
                                 // non-local->local vidmem blts
   /*148*/ DWORD
-  dwNLVBFXCaps; // driver FX capabilities for non-local->local blts
+      dwNLVBFXCaps; // driver FX capabilities for non-local->local blts
   /*14c*/ DWORD
-  dwNLVBRops[DD_ROP_SPACE]; // ROPS supported for non-local->local blts
+      dwNLVBRops[DD_ROP_SPACE]; // ROPS supported for non-local->local blts
 } DDCAPS_DX5;
 typedef DDCAPS_DX5 FAR *LPDDCAPS_DX5;
 
@@ -632,49 +632,49 @@ typedef struct _DDCAPS_DX6 {
   /* 60*/ DWORD dwAlignStrideAlign;    // stride alignment
   /* 64*/ DWORD dwRops[DD_ROP_SPACE];  // ROPS supported
   /* 84*/ DDSCAPS
-  ddsOldCaps; // Was DDSCAPS  ddsCaps. ddsCaps is of type DDSCAPS2 for DX6
+      ddsOldCaps; // Was DDSCAPS  ddsCaps. ddsCaps is of type DDSCAPS2 for DX6
   /* 88*/ DWORD
-  dwMinOverlayStretch; // minimum overlay stretch factor multiplied by 1000,
-                       // eg 1000 == 1.0, 1300 == 1.3
+      dwMinOverlayStretch; // minimum overlay stretch factor multiplied by 1000,
+                           // eg 1000 == 1.0, 1300 == 1.3
   /* 8c*/ DWORD
-  dwMaxOverlayStretch; // maximum overlay stretch factor multiplied by 1000,
-                       // eg 1000 == 1.0, 1300 == 1.3
+      dwMaxOverlayStretch; // maximum overlay stretch factor multiplied by 1000,
+                           // eg 1000 == 1.0, 1300 == 1.3
   /* 90*/ DWORD
-  dwMinLiveVideoStretch; // minimum live video stretch factor multiplied by
-                         // 1000, eg 1000 == 1.0, 1300 == 1.3
+      dwMinLiveVideoStretch; // minimum live video stretch factor multiplied by
+                             // 1000, eg 1000 == 1.0, 1300 == 1.3
   /* 94*/ DWORD
-  dwMaxLiveVideoStretch; // maximum live video stretch factor multiplied by
-                         // 1000, eg 1000 == 1.0, 1300 == 1.3
+      dwMaxLiveVideoStretch; // maximum live video stretch factor multiplied by
+                             // 1000, eg 1000 == 1.0, 1300 == 1.3
   /* 98*/ DWORD
-  dwMinHwCodecStretch; // minimum hardware codec stretch factor multiplied
-                       // by 1000, eg 1000 == 1.0, 1300 == 1.3
+      dwMinHwCodecStretch; // minimum hardware codec stretch factor multiplied
+                           // by 1000, eg 1000 == 1.0, 1300 == 1.3
   /* 9c*/ DWORD
-  dwMaxHwCodecStretch;       // maximum hardware codec stretch factor multiplied
+      dwMaxHwCodecStretch;   // maximum hardware codec stretch factor multiplied
                              // by 1000, eg 1000 == 1.0, 1300 == 1.3
   /* a0*/ DWORD dwReserved1; // reserved
   /* a4*/ DWORD dwReserved2; // reserved
   /* a8*/ DWORD dwReserved3; // reserved
   /* ac*/ DWORD dwSVBCaps; // driver specific capabilities for System->Vmem blts
   /* b0*/ DWORD
-  dwSVBCKeyCaps; // driver color key capabilities for System->Vmem blts
+      dwSVBCKeyCaps; // driver color key capabilities for System->Vmem blts
   /* b4*/ DWORD dwSVBFXCaps; // driver FX capabilities for System->Vmem blts
   /* b8*/ DWORD dwSVBRops[DD_ROP_SPACE]; // ROPS supported for System->Vmem blts
   /* d8*/ DWORD dwVSBCaps; // driver specific capabilities for Vmem->System blts
   /* dc*/ DWORD
-  dwVSBCKeyCaps; // driver color key capabilities for Vmem->System blts
+      dwVSBCKeyCaps; // driver color key capabilities for Vmem->System blts
   /* e0*/ DWORD dwVSBFXCaps; // driver FX capabilities for Vmem->System blts
   /* e4*/ DWORD dwVSBRops[DD_ROP_SPACE]; // ROPS supported for Vmem->System blts
   /*104*/ DWORD
-  dwSSBCaps; // driver specific capabilities for System->System blts
+      dwSSBCaps; // driver specific capabilities for System->System blts
   /*108*/ DWORD
-  dwSSBCKeyCaps; // driver color key capabilities for System->System blts
+      dwSSBCKeyCaps; // driver color key capabilities for System->System blts
   /*10c*/ DWORD dwSSBFXCaps; // driver FX capabilities for System->System blts
   /*110*/ DWORD
-  dwSSBRops[DD_ROP_SPACE];        // ROPS supported for System->System blts
+      dwSSBRops[DD_ROP_SPACE];    // ROPS supported for System->System blts
   /*130*/ DWORD dwMaxVideoPorts;  // maximum number of usable video ports
   /*134*/ DWORD dwCurrVideoPorts; // current number of video ports used
   /*138*/ DWORD
-  dwSVBCaps2; // more driver specific capabilities for System->Vmem blts
+      dwSVBCaps2; // more driver specific capabilities for System->Vmem blts
   /*13c*/ DWORD dwNLVBCaps; // driver specific capabilities for non-local->local
                             // vidmem blts
   /*140*/ DWORD dwNLVBCaps2;    // more driver specific capabilities
@@ -682,11 +682,11 @@ typedef struct _DDCAPS_DX6 {
   /*144*/ DWORD dwNLVBCKeyCaps; // driver color key capabilities for
                                 // non-local->local vidmem blts
   /*148*/ DWORD
-  dwNLVBFXCaps; // driver FX capabilities for non-local->local blts
+      dwNLVBFXCaps; // driver FX capabilities for non-local->local blts
   /*14c*/ DWORD
-  dwNLVBRops[DD_ROP_SPACE]; // ROPS supported for non-local->local blts
-                            // Members added for DX6 release
-  /*16c*/ DDSCAPS2 ddsCaps; // Surface Caps
+      dwNLVBRops[DD_ROP_SPACE]; // ROPS supported for non-local->local blts
+                                // Members added for DX6 release
+  /*16c*/ DDSCAPS2 ddsCaps;     // Surface Caps
 } DDCAPS_DX6;
 typedef DDCAPS_DX6 FAR *LPDDCAPS_DX6;
 
@@ -718,49 +718,49 @@ typedef struct _DDCAPS_DX7 {
   /* 60*/ DWORD dwAlignStrideAlign;    // stride alignment
   /* 64*/ DWORD dwRops[DD_ROP_SPACE];  // ROPS supported
   /* 84*/ DDSCAPS
-  ddsOldCaps; // Was DDSCAPS  ddsCaps. ddsCaps is of type DDSCAPS2 for DX6
+      ddsOldCaps; // Was DDSCAPS  ddsCaps. ddsCaps is of type DDSCAPS2 for DX6
   /* 88*/ DWORD
-  dwMinOverlayStretch; // minimum overlay stretch factor multiplied by 1000,
-                       // eg 1000 == 1.0, 1300 == 1.3
+      dwMinOverlayStretch; // minimum overlay stretch factor multiplied by 1000,
+                           // eg 1000 == 1.0, 1300 == 1.3
   /* 8c*/ DWORD
-  dwMaxOverlayStretch; // maximum overlay stretch factor multiplied by 1000,
-                       // eg 1000 == 1.0, 1300 == 1.3
+      dwMaxOverlayStretch; // maximum overlay stretch factor multiplied by 1000,
+                           // eg 1000 == 1.0, 1300 == 1.3
   /* 90*/ DWORD
-  dwMinLiveVideoStretch; // minimum live video stretch factor multiplied by
-                         // 1000, eg 1000 == 1.0, 1300 == 1.3
+      dwMinLiveVideoStretch; // minimum live video stretch factor multiplied by
+                             // 1000, eg 1000 == 1.0, 1300 == 1.3
   /* 94*/ DWORD
-  dwMaxLiveVideoStretch; // maximum live video stretch factor multiplied by
-                         // 1000, eg 1000 == 1.0, 1300 == 1.3
+      dwMaxLiveVideoStretch; // maximum live video stretch factor multiplied by
+                             // 1000, eg 1000 == 1.0, 1300 == 1.3
   /* 98*/ DWORD
-  dwMinHwCodecStretch; // minimum hardware codec stretch factor multiplied
-                       // by 1000, eg 1000 == 1.0, 1300 == 1.3
+      dwMinHwCodecStretch; // minimum hardware codec stretch factor multiplied
+                           // by 1000, eg 1000 == 1.0, 1300 == 1.3
   /* 9c*/ DWORD
-  dwMaxHwCodecStretch;       // maximum hardware codec stretch factor multiplied
+      dwMaxHwCodecStretch;   // maximum hardware codec stretch factor multiplied
                              // by 1000, eg 1000 == 1.0, 1300 == 1.3
   /* a0*/ DWORD dwReserved1; // reserved
   /* a4*/ DWORD dwReserved2; // reserved
   /* a8*/ DWORD dwReserved3; // reserved
   /* ac*/ DWORD dwSVBCaps; // driver specific capabilities for System->Vmem blts
   /* b0*/ DWORD
-  dwSVBCKeyCaps; // driver color key capabilities for System->Vmem blts
+      dwSVBCKeyCaps; // driver color key capabilities for System->Vmem blts
   /* b4*/ DWORD dwSVBFXCaps; // driver FX capabilities for System->Vmem blts
   /* b8*/ DWORD dwSVBRops[DD_ROP_SPACE]; // ROPS supported for System->Vmem blts
   /* d8*/ DWORD dwVSBCaps; // driver specific capabilities for Vmem->System blts
   /* dc*/ DWORD
-  dwVSBCKeyCaps; // driver color key capabilities for Vmem->System blts
+      dwVSBCKeyCaps; // driver color key capabilities for Vmem->System blts
   /* e0*/ DWORD dwVSBFXCaps; // driver FX capabilities for Vmem->System blts
   /* e4*/ DWORD dwVSBRops[DD_ROP_SPACE]; // ROPS supported for Vmem->System blts
   /*104*/ DWORD
-  dwSSBCaps; // driver specific capabilities for System->System blts
+      dwSSBCaps; // driver specific capabilities for System->System blts
   /*108*/ DWORD
-  dwSSBCKeyCaps; // driver color key capabilities for System->System blts
+      dwSSBCKeyCaps; // driver color key capabilities for System->System blts
   /*10c*/ DWORD dwSSBFXCaps; // driver FX capabilities for System->System blts
   /*110*/ DWORD
-  dwSSBRops[DD_ROP_SPACE];        // ROPS supported for System->System blts
+      dwSSBRops[DD_ROP_SPACE];    // ROPS supported for System->System blts
   /*130*/ DWORD dwMaxVideoPorts;  // maximum number of usable video ports
   /*134*/ DWORD dwCurrVideoPorts; // current number of video ports used
   /*138*/ DWORD
-  dwSVBCaps2; // more driver specific capabilities for System->Vmem blts
+      dwSVBCaps2; // more driver specific capabilities for System->Vmem blts
   /*13c*/ DWORD dwNLVBCaps; // driver specific capabilities for non-local->local
                             // vidmem blts
   /*140*/ DWORD dwNLVBCaps2;    // more driver specific capabilities
@@ -768,11 +768,11 @@ typedef struct _DDCAPS_DX7 {
   /*144*/ DWORD dwNLVBCKeyCaps; // driver color key capabilities for
                                 // non-local->local vidmem blts
   /*148*/ DWORD
-  dwNLVBFXCaps; // driver FX capabilities for non-local->local blts
+      dwNLVBFXCaps; // driver FX capabilities for non-local->local blts
   /*14c*/ DWORD
-  dwNLVBRops[DD_ROP_SPACE]; // ROPS supported for non-local->local blts
-                            // Members added for DX6 release
-  /*16c*/ DDSCAPS2 ddsCaps; // Surface Caps
+      dwNLVBRops[DD_ROP_SPACE]; // ROPS supported for non-local->local blts
+                                // Members added for DX6 release
+  /*16c*/ DDSCAPS2 ddsCaps;     // Surface Caps
 } DDCAPS_DX7;
 typedef DDCAPS_DX7 FAR *LPDDCAPS_DX7;
 
@@ -861,14 +861,14 @@ typedef struct _DDOVERLAYFX {
   union {
     DWORD dwAlphaDestConst; // Constant to use as alpha channel for dest
     LPDIRECTDRAWSURFACE
-    lpDDSAlphaDest; // Surface to use as alpha channel for dest
+        lpDDSAlphaDest; // Surface to use as alpha channel for dest
   } DUMMYUNIONNAMEN(1);
   DWORD dwAlphaSrcConstBitDepth; // Bit depth used to specify alpha constant for
                                  // source
   union {
     DWORD dwAlphaSrcConst; // Constant to use as alpha channel for src
     LPDIRECTDRAWSURFACE
-    lpDDSAlphaSrc; // Surface to use as alpha channel for src
+        lpDDSAlphaSrc; // Surface to use as alpha channel for src
   } DUMMYUNIONNAMEN(2);
   DDCOLORKEY dckDestColorkey; // DestColorkey override
   DDCOLORKEY dckSrcColorkey;  // DestColorkey override
@@ -1075,13 +1075,13 @@ DECLARE_INTERFACE_(IDirectDraw, IUnknown) {
   /*** IDirectDraw methods ***/
   STDMETHOD(Compact)(THIS) PURE;
   STDMETHOD(CreateClipper)
-  (THIS_ DWORD, LPDIRECTDRAWCLIPPER FAR *, IUnknown FAR *)PURE;
+  (THIS_ DWORD, LPDIRECTDRAWCLIPPER FAR *, IUnknown FAR *) PURE;
   STDMETHOD(CreatePalette)
-  (THIS_ DWORD, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR *, IUnknown FAR *)PURE;
+  (THIS_ DWORD, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR *, IUnknown FAR *) PURE;
   STDMETHOD(CreateSurface)
-  (THIS_ LPDDSURFACEDESC, LPDIRECTDRAWSURFACE FAR *, IUnknown FAR *)PURE;
+  (THIS_ LPDDSURFACEDESC, LPDIRECTDRAWSURFACE FAR *, IUnknown FAR *) PURE;
   STDMETHOD(DuplicateSurface)
-  (THIS_ LPDIRECTDRAWSURFACE, LPDIRECTDRAWSURFACE FAR *)PURE;
+  (THIS_ LPDIRECTDRAWSURFACE, LPDIRECTDRAWSURFACE FAR *) PURE;
   STDMETHOD(EnumDisplayModes)
   (THIS_ DWORD, LPDDSURFACEDESC, LPVOID, LPDDENUMMODESCALLBACK) PURE;
   STDMETHOD(EnumSurfaces)
@@ -1177,13 +1177,13 @@ DECLARE_INTERFACE_(IDirectDraw2, IUnknown) {
   /*** IDirectDraw methods ***/
   STDMETHOD(Compact)(THIS) PURE;
   STDMETHOD(CreateClipper)
-  (THIS_ DWORD, LPDIRECTDRAWCLIPPER FAR *, IUnknown FAR *)PURE;
+  (THIS_ DWORD, LPDIRECTDRAWCLIPPER FAR *, IUnknown FAR *) PURE;
   STDMETHOD(CreatePalette)
-  (THIS_ DWORD, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR *, IUnknown FAR *)PURE;
+  (THIS_ DWORD, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR *, IUnknown FAR *) PURE;
   STDMETHOD(CreateSurface)
-  (THIS_ LPDDSURFACEDESC, LPDIRECTDRAWSURFACE FAR *, IUnknown FAR *)PURE;
+  (THIS_ LPDDSURFACEDESC, LPDIRECTDRAWSURFACE FAR *, IUnknown FAR *) PURE;
   STDMETHOD(DuplicateSurface)
-  (THIS_ LPDIRECTDRAWSURFACE, LPDIRECTDRAWSURFACE FAR *)PURE;
+  (THIS_ LPDIRECTDRAWSURFACE, LPDIRECTDRAWSURFACE FAR *) PURE;
   STDMETHOD(EnumDisplayModes)
   (THIS_ DWORD, LPDDSURFACEDESC, LPVOID, LPDDENUMMODESCALLBACK) PURE;
   STDMETHOD(EnumSurfaces)
@@ -1287,13 +1287,13 @@ DECLARE_INTERFACE_(IDirectDraw4, IUnknown) {
   /*** IDirectDraw methods ***/
   STDMETHOD(Compact)(THIS) PURE;
   STDMETHOD(CreateClipper)
-  (THIS_ DWORD, LPDIRECTDRAWCLIPPER FAR *, IUnknown FAR *)PURE;
+  (THIS_ DWORD, LPDIRECTDRAWCLIPPER FAR *, IUnknown FAR *) PURE;
   STDMETHOD(CreatePalette)
-  (THIS_ DWORD, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR *, IUnknown FAR *)PURE;
+  (THIS_ DWORD, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR *, IUnknown FAR *) PURE;
   STDMETHOD(CreateSurface)
-  (THIS_ LPDDSURFACEDESC2, LPDIRECTDRAWSURFACE4 FAR *, IUnknown FAR *)PURE;
+  (THIS_ LPDDSURFACEDESC2, LPDIRECTDRAWSURFACE4 FAR *, IUnknown FAR *) PURE;
   STDMETHOD(DuplicateSurface)
-  (THIS_ LPDIRECTDRAWSURFACE4, LPDIRECTDRAWSURFACE4 FAR *)PURE;
+  (THIS_ LPDIRECTDRAWSURFACE4, LPDIRECTDRAWSURFACE4 FAR *) PURE;
   STDMETHOD(EnumDisplayModes)
   (THIS_ DWORD, LPDDSURFACEDESC2, LPVOID, LPDDENUMMODESCALLBACK2) PURE;
   STDMETHOD(EnumSurfaces)
@@ -1413,13 +1413,13 @@ DECLARE_INTERFACE_(IDirectDraw7, IUnknown) {
   /*** IDirectDraw methods ***/
   STDMETHOD(Compact)(THIS) PURE;
   STDMETHOD(CreateClipper)
-  (THIS_ DWORD, LPDIRECTDRAWCLIPPER FAR *, IUnknown FAR *)PURE;
+  (THIS_ DWORD, LPDIRECTDRAWCLIPPER FAR *, IUnknown FAR *) PURE;
   STDMETHOD(CreatePalette)
-  (THIS_ DWORD, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR *, IUnknown FAR *)PURE;
+  (THIS_ DWORD, LPPALETTEENTRY, LPDIRECTDRAWPALETTE FAR *, IUnknown FAR *) PURE;
   STDMETHOD(CreateSurface)
-  (THIS_ LPDDSURFACEDESC2, LPDIRECTDRAWSURFACE7 FAR *, IUnknown FAR *)PURE;
+  (THIS_ LPDDSURFACEDESC2, LPDIRECTDRAWSURFACE7 FAR *, IUnknown FAR *) PURE;
   STDMETHOD(DuplicateSurface)
-  (THIS_ LPDIRECTDRAWSURFACE7, LPDIRECTDRAWSURFACE7 FAR *)PURE;
+  (THIS_ LPDIRECTDRAWSURFACE7, LPDIRECTDRAWSURFACE7 FAR *) PURE;
   STDMETHOD(EnumDisplayModes)
   (THIS_ DWORD, LPDDSURFACEDESC2, LPVOID, LPDDENUMMODESCALLBACK2) PURE;
   STDMETHOD(EnumSurfaces)
@@ -1651,7 +1651,7 @@ DECLARE_INTERFACE_(IDirectDrawSurface, IUnknown) {
   (THIS_ DWORD, LPVOID, LPDDENUMSURFACESCALLBACK) PURE;
   STDMETHOD(Flip)(THIS_ LPDIRECTDRAWSURFACE, DWORD) PURE;
   STDMETHOD(GetAttachedSurface)
-  (THIS_ LPDDSCAPS, LPDIRECTDRAWSURFACE FAR *)PURE;
+  (THIS_ LPDDSCAPS, LPDIRECTDRAWSURFACE FAR *) PURE;
   STDMETHOD(GetBltStatus)(THIS_ DWORD) PURE;
   STDMETHOD(GetCaps)(THIS_ LPDDSCAPS) PURE;
   STDMETHOD(GetClipper)(THIS_ LPDIRECTDRAWCLIPPER FAR *) PURE;
@@ -1806,7 +1806,7 @@ DECLARE_INTERFACE_(IDirectDrawSurface2, IUnknown) {
   (THIS_ DWORD, LPVOID, LPDDENUMSURFACESCALLBACK) PURE;
   STDMETHOD(Flip)(THIS_ LPDIRECTDRAWSURFACE2, DWORD) PURE;
   STDMETHOD(GetAttachedSurface)
-  (THIS_ LPDDSCAPS, LPDIRECTDRAWSURFACE2 FAR *)PURE;
+  (THIS_ LPDDSCAPS, LPDIRECTDRAWSURFACE2 FAR *) PURE;
   STDMETHOD(GetBltStatus)(THIS_ DWORD) PURE;
   STDMETHOD(GetCaps)(THIS_ LPDDSCAPS) PURE;
   STDMETHOD(GetClipper)(THIS_ LPDIRECTDRAWCLIPPER FAR *) PURE;
@@ -1974,7 +1974,7 @@ DECLARE_INTERFACE_(IDirectDrawSurface3, IUnknown) {
   (THIS_ DWORD, LPVOID, LPDDENUMSURFACESCALLBACK) PURE;
   STDMETHOD(Flip)(THIS_ LPDIRECTDRAWSURFACE3, DWORD) PURE;
   STDMETHOD(GetAttachedSurface)
-  (THIS_ LPDDSCAPS, LPDIRECTDRAWSURFACE3 FAR *)PURE;
+  (THIS_ LPDDSCAPS, LPDIRECTDRAWSURFACE3 FAR *) PURE;
   STDMETHOD(GetBltStatus)(THIS_ DWORD) PURE;
   STDMETHOD(GetCaps)(THIS_ LPDDSCAPS) PURE;
   STDMETHOD(GetClipper)(THIS_ LPDIRECTDRAWCLIPPER FAR *) PURE;
@@ -2147,7 +2147,7 @@ DECLARE_INTERFACE_(IDirectDrawSurface4, IUnknown) {
   (THIS_ DWORD, LPVOID, LPDDENUMSURFACESCALLBACK2) PURE;
   STDMETHOD(Flip)(THIS_ LPDIRECTDRAWSURFACE4, DWORD) PURE;
   STDMETHOD(GetAttachedSurface)
-  (THIS_ LPDDSCAPS2, LPDIRECTDRAWSURFACE4 FAR *)PURE;
+  (THIS_ LPDDSCAPS2, LPDIRECTDRAWSURFACE4 FAR *) PURE;
   STDMETHOD(GetBltStatus)(THIS_ DWORD) PURE;
   STDMETHOD(GetCaps)(THIS_ LPDDSCAPS2) PURE;
   STDMETHOD(GetClipper)(THIS_ LPDIRECTDRAWCLIPPER FAR *) PURE;
@@ -2344,7 +2344,7 @@ DECLARE_INTERFACE_(IDirectDrawSurface7, IUnknown) {
   (THIS_ DWORD, LPVOID, LPDDENUMSURFACESCALLBACK7) PURE;
   STDMETHOD(Flip)(THIS_ LPDIRECTDRAWSURFACE7, DWORD) PURE;
   STDMETHOD(GetAttachedSurface)
-  (THIS_ LPDDSCAPS2, LPDIRECTDRAWSURFACE7 FAR *)PURE;
+  (THIS_ LPDDSCAPS2, LPDIRECTDRAWSURFACE7 FAR *) PURE;
   STDMETHOD(GetBltStatus)(THIS_ DWORD) PURE;
   STDMETHOD(GetCaps)(THIS_ LPDDSCAPS2) PURE;
   STDMETHOD(GetClipper)(THIS_ LPDIRECTDRAWCLIPPER FAR *) PURE;

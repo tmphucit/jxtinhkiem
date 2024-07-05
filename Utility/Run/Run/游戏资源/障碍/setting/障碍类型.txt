@@ -1,5 +1,0 @@
-[MAIN]
-help=2
-icon=setting
-type=obstacle
-want=int

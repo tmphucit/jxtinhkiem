@@ -14,7 +14,7 @@
 #define SCRIPT_SUBWORLDID "SubWorldID"   // 脚本中当前世界的ID的全局变量名
 
 #ifdef _SERVER
-#define MAX_PLAYER 2800
+#define MAX_PLAYER 1200
 
 // #define	MAX_PLAYER		700
 
@@ -66,6 +66,7 @@ enum // 队伍创建失败原因
   Team_Create_Error_Name,         // 队伍名字非法
   Team_Create_Error_TeamFull,     // 队伍数量太多，容纳不下
   Team_Create_Error_CannotCreate, // 当前处于不能组队状态
+  Team_Create_Error_NormalPK,     // 当前处于不能组队状态
 };
 
 enum TEAM_FIGURE {

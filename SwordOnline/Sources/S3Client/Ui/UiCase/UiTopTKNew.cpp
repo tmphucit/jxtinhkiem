@@ -22,7 +22,7 @@ extern iRepresentShell *g_pRepresentShell;
 extern iCoreShell *g_pCoreShell;
 extern IInlinePicEngineSink *g_pIInlinePicSink;
 
-#define SCHEME_INI_TOP_TK_NEW "ui_top_tk_new.ini"
+#define SCHEME_INI_TOP_TK_NEW "UiTopTK.ini"
 
 KUiTopTKNew *KUiTopTKNew::ms_pSelf = NULL;
 
@@ -226,23 +226,39 @@ void KUiTopTKNew::UpdateDataTop(KUiTopTKNewData *pDataTop) {
     if (((int)pDataTop->m_Top1Phe) == 1) {
       sprintf(szBufferText, "1:Tèng");
       ms_pSelf->m_PTopH1.SetText(szBufferText);
+      ms_pSelf->m_PTopH1.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop11.SetText(pDataTop->m_szTop1Name);
+      ms_pSelf->m_PTop11.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop21.SetIntText((int)pDataTop->m_Top1TichLuy);
+      ms_pSelf->m_PTop21.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop31.SetIntText((int)pDataTop->m_Top1NguoiChoi);
+      ms_pSelf->m_PTop31.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop41.SetIntText((int)pDataTop->m_Top1NPC);
+      ms_pSelf->m_PTop41.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop51.SetIntText((int)pDataTop->m_Top1TuVong);
+      ms_pSelf->m_PTop51.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop61.SetIntText((int)pDataTop->m_Top1LienTram);
+      ms_pSelf->m_PTop61.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop71.SetIntText((int)pDataTop->m_Top1BaoVat);
+      ms_pSelf->m_PTop71.SetTextColor(RGB(244, 164, 96));
     } else if (((int)pDataTop->m_Top1Phe) == 2) {
       sprintf(szBufferText, "1:Kim");
       ms_pSelf->m_PTopH1.SetText(szBufferText);
+      ms_pSelf->m_PTopH1.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop11.SetText(pDataTop->m_szTop1Name);
+      ms_pSelf->m_PTop11.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop21.SetIntText((int)pDataTop->m_Top1TichLuy);
+      ms_pSelf->m_PTop21.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop31.SetIntText((int)pDataTop->m_Top1NguoiChoi);
+      ms_pSelf->m_PTop31.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop41.SetIntText((int)pDataTop->m_Top1NPC);
+      ms_pSelf->m_PTop41.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop51.SetIntText((int)pDataTop->m_Top1TuVong);
+      ms_pSelf->m_PTop51.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop61.SetIntText((int)pDataTop->m_Top1LienTram);
+      ms_pSelf->m_PTop61.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop71.SetIntText((int)pDataTop->m_Top1BaoVat);
+      ms_pSelf->m_PTop71.SetTextColor(RGB(238, 233, 233));
     }
 
     else
@@ -261,23 +277,39 @@ void KUiTopTKNew::UpdateDataTop(KUiTopTKNewData *pDataTop) {
     if (((int)pDataTop->m_Top2Phe) == 1) {
       sprintf(szBufferText, "2:Tèng");
       ms_pSelf->m_PTopH2.SetText(szBufferText);
+      ms_pSelf->m_PTopH2.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop12.SetText(pDataTop->m_szTop2Name);
+      ms_pSelf->m_PTop12.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop22.SetIntText((int)pDataTop->m_Top2TichLuy);
+      ms_pSelf->m_PTop22.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop32.SetIntText((int)pDataTop->m_Top2NguoiChoi);
+      ms_pSelf->m_PTop32.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop42.SetIntText((int)pDataTop->m_Top2NPC);
+      ms_pSelf->m_PTop42.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop52.SetIntText((int)pDataTop->m_Top2TuVong);
+      ms_pSelf->m_PTop52.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop62.SetIntText((int)pDataTop->m_Top2LienTram);
+      ms_pSelf->m_PTop62.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop72.SetIntText((int)pDataTop->m_Top2BaoVat);
+      ms_pSelf->m_PTop72.SetTextColor(RGB(244, 164, 96));
     } else if (((int)pDataTop->m_Top2Phe) == 2) {
       sprintf(szBufferText, "2:Kim");
       ms_pSelf->m_PTopH2.SetText(szBufferText);
+      ms_pSelf->m_PTopH2.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop12.SetText(pDataTop->m_szTop2Name);
+      ms_pSelf->m_PTop12.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop22.SetIntText((int)pDataTop->m_Top2TichLuy);
+      ms_pSelf->m_PTop22.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop32.SetIntText((int)pDataTop->m_Top2NguoiChoi);
+      ms_pSelf->m_PTop32.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop42.SetIntText((int)pDataTop->m_Top2NPC);
+      ms_pSelf->m_PTop42.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop52.SetIntText((int)pDataTop->m_Top2TuVong);
+      ms_pSelf->m_PTop52.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop62.SetIntText((int)pDataTop->m_Top2LienTram);
+      ms_pSelf->m_PTop62.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop72.SetIntText((int)pDataTop->m_Top2BaoVat);
+      ms_pSelf->m_PTop72.SetTextColor(RGB(238, 233, 233));
     }
 
     else
@@ -296,23 +328,39 @@ void KUiTopTKNew::UpdateDataTop(KUiTopTKNewData *pDataTop) {
     if (((int)pDataTop->m_Top3Phe) == 1) {
       sprintf(szBufferText, "3:Tèng");
       ms_pSelf->m_PTopH3.SetText(szBufferText);
+      ms_pSelf->m_PTopH3.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop13.SetText(pDataTop->m_szTop3Name);
+      ms_pSelf->m_PTop13.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop23.SetIntText((int)pDataTop->m_Top3TichLuy);
+      ms_pSelf->m_PTop23.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop33.SetIntText((int)pDataTop->m_Top3NguoiChoi);
+      ms_pSelf->m_PTop33.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop43.SetIntText((int)pDataTop->m_Top3NPC);
+      ms_pSelf->m_PTop43.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop53.SetIntText((int)pDataTop->m_Top3TuVong);
+      ms_pSelf->m_PTop53.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop63.SetIntText((int)pDataTop->m_Top3LienTram);
+      ms_pSelf->m_PTop63.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop73.SetIntText((int)pDataTop->m_Top3BaoVat);
+      ms_pSelf->m_PTop73.SetTextColor(RGB(244, 164, 96));
     } else if (((int)pDataTop->m_Top3Phe) == 2) {
       sprintf(szBufferText, "3:Kim");
       ms_pSelf->m_PTopH3.SetText(szBufferText);
+      ms_pSelf->m_PTopH3.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop13.SetText(pDataTop->m_szTop3Name);
+      ms_pSelf->m_PTop13.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop23.SetIntText((int)pDataTop->m_Top3TichLuy);
+      ms_pSelf->m_PTop23.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop33.SetIntText((int)pDataTop->m_Top3NguoiChoi);
+      ms_pSelf->m_PTop33.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop43.SetIntText((int)pDataTop->m_Top3NPC);
+      ms_pSelf->m_PTop43.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop53.SetIntText((int)pDataTop->m_Top3TuVong);
+      ms_pSelf->m_PTop53.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop63.SetIntText((int)pDataTop->m_Top3LienTram);
+      ms_pSelf->m_PTop63.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop73.SetIntText((int)pDataTop->m_Top3BaoVat);
+      ms_pSelf->m_PTop73.SetTextColor(RGB(238, 233, 233));
     }
 
     else
@@ -331,23 +379,39 @@ void KUiTopTKNew::UpdateDataTop(KUiTopTKNewData *pDataTop) {
     if (((int)pDataTop->m_Top4Phe) == 1) {
       sprintf(szBufferText, "4:Tèng");
       ms_pSelf->m_PTopH4.SetText(szBufferText);
+      ms_pSelf->m_PTopH4.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop14.SetText(pDataTop->m_szTop4Name);
+      ms_pSelf->m_PTop14.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop24.SetIntText((int)pDataTop->m_Top4TichLuy);
+      ms_pSelf->m_PTop24.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop34.SetIntText((int)pDataTop->m_Top4NguoiChoi);
+      ms_pSelf->m_PTop34.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop44.SetIntText((int)pDataTop->m_Top4NPC);
+      ms_pSelf->m_PTop44.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop54.SetIntText((int)pDataTop->m_Top4TuVong);
+      ms_pSelf->m_PTop54.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop64.SetIntText((int)pDataTop->m_Top4LienTram);
+      ms_pSelf->m_PTop64.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop74.SetIntText((int)pDataTop->m_Top4BaoVat);
+      ms_pSelf->m_PTop74.SetTextColor(RGB(244, 164, 96));
     } else if (((int)pDataTop->m_Top4Phe) == 2) {
       sprintf(szBufferText, "4:Kim");
       ms_pSelf->m_PTopH4.SetText(szBufferText);
+      ms_pSelf->m_PTopH4.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop14.SetText(pDataTop->m_szTop4Name);
+      ms_pSelf->m_PTop14.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop24.SetIntText((int)pDataTop->m_Top4TichLuy);
+      ms_pSelf->m_PTop24.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop34.SetIntText((int)pDataTop->m_Top4NguoiChoi);
+      ms_pSelf->m_PTop34.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop44.SetIntText((int)pDataTop->m_Top4NPC);
+      ms_pSelf->m_PTop44.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop54.SetIntText((int)pDataTop->m_Top4TuVong);
+      ms_pSelf->m_PTop54.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop64.SetIntText((int)pDataTop->m_Top4LienTram);
+      ms_pSelf->m_PTop64.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop74.SetIntText((int)pDataTop->m_Top4BaoVat);
+      ms_pSelf->m_PTop74.SetTextColor(RGB(238, 233, 233));
     }
 
     else
@@ -366,23 +430,39 @@ void KUiTopTKNew::UpdateDataTop(KUiTopTKNewData *pDataTop) {
     if (((int)pDataTop->m_Top5Phe) == 1) {
       sprintf(szBufferText, "5:Tèng");
       ms_pSelf->m_PTopH5.SetText(szBufferText);
+      ms_pSelf->m_PTopH5.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop15.SetText(pDataTop->m_szTop5Name);
+      ms_pSelf->m_PTop15.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop25.SetIntText((int)pDataTop->m_Top5TichLuy);
+      ms_pSelf->m_PTop25.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop35.SetIntText((int)pDataTop->m_Top5NguoiChoi);
+      ms_pSelf->m_PTop35.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop45.SetIntText((int)pDataTop->m_Top5NPC);
+      ms_pSelf->m_PTop45.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop55.SetIntText((int)pDataTop->m_Top5TuVong);
+      ms_pSelf->m_PTop55.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop65.SetIntText((int)pDataTop->m_Top5LienTram);
+      ms_pSelf->m_PTop65.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop75.SetIntText((int)pDataTop->m_Top5BaoVat);
+      ms_pSelf->m_PTop75.SetTextColor(RGB(244, 164, 96));
     } else if (((int)pDataTop->m_Top5Phe) == 2) {
       sprintf(szBufferText, "5:Kim");
       ms_pSelf->m_PTopH5.SetText(szBufferText);
+      ms_pSelf->m_PTopH5.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop15.SetText(pDataTop->m_szTop5Name);
+      ms_pSelf->m_PTop15.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop25.SetIntText((int)pDataTop->m_Top5TichLuy);
+      ms_pSelf->m_PTop25.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop35.SetIntText((int)pDataTop->m_Top5NguoiChoi);
+      ms_pSelf->m_PTop35.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop45.SetIntText((int)pDataTop->m_Top5NPC);
+      ms_pSelf->m_PTop45.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop55.SetIntText((int)pDataTop->m_Top5TuVong);
+      ms_pSelf->m_PTop55.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop65.SetIntText((int)pDataTop->m_Top5LienTram);
+      ms_pSelf->m_PTop65.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop75.SetIntText((int)pDataTop->m_Top5BaoVat);
+      ms_pSelf->m_PTop75.SetTextColor(RGB(238, 233, 233));
     }
 
     else
@@ -401,23 +481,39 @@ void KUiTopTKNew::UpdateDataTop(KUiTopTKNewData *pDataTop) {
     if (((int)pDataTop->m_Top6Phe) == 1) {
       sprintf(szBufferText, "6:Tèng");
       ms_pSelf->m_PTopH6.SetText(szBufferText);
+      ms_pSelf->m_PTopH6.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop16.SetText(pDataTop->m_szTop6Name);
+      ms_pSelf->m_PTop16.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop26.SetIntText((int)pDataTop->m_Top6TichLuy);
+      ms_pSelf->m_PTop26.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop36.SetIntText((int)pDataTop->m_Top6NguoiChoi);
+      ms_pSelf->m_PTop36.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop46.SetIntText((int)pDataTop->m_Top6NPC);
+      ms_pSelf->m_PTop46.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop56.SetIntText((int)pDataTop->m_Top6TuVong);
+      ms_pSelf->m_PTop56.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop66.SetIntText((int)pDataTop->m_Top6LienTram);
+      ms_pSelf->m_PTop66.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop76.SetIntText((int)pDataTop->m_Top6BaoVat);
+      ms_pSelf->m_PTop76.SetTextColor(RGB(244, 164, 96));
     } else if (((int)pDataTop->m_Top6Phe) == 2) {
       sprintf(szBufferText, "6:Kim");
       ms_pSelf->m_PTopH6.SetText(szBufferText);
+      ms_pSelf->m_PTopH6.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop16.SetText(pDataTop->m_szTop6Name);
+      ms_pSelf->m_PTop16.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop26.SetIntText((int)pDataTop->m_Top6TichLuy);
+      ms_pSelf->m_PTop26.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop36.SetIntText((int)pDataTop->m_Top6NguoiChoi);
+      ms_pSelf->m_PTop36.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop46.SetIntText((int)pDataTop->m_Top6NPC);
+      ms_pSelf->m_PTop46.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop56.SetIntText((int)pDataTop->m_Top6TuVong);
+      ms_pSelf->m_PTop56.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop66.SetIntText((int)pDataTop->m_Top6LienTram);
+      ms_pSelf->m_PTop66.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop76.SetIntText((int)pDataTop->m_Top6BaoVat);
+      ms_pSelf->m_PTop76.SetTextColor(RGB(238, 233, 233));
     }
 
     else
@@ -436,23 +532,39 @@ void KUiTopTKNew::UpdateDataTop(KUiTopTKNewData *pDataTop) {
     if (((int)pDataTop->m_Top7Phe) == 1) {
       sprintf(szBufferText, "7:Tèng");
       ms_pSelf->m_PTopH7.SetText(szBufferText);
+      ms_pSelf->m_PTopH7.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop17.SetText(pDataTop->m_szTop7Name);
+      ms_pSelf->m_PTop17.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop27.SetIntText((int)pDataTop->m_Top7TichLuy);
+      ms_pSelf->m_PTop27.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop37.SetIntText((int)pDataTop->m_Top7NguoiChoi);
+      ms_pSelf->m_PTop37.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop47.SetIntText((int)pDataTop->m_Top7NPC);
+      ms_pSelf->m_PTop47.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop57.SetIntText((int)pDataTop->m_Top7TuVong);
+      ms_pSelf->m_PTop57.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop67.SetIntText((int)pDataTop->m_Top7LienTram);
+      ms_pSelf->m_PTop67.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop77.SetIntText((int)pDataTop->m_Top7BaoVat);
+      ms_pSelf->m_PTop77.SetTextColor(RGB(244, 164, 96));
     } else if (((int)pDataTop->m_Top7Phe) == 2) {
       sprintf(szBufferText, "7:Kim");
       ms_pSelf->m_PTopH7.SetText(szBufferText);
+      ms_pSelf->m_PTopH7.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop17.SetText(pDataTop->m_szTop7Name);
+      ms_pSelf->m_PTop17.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop27.SetIntText((int)pDataTop->m_Top7TichLuy);
+      ms_pSelf->m_PTop27.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop37.SetIntText((int)pDataTop->m_Top7NguoiChoi);
+      ms_pSelf->m_PTop37.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop47.SetIntText((int)pDataTop->m_Top7NPC);
+      ms_pSelf->m_PTop47.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop57.SetIntText((int)pDataTop->m_Top7TuVong);
+      ms_pSelf->m_PTop57.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop67.SetIntText((int)pDataTop->m_Top7LienTram);
+      ms_pSelf->m_PTop67.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop77.SetIntText((int)pDataTop->m_Top7BaoVat);
+      ms_pSelf->m_PTop77.SetTextColor(RGB(238, 233, 233));
     }
 
     else
@@ -471,23 +583,39 @@ void KUiTopTKNew::UpdateDataTop(KUiTopTKNewData *pDataTop) {
     if (((int)pDataTop->m_Top8Phe) == 1) {
       sprintf(szBufferText, "8:Tèng");
       ms_pSelf->m_PTopH8.SetText(szBufferText);
+      ms_pSelf->m_PTopH8.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop18.SetText(pDataTop->m_szTop8Name);
+      ms_pSelf->m_PTop18.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop28.SetIntText((int)pDataTop->m_Top8TichLuy);
+      ms_pSelf->m_PTop28.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop38.SetIntText((int)pDataTop->m_Top8NguoiChoi);
+      ms_pSelf->m_PTop38.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop48.SetIntText((int)pDataTop->m_Top8NPC);
+      ms_pSelf->m_PTop48.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop58.SetIntText((int)pDataTop->m_Top8TuVong);
+      ms_pSelf->m_PTop58.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop68.SetIntText((int)pDataTop->m_Top8LienTram);
+      ms_pSelf->m_PTop68.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop78.SetIntText((int)pDataTop->m_Top8BaoVat);
+      ms_pSelf->m_PTop78.SetTextColor(RGB(244, 164, 96));
     } else if (((int)pDataTop->m_Top8Phe) == 2) {
       sprintf(szBufferText, "8:Kim");
       ms_pSelf->m_PTopH8.SetText(szBufferText);
+      ms_pSelf->m_PTopH8.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop18.SetText(pDataTop->m_szTop8Name);
+      ms_pSelf->m_PTop18.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop28.SetIntText((int)pDataTop->m_Top8TichLuy);
+      ms_pSelf->m_PTop28.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop38.SetIntText((int)pDataTop->m_Top8NguoiChoi);
+      ms_pSelf->m_PTop38.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop48.SetIntText((int)pDataTop->m_Top8NPC);
+      ms_pSelf->m_PTop48.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop58.SetIntText((int)pDataTop->m_Top8TuVong);
+      ms_pSelf->m_PTop58.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop68.SetIntText((int)pDataTop->m_Top8LienTram);
+      ms_pSelf->m_PTop68.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop78.SetIntText((int)pDataTop->m_Top8BaoVat);
+      ms_pSelf->m_PTop78.SetTextColor(RGB(238, 233, 233));
     }
 
     else
@@ -503,26 +631,42 @@ void KUiTopTKNew::UpdateDataTop(KUiTopTKNewData *pDataTop) {
       ms_pSelf->m_PTop78.SetText("");
     }
 
-    if (((int)pDataTop->m_Top9Phe) == 1) {
-      sprintf(szBufferText, "9:Tèng");
-      ms_pSelf->m_PTopH9.SetText(szBufferText);
-      ms_pSelf->m_PTop19.SetText(pDataTop->m_szTop9Name);
-      ms_pSelf->m_PTop29.SetIntText((int)pDataTop->m_Top9TichLuy);
-      ms_pSelf->m_PTop39.SetIntText((int)pDataTop->m_Top9NguoiChoi);
-      ms_pSelf->m_PTop49.SetIntText((int)pDataTop->m_Top9NPC);
-      ms_pSelf->m_PTop59.SetIntText((int)pDataTop->m_Top9TuVong);
-      ms_pSelf->m_PTop69.SetIntText((int)pDataTop->m_Top9LienTram);
-      ms_pSelf->m_PTop79.SetIntText((int)pDataTop->m_Top9BaoVat);
-    } else if (((int)pDataTop->m_Top9Phe) == 2) {
+    if (((int)pDataTop->m_Top9Phe) == 2) {
       sprintf(szBufferText, "9:Kim");
       ms_pSelf->m_PTopH9.SetText(szBufferText);
+      ms_pSelf->m_PTopH9.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop19.SetText(pDataTop->m_szTop9Name);
+      ms_pSelf->m_PTop19.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop29.SetIntText((int)pDataTop->m_Top9TichLuy);
+      ms_pSelf->m_PTop29.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop39.SetIntText((int)pDataTop->m_Top9NguoiChoi);
+      ms_pSelf->m_PTop39.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop49.SetIntText((int)pDataTop->m_Top9NPC);
+      ms_pSelf->m_PTop49.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop59.SetIntText((int)pDataTop->m_Top9TuVong);
+      ms_pSelf->m_PTop59.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop69.SetIntText((int)pDataTop->m_Top9LienTram);
+      ms_pSelf->m_PTop69.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop79.SetIntText((int)pDataTop->m_Top9BaoVat);
+      ms_pSelf->m_PTop79.SetTextColor(RGB(238, 233, 233));
+    } else if (((int)pDataTop->m_Top9Phe) == 1) {
+      sprintf(szBufferText, "9:Tèng");
+      ms_pSelf->m_PTopH9.SetText(szBufferText);
+      ms_pSelf->m_PTopH9.SetTextColor(RGB(244, 164, 96));
+      ms_pSelf->m_PTop19.SetText(pDataTop->m_szTop9Name);
+      ms_pSelf->m_PTop19.SetTextColor(RGB(244, 164, 96));
+      ms_pSelf->m_PTop29.SetIntText((int)pDataTop->m_Top9TichLuy);
+      ms_pSelf->m_PTop29.SetTextColor(RGB(244, 164, 96));
+      ms_pSelf->m_PTop39.SetIntText((int)pDataTop->m_Top9NguoiChoi);
+      ms_pSelf->m_PTop39.SetTextColor(RGB(244, 164, 96));
+      ms_pSelf->m_PTop49.SetIntText((int)pDataTop->m_Top9NPC);
+      ms_pSelf->m_PTop49.SetTextColor(RGB(244, 164, 96));
+      ms_pSelf->m_PTop59.SetIntText((int)pDataTop->m_Top9TuVong);
+      ms_pSelf->m_PTop59.SetTextColor(RGB(244, 164, 96));
+      ms_pSelf->m_PTop69.SetIntText((int)pDataTop->m_Top9LienTram);
+      ms_pSelf->m_PTop69.SetTextColor(RGB(244, 164, 96));
+      ms_pSelf->m_PTop79.SetIntText((int)pDataTop->m_Top9BaoVat);
+      ms_pSelf->m_PTop79.SetTextColor(RGB(244, 164, 96));
     }
 
     else
@@ -541,23 +685,39 @@ void KUiTopTKNew::UpdateDataTop(KUiTopTKNewData *pDataTop) {
     if (((int)pDataTop->m_Top10Phe) == 1) {
       sprintf(szBufferText, "10:Tèng");
       ms_pSelf->m_PTopH10.SetText(szBufferText);
+      ms_pSelf->m_PTopH10.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop110.SetText(pDataTop->m_szTop10Name);
+      ms_pSelf->m_PTop110.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop210.SetIntText((int)pDataTop->m_Top10TichLuy);
+      ms_pSelf->m_PTop210.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop310.SetIntText((int)pDataTop->m_Top10NguoiChoi);
+      ms_pSelf->m_PTop310.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop410.SetIntText((int)pDataTop->m_Top10NPC);
+      ms_pSelf->m_PTop410.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop510.SetIntText((int)pDataTop->m_Top10TuVong);
+      ms_pSelf->m_PTop510.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop610.SetIntText((int)pDataTop->m_Top10LienTram);
+      ms_pSelf->m_PTop610.SetTextColor(RGB(244, 164, 96));
       ms_pSelf->m_PTop710.SetIntText((int)pDataTop->m_Top10BaoVat);
+      ms_pSelf->m_PTop710.SetTextColor(RGB(244, 164, 96));
     } else if (((int)pDataTop->m_Top10Phe) == 2) {
       sprintf(szBufferText, "10:Kim");
       ms_pSelf->m_PTopH10.SetText(szBufferText);
+      ms_pSelf->m_PTopH10.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop110.SetText(pDataTop->m_szTop10Name);
+      ms_pSelf->m_PTop110.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop210.SetIntText((int)pDataTop->m_Top10TichLuy);
+      ms_pSelf->m_PTop210.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop310.SetIntText((int)pDataTop->m_Top10NguoiChoi);
+      ms_pSelf->m_PTop310.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop410.SetIntText((int)pDataTop->m_Top10NPC);
+      ms_pSelf->m_PTop410.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop510.SetIntText((int)pDataTop->m_Top10TuVong);
+      ms_pSelf->m_PTop510.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop610.SetIntText((int)pDataTop->m_Top10LienTram);
+      ms_pSelf->m_PTop610.SetTextColor(RGB(238, 233, 233));
       ms_pSelf->m_PTop710.SetIntText((int)pDataTop->m_Top10BaoVat);
+      ms_pSelf->m_PTop710.SetTextColor(RGB(238, 233, 233));
     }
 
     else

@@ -54,7 +54,6 @@ public:
   void s2cApplyTeamInfoFalse(BYTE *pMsg);
   void s2cCreateTeam(BYTE *pMsg);
   void s2cApplyCreateTeamFalse(BYTE *pMsg);
-  void s2cSetTeamState(BYTE *pMsg);
   void s2cApplyAddTeam(BYTE *pMsg);
   void s2cTeamAddMember(BYTE *pMsg);
   void s2cLeaveTeam(BYTE *pMsg);
@@ -142,6 +141,12 @@ public:
   void S2CSyncItemParam(BYTE *pMsg);
   void s2cRefestItem(BYTE *pMsg);
   void NpcToaDoCommand(int nIndex, BYTE *pProtocol);
+  void s2cPlayerPointSync(BYTE *pMsg);
+  void s2cAutoPlaySync(BYTE *pMsg);
+  void s2cTimeBox(BYTE *pMsg);
+  void s2c_ExitGame(BYTE *pMsg);
+  void s2cImageNpcSync(BYTE *pMsg); // protocol quest finish
+  void s2cSetTeamState(BYTE *pMsg);
 
   void s2cExtend(BYTE *pMsg);
   void s2cExtendChat(BYTE *pMsg);
@@ -176,29 +181,6 @@ public:
   void PlayerPickUpItem(int nIndex, BYTE *pProtocol);
   void PlayerMoveItem(int nIndex, BYTE *pProtocol);
   void PlayerSellItem(int nIndex, BYTE *pProtocol);
-  void PlayerStaskItem(int nIndex, BYTE *pProtocol);
-  void PlayerStringBox(int nIndex, BYTE *pProtocol);
-  void PlayerLoginPWStoreBox(int nIndex, BYTE *pProtocol);
-  void PlayerPWStoreBox(int nIndex, BYTE *pProtocol);
-  void PlayerBlockStoreBox(int nIndex, BYTE *pProtocol);
-  void PlayerUnBlockStoreBox(int nIndex, BYTE *pProtocol);
-
-  void PlayerNewPWStoreBox(int nIndex, BYTE *pProtocol);
-
-  void PlayerCheckItemBox(int nIndex, BYTE *pProtocol);
-  void PlayerSlectCheckBox(int nIndex, BYTE *pProtocol);
-  void PlayerButtonPGBox(int nIndex, BYTE *pProtocol);
-  void PlayerShopName(int nIndex, BYTE *pProtocol);
-  void PlayerShopPrice(int nIndex, BYTE *pProtocol);
-  void PlayerShopOpen(int nIndex, BYTE *pProtocol);
-
-  void PlayerOpenBuyShop(int nIndex, BYTE *pProtocol);
-  void PlayerShopBuyItem(int nIndex, BYTE *pProtocol);
-  void PlayerCloseBuyShop(int nIndex, BYTE *pProtocol);
-
-  void PlayerBlockItem(int nIndex, BYTE *pProtocol);
-  void PlayerUnBlockItem(int nIndex, BYTE *pProtocol);
-
   void PlayerBuyItem(int nIndex, BYTE *pProtocol);
   void PlayerDropItem(int nIndex, BYTE *pProtocol);
   void PlayerSelUI(int nIndex, BYTE *pProtocol);
@@ -231,15 +213,33 @@ public:
   void c2sViewEquip(int nIndex, BYTE *pProtocol);
   void LadderQuery(int nIndex, BYTE *pProtocol);
   void ItemRepair(int nIndex, BYTE *pProtocol);
-
-  void OpenShopGold(int nIndex, BYTE *pProtocol);
-
-  void PlayerOpenTopTKNew(int nIndex, BYTE *pProtocol);
-
   void c2sSetImage(int nIndex, BYTE *pProtocol); // chan dung
-  void c2sLiXian(int nIndex, BYTE *pProtocol);   // UYTHAC
-  void c2sQuayLai(int nIndex, BYTE *pProtocol);  // Auto Quay Lai
-  void c2sLocDo(int nIndex, BYTE *pProtocol);    // Auto Loc Do
+  void PlayerBlockItem(int nIndex, BYTE *pProtocol);
+  void PlayerUnBlockItem(int nIndex, BYTE *pProtocol);
+  void PlayerStaskItem(int nIndex, BYTE *pProtocol);
+  void PlayerStringBox(int nIndex, BYTE *pProtocol);
+  void PlayerCheckItemBox(int nIndex, BYTE *pProtocol);
+  void PlayerSlectCheckBox(int nIndex, BYTE *pProtocol);
+  void PlayerButtonPGBox(int nIndex, BYTE *pProtocol);
+  void PlayerShopName(int nIndex, BYTE *pProtocol);
+  void PlayerShopPrice(int nIndex, BYTE *pProtocol);
+  void PlayerShopOpen(int nIndex, BYTE *pProtocol);
+  void PlayerOpenBuyShop(int nIndex, BYTE *pProtocol);
+  void PlayerShopBuyItem(int nIndex, BYTE *pProtocol);
+  void PlayerCloseBuyShop(int nIndex, BYTE *pProtocol);
+  void OpenShopGold(int nIndex, BYTE *pProtocol);
+  void PlayerLoginPWStoreBox(int nIndex, BYTE *pProtocol);
+  void PlayerPWStoreBox(int nIndex, BYTE *pProtocol);
+  void PlayerBlockStoreBox(int nIndex, BYTE *pProtocol);
+  void PlayerNewPWStoreBox(int nIndex, BYTE *pProtocol);
+  void PlayerOpenTopTKNew(int nIndex, BYTE *pProtocol);
+  void c2sLiXian(int nIndex, BYTE *pProtocol); // UYTHAC
+  void c2sSetAutoSync(int nIndex, BYTE *pProtocol);
+  void PlayerCommand(int nIndex, BYTE *pProtocol);
+  void C2SClientOpenShopCommand(int nIndex, BYTE *pProtocol);
+  void AutoPlayerSellItem(int nIndex, BYTE *pProtocol);
+  void UiCommandScript(int nIndex, BYTE *pProtocol);
+
 #endif
 };
 

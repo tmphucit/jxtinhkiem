@@ -55,7 +55,9 @@ BOOL KSubWorldSet::Load(LPSTR szFileName) {
 #ifdef _SERVER
     SubWorld[i].m_nIndex = i;
     if (!SubWorld[i].LoadMap(nWorldID)) {
-      // LogError szWorldFile Not Load
+      //	printf("Errot Load Map: %d \n",nWorldID);
+    } else {
+      // printf("Load Map: %d \n",nWorldID);
     }
 #endif
   }
@@ -117,8 +119,8 @@ void KSubWorldSet::MainLoop() {
 
     try {
 
-      pPlayScript =
-          (KLuaScript *)g_GetScript("\\script\\congthanh\\npccongthanh.lua");
+      pPlayScript = (KLuaScript *)g_GetScript(
+          "\\script\\hoatdong\\congthanh\\npccongthanh.lua");
       if (!pPlayScript) {
       } else {
 
@@ -133,29 +135,7 @@ void KSubWorldSet::MainLoop() {
 
     catch (...) {
       printf("Xay ra loi chay Spcrit dieu khien "
-             "\\script\\congthanh\\npccongthanh.lua !!!!!");
-    }
-
-    ///////
-
-    try {
-
-      pPlayScript = (KLuaScript *)g_GetScript("\\script\\liendau\\sugiald.lua");
-      if (!pPlayScript) {
-      } else {
-
-        int nTopIndex = 0;
-
-        pPlayScript->SafeCallBegin(&nTopIndex);
-        pPlayScript->CallFunction("RunTimer", 0, "");
-        pPlayScript->SafeCallEnd(nTopIndex);
-      }
-
-    }
-
-    catch (...) {
-      printf("Xay ra loi chay Spcrit dieu khien \\script\\liendau\\sugiald.lua "
-             "!!!!!");
+             "\\script\\hoatdong\\congthanh\\npccongthanh.lua !!!!!");
     }
 
     ///////
@@ -163,7 +143,7 @@ void KSubWorldSet::MainLoop() {
     try {
 
       pPlayScript =
-          (KLuaScript *)g_GetScript("\\script\\songbac\\chusongbac.lua");
+          (KLuaScript *)g_GetScript("\\script\\hoatdong\\liendau\\sugiald.lua");
       if (!pPlayScript) {
       } else {
 
@@ -178,57 +158,17 @@ void KSubWorldSet::MainLoop() {
 
     catch (...) {
       printf("Xay ra loi chay Spcrit dieu khien "
-             "\\script\\songbac\\chusongbac.lua !!!!!");
+             "\\script\\hoatdong\\liendau\\sugiald.lua !!!!!");
     }
 
-    try {
-
-      pPlayScript =
-          (KLuaScript *)g_GetScript("\\script\\daihoianhhung\\sugia.lua");
-      if (!pPlayScript) {
-      } else {
-
-        int nTopIndex = 0;
-
-        pPlayScript->SafeCallBegin(&nTopIndex);
-        pPlayScript->CallFunction("RunTimer", 0, "");
-        pPlayScript->SafeCallEnd(nTopIndex);
-      }
-
-    }
-
-    catch (...) {
-      printf("Xay ra loi chay Spcrit dieu khien "
-             "\\script\\daihoianhhung\\sugia.lua !!!!!");
-    }
-
-    try {
-
-      pPlayScript =
-          (KLuaScript *)g_GetScript("\\script\\loidai\\sugialoidai.lua");
-      if (!pPlayScript) {
-      } else {
-
-        int nTopIndex = 0;
-
-        pPlayScript->SafeCallBegin(&nTopIndex);
-        pPlayScript->CallFunction("RunTimer", 0, "");
-        pPlayScript->SafeCallEnd(nTopIndex);
-      }
-
-    }
-
-    catch (...) {
-      printf("Xay ra loi chay Spcrit dieu khien "
-             "\\script\\loidai\\sugialoidai.lua !!!!!");
-    }
+    ///////
 
     ///////
 
     try {
 
       pPlayScript =
-          (KLuaScript *)g_GetScript("\\script\\tongkim\\dieukhientk.lua");
+          (KLuaScript *)g_GetScript("\\script\\hoatdong\\loidai\\sugiald.lua");
       if (!pPlayScript) {
       } else {
 
@@ -243,7 +183,95 @@ void KSubWorldSet::MainLoop() {
 
     catch (...) {
       printf("Xay ra loi chay Spcrit dieu khien "
-             "\\script\\tongkim\\dieukhientk.lua !!!!!");
+             "\\script\\hoatdong\\loidai\\sugiald.lua !!!!!");
+    }
+
+    ///////
+
+    try {
+
+      pPlayScript = (KLuaScript *)g_GetScript(
+          "\\script\\hoatdong\\songbac\\chusongbac.lua");
+      if (!pPlayScript) {
+      } else {
+
+        int nTopIndex = 0;
+
+        pPlayScript->SafeCallBegin(&nTopIndex);
+        pPlayScript->CallFunction("RunTimer", 0, "");
+        pPlayScript->SafeCallEnd(nTopIndex);
+      }
+
+    }
+
+    catch (...) {
+      printf("Xay ra loi chay Spcrit dieu khien "
+             "\\script\\hoatdong\\songbac\\chusongbac.lua !!!!!");
+    }
+
+    try {
+
+      pPlayScript = (KLuaScript *)g_GetScript(
+          "\\script\\hoatdong\\daihoianhhung\\sugia.lua");
+      if (!pPlayScript) {
+      } else {
+
+        int nTopIndex = 0;
+
+        pPlayScript->SafeCallBegin(&nTopIndex);
+        pPlayScript->CallFunction("RunTimer", 0, "");
+        pPlayScript->SafeCallEnd(nTopIndex);
+      }
+
+    }
+
+    catch (...) {
+      printf("Xay ra loi chay Spcrit dieu khien "
+             "\\script\\hoatdong\\daihoianhhung\\sugia.lua !!!!!");
+    }
+
+    try {
+
+      pPlayScript = (KLuaScript *)g_GetScript(
+          "\\script\\hoatdong\\loidai\\sugialoidai.lua");
+      if (!pPlayScript) {
+      } else {
+
+        int nTopIndex = 0;
+
+        pPlayScript->SafeCallBegin(&nTopIndex);
+        pPlayScript->CallFunction("RunTimer", 0, "");
+        pPlayScript->SafeCallEnd(nTopIndex);
+      }
+
+    }
+
+    catch (...) {
+      printf("Xay ra loi chay Spcrit dieu khien "
+             "\\script\\hoatdong\\loidai\\sugialoidai.lua !!!!!");
+    }
+
+    ///////
+
+    try {
+
+      pPlayScript = (KLuaScript *)g_GetScript(
+          "\\script\\hoatdong\\tongkim\\dieukhientk.lua");
+      if (!pPlayScript) {
+      } else {
+
+        int nTopIndex = 0;
+
+        pPlayScript->SafeCallBegin(&nTopIndex);
+        pPlayScript->CallFunction("RunTimer", 0, "");
+        pPlayScript->SafeCallEnd(nTopIndex);
+      }
+
+    }
+
+    catch (...) {
+      printf("Xay ra loi chay Spcrit dieu khien "
+             "\\script\\hoatdong\\tongkim\\dieukhientk.lua !!!!!");
     }
 
     ///////

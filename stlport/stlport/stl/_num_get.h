@@ -190,11 +190,11 @@ protected:
 
 #ifdef _STLP_USE_TEMPLATE_EXPORT
 _STLP_EXPORT_TEMPLATE_CLASS
-num_get<char, istreambuf_iterator<char, char_traits<char>>>;
+    num_get<char, istreambuf_iterator<char, char_traits<char>>>;
 // _STLP_EXPORT_TEMPLATE_CLASS num_get<char, const char*>;
 #ifndef _STLP_NO_WCHAR_T
 _STLP_EXPORT_TEMPLATE_CLASS
-num_get<wchar_t, istreambuf_iterator<wchar_t, char_traits<wchar_t>>>;
+    num_get<wchar_t, istreambuf_iterator<wchar_t, char_traits<wchar_t>>>;
 // _STLP_EXPORT_TEMPLATE_CLASS num_get<wchar_t, const wchar_t*>;
 #endif /* _STLP_NO_WCHAR_T */
 #endif

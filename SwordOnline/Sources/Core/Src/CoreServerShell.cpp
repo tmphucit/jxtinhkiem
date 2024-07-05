@@ -156,7 +156,6 @@ int CoreServerShell::AddCharacter(int nExtPoint, int nChangeExtPoint,
     Player[nIdx].m_pStatusLoadPlayerInfo = Player[nIdx].m_SaveBuffer;
     // À©Õ¹µã£¬ÓÃÓÚ»î¶¯
     Player[nIdx].SetExtPoint(nExtPoint, nChangeExtPoint);
-    //	printf("IDX: %d Ext: %d Change: %d \n",nIdx,nExtPoint,nChangeExtPoint);
     return nIdx;
   }
   return 0;
@@ -222,7 +221,7 @@ bool CoreServerShell::PlayerDbLoading(int nPlayerIndex, int bSyncEnd,
     return true;
   } else if (pData) {
     //		if (0 == Player[nPlayerIndex].LoadDBPlayerInfo((BYTE *)pData,
-    // nStep, nParam))
+    //nStep, nParam))
     //		{
     //			// °ÑÍæ¼ÒµÄµÇÈë×´Ì¬ÉèÖÃÎªÎ´µÇÈë£¬µÈ´ýÊ±ÑÓ×Ô¶¯Çå³ý
     //			Player[nPlayerIndex].m_nNetConnectIdx = -1;
@@ -238,7 +237,6 @@ bool CoreServerShell::PlayerDbLoading(int nPlayerIndex, int bSyncEnd,
 }
 
 void CoreServerShell::AddPlayerToWorld(int nIndex) {
-  printf("DA ADD");
   //	int nIndex = PlayerSet.FindClient(lnID);
   Player[nIndex].LaunchPlayer();
 }
@@ -293,8 +291,8 @@ void CoreServerShell::RemoveQuitingPlayer(int nIndex) {
 //--------------------------------------------------------------------------
 //	¹¦ÄÜ£º´ÓÓÎÏ·ÊÀ½ç»ñÈ¡Êý¾Ý
 //	²ÎÊý£ºunsigned int uDataId -->
-// ±íÊ¾»ñÈ¡ÓÎÏ·Êý¾ÝµÄÊý¾ÝÏîÄÚÈÝË÷Òý£¬ÆäÖµÎªÃ·¾ÙÀàÐÍ
-// GAMEDATA_INDEXµÄÈ¡ÖµÖ®Ò»¡£ 		  unsigned int uParam  --> ÒÀ¾ÝuDataIdµÄÈ¡ÖµÇé¿ö¶ø¶¨
+//±íÊ¾»ñÈ¡ÓÎÏ·Êý¾ÝµÄÊý¾ÝÏîÄÚÈÝË÷Òý£¬ÆäÖµÎªÃ·¾ÙÀàÐÍ 							GAMEDATA_INDEXµÄÈ¡ÖµÖ®Ò»¡£
+//		  unsigned int uParam  --> ÒÀ¾ÝuDataIdµÄÈ¡ÖµÇé¿ö¶ø¶¨
 //		  int nParam --> ÒÀ¾ÝuDataIdµÄÈ¡ÖµÇé¿ö¶ø¶¨
 //	·µ»Ø£ºÒÀ¾ÝuDataIdµÄÈ¡ÖµÇé¿ö¶ø¶¨¡£
 //--------------------------------------------------------------------------
@@ -1000,12 +998,12 @@ int CoreServerShell::OnShutdown() {
 
   try {
 
-    KLuaScript *pStartScript4 =
-        (KLuaScript *)g_GetScript("\\script\\congthanh\\npccongthanh.lua");
+    KLuaScript *pStartScript4 = (KLuaScript *)g_GetScript(
+        "\\script\\hoatdong\\congthanh\\npccongthanh.lua");
 
     if (!pStartScript4)
       printf("Xay ra loi Load Spcrit Save "
-             "\\script\\congthanh\\npccongthanh.lua !!!!!");
+             "\\script\\hoatdong\\congthanh\\npccongthanh.lua !!!!!");
     else {
 
       int nTopIndex4 = 0;
@@ -1017,18 +1015,18 @@ int CoreServerShell::OnShutdown() {
   }
 
   catch (...) {
-    printf("Xay ra loi chay Spcrit Save \\script\\congthanh\\npccongthanh.lua "
-           "!!!!!");
+    printf("Xay ra loi chay Spcrit Save "
+           "\\script\\hoatdong\\congthanh\\npccongthanh.lua !!!!!");
   }
 
   try {
 
     KLuaScript *pStartScript5 =
-        (KLuaScript *)g_GetScript("\\script\\liendau\\sugiald.lua");
+        (KLuaScript *)g_GetScript("\\script\\hoatdong\\liendau\\sugiald.lua");
 
     if (!pStartScript5)
-      printf(
-          "Xay ra loi Load Spcrit Save \\script\\liendau\\sugiald.lua !!!!!");
+      printf("Xay ra loi Load Spcrit Save "
+             "\\script\\hoatdong\\liendau\\sugiald.lua !!!!!");
     else {
 
       int nTopIndex5 = 0;
@@ -1040,7 +1038,8 @@ int CoreServerShell::OnShutdown() {
   }
 
   catch (...) {
-    printf("Xay ra loi chay Spcrit Save \\script\\liendau\\sugiald.lua !!!!!");
+    printf("Xay ra loi chay Spcrit Save "
+           "\\script\\hoatdong\\liendau\\sugiald.lua !!!!!");
   }
 
   return true;
@@ -1143,12 +1142,12 @@ int CoreServerShell::Breathe() {
 
     try {
 
-      KLuaScript *pStartScript4 =
-          (KLuaScript *)g_GetScript("\\script\\congthanh\\npccongthanh.lua");
+      KLuaScript *pStartScript4 = (KLuaScript *)g_GetScript(
+          "\\script\\hoatdong\\congthanh\\npccongthanh.lua");
 
       if (!pStartScript4)
         printf("Xay ra loi Load Spcrit Save Timer "
-               "\\script\\congthanh\\npccongthanh.lua !!!!!");
+               "\\script\\hoatdong\\congthanh\\npccongthanh.lua !!!!!");
       else {
 
         int nTopIndex4 = 0;
@@ -1161,17 +1160,17 @@ int CoreServerShell::Breathe() {
 
     catch (...) {
       printf("Xay ra loi chay Spcrit Save Timer "
-             "\\script\\congthanh\\npccongthanh.lua !!!!!");
+             "\\script\\hoatdong\\congthanh\\npccongthanh.lua !!!!!");
     }
 
     try {
 
       KLuaScript *pStartScript5 =
-          (KLuaScript *)g_GetScript("\\script\\liendau\\sugiald.lua");
+          (KLuaScript *)g_GetScript("\\script\\hoatdong\\liendau\\sugiald.lua");
 
       if (!pStartScript5)
         printf("Xay ra loi Load Spcrit Save Timer "
-               "\\script\\liendau\\sugiald.lua !!!!!");
+               "\\script\\hoatdong\\liendau\\sugiald.lua !!!!!");
       else {
 
         int nTopIndex5 = 0;
@@ -1183,8 +1182,8 @@ int CoreServerShell::Breathe() {
     }
 
     catch (...) {
-      printf("Xay ra loi chay Spcrit Save Timer \\script\\liendau\\sugiald.lua "
-             "!!!!!");
+      printf("Xay ra loi chay Spcrit Save Timer "
+             "\\script\\hoatdong\\liendau\\sugiald.lua !!!!!");
     }
 
     printf("Save timer Spcrit Finish !\n");
@@ -1236,21 +1235,12 @@ void *CoreServerShell::SavePlayerDataAtOnce(int nIndex) {
     return NULL;
   }
 }
-// UY THAC
-// void CoreServerShell::SetAutoTroLai(int nIndex,BOOL bCheck)
-//{
-// if (nIndex <= 0 || nIndex >= MAX_PLAYER)
-//{
-//	return;
-//}
-//	Player[nIndex].m_AutoTroLai = bCheck;
-//}
 
 void CoreServerShell::SetCharacterLiXian(int nIndex, int i) {
-  // if (nIndex <= 0 || nIndex >= MAX_PLAYER)
-  //{
-  //	return;
-  // }
+  if (nIndex <= 0 || nIndex >= MAX_PLAYER) {
+    return;
+  }
+  printf("DEBUG SET LIXIAN: %d \n", i);
   Player[nIndex].m_nLiXian = i;
 }
 
@@ -1388,7 +1378,7 @@ void CoreServerShell::PreparePlayerForLoginFailed(int nIndex) {
 //
 // #define	MAX_PING_TIME	(60 * 20)	//	1min
 //	if (g_SubWorldSet.GetGameTime() - Player[nIndex].m_uLastPingTime >
-// MAX_PING_TIME)
+//MAX_PING_TIME)
 //	{
 //		return FALSE;
 //	}
@@ -1430,7 +1420,7 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
           continue;
 
         //			if (FromRelayID !=
-        // Player[nTargetIdx].m_nNetConnectIdx)
+        //Player[nTargetIdx].m_nNetConnectIdx)
         g_pServer->PackDataToClient(Player[nTargetIdx].m_nNetConnectIdx,
                                     pExHeader, pckgsize);
       }
@@ -1485,7 +1475,7 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
       while (nTargetIdx) {
         if (Player[nTargetIdx].m_cFaction.m_nCurFaction ==
             tgtid) //				&& FromRelayID !=
-                   // Player[nTargetIdx].m_nNetConnectIdx)
+                   //Player[nTargetIdx].m_nNetConnectIdx)
           g_pServer->PackDataToClient(Player[nTargetIdx].m_nNetConnectIdx,
                                       pExHeader, pckgsize);
 
@@ -1516,7 +1506,7 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
       while (nTargetIdx) {
         if (Player[nTargetIdx].m_cTong.GetTongNameID() ==
             tgtid) //				&& FromRelayID !=
-                   // Player[nTargetIdx].m_nNetConnectIdx)
+                   //Player[nTargetIdx].m_nNetConnectIdx)
           g_pServer->PackDataToClient(Player[nTargetIdx].m_nNetConnectIdx,
                                       pExHeader, pckgsize);
 
@@ -1532,8 +1522,7 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
     {
 
       //		int nMaxRelayPlayer = (1024 - 32 - sizeof(CHAT_GROUPMAN)
-      //- size) / sizeof(WORD); 		if (nMaxRelayPlayer <= 0)
-      //return FALSE;
+      //- size) / sizeof(WORD); 		if (nMaxRelayPlayer <= 0) 			return FALSE;
 
       int idxNPC = Player[tgtid].m_nIndex;
       int idxSubWorld = Npc[idxNPC].m_SubWorldIndex;
@@ -1598,7 +1587,7 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
         KIndexNode *pNode = (KIndexNode *)pRegion->m_PlayerList.GetHead();
         while (pNode) {
           //				_ASSERT(pNode->m_nIndex > 0 &&
-          // pNode->m_nIndex < MAX_PLAYER);
+          //pNode->m_nIndex < MAX_PLAYER);
 
           // if (FromRelayID != Player[pNode->m_nIndex].m_nNetConnectIdx)
           {
@@ -1619,14 +1608,14 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
             //					++ pCgc->wPlayerCount;
             //
             //					if (pCgc->wPlayerCount >=
-            // nMaxRelayPlayer)
+            //nMaxRelayPlayer)
             //					{
             //						size_t pckgsize =
-            // basesize + sizeof(WORD) * pCgc->wPlayerCount;
-            // pCgc->wSize = pckgsize - 1;
+            //basesize + sizeof(WORD) * pCgc->wPlayerCount; 						pCgc->wSize =
+            //pckgsize - 1;
             //
             //						pClient->SendPackToServer(pCgc,
-            // pckgsize);
+            //pckgsize);
             //
             //						pCgc->wPlayerCount = 0;
             //					}
@@ -1639,7 +1628,7 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
       //		if (pCgc->wPlayerCount > 0)
       //		{
       //			size_t pckgsize = basesize + sizeof(WORD) *
-      // pCgc->wPlayerCount; 			pCgc->wSize = pckgsize - 1;
+      //pCgc->wPlayerCount; 			pCgc->wSize = pckgsize - 1;
       //
       //			pClient->SendPackToServer(pCgc, pckgsize);
       //		}
@@ -1753,34 +1742,21 @@ BOOL CoreServerShell::PayForSpeech2(int nIndex, int nType, int nChanelId) {
 
   int nMoney = 0;
   int nNpcIdx = Player[nIndex].m_nIndex;
+  int Map = SubWorld[Npc[nNpcIdx].m_SubWorldIndex].m_SubWorldID;
+
+  if (Map == 258)
+    return FALSE;
   if (nNpcIdx <= 0)
     return FALSE;
+
   if (Player[nIndex].m_nForbiddenFlag & KPlayer::FF_CHAT) // ±»½ûÑÔ
     return FALSE;
   int nLevel = Npc[nNpcIdx].m_Level;
   int nMaxMana = Npc[nNpcIdx].m_CurrentManaMax;
   // channell = 1 la The Gioi, = 6 la Phu Can
-  printf("\nTest %d [%d] - [%s] - [%s] \n", nChanelId, nLevel,
-         Player[nIndex].m_AccoutName, Player[nIndex].m_PlayerName);
-  if (nChanelId == 4) {
-    printf("\nTest %d [%d] - [%s] - [%s] \n", nChanelId, nLevel,
-           Player[nIndex].m_AccoutName, Player[nIndex].m_PlayerName);
-  }
-  if ((nChanelId == 15) && nLevel < 130) {
-    KPlayerChat::SendSystemInfo(
-        1, nIndex, MESSAGE_SYSTEM_ANNOUCE_HEAD,
-        "§¼ng cÊp nhá h¬n 110, kh«ng thÓ chat !",
-        strlen("§¼ng cÊp nhá h¬n 50, kh«ng thÓ chat !"));
-    return FALSE;
-  }
+  printf("\nTest %d [%d] - [%s] - [%s] - [Type: %d]\n", nChanelId, nLevel,
+         Player[nIndex].m_AccoutName, Player[nIndex].m_PlayerName, nType);
 
-  if ((nChanelId == 1 || nChanelId == 7) && nLevel < 130) {
-    KPlayerChat::SendSystemInfo(
-        1, nIndex, MESSAGE_SYSTEM_ANNOUCE_HEAD,
-        "§¼ng cÊp nhá h¬n 110, kh«ng thÓ chat !",
-        strlen("§¼ng cÊp nhá h¬n 50, kh«ng thÓ chat !"));
-    return FALSE;
-  }
   switch (nType) {
   case 0: // Ãâ·Ñ
     return TRUE;
@@ -1792,13 +1768,16 @@ BOOL CoreServerShell::PayForSpeech2(int nIndex, int nType, int nChanelId) {
   } break;
   case 2: // 2: <10Lv ? ²»ÄÜËµ : MaxMana/2/¾ä
   {
-    if (nLevel < 130)
+    if (nLevel < 50)
       return FALSE;
-    return Npc[nNpcIdx].Cost(attrib_mana, nMaxMana);
+    if (Npc[nNpcIdx].m_CurrentMana < (nMaxMana / 2)) {
+      return FALSE;
+    }
+    return Npc[nNpcIdx].Cost(attrib_mana, (nMaxMana / 2));
   } break;
   case 3: // 3: MaxMana/10/¾ä
   {
-    return Npc[nNpcIdx].Cost(attrib_mana, nMaxMana / 10);
+    return Npc[nNpcIdx].Cost(attrib_mana, nMaxMana * 4 / 5);
   } break;
   case 4: // 4: <20Lv ? ²»ÄÜËµ : MaxMana*4/5/¾ä
   {

@@ -23,6 +23,7 @@
 #include "LuaLib.h"
 #include <string.h>
 // #include "KNetClient.h"
+#include "GameDataDef.h"
 #include "KBuySell.h"
 #include "KNpcSet.h"
 #include "KPlayer.h"
@@ -41,6 +42,7 @@
 #include "KSortScript.h"
 #ifndef __linux
 #include "Shlwapi.h"
+#include "time.h"
 #include "winbase.h"
 #include "windows.h"
 #include <direct.h>
@@ -165,12 +167,12 @@ int LuaModifyRepute(Lua_State *L) {
     char szMsg[100];
     sprintf(szMsg, "您的声望减少了%d点!", -nValue);
     //		KPlayerChat::SendSystemInfo(1, nPlayerIndex,
-    // MESSAGE_SYSTEM_ANNOUCE_HEAD, (char *) szMsg, strlen(szMsg) );
+    //MESSAGE_SYSTEM_ANNOUCE_HEAD, (char *) szMsg, strlen(szMsg) );
   } else {
     char szMsg[100];
     sprintf(szMsg, "您的声望增加了%d点!", nValue);
     //		KPlayerChat::SendSystemInfo(1, nPlayerIndex,
-    // MESSAGE_SYSTEM_ANNOUCE_HEAD, (char *) szMsg, strlen(szMsg) );
+    //MESSAGE_SYSTEM_ANNOUCE_HEAD, (char *) szMsg, strlen(szMsg) );
   }
 
   return 0;
@@ -243,18 +245,6 @@ int LuaSelectUI(Lua_State *L) {
   int nPlayerIndex = GetPlayerIndex(L);
   if (nPlayerIndex < 0)
     return 0;
-
-#ifdef _SERVER
-
-  if (Player[nPlayerIndex].m_nIndex <= 0 ||
-      Player[nPlayerIndex].m_nIndex >= MAX_NPC)
-    return 0;
-
-  if (Npc[Player[nPlayerIndex].m_nIndex].m_ActionScriptID == 0)
-    return 0;
-
-#endif
-
   Player[nPlayerIndex].m_bWaitingPlayerFeedBack = false;
 
   int nParamNum = Lua_GetTopIndex(L);
@@ -304,6 +294,7 @@ int LuaSelectUI(Lua_State *L) {
   UiInfo.m_bParam1 = nDataType; // 主信息的类型，字符串(0)或数字(1)
   UiInfo.m_bOptionNum = nOptionNum;
   UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
 
   // 主信息为字符串
   if (nDataType == 0) {
@@ -369,10 +360,293 @@ int LuaSelectUI(Lua_State *L) {
     Player[nPlayerIndex].m_bWaitingPlayerFeedBack = true;
   }
 
-#ifdef _SERVER
-  Player[nPlayerIndex].m_dwTaskAnswerScriptID =
-      Npc[Player[nPlayerIndex].m_nIndex].m_ActionScriptID;
+  Player[nPlayerIndex].DoScriptAction(&UiInfo);
+  return 0;
+}
+
+int LuaSayNew(Lua_State *L) {
+  char *strMain = NULL;
+  int nMainInfo = 0;
+  int nDataType = 0;
+  int nOptionNum = 0;
+  char *pContent = NULL;
+
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex < 0)
+    return 0;
+  Player[nPlayerIndex].m_bWaitingPlayerFeedBack = false;
+
+  int nParamNum = Lua_GetTopIndex(L);
+  if (nParamNum < 2)
+    return 0;
+
+  if (Lua_IsNumber(L, 2)) {
+    nOptionNum = (int)Lua_ValueToNumber(L, 2);
+  } else {
+    _ASSERT(0);
+    return 0;
+  }
+
+  if (Lua_IsNumber(L, 1)) {
+    nMainInfo = (int)Lua_ValueToNumber(L, 1);
+    nDataType = 1;
+  } else if (Lua_IsString(L, 1)) // 检查主信息是字符串还是字符串标识号
+  {
+    strMain = (char *)Lua_ValueToString(L, 1);
+    nDataType = 0;
+  } else
+    return 0;
+
+  BOOL bStringTab =
+      FALSE; // 标识传进来的选项数据存放在一个数组中，还是许多字符串里
+
+  if (Lua_IsString(L, 3))
+    bStringTab = FALSE;
+  else if (Lua_IsTable(L, 3)) {
+    bStringTab = TRUE;
+  } else {
+    if (nOptionNum > 0)
+      return 0;
+  }
+
+  if (bStringTab == FALSE) {
+    // 获得实际传入的选项的个数
+    if (nOptionNum > nParamNum - 2)
+      nOptionNum = nParamNum - 2;
+  }
+
+  if (nOptionNum > MAX_ANSWERNUM)
+    nOptionNum = MAX_ANSWERNUM;
+
+  PLAYER_SCRIPTACTION_SYNC UiInfo;
+  UiInfo.m_bUIId = UI_SELECTDIALOG;
+  UiInfo.m_bParam1 = nDataType; // 主信息的类型，字符串(0)或数字(1)
+  UiInfo.m_bOptionNum = nOptionNum;
+  UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 1;
+
+  // 主信息为字符串
+  if (nDataType == 0) {
+    if (strMain)
+      sprintf(UiInfo.m_pContent, "%s", strMain);
+    pContent = UiInfo.m_pContent;
+  } else if (nDataType == 1) // 主信息为数字标识
+  {
+    *(int *)UiInfo.m_pContent = nMainInfo;
+    pContent = UiInfo.m_pContent + sizeof(int);
+    *pContent = 0;
+  }
+
+  if (nOptionNum > MAX_ANSWERNUM)
+    nOptionNum = MAX_ANSWERNUM;
+
+  Player[nPlayerIndex].m_nAvailableAnswerNum = nOptionNum;
+
+  for (int i = 0; i < nOptionNum; i++) {
+    char pAnswer[1024];
+    pAnswer[0] = 0;
+
+    if (bStringTab) {
+      Lua_PushNumber(L, i + 1);
+      Lua_RawGet(L, 3);
+      char *pszString = (char *)Lua_ValueToString(L, Lua_GetTopIndex(L));
+      if (pszString) {
+        g_StrCpyLen(pAnswer, pszString, 100);
+      }
+    } else {
+      char *pszString = (char *)Lua_ValueToString(L, i + 3);
+      if (pszString)
+        g_StrCpyLen(pAnswer, pszString, 100);
+    }
+
+    char *pFunName = strstr(pAnswer, "/");
+
+    if (pFunName) {
+      g_StrCpyLen(Player[nPlayerIndex].m_szTaskAnswerFun[i], pFunName + 1,
+                  sizeof(Player[nPlayerIndex].m_szTaskAnswerFun[0]));
+      *pFunName = 0;
+      sprintf(pContent, "%s|%s", pContent, pAnswer);
+    } else {
+      strcpy(Player[nPlayerIndex].m_szTaskAnswerFun[i], "main");
+      sprintf(pContent, "%s|%s", pContent, pAnswer);
+    }
+  }
+
+  if (nDataType == 0)
+    UiInfo.m_nBufferLen = strlen(pContent);
+  else
+    UiInfo.m_nBufferLen = strlen(pContent) + sizeof(int);
+
+#ifndef _SERVER
+  UiInfo.m_bParam2 = 0;
+#else
+  UiInfo.m_bParam2 = 1;
 #endif
+
+  if (nOptionNum == 0) {
+    Player[nPlayerIndex].m_bWaitingPlayerFeedBack = false;
+  } else {
+    Player[nPlayerIndex].m_bWaitingPlayerFeedBack = true;
+  }
+
+  Player[nPlayerIndex].DoScriptAction(&UiInfo);
+  return 0;
+}
+
+int LuaSelectImage(Lua_State *L) {
+  char *strMain = NULL;
+  int nMainInfo = 0;
+  int nDataType = 0;
+  int nOptionNum = 0;
+  char *pContent = NULL;
+  int nIdImage = 0;
+  BOOL bStringTab = FALSE;
+
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex < 0)
+    return 0;
+  Player[nPlayerIndex].m_bWaitingPlayerFeedBack = false;
+
+  int nParamNum = Lua_GetTopIndex(L);
+
+  if (nParamNum < 2)
+    return 0;
+
+  if (nParamNum >= 2) {
+    if (Lua_IsNumber(L, 2)) {
+      nOptionNum = (int)Lua_ValueToNumber(L, 2);
+    } else {
+      _ASSERT(0);
+      return 0;
+    }
+
+    if (Lua_IsNumber(L, 1)) {
+      nMainInfo = (int)Lua_ValueToNumber(L, 1);
+      nDataType = 1;
+    } else if (Lua_IsString(L, 1)) // 检查主信息是字符串还是字符串标识号
+    {
+      strMain = (char *)Lua_ValueToString(L, 1);
+      nDataType = 0;
+    } else
+      return 0;
+
+    if (nParamNum >= 3) {
+      nIdImage = (int)Lua_ValueToNumber(L, 3);
+      if (Lua_IsString(L, 4))
+        bStringTab = FALSE;
+      else if (Lua_IsTable(L, 4)) {
+        bStringTab = TRUE;
+      } else {
+        if (nOptionNum > 0)
+          return 0;
+      }
+    } else if (nParamNum >= 2) {
+      nIdImage = 0;
+      if (Lua_IsString(L, 3))
+        bStringTab = FALSE;
+      else if (Lua_IsTable(L, 3)) {
+        bStringTab = TRUE;
+      } else {
+        if (nOptionNum > 0)
+          return 0;
+      }
+    }
+  }
+
+  Player[nPlayerIndex].SetImageNpcId(nIdImage);
+
+  if (bStringTab == FALSE) {
+    if (nOptionNum > nParamNum - 2)
+      nOptionNum = nParamNum - 2;
+  }
+
+  if (nOptionNum > MAX_ANSWERNUM)
+    nOptionNum = MAX_ANSWERNUM;
+
+  PLAYER_SCRIPTACTION_SYNC UiInfo;
+  UiInfo.m_bUIId = UI_SELECTDIALOG;
+  UiInfo.m_bParam1 = nDataType;
+  UiInfo.m_bOptionNum = nOptionNum;
+  UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 2;
+
+  if (nDataType == 0) {
+    if (strMain)
+      sprintf(UiInfo.m_pContent, "%s", strMain);
+    pContent = UiInfo.m_pContent;
+  } else if (nDataType == 1) {
+    *(int *)UiInfo.m_pContent = nMainInfo;
+    pContent = UiInfo.m_pContent + sizeof(int);
+    *pContent = 0;
+  }
+
+  if (nOptionNum > MAX_ANSWERNUM)
+    nOptionNum = MAX_ANSWERNUM;
+
+  Player[nPlayerIndex].m_nAvailableAnswerNum = nOptionNum;
+
+  if (nParamNum >= 2) {
+    for (int i = 0; i < nOptionNum; i++) {
+      char pAnswer[1024];
+      pAnswer[0] = 0;
+
+      if (bStringTab) {
+
+        if (nParamNum >= 3) {
+          Lua_PushNumber(L, i + 1);
+          Lua_RawGet(L, 4);
+        } else if (nParamNum >= 2) {
+          Lua_PushNumber(L, i + 1);
+          Lua_RawGet(L, 3);
+        }
+        char *pszString = (char *)Lua_ValueToString(L, Lua_GetTopIndex(L));
+        if (pszString) {
+          g_StrCpyLen(pAnswer, pszString, 100);
+        }
+      } else {
+        int a;
+        if (nParamNum >= 3) {
+          a = i + 4;
+          char *pszString = (char *)Lua_ValueToString(L, a);
+          if (pszString)
+            g_StrCpyLen(pAnswer, pszString, 100);
+        } else if (nParamNum >= 2) {
+          a = i + 3;
+          char *pszString = (char *)Lua_ValueToString(L, a);
+          if (pszString)
+            g_StrCpyLen(pAnswer, pszString, 100);
+        }
+      }
+
+      char *pFunName = strstr(pAnswer, "/");
+
+      if (pFunName) {
+        g_StrCpyLen(Player[nPlayerIndex].m_szTaskAnswerFun[i], pFunName + 1,
+                    sizeof(Player[nPlayerIndex].m_szTaskAnswerFun[0]));
+        *pFunName = 0;
+        sprintf(pContent, "%s|%s", pContent, pAnswer);
+      } else {
+        strcpy(Player[nPlayerIndex].m_szTaskAnswerFun[i], "Main");
+        sprintf(pContent, "%s|%s", pContent, pAnswer);
+      }
+    }
+  }
+  if (nDataType == 0)
+    UiInfo.m_nBufferLen = strlen(pContent);
+  else
+    UiInfo.m_nBufferLen = strlen(pContent) + sizeof(int);
+
+#ifndef _SERVER
+  UiInfo.m_bParam2 = 0;
+#else
+  UiInfo.m_bParam2 = 1;
+#endif
+
+  if (nOptionNum == 0) {
+    Player[nPlayerIndex].m_bWaitingPlayerFeedBack = false;
+  } else {
+    Player[nPlayerIndex].m_bWaitingPlayerFeedBack = true;
+  }
 
   Player[nPlayerIndex].DoScriptAction(&UiInfo);
   return 0;
@@ -391,6 +665,7 @@ int LuaSendMessageInfo(Lua_State *L) {
   UiInfo.m_bUIId = UI_MSGINFO;
   UiInfo.m_bOptionNum = 1;
   UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
 
   int nMsgId = 0;
 
@@ -401,7 +676,7 @@ int LuaSendMessageInfo(Lua_State *L) {
     UiInfo.m_nBufferLen = sizeof(int);
   } else {
 
-    g_StrCpyLen(UiInfo.m_pContent, Lua_ValueToString(L, 1), 64);
+    g_StrCpyLen(UiInfo.m_pContent, Lua_ValueToString(L, 1), 256);
     UiInfo.m_nBufferLen = strlen(((char *)UiInfo.m_pContent));
     UiInfo.m_bParam1 = 0;
   }
@@ -424,6 +699,7 @@ int LuaAddGlobalNews(Lua_State *L) {
   UiInfo.m_bUIId = UI_NEWSINFO;
   UiInfo.m_bOptionNum = NEWSMESSAGE_NORMAL;
   UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
 
   int nMsgId = 0;
 
@@ -464,6 +740,7 @@ int LuaAddLocalNews(Lua_State *L) {
   UiInfo.m_bUIId = UI_NEWSINFO;
   UiInfo.m_bOptionNum = NEWSMESSAGE_NORMAL;
   UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
 
   int nMsgId = 0;
 
@@ -505,6 +782,7 @@ int LuaAddGlobalCountNews(Lua_State *L) {
   UiInfo.m_bUIId = UI_NEWSINFO;
   UiInfo.m_bOptionNum = NEWSMESSAGE_COUNTING;
   UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
 
   int nMsgId = 0;
 
@@ -553,6 +831,7 @@ int LuaAddLocalCountNews(Lua_State *L) {
   UiInfo.m_bUIId = UI_NEWSINFO;
   UiInfo.m_bOptionNum = NEWSMESSAGE_COUNTING;
   UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
 
   int nMsgId = 0;
 
@@ -602,6 +881,7 @@ int LuaAddGlobalTimeNews(Lua_State *L) {
   UiInfo.m_bUIId = UI_NEWSINFO;
   UiInfo.m_bOptionNum = NEWSMESSAGE_TIMEEND;
   UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
 
   int nMsgId = 0;
 
@@ -666,6 +946,7 @@ int LuaAddLocalTimeNews(Lua_State *L) {
   UiInfo.m_bUIId = UI_NEWSINFO;
   UiInfo.m_bOptionNum = NEWSMESSAGE_TIMEEND;
   UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
 
   int nMsgId = 0;
 
@@ -721,7 +1002,328 @@ int LuaAddLocalTimeNews(Lua_State *L) {
 #endif
   return 0;
 }
+int LuaSetNpcValue(Lua_State *L) {
+  if (Lua_GetTopIndex(L) < 2)
+    return 0;
+  int nNpcIndex = (int)Lua_ValueToNumber(L, 1);
+  int nValue = (int)Lua_ValueToNumber(L, 2);
+  if (nNpcIndex <= 0 || nNpcIndex >= MAX_NPC)
+    return 0;
+  Npc[nNpcIndex].m_ValueEx = nValue;
+  return 0;
+}
+// AddGlobalNewsEx(Newsstr)
+int LuaAddGlobalNewsEx(Lua_State *L) {
+  if (Lua_GetTopIndex(L) < 1)
+    return 0;
 
+  PLAYER_SCRIPTACTION_SYNC UiInfo;
+  UiInfo.m_bUIId = UI_NEWSINFO_1;
+  UiInfo.m_bOptionNum = NEWSMESSAGE_NORMAL_1;
+  UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
+
+  int nMsgId = 0;
+
+  if (Lua_IsNumber(L, 1)) {
+    nMsgId = (int)Lua_ValueToNumber(L, 1);
+    *((int *)(UiInfo.m_pContent)) = nMsgId;
+    UiInfo.m_bParam1 = 1;
+    UiInfo.m_nBufferLen = sizeof(int);
+  } else {
+    g_StrCpyLen(UiInfo.m_pContent, Lua_ValueToString(L, 1), 128);
+    UiInfo.m_nBufferLen = strlen(((char *)UiInfo.m_pContent));
+    UiInfo.m_bParam1 = 0;
+  }
+
+#ifndef _SERVER
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex < 0)
+    return 0;
+
+  UiInfo.m_bParam2 = 0;
+  Player[nPlayerIndex].DoScriptAction(&UiInfo);
+#else
+  UiInfo.m_bParam2 = 1;
+  UiInfo.ProtocolType = (BYTE)s2c_scriptaction;
+  UiInfo.m_wProtocolLong = sizeof(PLAYER_SCRIPTACTION_SYNC) -
+                           MAX_SCIRPTACTION_BUFFERNUM + UiInfo.m_nBufferLen - 1;
+  g_NewProtocolProcess.BroadcastGlobal(&UiInfo, UiInfo.m_wProtocolLong + 1);
+#endif
+  return 0;
+}
+
+// AddLocalNewsEx(Newsstr)
+int LuaAddLocalNewsEx(Lua_State *L) {
+  if (Lua_GetTopIndex(L) < 1)
+    return 0;
+
+  PLAYER_SCRIPTACTION_SYNC UiInfo;
+  UiInfo.m_bUIId = UI_NEWSINFO_1;
+  UiInfo.m_bOptionNum = NEWSMESSAGE_NORMAL_1;
+  UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
+
+  int nMsgId = 0;
+
+  if (Lua_IsNumber(L, 1)) {
+    nMsgId = (int)Lua_ValueToNumber(L, 1);
+    *((int *)(UiInfo.m_pContent)) = nMsgId;
+    UiInfo.m_bParam1 = 1;
+    UiInfo.m_nBufferLen = sizeof(int);
+  } else {
+    g_StrCpyLen(UiInfo.m_pContent, Lua_ValueToString(L, 1), 128);
+    UiInfo.m_nBufferLen = strlen(((char *)UiInfo.m_pContent));
+    UiInfo.m_bParam1 = 0;
+  }
+
+#ifndef _SERVER
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex < 0)
+    return 0;
+
+  UiInfo.m_bParam2 = 0;
+  Player[nPlayerIndex].DoScriptAction(&UiInfo);
+#else
+  UiInfo.m_bParam2 = 1;
+  UiInfo.ProtocolType = (BYTE)s2c_scriptaction;
+  UiInfo.m_wProtocolLong = sizeof(PLAYER_SCRIPTACTION_SYNC) -
+                           MAX_SCIRPTACTION_BUFFERNUM + UiInfo.m_nBufferLen - 1;
+  g_NewProtocolProcess.BroadcastLocalServer(&UiInfo,
+                                            UiInfo.m_wProtocolLong + 1);
+#endif
+  return 0;
+}
+
+// AddGlobalCountNewsEx(strNew/newid, time)
+int LuaAddGlobalCountNewsEx(Lua_State *L) {
+  if (Lua_GetTopIndex(L) < 2)
+    return 0;
+
+  PLAYER_SCRIPTACTION_SYNC UiInfo;
+  UiInfo.m_bUIId = UI_NEWSINFO_1;
+  UiInfo.m_bOptionNum = NEWSMESSAGE_COUNTING_1;
+  UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
+
+  int nMsgId = 0;
+
+  int nTime = (int)Lua_ValueToNumber(L, 2);
+
+  if (nTime <= 0)
+    nTime = 1;
+
+  if (Lua_IsNumber(L, 1)) {
+    nMsgId = (int)Lua_ValueToNumber(L, 1);
+    *((int *)(UiInfo.m_pContent)) = nMsgId;
+    UiInfo.m_bParam1 = 1;
+    *(int *)((char *)UiInfo.m_pContent + sizeof(int)) = nTime;
+    UiInfo.m_nBufferLen = sizeof(int) * 2;
+  } else {
+    g_StrCpyLen(UiInfo.m_pContent, Lua_ValueToString(L, 1), 128);
+    UiInfo.m_nBufferLen = strlen(((char *)UiInfo.m_pContent));
+    *(int *)((char *)UiInfo.m_pContent + UiInfo.m_nBufferLen) = nTime;
+    UiInfo.m_nBufferLen += sizeof(int);
+    UiInfo.m_bParam1 = 0;
+  }
+
+#ifndef _SERVER
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex < 0)
+    return 0;
+
+  UiInfo.m_bParam2 = 0;
+  Player[nPlayerIndex].DoScriptAction(&UiInfo);
+#else
+  UiInfo.m_bParam2 = 1;
+  UiInfo.ProtocolType = (BYTE)s2c_scriptaction;
+  UiInfo.m_wProtocolLong = sizeof(PLAYER_SCRIPTACTION_SYNC) -
+                           MAX_SCIRPTACTION_BUFFERNUM + UiInfo.m_nBufferLen - 1;
+  g_NewProtocolProcess.BroadcastGlobal(&UiInfo, UiInfo.m_wProtocolLong + 1);
+#endif
+  return 0;
+}
+
+// AddLocalCountNewsEx(strNew/newid, time)
+int LuaAddLocalCountNewsEx(Lua_State *L) {
+  if (Lua_GetTopIndex(L) < 2)
+    return 0;
+
+  PLAYER_SCRIPTACTION_SYNC UiInfo;
+  UiInfo.m_bUIId = UI_NEWSINFO_1;
+  UiInfo.m_bOptionNum = NEWSMESSAGE_COUNTING_1;
+  UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
+
+  int nMsgId = 0;
+
+  int nTime = (int)Lua_ValueToNumber(L, 2);
+
+  if (nTime <= 0)
+    nTime = 1;
+
+  if (Lua_IsNumber(L, 1)) {
+    nMsgId = (int)Lua_ValueToNumber(L, 1);
+    *((int *)(UiInfo.m_pContent)) = nMsgId;
+    UiInfo.m_bParam1 = 1;
+    *(int *)((char *)UiInfo.m_pContent + sizeof(int)) = nTime;
+    UiInfo.m_nBufferLen = sizeof(int) * 2;
+  } else {
+    g_StrCpyLen(UiInfo.m_pContent, Lua_ValueToString(L, 1), 128);
+    UiInfo.m_nBufferLen = strlen(((char *)UiInfo.m_pContent));
+    *(int *)((char *)UiInfo.m_pContent + UiInfo.m_nBufferLen) = nTime;
+    UiInfo.m_nBufferLen += sizeof(int);
+    UiInfo.m_bParam1 = 0;
+  }
+
+#ifndef _SERVER
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex < 0)
+    return 0;
+
+  UiInfo.m_bParam2 = 0;
+  Player[nPlayerIndex].DoScriptAction(&UiInfo);
+#else
+  UiInfo.m_bParam2 = 1;
+  UiInfo.ProtocolType = (BYTE)s2c_scriptaction;
+  UiInfo.m_wProtocolLong = sizeof(PLAYER_SCRIPTACTION_SYNC) -
+                           MAX_SCIRPTACTION_BUFFERNUM + UiInfo.m_nBufferLen - 1;
+  g_NewProtocolProcess.BroadcastLocalServer(&UiInfo,
+                                            UiInfo.m_wProtocolLong + 1);
+#endif
+  return 0;
+}
+
+// AddGlobalTimeNewsEx(strNew/newid, year,month,day,hour,mins)
+int LuaAddGlobalTimeNewsEx(Lua_State *L) {
+  if (Lua_GetTopIndex(L) < 6)
+    return 0;
+
+  PLAYER_SCRIPTACTION_SYNC UiInfo;
+  UiInfo.m_bUIId = UI_NEWSINFO_1;
+  UiInfo.m_bOptionNum = NEWSMESSAGE_TIMEEND_1;
+  UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
+
+  int nMsgId = 0;
+
+  if (Lua_IsNumber(L, 1)) {
+    nMsgId = (int)Lua_ValueToNumber(L, 1);
+    *((int *)(UiInfo.m_pContent)) = nMsgId;
+    UiInfo.m_bParam1 = 1;
+    UiInfo.m_nBufferLen = sizeof(int) + sizeof(SYSTEMTIME);
+  } else {
+    g_StrCpyLen(UiInfo.m_pContent, Lua_ValueToString(L, 1), 128);
+    UiInfo.m_nBufferLen =
+        strlen(((char *)UiInfo.m_pContent)) + sizeof(SYSTEMTIME);
+    UiInfo.m_bParam1 = 0;
+  }
+
+  SYSTEMTIME *pSystemTime =
+      (SYSTEMTIME *)((char *)UiInfo.m_pContent + UiInfo.m_nBufferLen -
+                     sizeof(SYSTEMTIME));
+  memset(pSystemTime, 0, sizeof(SYSTEMTIME));
+
+  SYSTEMTIME LocalTime;
+  memset(&LocalTime, 0, sizeof(SYSTEMTIME));
+
+  LocalTime.wYear = (WORD)Lua_ValueToNumber(L, 2);
+  LocalTime.wMonth = (WORD)Lua_ValueToNumber(L, 3);
+  LocalTime.wDay = (WORD)Lua_ValueToNumber(L, 4);
+  LocalTime.wHour = (WORD)Lua_ValueToNumber(L, 5);
+  LocalTime.wMinute = (WORD)Lua_ValueToNumber(L, 6);
+  FILETIME ft;
+  FILETIME sysft;
+#ifdef WIN32
+  SystemTimeToFileTime(&LocalTime, &ft);
+  LocalFileTimeToFileTime(&ft, &sysft);
+  FileTimeToSystemTime(&sysft, pSystemTime);
+#else
+  memcpy(pSystemTime, &LocalTime, sizeof(LocalTime));
+#endif
+
+#ifndef _SERVER
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex < 0)
+    return 0;
+
+  UiInfo.m_bParam2 = 0;
+  Player[nPlayerIndex].DoScriptAction(&UiInfo);
+#else
+  UiInfo.m_bParam2 = 1;
+  UiInfo.ProtocolType = (BYTE)s2c_scriptaction;
+  UiInfo.m_wProtocolLong = sizeof(PLAYER_SCRIPTACTION_SYNC) -
+                           MAX_SCIRPTACTION_BUFFERNUM + UiInfo.m_nBufferLen - 1;
+  g_NewProtocolProcess.BroadcastGlobal(&UiInfo, UiInfo.m_wProtocolLong + 1);
+#endif
+  return 0;
+}
+
+// AddLocalTimeNewsEx(strNew/newid, year,month,day,hour,mins)
+int LuaAddLocalTimeNewsEx(Lua_State *L) {
+  if (Lua_GetTopIndex(L) < 6)
+    return 0;
+
+  PLAYER_SCRIPTACTION_SYNC UiInfo;
+  UiInfo.m_bUIId = UI_NEWSINFO_1;
+  UiInfo.m_bOptionNum = NEWSMESSAGE_TIMEEND_1;
+  UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
+
+  int nMsgId = 0;
+
+  if (Lua_IsNumber(L, 1)) {
+    nMsgId = (int)Lua_ValueToNumber(L, 1);
+    *((int *)(UiInfo.m_pContent)) = nMsgId;
+    UiInfo.m_bParam1 = 1;
+    UiInfo.m_nBufferLen = sizeof(int) + sizeof(SYSTEMTIME);
+  } else {
+    g_StrCpyLen(UiInfo.m_pContent, Lua_ValueToString(L, 1), 128);
+    UiInfo.m_nBufferLen =
+        strlen(((char *)UiInfo.m_pContent)) + sizeof(SYSTEMTIME);
+    UiInfo.m_bParam1 = 0;
+  }
+
+  SYSTEMTIME *pSystemTime =
+      (SYSTEMTIME *)((char *)UiInfo.m_pContent + UiInfo.m_nBufferLen -
+                     sizeof(SYSTEMTIME));
+  memset(pSystemTime, 0, sizeof(SYSTEMTIME));
+
+  SYSTEMTIME LocalTime;
+  memset(&LocalTime, 0, sizeof(SYSTEMTIME));
+
+  LocalTime.wYear = (WORD)Lua_ValueToNumber(L, 2);
+  LocalTime.wMonth = (WORD)Lua_ValueToNumber(L, 3);
+  LocalTime.wDay = (WORD)Lua_ValueToNumber(L, 4);
+  LocalTime.wHour = (WORD)Lua_ValueToNumber(L, 5);
+  LocalTime.wMinute = (WORD)Lua_ValueToNumber(L, 6);
+  FILETIME ft;
+  FILETIME sysft;
+#ifdef WIN32
+  SystemTimeToFileTime(&LocalTime, &ft);
+  LocalFileTimeToFileTime(&ft, &sysft);
+  FileTimeToSystemTime(&sysft, pSystemTime);
+#else
+  memcpy(pSystemTime, &LocalTime, sizeof(LocalTime));
+#endif
+
+#ifndef _SERVER
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex < 0)
+    return 0;
+
+  UiInfo.m_bParam2 = 0;
+  Player[nPlayerIndex].DoScriptAction(&UiInfo);
+#else
+  UiInfo.m_bParam2 = 1;
+  UiInfo.ProtocolType = (BYTE)s2c_scriptaction;
+  UiInfo.m_wProtocolLong = sizeof(PLAYER_SCRIPTACTION_SYNC) -
+                           MAX_SCIRPTACTION_BUFFERNUM + UiInfo.m_nBufferLen - 1;
+  g_NewProtocolProcess.BroadcastLocalServer(&UiInfo,
+                                            UiInfo.m_wProtocolLong + 1);
+#endif
+  return 0;
+}
 // AddNote(str/strid)
 int LuaAddNote(Lua_State *L) {
   char *strMain = NULL;
@@ -738,18 +1340,20 @@ int LuaAddNote(Lua_State *L) {
 
   int nParam2 = 0;
 
-  if (Lua_IsNumber(L, 1)) {
-    nMainInfo = (int)Lua_ValueToNumber(L, 1);
+  BYTE nType = (BYTE)Lua_ValueToNumber(L, 1);
+
+  if (Lua_IsNumber(L, 2)) {
+    nMainInfo = (int)Lua_ValueToNumber(L, 2);
     nDataType = 1;
-  } else if (Lua_IsString(L, 1)) // 检查主信息是字符串还是字符串标识号
+  } else if (Lua_IsString(L, 2)) // 检查主信息是字符串还是字符串标识号
   {
-    strMain = (char *)Lua_ValueToString(L, 1);
+    strMain = (char *)Lua_ValueToString(L, 2);
     nDataType = 0;
   } else
     return 0;
 
-  if (nParamNum > 1) {
-    nParam2 = (int)Lua_ValueToNumber(L, 2);
+  if (nParamNum > 2) {
+    nParam2 = (int)Lua_ValueToNumber(L, 3);
   }
 
   PLAYER_SCRIPTACTION_SYNC UiInfo;
@@ -763,7 +1367,14 @@ int LuaAddNote(Lua_State *L) {
 
   UiInfo.m_bOptionNum = 0;
   UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
-
+  switch (nType) {
+  case 1:
+    UiInfo.m_Select = 1;
+    break;
+  case 2:
+    UiInfo.m_Select = 2;
+    break;
+  }
   // 主信息为字符串
   if (nDataType == 0) {
     if (strMain)
@@ -797,18 +1408,6 @@ int LuaTalkUI(Lua_State *L) {
   int nPlayerIndex = GetPlayerIndex(L);
   if (nPlayerIndex <= 0)
     return 0;
-
-#ifdef _SERVER
-
-  if (Player[nPlayerIndex].m_nIndex <= 0 ||
-      Player[nPlayerIndex].m_nIndex >= MAX_NPC)
-    return 0;
-
-  if (Npc[Player[nPlayerIndex].m_nIndex].m_ActionScriptID == 0)
-    return 0;
-
-#endif
-
   Player[nPlayerIndex].m_bWaitingPlayerFeedBack = false;
   int nMainInfo = 0;
   int nDataType = 0;
@@ -846,6 +1445,7 @@ int LuaTalkUI(Lua_State *L) {
   UiInfo.m_bParam1 = nDataType; // 主信息的类型，字符串(0)或数字(1)
   UiInfo.m_bOptionNum = nOptionNum;
   UiInfo.m_nOperateType = SCRIPTACTION_UISHOW;
+  UiInfo.m_Select = 0;
   pContent = UiInfo.m_pContent;
   pContent[0] = 0;
   size_t nContentLen = 0;
@@ -884,11 +1484,6 @@ int LuaTalkUI(Lua_State *L) {
   UiInfo.m_bParam2 = 0;
 #else
   UiInfo.m_bParam2 = 1;
-#endif
-
-#ifdef _SERVER
-  Player[nPlayerIndex].m_dwTaskAnswerScriptID =
-      Npc[Player[nPlayerIndex].m_nIndex].m_ActionScriptID;
 #endif
 
   Player[nPlayerIndex].DoScriptAction(&UiInfo);
@@ -966,7 +1561,8 @@ int LuaSetTaskValue(Lua_State *L) {
   int nPlayerIndex = GetPlayerIndex(L);
   int nValueIndex = (int)Lua_ValueToNumber(L, 1);
   int nValue = (int)Lua_ValueToNumber(L, 2);
-
+  if (nValueIndex == 600 || nValueIndex == 700)
+    return 0;
   if (nPlayerIndex <= 0)
     return 0;
   Player[nPlayerIndex].m_cTask.SetSaveVal(nValueIndex, nValue);
@@ -998,6 +1594,29 @@ int LuaRandomNew(Lua_State *L) {
   // printf("Test: %d - %d - %d - %d\n",nMin,nMax,grandommax,nValue);
   Lua_PushNumber(L, nValue);
 
+  return 1;
+}
+int LuaRANDOMC(Lua_State *L) {
+  int nParamNum = Lua_GetTopIndex(L);
+
+  if (nParamNum < 2)
+    return 0;
+
+  srand((unsigned)time(NULL));
+  if (Lua_IsTable(L, 1)) {
+    Lua_PushNumber(L, (int)Lua_ValueToNumber(L, 2));
+    Lua_RawGet(L, 1);
+    Lua_PushNumber(L, (int)Lua_ValueToNumber(L, Lua_GetTopIndex(L)));
+  } else if (Lua_IsTable(L, 2)) {
+    int nResult = ::GetRandomNumber(1, (int)Lua_ValueToNumber(L, 1));
+    Lua_PushNumber(L, nResult);
+    Lua_RawGet(L, 2);
+    Lua_PushNumber(L, (int)Lua_ValueToNumber(
+                          L, (int)Lua_ValueToNumber(L, Lua_GetTopIndex(L))));
+  } else {
+    int nResult = ::GetRandomNumber(1, nParamNum);
+    Lua_PushNumber(L, (int)Lua_ValueToNumber(L, nResult));
+  }
   return 1;
 }
 
@@ -1231,14 +1850,10 @@ int LuaLeaveTeam(Lua_State *L) {
 }
 
 int LuaSetCreateTeamOption(Lua_State *L) {
-  int nState = (int)Lua_ValueToNumber(L, 1);
-
   int nPlayerIndex = GetPlayerIndex(L);
   if (nPlayerIndex > 0) {
-    if (nState)
-      Player[nPlayerIndex].m_cTeam.SetCanTeamFlag(nPlayerIndex, TRUE);
-    else
-      Player[nPlayerIndex].m_cTeam.SetCanTeamFlag(nPlayerIndex, FALSE);
+    Player[nPlayerIndex].m_cTeam.SetCreatTeamFlag(
+        nPlayerIndex, (int)Lua_ValueToNumber(L, 1) > 0);
   }
   return 0;
 }
@@ -1268,19 +1883,8 @@ int LuaMsgToTeam(Lua_State *L) {
   if (nPlayerIndex > 0) {
     if (Player[nPlayerIndex].m_cTeam.m_nID >= 0) {
       const char *szMsg = Lua_ValueToString(L, 1);
-      int nTeamLeaderId = g_Team[Player[nPlayerIndex].m_cTeam.m_nID].m_nCaptain;
-      if (nTeamLeaderId > 0)
-        KPlayerChat::SendSystemInfo(1, nTeamLeaderId, "组队消息", (char *)szMsg,
-                                    strlen(szMsg));
-
-      for (int i = 0; i < MAX_TEAM_MEMBER; i++) {
-        int nMemberId = g_Team[Player[nPlayerIndex].m_cTeam.m_nID].m_nMember[i];
-        if (nMemberId > 0) {
-          if (szMsg)
-            KPlayerChat::SendSystemInfo(1, nMemberId, "组队消息", (char *)szMsg,
-                                        strlen(szMsg));
-        }
-      }
+      Player[nPlayerIndex].SendTeamMessage(Player[nPlayerIndex].m_cTeam.m_nID,
+                                           szMsg);
     }
   }
   return 0;
@@ -1413,6 +2017,72 @@ int LuaGetPos(Lua_State *L) {
 }
 
 // W,X,Y = GetWorldPos()
+
+int LuaGetPlayerDef(Lua_State *L) {
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex > 0) {
+    int idx = Player[nPlayerIndex].m_nIndex;
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentPhysicsResist);
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentPoisonResist);
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentColdResist);
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentFireResist);
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentLightResist);
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentLifeMax);
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentManaMax);
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentStaminaMax);
+
+  } else {
+    Lua_PushNumber(L, 0);
+    Lua_PushNumber(L, 0);
+    Lua_PushNumber(L, 0);
+    Lua_PushNumber(L, 0);
+    Lua_PushNumber(L, 0);
+    Lua_PushNumber(L, 0);
+    Lua_PushNumber(L, 0);
+    Lua_PushNumber(L, 0);
+    return 8;
+  }
+  return 8;
+}
+
+int LuaGetPlayerSpeed(Lua_State *L) {
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex > 0) {
+    int idx = Player[nPlayerIndex].m_nIndex;
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentAttackSpeed);
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentCastSpeed);
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentRunSpeed);
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentWalkSpeed);
+
+  } else {
+    Lua_PushNumber(L, 0);
+    Lua_PushNumber(L, 0);
+    Lua_PushNumber(L, 0);
+    Lua_PushNumber(L, 0);
+    return 4;
+  }
+  return 4;
+}
+
+int LuaGetPlayerReduce(Lua_State *L) {
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex > 0) {
+    int idx = Player[nPlayerIndex].m_nIndex;
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentPiercePercent);
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentPoisonTimeReducePercent);
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentFreezeTimeReducePercent);
+    Lua_PushNumber(L, (int)Npc[idx].m_CurrentStunTimeReducePercent);
+
+  } else {
+    Lua_PushNumber(L, 0);
+    Lua_PushNumber(L, 0);
+    Lua_PushNumber(L, 0);
+    Lua_PushNumber(L, 0);
+    return 4;
+  }
+  return 4;
+}
+
 int LuaGetNewWorldPos(Lua_State *L) {
   int nPlayerIndex = GetPlayerIndex(L);
 
@@ -1465,6 +2135,43 @@ int LuaGetNewWorldPosIdx(Lua_State *L) {
     return 3;
   }
   return 3;
+}
+// TimeBox
+int LuaOpenTimeBox(Lua_State *L) {
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex <= 0)
+    return 0;
+  int nParamNum = Lua_GetTopIndex(L);
+  int nTime = 0;
+  const char *szAction;
+  const char *Title;
+
+  if (nParamNum < 1)
+    return 0;
+  if (nParamNum > 4) {
+    Title = Lua_ValueToString(L, 1);
+    nTime = (int)Lua_ValueToNumber(L, 2);
+    szAction = Lua_ValueToString(L, 3);
+    char *szScript = (char *)Lua_ValueToString(L, 4);
+    Player[nPlayerIndex].m_dwTimeBoxId = g_FileName2Id(szScript);
+  } else {
+    Title = Lua_ValueToString(L, 1);
+    nTime = (int)Lua_ValueToNumber(L, 2);
+    szAction = Lua_ValueToString(L, 3);
+    Player[nPlayerIndex].m_dwTimeBoxId =
+        Npc[Player[nPlayerIndex].m_nIndex].m_ActionScriptID;
+  }
+
+  S2C_TIME_BOX NetCommand;
+  NetCommand.ProtocolType = s2c_timebox;
+  strcpy(NetCommand.Value, Title);
+  NetCommand.Value1 = nTime;
+  strcpy(NetCommand.Value2, szAction);
+  if (g_pServer && Player[nPlayerIndex].m_nNetConnectIdx != -1)
+    g_pServer->PackDataToClient(Player[nPlayerIndex].m_nNetConnectIdx,
+                                &NetCommand, sizeof(S2C_TIME_BOX));
+
+  return 0;
 }
 
 int LuaGetFromToward(Lua_State *L) {
@@ -1536,7 +2243,7 @@ int LuaAddEventItem(Lua_State *L) {
       Player[nPlayerIndex].m_ItemList.GetIdxTaskItemHaveFreeStask(nEventId);
 
   if (nIdxStask > 0 && nIdxStask < MAX_ITEM &&
-      Item[nIdxStask].GetVersion() >= 1 && Item[nIdxStask].GetVersion() < 50) {
+      Item[nIdxStask].GetVersion() >= 1 && Item[nIdxStask].GetVersion() < 200) {
 
     Item[nIdxStask].SetVersion(Item[nIdxStask].GetVersion() + 1);
 
@@ -2063,7 +2770,7 @@ int LuaAddItem(Lua_State *L) {
   }
 
   //	printf("Test: %d - %d \n", Item[nIndex].GetDurability(),
-  // Item[nIndex].GetMaxDurability());
+  //Item[nIndex].GetMaxDurability());
   int x, y;
   if (Player[nPlayerIndex].m_ItemList.CheckCanPlaceInEquipment(
           Item[nIndex].GetWidth(), Item[nIndex].GetHeight(), &x, &y)) {
@@ -2569,6 +3276,24 @@ int LuaDelPhiPhong(Lua_State *L) {
   return 1;
 }
 
+int LuaDeleteAllItem(Lua_State *L) {
+
+  if (Lua_GetTopIndex(L) >= 0) {
+    int nPlayerIndex = GetPlayerIndex(L);
+    if (nPlayerIndex > 0) {
+      int nCount = Player[nPlayerIndex].m_ItemList.DeleteAllItem();
+      Lua_PushNumber(L, nCount);
+    } else {
+      Lua_PushNumber(L, -1);
+    }
+
+  } else {
+    Lua_PushNumber(L, -1);
+  }
+
+  return 1;
+}
+
 int LuaDeleteAllItemInCheckBox(Lua_State *L) {
 
   if (Lua_GetTopIndex(L) >= 0) {
@@ -2882,6 +3607,51 @@ int LuaGetTimeItemIdx(Lua_State *L) {
   int nItemIdx = (int)Lua_ValueToNumber(L, 1);
 
   int nLevel = Player[nPlayerIndex].GetTimeItem(nItemIdx);
+
+  Lua_PushNumber(L, nLevel);
+
+  return 1;
+}
+
+int LuaGetDurationIdx(Lua_State *L) {
+  int nNumberPrama = Lua_GetTopIndex(L);
+
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex <= 0 || nPlayerIndex >= MAX_PLAYER)
+    return 0;
+
+  if (Player[nPlayerIndex].m_nIndex <= 0 ||
+      Player[nPlayerIndex].m_nIndex >= MAX_NPC)
+    return 0;
+
+  if (nNumberPrama < 1)
+    return 0;
+
+  int nItemIdx = (int)Lua_ValueToNumber(L, 1);
+
+  int nLevel = Player[nPlayerIndex].m_ItemList.GetDurationItem(nItemIdx);
+
+  Lua_PushNumber(L, nLevel);
+
+  return 1;
+}
+int LuaSetDurationIdx(Lua_State *L) {
+  int nNumberPrama = Lua_GetTopIndex(L);
+
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex <= 0 || nPlayerIndex >= MAX_PLAYER)
+    return 0;
+
+  if (Player[nPlayerIndex].m_nIndex <= 0 ||
+      Player[nPlayerIndex].m_nIndex >= MAX_NPC)
+    return 0;
+
+  if (nNumberPrama < 1)
+    return 0;
+
+  int nItemIdx = (int)Lua_ValueToNumber(L, 1);
+
+  int nLevel = Player[nPlayerIndex].m_ItemList.SetDurationItem(nItemIdx);
 
   Lua_PushNumber(L, nLevel);
 
@@ -3240,6 +4010,51 @@ if (nParamCount < 1) return 0;
 sName:Npc名称
 nNpcTemplateID:模板中Id
 */
+int LuaOfflineLiveAll(Lua_State *L) {
+  int nIndex = GetPlayerIndex(L);
+  if (nIndex <= 0)
+    return 0;
+
+  printf("GM Offline Live All Player .\n");
+
+  int nIndex2 = 1;
+
+  while (nIndex2 > 0) {
+    if (nIndex2 != nIndex) {
+      BYTE NetCommand = (BYTE)s2c_exitgame;
+      g_pServer->PackDataToClient(Player[nIndex2].m_nNetConnectIdx, &NetCommand,
+                                  sizeof(BYTE));
+    }
+    nIndex2++;
+    if (nIndex2 > MAX_NPC)
+      break;
+  }
+  return 1;
+}
+int LuaOfflineLive5(Lua_State *L) {
+  int nIndex = GetPlayerIndex(L);
+
+  if (nIndex <= 0)
+    return 0;
+
+  printf("GM Offline Live6 player one.\n");
+  BYTE NetCommand = (BYTE)s2c_exitgame;
+  g_pServer->PackDataToClient(Player[nIndex].m_nNetConnectIdx, &NetCommand,
+                              sizeof(BYTE));
+  return 1;
+}
+int LuaUyThac6(Lua_State *L) {
+  int nIndex = GetPlayerIndex(L);
+
+  if (nIndex <= 0)
+    return 0;
+
+  if (Player[nIndex].m_nNetConnectIdx >= 0) {
+    if (Player[nIndex].m_nLixian == 0) // 0 khong uy thac ; 1 dang uy thac
+      Player[nIndex].m_nLixian = 1;
+  }
+  return 0;
+}
 
 int LuaGetNpcTemplateID(Lua_State *L) {
   if (Lua_GetTopIndex(L) > 0) {
@@ -3319,7 +4134,22 @@ int LuaDelNpc(Lua_State *L) {
   }
   return 0;
 }
+int LuaGetNpcParam(Lua_State *L) {
+  int nParamNum = Lua_GetTopIndex(L);
+  if (nParamNum < 1)
+    return 0;
 
+  int nNpcIndex = (int)Lua_ValueToNumber(L, 1);
+
+  if (nNpcIndex <= 0 || nNpcIndex >= MAX_NPC)
+    return 0;
+
+  if (nParamNum > 1)
+    Lua_PushNumber(L, Npc[nNpcIndex].m_nNpcParam[(int)Lua_ValueToNumber(L, 2)]);
+  else
+    Lua_PushNumber(L, Npc[nNpcIndex].m_nNpcParam[0]);
+  return 1;
+}
 /*
 nDelCount DelNpcsInRgn(nSubWorld,nRegionId, nKind)
 功能：删除某个游戏世界中某个Region内的所有某类的NPC
@@ -3442,6 +4272,26 @@ int LuaSetPlayerCamp(Lua_State *L) {
   int nPlayerIndex = GetPlayerIndex(L);
   if (nPlayerIndex > 0) {
     Npc[Player[nPlayerIndex].m_nIndex].SetCamp(nValue);
+  }
+  return 0;
+}
+
+int LuaSetTeamCamp(Lua_State *L) {
+  int nValue = (int)Lua_ValueToNumber(L, 1);
+  if (nValue < 0)
+    return 0;
+
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex > 0) {
+    if (!Player[nPlayerIndex].m_cTeam.m_nFlag ||
+        Player[nPlayerIndex].m_cTeam.m_nFigure != TEAM_CAPTAIN)
+      return 0;
+    for (int i = 0; i < MAX_TEAM_MEMBER; i++) {
+      int nPlayerNo = g_Team[Player[nPlayerIndex].m_cTeam.m_nID].m_nMember[i];
+      if (nPlayerNo < 0)
+        continue;
+      Npc[Player[nPlayerNo].m_nIndex].SetCurrentCamp(nValue);
+    }
   }
   return 0;
 }
@@ -4013,6 +4863,11 @@ int LuaGetPlayerCount(Lua_State *L) {
   return 1;
 }
 
+int LuaGetNpcCount(Lua_State *L) {
+  Lua_PushNumber(L, NpcSet.m_nNumberCountNpcSet);
+  return 1;
+}
+
 int LuaGetCountPlayerMax(Lua_State *L) {
   Lua_PushNumber(L, PlayerSet.GetPlayerMaxNumber());
   return 1;
@@ -4502,6 +5357,19 @@ int LuaKillPlayer(Lua_State *L) {
 
   Npc[Player[nPlayerIndex].m_nIndex].ReceiveDamage(
       Player[nPlayerIndex].m_nIndex, 0, DamageMagicAttribs, 0, TRUE);
+  return 0;
+}
+
+int LuaSetRefesh(Lua_State *L) {
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex <= 0)
+    return 0;
+
+  if (Player[nPlayerIndex].m_nIndex <= 0)
+    return 0;
+
+  Player[nPlayerIndex].UpdataCurData();
+
   return 0;
 }
 
@@ -5885,6 +6753,13 @@ int LuaAddMagicPoint(Lua_State *L) {
   if (Player[nPlayerIndex].m_nSkillPoint < 0)
     Player[nPlayerIndex].m_nSkillPoint = 0;
 
+  S2C_PLAYER_POINT_SYNC NetCommand;
+  NetCommand.ProtocolType = s2c_playerpointsync;
+  NetCommand.nType = 1;
+  NetCommand.nValue = nSkillPoint;
+  if (g_pServer && Player[nPlayerIndex].m_nNetConnectIdx != -1)
+    g_pServer->PackDataToClient(Player[nPlayerIndex].m_nNetConnectIdx,
+                                &NetCommand, sizeof(S2C_PLAYER_POINT_SYNC));
   return 0;
 }
 
@@ -5906,6 +6781,14 @@ int LuaAddPropPoint(Lua_State *L) {
     return 0;
   nPropPoint = (int)Lua_ValueToNumber(L, 1);
   Player[nPlayerIndex].m_nAttributePoint += nPropPoint;
+
+  S2C_PLAYER_POINT_SYNC NetCommand;
+  NetCommand.ProtocolType = s2c_playerpointsync;
+  NetCommand.nType = 0;
+  NetCommand.nValue = nPropPoint;
+  if (g_pServer && Player[nPlayerIndex].m_nNetConnectIdx != -1)
+    g_pServer->PackDataToClient(Player[nPlayerIndex].m_nNetConnectIdx,
+                                &NetCommand, sizeof(S2C_PLAYER_POINT_SYNC));
   return 0;
 }
 
@@ -5930,6 +6813,25 @@ lab_payextpoint:
   return 1;
 }
 
+// SetExtPoint
+int LuaSetExtPoint(Lua_State *L) {
+  int nResult = 0;
+  int nPoint = 0;
+  int nChange = 0;
+  int nPlayerIndex = 0;
+  if (Lua_GetTopIndex(L) < 2)
+    return 0;
+
+  nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex <= 0)
+    return 0;
+  nPoint = Lua_ValueToNumber(L, 1);
+  nChange = Lua_ValueToNumber(L, 2);
+
+  Player[nPlayerIndex].SetExtPoint(nPoint, nChange);
+
+  return 1;
+}
 // PayExtPoint
 int LuaGetExtPoint(Lua_State *L) {
   int nResult = 0;
@@ -6059,25 +6961,25 @@ lab_getplayerip:
 }
 
 // UYTHAC
-int LuaIsLiXian(Lua_State *L) {
-  int nPlayerIndex = GetPlayerIndex(L);
-  if (nPlayerIndex <= 0)
-    return 0;
-
-  if (!Npc[Player[nPlayerIndex].m_nIndex].m_FightMode)
-    Player[nPlayerIndex].m_nLiXian = 1;
-  return 1;
+/*int LuaIsLiXian(Lua_State * L)
+{
+        int nPlayerIndex = GetPlayerIndex(L);
+        if (nPlayerIndex <= 0) return 0;
+        printf("Debug Set Uy Thac\n");
+        if (!Npc[Player[nPlayerIndex].m_nIndex].m_FightMode)
+                Player[nPlayerIndex].m_nLiXian = 1;
+        return 1;
 }
 
-int LuaNotLiXian(Lua_State *L) {
-  int nPlayerIndex = GetPlayerIndex(L);
-  if (nPlayerIndex <= 0)
-    return 0;
+int LuaNotLiXian(Lua_State * L)
+{
+        int nPlayerIndex = GetPlayerIndex(L);
+        if (nPlayerIndex <= 0) return 0;
 
-  Player[nPlayerIndex].m_nLiXian = 0;
-  return 1;
+        Player[nPlayerIndex].m_nLiXian = 0;
+        return 1;
 }
-
+*/
 // END
 //  MASK
 int LuaSetMask(Lua_State *L) {
@@ -6322,17 +7224,6 @@ int LuaDelEquipIdx(Lua_State *L) {
   return 0;
 }
 
-int LuaGetNpcName(Lua_State *L) {
-  if (Lua_GetTopIndex(L) <= 0)
-    return 0;
-  int nNpcIndex = (int)Lua_ValueToNumber(L, 1);
-  if (nNpcIndex > 0) {
-    Lua_PushString(L, Npc[nNpcIndex].Name);
-  } else
-    Lua_PushNil(L);
-
-  return 1;
-}
 int LuaGetNpcSeries(Lua_State *L) {
   if (Lua_GetTopIndex(L) <= 0)
     return 0;
@@ -6357,15 +7248,38 @@ int LuaSetNpcSeries(Lua_State *L) {
 }
 
 int LuaSetNpcName(Lua_State *L) {
-  if (Lua_GetTopIndex(L) <= 0)
+  int nParamNum = Lua_GetTopIndex(L);
+  if (nParamNum < 1)
     return 0;
+
   int nNpcIndex = (int)Lua_ValueToNumber(L, 1);
-  if (nNpcIndex > 0) {
-    const char *sNpcName = Lua_ValueToString(L, 2);
-    g_StrCpy(Npc[nNpcIndex].Name, (char *)sNpcName);
-  }
+
+  if (nNpcIndex <= 0 || nNpcIndex >= MAX_NPC)
+    return 0;
+
+  if (Lua_IsNumber(L, 2)) {
+    KTabFile Replace;
+    Replace.Load(NPC_NAME_FILE);
+    Replace.GetString((int)Lua_ValueToNumber(L, 2) + 2, "targetname", "",
+                      Npc[nNpcIndex].Name, sizeof(Npc[nNpcIndex].Name));
+  } else if (Lua_IsString(L, 2))
+    strcpy(Npc[nNpcIndex].Name, (char *)Lua_ValueToString(L, 2));
 
   return 0;
+}
+
+int LuaGetNpcName(Lua_State *L) {
+  int nParamNum = Lua_GetTopIndex(L);
+  if (nParamNum < 1)
+    return 0;
+
+  int nNpcIndex = (int)Lua_ValueToNumber(L, 1);
+
+  if (nNpcIndex <= 0 || nNpcIndex >= MAX_NPC)
+    return 0;
+
+  Lua_PushString(L, Npc[nNpcIndex].Name);
+  return 1;
 }
 
 int LuaRestAP(Lua_State *L) {
@@ -6427,28 +7341,33 @@ int LuaGetComputerName(Lua_State *L) {
   return 1;
 }
 
-int LuaGetAccount(Lua_State *L) {
+// edit by phong kieu ham lua viet them GetAccount
+int LuaGetPlayerAccount(Lua_State *L) {
   int nPlayerIndex = GetPlayerIndex(L);
   if (nPlayerIndex > 0) {
-
     Lua_PushString(L, Player[nPlayerIndex].m_AccoutName);
   } else
     Lua_PushNil(L);
-
   return 1;
 }
 
 int LuaSetLevel(Lua_State *L) {
-  if (Lua_GetTopIndex(L) <= 0)
-    return 0;
   int nPlayerIndex = GetPlayerIndex(L);
-  int nLevel = (int)Lua_ValueToNumber(L, 1);
-  if (nPlayerIndex <= 0)
+  int nNumber = Lua_GetTopIndex(L);
+  if (nPlayerIndex <= 0 || nNumber < 1) {
+    Lua_PushNumber(L, 0);
     return 0;
+  }
 
-  Player[nPlayerIndex].SetLevel(nLevel);
+  if (Lua_IsNumber(L, 1)) {
+    int nValue = (int)Lua_ValueToNumber(L, 1);
+    Player[nPlayerIndex].SetLevel(nValue);
+    Lua_PushNumber(L, 1);
 
-  return 0;
+  } else
+    Lua_PushNumber(L, 0);
+
+  return 1;
 }
 
 int LuaSetItemMagicEx(Lua_State *L) {
@@ -7290,8 +8209,8 @@ int LuaUpdateTopTKNew(Lua_State *L) {
   try {
 
     bool bExecuteScriptMistake = true;
-    KLuaScript *pScript =
-        (KLuaScript *)g_GetScript("\\script\\tongkim\\dieukhientk.lua");
+    KLuaScript *pScript = (KLuaScript *)g_GetScript(
+        "\\script\\hoatdong\\tongkim\\dieukhientk.lua");
     ;
     if (pScript) {
 
@@ -7306,7 +8225,7 @@ int LuaUpdateTopTKNew(Lua_State *L) {
 
   } catch (...) {
     printf("Exception Have Caught When Execute Script[%d]!!!!!",
-           g_FileName2Id("\\script\\tongkim\\dieukhientk.lua"));
+           g_FileName2Id("\\script\\hoatdong\\tongkim\\dieukhientk.lua"));
   }
 
   return 0;
@@ -7329,8 +8248,8 @@ int LuaDeleteTopTKNew(Lua_State *L) {
   try {
 
     bool bExecuteScriptMistake = true;
-    KLuaScript *pScript =
-        (KLuaScript *)g_GetScript("\\script\\tongkim\\dieukhientk.lua");
+    KLuaScript *pScript = (KLuaScript *)g_GetScript(
+        "\\script\\hoatdong\\tongkim\\dieukhientk.lua");
     ;
     if (pScript) {
 
@@ -7345,7 +8264,7 @@ int LuaDeleteTopTKNew(Lua_State *L) {
 
   } catch (...) {
     printf("Exception Have Caught When Execute Script[%d]!!!!!",
-           g_FileName2Id("\\script\\tongkim\\dieukhientk.lua"));
+           g_FileName2Id("\\script\\hoatdong\\tongkim\\dieukhientk.lua"));
   }
 
   return 0;
@@ -7603,6 +8522,26 @@ int LuaGetIdxItemBox2(Lua_State *L) {
   return 1;
 }
 
+int LuaGetIdxItemBox3(Lua_State *L) {
+  int nNumberPrama = Lua_GetTopIndex(L);
+
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex <= 0 || nPlayerIndex >= MAX_PLAYER)
+    return 0;
+
+  if (Player[nPlayerIndex].m_nIndex <= 0 ||
+      Player[nPlayerIndex].m_nIndex >= MAX_NPC)
+    return 0;
+
+  if (nNumberPrama < 0)
+    return 0;
+
+  int nItemIdx = Player[nPlayerIndex].GetIdxItemBox3();
+
+  Lua_PushNumber(L, nItemIdx);
+
+  return 1;
+}
 int LuaDelEquipItemQuestKey(Lua_State *L) {
   int nNumberPrama = Lua_GetTopIndex(L);
   int IdQuestKey = (int)Lua_ValueToNumber(L, 1);
@@ -7661,6 +8600,26 @@ int LuaGetIdxItemBoxUpdateItem3(Lua_State *L) {
     return 0;
 
   int nItemIdx = Player[nPlayerIndex].GetIdxItemBoxUpdateItem3();
+
+  Lua_PushNumber(L, nItemIdx);
+
+  return 1;
+}
+int LuaGetIdxItemBoxUpdateItem4(Lua_State *L) {
+  int nNumberPrama = Lua_GetTopIndex(L);
+
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex <= 0 || nPlayerIndex >= MAX_PLAYER)
+    return 0;
+
+  if (Player[nPlayerIndex].m_nIndex <= 0 ||
+      Player[nPlayerIndex].m_nIndex >= MAX_NPC)
+    return 0;
+
+  if (nNumberPrama < 0)
+    return 0;
+
+  int nItemIdx = Player[nPlayerIndex].GetIdxItemBoxUpdateItem4();
 
   Lua_PushNumber(L, nItemIdx);
 
@@ -7928,6 +8887,27 @@ int LuaGetItemBoxLucky(Lua_State *L) {
   return 1;
 }
 
+int LuaCheckItemNguaPV(Lua_State *L) {
+  int nNumberPrama = Lua_GetTopIndex(L);
+
+  int nPlayerIndex = GetPlayerIndex(L);
+  if (nPlayerIndex <= 0 || nPlayerIndex >= MAX_PLAYER)
+    return 0;
+
+  if (Player[nPlayerIndex].m_nIndex <= 0 ||
+      Player[nPlayerIndex].m_nIndex >= MAX_NPC)
+    return 0;
+
+  if (nNumberPrama < 0)
+    return 0;
+
+  int nCheck = Player[nPlayerIndex].m_ItemList.CheckNguaPhienVu();
+
+  Lua_PushNumber(L, nCheck);
+
+  return 1;
+}
+
 int LuaCheckItemEquipCS(Lua_State *L) {
   int nNumberPrama = Lua_GetTopIndex(L);
 
@@ -7991,6 +8971,49 @@ int LuaAddPropObj(Lua_State *L) {
   int nId = (int)Lua_ValueToNumber(L, 1);
 
   Player[nPlayerIndex].AddPropObj(nId);
+
+  return 0;
+}
+
+int LuaAddPropObjPos(Lua_State *L) {
+  int nNumberPrama = Lua_GetTopIndex(L);
+
+  if (nNumberPrama < 4)
+    return 0;
+
+  int nId = (int)Lua_ValueToNumber(L, 1);
+  int nMapId = (int)Lua_ValueToNumber(L, 2);
+  int nPosX = (int)Lua_ValueToNumber(L, 3);
+  int nPosY = (int)Lua_ValueToNumber(L, 4);
+
+  POINT ptLocal;
+  KMapPos Pos;
+  int nDataID = 0;
+  int nColorID = 0;
+  nDataID = nId;
+
+  if (nDataID <= 0)
+    return 0;
+
+  ptLocal.x = nPosX;
+  ptLocal.y = nPosY;
+
+  int nSubWorldIndex = nMapId;
+
+  if (nSubWorldIndex < 0 || nSubWorldIndex >= MAX_SUBWORLD)
+    return 0;
+
+  SubWorld[nSubWorldIndex].GetFreeObjPos(ptLocal);
+
+  Pos.nSubWorld = nSubWorldIndex;
+  SubWorld[nSubWorldIndex].Mps2Map(ptLocal.x, ptLocal.y, &Pos.nRegion,
+                                   &Pos.nMapX, &Pos.nMapY, &Pos.nOffX,
+                                   &Pos.nOffY);
+
+  int nObjIdx = ObjSet.AddPropObj(Pos, nDataID, nColorID);
+  if (nObjIdx > 0 && nObjIdx < MAX_OBJECT) {
+    Object[nObjIdx].SetItemBelong(-1);
+  }
 
   return 0;
 }
@@ -8359,6 +9382,8 @@ TLua_Funcs GameScriptFuns[] = {
     // 通用指令
 
     {"Say", LuaSelectUI},
+    {"SayNew", LuaSayNew},
+    {"SayImg", LuaSelectImage},
     {"Talk", LuaTalkUI},
     {"GetTaskTemp", LuaGetTempTaskValue},
     {"SetTaskTemp", LuaSetTempTaskValue},
@@ -8377,6 +9402,13 @@ TLua_Funcs GameScriptFuns[] = {
     {"AddLocalTimeNews", LuaAddLocalTimeNews},
     {"AddLocalCountNews", LuaAddLocalCountNews},
 
+    {"AddGlobalNewsEx", LuaAddGlobalNewsEx},
+    {"AddGlobalTimeNewsEx", LuaAddGlobalTimeNews},
+    {"AddGlobalCountNewsEx", LuaAddGlobalCountNewsEx},
+    {"AddLocalNewsEx", LuaAddLocalNewsEx},
+    {"AddLocalTimeNewsEx", LuaAddLocalTimeNewsEx},
+    {"AddLocalCountNewsEx", LuaAddLocalCountNewsEx},
+
 // 服务器端脚本指令
 #ifdef _SERVER
     //-----------------基本功能
@@ -8384,15 +9416,18 @@ TLua_Funcs GameScriptFuns[] = {
     {"GetRepute", LuaGetRepute},
     {"GetNpcIdx", LuaGetCurNpcIndex},
 
-    {"SetTimer", LuaSetTimer}, // SetTimer(时间量,
-    // 时间TaskId):给玩家打开计时器,时间到时将自动调用OnTimer函数
-    {"StopTimer", LuaStopTimer},      // StopTimer()：关闭当前玩家的计时器
-    {"GetRestTime", LuaGetRestTime},  // GetRestTime:获得计时器将触发的剩于时间
-    {"GetTimerId", LuaGetCurTimerId}, // CurTimerId =
-    // GetTimerId():获得当前执行的计时器的id,如果没有则返回0
-    {"GetTask", LuaGetTaskValue},    // GetTask(任务号):获得当前玩家该任务号的值
-    {"SetTask", LuaSetTaskValue},    // SetTask(任务号,值):设置任务值
-    {"RandomNew", LuaRandomNew},     // SetTask(任务号,值):设置任务值
+    {"SetTimer",
+     LuaSetTimer}, // SetTimer(时间量,
+                   // 时间TaskId):给玩家打开计时器,时间到时将自动调用OnTimer函数
+    {"StopTimer", LuaStopTimer},     // StopTimer()：关闭当前玩家的计时器
+    {"GetRestTime", LuaGetRestTime}, // GetRestTime:获得计时器将触发的剩于时间
+    {"GetTimerId",
+     LuaGetCurTimerId}, // CurTimerId =
+                        // GetTimerId():获得当前执行的计时器的id,如果没有则返回0
+    {"GetTask", LuaGetTaskValue}, // GetTask(任务号):获得当前玩家该任务号的值
+    {"SetTask", LuaSetTaskValue}, // SetTask(任务号,值):设置任务值
+    {"RandomNew", LuaRandomNew},  // SetTask(任务号,值):设置任务值
+    {"RANDOMC", LuaRANDOMC},
     {"IsCaptain", LuaIsLeader},      // IsCaptain()是否为队长
     {"GetTeam", LuaGetTeamId},       // GetTeam()返回玩家队伍ID
     {"GetTeamSize", LuaGetTeamSize}, // GetTeamSize()
@@ -8463,17 +9498,19 @@ TLua_Funcs GameScriptFuns[] = {
     {"AddNpc",
      LuaAddNpc}, // AddNpc(人物模板id或人物模板名,所处世界id，点坐标x,点坐标y),返回npcid值
     {"DelNpc", LuaDelNpc}, // DelNpc(Npcid)
+    {"GetNpcValue", LuaGetNpcParam},
     {"SetNpcScript",
      LuaSetNpcActionScript}, // SetNpcScript(npcid, 脚本文件名)设置npc当前的脚本
     {"SetRevPos",
      LuaSetPlayerRevivalPos}, // SetRevPos(点位置X，点位置Y)设置玩家的当前世界的等入点位置
     {"SetTempRevPos", LuaSetDeathRevivalPos}, // SetTempRevPos(subworldid, x, y
                                               // ) or SetTempRevPos(id);
-    {"GetCurCamp", LuaGetPlayerCurrentCamp},  // GetCurCamp()获得玩家的当前阵营
-    {"GetCamp", LuaGetPlayerCamp},            // GetCamp()获得玩家阵营
+    {"GetCurCamp", LuaGetPlayerCurrentCamp}, // GetCurCamp()获得玩家的当前阵营
+    {"GetCamp", LuaGetPlayerCamp},           // GetCamp()获得玩家阵营
     {"SetCurCamp",
-     LuaSetPlayerCurrentCamp},     // SetCurCamp(阵营号):设置玩家当前阵营
-    {"SetCamp", LuaSetPlayerCamp}, // SetCamp(阵营号):设置阵营
+     LuaSetPlayerCurrentCamp},       // SetCurCamp(阵营号):设置玩家当前阵营
+    {"SetTeamCamp", LuaSetTeamCamp}, // SetCurCamp(阵营号):设置玩家当前阵营
+    {"SetCamp", LuaSetPlayerCamp},   // SetCamp(阵营号):设置阵营
     {"RestoreCamp", LuaRestorePlayerCamp}, // RestoreCamp()恢复阵营
     {
         "GetFaction",
@@ -8518,12 +9555,19 @@ TLua_Funcs GameScriptFuns[] = {
     {"GetRestAP",
      LuaGetPlayerRestAttributePoint}, // GetRestAP()获得玩家的剩于属性点数
     {"GetRestSP",
-     LuaGetPlayerRestSkillPoint},       // GetRestSP()获得玩家的剩于技能点数
-    {"GetLucky", LuaGetPlayerLucky},    // GetLucky()获得玩家的幸运值
-    {"GetEng", LuaGetPlayerEngergy},    // GetEng()获得玩家的力量值Eng
-    {"GetDex", LuaGetPlayerDexterity},  // GetDex()获得玩家的Dex
-    {"GetStrg", LuaGetPlayerStrength},  // GetStrg()
-    {"GetVit", LuaGetPlayerVitality},   // GetVit()
+     LuaGetPlayerRestSkillPoint},      // GetRestSP()获得玩家的剩于技能点数
+    {"GetLucky", LuaGetPlayerLucky},   // GetLucky()获得玩家的幸运值
+    {"GetEng", LuaGetPlayerEngergy},   // GetEng()获得玩家的力量值Eng
+    {"GetDex", LuaGetPlayerDexterity}, // GetDex()获得玩家的Dex
+    {"GetStrg", LuaGetPlayerStrength}, // GetStrg()
+    {"GetVit", LuaGetPlayerVitality},  // GetVit()
+    //	{"GetDame",			LuaGetPlayerDame},
+    ////GetVit()
+    {"GetDef", LuaGetPlayerDef},       // GetVit()
+    {"GetReduce", LuaGetPlayerReduce}, // GetVit()
+    {"GetSpeed", LuaGetPlayerSpeed},   // GetVit()
+    {"SetRefesh", LuaSetRefesh},       // GetVit()
+
     {"GetCash", LuaGetPlayerCashMoney}, // GetCash()获得玩家的现金
     {"Pay", LuaPlayerPayMoney},   // Pay(金额数)扣除玩家金钱成功返回1，失败返回0
     {"Earn", LuaPlayerEarnMoney}, // Earn(金额数)增加玩家金钱
@@ -8555,6 +9599,7 @@ TLua_Funcs GameScriptFuns[] = {
     {"GetStationPos", LuaGetStationPos},
     {"GetWayPointPos", LuaGetWayPointPos},
     {"GetPlayerCount", LuaGetPlayerCount},
+    {"GetNpcCount", LuaGetNpcCount},
     {"GetRank", LuaGetRank},              // GetRank()
     {"SetRank", LuaSetRank},              // SetRank(id)
     {"SetPropState", LuaSetObjPropState}, // SetPropState( hide = 1) hide obj
@@ -8573,6 +9618,10 @@ TLua_Funcs GameScriptFuns[] = {
     {"GetSkillId", LuaGetSkillIdInSkillList},
     {"SetSkillLevel", LuaSetSkillLevel},
     {"SetChatFlag", LuaSetPlayerChatForbiddenFlag},
+    {"SetNpcValue", LuaSetNpcValue},
+    {"UyThac6", LuaUyThac6},
+    {"OfflineLive5", LuaOfflineLive5},
+    {"OfflineLiveAll", LuaOfflineLiveAll},
     //------------------------------------------------
 
     {"AddNote", LuaAddNote},
@@ -8615,17 +9664,19 @@ TLua_Funcs GameScriptFuns[] = {
     {"SetLogoutRV", LuaSetPlayerRevivalOptionWhenLogout},
     {"SetCreateTeam", LuaSetCreateTeamOption},
     {"GetPK", LuaGetPlayerPKValue}, // pkValue = GetPK()
-    {"SetPK", LuaSetPlayerPKValue}, // SetPK(pkValue)
-    //------------------------------------------------
-    // 排名相关函数
+    {"SetPK",
+     LuaSetPlayerPKValue}, // SetPK(pkValue)
+                           //------------------------------------------------
+                           // 排名相关函数
     {"ShowLadder",
      LuaShowLadder}, // ShowLadder(LadderCount, LadderId1,LadderId2,...);
                      //------------------------------------------------
 
-    {"OpenTong", LuaOpenTong},        // OpenTong()通知玩家打开帮会界面
-    {"SetPunish", LuaSetDeathPunish}, // SetPunish(0/1) 0表示不受任何惩罚
-    //-------------------------------------------------
-    // 结拜
+    {"OpenTong", LuaOpenTong}, // OpenTong()通知玩家打开帮会界面
+    {"SetPunish",
+     LuaSetDeathPunish}, // SetPunish(0/1) 0表示不受任何惩罚
+                         //-------------------------------------------------
+                         // 结拜
     {"SwearBrother", LuaSwearBrother}, // ret = SwearBrother(TeamId);
     {"MakeEnemy", LuaMakeEnemy},       // 结仇 MakeEnemy(enemyname)
     {"RollbackSkill", LuaRollBackSkills},
@@ -8637,9 +9688,10 @@ TLua_Funcs GameScriptFuns[] = {
 
     {"GetExtPoint", LuaGetExtPoint},
     {"PayExtPoint", LuaPayExtPoint},
+    {"SetExtPoint", LuaSetExtPoint},
     // UYTHAC
-    {"IsLiXian", LuaIsLiXian},
-    {"NotLiXian", LuaNotLiXian},
+    //	{"IsLiXian",LuaIsLiXian},
+    //	{"NotLiXian",LuaNotLiXian},
 
     // END
     //  MASK
@@ -8664,7 +9716,7 @@ TLua_Funcs GameScriptFuns[] = {
     {"GetLevelExp", LuaGetLevelExp},
     {"Setx2Exp", LuaSetx2Exp},
     {"Setx2Skill", LuaSetx2Skill},
-    {"GetAccount", LuaGetAccount},
+    {"GetAccount", LuaGetPlayerAccount},
     {"GetComputerName", LuaGetComputerName},
     {"SetLevel", LuaSetLevel},
     {"SetItemMagicEx", LuaSetItemMagicEx},
@@ -8698,11 +9750,14 @@ TLua_Funcs GameScriptFuns[] = {
 
     {"GetIdxItemBox", LuaGetIdxItemBox},
     {"GetIdxItemBox2", LuaGetIdxItemBox2},
+    {"GetIdxItemBox3", LuaGetIdxItemBox3},
     {"GetIdxItemBoxUpdateItem",
      LuaGetIdxItemBoxUpdateItem}, // Lay Idx Cua Tat Ca Item Theo Thu Tu
     {"GetIdxItemBoxUpdateItem3",
      LuaGetIdxItemBoxUpdateItem3}, // Lay Idx Cua Item trong Box (Bo qua Khoa
                                    // Vinh Vien, Chi Check 1 vat pham)
+    {"GetIdxItemBoxUpdateItem4",
+     LuaGetIdxItemBoxUpdateItem4}, // Lay Idx Cua trang bi ton hai
     {"LayIdxHkmpTrongHomDo",
      LuaLayIdxHkmpTrongHomDo}, // Lay Idx Cua Tat Ca Item HKMP Theo Thu Tu trong
                                // Hom Update
@@ -8711,6 +9766,7 @@ TLua_Funcs GameScriptFuns[] = {
     {"DelEquipItemQuestKey", LuaDelEquipItemQuestKey}, // Xoa tat ca thuy tinh
     {"CheckTrangSucInBox",
      LuaCheckTrangSucInBox}, // Lay Idx Tat ca QuestKey trong Box
+    {"TimeBox", LuaOpenTimeBox},
 
     {"CheckMagicItem", LuaCheckMagicItem},
     {"GetSeriItem", LuaGetSeriItem},
@@ -8719,6 +9775,8 @@ TLua_Funcs GameScriptFuns[] = {
     {"GetTimeItemIdx", LuaGetTimeItemIdx},
     {"GetDetailTypeItem", LuaGetDetailTypeItem},
     {"GetNameItemBox", LuaGetNameItemBox},
+    {"GetDurationIdx", LuaGetDurationIdx},
+    {"SetDurationIdx", LuaSetDurationIdx},
 
     {"GetGenreItem", LuaGetGenreItem},
     {"GetClassItem", LuaGetClassItem},
@@ -8741,9 +9799,11 @@ TLua_Funcs GameScriptFuns[] = {
     {"GetItemBoxLucky", LuaGetItemBoxLucky},
     {"GetEquipMagicRandomSeed", LuaGetEquipMagicRandomSeed},
     {"CheckItemEquipCS", LuaCheckItemEquipCS},
+    {"CheckItemNguaPV", LuaCheckItemNguaPV},
     // {"DoMateSit",LuaDoMateSit},
 
     {"AddPropObj", LuaAddPropObj},
+    {"AddPropObjPos", LuaAddPropObjPos},
 
     {"AddTrap", LuaAddTrap},
     {"SetPosU", LuaSetPosU},
@@ -8815,9 +9875,11 @@ TLua_Funcs GameScriptFuns[] = {
     {"GetItemCountAll", LuaGetItemCountAll},
     {"CheckItemBlockInCheckBox", LuaCheckItemBlockInCheckBox},
 
+    {"DeleteAllItem", LuaDeleteAllItem},
     {"DeleteAllItemInCheckBox", LuaDeleteAllItemInCheckBox},
     {"GetItemIdxInCheckBoxByNum", LuaGetItemIdxInCheckBoxByNum},
     {"AddItemEx", LuaAddItemEx},
+
 // {"SetMateName",LuaSetMateName},
 
 //{"Trade",			LuaTrade	},
@@ -8860,24 +9922,24 @@ TLua_Funcs WorldScriptFuns[] = // 非指对玩家的脚本指令集
         //	{"RunMission", LuaRunMission},
         //	{"CloseMission", LuaCloseMission},//CloseMission(missionid)
         //	{"StartMissionTimer",
-        // LuaStartMissionTimer},////StartMissionTimer(missionid, timerid, time)
+        //LuaStartMissionTimer},////StartMissionTimer(missionid, timerid, time)
         //	{"StopMissionTimer", LuaStopMissionTimer},
         //	{"GetMSRestTime", LuaGetMissionRestTime},
         ////GetMSRestTime(missionid, timerid)
         //	{"GetMSIdxGroup",LuaGetPlayerMissionGroup},//GetPlayerGroup(missionid,
-        // playerid);
+        //playerid);
         //
         //	{"AddMSPlayer", LuaAddMissionPlayer},
         //	{"DelMSPlayer", LuaRemoveMissionPlayer},
         //	{"GetNextPlayer", LuaGetNextPlayer},
         //	{"PIdx2MSDIdx", LuaGetMissionPlayer_DataIndex},//(missionid,
-        // pidx)
+        //pidx)
         //	{"MSDIdx2PIdx", LuaGetMissionPlayer_PlayerIndex},//(missionid,
-        // dataidx)
+        //dataidx)
         //	{"NpcIdx2PIdx", LuaNpcIndexToPlayerIndex},
 
         //{"GetMSPlayerCount",
-        // LuaMissionPlayerCount},//GetMSPlayerCount(missionid, group = 0)
+        //LuaMissionPlayerCount},//GetMSPlayerCount(missionid, group = 0)
 
         //	{"RevivalAllNpc",	LuaRevivalAllNpc},
 

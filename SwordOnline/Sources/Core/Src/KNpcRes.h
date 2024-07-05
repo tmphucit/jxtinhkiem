@@ -135,7 +135,7 @@ public:
   BOOL Init(char *lpszNpcName, KNpcResList *pNpcResList); // 初始化
   void Remove(int nNpcIdx);                               // 清除
   void Draw(int nNpcIdx, int nDir, int nAllFrame, int nCurFrame,
-            BOOL bInMenu = FALSE, BOOL bOn = FALSE); // 绘制
+            BOOL bInMenu = FALSE, BOOL bOn = FALSE, BOOL bHide = FALSE); // 绘制
   void DrawBorder();
   int DrawMenuState(int nHeightOffset);
   BOOL SetHelm(int nHelmType); // 设定头盔类型

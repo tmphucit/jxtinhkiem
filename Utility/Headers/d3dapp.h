@@ -40,7 +40,7 @@ struct D3DModeInfo {
   D3DFORMAT Format; // Pixel format in this mode
   DWORD dwBehavior; // Hardware / Software / Mixed vertex processing
   D3DFORMAT
-  DepthStencilFormat; // Which depth/stencil format to use with this mode
+      DepthStencilFormat; // Which depth/stencil format to use with this mode
 };
 
 //-----------------------------------------------------------------------------

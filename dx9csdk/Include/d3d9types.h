@@ -1772,7 +1772,7 @@ typedef struct _D3DDEVINFO_VCACHE {
   DWORD OptMethod; /* optimization method 0 means longest strips, 1 means vertex
                       cache based */
   DWORD
-  CacheSize; /* cache size to optimize for  (only required if type is 1) */
+      CacheSize; /* cache size to optimize for  (only required if type is 1) */
   DWORD MagicNumber; /* used to determine when to restart strips (only required
                         if type is 1)*/
 } D3DDEVINFO_VCACHE, *LPD3DDEVINFO_VCACHE;

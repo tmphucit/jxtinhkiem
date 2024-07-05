@@ -20,7 +20,7 @@
 
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI "KyTranCac.ini"
+#define SCHEME_INI "UiMarket.ini"
 
 KUiMarket *KUiMarket::m_pSelf = NULL;
 

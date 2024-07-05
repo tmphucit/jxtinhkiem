@@ -140,8 +140,6 @@ bool KPakList::Open(const char *pPakListFile) {
             m_nPakNumber++;
             g_DebugLog("PakList Open : %s ... Ok", szFile);
           } else {
-            g_DebugLog("PakList Open : [%d] %s... False", m_nPakNumber,
-                       m_PakFilePtrList[m_nPakNumber]);
             delete (m_PakFilePtrList[m_nPakNumber]);
           }
         }

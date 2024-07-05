@@ -325,6 +325,12 @@ void KWndButton::OnLBtnDown(bool bDoubleClick) {
   }
 }
 
+void KWndButton::OnRButtonDown() {
+  OnButtonClick();
+  if (m_pParentWnd)
+    m_pParentWnd->WndProc(WND_N_BUTTON_LCLICK, (unsigned int)(KWndWindow *)this,
+                          (m_Flag & WNDBTN_F_CHECKED));
+}
 //--------------------------------------------------------------------------
 //	功能：响应鼠标左键在此放开
 //--------------------------------------------------------------------------
@@ -418,4 +424,7 @@ void KWndImageTextButton::Set2IntValue(int nNumber1, int nNumber2) {
     m_ImagePart.SetPart(nNumber1, nNumber2);
   else
     m_Image.SetMoveValue(nNumber1, nNumber2);
+}
+void KWndImageTextButton::SetWorldText(int nNumber, char Separator) {
+  m_Text.SetWorldText(nNumber, Separator);
 }

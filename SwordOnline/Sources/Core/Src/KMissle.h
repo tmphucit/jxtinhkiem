@@ -173,7 +173,9 @@ public:
   int m_nAngle;       //
   DWORD m_dwBornTime; //	该子弹产生时的时间
   BOOL m_bUseAttackRating;
-
+#ifdef _SERVER
+  int m_nPKFlag;
+#endif
   unsigned long m_ulNextCalDamageTime; //	下一次计算伤害的游戏世界时间
 
 #ifndef _SERVER

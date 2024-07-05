@@ -49,7 +49,6 @@ private:
     char szFaceText[32];
     char szFaceTip[32];
     WORD wFaceID;
-    int nTrim;
   };
   static KUiFaceSelector *m_pSelf;
   static KFaceItem *ms_pFaceList;

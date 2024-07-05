@@ -17,6 +17,7 @@ using OnlineGameLib::Win32::CPackager;
 #endif
 
 #include "IServer.h"
+#include "KPakList.h"
 #include "KTimer.h"
 #include "KTransferUnit.h"
 
@@ -157,6 +158,7 @@ private:
 
   //	BOOL				m_bSaveFlag;
   //	int					m_nSaveCount;
+  KPakList g_PakList;
   IServer *m_pServer;
   IClient *m_pGatewayClient;
   IClient *m_pDatabaseClient;

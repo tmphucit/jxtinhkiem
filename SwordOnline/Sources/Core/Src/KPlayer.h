@@ -28,7 +28,14 @@
 #define DEXTERITY_SET_DAMAGE_VALUE 5
 
 #define MAX_AVENGE_NUM 4
-
+//-------------auto----------------------------------
+#define MAX_ARRAY_NPC_AUTO 50
+#define AUTO_TIME_LAG 50
+#define AUTO_COUNT_LAG 50
+#define AUTO_TIME_RESET_LAG 5000 /// thoi gian dung danh luc lag
+#define MAX_ARRAY_STATESKILL 3
+#define MAX_AUTO_SIZE 50
+//--------------------------------------------------
 #ifndef _SERVER
 #define MAX_AUTO_MANA_WAIL 2 * 18
 #define MAX_AUTO_LIFE_WAIL 2 * 18
@@ -44,8 +51,18 @@ enum UIInfo // 脚本通知显示的界面类型
   UI_NOTEINFO,
   UI_MSGINFO,  // 自右向左冒出来的信息
   UI_NEWSINFO, // 新闻
+  UI_NEWSINFO_1,
   UI_PLAYMUSIC,
   UI_OPENTONGUI,
+};
+
+enum {
+  Step_Training,
+  Step_Repair,
+  Step_InventoryMoney,
+  Step_InventoryItem,
+  Step_Return,
+  Step_Completed,
 };
 
 // 重生点位置信息
@@ -83,6 +100,12 @@ typedef struct {
 } BuySellInfo;
 class KIniFile;
 
+class KEquipmentArray {
+public:
+  KLinkArray m_Link;
+  int FindSame(int nIdx);
+};
+
 #ifdef TOOLVERSION
 class CORE_API KPlayer
 #else
@@ -102,7 +125,7 @@ private:
 #ifdef _SERVER
   PLAYER_REVIVAL_POS m_sLoginRevivalPos; // 登入重生点位置（会存盘）
   PLAYER_REVIVAL_POS
-  m_sDeathRevivalPos;                 // 死亡重生点（默认为登入重生点，不存盘）
+      m_sDeathRevivalPos;             // 死亡重生点（默认为登入重生点，不存盘）
   PLAYER_TOWNPORTAL_POS m_sPortalPos; // 传送门位置
   BOOL m_bUseReviveIdWhenLogin;
   int m_nExtPoint;       // 活动点数
@@ -120,11 +143,12 @@ public:
   PLAYER_EXCHANGE_POS m_sExchangePos;
   KTimerTaskFun m_TimerTask;
   BOOL m_bIsQuiting;
+  BOOL m_nLixian;
   UINT m_uMustSave;
   DWORD m_ulLastSaveTime;
   DWORD m_dwLoginTime;
   //	DWORD			m_uLastPingTime;
-  char m_AccoutName[32];
+  //	char			m_AccoutName[32];
   void *m_pStatusLoadPlayerInfo; // 加载玩家信息时用
   BYTE *m_pCurStatusOffset;      // 二进制时，记录读到指针位置了
   BOOL m_bFinishLoading;         // 完成加载
@@ -157,7 +181,7 @@ public:
   BOOL m_AutoBanTrangBi;
   BOOL m_AutoNhatDoChonLoc;
 
-  BOOL m_AutoTTL;
+  // BOOL			m_AutoTTL;
   BOOL m_AutoQuayLai;
 
   int Auto_LuuMap;
@@ -209,10 +233,12 @@ public:
   DWORD m_dwTimeBuyShop;
 
 #ifndef _SERVER
+  int m_nLastFightMode;
   int m_RunStatus;            // 是跑还是走
   DWORD m_dwNextLevelLeadExp; // 统率力下一级经验值
   int m_nSendMoveFrames; // 用于控制客户端向服务器发送移动(走或跑)协议的频率，使之不能发送大量的移动协议，减小带宽压力
-
+  int m_nImageNpcID;
+  int m_SubWorldIndex; // Npc所在的SubWorld ID
   // Update Them
   BOOL m_HideRes;
   BOOL m_HideMissle;
@@ -254,6 +280,9 @@ public:
   int m_nBuyNumberPrice;
   int m_nBuyNumberNum;
   BOOL m_nAutoPlay;
+  BOOL m_bHideNpc;
+  BOOL m_bHidePlayer;
+  BOOL m_bHideSkill;
   int m_nAutoTimeNextNpc;
   int m_nAutoTimeNextObj;
   int m_nAutoTimeNextMana;
@@ -274,6 +303,7 @@ public:
   int m_nAutoRange;
   int m_nAutoNAtack;
   int m_nPhamViTuVe;
+  int m_nGuiTienNew;
   BOOL m_bMoneyObj;
   BOOL m_bItemObj;
   BOOL m_bItemSelect;
@@ -293,12 +323,17 @@ public:
   DWORD m_dwID;                  // 玩家的32位ID
   int m_nIndex;                  // 玩家的Npc编号
   int m_nNetConnectIdx;          // 第几个网络连接
+  char m_nPlayerHWID[64];        // Player HWID 64 len edit by phong kieu
   KItemList m_ItemList;          // 玩家的装备列表
   BuySellInfo m_BuyInfo;         // 进行的交易列表
   KPlayerMenuState m_cMenuState; // 是否处于交易或队伍开放状态
   KTrade m_cTrade;               // 交易模块
-  int m_nAttributePoint;         // 未分配属性点
-  int m_nSkillPoint;             // 未分配技能点
+                                 // TamLTM check nhat do cua nguoi khac
+  BOOL m_bNotPickUpItem;
+  BOOL m_bNotPickUpMoney;
+  // end code
+  int m_nAttributePoint; // 未分配属性点
+  int m_nSkillPoint;     // 未分配技能点
 
   int m_nStrength;  // 玩家的基本力量（决定基本伤害）
   int m_nDexterity; // 玩家的基本敏捷（决定命中、体力）
@@ -319,6 +354,7 @@ public:
   DWORD m_dwLeadExp;   // 统率力经验值
   DWORD m_dwLeadLevel; // 统率力等级
   char m_PlayerName[32];
+  char m_AccoutName[32]; // edit by phong kieu khai bao bien m_AccoutName
 
   KPlayerTeam m_cTeam;       // 玩家的组队信息
   KPlayerFaction m_cFaction; // 玩家的门派信息
@@ -332,6 +368,10 @@ public:
   KPlayerTong m_cTong; // 自己的帮会信息
 
   DWORD m_dwDeathScriptId; //
+  DWORD m_dwTimeBoxId;
+  DWORD m_dwGiveBoxId;
+  DWORD m_dwRewardId;
+  DWORD m_dwRewardExId;
 
   char m_szTaskAnswerFun[MAX_ANSWERNUM][32];
   int m_nAvailableAnswerNum; // 当前选择界面下，最大回答数。
@@ -344,9 +384,136 @@ public:
   int m_nWorldStat;
   int m_nSectStat;
   int m_ImagePlayer; // chan dung
+  int m_ImageId;     // bien id npc image
+private:
+  // BOOL			m_bActiveAuto;
+#ifndef _SEVER
+  BOOL m_bSortEquipment;
+  int m_nReturnPortalStep;
+  int m_nCurReturnPortalSec;
+  KEquipmentArray m_sListEquipment;
+  BOOL m_bPriorityUseMouse;
+  int m_nTimePriorityUseMouse;
+  int m_LifeAuto;
+  int m_ManaAuto;
+  int m_TownAuto;
+  int m_nTimeBuffSkillAuto;
+  int m_nPickAreaItem;
+  int m_nCheckTimeBuffSkillAuto;
+  int m_PosXAuto;
+  int m_PosYAuto;
+  BOOL m_bActacker;
+  int m_Actacker;
+  // int				m_TimeUseItem;
+  int m_ArrayNpcNeast[MAX_ARRAY_NPC_AUTO];
+  int m_ArrayNpcLag[MAX_ARRAY_NPC_AUTO];
+  int m_Count_Acttack_Lag;
+  int m_ArrayTimeNpcLag[MAX_ARRAY_NPC_AUTO];
+  int m_ArrayTimeObjectLag[MAX_ARRAY_NPC_AUTO];
+  int m_nLifeLag;
+  int m_nTimeRunLag;
+  BOOL m_bObject;
+  int m_nObject;
+  int m_ArrayObjectNeast[MAX_ARRAY_NPC_AUTO];
+  int m_ArrayObjectLag[MAX_ARRAY_NPC_AUTO];
+  int m_nArrayNpcOverLook[MAX_ARRAY_NPC_AUTO];
+  int m_nArrayTimeNpcOverLook[MAX_ARRAY_NPC_AUTO];
+  int m_nArrayTimeObjectOverLook[MAX_ARRAY_NPC_AUTO];
+  int m_nArrayObjectOverLook[MAX_ARRAY_NPC_AUTO];
+  int m_nArrayTimeInvitePlayer[MAX_AUTO_SIZE];
+  int m_nArrayInvitePlayer[MAX_AUTO_SIZE];
+
+public:
+  BOOL m_bBuffSkill[3];
+  BOOL m_AutoAttack;
+  // BOOL			m_bFollowPeople;
+  // int				m_FollowPeopleIdx;
+  // char			m_FollowPeopleName[32];
+  BOOL m_bOverTarget;
+  BOOL m_bAutoParty;
+  BOOL m_bActiveAutoParty;
+  BOOL m_bAutoMove;
+  BOOL m_bPickItem;
+  BYTE m_btPickUpKind;
+  BYTE m_btDurabilityItem;
+  BYTE m_btDurabilityValue;
+  BYTE m_AutoUseTTL;
+  int m_AuraSkill[2];
+  BOOL m_bActiveSwitchAura;
+  int m_AutoLifeReplenishP;
+  BOOL m_AutoLifeReplenish;
+  int m_MoveMps[defMAX_AUTO_MOVEMPSL][3];
+  int m_MoveStep;
+  BOOL m_AutoMove;
+  BOOL m_bFilterEquipment;
+  int m_FilterMagic[defMAX_AUTO_FILTERL][2];
+  unsigned int m_SpaceActionTime;
+  BOOL m_SaveRAP;
+  BOOL m_EatLife;
+  BOOL m_EatMana;
+  unsigned int m_LifeTimeUse;
+  unsigned int m_ManaTimeUse;
+  int m_LifeAutoV;
+  int m_ManaAutoV;
+  unsigned int m_LifeCountDown;
+  unsigned int m_ManaCountDown;
+  unsigned int m_PortalCountDown;
+  unsigned int m_AntiPoisonCountDown;
+  unsigned int m_TTLCountDown;
+  unsigned int m_TuiDPhamCountDown;
+  unsigned int m_ReturnSetpCountDown;
+  unsigned int m_SortEQCountDown;
+  BOOL m_TPLife;
+  int m_TPLifeV;
+  BOOL m_TPMana;
+  int m_TPManaV;
+  BOOL m_TPNotMedicineBlood;
+  BOOL m_TPNotMedicineMana;
+  BOOL m_TPHightMoney;
+  int m_TPHightMoneyV;
+  BOOL m_AutoAntiPoison;
+  BOOL m_bTPNotEquipment;
+  int m_nTPNotEquipment;
+  BOOL m_AutoTTL;
+  BOOL m_bAttackAround;
+  int m_RadiusAuto;
+  int m_DistanceAuto;
+  BOOL m_bFightDistance;
+  int m_ArrayStateSkill[MAX_ARRAY_NPC_AUTO];
+  BOOL m_bAttackPeople;
+  BOOL m_bAttackNpc;
+  BOOL m_bBuyEquip;
+  BOOL m_bInventoryMoney;
+  BOOL m_bInventoryItem;
+  BOOL m_bRepairEquip;
+  BOOL m_bReturnPortal;
+  BOOL m_Auto_TuiDuocPham;
+  BOOL m_Auto_BanItem;
+  BOOL m_bSaveJewelry;
+  BOOL m_bSortEquipment_Active;
+  int m_dwEquipExpandTime; // thoi gian su dung hanh trang mo rong
+
+  BOOL m_bFollowPeople;
+  char m_szFollowName[32];
+  int m_nFollowRadius;
+
+  BOOL m_bMoveMps;
+  int m_nMoveMps[MAX_AUTO_LIST][3];
+  int m_nMoveStep;
+  int m_nMoveCount;
+#endif
+  // end
+
 public:
   KPlayer();
   ~KPlayer();
+  //	void			SetLockMove(LockMoveItem *LockMove);
+  //	LockMoveItem*	GetLockMove() {return &m_LockMove;};
+  // auto playgame
+  BOOL m_bActiveAuto;
+  void SetAutoFlag(BOOL nbAuto);
+  BOOL GetAutoFlag() { return m_bActiveAuto; };
+  BOOL GetFightFlag() { return m_AutoAttack; };
 
   void SetPlayerIndex(int nNo);       // 设定 m_nPlayerIndex
   void GetAboutPos(KMapPos *pMapPos); // 获得玩家附近一个空位置
@@ -377,6 +544,9 @@ public:
   void ProcessMsg(KWorldMsgNode *lpMsg); // 处理世界消息，转为NPC命令
 
   LPSTR GetPlayerName() { return m_PlayerName; };
+  LPSTR GetPlayerAccount() {
+    return m_AccoutName;
+  }; // edit by phong kieu them ham getplayeraccount
   //	LPSTR			GetNameComputer() { return m_szCPUIPName; };
 
   BOOL NewPlayerGetBaseAttribute(
@@ -419,8 +589,17 @@ public:
     if (nPhysicsSkillID > 0 && pISkill->IsPhysical())
       m_nPhysicsSkillID = nPhysicsSkillID;
   };
-
+  void SetImageNpcId(int nNumber); // set hinh anh npc cho say new
+//	void			SetChangeFace(int nNumber);
 #ifndef _SERVER
+  void SortEquipment();
+  void SetSortEquipment(BOOL bFlag);
+
+  BOOL CheckEquip(BYTE btDetail);
+  BOOL CheckEquipMagic(int nIdx);
+  BOOL ReturnFromPortal();
+  BOOL InventoryItem();
+  BOOL AutoSellItem();
   int GetTargetNpc() { return m_nPeapleIdx; };
   int GetTargetObj() { return m_nObjectIdx; };
   void SetTargetNpc(int n) { m_nPeapleIdx = n; };
@@ -435,7 +614,17 @@ public:
   BOOL ConformIdx(int nIdx);
 
   void OpenBuyShop(DWORD dwId);
-
+  void GetAutoQDXY(char *szBufferXY) {
+    if (m_PosXAuto == 0 || m_PosYAuto == 0) {
+      int nDesX = 0;
+      int nDesY = 0;
+      Npc[m_nIndex].GetMpsPos(&nDesX, &nDesY);
+      m_PosXAuto = nDesX;
+      m_PosYAuto = nDesY;
+    }
+    sprintf(szBufferXY, "  [%d/%d]", m_PosXAuto / 8 / 32, m_PosYAuto / 16 / 32);
+    // strcpy(szName, Player[i].m_AccoutName);
+  };
   void GetEchoDamage(int *nMin, int *nMax,
                      int nType); // 获取界面需要显示的伤害值
   void GetEchoAttack(int *nAttack, int nType);
@@ -446,7 +635,7 @@ public:
   void ApplyTeamInfo(DWORD dwNpcID); // 向服务器申请查询某个npc所在队伍的信息
   void ApplySelfTeamInfo();          // 向服务器申请查询玩家自身的队伍情况
   BOOL ApplyCreateTeam();            // char *lpszTeamName);		//
-                                     // 玩家向服务器申请创建队伍
+                          // 玩家向服务器申请创建队伍
   BOOL ApplyTeamOpenClose(
       BOOL bFlag); // 队长向服务器申请开放、关闭队伍是否允许加入成员状态
   void ApplyAddTeam(int nNpcIndex);     // 玩家向服务器申请加入某个队伍
@@ -461,10 +650,9 @@ public:
   void ApplyFactionData();   // 玩家向服务器申请门派数据
   void SendChat(KUiMsgParam *pMsg,
                 char *lpszSentence); // 客户端发送聊天语句给服务器
-  void ApplyAddBaseAttribute(
-      int nAttribute,
-      int nNo); // 队长向服务器申请增加四项属性中某一项的点数(0=Strength
-                // 1=Dexterity 2=Vitality 3=Engergy)
+  void ApplyAddBaseAttribute(int nAttribute,
+                             int nNo); // 队长向服务器申请增加四项属性中某一项的点数(0=Strength
+                                       // 1=Dexterity 2=Vitality 3=Engergy)
   BOOL ApplyAddSkillLevel(int nSkillID,
                           int nAddPoint); // 向服务器申请某个技能升级
   BOOL ApplyUseItem(
@@ -513,7 +701,7 @@ public:
   void PlayerSetAuto(int nLife, int nMana, int nReturn, int nAtack, int nRange,
                      int nNAtack, BOOL bcheck, BOOL bMoneyObj, BOOL bItemObj,
                      BOOL bPropObj, BOOL bItemSelect, int nNgaMyBuff,
-                     int nPhamViTuVe);
+                     int nPhamViTuVe, int nGuiTienNew);
   void PlayerAutoOn();
   BOOL PlayerAutoOnStolen();
   BOOL PlayerAutoOnSkill();
@@ -526,7 +714,7 @@ public:
   BOOL PlayerAutoOnBuffE();
   BOOL PlayerAutoOnBuffL();
   BOOL PlayerAutoOnBuffH();
-  BOOL PlayerAutoTeam();
+  //	BOOL			PlayerAutoTeam();
   BOOL PlayerAutoLocDo();
   void CheckRideHouse(BOOL);
   void SendShopCost();
@@ -552,7 +740,7 @@ public:
   BOOL IsExchangingServer();
   void TobeExchangeServer(DWORD dwMapID, int nX, int nY);
   //	void			UpdateEnterGamePos(DWORD dwSubWorldID, int nX,
-  // int nY, int nFightMode);
+  //int nY, int nFightMode);
   BOOL IsWaitingRemove();
   BOOL IsLoginTimeOut();
   void WaitForRemove();
@@ -594,6 +782,7 @@ public:
   // time;};
   void BuyItem(BYTE *pProtocol);
   void SellItem(BYTE *pProtocol);
+  void AutoSellItem(BYTE *pProtocol);
   void StaskItem(BYTE *pProtocol);
   void StringBox(BYTE *pProtocol);
 
@@ -632,15 +821,16 @@ public:
   BOOL AddTeamMember(BYTE *pProtocol); // 队长通知服务器接受某个npc为队伍成员
   void LeaveTeam(BYTE *pProtocol);     // 收到客户端队员通知离开队伍
   void TeamKickOne(BYTE *pProtocol);   // 收到客户端队长通知踢出某个队员
-  void TeamChangeCaptain(
+  void SendTeamMessage(int nTeamID, const char *szMessage);
+  void SendSystemMessage(const char *szHead, const char *szMessage);
+  BOOL TeamChangeCaptain(
       BYTE *pProtocol);              // 收到客户端队长通知把队长身份交给某个队员
   void TeamDismiss(BYTE *pProtocol); // 收到客户端队长请求解散队伍
   void SetPK(BYTE *pProtocol);       // 收到客户端请求设定PK状态
   void SendFactionData(BYTE *pProtocol); // 收到客户端请求获得门派数据
   void ServerSendChat(BYTE *pProtocol);  // 收到客户端发来的聊天语句
-  void
-  AddBaseAttribute(BYTE *pProtocol); // 收到客户端要求增加基本属性点(0=Strength
-                                     // 1=Dexterity 2=Vitality 3=Engergy)
+  void AddBaseAttribute(BYTE *pProtocol); // 收到客户端要求增加基本属性点(0=Strength
+                                          // 1=Dexterity 2=Vitality 3=Engergy)
   void AddSkillPoint(BYTE *pProtocol); // 收到客户端要求增加某个技能的点数
   BOOL ServerPickUpItem(
       BYTE *pProtocol);          // 收到客户端消息鼠标点击某个obj拣起装备或金钱
@@ -688,9 +878,11 @@ public:
 
   int GetIdxItemBox();
   int GetIdxItemBox2();
+  int GetIdxItemBox3();
   int GetIdxItemBoxUpdateItem();
   int GetIdxItemBoxUpdateItem2();
   int GetIdxItemBoxUpdateItem3();
+  int GetIdxItemBoxUpdateItem4();
   int GetIdxItemBoxQuestKey(int GetIdxItemBoxQuestKey);
   int DelEquipItemQuestKey(int IdQuestKey);
 
@@ -823,6 +1015,105 @@ public:
   void DialogNpc(BYTE *pProtocol);
 
   int AddTempTaskValue(void *pData);
+#endif
+#ifndef _SERVER
+  void SendInfoAuto();
+  void PlayerAuto();
+  void MoveTo(int nX, int nY);
+  void ClearArrayNpcLag() {
+    for (int i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+      m_ArrayNpcLag[i] = 0;
+    }
+  };
+  void ClearArrayObjectLag() // time nhat do
+  {
+    for (int i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+      m_ArrayObjectLag[i] = 0;
+    }
+  };
+  void ClearArrayTimeNpcLag() {
+    for (int i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+      m_ArrayTimeNpcLag[i] = 0;
+    }
+  };
+  void ClearArrayTimeObjectLag() // time nhat do
+  {
+    for (int i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+      m_ArrayTimeObjectLag[i] = 0;
+    }
+  };
+  void ClearArrayNpcNeast() {
+    for (int i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+      m_ArrayNpcNeast[i] = 0;
+    }
+  };
+  void ClearArrayObjectNeast() {
+    for (int i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+      m_ArrayObjectNeast[i] = 0;
+    }
+  };
+  void ClearArrayStateSkill() {
+    for (int i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+      m_ArrayStateSkill[i] = 0;
+    }
+  };
+  int FindFreeInvitePlayer() {
+    for (int i = 0; i < MAX_AUTO_SIZE; i++) {
+      if (m_nArrayInvitePlayer[i] <= 0)
+        return i;
+    }
+    return -1;
+  };
+
+  BOOL FindSameInvitePlayer(int uID) {
+    for (int i = 0; i < MAX_AUTO_SIZE; i++) {
+      if (m_nArrayInvitePlayer[i] == uID)
+        return TRUE;
+    }
+    return FALSE;
+  };
+  void ClearArrayInvitePlayer() {
+    memset(m_nArrayInvitePlayer, 0, sizeof(m_nArrayInvitePlayer));
+  };
+  void ClearArrayTimeInvitePlayer() {
+    memset(m_nArrayTimeInvitePlayer, 0, sizeof(m_nArrayTimeInvitePlayer));
+  };
+  void ClearArrayNpcOverLook() {
+    memset(m_nArrayNpcOverLook, 0, sizeof(m_nArrayNpcOverLook));
+  };
+  void ClearArrayObjectOverLook() {
+    memset(m_nArrayObjectOverLook, 0, sizeof(m_nArrayObjectOverLook));
+  };
+  void ClearArrayTimeNpcOverLook() {
+    memset(m_nArrayTimeNpcOverLook, 0, sizeof(m_nArrayTimeNpcOverLook));
+  };
+  void ClearArrayTimeObjectOverLook() {
+    memset(m_nArrayTimeObjectOverLook, 0, sizeof(m_nArrayTimeObjectOverLook));
+  };
+  void PlayerFollowActack(int i);
+  void AutoCheckUseItem();
+  void PlayerEatAItem();
+  void AutoReturn();
+  BOOL AutoAddNpc2Array(int nRelation);
+  int FindNearNpc2Array(int nRelation);
+  BOOL FindObjectNearPlayer();
+  BOOL AutoBuffSkillState();
+  int FindNearObject2Array();
+  void PlayerFollowObject(int nObject);
+  void PlayerUseItem(int type);
+  void AutoParty();
+  void PlayerFilterEquip();
+  BOOL IsRAPEquip(BYTE btDetail);
+  BOOL IsEquipSatisfyCondition(int nIdx);
+  void SetRepairItem(BYTE btFlag) { m_btDurabilityItem = btFlag; };
+  BYTE GetRepairItem() { return m_btDurabilityItem; };
+  void SetAutoUseTLL(BYTE btFlag) { m_AutoUseTTL = btFlag; };
+  BYTE GetAutoUseTLL() { return m_AutoUseTTL; };
+  BOOL IsNotValidNpc(int nIndex);
+  BOOL IsNotValidObject(int nObject);
+  void PlayerSwitchAura();
+  BOOL PlayerMoveMps();
+  int GetMoveMpsCount();
 #endif
 };
 

@@ -6,7 +6,7 @@
 #include "KMath.h"
 #include "KNpc.h"
 #include "KPlayer.h"
-#include "MyAssert.H"
+#include "MyAssert.h"
 #include <time.h>
 #ifdef _SERVER
 // #include	"../../Headers/IServer.h"
@@ -818,6 +818,20 @@ BOOL KItemList::EnoughAttrib(void *pAttrib) {
   }
   return TRUE;
 }
+
+int KItemList::HaveDamageItem(int nDur) {
+  int nIndex = 0;
+  for (int i = 0; i < itempart_num; i++) {
+    nIndex = GetEquipment(i);
+    if (Item[nIndex].GetDurability() >= 0 &&
+        Item[nIndex].GetMaxDurability() > 0 &&
+        Item[nIndex].GetDurability() < nDur) {
+      return nIndex;
+    }
+  }
+  return 0;
+}
+
 /*!*****************************************************************************
 // Function		: KItemList::Equip
 // Purpose		:
@@ -1029,21 +1043,17 @@ BOOL KItemList::Equip(int nIdx, int nPlace /* = -1 */) {
       Item[nIdx].ApplyMagicAttribToNPC(&Npc[nNpcIdx], nActive);
       InfectionNextEquip(nEquipPlace, TRUE);
     }
-  }
-
-  else if (nEquipPlace == itempart_head || nEquipPlace == itempart_body ||
-           nEquipPlace == itempart_belt || nEquipPlace == itempart_weapon ||
-           nEquipPlace == itempart_foot || nEquipPlace == itempart_cuff ||
-           nEquipPlace == itempart_mask) {
+  } else if (nEquipPlace == itempart_head || nEquipPlace == itempart_body ||
+             nEquipPlace == itempart_belt || nEquipPlace == itempart_weapon ||
+             nEquipPlace == itempart_foot || nEquipPlace == itempart_cuff ||
+             nEquipPlace == itempart_mask) {
 
     if (Item[nIdx].GetDurability()) {
       Item[nIdx].ApplyMagicAttribToNPC(&Npc[nNpcIdx], nActive);
       InfectionNextEquip(nEquipPlace, TRUE);
     }
 
-  }
-
-  else {
+  } else {
     Item[nIdx].ApplyMagicAttribToNPC(&Npc[nNpcIdx], nActive);
     InfectionNextEquip(nEquipPlace, TRUE);
   }
@@ -1654,7 +1664,6 @@ int KItemList::GetEquipEnhance(int nPlace) {
     // ¿´¿´¼¤»îÕâ¸ö×°±¸µÄ×°±¸ÖÐÊÇ·ñÏàÉúÕâ¸ö×°±¸
     int nActivedEquip = m_EquipItem[ms_ActivedEquip[nPlace][i]];
     if (nActivedEquip) {
-
       if (ms_ActivedEquip[nPlace][i] == itempart_horse) {
         if (!Npc[nNpcIdx].m_bRideHorse)
           continue;
@@ -1720,18 +1729,15 @@ BOOL KItemList::EatMecidine(int nIdx) {
   int nGenre = Item[nIdx].GetGenre();
   int nLevel = Item[nIdx].GetLevel();
 
-  _ASSERT(nGenre == item_medicine || nGenre == item_townportal);
+  //_ASSERT(nGenre == item_medicine || nGenre == item_townportal);
 
   if (nGenre == item_medicine) {
-
 #ifdef _SERVER
-
     ItemSet.m_checkdel = 1;
 
     if (Item[nIdx].GetDetailType() == 8 || Item[nIdx].GetDetailType() == 9) {
-
       if (Npc[nNpcIdx].m_SubWorldIndex == g_SubWorldSet.SearchWorld(33) ||
-          Npc[nNpcIdx].m_SubWorldIndex == g_SubWorldSet.SearchWorld(61)) {
+          Npc[nNpcIdx].m_SubWorldIndex == g_SubWorldSet.SearchWorld(37)) {
         int nEfecSkId = (Item[nIdx].GetDetailType() - 8) * 5 +
                         Item[nIdx].GetLevel() - 1 + 481;
         Npc[nNpcIdx].AddSkillEffect(nEfecSkId, 1, 5 * 60 * 18);
@@ -1743,26 +1749,18 @@ BOOL KItemList::EatMecidine(int nIdx) {
             "Kh«ng thÓ sö dông vËt phÈm t¹i ®©y !",
             strlen("Kh«ng thÓ sö dông vËt phÈm t¹i ®©y !"));
       }
-
-    }
-
-    else {
-
+    } else {
       Item[nIdx].ApplyMagicAttribToNPC(&Npc[nNpcIdx], 3);
       Remove(nIdx);
       ItemSet.Remove(nIdx);
     }
-
 #endif
 
 #ifndef _SERVER
-
     if (Item[nIdx].GetDetailType() != 8 && Item[nIdx].GetDetailType() != 9) {
-
       if (Player[m_PlayerIdx].m_cTask.GetSaveVal(128) > 0 || nLevel != 4) {
         Item[nIdx].ApplyMagicAttribToNPC(&Npc[nNpcIdx], 3);
       } else {
-
         KSystemMessage Msg;
         Msg.byConfirmType = SMCT_CLICK;
         Msg.byParamSize = 0;
@@ -1772,13 +1770,11 @@ BOOL KItemList::EatMecidine(int nIdx) {
         CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (unsigned int)&Msg, NULL);
       }
     }
-
 #endif
   }
 
   if (nGenre == item_equip) {
 #ifdef _SERVER
-
     // printf("[ %d %d %d %d %d ] [ %d %d %d %d %d %d %d %d %d ]\n",
     // Item[nIdx].GetGenre(),
     // Item[nIdx].GetDetailType(),
@@ -1814,6 +1810,7 @@ BOOL KItemList::EatMecidine(int nIdx) {
 #endif
       return FALSE;
     }
+
 #ifdef _SERVER
     ItemSet.m_checkdel = 2;
     Player[m_PlayerIdx].UseTownPortal();
@@ -1826,7 +1823,7 @@ BOOL KItemList::EatMecidine(int nIdx) {
 #ifdef _SERVER
 
     if (!Item[nIdx].IsStack() ||
-        (Item[nIdx].GetVersion() >= 1 && Item[nIdx].GetVersion() <= 50)) {
+        (Item[nIdx].GetVersion() >= 1 && Item[nIdx].GetVersion() <= 200)) {
       char file_lua_chay[256];
       int id_queskey_dung = Item[nIdx].GetDetailType();
       sprintf(file_lua_chay, "%s%d%s", "\\script\\item\\questkey\\",
@@ -1857,13 +1854,76 @@ int KItemList::UseItem(int nIdx) {
   int nRet = 0;
   switch (Item[nIdx].GetGenre()) {
   case item_equip:
-    nRet = REQUEST_EQUIP_ITEM;
+    break;
+    /*		if (Equip(nNpcIdx, nIdx))
+                            nRet = REQUEST_EQUIP_ITEM;*/
     break;
   case item_townportal:
   case item_task:
   case item_medicine:
     if (EatMecidine(nIdx))
       nRet = REQUEST_EAT_MEDICINE;
+    break;
+  case item_mine:
+    if (EatMecidine(nIdx))
+      nRet = REQUEST_EAT_MEDICINE;
+    break;
+  default:
+    break;
+  }
+  return nRet;
+}
+#endif
+
+#ifndef _SERVER
+BOOL KItemList::SearchEquipment(int nWidth, int nHeight) {
+  if (nWidth < 0 || nHeight < 0) {
+    return FALSE;
+  }
+
+  POINT pPt;
+  if (!m_Room[room_equipment].FindRoom(nWidth, nHeight, &pPt)) {
+    return FALSE;
+  }
+  return TRUE;
+}
+
+int KItemList::ChangeItemInPlayer(int nIdx) {
+  if (m_PlayerIdx <= 0)
+    return FALSE;
+
+  int nNpcIdx = Player[m_PlayerIdx].m_nIndex;
+
+  if (0 == FindSame(nIdx)) {
+    return 0;
+  }
+  int nRet = Item[nIdx].GetDetailType();
+  switch (nRet) {
+  case itempart_head:
+    break;
+  case itempart_body:
+    break;
+  case itempart_belt:
+    break;
+  case itempart_weapon:
+    break;
+  case itempart_foot:
+    break;
+  case itempart_cuff:
+    break;
+  case itempart_amulet:
+    break;
+  case itempart_ring1:
+    break;
+  case itempart_ring2:
+    break;
+  case itempart_pendant:
+    break;
+  case itempart_mask:
+    break;
+  case itempart_num:
+    break;
+  case itempart_horse:
     break;
   default:
     break;
@@ -2303,8 +2363,9 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
 
       else if (SrcPos->nX == 3 || SrcPos->nX == 16) {
 
-        if (Item[m_Hand].GetGenre() != item_equip ||
-            Item[m_Hand].GetVersion() > 1 || !Item[m_Hand].IsItemMagic() ||
+        if (Item[m_Hand].GetGenre() != item_equip
+            //||  Item[m_Hand].GetVersion() > 1
+            || !Item[m_Hand].IsItemMagic() ||
             (Item[m_Hand].GetDetailType() != 2 &&
              Item[m_Hand].GetDetailType() != 6 &&
              Item[m_Hand].GetDetailType() != 5 &&
@@ -2343,8 +2404,8 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
       else if (SrcPos->nX == 5) {
 
         //	if (Item[m_Hand].GetGenre() != item_task ||
-        // Item[m_Hand].GetDetailType() < 167 || Item[m_Hand].GetDetailType() >
-        // 172 || Item[m_Hand].m_GeneratorParam.nGeneratorLevel[0])
+        //Item[m_Hand].GetDetailType() < 167 || Item[m_Hand].GetDetailType() >
+        //172 || Item[m_Hand].m_GeneratorParam.nGeneratorLevel[0])
         if (Item[m_Hand].GetGenre() != item_task ||
             Item[m_Hand].GetDetailType() != 30) {
 
@@ -2376,8 +2437,9 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
 
       else if (SrcPos->nX == 14) {
 
-        if (Item[m_Hand].GetGenre() != item_equip ||
-            Item[m_Hand].GetVersion() > 1 ||
+        if (Item[m_Hand].GetGenre() != item_equip
+            //||  Item[m_Hand].GetVersion() > 1
+            || !Item[m_Hand].IsItemMagic() ||
             (Item[m_Hand].GetDetailType() != 2 &&
              Item[m_Hand].GetDetailType() != 6 &&
              Item[m_Hand].GetDetailType() != 5 &&
@@ -2399,8 +2461,10 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
       else if (SrcPos->nX == 15) {
 
         if (Item[m_Hand].GetGenre() != item_task ||
-            Item[m_Hand].GetDetailType() < 44 ||
-            Item[m_Hand].GetDetailType() > 53) {
+            Item[m_Hand].GetDetailType() < 584 ||
+            (Item[m_Hand].GetDetailType() > 593 &&
+             Item[m_Hand].GetDetailType() < 623) ||
+            Item[m_Hand].GetDetailType() > 627) {
 
           KPlayerChat::SendSystemInfo(
               1, m_PlayerIdx, MESSAGE_SYSTEM_ANNOUCE_HEAD,
@@ -2437,8 +2501,8 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
       else if (SrcPos->nX == 17) {
 
         //	if (Item[m_Hand].GetGenre() != item_task ||
-        // Item[m_Hand].GetDetailType() < 44 || Item[m_Hand].GetDetailType() >
-        // 53)
+        //Item[m_Hand].GetDetailType() < 44 || Item[m_Hand].GetDetailType() >
+        //53)
         if (Item[m_Hand].GetGenre() != item_task ||
             Item[m_Hand].GetDetailType() != 415) {
 
@@ -2454,8 +2518,8 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
       else if (SrcPos->nX == 18) {
 
         //	if (Item[m_Hand].GetGenre() != item_task ||
-        // Item[m_Hand].GetDetailType() < 167 || Item[m_Hand].GetDetailType() >
-        // 172 || !Item[m_Hand].m_GeneratorParam.nGeneratorLevel[0])
+        //Item[m_Hand].GetDetailType() < 167 || Item[m_Hand].GetDetailType() >
+        //172 || !Item[m_Hand].m_GeneratorParam.nGeneratorLevel[0])
         if (Item[m_Hand].GetGenre() != item_task ||
             Item[m_Hand].GetDetailType() != 175) {
 
@@ -2704,10 +2768,10 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
     //				Item[m_Hand].GetDetailType() >= 0 &&
     //				Item[nEquipIdx1].GetDetailType() >= 0 &&
     //				Item[m_Hand].GetDetailType() ==
-    // Item[nEquipIdx1].GetDetailType() &&
-    // Item[m_Hand].GetVersion() > 0 && 				Item[nEquipIdx1].GetVersion() > 0&&
+    //Item[nEquipIdx1].GetDetailType() && 				Item[m_Hand].GetVersion() > 0 &&
+    //				Item[nEquipIdx1].GetVersion() > 0&&
     //				Item[m_Hand].GetVersion() +
-    // Item[nEquipIdx1].GetVersion() <= MAX_ITEM_STACK
+    //Item[nEquipIdx1].GetVersion() <= MAX_ITEM_STACK
     //				)
     //			{
     //
@@ -3040,10 +3104,10 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
     //				Item[m_Hand].GetDetailType() >= 0 &&
     //				Item[nEquipIdx1].GetDetailType() >= 0 &&
     //				Item[m_Hand].GetDetailType() ==
-    // Item[nEquipIdx1].GetDetailType() &&
-    // Item[m_Hand].GetVersion() > 0 && 				Item[nEquipIdx1].GetVersion() > 0 &&
+    //Item[nEquipIdx1].GetDetailType() && 				Item[m_Hand].GetVersion() > 0 &&
+    //				Item[nEquipIdx1].GetVersion() > 0 &&
     //				Item[m_Hand].GetVersion() +
-    // Item[nEquipIdx1].GetVersion() <= MAX_ITEM_STACK
+    //Item[nEquipIdx1].GetVersion() <= MAX_ITEM_STACK
     //				)
     //			{
 
@@ -3138,6 +3202,12 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
         Item[m_Hand].m_GeneratorParam.nVersion > 1) {
       return; // Giao dich
     }
+    if (m_Hand && Item[m_Hand].GetGenre() == item_equip &&
+        Item[m_Hand].GetDurability() == 0) // Trang bi do ben 0
+    {
+      return; // Giao dich
+    }
+
 #endif
     nEquipIdx1 = m_Room[room_trade].FindItem(SrcPos->nX, SrcPos->nY);
     if (nEquipIdx1 < 0)
@@ -3937,6 +4007,29 @@ int KItemList::DeleteAllItemInCheckBox() {
 #endif
 
 #ifdef _SERVER
+int KItemList::DeleteAllItem() {
+  int nNo = 0;
+  int nIdx = 0;
+  while ((nIdx = m_UseIdx.GetNext(nIdx))) {
+
+    int nGameIdx = m_Items[nIdx].nIdx;
+
+    if (nGameIdx <= 0 || nGameIdx >= MAX_ITEM)
+      continue;
+
+    if (m_Items[nIdx].nPlace != pos_equiproom)
+      continue;
+
+    Remove(nGameIdx);
+    ItemSet.Remove(nGameIdx);
+    nNo++;
+    nIdx = 0;
+  }
+  return nNo;
+}
+#endif
+
+#ifdef _SERVER
 int KItemList::SetAutoRepair() {
   //	printf("CHEK \n");
   int nNo = 0;
@@ -4279,7 +4372,7 @@ int KItemList::GetIdxTaskItemHaveFreeStask(int nDetailType) {
     if (nDetailType == Item[m_Items[nIdx].nIdx].GetDetailType()) {
 
       if (Item[m_Items[nIdx].nIdx].GetVersion() >= 1 &&
-          Item[m_Items[nIdx].nIdx].GetVersion() < 50 &&
+          Item[m_Items[nIdx].nIdx].GetVersion() < 200 &&
           Item[m_Items[nIdx].nIdx].IsStack()) {
         nNo = m_Items[nIdx].nIdx;
         break;
@@ -4414,6 +4507,41 @@ int KItemList::GetHSD(int idxitem, int inum) {
   return resulf;
 }
 
+int KItemList::GetDurationItem(int idxitem) {
+  int nNo = 0;
+  int nIdx = 0;
+  int nGameIdx = idxitem;
+
+  if (nGameIdx <= 0 || nGameIdx >= MAX_ITEM)
+    return FALSE;
+
+  int resulf = Item[nGameIdx].GetDurability();
+  nIdx = 0;
+  return resulf;
+}
+BOOL KItemList::SetDurationItem(int idxitem) {
+  int nNo = 0;
+  int nIdx = 0;
+  int nGameIdx = idxitem;
+
+  if (nGameIdx <= 0 || nGameIdx >= MAX_ITEM)
+    return FALSE;
+
+  Item[nGameIdx].SetDurability(Item[nGameIdx].GetMaxDurability());
+
+  ITEM_DURABILITY_CHANGE sIDC;
+  sIDC.ProtocolType = s2c_itemdurabilitychange;
+  sIDC.dwItemID = Item[nGameIdx].GetID();
+  sIDC.nChange = Item[nGameIdx].GetMaxDurability();
+  if (g_pServer)
+    g_pServer->PackDataToClient(Player[m_PlayerIdx].m_nNetConnectIdx, &sIDC,
+                                sizeof(ITEM_DURABILITY_CHANGE));
+
+  UpdateItem(nGameIdx);
+  nIdx = 0;
+  return TRUE;
+}
+
 void KItemList::UpdateItem(int nIdx) {
   S2C_SYNC_ITEM_PARAM pParam;
   pParam.ProtocolType = s2c_sync_item_param;
@@ -4507,14 +4635,14 @@ void KItemList::SetBindAllItem() {
 #ifdef _SERVER
 //--------------------------------------------------------------------------
 //	¹¦ÄÜ£º½»Ò×ÖÐ°Ñ trade room ÖÐµÄ item µÄ idx width height ÐÅÏ¢Ð´Èë itemset
-// ÖÐµÄ m_psItemInfo ÖÐÈ¥
+//ÖÐµÄ m_psItemInfo ÖÐÈ¥
 //--------------------------------------------------------------------------
 void KItemList::GetTradeRoomItemInfo() {
   _ASSERT(ItemSet.m_psItemInfo);
   //	if (!ItemSet.m_psItemInfo)
   //	{
   //		ItemSet.m_psItemInfo = new TRADE_ITEM_INFO[TRADE_ROOM_WIDTH *
-  // TRADE_ROOM_HEIGHT];
+  //TRADE_ROOM_HEIGHT];
   //	}
   memset(ItemSet.m_psItemInfo, 0,
          sizeof(TRADE_ITEM_INFO) * TRADE_ROOM_WIDTH * TRADE_ROOM_HEIGHT);
@@ -4622,14 +4750,36 @@ BOOL KItemList::TradeCheckCanPlace() {
 //(ÎªÁË·þÎñÆ÷Ð§ÂÊ£¬±¾º¯ÊýÀïÃæÃ»ÓÐµ÷ÓÃÆäËûº¯Êý)
 //--------------------------------------------------------------------------
 
+int KItemList::CheckNguaPhienVu() {
+  for (int i = 0; i < MAX_PLAYER_ITEM; i++) {
+    int nIdx = m_Items[i].nIdx;
+    int nPlace = m_Items[i].nPlace;
+    int nItemGenre = Item[i].GetGenre();
+    int nDetailType = Item[i].GetDetailType();
+    int nParticular = Item[i].GetParticular();
+    int nLevel = Item[i].GetLevel();
+
+    if (nIdx > 0 && nIdx < MAX_ITEM && nItemGenre == 0 && nDetailType == 10 &&
+        nParticular == 7 && nLevel >= 2 && nLevel <= 6) {
+      return 1;
+    }
+  }
+  return 0;
+}
+
 BOOL KItemList::CheckItemEquipCS() {
 
   for (int i = 0; i < MAX_PLAYER_ITEM; i++) {
     int nIdx = m_Items[i].nIdx;
     int nPlace = m_Items[i].nPlace;
+    int nItemGenre = Item[i].GetGenre();
+    int nDetailType = Item[i].GetDetailType();
 
-    if (nIdx > 0 && nIdx < MAX_ITEM && nPlace == pos_equip)
+    if (nIdx > 0 && nIdx < MAX_ITEM && nPlace == pos_equip && nItemGenre == 0 &&
+        nDetailType != 10) {
+
       return FALSE;
+    }
   }
 
   return TRUE;
@@ -4914,7 +5064,14 @@ void KItemList::AutoDurationItem(int nRate) {
     if (m_Items[nIdx].nPlace != pos_equip)
       continue;
 
+    int nDetail = Item[nGameIdx].GetDetailType();
+    if (nDetail == 11 || nDetail == 10 || nDetail == 4 || nDetail == 9 ||
+        nDetail == 3)
+      continue;
+
     int nOldDur = Item[nGameIdx].GetDurability();
+    if (nOldDur <= 0)
+      continue;
 
     int Durability =
         nOldDur - (nRate * Item[nGameIdx].GetMaxDurability() / 100);
@@ -4930,6 +5087,45 @@ void KItemList::AutoDurationItem(int nRate) {
     if (g_pServer)
       g_pServer->PackDataToClient(Player[m_PlayerIdx].m_nNetConnectIdx, &sIDC,
                                   sizeof(ITEM_DURABILITY_CHANGE));
+  }
+}
+#endif
+
+#ifdef _SERVER
+void KItemList::SetItemNotRepair() {
+
+  int nNo = 0;
+  int nIdx = 0;
+  while ((nIdx = m_UseIdx.GetNext(nIdx))) {
+
+    int nGameIdx = m_Items[nIdx].nIdx;
+
+    if (nGameIdx <= 0 || nGameIdx >= MAX_ITEM)
+      continue;
+
+    if (m_Items[nIdx].nPlace != pos_equip)
+      continue;
+
+    int nDetail = Item[nGameIdx].GetDetailType();
+
+    if (nDetail == 11 || nDetail == 10 || nDetail == 4 || nDetail == 9 ||
+        nDetail == 3)
+      continue;
+
+    int nOldDur = Item[nGameIdx].GetDurability();
+    int Durability = 0;
+
+    Item[nGameIdx].SetDurability(Durability);
+
+    ITEM_DURABILITY_CHANGE sIDC;
+    sIDC.ProtocolType = s2c_itemdurabilitychange;
+    sIDC.dwItemID = Item[nGameIdx].GetID();
+    sIDC.nChange = Durability - nOldDur;
+    if (g_pServer)
+      g_pServer->PackDataToClient(Player[m_PlayerIdx].m_nNetConnectIdx, &sIDC,
+                                  sizeof(ITEM_DURABILITY_CHANGE));
+
+    UpdateCurItem(nGameIdx);
   }
 }
 #endif
@@ -5017,7 +5213,7 @@ void KItemList::AutoLoseItemFromEquipmentRoom(int nRate) {
 
       sInfo.m_nMovieFlag = 1;
       sInfo.m_nSoundFlag = 1;
-
+      sInfo.m_dwNpcId = Npc[Player[m_PlayerIdx].m_nIndex].m_dwID;
       sInfo.m_bByPlayer = TRUE;
 
       nObj = ObjSet.Add(Item[nItemIdx].GetObjIdx(), sMapPos, sInfo);
@@ -5143,7 +5339,7 @@ void KItemList::AutoLoseEquip() {
 
     sInfo.m_nMovieFlag = 1;
     sInfo.m_nSoundFlag = 1;
-
+    sInfo.m_dwNpcId = Npc[Player[m_PlayerIdx].m_nIndex].m_dwID;
     sInfo.m_bByPlayer = TRUE;
 
     nObj = ObjSet.Add(Item[nItemIdx].GetObjIdx(), sMapPos, sInfo);
@@ -5256,7 +5452,6 @@ void KItemList::Abrade(int nType) {
           g_pServer->PackDataToClient(Player[m_PlayerIdx].m_nNetConnectIdx,
                                       &sMsg, sMsg.m_wLength + 1);
         sMsg.m_lpBuf = 0;
-
       } else if (nOldDur != nDur && nDur != -1) {
         Item[nItemIdx].SetDurability(nDur);
 
@@ -5346,3 +5541,36 @@ void KItemList::UpdateCurItem(int nGameIdx) {
                                 (BYTE *)&pItemSync, sizeof(S2C_ITEM_REFRESH));
 }
 #endif
+
+int KItemList::CountCommonItem(int nItemNature, int nItemGenre, int nDetailType,
+                               int nLevel, int nSeries, int P) {
+  int nIdx = 0;
+  int nResult = 0;
+  while ((nIdx = m_UseIdx.GetNext(nIdx))) {
+    int nGameIdx = m_Items[nIdx].nIdx;
+
+    // if (nItemNature != Item[nGameIdx].GetNature())
+    //	continue;
+
+    if (nItemGenre != Item[nGameIdx].GetGenre())
+      continue;
+
+    if (nDetailType > -1 && (nDetailType != Item[nGameIdx].GetDetailType()))
+      continue;
+
+    if (nLevel > -1 && (nLevel != Item[nGameIdx].GetLevel()))
+      continue;
+
+    if (nSeries > -1 && (nSeries != Item[nGameIdx].GetSeries()))
+      continue;
+
+    if (m_Items[nIdx].nPlace != P)
+      continue;
+
+    if (Item[nGameIdx].IsStack())
+      nResult += Item[nGameIdx].IsStack();
+    else
+      nResult++;
+  }
+  return nResult;
+}

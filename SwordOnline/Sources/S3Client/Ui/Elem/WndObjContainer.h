@@ -58,7 +58,7 @@ public:
   int GetObject(KUiDraggedObject &Obj, int x,
                 int y) const; // 获取容纳的某个对象信息
   //	int				GetObjects(KUiDraggedObject* pObjects,
-  // int nCount) const;//获取容纳的对象信息
+  //int nCount) const;//获取容纳的对象信息
   void EnableTracePutPos(bool bEnable);
   void SetContainerId(int nId);
   void EnablePickPut(bool bEnable);

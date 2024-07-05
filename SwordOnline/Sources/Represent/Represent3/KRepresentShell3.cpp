@@ -1106,7 +1106,8 @@ void KRepresentShell3::DrawSprOnTexture2D(int nPrimitiveCount,
 
   m_pVB2D->Unlock();
 
-  if (cRenderStyle == IMAGE_RENDER_STYLE_BORDER)
+  if (cRenderStyle == IMAGE_RENDER_STYLE_BORDER ||
+      cRenderStyle == IMAGE_RENDER_STYLE_BORDER_RECT)
     PD3DDEVICE->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_ADD);
   else
     PD3DDEVICE->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE4X);
@@ -1709,8 +1710,10 @@ void KRepresentShell3::OutputText(int nFontId, const char *psText, int nCount,
     } else
       CoordinateTransform(nX, nY, nZ);
   }
-
-  m_FontTable[i].pFontObj->SetBorderColor(BorderColor);
+  if (!BorderColor)
+    m_FontTable[i].pFontObj->SetBorderColor(0xff000000);
+  else
+    m_FontTable[i].pFontObj->SetBorderColor(BorderColor);
   m_FontTable[i].pFontObj->SetOutputSize(nFontId, nFontId + 1);
   m_FontTable[i].pFontObj->OutputText(psText, nCount, nX, nY, Color,
                                       nLineWidth);
@@ -1751,8 +1754,10 @@ int KRepresentShell3::OutputRichText(int nFontId, KOutputTextParam *pParam,
       pParam->nX = x;
       pParam->nY = y;
     }
-
-    m_FontTable[i].pFontObj->SetBorderColor(pParam->BorderColor);
+    if (!pParam->BorderColor)
+      m_FontTable[i].pFontObj->SetBorderColor(0xff000000);
+    else
+      m_FontTable[i].pFontObj->SetBorderColor(pParam->BorderColor);
     m_FontTable[i].pFontObj->SetOutputSize(nFontId, nFontId + 1);
     return tp.DrawTextLine(m_FontTable[i].pFontObj, nFontId, pParam);
   }
@@ -2292,7 +2297,8 @@ void KRepresentShell3::DrawSpriteAlpha(int32 nX, int32 nY, int32 nWidth,
 
     PD3DDEVICE->SetTexture(0, pTex);
 
-    if (nRenderStyle == IMAGE_RENDER_STYLE_BORDER) {
+    if (nRenderStyle == IMAGE_RENDER_STYLE_BORDER ||
+        nRenderStyle == IMAGE_RENDER_STYLE_BORDER_RECT) {
       // 选中加亮效果
       PD3DDEVICE->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
       PD3DDEVICE->DrawPrimitive(D3DPT_TRIANGLESTRIP, i * 4, 2);
@@ -2730,7 +2736,8 @@ void KRepresentShell3::DrawSpriteAlpha3D(RenderParam3D &param, int32 nFrame,
     PD3DDEVICE->SetTexture(0, pTex);
     PD3DDEVICE->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
     PD3DDEVICE->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
-    if (nRenderStyle == IMAGE_RENDER_STYLE_BORDER) {
+    if (nRenderStyle == IMAGE_RENDER_STYLE_BORDER ||
+        nRenderStyle == IMAGE_RENDER_STYLE_BORDER_RECT) {
       // 选中加亮效果
       PD3DDEVICE->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE2X);
       PD3DDEVICE->DrawPrimitive(D3DPT_TRIANGLESTRIP, i * 4, 2);
@@ -2898,7 +2905,8 @@ void KRepresentShell3::DrawSpriteAlpha3DLighting(
       continue;
     PD3DDEVICE->SetTexture(0, pTex);
 
-    if (nRenderStyle == IMAGE_RENDER_STYLE_BORDER) {
+    if (nRenderStyle == IMAGE_RENDER_STYLE_BORDER ||
+        nRenderStyle == IMAGE_RENDER_STYLE_BORDER_RECT) {
       // 选中加亮效果
       PD3DDEVICE->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_ADD);
       PD3DDEVICE->DrawPrimitive(D3DPT_TRIANGLESTRIP, nBase, nStripLen[i] - 2);

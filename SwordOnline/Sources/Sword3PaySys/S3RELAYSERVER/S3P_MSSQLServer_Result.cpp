@@ -71,8 +71,7 @@ bool S3P_MSSQLServer_Result::get_field_data(unsigned int nfieldindex,
   BOOL bRet = FALSE;
   try {
     if (NULL != m_pResult && nsize == sizeof(VARIANT)) {
-      if (num_rows() > 0 && nfieldindex >= 0 &&
-          nfieldindex < (unsigned int)num_fields()) {
+      if (num_rows() > 0 && nfieldindex >= 0 && nfieldindex < num_fields()) {
         _variant_t varIndex;
         varIndex = (long)nfieldindex;
         FieldPtr pField = m_pResult->Fields->GetItem(varIndex);

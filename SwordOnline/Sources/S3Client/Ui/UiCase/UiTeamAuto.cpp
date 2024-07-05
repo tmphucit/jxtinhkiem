@@ -22,7 +22,7 @@ extern iRepresentShell *g_pRepresentShell;
 
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI_AUTO_SHEET "\\Ui\\Ui3\\AutoLocDo.ini"
+#define SCHEME_INI_AUTO_SHEET "\\Ui\\Ui3\\AutoFilterEquip.ini"
 //--------------------------------------------------------------------------
 //	Chuc nang: Tu chien dau
 //--------------------------------------------------------------------------
@@ -371,15 +371,15 @@ void KUiTeamAuto::LoadScheme() {
   if (m_pSelf && Ini.Load(SCHEME_INI_AUTO_SHEET)) {
     m_pSelf->Init(&Ini, "Main");
 
-    // m_pSelf->m_Active.Init(&Ini, "ActiveBtn");
-    // m_pSelf->m_TActiveText.Init(&Ini, "ActiveText");
+    m_pSelf->m_Active.Init(&Ini, "ActiveBtn");
+    m_pSelf->m_TActiveText.Init(&Ini, "ActiveText");
 
-    // m_pSelf->m_FightingBtn.Init(&Ini, "FightingBtn");
-    // m_pSelf->m_FightText.Init(&Ini, "FightText");
+    m_pSelf->m_FightingBtn.Init(&Ini, "FightingBtn");
+    m_pSelf->m_FightText.Init(&Ini, "FightText");
 
-    // m_pSelf->m_Active.SetFrame(0);
-    // m_pSelf->m_Active.CheckButton(false);
-    // m_pSelf->m_ActiveText = false;
+    m_pSelf->m_Active.SetFrame(0);
+    m_pSelf->m_Active.CheckButton(false);
+    m_pSelf->m_ActiveText = false;
 
     m_pSelf->m_FightPad.LoadScheme();
   }

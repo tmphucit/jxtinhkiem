@@ -36,6 +36,7 @@
 #define ENVLIGHT_NOON 4     // RGB5：正午的高亮
 #define ENVLIGHT_DUSK 5     // RGB6：太阳落山的晚霞亮度
 #define ENVLIGHT_EVENING 6  // RGB7：傍晚灰蒙蒙的亮度
+#define MAX_BACKGROUND_IMAGE 3
 
 class EnvironmentLight {
 private:
@@ -215,7 +216,7 @@ public:
       int nZ   // （期望）得到的空间坐标的z量
   );
 
-  bool bPaintFlag;
+  BOOL bPaintFlag;
   void GetRegionLeftTopPos(int nRegionX, int nRegionY, int &nLeft, int &nTop);
 
   long GetObstacleInfo(int nX, int nY);
@@ -259,8 +260,12 @@ public:
   void SearchPos();
   void EnableWeather(int nbEnable);
   void CalcFlagPos(int nX, int nY, bool bCalc, bool bLine);
-  void SetAutoMove(bool bIndex);
+  void SetAutoMove(BOOL bIndex);
   void SetHidePicMap(bool bHide);
+
+  void LoadGround(KIniFile *pIni);
+
+  BOOL PaintBackGround();
 
   void SetHideRegion(bool bHide);
   bool GetHideRegion();
@@ -440,6 +445,10 @@ private:
   // ##ModelId=3DDBC73803A4
   // ##Documentation
   // ## 进入处理范围的以加载区域的指针。
+  KRUImage m_pBackGroundImages[MAX_BACKGROUND_IMAGE];
+  int m_bBackGroundImages;
+  BOOL m_nBackGroundImages;
+  RECT BGArea[MAX_BACKGROUND_IMAGE];
   KScenePlaceRegionC *m_pInProcessAreaRegions[SPWP_NUM_REGIONS_IN_PROCESS_AREA];
 
   KRUImage m_RegionGroundImages[SPWP_NUM_REGIONS_IN_PROCESS_AREA];

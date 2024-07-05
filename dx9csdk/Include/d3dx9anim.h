@@ -138,8 +138,9 @@ DECLARE_INTERFACE(ID3DXAllocateHierarchy) {
   //		Pointer to the mesh object if basic polygon data found
   //	pPMesh
   //		Pointer to the progressive mesh object if progressive mesh data
-  // found 	pPatchMesh 		Pointer to the patch mesh object if
-  // patch data found 	pMaterials 		Array of materials used in the mesh
+  //found 	pPatchMesh 		Pointer to the patch mesh object if patch data found
+  //	pMaterials
+  //		Array of materials used in the mesh
   //	pEffectInstances
   //		Array of effect instances used in the mesh
   //	NumMaterials
@@ -796,7 +797,7 @@ extern "C" {
 //  ppAnimController
 //      Returns pointer to an animation controller corresponding to animation
 //		in the .X file. This is created with default max tracks and
-// events
+//events
 //
 //----------------------------------------------------------------------------
 HRESULT WINAPI D3DXLoadMeshHierarchyFromXA(
@@ -912,7 +913,7 @@ LPD3DXFRAME WINAPI D3DXFrameFind(CONST D3DXFRAME *pFrameRoot, LPCSTR Name);
 //		Pointer to the root node
 //	pAnimController
 //		Pointer to the animation controller where the matrices are
-// registered
+//registered
 //
 //----------------------------------------------------------------------------
 HRESULT WINAPI D3DXFrameRegisterNamedMatrices(

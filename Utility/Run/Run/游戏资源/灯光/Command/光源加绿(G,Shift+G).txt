@@ -1,4 +1,0 @@
-[MAIN]
-icon=command
-type=light_static
-lightcommand=light_turngreen

@@ -334,6 +334,8 @@ void KNpcAttribModify::BurnTimeReduceP(KNpc *pNpc, void *pData) { return; }
 void KNpcAttribModify::CastSpeedV(KNpc *pNpc, void *pData) {
   KMagicAttrib *pMagic = (KMagicAttrib *)pData;
   pNpc->m_CurrentCastSpeed += pMagic->nValue[0];
+  // if (pNpc->m_CurrentCastSpeed < 0 )
+  // pNpc->m_CurrentCastSpeed = 0;
   g_DebugLog("[数值]%s施法速度增加%d", pNpc->Name, pMagic->nValue[0]);
 }
 
@@ -454,7 +456,7 @@ void KNpcAttribModify::FreezeTimeReduceP(KNpc *pNpc, void *pData) {
   //		pNpc->m_FreezeState.nTime = 0;
   //	}
   //	g_DebugLog("[数值]%s冰冻时间减少百分之%d", pNpc->Name,
-  // pMagic->nValue[0]); 	装备TODO
+  //pMagic->nValue[0]); 	装备TODO
   KMagicAttrib *pMagic = (KMagicAttrib *)pData;
   pNpc->m_CurrentFreezeTimeReducePercent += pMagic->nValue[0];
   g_DebugLog("[数值]%s冰冻时间减少百分之%d", pNpc->Name, pMagic->nValue[0]);
@@ -482,7 +484,6 @@ void KNpcAttribModify::LifeMaxV(KNpc *pNpc, void *pData) {
 void KNpcAttribModify::LifeReplenishV(KNpc *pNpc, void *pData) {
   KMagicAttrib *pMagic = (KMagicAttrib *)pData;
   pNpc->m_CurrentLifeReplenish += pMagic->nValue[0];
-  g_DebugLog("[数值]%s生命回复速度增加了%d点", pNpc->Name, pMagic->nValue[0]);
 }
 
 void KNpcAttribModify::LifeV(KNpc *pNpc, void *pData) {
@@ -770,7 +771,7 @@ void KNpcAttribModify::PoisonTimeReduceP(KNpc *pNpc, void *pData) {
   //		pNpc->m_PoisonState.nTime = 0;
   //	}
   //	g_DebugLog("[数值]%s中毒时间减少百分之%d", pNpc->Name,
-  // pMagic->nValue[0]);
+  //pMagic->nValue[0]);
   KMagicAttrib *pMagic = (KMagicAttrib *)pData;
 
   pNpc->m_CurrentPoisonTimeReducePercent += pMagic->nValue[0];

@@ -31,8 +31,8 @@ enum {
   ACTION_MAKEFRIEND, // ÒªÓÃName
   ACTION_TRADE, // pDest->nData == PLAYER_MENU_STATE_TRADEOPEN && pDest->nIndex
                 // != -1
-  ACTION_JOINTEAM,   // pDest->nData == PLAYER_MENU_STATE_TEAMOPEN &&
-                     // pDest->nIndex != -1
+  ACTION_JOINTEAM, // pDest->nData == PLAYER_MENU_STATE_TEAMOPEN &&
+                   // pDest->nIndex != -1
   ACTION_INVITETEAM, // pDest->uId != 0
   ACTION_FOLLOW,     // pDest->nIndex != -1
   ACTION_REVENGE,    // pDest->uId != 0

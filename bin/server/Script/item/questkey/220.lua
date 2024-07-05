@@ -1,5 +1,0 @@
-
-function main(idx)
-
-end
-

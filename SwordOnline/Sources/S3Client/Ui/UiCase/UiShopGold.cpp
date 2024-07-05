@@ -21,7 +21,7 @@
 
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI "ky_tran_cac.ini"
+#define SCHEME_INI "UiShopGold.ini"
 
 KUiShopGold *KUiShopGold::m_pSelf = NULL;
 

@@ -69,9 +69,8 @@ LOGIN_R_SUCCESS时候，表示列表传送结束。
 #define LOGIN_A_LOGOUT 0x060000        // 注销
 #define LOGIN_A_CHARACTERLIST 0x070000 // 获取角色列表（游戏服务器）
 
-#define LOGIN_R_REQUEST                                                        \
-  0 // when the login request is send form client to
-    // server
+#define LOGIN_R_REQUEST 0 // when the login request is send form client to
+                          // server
 #define LOGIN_R_SUCCESS 1
 #define LOGIN_R_FAILED 2
 #define LOGIN_R_ACCOUNT_OR_PASSWORD_ERROR 3

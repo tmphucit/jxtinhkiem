@@ -1,6 +1,0 @@
-[MAIN]
-help=1
-icon=setting
-title="…Ë÷√TRAPµ„id"
-type=doodad_dynamic
-want=int

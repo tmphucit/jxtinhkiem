@@ -20,17 +20,12 @@ extern iRepresentShell *g_pRepresentShell;
 
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI "pgboxitem.ini"
-
-#define SCHEME_INI_PAGE1 "pgboxitempage1.ini"
-
-#define SCHEME_INI_PAGE2 "pgboxitempage2.ini"
-
-#define SCHEME_INI_PAGE3 "pgboxitempage3.ini"
-
-#define SCHEME_INI_PAGE4 "pgboxitempage4.ini"
-
-#define SCHEME_INI_PAGE5 "pgboxitempage5.ini"
+#define SCHEME_INI "UiPGBoxItem.ini"
+#define SCHEME_INI_PAGE1 "UiPGBoxItemPage1.ini"
+#define SCHEME_INI_PAGE2 "UiPGBoxItemPage2.ini"
+#define SCHEME_INI_PAGE3 "UiPGBoxItemPage3.ini"
+#define SCHEME_INI_PAGE4 "UiPGBoxItemPage4.ini"
+#define SCHEME_INI_PAGE5 "UiPGBoxItemPage5.ini"
 
 KUiPGBoxItem *KUiPGBoxItem::m_pSelf = NULL;
 
@@ -741,8 +736,8 @@ void KUiPGBoxItem::Initialize() {
   m_pPage2.Initialize();
   AddPage(&m_pPage2, &m_bPage2);
 
-  // m_pPage3.Initialize();
-  // AddPage(&m_pPage3, &m_bPage3);
+  m_pPage3.Initialize();
+  AddPage(&m_pPage3, &m_bPage3);
 
   m_pPage4.Initialize();
   AddPage(&m_pPage4, &m_bPage4);
@@ -769,13 +764,13 @@ void KUiPGBoxItem::LoadScheme(const char *pScheme) {
     // m_pSelf->m_pPage1.LoadScheme(pScheme);
     m_pSelf->m_bPage2.Init(&Ini, "ButtonPage2");
     m_pSelf->m_pPage2.LoadScheme(pScheme);
-    // m_pSelf->m_bPage3.Init(&Ini, "ButtonPage3");
-    // m_pSelf->m_pPage3.LoadScheme(pScheme);
+    m_pSelf->m_bPage3.Init(&Ini, "ButtonPage3");
+    m_pSelf->m_pPage3.LoadScheme(pScheme);
     m_pSelf->m_bPage4.Init(&Ini, "ButtonPage4");
     m_pSelf->m_pPage4.LoadScheme(pScheme);
-    // m_pSelf->m_bPage5.Init(&Ini, "ButtonPage5");
+    m_pSelf->m_bPage5.Init(&Ini, "ButtonPage5");
     // m_pSelf->m_pPage5.LoadScheme(pScheme);
-    m_pSelf->m_bClose.Init(&Ini, "ButtonClose");
+    // m_pSelf->m_bClose.Init(&Ini, "ButtonClose");
   }
 }
 

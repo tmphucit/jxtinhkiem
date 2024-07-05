@@ -45,9 +45,12 @@ private:
   BOOL KeepActiveRange();
   void KeepAttackRange(int nEnemy, int nRange);
   void Flee(int nIdx);
+  BOOL CheckNpc(int nIndex);
 #ifndef _SERVER
   void FollowPeople(int nIdx);
   void FollowObject(int nIdx);
+#else
+  void FindPathNpc();
 #endif
   friend class KNpc;
 #ifndef _SERVER

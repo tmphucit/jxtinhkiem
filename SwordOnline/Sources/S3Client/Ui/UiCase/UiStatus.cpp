@@ -11,10 +11,10 @@
 #include "../../../core/src/coreshell.h"
 #include "../../../core/src/gamedatadef.h"
 #include "../Elem/WndMessage.h"
-#include "../Elem/Wnds.h"
 #include "../ShortcutKey.h"
 #include "../UiBase.h"
 #include "../UiSoundSetting.h"
+#include "../elem/wnds.h"
 #include "KIniFile.h"
 #include "KWin32.h"
 #include "UiChooseFace.h"
@@ -28,15 +28,8 @@
 extern iRepresentShell *g_pRepresentShell;
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI "ui_status_new.ini"
-#define IMAGE_PLAYER "\\Settings\\AvatarPlayer.ini"
-
-enum WAIT_OTHER_WND_OPER_PARAM {
-  UIITEM_WAIT_GETSTR,
-  UIITEM_WAIT_GETDEX,
-  UIITEM_WAIT_GETVIT,
-  UIITEM_WAIT_GETENE,
-};
+#define SCHEME_INI "玩家装备与人物状态.ini"
+#define IMAGE_PLAYER "\\Ui\\Ui3\\AvatarPlayer.ini"
 
 KUiStatus *KUiStatus::m_pSelf = NULL;
 
@@ -95,8 +88,8 @@ void KUiStatus::CloseWindow(bool bDestroy) {
     if (g_UiBase.GetStatus() == UIS_S_BLOCK_ITEM ||
         g_UiBase.GetStatus() == UIS_S_UNBLOCK_ITEM ||
         g_UiBase.GetStatus() == UIS_S_IDLE) {
-      m_pSelf->m_UnLockItem.CheckButton(0);
-      m_pSelf->m_LockItem.CheckButton(0);
+      m_pSelf->m_BtnUnBind.CheckButton(0);
+      m_pSelf->m_BtnBind.CheckButton(0);
       //		m_pSelf->m_BLockBox.CheckButton(0);
       g_UiBase.SetStatus(UIS_S_IDLE);
     }
@@ -152,10 +145,10 @@ void KUiStatus::Initialize() {
   AddChild(&m_Level);
   AddChild(&m_StatusDesc);
 
-  AddChild(&m_Pk);
+  AddChild(&m_PKValue);
   AddChild(&m_Repute);
-  AddChild(&m_Pd);
-  AddChild(&m_Xh);
+  AddChild(&m_FuYuan);
+  AddChild(&m_WorldRank);
   AddChild(&m_ClickHere1);
   AddChild(&m_ClickHere);
   AddChild(&m_Avatar);
@@ -170,11 +163,11 @@ void KUiStatus::Initialize() {
 
   AddChild(&m_BLockBox1);
   AddChild(&m_BLockBox2);
-  //   AddChild(&m_BLockBox);
+  // AddChild(&m_BLockBox);
 
-  AddChild(&m_LockItem);
-  AddChild(&m_UnLockItem);
-  AddChild(&m_Cs);
+  AddChild(&m_BtnBind);
+  AddChild(&m_BtnUnBind);
+  AddChild(&m_TransLife);
 
   Wnd_AddWindow(this);
 
@@ -234,10 +227,10 @@ void KUiStatus::LoadScheme(class KIniFile *pIni) {
   m_MoveSpeed.Init(pIni, "MoveSpeed");
   m_AttackSpeed.Init(pIni, "AttackSpeed");
 
-  m_Pk.Init(pIni, "PKValue");
-  m_Repute.Init(pIni, "Repute");
-  m_Pd.Init(pIni, "Pd");
-  m_Xh.Init(pIni, "Xh");
+  m_PKValue.Init(pIni, "PKValue");
+  m_Repute.Init(pIni, "Prestige");
+  m_FuYuan.Init(pIni, "FuYuan");
+  m_WorldRank.Init(pIni, "WorldRank");
 
   m_PhyDef.Init(pIni, "ResistPhy");
   m_CoolDef.Init(pIni, "ResistCold");
@@ -250,16 +243,17 @@ void KUiStatus::LoadScheme(class KIniFile *pIni) {
   m_Close.Init(pIni, "Close");
 
   m_OpenItemPad.Init(pIni, "Item");
-  //	m_BLockBox.Init(pIni, "BLockBox");
+  // m_BLockBox.Init(pIni, "BLockBox");
 
   m_BLockBox1.Init(pIni, "BLockBox1");
   m_BLockBox2.Init(pIni, "BLockBox2");
 
-  m_LockItem.Init(pIni, "LockItem");
-  m_UnLockItem.Init(pIni, "UnLockItem");
-  m_Cs.Init(pIni, "Cs");
+  m_BtnBind.Init(pIni, "BtnBind");
+  m_BtnUnBind.Init(pIni, "BtnUnBind");
+  m_TransLife.Init(pIni, "TransLife");
+  m_Avatar.Init(pIni, "Avatar");
   m_ClickHere.Init(pIni, "ClickHere");
-  m_ClickHere1.Init(pIni, "ClickHere1");
+  m_ClickHere1.Init(pIni, "ClickHere");
   m_ClickHere1.Show();
 
   for (int i = 0; i < _ITEM_COUNT; i++) {
@@ -278,19 +272,19 @@ int KUiStatus::WndProc(unsigned int uMsg, unsigned int uParam, int nParam) {
       if (g_UiBase.GetStatus() == UIS_S_BLOCK_ITEM ||
           g_UiBase.GetStatus() == UIS_S_UNBLOCK_ITEM ||
           g_UiBase.GetStatus() == UIS_S_IDLE) {
-        m_UnLockItem.CheckButton(0);
-        m_LockItem.CheckButton(0);
+        m_BtnUnBind.CheckButton(0);
+        m_BtnBind.CheckButton(0);
         //	m_BLockBox.CheckButton(0);
         g_UiBase.SetStatus(UIS_S_IDLE);
       }
       Hide();
-    } else if (uParam == (unsigned int)(KWndWindow *)&m_OpenItemPad)
+    } else if (uParam == (unsigned int)(KWndWindow *)&m_OpenItemPad) {
       if (KUiItem::GetIfVisible())
         KUiItem::CloseWindow(false);
       else
         KUiItem::OpenWindow();
-    else if (uParam == (unsigned int)(KWndWindow *)&m_ClickHere ||
-             uParam == (unsigned int)(KWndWindow *)&m_Avatar) {
+    } else if (uParam == (unsigned int)(KWndWindow *)&m_ClickHere ||
+               uParam == (unsigned int)(KWndWindow *)&m_Avatar) {
       if (g_pCoreShell->GetGameData(GDI_PLAYER_IS_MALE, 0, 0)) {
         KUiChooseFace::OpenWindow(2);
       } else {
@@ -298,47 +292,45 @@ int KUiStatus::WndProc(unsigned int uMsg, unsigned int uParam, int nParam) {
       }
     } else if (uParam == (unsigned int)(KWndWindow *)&m_BLockBox1 ||
                uParam == (unsigned int)(KWndWindow *)&m_BLockBox2) {
-
       if (g_pCoreShell->GetGameData(GDI_PLAYER_BLOCK_BOX, 0, 0)) {
         KUiLoginPWStoreBox::OpenWindow();
       } else {
         g_pCoreShell->OperationRequest(GOI_BLOCK_STORE_BOX, 0, 0);
       }
-
-    } else if (uParam == (unsigned int)(KWndWindow *)&m_LockItem) {
+    } else if (uParam == (unsigned int)(KWndWindow *)&m_BtnBind) {
       if (g_UiBase.GetStatus() == UIS_S_BLOCK_ITEM ||
           g_UiBase.GetStatus() == UIS_S_UNBLOCK_ITEM ||
           g_UiBase.GetStatus() == UIS_S_IDLE) {
-        if (m_LockItem.IsButtonChecked()) {
-          m_UnLockItem.CheckButton(0);
+        if (m_BtnBind.IsButtonChecked()) {
+          m_BtnUnBind.CheckButton(0);
           //	m_BLockBox.CheckButton(0);
           g_UiBase.SetStatus(UIS_S_BLOCK_ITEM);
         } else {
-          m_UnLockItem.CheckButton(0);
+          m_BtnUnBind.CheckButton(0);
           //	m_BLockBox.CheckButton(0);
           g_UiBase.SetStatus(UIS_S_IDLE);
         }
       } else {
-        m_UnLockItem.CheckButton(0);
-        m_LockItem.CheckButton(0);
+        m_BtnUnBind.CheckButton(0);
+        m_BtnBind.CheckButton(0);
         //	m_BLockBox.CheckButton(0);
       }
-    } else if (uParam == (unsigned int)(KWndWindow *)&m_UnLockItem) {
+    } else if (uParam == (unsigned int)(KWndWindow *)&m_BtnUnBind) {
       if (g_UiBase.GetStatus() == UIS_S_BLOCK_ITEM ||
           g_UiBase.GetStatus() == UIS_S_UNBLOCK_ITEM ||
           g_UiBase.GetStatus() == UIS_S_IDLE) {
-        if (m_UnLockItem.IsButtonChecked()) {
-          m_LockItem.CheckButton(0);
+        if (m_BtnUnBind.IsButtonChecked()) {
+          m_BtnBind.CheckButton(0);
           //	m_BLockBox.CheckButton(0);
           g_UiBase.SetStatus(UIS_S_UNBLOCK_ITEM);
         } else {
-          m_LockItem.CheckButton(0);
+          m_BtnBind.CheckButton(0);
           //	m_BLockBox.CheckButton(0);
           g_UiBase.SetStatus(UIS_S_IDLE);
         }
       } else {
-        m_UnLockItem.CheckButton(0);
-        m_LockItem.CheckButton(0);
+        m_BtnUnBind.CheckButton(0);
+        m_BtnBind.CheckButton(0);
         //	m_BLockBox.CheckButton(0);
       }
     } else if (m_nRemainPoint > 0) {
@@ -372,9 +364,9 @@ int KUiStatus::WndProc(unsigned int uMsg, unsigned int uParam, int nParam) {
       UseRemainPoint(UIPA_ENERGY, nParam);
     break;
   default:
-    return KWndPage::WndProc(uMsg, uParam, nParam);
+    nRet = KWndShowAnimate::WndProc(uMsg, uParam, nParam);
   }
-  return 0;
+  return nRet;
 }
 
 //--------------------------------------------------------------------------
@@ -419,9 +411,7 @@ void KUiStatus::UpdateRuntimeInfo(KUiPlayerRuntimeInfo *pInfo) {
 //--------------------------------------------------------------------------
 //	功能：更新数据
 //--------------------------------------------------------------------------
-
 void KUiStatus::UpdateClientDT() {
-
   if (m_pSelf) {
     m_pSelf->UpdateData();
   }
@@ -447,9 +437,7 @@ void KUiStatus::UpdateAllEquips() {
 
 void KUiStatus::UpdateRuntimeAttribute(KUiPlayerAttribute *pInfo) {
   if (pInfo) {
-
     char TextInfo[32];
-
     int van = pInfo->nMoney / 10000;
     int luong = pInfo->nMoney % 10000;
     char ngan_luong[32];
@@ -479,10 +467,10 @@ void KUiStatus::UpdateRuntimeAttribute(KUiPlayerAttribute *pInfo) {
     m_MoveSpeed.SetIntText(pInfo->nMoveSpeed);
     m_AttackSpeed.Set2IntText(pInfo->nAttackSpeed, pInfo->nCastSpeed, '/');
 
-    m_Pk.SetIntText(pInfo->nPk);
+    m_PKValue.SetIntText(pInfo->nPk);
     m_Repute.SetIntText(pInfo->nRepute);
-    m_Pd.SetIntText(pInfo->nPd);
-    m_Xh.SetIntText(pInfo->nXh);
+    m_FuYuan.SetIntText(pInfo->nPd);
+    m_WorldRank.SetIntText(pInfo->nXh);
 
     sprintf(TextInfo, "%d%%", pInfo->nPhyDef);
     m_PhyDef.SetText(TextInfo);
@@ -502,11 +490,9 @@ void KUiStatus::UpdateRuntimeAttribute(KUiPlayerAttribute *pInfo) {
     m_Level.SetIntText(pInfo->nLevel); // 等级
     m_StatusDesc.SetText(pInfo->StatusDesc);
 
-    char cCs[32] = "";
-
-    sprintf(cCs, "Tr飊g sinh %d", pInfo->nCs);
-
-    m_Cs.SetText(cCs);
+    char szTransLife[32] = {0};
+    sprintf(szTransLife, "Tr飊g sinh %d", pInfo->nCs);
+    m_TransLife.SetText(szTransLife);
   }
 }
 
@@ -623,29 +609,31 @@ void KUiStatus::Breathe() {
   char sz_Temp[30];
   char ImageNpc[100];
   nNumIcon = g_pCoreShell->GetGameData(GDI_IS_CHECK_IMAGE, 0, 0);
-  //	g_DebugLog("XXX: %d",nNumIcon);
-  if (nNumIcon == 0)
+  if (nNumIcon == 0) {
     m_ClickHere1.Show();
-  else {
+  } else {
     if (Ini.Load(IMAGE_PLAYER)) {
       if (g_pCoreShell->GetGameData(GDI_PLAYER_IS_MALE, 0, 0)) {
-        sprintf(sz_Temp, "%d_Position", nNumIcon);
-        Ini.GetInteger2("AvatarMale", sz_Temp, &Left, &Top);
-        m_Avatar.SetPosition(Left, Top);
+        // sprintf(sz_Temp, "%d_Position", nNumIcon);
+        // Ini.GetInteger2("AvatarMale", sz_Temp, &Left, &Top);
+        // m_Avatar.SetPosition(Left,Top);
+
         sprintf(sz_Temp, "%d_Image", nNumIcon);
         Ini.GetString("AvatarMale", sz_Temp, "", ImageNpc, sizeof(ImageNpc));
         m_Avatar.SetImage(ISI_T_SPR, ImageNpc);
+
         m_ClickHere1.Hide();
       } else {
-        sprintf(sz_Temp, "%d_Position", nNumIcon);
-        Ini.GetInteger2("AvatarFemale", sz_Temp, &Left, &Top);
-        m_Avatar.SetPosition(Left, Top);
+        // sprintf(sz_Temp, "%d_Position", nNumIcon);
+        // Ini.GetInteger2("AvatarFemale", sz_Temp, &Left, &Top);
+        // m_Avatar.SetPosition(Left,Top);
+
         sprintf(sz_Temp, "%d_Image", nNumIcon);
         Ini.GetString("AvatarFemale", sz_Temp, "", ImageNpc, sizeof(ImageNpc));
         m_Avatar.SetImage(ISI_T_SPR, ImageNpc);
+
         m_ClickHere1.Hide();
       }
     }
   }
 }
-// end

@@ -14,25 +14,25 @@
 #include "KWin32.h"
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI "buyslectshop.ini"
+#define SCHEME_INI "BuySelectShop.ini"
 
-KBuySlectItemShop *KBuySlectItemShop::m_pSelf = NULL;
+KBuySelectItemShop *KBuySelectItemShop::m_pSelf = NULL;
 
 //--------------------------------------------------------------------------
 //	功能：打开窗口，返回唯一的一个类对象实例
 //--------------------------------------------------------------------------
-KBuySlectItemShop *
-KBuySlectItemShop::OpenWindow(KUiObjAtContRegion *pObj,
-                              KUiItemBuySelInfo *pPriceInfo) {
+KBuySelectItemShop *
+KBuySelectItemShop::OpenWindow(KUiObjAtContRegion *pObj,
+                               KUiItemBuySelInfo *pPriceInfo) {
   if (pObj == NULL || pPriceInfo == NULL)
     return NULL;
   if (m_pSelf == NULL) {
-    m_pSelf = new KBuySlectItemShop;
+    m_pSelf = new KBuySelectItemShop;
     if (m_pSelf)
       m_pSelf->Initialize();
   }
-  if (m_pSelf) {
 
+  if (m_pSelf) {
     int nHoldMoney = g_pCoreShell->GetGameData(GDI_PLAYER_HOLD_MONEY, 0, 0);
     m_pSelf->m_OkBtn.Enable(nHoldMoney >= pPriceInfo->nPrice);
     m_pSelf->m_Money.SetTextColor((nHoldMoney >= pPriceInfo->nPrice)
@@ -45,17 +45,18 @@ KBuySlectItemShop::OpenWindow(KUiObjAtContRegion *pObj,
     m_pSelf->BringToTop();
     m_pSelf->Show();
   }
+
   return m_pSelf;
 }
 
-KBuySlectItemShop::KBuySlectItemShop() {
+KBuySelectItemShop::KBuySelectItemShop() {
   m_PriceInfo.szItemName[0] = 0;
   m_PriceInfo.nPrice = 0;
   m_ItemInfo.Obj.uGenre = CGOG_NOTHING;
 }
 
 // 如果窗口正被显示，则返回实例指针
-KBuySlectItemShop *KBuySlectItemShop::GetIfVisible() {
+KBuySelectItemShop *KBuySelectItemShop::GetIfVisible() {
   if (m_pSelf && m_pSelf->IsVisible())
     return m_pSelf;
   return NULL;
@@ -64,7 +65,7 @@ KBuySlectItemShop *KBuySlectItemShop::GetIfVisible() {
 //--------------------------------------------------------------------------
 //	功能：关闭销毁窗口
 //--------------------------------------------------------------------------
-void KBuySlectItemShop::CloseWindow(bool bDestroy) {
+void KBuySelectItemShop::CloseWindow(bool bDestroy) {
   if (m_pSelf) {
     if (bDestroy == false)
       m_pSelf->Hide();
@@ -76,7 +77,7 @@ void KBuySlectItemShop::CloseWindow(bool bDestroy) {
 }
 
 // 显示窗口
-void KBuySlectItemShop::Show() {
+void KBuySelectItemShop::Show() {
   m_ItemName.SetText(m_PriceInfo.szItemName);
   int van = m_PriceInfo.nPrice / 10000;
   int luong = m_PriceInfo.nPrice % 10000;
@@ -96,7 +97,7 @@ void KBuySlectItemShop::Show() {
 }
 
 // 隐藏窗口
-void KBuySlectItemShop::Hide() {
+void KBuySelectItemShop::Hide() {
   Wnd_ReleaseExclusive((KWndWindow *)this);
   KWndImage::Hide();
 }
@@ -104,7 +105,7 @@ void KBuySlectItemShop::Hide() {
 //--------------------------------------------------------------------------
 //	功能：初始化
 //--------------------------------------------------------------------------
-int KBuySlectItemShop::Initialize() {
+int KBuySelectItemShop::Initialize() {
   AddChild(&m_Image);
   AddChild(&m_ItemName);
   AddChild(&m_Money);
@@ -124,7 +125,7 @@ int KBuySlectItemShop::Initialize() {
 //--------------------------------------------------------------------------
 //	功能：载入窗口的界面方案
 //--------------------------------------------------------------------------
-void KBuySlectItemShop::LoadScheme(const char *pScheme) {
+void KBuySelectItemShop::LoadScheme(const char *pScheme) {
   char Buff[128];
   KIniFile Ini;
   sprintf(Buff, "%s\\%s", pScheme, SCHEME_INI);
@@ -148,30 +149,24 @@ void KBuySlectItemShop::LoadScheme(const char *pScheme) {
 //--------------------------------------------------------------------------
 //	功能：窗口消息函数
 //--------------------------------------------------------------------------
-int KBuySlectItemShop::WndProc(unsigned int uMsg, unsigned int uParam,
-                               int nParam) {
+int KBuySelectItemShop::WndProc(unsigned int uMsg, unsigned int uParam,
+                                int nParam) {
   int nRet = 0;
   switch (uMsg) {
   case WND_N_BUTTON_CLICK:
     if (uParam == (unsigned int)(KWndWindow *)&m_OkBtn) {
-
       g_pCoreShell->OperationRequest(GOI_SHOP_BUY_ITEM,
                                      (unsigned int)(&m_ItemInfo), 0);
-
       OnCancel();
     } else if (uParam == (unsigned int)(KWndWindow *)&m_CancelBtn)
       OnCancel();
-
     break;
-
   case WM_KEYDOWN:
     if (uParam == VK_RETURN) {
-
       g_pCoreShell->OperationRequest(GOI_SHOP_BUY_ITEM,
                                      (unsigned int)(&m_ItemInfo), 0);
 
       OnCancel();
-
       nRet = 1;
     } else if (uParam == VK_ESCAPE) {
       OnCancel();
@@ -184,4 +179,4 @@ int KBuySlectItemShop::WndProc(unsigned int uMsg, unsigned int uParam,
   return nRet;
 }
 
-void KBuySlectItemShop::OnCancel() { CloseWindow(false); }
+void KBuySelectItemShop::OnCancel() { CloseWindow(false); }

@@ -122,7 +122,7 @@ void KMissleSet::Remove(int nIndex) {
 void KMissleSet::Draw() {
   for (int i = 1; i <= MAX_MISSLE; i++) {
 #ifndef _SERVER
-    Missle[i].Paint();
+    /\ Missle[i].Paint();
 #endif
   }
 }

@@ -11,7 +11,7 @@
 #include "GameDataDef.h"
 #include "KCore.h"
 #include "KFaction.h"
-#include "MyAssert.H"
+#include "MyAssert.h"
 
 #define FACTION_NEW "初入江湖"
 #define FACTION_OLD "江湖游侠"

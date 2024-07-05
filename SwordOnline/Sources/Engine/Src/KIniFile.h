@@ -70,6 +70,12 @@ public:
                    int *pnValue1,    // value 1
                    int *pnValue2     // value 2
   );
+  void GetInteger3(LPCSTR lpSection, // points to section name
+                   LPCSTR lpKeyName, // points to key name
+                   int *pnValue1,    // value 1
+                   int *pnValue2,    // value 2
+                   int *pnValue3     // value 3
+  );
   BOOL GetFloat(LPCSTR lpSection, // points to section name
                 LPCSTR lpKeyName, // points to key name
                 float fDefault,   // default value
@@ -101,6 +107,16 @@ public:
                      LPCSTR lpKeyName, // pointer to key name
                      int Value1,       // value 1 to write
                      int Value2        // value 2 to write
+  );
+  void WriteInteger3(LPCSTR lpSection, // pointer to section name
+                     LPCSTR lpKeyName, // pointer to key name
+                     int Value1,       // value 1 to write
+                     int Value2,       // value 2 to write
+                     int Value3        // value 3 to write
+  );
+  void WriteDword(LPCSTR lpSection, // pointer to section name
+                  LPCSTR lpKeyName, // pointer to key name
+                  DWORD Value       // value to write
   );
   void WriteFloat(LPCSTR lpSection, // pointer to section name
                   LPCSTR lpKeyName, // pointer to key name

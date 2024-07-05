@@ -23,13 +23,11 @@
 #include "UiCase/UiSelColor.h"
 #include "UiCase/UiStatus.h"
 // #include "UiCase/UiManage.h"
-
-#include "UiCase/UiAutoI.h"
+// #include "UiCase/UiTeamAuto.h"
 #include "UiCase/UiItem.h"
 #include "UiCase/UiOptions.h"
 #include "UiCase/UiSkills.h"
 #include "UiCase/UiStoreBox.h"
-#include "UiCase/UiTeamAuto.h"
 
 #include "UiCase/UiRPNewBox.h"
 
@@ -44,10 +42,10 @@
 #include "UiCase/UiChatStatus.h"
 #include "UiCase/UiTeamManage.h"
 #include "Uicase/UiEffectNew.h"
-#include "Uicase/UiPlayerControlBar.h"
 #include "Uicase/UiShop.h"
 #include "Uicase/UiShopGold.h"
-// #include "Uicase/UiPlayerControlBar.h
+#include "Uicase/UiShopName.h"
+
 #include "../../Represent/iRepresent/iRepresentShell.h"
 #include "Elem/PopupMenu.h"
 #include "Elem/Wnds.h"
@@ -65,15 +63,16 @@ extern iCoreShell *g_pCoreShell;
 
 #define UI_INFO_FILE_PATH "\\Ui" // 界面信息文件存放的根目录
 #define UI_COMMON_CONFIG_FILE "\\Ui\\Setting.ini"
-#define UI_DEF_CONFIG_FILE "\\Ui\\DefConfig.Ini" // 界面配置纪录文件名
-#define UI_PUBLIC_SETTING "cau_hinh_mo.ini"      // 某个界面方案的设定文件
+#define UI_PUBLIC_SETTING "公共.ini" // 某个界面方案的设定文件
+#define UI_PUBLIC_FONT_SETTINGS "vn\\fontsetting.ini"
+#define UI_GAME_SETTING_FILE "\\Settings\\GameOption.ini"
 
-#define UI_USER_DATA_FOLDER "\\UserData" // 玩家数据的存盘目录位置
-#define UI_USER_DATA_TEMP_FOLDER                                               \
-  "\\UserData\\Temp" // 玩家数据的临时存盘目录位置
+#define UI_USER_DATA_FOLDER "\\UserData"            // 玩家数据的存盘目录位置
+#define UI_USER_DATA_TEMP_FOLDER "\\UserData\\Temp" // 玩家数据的临时存盘目录位置
 #define UI_COMMON_SETTING_FILE                                                 \
   "\\UserData\\UiCommon.ini"                   // 界面公共设置的文件的名称
 #define UI_PRIVATE_SETTING_FILE "UiConfig.ini" // 界面个人数据的存储文件
+#define UI_AUTO_SETTING_FILE "UiAutoConfig.ini"
 
 #define THEME_SECTION "Theme"
 #define FONT_SECTION "FontList"
@@ -239,9 +238,9 @@ void KUiBase::LoadPrivateConfig() {
         KShortcutKeyCentre::LoadPrivateSetting(pConfigFile);
         KUiChatCentre::LoadPrivateSetting(
             pConfigFile); // 在KShortcutKeyCentre之后,因为会有脚本生成Unit
-        KUiAutoI::LoadPrivateSetting(
-            pConfigFile); // 在KShortcutKeyCentre之后,因为会有脚本生成Unit
-        KUiTeamAuto::LoadPrivateSetting(
+        //				KUiTeamAuto::LoadPrivateSetting(pConfigFile);
+        ////在KShortcutKeyCentre之后,因为会有脚本生成Unit
+        KUiShopName::LoadPrivateSetting(
             pConfigFile); // 在KShortcutKeyCentre之后,因为会有脚本生成Unit
         //----逐个窗口载入配置设定结束----
       }
@@ -267,8 +266,8 @@ int KUiBase::SavePrivateConfig() {
     KUiPlayerBar::SavePrivateSetting(pConfigFile);
     KUiChatCentre::SavePrivateSetting(pConfigFile);
     KShortcutKeyCentre::SavePrivateSetting(pConfigFile);
-    KUiAutoI::SavePrivateSetting(pConfigFile);
-    KUiTeamAuto::SavePrivateSetting(pConfigFile);
+    //		KUiTeamAuto::SavePrivateSetting(pConfigFile);
+    KUiShopName::SavePrivateSetting(pConfigFile);
     //----逐个窗口保存配置设定结束----
     ClosePrivateSettingFile(true);
     return true;
@@ -304,17 +303,18 @@ static int _KSG_GetWindowVersion() {
 int KUiBase::LoadScheme(const char *pScheme) {
   _KSG_GetWindowVersion();
 
-  if (pScheme == NULL)
+  if (pScheme == NULL) {
     return false;
+  }
 
-  if (m_CurScheme[0] != 0 && strcmp(pScheme, m_CurScheme) == 0)
+  if (m_CurScheme[0] != 0 && strcmp(pScheme, m_CurScheme) == 0) {
     return true;
+  }
 
-  char Buffer[128];
-
-  sprintf(Buffer, "%s\\" UI_PUBLIC_SETTING, m_CurSchemePath);
-  g_DebugLog("Cheme1: %s", Buffer);
+  char Buffer[MAX_PATH];
+  // sprintf(Buffer, "%s\\"UI_PUBLIC_SETTING, m_CurSchemePath);
   if (GetSchemePath(pScheme)) {
+    sprintf(Buffer, "%s\\" UI_PUBLIC_FONT_SETTINGS, m_CurSchemePath);
     int nCount, nId, i;
     KIniFile Ini;
 
@@ -324,14 +324,14 @@ int KUiBase::LoadScheme(const char *pScheme) {
         Ini.GetInteger(FONT_SECTION, "Count", 0, &nCount)) {
       for (i = 0; i < nCount; i++) {
         itoa(i, Section, 10);
-        if (Ini.GetInteger(FONT_SECTION, Section, 0, &nId))
+        if (Ini.GetInteger(FONT_SECTION, Section, 0, &nId)) {
           g_pRepresentShell->ReleaseAFont(nId);
+        }
       }
     }
 
-    sprintf(Buffer, "%s\\" UI_PUBLIC_SETTING, m_CurSchemePath);
-    g_DebugLog("Cheme2: %s", Buffer);
-    Ini.Load(Buffer);
+    // sprintf(Buffer, "%s\\"UI_PUBLIC_SETTING, m_CurSchemePath);
+    // Ini.Load(Buffer);
 
     //----载入字体----
     if (g_pRepresentShell &&
@@ -348,6 +348,10 @@ int KUiBase::LoadScheme(const char *pScheme) {
         }
       }
     }
+
+    sprintf(Buffer, "%s\\" UI_PUBLIC_SETTING, m_CurSchemePath);
+    Ini.Load(Buffer);
+
     //----载入字体结束----
     WndObjContainerInit(&Ini);
 
@@ -388,7 +392,7 @@ void KUiBase::LoadSchemeForEachWnd() {
   KUiChatCentre::LoadScheme(m_CurSchemePath);
   KUiChatStatus::LoadScheme(m_CurSchemePath);
   KUiTeamManage::LoadScheme(m_CurSchemePath);
-  //	KUiTeamAuto::LoadScheme(m_CurSchemePath);
+  ///	KUiTeamAuto::LoadScheme(m_CurSchemePath);
   KUiHeaderControlBar::LoadScheme(m_CurSchemePath);
   KUiShop::LoadScheme(m_CurSchemePath);
   KUiShopGold::LoadScheme(m_CurSchemePath);
@@ -399,7 +403,7 @@ void KUiBase::LoadSchemeForEachWnd() {
   g_UiInformation2.LoadScheme(m_CurSchemePath);
   KPopupMenu::LoadTheme(m_CurSchemePath);
   KUiSelColor::LoadScheme(m_CurSchemePath);
-  KUiAutoI::LoadScheme();
+
   //----逐个窗口界面方案结束----
 }
 
@@ -459,8 +463,7 @@ int KUiBase::SchemeCount() {
 //--------------------------------------------------------------------------
 //	功能：获得某个界面方案的名称与路径
 //	参数：pName -->
-// 用于获取方案的名称，为指向一个长度不小于的32的缓冲区的指针，或者空指针。
-// pPath
+//用于获取方案的名称，为指向一个长度不小于的32的缓冲区的指针，或者空指针。 		  pPath
 //--> 用于获取方案的路径，为指向一个长度不小于的32的缓冲区的指针，或者空指针。
 //--------------------------------------------------------------------------
 int KUiBase::GetScheme(int nIndex, char *pName, char *pPath) {
@@ -534,6 +537,49 @@ void KUiBase::CloseCommConfigFile() {
   if (m_pUiCommConfigFile) {
     delete (m_pUiCommConfigFile);
     m_pUiCommConfigFile = NULL;
+  }
+}
+
+KIniFile *KUiBase::GetGameSettingFile() {
+  if (m_pUiGameSettingFile == NULL) {
+    m_pUiGameSettingFile = new KIniFile;
+    if (m_pUiGameSettingFile)
+      m_pUiGameSettingFile->Load((char *)UI_GAME_SETTING_FILE);
+  }
+  return m_pUiGameSettingFile;
+}
+void KUiBase::CloseGameSettingFile() {
+  if (m_pUiGameSettingFile) {
+    delete (m_pUiGameSettingFile);
+    m_pUiGameSettingFile = NULL;
+  }
+}
+
+KIniFile *KUiBase::GetAutoSettingFile() {
+  if (m_pUiAutoSettingFile == NULL && m_UserAccountId[0]) {
+    m_pUiAutoSettingFile = new KIniFile;
+    if (m_pUiAutoSettingFile) {
+      char FileName[128];
+      sprintf(FileName, "%s\\%s\\%s", UI_USER_DATA_FOLDER, m_UserAccountId,
+              UI_AUTO_SETTING_FILE);
+      m_pUiAutoSettingFile->Load(FileName);
+    }
+  }
+  return m_pUiAutoSettingFile;
+}
+
+void KUiBase::CloseAutoSettingFile(bool bSave) {
+  if (m_pUiAutoSettingFile) {
+    if (bSave && m_UserAccountId[0]) {
+      char FileName[128];
+      sprintf(FileName, "%s\\%s", UI_USER_DATA_FOLDER, m_UserAccountId);
+      g_CreatePath(FileName);
+      strcat(FileName, "\\");
+      strcat(FileName, UI_AUTO_SETTING_FILE);
+      m_pUiAutoSettingFile->Save(FileName);
+    }
+    delete (m_pUiAutoSettingFile);
+    m_pUiAutoSettingFile = NULL;
   }
 }
 

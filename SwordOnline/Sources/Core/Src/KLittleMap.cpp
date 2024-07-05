@@ -509,15 +509,14 @@ void KLittleMap::SetShowSize(int nWidth, int nHeight) {
   //	int		i, j;
   //	int		x, y;
   //	x = LOWORD(Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_dwRegionID) -
-  // m_nShowWidth / 2; 	y =
-  // HIWORD(Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_dwRegionID) -
-  // m_nShowHeight / 2; 	for (i = x; i < x + m_nShowWidth; i++)
+  //m_nShowWidth / 2; 	y =
+  //HIWORD(Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_dwRegionID) -
+  //m_nShowHeight / 2; 	for (i = x; i < x + m_nShowWidth; i++)
   //	{
   //		for (j = y; j < y + m_nShowHeight; j++)
   //		{
   //			KRegion::LoadLittleMapData(i, j,
-  // SubWorld[0].m_szMapPath, GetBarrierBuf(i, j));
-  // SetHaveLoad(i, j);
+  //SubWorld[0].m_szMapPath, GetBarrierBuf(i, j)); 			SetHaveLoad(i, j);
   //		}
   //	}
 }

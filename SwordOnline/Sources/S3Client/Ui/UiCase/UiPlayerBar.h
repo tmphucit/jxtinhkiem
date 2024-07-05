@@ -30,10 +30,12 @@ public:
 
 private:
   int m_nSmoothPing, m_nCrowdPing, m_nBlockPing;
-  bool m_bTrueWorld;
   bool m_bNetStatus;
+  bool m_bRegionName;
+  bool m_bServerName;
   bool m_bLogo;
-  char m_szLogo[32], m_szSmoothMsg[32], m_szCrowdMsg[32], m_szBlockMsg[32];
+  char m_szRegionName[32], m_szServerName[32], m_szSmoothMsg[32],
+      m_szCrowdMsg[32], m_szBlockMsg[32];
   unsigned int m_uLastSwitchTime, m_uDefaultColor, m_uSmoothColor,
       m_uCrowdColor, m_uBlockColor;
 
@@ -101,10 +103,12 @@ public:
 
   static void SetCurrentChannel(int nIndex);
   static void SwitchChannel(
-      BOOL bUp = FALSE);      // 切换到下一个频道，到底了就切换到第一个，循环
-                              // bUp是true就上升，否则下降
-                              // e...下标是0是最顶部的概念
+      BOOL bUp = FALSE); // 切换到下一个频道，到底了就切换到第一个，循环
+                         // bUp是true就上升，否则下降
+                         // e...下标是0是最顶部的概念
   static int GetCurChannel(); // 得到PlayerBar里当前的频道
+  static void Clear();
+
 private:
   KUiPlayerBar();
   ~KUiPlayerBar();
@@ -158,6 +162,7 @@ private:
   KWndEdit512 m_InputEdit;            // 输入框
   KWndPureTextBtn m_ChannelSwitchBtn; // 切换频道
   KWndButton m_ChannelOpenBtn;        // 频道打开
+  KWndButton m_Auto;
 
   KWndButton m_SwitchBtn; // 切换大小
 

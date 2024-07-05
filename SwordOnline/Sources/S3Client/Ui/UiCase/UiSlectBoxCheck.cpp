@@ -17,7 +17,7 @@
 
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI_ITEM "slectboxcheck.ini"
+#define SCHEME_INI_ITEM "UiSelectBoxCheck.ini"
 
 KUiSlectBoxCheck *KUiSlectBoxCheck::m_pSelf = NULL;
 

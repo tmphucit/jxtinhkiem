@@ -135,7 +135,7 @@ void KUiChatItem::PaintWindow() {
     };
   }
   //-------------------------Ve~ vien` tren va duoi khung - Ken
-  // Nguyen---------------------------
+  //Nguyen---------------------------
   KRUImage *Border = new KRUImage[m_BorderPieces * 2];
   for (int i = 0; i < m_BorderPieces; i++) {
     Border[i].nType = ISI_T_SPR;

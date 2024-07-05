@@ -39,7 +39,7 @@ enum CURSOR_INDEX {
 //	参数：	x, y -> 鼠标指针当前的坐标位置
 //			Obj -> 被拖动的对象信息结构
 //			nDropQeuryResult ->
-// 当前目标地方返回的查询可否接受拖来的对象的结果
+//当前目标地方返回的查询可否接受拖来的对象的结果
 //	返回：表示绘制完被拖动的物体之后是否要继续绘制鼠标指针。如果鼠标指针单前属于隐藏状态则，此函数返回值被忽略
 typedef int (*fnDrawDraggedObj)(int x, int y, const KUiDraggedObject &Obj,
                                 int nDropQueryResult);

@@ -19,7 +19,7 @@
 #include "KNpcSet.h"
 #include "KPlayerSet.h"
 #include <time.h>
-// #include "MyAssert.H"
+// #include "MyAssert.h"
 #include "KTaskFuns.h"
 
 // 是否将数据库存取档的数据保存下来以供调试
@@ -261,6 +261,10 @@ int KPlayer::LoadPlayerBaseInfo(BYTE *pRoleBuffer, BYTE *&pCurData,
     pRoleData->BaseInfo.irevivalid = 4;
   } else if (pRoleData->BaseInfo.irevivalx == 55) {
     pRoleData->BaseInfo.irevivalid = 106;
+  } else if (pRoleData->BaseInfo.irevivalx == 57) {
+    pRoleData->BaseInfo.irevivalid = 239;
+  } else if (pRoleData->BaseInfo.irevivalx == 58) {
+    pRoleData->BaseInfo.irevivalid = 24;
   }
 
   else {
@@ -388,9 +392,20 @@ label_retry:
       return -1;
     }
   }
-
-  m_nIndex = NpcSet.Add(nSex, g_SubWorldSet.SearchWorld(tempPos.m_nSubWorldID),
-                        tempPos.m_nMpsX, tempPos.m_nMpsY);
+  printf("AddPlayer: %d - %d - %d \n", tempPos.m_nSubWorldID, tempPos.m_nMpsX,
+         tempPos.m_nMpsY);
+  if (tempPos.m_nSubWorldID == 67 && tempPos.m_nMpsX == 55126 &&
+      tempPos.m_nMpsY == 118894) {
+    m_nIndex = NpcSet.Add(nSex, g_SubWorldSet.SearchWorld(53), 200 * 8 * 32,
+                          200 * 16 * 32);
+  } else if (tempPos.m_nSubWorldID == 67) {
+    m_nIndex = NpcSet.Add(nSex, g_SubWorldSet.SearchWorld(53), 200 * 8 * 32,
+                          200 * 16 * 32);
+  } else {
+    m_nIndex =
+        NpcSet.Add(nSex, g_SubWorldSet.SearchWorld(tempPos.m_nSubWorldID),
+                   tempPos.m_nMpsX, tempPos.m_nMpsY);
+  }
 
   if (m_nIndex <= 0) {
     printf("Xay ra loi Add Npc Player !");
@@ -505,7 +520,7 @@ label_retry:
   m_cMenuState.Release();
   m_cChat.Release();
   m_cTeam.Release();
-  m_cTeam.SetCanTeamFlag(m_nPlayerIndex, TRUE);
+  m_cTeam.SetCreatTeamFlag(m_nPlayerIndex, TRUE);
   m_nPeapleIdx = 0;
   m_nObjectIdx = 0;
   memset(m_szTaskAnswerFun, 0, sizeof(m_szTaskAnswerFun));
@@ -696,7 +711,7 @@ int KPlayer::LoadPlayerItemList(BYTE *pRoleBuffer, BYTE *&pItemBuffer,
     case item_task: // 任务
     {
       if (NewItem.m_GeneratorParam.nVersion < 1 ||
-          NewItem.m_GeneratorParam.nVersion > 50) {
+          NewItem.m_GeneratorParam.nVersion > 200) {
 
         printf("Loi Item Xep Trong [%d] [%s] [%s] !\n",
                NewItem.m_CommonAttrib.nDetailType, m_AccoutName, m_PlayerName);
@@ -1000,7 +1015,6 @@ int KPlayer::SavePlayerBaseInfo(BYTE *pRoleBuffer) {
   memset(pRoleData, 0, sizeof(TRoleData));
   pRoleData->bBaseNeedUpdate = 1;
   strcpy(pRoleData->BaseInfo.szName, m_PlayerName);
-  //	strcpy(pRoleData->BaseInfo.szName, "asdsdmmbbcc");
   if (m_AccoutName[0])
     strcpy(pRoleData->BaseInfo.caccname, m_AccoutName);
   pRoleData->BaseInfo.nForbiddenFlag = m_nForbiddenFlag;

@@ -1,3 +1,0 @@
-[MAIN]
-command=window_togglefullscreen
-icon=command

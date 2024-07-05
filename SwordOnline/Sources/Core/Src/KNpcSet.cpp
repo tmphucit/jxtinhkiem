@@ -349,6 +349,10 @@ int KNpcSet::Add(int nNpcSettingIdxInfo, int nSubWorld, int nRegion, int nMapX,
   Npc[i].Load(nNpcSettingIdx, nLevel);
   Npc[i].m_SubWorldIndex = nSubWorld;
   Npc[i].m_RegionIndex = nRegion;
+  Npc[i].m_bNpcFollowFindPath = FALSE;
+  Npc[i].m_uFindPathTime = 0;
+  Npc[i].m_uFindPathMaxTime = 0;
+  Npc[i].m_uLastFindPathTime = 0;
 #ifndef _SERVER
   if (nRegion >= 0 && nRegion < 9)
     Npc[i].m_dwRegionID = SubWorld[nSubWorld].m_Region[nRegion].m_RegionID;
@@ -593,8 +597,9 @@ void KNpcSet::CheckBalance() {
              Player[CLIENT_PLAYER_INDEX].m_nIndex < MAX_NPC) {
 
       if (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_SyncSignal -
-              Npc[nIdx].m_SyncSignal >
-          5 * 18) // Fix lag toa do
+                  Npc[nIdx].m_SyncSignal >
+              3 * 18 &&
+          Npc[nIdx].m_Kind == kind_player) // Fix lag toa do
       {
 
         if (Npc[nIdx].m_RegionIndex >= 0) {
@@ -603,6 +608,17 @@ void KNpcSet::CheckBalance() {
               Npc[nIdx].m_MapX, Npc[nIdx].m_MapY, obj_npc);
         }
 
+        Remove(nIdx);
+
+      } else if (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_SyncSignal -
+                         Npc[nIdx].m_SyncSignal >
+                     5 * 18 &&
+                 Npc[nIdx].m_TypeNpc == 0) {
+        if (Npc[nIdx].m_RegionIndex >= 0) {
+          SubWorld[0].m_Region[Npc[nIdx].m_RegionIndex].RemoveNpc(nIdx);
+          SubWorld[0].m_Region[Npc[nIdx].m_RegionIndex].DecRef(
+              Npc[nIdx].m_MapX, Npc[nIdx].m_MapY, obj_npc);
+        }
         Remove(nIdx);
       }
     }
@@ -738,8 +754,7 @@ int KNpcSet::GetAroundPlayer(KUiPlayerItem *pList, int nCount) {
       continue;
     }
     //		if
-    //(Player[CLIENT_PLAYER_INDEX].m_cChat.CheckExist(Npc[nIdx].Name))
-    //continue;
+    //(Player[CLIENT_PLAYER_INDEX].m_cChat.CheckExist(Npc[nIdx].Name)) 			continue;
     pList[nNum].nIndex = nIdx;
     pList[nNum].uId = Npc[nIdx].m_dwID;
     strcpy(pList[nNum].Name, Npc[nIdx].Name);
@@ -755,7 +770,7 @@ int KNpcSet::GetAroundPlayer(KUiPlayerItem *pList, int nCount) {
 //-------------------------------------------------------------------------
 //	功能：设定是否全部显示玩家的名字
 //			bFlag ==	TRUE 显示，bFlag == FALSE 不显示 zroc
-// add
+//add
 //-------------------------------------------------------------------------
 void KNpcSet::SetShowNameFlag(BOOL bFlag) {
   if (bFlag)
@@ -776,7 +791,7 @@ BOOL KNpcSet::CheckShowName() { return m_nShowPateFlag & PATE_NAME; }
 //-------------------------------------------------------------------------
 //	功能：设定是否全部显示玩家的血
 //			bFlag ==	TRUE 显示，bFlag == FALSE 不显示 zroc
-// add
+//add
 //-------------------------------------------------------------------------
 void KNpcSet::SetShowLifeFlag(BOOL bFlag) {
   if (bFlag)
@@ -797,7 +812,7 @@ BOOL KNpcSet::CheckShowLife() { return m_nShowPateFlag & PATE_LIFE; }
 //-------------------------------------------------------------------------
 //	功能：设定是否全部显示玩家的聊天
 //			bFlag ==	TRUE 显示，bFlag == FALSE 不显示 zroc
-// add
+//add
 //-------------------------------------------------------------------------
 void KNpcSet::SetShowChatFlag(BOOL bFlag) {
   if (bFlag)
@@ -818,7 +833,7 @@ BOOL KNpcSet::CheckShowChat() { return m_nShowPateFlag & PATE_CHAT; }
 //-------------------------------------------------------------------------
 //	功能：设定是否全部显示玩家的内力
 //			bFlag ==	TRUE 显示，bFlag == FALSE 不显示 zroc
-// add
+//add
 //-------------------------------------------------------------------------
 void KNpcSet::SetShowManaFlag(BOOL bFlag) {
   if (bFlag)
@@ -1047,6 +1062,7 @@ NPC_RELATION KNpcSet::GetRelation(int nId1, int nId2) {
       ((Npc[nId2].m_CurrentCamp >= 0) && (Npc[nId2].m_CurrentCamp < camp_num)));
 
 #ifndef _SERVER
+  int Map = SubWorld[Npc[nId1].m_SubWorldIndex].m_SubWorldID;
   if (Player[CLIENT_PLAYER_INDEX].m_nIndex != nId1 &&
       Player[CLIENT_PLAYER_INDEX].m_nIndex != nId2) {
     if (Npc[nId1].m_Kind == kind_player && Npc[nId2].m_Kind == kind_player &&
@@ -1071,27 +1087,62 @@ NPC_RELATION KNpcSet::GetRelation(int nId1, int nId2) {
         Npc[nId2].m_CurrentCamp == Npc[nId1].m_CurrentCamp)
       return relation_none;
 
+    if (!Npc[nId1].IsAlive() || !Npc[nId2].IsAlive())
+      return relation_none;
+
     return (NPC_RELATION)
         m_RelationTable[Npc[nId1].m_Kind][Npc[nId2].m_Kind]
                        [Npc[nId1].m_CurrentCamp][Npc[nId2].m_CurrentCamp];
   } else if (Player[CLIENT_PLAYER_INDEX].m_nIndex == nId1) {
+    if (/*!Npc[nId1].IsAlive() || */ !Npc[nId2].IsAlive())
+      return relation_none;
     if (Player[CLIENT_PLAYER_INDEX].m_cPK.GetExercisePKAim() ==
-        Npc[nId2].m_dwID)
+        Npc[nId2].m_dwID) {
       return relation_enemy;
+    }
     if (Player[CLIENT_PLAYER_INDEX].m_cPK.GetEnmityPKState() ==
             enumPK_ENMITY_STATE_PKING &&
         Player[CLIENT_PLAYER_INDEX].m_cPK.GetEnmityPKAimNpcID() ==
-            Npc[nId2].m_dwID)
+            Npc[nId2].m_dwID) {
       return relation_enemy;
+    }
+    if (Npc[nId2].m_Kind == kind_player &&
+        Npc[nId2].m_PKValue == MAX_DEATH_PUNISH_PK_VALUE &&
+        Npc[nId2].m_CurrentCamp != 0 && Npc[nId1].m_CurrentCamp != 0 &&
+        Npc[nId1].m_CurrentCamp != Npc[nId2].m_CurrentCamp)
+      return relation_enemy;
+
+    if (Npc[nId2].m_Kind == kind_player &&
+        (Player[CLIENT_PLAYER_INDEX].m_cPK.GetNormalPKState() == 2 ||
+         Player[CLIENT_PLAYER_INDEX].m_cPK.GetNormalPKState() == 1 &&
+             Npc[nId2].m_nPKFlag != 0) &&
+
+        Npc[nId1].m_FightMode && Npc[nId2].m_FightMode &&
+        Npc[nId2].m_CurrentCamp != Npc[nId1].m_CurrentCamp &&
+        Npc[nId2].m_CurrentCamp != 0 && Npc[nId1].m_CurrentCamp != 0) {
+      return relation_enemy;
+    }
+
+    if (Npc[nId2].m_Kind == kind_player &&
+        Player[CLIENT_PLAYER_INDEX].m_cPK.GetNormalPKState() == 0 &&
+        Npc[nId2].m_nPKFlag == 2 && Npc[nId1].m_FightMode &&
+        Npc[nId2].m_FightMode &&
+        Npc[nId2].m_CurrentCamp != Npc[nId1].m_CurrentCamp &&
+        Npc[nId2].m_CurrentCamp != 0 && Npc[nId1].m_CurrentCamp != 0 &&
+        (Map == 93 || Map == 99 || Map == 94 || Map == 100 || Map == 109 ||
+         Map == 110 || Map == 111 || Map == 79 || Map == 20)) {
+      return relation_enemy;
+    }
+
     if (Npc[nId2].m_Kind == kind_player &&
         (Player[CLIENT_PLAYER_INDEX].m_cPK.GetNormalPKState() == 0 ||
          (Player[CLIENT_PLAYER_INDEX].m_cPK.GetNormalPKState() == 1 &&
           Npc[nId2].m_nPKFlag == 0) ||
-         (Npc[nId1].m_PKValue == MAX_DEATH_PUNISH_PK_VALUE &&
-          Npc[nId2].m_PKValue != MAX_DEATH_PUNISH_PK_VALUE) ||
-         !Npc[nId1].m_FightMode || !Npc[nId2].m_FightMode))
+         //(Npc[nId1].m_PKValue == MAX_DEATH_PUNISH_PK_VALUE &&
+         //Npc[nId2].m_PKValue != MAX_DEATH_PUNISH_PK_VALUE) ||
+         !Npc[nId1].m_FightMode || !Npc[nId2].m_FightMode)) {
       return relation_none;
-
+    }
     if (Npc[nId2].m_Kind != kind_player && Npc[nId2].m_Kind != kind_dialoger &&
         !Npc[nId1].m_FightMode)
       return relation_none;
@@ -1108,19 +1159,51 @@ NPC_RELATION KNpcSet::GetRelation(int nId1, int nId2) {
                        [Npc[nId1].m_CurrentCamp][Npc[nId2].m_CurrentCamp];
   } else // if (Player[CLIENT_PLAYER_INDEX].m_nIndex == nId2)
   {
+    if (!Npc[nId1].IsAlive() /* || !Npc[nId2].IsAlive()*/)
+      return relation_none;
     if (Player[CLIENT_PLAYER_INDEX].m_cPK.GetExercisePKAim() ==
-        Npc[nId1].m_dwID)
+        Npc[nId1].m_dwID) {
       return relation_enemy;
+    }
     if (Player[CLIENT_PLAYER_INDEX].m_cPK.GetEnmityPKState() ==
             enumPK_ENMITY_STATE_PKING &&
         Player[CLIENT_PLAYER_INDEX].m_cPK.GetEnmityPKAimNpcID() ==
-            Npc[nId1].m_dwID)
+            Npc[nId1].m_dwID) {
       return relation_enemy;
+    }
+
+    if (Npc[nId1].m_Kind == kind_player &&
+        Npc[nId1].m_PKValue == MAX_DEATH_PUNISH_PK_VALUE &&
+        Npc[nId2].m_CurrentCamp != 0 && Npc[nId1].m_CurrentCamp != 0 &&
+        Npc[nId1].m_CurrentCamp != Npc[nId2].m_CurrentCamp)
+      return relation_enemy;
+
+    if (Npc[nId1].m_Kind == kind_player &&
+        (Player[CLIENT_PLAYER_INDEX].m_cPK.GetNormalPKState() == 2 ||
+         Player[CLIENT_PLAYER_INDEX].m_cPK.GetNormalPKState() == 1 &&
+             Npc[nId1].m_nPKFlag != 0) &&
+        Npc[nId1].m_FightMode && Npc[nId2].m_FightMode &&
+        Npc[nId2].m_CurrentCamp != Npc[nId1].m_CurrentCamp &&
+        Npc[nId2].m_CurrentCamp != 0 && Npc[nId1].m_CurrentCamp != 0) {
+      return relation_enemy;
+    }
+
+    if (Npc[nId1].m_Kind == kind_player &&
+        Player[CLIENT_PLAYER_INDEX].m_cPK.GetNormalPKState() == 0 &&
+        Npc[nId1].m_nPKFlag == 2 && Npc[nId1].m_FightMode &&
+        Npc[nId2].m_FightMode &&
+        Npc[nId2].m_CurrentCamp != Npc[nId1].m_CurrentCamp &&
+        Npc[nId2].m_CurrentCamp != 0 && Npc[nId1].m_CurrentCamp != 0 &&
+        (Map == 93 || Map == 99 || Map == 94 || Map == 100 || Map == 109 ||
+         Map == 110 || Map == 111 || Map == 79 || Map == 20)) {
+      return relation_enemy;
+    }
+
     if (Npc[nId1].m_Kind == kind_player && Npc[nId2].m_Kind == kind_player &&
         (Npc[nId1].m_nPKFlag == 0 ||
          (Npc[nId1].m_nPKFlag == 1 && Npc[nId2].m_nPKFlag == 0) ||
-         (Npc[nId1].m_PKValue == MAX_DEATH_PUNISH_PK_VALUE &&
-          Npc[nId2].m_PKValue != MAX_DEATH_PUNISH_PK_VALUE) ||
+         //(Npc[nId1].m_PKValue == MAX_DEATH_PUNISH_PK_VALUE &&
+         //Npc[nId2].m_PKValue != MAX_DEATH_PUNISH_PK_VALUE) ||
          !Npc[nId1].m_FightMode || !Npc[nId2].m_FightMode))
       return relation_none;
 
@@ -1169,19 +1252,51 @@ NPC_RELATION KNpcSet::GetRelation(int nId1, int nId2) {
         Player[Npc[nId1].m_nPlayerIdx].m_cPK.GetEnmityPKAim() ==
             Npc[nId2].m_nPlayerIdx)
       return relation_enemy;
+
+    if (Npc[nId2].m_Kind == kind_player &&
+        Player[Npc[nId2].m_nPlayerIdx].m_cPK.GetPKValue() ==
+            MAX_DEATH_PUNISH_PK_VALUE &&
+        Npc[nId2].m_CurrentCamp != 0 && Npc[nId1].m_CurrentCamp != 0 &&
+        Npc[nId2].m_CurrentCamp != Npc[nId1].m_CurrentCamp)
+      return relation_enemy;
+
+    if (Npc[nId2].m_Kind == kind_player &&
+        (Player[Npc[nId1].m_nPlayerIdx].m_cPK.GetNormalPKState() == 2 ||
+         Player[Npc[nId1].m_nPlayerIdx].m_cPK.GetNormalPKState() == 1 &&
+             Player[Npc[nId2].m_nPlayerIdx].m_cPK.GetNormalPKState() != 0) &&
+        Npc[nId1].m_FightMode && Npc[nId2].m_FightMode &&
+        Npc[nId2].m_CurrentCamp != Npc[nId1].m_CurrentCamp &&
+        Npc[nId2].m_CurrentCamp != 0 && Npc[nId1].m_CurrentCamp != 0) {
+      return relation_enemy;
+    }
+    int Map = SubWorld[Npc[nId1].m_SubWorldIndex].m_SubWorldID;
+    if (Npc[nId2].m_Kind == kind_player &&
+        Player[Npc[nId1].m_nPlayerIdx].m_cPK.GetNormalPKState() == 0 &&
+        Player[Npc[nId2].m_nPlayerIdx].m_cPK.GetNormalPKState() == 2 &&
+        Npc[nId1].m_FightMode && Npc[nId2].m_FightMode &&
+        Npc[nId2].m_CurrentCamp != Npc[nId1].m_CurrentCamp &&
+        Npc[nId2].m_CurrentCamp != 0 && Npc[nId1].m_CurrentCamp != 0 &&
+        (Map == 93 || Map == 99 || Map == 94 || Map == 100 || Map == 109 ||
+         Map == 110 || Map == 111 || Map == 79 || Map == 20)
+
+    ) {
+      return relation_enemy;
+    }
+
     //		if (!Player[Npc[nId1].m_nPlayerIdx].m_cPK.GetNormalPKState())
     //			return relation_none;
     NPC_RELATION nRelation = (NPC_RELATION)
         m_RelationTable[Npc[nId1].m_Kind][Npc[nId2].m_Kind]
                        [Npc[nId1].m_CurrentCamp][Npc[nId2].m_CurrentCamp];
     if (nRelation == relation_enemy) {
+
       if (Player[Npc[nId1].m_nPlayerIdx].m_cPK.GetNormalPKState() == 0 ||
           (Player[Npc[nId1].m_nPlayerIdx].m_cPK.GetNormalPKState() == 1 &&
            Player[Npc[nId2].m_nPlayerIdx].m_cPK.GetNormalPKState() == 0) ||
-          (Player[Npc[nId1].m_nPlayerIdx].m_cPK.GetPKValue() ==
-               MAX_DEATH_PUNISH_PK_VALUE &&
-           Player[Npc[nId2].m_nPlayerIdx].m_cPK.GetPKValue() !=
-               MAX_DEATH_PUNISH_PK_VALUE) ||
+          //        (Player[Npc[nId1].m_nPlayerIdx].m_cPK.GetPKValue() ==
+          //        MAX_DEATH_PUNISH_PK_VALUE &&
+          //        Player[Npc[nId2].m_nPlayerIdx].m_cPK.GetPKValue() !=
+          //        MAX_DEATH_PUNISH_PK_VALUE) ||
           !Npc[nId1].m_FightMode || !Npc[nId2].m_FightMode)
         return relation_none;
     }

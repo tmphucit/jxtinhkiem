@@ -19,6 +19,9 @@ public:
   static KUiShopName *OpenWindow();
   static KUiShopName *GetIfVisible();     // 如果窗口正被显示，则返回实例指针
   static void CloseWindow(bool bDestroy); // 关闭窗口
+  static int SavePrivateSetting(KIniFile *pFile);
+  static KUiShopName *LoadPrivateSetting(KIniFile *pFile);
+
 private:
   KUiShopName();
   ~KUiShopName() {}

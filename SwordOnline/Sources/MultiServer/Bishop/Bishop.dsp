@@ -56,7 +56,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /map /debug /machine:I386
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\..\bin\client\release\	copy release\Bishop.exe ..\..\..\..\bin\Server\Bishop.exe	copy release\Bishop.exe ..\..\..\..\bin\Server\release\Bishop.exe
+PostBuild_Cmds=md ..\..\..\..\bin\multiserver\	copy release\Bishop.exe ..\..\..\..\bin\multiserver\Bishop.exe	copy release\Bishop.exe ..\..\..\..\bin\multiserver\Bishop.exe	md ..\..\..\..\bin\multiserver\release\	copy release\Bishop.exe ..\..\..\..\bin\multiserver\release\Bishop.exe	copy release\Bishop.exe ..\..\..\..\bin\multiserver\release\Bishop.exe
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Bishop - Win32 Debug"
@@ -86,7 +86,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\..\bin\client\debug\	copy debug\Bishop.exe ..\..\..\..\bin\Server\Bishop.exe	copy debug\Bishop.exe ..\..\..\..\bin\Server\debug\Bishop.exe
+PostBuild_Cmds=md ..\..\..\..\bin\client\debug\	copy debug\Bishop.exe ..\..\..\..\bin\Client\Bishop.exe	copy debug\Bishop.exe ..\..\..\..\bin\Client\debug\Bishop.exe
 # End Special Build Tool
 
 !ENDIF 

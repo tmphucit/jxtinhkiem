@@ -32,10 +32,12 @@ public:
   int GetText(char *pBuffer, int nSize);                      // 获取字符串内容
   void SetText(const char *pText, int nLen = -1);             // 设置文本文字
   void SetTextColor(unsigned int Color); // 设置文本文字颜色
+  void Clear(bool bSafe = false);
   void SetIntText(int nNumber,
                   char Separator = 0); // 设置文本串的内容为与表述所整数的字符串
   // 设置文本串的内容为与表述所给两个整数的字符串，两个整数间以指定的字符分割
   void Set2IntText(int nNumber1, int nNumber2, char Separator);
+  void Set2IntTextCS(int nNumber1, int nNumber2, char Separator);
   void Set2IntTextExp(char AmDuong, int nNumber1, int nNumber2, char Separator);
 
   int SetTopLine(int nTopLine); // 设置从文本串的第几行开始显示
@@ -43,7 +45,7 @@ public:
     return m_nLineCount;
   } // get line count of the text content
   void Clone(KWndText *pCopy);
-
+  void SetWorldText(int nNumber, char Separator = 0); // new add xep hang
 protected:
   void SetTextPtr(char *pText, int nBuffLen); // 设置文本缓冲区指针
 

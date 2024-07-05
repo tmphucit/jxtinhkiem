@@ -9,7 +9,7 @@
 
 #include "KCore.h"
 #include "KPlayer.h"
-#include "MyAssert.H"
+#include "MyAssert.h"
 #ifdef _SERVER
 // #include	"KNetServer.h"
 // #include "../MultiServer/Heaven/Interface/iServer.h"
@@ -27,6 +27,7 @@ void KPlayerMenuState::Release() {
   memset(m_szSentence, 0, MAX_SENTENCE_LENGTH);
   m_nBackState = PLAYER_MENU_STATE_NORMAL;
   memset(m_szBackSentence, 0, MAX_SENTENCE_LENGTH);
+  m_bBackTeamState = false;
 }
 #endif
 
@@ -98,6 +99,13 @@ void KPlayerMenuState::SetState(int nPlayerIdx, int nState,
         sizeof(NPC_SET_MENU_STATE_SYNC) - 1 - sizeof(sSync.m_szSentence);
     Npc[Player[nPlayerIdx].m_nIndex].SendDataToNearRegion((LPVOID)&sSync,
                                                           sSync.m_wLength + 1);
+
+    if (m_nBackState != PLAYER_MENU_STATE_TEAMOPEN &&
+        m_bBackTeamState == true) {
+      if (Player[nPlayerIdx].m_cTeam.m_nFlag &&
+          Player[nPlayerIdx].m_cTeam.m_nID >= 0)
+        g_Team[Player[nPlayerIdx].m_cTeam.m_nID].SetTeamOpen();
+    }
   } break;
   case PLAYER_MENU_STATE_TRADEOPEN: {
     TRADE_CHANGE_STATE_SYNC sTrade;

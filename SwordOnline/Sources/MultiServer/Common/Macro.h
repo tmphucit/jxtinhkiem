@@ -66,7 +66,7 @@ void _trace(char *fmt, ...);
 //}
 #else
 //{
-inline void _trace(LPCTSTR fmt, ...) {}
+inline void _trace(LPCTSTR fmt, ...){}
 #ifndef TRACE
 #define TRACE 1 ? (void)0 : _trace
 #endif

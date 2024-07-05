@@ -14,7 +14,7 @@
 #include "KWin32.h"
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI "staskitem.ini"
+#define SCHEME_INI "UiStackItem.ini"
 
 KUiStaskItem *KUiStaskItem::m_pSelf = NULL;
 

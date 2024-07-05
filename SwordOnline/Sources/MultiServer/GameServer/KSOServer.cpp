@@ -336,6 +336,10 @@ BOOL KSwordOnLineSever::Init() {
   KIniFile iniFile;
 
   iniFile.Load("ServerCfg.ini");
+
+  g_PakList.Open("\\package.ini"); // edit by phong kieu load pack server open
+                                   // file maps.pak
+
   iniFile.GetInteger("GameServer", "Port", 6666, &m_nServerPort);
   extern int g_nPort;
   if (g_nPort)
@@ -363,19 +367,19 @@ BOOL KSwordOnLineSever::Init() {
   iniFile.GetInteger("GameServer", "PortFowardRange3", 0,
                      &m_nServerPortFowardRange3);
 
-  iniFile.GetString("Gateway", "Ip", "222.189.237.112", m_szGatewayIP,
+  iniFile.GetString("Gateway", "Ip", "103.237.146.70", m_szGatewayIP,
                     sizeof(m_szGatewayIP));
   iniFile.GetInteger("Gateway", "Port", 5632, &m_nGatewayPort);
-  iniFile.GetString("Database", "Ip", "222.189.237.112", m_szDatabaseIP,
+  iniFile.GetString("Database", "Ip", "103.237.146.70", m_szDatabaseIP,
                     sizeof(m_szDatabaseIP));
   iniFile.GetInteger("Database", "Port", 5001, &m_nDatabasePort);
-  iniFile.GetString("Transfer", "Ip", "222.189.237.112", m_szTransferIP,
+  iniFile.GetString("Transfer", "Ip", "103.237.146.70", m_szTransferIP,
                     sizeof(m_szTransferIP));
   iniFile.GetInteger("Transfer", "Port", 5003, &m_nTransferPort);
-  iniFile.GetString("Chat", "Ip", "222.189.237.112", m_szChatIP,
+  iniFile.GetString("Chat", "Ip", "103.237.146.70", m_szChatIP,
                     sizeof(m_szChatIP));
   iniFile.GetInteger("Chat", "Port", 5004, &m_nChatPort);
-  iniFile.GetString("Tong", "Ip", "222.189.237.112", m_szTongIP,
+  iniFile.GetString("Tong", "Ip", "103.237.146.70", m_szTongIP,
                     sizeof(m_szTongIP));
   iniFile.GetInteger("Tong", "Port", 5005, &m_nTongPort);
 #ifdef WIN32
@@ -397,18 +401,23 @@ BOOL KSwordOnLineSever::Init() {
   char m_szFowardServerIp2[16];
   char m_szFowardServerIp3[16];
 
-  iniFile.GetString("Network", "IntranetIp", "222.189.237.112", m_szIntranetIp,
+  iniFile.GetString("Network", "IntranetIp", "103.237.146.70", m_szIntranetIp,
                     sizeof(m_szIntranetIp));
-  iniFile.GetString("Network", "InternetIp", "222.189.237.112", m_szInternetIp,
+  iniFile.GetString("Network", "InternetIp", "103.237.146.70", m_szInternetIp,
                     sizeof(m_szInternetIp));
-
-  iniFile.GetString("FowardServer", "Ip1", "222.189.237.112",
+  /*	if (strcmpi(m_szInternetIp,"192.168.100.201") != 0 &&
+     strcmpi(m_szInternetIp,"103.90.224.115") != 0 && strcmpi(m_szInternetIp,"")
+     != 0  && strcmpi(m_szInternetIp,"") != 0)
+          {
+                  return FALSE;
+          }*/
+  iniFile.GetString("FowardServer", "Ip1", "103.237.146.70",
                     m_szFowardServerIp1, sizeof(m_szFowardServerIp1));
   iniFile.GetInteger("FowardServer", "Port1", 22277, &m_nFowardServerPort1);
-  iniFile.GetString("FowardServer", "Ip2", "222.189.237.112",
+  iniFile.GetString("FowardServer", "Ip2", "103.237.146.70",
                     m_szFowardServerIp2, sizeof(m_szFowardServerIp2));
   iniFile.GetInteger("FowardServer", "Port2", 22277, &m_nFowardServerPort2);
-  iniFile.GetString("FowardServer", "Ip3", "222.189.237.112",
+  iniFile.GetString("FowardServer", "Ip3", "103.237.146.70",
                     m_szFowardServerIp3, sizeof(m_szFowardServerIp3));
   iniFile.GetInteger("FowardServer", "Port3", 22277, &m_nFowardServerPort3);
 
@@ -892,7 +901,6 @@ void KSwordOnLineSever::Release() {
 
 BOOL KSwordOnLineSever::Breathe() {
   if (m_pCoreServerShell && m_bIsRunning) {
-
     if (!m_bRunningDataBase) {
 
       for (;;) {
@@ -1060,11 +1068,9 @@ BOOL KSwordOnLineSever::Breathe() {
     }
 
     MessageLoop();
-
     // printf("breathe..%u\n", m_Timer.GetElapse());
     if (m_nGameLoop * 1000 <= m_Timer.GetElapse() * GAME_FPS) {
-
-      //	MessageLoop();
+      // MessageLoop();
 
       MainLoop();
 
@@ -1118,9 +1124,9 @@ BOOL KSwordOnLineSever::Breathe() {
       //////
 
       if (m_nGameLoop % 90 == 0) {
-        printf("FPS game server %d / %d %d / %d \n", m_nGameLoop,
-               m_Timer.GetElapse(), m_nGameLoop * 1000 / m_Timer.GetElapse(),
-               GAME_FPS);
+        // printf("FPS game server %d / %d %d / %d
+        // \n",m_nGameLoop,m_Timer.GetElapse(),m_nGameLoop *
+        // 1000/m_Timer.GetElapse(),GAME_FPS);
       }
 
 #ifdef WIN32
@@ -1776,7 +1782,7 @@ void KSwordOnLineSever::DatabaseMessageProcess(const char *pData,
       int nIndex = pPD->ulIdentity;
       m_pCoreServerShell->SetSaveStatus(nIndex, SAVE_IDLE);
       //			printf("  Save Player Data finished(%d)!\n",
-      // nIndex);
+      //nIndex);
     }
     break;
   default:
@@ -1987,7 +1993,7 @@ void KSwordOnLineSever::TransferLargePackProcess(const void *pData,
 
       } else {
         //					cout << "Don't find any valid
-        // data!" << endl;
+        //data!" << endl;
       }
     } break;
     default:
@@ -2079,7 +2085,7 @@ void KSwordOnLineSever::TransferSmallPackProcess(const void *pData,
       if (m_pTransferClient)
         m_pTransferClient->SendPackToServer(&lg2, sizeof(tagLeaveGame2));
       //				cout << sLeaveGame.szAccountName << "
-      // leave game!" << endl;
+      //leave game!" << endl;
       m_pGameStatus[lnID].nExchangeStatus = enumExchangeCleaning;
       m_pGameStatus[lnID].nPlayerIndex = 0;
     } else {
@@ -2272,6 +2278,8 @@ void KSwordOnLineSever::PlayerMessageProcess(const unsigned long lnID,
       const void *pExPckg = pData + sizeof(tagExtendProtoHeader);
 
       if (protocoltype == c2s_extendchat) {
+        if (dataLength < 0 || dataLength >= 255)
+          return;
         CHAT_CHANNELCHAT_CMD *pEh = (CHAT_CHANNELCHAT_CMD *)pExPckg;
         if (pEh->ProtocolType == chat_channelchat &&
             pEh->channelid != 0) // 非GM频道要过滤和付钱
@@ -2487,16 +2495,10 @@ void KSwordOnLineSever::PlayerMessageProcess(const unsigned long lnID,
               0;
         }
         if (SendGameDataToClient(lnID, nIndex)) {
-
           // printf("process login %d ok...\n", nIndex);
           m_pGameStatus[lnID].nGameStatus = enumPlayerSyncEnd;
           m_pGameStatus[lnID].nPlayerIndex = nIndex;
-
-          //					m_pGameStatus[lnID].nTimeNextCreadConnect
-          //= 0; m_pGameStatus[lnID].bTimeCheckCreadConnect = FALSE;
-
           KickAcountAndBlock(nIndex, m_pGameStatus[lnID].szName);
-
         }
 
         else {
@@ -2524,7 +2526,6 @@ void KSwordOnLineSever::PlayerMessageProcess(const unsigned long lnID,
 #endif
       }
     }
-
   } break;
   }
   // printf("player msg over..\n");
@@ -2945,7 +2946,7 @@ BOOL KSwordOnLineSever::SavePlayerData(int nIndex, bool bUnLock) {
       m_pDatabaseClient->SendPackToServer(pBuffer, actLen);
 #endif
       //				cout << "Save small package:" <<
-      // pBuffer->GetUsed() << endl;
+      //pBuffer->GetUsed() << endl;
 #ifndef _STANDALONE
       try {
         if (pBuffer) {
@@ -3049,8 +3050,7 @@ void KSwordOnLineSever::PlayerExchangeServer() {
             (tagSearchWay *)(szChar + sizeof(RELAY_ASKWAY_DATA) +
                              pRAD->wMethodDataLength);
         //					pSW->ProtocolFamily =
-        // pf_gameworld; 					pSW->ProtocolID
-        // = c2c_notifyexchange;
+        //pf_gameworld; 					pSW->ProtocolID = c2c_notifyexchange;
         pSW->cProtocol = c2c_notifyexchange;
         pSW->lnID = i;
         pSW->nIndex = m_pGameStatus[i].nPlayerIndex;
@@ -3104,7 +3104,7 @@ void KSwordOnLineSever::PlayerLogoutGateway() {
       if (m_pTransferClient)
         m_pTransferClient->SendPackToServer(&lg2, sizeof(tagLeaveGame2));
       //			cout << sLeaveGame.szAccountName << " leave
-      // game!" << endl;
+      //game!" << endl;
       m_pCoreServerShell->RemovePlayerLoginTimeOut(nIndex);
     } else if (m_pCoreServerShell->IsCharacterQuiting(nIndex)) {
 
@@ -3212,11 +3212,11 @@ int KSwordOnLineSever::ProcessLoginProtocol(const unsigned long lnID,
   } else {
     tagLogicLogin *pLL = (tagLogicLogin *)pData;
     //		cout << "A client try to login..." << endl;
-
+    //		char* szName = "";
     int nIdx = m_pCoreServerShell->AttachPlayer(lnID, &pLL->guid);
     if (nIdx) {
       //			cout << "Found player " << nIdx << " is logging
-      // in system!" << endl;
+      //in system!" << endl;
       return nIdx;
     } else {
       // 非法的玩家，该怎么处理怎么处理

@@ -15,7 +15,7 @@
 #include "UiInformation.h"
 extern iCoreShell *g_pCoreShell;
 
-#define LOGIN_PW_STOREBOX_SCHEME "ui_login_pw_storebox.ini"
+#define LOGIN_PW_STOREBOX_SCHEME "UiLoginPasswordStoreBox.ini"
 
 KUiLoginPWStoreBox *KUiLoginPWStoreBox::m_pSelf = NULL;
 

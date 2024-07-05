@@ -123,7 +123,7 @@ loc_DrawFont_0101:
 
 loc_DrawFont_0102:
 
-        shl     ebx, 2 // Alpha1 
+        shl     ebx, 2  // Alpha1 
 		
 		push    eax
 		push    edx 

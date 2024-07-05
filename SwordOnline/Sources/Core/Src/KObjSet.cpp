@@ -162,6 +162,7 @@ int KObjSet::AddMoneyObj(KMapPos MapPos, int nMoneyNum) {
   sInfo.m_nMoneyNum = nMoneyNum;
   sInfo.m_szName[0] = 0;
   sInfo.m_nColorID = 0;
+  sInfo.m_dwNpcId = 0;
   sInfo.m_nMovieFlag = 1;
   sInfo.m_nSoundFlag = 1;
   return Add(nDataID, MapPos, sInfo);
@@ -177,6 +178,7 @@ int KObjSet::AddPropObj(KMapPos MapPos, int nDataID, int nColorID) {
   sInfo.m_nMoneyNum = 0;
   sInfo.m_szName[0] = 0;
   sInfo.m_nColorID = nColorID;
+  sInfo.m_dwNpcId = 0;
   sInfo.m_nMovieFlag = 1;
   sInfo.m_nSoundFlag = 1;
   return Add(nDataID, MapPos, sInfo);
@@ -203,10 +205,12 @@ int KObjSet::GetMoneyDataId(int nMoney) {
 //	功能：添加一个obj，返回在obj数组中的位置编号（如果 <= 0 ，失败）
 //---------------------------------------------------------------------------
 int KObjSet::Add(int nDataID, KMapPos MapPos, KObjItemInfo sItemInfo) {
-  if (sItemInfo.m_nItemID > 0) {
-    g_DebugLog("[ITEM]Object ItemIndex:%d, ID:%d", sItemInfo.m_nItemID,
-               Item[sItemInfo.m_nItemID].GetID());
-  }
+  /*if (sItemInfo.m_nItemID > 0)
+  {
+          g_DebugLog("[ITEM]Object ItemIndex:%d, ID:%d", sItemInfo.m_nItemID,
+  Item[sItemInfo.m_nItemID].GetID());
+  }*/
+
   int nAddNo;
 
   nAddNo = AddData(nDataID, MapPos, sItemInfo.m_nMoneyNum, sItemInfo.m_nItemID,
@@ -215,6 +219,7 @@ int KObjSet::Add(int nDataID, KMapPos MapPos, KObjItemInfo sItemInfo) {
     return -1;
 
   Object[nAddNo].SetWorldID(GetID());
+  Object[nAddNo].m_dwNpcId = sItemInfo.m_dwNpcId;
   Object[nAddNo].m_nColorID = sItemInfo.m_nColorID;
   if (sItemInfo.m_szName[0] && strlen(sItemInfo.m_szName) < 32)
     strcpy(Object[nAddNo].m_szName, sItemInfo.m_szName);
@@ -239,6 +244,7 @@ int KObjSet::Add(int nDataID, KMapPos MapPos, KObjItemInfo sItemInfo) {
   cObjAdd.m_btItemWidth = sItemInfo.m_nItemWidth;
   cObjAdd.m_btItemHeight = sItemInfo.m_nItemHeight;
   cObjAdd.m_btColorID = sItemInfo.m_nColorID;
+  cObjAdd.m_dwNpcId = sItemInfo.m_dwNpcId;
   cObjAdd.m_btFlag = 0;
   if (sItemInfo.m_nSoundFlag)
     cObjAdd.m_btFlag |= 0x01;
@@ -431,12 +437,12 @@ int KObjSet::ClientAdd(int nID, int nDataID, int nState, int nDir,
   Object[nAddIndex].m_nItemHeight = sInfo.m_nItemHeight;
   Object[nAddIndex].m_nColorID = sInfo.m_nColorID;
   Object[nAddIndex].m_dwNameColor = this->GetNameColor(sInfo.m_nColorID);
+  Object[nAddIndex].m_dwNpcId = sInfo.m_dwNpcId;
   if (sInfo.m_szName[0])
     strcpy(Object[nAddIndex].m_szName, sInfo.m_szName);
-#ifdef _DEBUG
-  g_DebugLog("Obj:%x, %d, %d", SubWorld[0].m_Region[nRegion].m_RegionID, nMapX,
-             nMapY);
-#endif
+  /*#ifdef _DEBUG
+          g_DebugLog("Obj:%x, %d, %d", SubWorld[0].m_Region[nRegion].m_RegionID,
+  nMapX, nMapY); #endif*/
   SubWorld[0].m_Region[nRegion].AddObj(
       nAddIndex); // m_WorldMessage.Send(GWM_OBJ_ADD, nRegion, nAddIndex);
   return nAddIndex;
@@ -486,6 +492,7 @@ BOOL KObjSet::ClientLoadRegionObj(char *lpszMapPath, int nRegionX, int nRegionY,
     sInfo.m_nItemHeight = 0;
     sInfo.m_nMoneyNum = 0;
     sInfo.m_nColorID = 0;
+    sInfo.m_dwNpcId = 0;
     sInfo.m_szName[0] = 0;
     sInfo.m_nMovieFlag = 0;
     sInfo.m_nSoundFlag = 0;
@@ -531,6 +538,7 @@ BOOL KObjSet::ClientLoadRegionObj(KPakFile *pFile, DWORD dwDataSize) {
     sInfo.m_nItemHeight = 0;
     sInfo.m_nMoneyNum = 0;
     sInfo.m_nColorID = 0;
+    sInfo.m_dwNpcId = 0;
     sInfo.m_szName[0] = 0;
     sInfo.m_nMovieFlag = 0;
     sInfo.m_nSoundFlag = 0;
@@ -594,6 +602,7 @@ BOOL KObjSet::ServerLoadRegionObj(char *lpszMapPath, int nRegionX, int nRegionY,
     sInfo.m_nMoneyNum = 0;
     sInfo.m_szName[0] = 0;
     sInfo.m_nColorID = 0;
+    sInfo.m_dwNpcId = 0;
     sInfo.m_nMovieFlag = 0;
     sInfo.m_nSoundFlag = 0;
     nNo = Add(sData.nTemplateID, sPos, sInfo);
@@ -651,6 +660,7 @@ BOOL KObjSet::ServerLoadRegionObj(int nSubWorld, KPakFile *pFile,
     sInfo.m_nMoneyNum = 0;
     sInfo.m_szName[0] = 0;
     sInfo.m_nColorID = 0;
+    sInfo.m_dwNpcId = 0;
     sInfo.m_nMovieFlag = 0;
     sInfo.m_nSoundFlag = 0;
 
@@ -984,7 +994,7 @@ DWORD KObjSet::GetNameColor(int nColorID) {
 //-------------------------------------------------------------------------
 //	功能：设定是否全部显示 item 和 money 类的 object 的名字
 //			bFlag ==	TRUE 显示，bFlag == FALSE 不显示 zroc
-// add
+//add
 //-------------------------------------------------------------------------
 void KObjSet::SetShowNameFlag(BOOL bFlag) { this->m_nShowNameFlag = bFlag; }
 #endif
@@ -992,7 +1002,7 @@ void KObjSet::SetShowNameFlag(BOOL bFlag) { this->m_nShowNameFlag = bFlag; }
 #ifndef _SERVER
 //-------------------------------------------------------------------------
 //	功能：判断是否全部显示 item 和 money 类的 object 的名字  返回值 TRUE
-// 显示，FALSE 不显示
+//显示，FALSE 不显示
 //-------------------------------------------------------------------------
 BOOL KObjSet::CheckShowName() { return m_nShowNameFlag; }
 #endif

@@ -239,7 +239,7 @@ void KFontRes::Update(unsigned char *pCharImage, unsigned char *pTexData,
 			and		ecx, 0x1f // eax为连续相同alpha值的点的个数
 			sub		edx, ecx
 		
-			shr		eax, 5 // eax后3bit为alpha值
+			shr		eax, 5    // eax后3bit为alpha值
 
 			cmp		eax, 0
 			je		with_border_store_pixel

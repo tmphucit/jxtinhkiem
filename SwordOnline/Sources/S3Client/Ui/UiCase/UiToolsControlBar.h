@@ -20,23 +20,26 @@ public:
   static void LoadScheme(const char *pScheme);    // 载入界面方案
   static void DefaultScheme(const char *pScheme); // 重新初始化界面
   static KUiToolsControlBar *GetSelf() { return m_pSelf; }
-  void PopUpPK();
-  void ProcessPopUpPK(int nAction);
+  //	static void	SwitchPKPopup();
+  //	static void	SwitchFastPK();
 
 private:
   ~KUiToolsControlBar() {}
   void Initialize(); // 初始化
   void Breathe();
-  int WndProc(unsigned int uMsg, unsigned int uParam, int nParam);
+  //	int		WndProc(unsigned int uMsg, unsigned int uParam, int
+  //nParam);
+  void SwitchPKProcess(int nAction);
 
 private:
   static KUiToolsControlBar *m_pSelf;
-  KWndButton m_PK;
-
+  // KWndButton	m_Friend;
+  // KWndButton	m_Options;
   enum CHOICE_PK {
     Exercises = 0,
     Fighting,
     Murder,
+    Tongwar,
   };
 };
 #endif // __UITOOLSCONTROLBAR_H__

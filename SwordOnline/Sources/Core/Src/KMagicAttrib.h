@@ -108,7 +108,7 @@ enum MAGIC_ATTRIB {
   magic_staminareplenish_v,
   magic_strength_v,
   magic_dexterity_v,
-  magic_vitality_v,
+  magic_vitality_v, // 100
   magic_energy_v,
   magic_poisonres_p,
   magic_fireres_p,
@@ -150,7 +150,7 @@ enum MAGIC_ATTRIB {
   magic_stealstaminaenhance_p,
   magic_allskill_v,
   magic_metalskill_v,
-  magic_woodskill_v,
+  magic_woodskill_v, // 142
   magic_waterskill_v,
   magic_fireskill_v,
   magic_earthskill_v,

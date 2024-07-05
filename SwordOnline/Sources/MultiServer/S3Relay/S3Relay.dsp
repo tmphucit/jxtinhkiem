@@ -56,7 +56,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Ws2_32.lib lualibdll.lib /nologo /subsystem:windows /map /debug /machine:I386
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\..\bin\client\release\	copy release\S3Relay.exe ..\..\..\..\bin\Client\S3Relay.exe	copy release\S3Relay.exe ..\..\..\..\bin\Client\release\S3Relay.exe
+PostBuild_Cmds=md ..\..\..\..\bin\multiserver\	copy release\S3Relay.exe ..\..\..\..\bin\multiserver\S3Relay.exe	copy release\S3Relay.pdb ..\..\..\..\bin\multiserver\S3Relay.pdb	md ..\..\..\..\bin\multiserver\release\	copy release\S3Relay.exe ..\..\..\..\bin\multiserver\release\S3Relay.exe	copy release\S3Relay.pdb ..\..\..\..\bin\multiserver\release\S3Relay.pdb
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "S3Relay - Win32 Debug"
@@ -86,7 +86,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Ws2_32.lib lualibdll.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\..\bin\client\debug\	copy debug\S3Relay.exe ..\..\..\..\bin\Server\S3Relay.exe	copy debug\S3Relay.exe ..\..\..\..\bin\Server\debug\S3Relay.exe
+PostBuild_Cmds=md ..\..\..\..\bin\client\debug\	copy debug\S3Relay.exe ..\..\..\..\bin\Client\S3Relay.exe	copy debug\S3Relay.exe ..\..\..\..\bin\Client\debug\S3Relay.exe
 # End Special Build Tool
 
 !ENDIF 
@@ -113,6 +113,10 @@ SOURCE=.\ChatServer.cpp
 # Begin Source File
 
 SOURCE=.\DBConnect.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\DBDumpLoad.cpp
 # End Source File
 # Begin Source File
 
@@ -262,6 +266,10 @@ SOURCE=.\ChatServer.h
 # Begin Source File
 
 SOURCE=.\DBConnect.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\DBDumpLoad.h
 # End Source File
 # Begin Source File
 

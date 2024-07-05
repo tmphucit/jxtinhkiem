@@ -40,8 +40,8 @@
 #define DEV_PORT_MAX DEV_PORT_USB
 
 //	IAMExtDevice Capability Items:  unless otherwise specified, these items
-// return 	   OATRUE or OAFALSE.  All return values are in pdwValue unless
-// otherwise specified:
+//return 	   OATRUE or OAFALSE.  All return values are in pdwValue unless otherwise
+//specified:
 
 #define ED_DEVCAP_CAN_RECORD ED_BASE + 1L
 #define ED_DEVCAP_CAN_RECORD_STROBE                                            \
@@ -135,8 +135,8 @@
 #define ED_TEST ED_BASE + 56L
 
 //	IAMExtTransport Capability Items:  unless otherwise specified, these
-// items return 	   OATRUE or OAFALSE.  All return values are in pdwValue
-// unless otherwise specified:
+//items return 	   OATRUE or OAFALSE.  All return values are in pdwValue unless
+//otherwise specified:
 
 #define ED_TRANSCAP_CAN_EJECT ED_BASE + 100L
 #define ED_TRANSCAP_CAN_BUMP_PLAY                                              \

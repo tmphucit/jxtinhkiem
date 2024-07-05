@@ -206,16 +206,12 @@ bool KUiConnectInfo::OnDelRole() {
                             false)) {
 
 #ifdef SWORDONLINE_USE_MD5_PASSWORD
-
     KSG_StringToMD5String(SupperPassword.szPassword, szSupperPassword);
-
 #else
-
 #pragma message(KSG_ATTENTION("Add Password to MD5 string"))
     strncpy(SupperPassword.szPassword, szSupperPassword,
             sizeof(SupperPassword.szPassword));
     SupperPassword.szPassword[sizeof(SupperPassword.szPassword) - 1] = '\0';
-
 #endif
 
     m_InputPwdWnd.ClearText(true);
@@ -227,12 +223,14 @@ bool KUiConnectInfo::OnDelRole() {
       SetInfoMsg(CI_MI_CONNECT_FAILED);
       m_nDesireLoginStatus = CI_NS_INIT_WND;
     }
+
     memset(&szSupperPassword, 0, sizeof(szSupperPassword));
     memset(&SupperPassword, 0, sizeof(SupperPassword));
   } else {
     SetInfoMsg(CI_MI_ERROR_CONFIRM_INPUT);
     m_nDesireLoginStatus = CI_NS_CONFIRM_DEL_ROLE;
   }
+
   return false;
 }
 

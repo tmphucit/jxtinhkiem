@@ -53,11 +53,46 @@ void KPlayerPK::BlockPKState(BOOL bFlag) { m_bBlock = bFlag; }
 
 void KPlayerPK::SetNormalPKState(int bFlag) {
   if (Player[m_nPlayerIndex].m_bBlock || m_bBlock) {
+    SHOW_MSG_SYNC sMsg;
+    sMsg.ProtocolType = s2c_msgshow;
+    sMsg.m_wMsgID = enumMSG_ID_BLOCK_PK;
+    sMsg.m_wLength = sizeof(SHOW_MSG_SYNC) - 1 - sizeof(LPVOID);
+    g_pServer->PackDataToClient(Player[m_nPlayerIndex].m_nNetConnectIdx, &sMsg,
+                                sMsg.m_wLength + 1);
     return;
   }
 
-  // printf("Test %d - %d\n",m_nNormalPKFlag,m_bBlock);
-
+  /*
+          if (Player[m_nPlayerIndex].m_cPK.GetPKValue() == 10)
+          {
+                  if (Npc[Player[m_nPlayerIndex].m_nIndex].m_FightMode)
+                  {
+                          SHOW_MSG_SYNC	sMsg;
+                          sMsg.ProtocolType = s2c_msgshow;
+                          sMsg.m_wMsgID = enumMSG_ID_CHANGE_STATE_PK10;
+                          sMsg.m_wLength = sizeof(SHOW_MSG_SYNC) - 1 -
+     sizeof(LPVOID);
+                          g_pServer->PackDataToClient(Player[m_nPlayerIndex].m_nNetConnectIdx,
+     &sMsg, sMsg.m_wLength + 1); return;
+                  }
+                  else
+                  {
+                          if (m_nNormalPKFlag == 2)
+                          {
+                                  m_nNormalPKFlag = 1;
+                          }
+                          else
+                          {
+                                  m_nNormalPKFlag = 2;
+                          }
+                          PK_NORMAL_FLAG_SYNC	sFlag;
+                          sFlag.ProtocolType = s2c_pksyncnormalflag;
+                          sFlag.m_btFlag = m_nNormalPKFlag;
+                          g_pServer->PackDataToClient(Player[m_nPlayerIndex].m_nNetConnectIdx,
+     (BYTE*)&sFlag, sizeof(PK_NORMAL_FLAG_SYNC)); return;
+                  }
+          }
+  */
   if (bFlag != m_nNormalPKFlag) {
 
     if (m_nNormalPKFlag == 0) {
@@ -66,10 +101,9 @@ void KPlayerPK::SetNormalPKState(int bFlag) {
       if (!Npc[Player[m_nPlayerIndex].m_nIndex].m_FightMode) {
         m_nNormalPKFlag = 0;
       } else if (Npc[Player[m_nPlayerIndex].m_nIndex].m_Level >=
-                 135) // Level Do Sat
+                 10) // Level Do Sat
       {
-        if (!Player[m_nPlayerIndex].m_bBlock)
-          m_nNormalPKFlag = 2;
+        m_nNormalPKFlag = 2;
       }
     } else if (m_nNormalPKFlag == 2) {
       if (!Npc[Player[m_nPlayerIndex].m_nIndex].m_FightMode) {
@@ -144,7 +178,7 @@ BOOL KPlayerPK::EnmityPKOpen(int nAim) {
       Npc[Player[m_nPlayerIndex].m_nIndex].m_SubWorldIndex !=
           g_SubWorldSet.SearchWorld(33) &&
       Npc[Player[m_nPlayerIndex].m_nIndex].m_SubWorldIndex !=
-          g_SubWorldSet.SearchWorld(61))
+          g_SubWorldSet.SearchWorld(37))
     return FALSE;
 
   //	if (Npc[Player[m
@@ -221,11 +255,10 @@ BOOL KPlayerPK::EnmityPKOpen(int nAim) {
     return FALSE;
   }
 
-  if (GetPKValue() >= MAX_DEATH_PUNISH_PK_VALUE) {
+  if (Npc[Player[m_nPlayerIndex].m_nIndex].m_Level < 10)
     return FALSE;
-  }
 
-  if (Npc[Player[m_nPlayerIndex].m_nIndex].m_Level < 135)
+  if (m_nPKValue == 10)
     return FALSE;
 
   Player[nAim].m_cPK.EnmityPKClose();
@@ -313,13 +346,11 @@ BOOL KPlayerPK::ExercisePKOpen(int nAim) {
   // 对方是新手
   if (Npc[Player[nAim].m_nIndex].m_Camp == camp_begin)
     return FALSE;
-
-  if (GetPKValue() >= MAX_DEATH_PUNISH_PK_VALUE)
+  if (Npc[Player[m_nPlayerIndex].m_nIndex].m_Level < 10)
     return FALSE;
 
-  if (Npc[Player[m_nPlayerIndex].m_nIndex].m_Level < 135)
+  if (m_nPKValue == 10)
     return FALSE;
-
   this->EnmityPKClose();
   Player[nAim].m_cPK.EnmityPKClose();
   this->m_nExercisePKFlag = TRUE;
@@ -512,6 +543,7 @@ void KPlayerPK::ApplyEnmityPK(char *lpszName) {
 //	功能：向服务器申请仇杀某人
 //-------------------------------------------------------------------------
 void KPlayerPK::ApplyEnmityPK(int nNpcID) {
+
   if (m_nEnmityPKState != enumPK_ENMITY_STATE_CLOSE) {
     KSystemMessage sMsg;
     sprintf(sMsg.szMessage, MSG_PK_ERROR_4);

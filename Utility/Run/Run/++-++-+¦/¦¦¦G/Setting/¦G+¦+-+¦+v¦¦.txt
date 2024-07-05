@@ -1,5 +1,0 @@
-[MAIN]
-help=bcc\quick
-icon=setting
-type=light_static
-want=string

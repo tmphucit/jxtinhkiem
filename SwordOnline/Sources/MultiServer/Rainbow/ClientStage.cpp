@@ -111,7 +111,6 @@ STDMETHODIMP CGameClient::Cleanup() {
 
 STDMETHODIMP CGameClient::ConnectTo(const char *const &pAddressToConnectServer,
                                     unsigned short usPortToConnectServer) {
-
   HRESULT hr = E_FAIL;
 
   try {

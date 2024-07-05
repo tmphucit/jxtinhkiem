@@ -1,3 +1,0 @@
-[MAIN]
-command=ground_togglegrid
-icon=command

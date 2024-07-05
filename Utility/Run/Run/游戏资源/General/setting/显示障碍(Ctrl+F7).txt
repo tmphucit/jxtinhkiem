@@ -1,5 +1,0 @@
-[MAIN]
-help=T
-icon=setting
-type=general
-want=bool

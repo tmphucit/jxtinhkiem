@@ -140,7 +140,7 @@ void KTabFile::CreateTabOffset() {
       TabBuffer++;
       if (*(Buffer - 1) == 0x0a ||
           *(Buffer - 1) == 0x0d) //	本行已经结束了，虽然可能没到nWidth //for
-                                 // linux modified [wxb 2003-7-29]
+                                 //linux modified [wxb 2003-7-29]
       {
         for (int k = j + 1; k < nWidth; k++) {
           TabBuffer->dwOffset = nOffset;

@@ -2,7 +2,7 @@
 #define KWorldH
 
 #ifdef _SERVER
-#define MAX_SUBWORLD 300 // max map da ok y
+#define MAX_SUBWORLD 100
 #else
 #define MAX_SUBWORLD 1
 #endif

@@ -191,9 +191,9 @@ bool CPlayerCreator::GetRoleDataFromIni(BYTE *pData, const char *szFileName) {
   // 玩家的显示信息	-- remark by spe because client ui display changed
   // 2003/07/21
   //	pRoleData->BaseInfo.ihelmres	= cFile.ReadInteger("ROLE", "ihelmres",
-  // 0); 	pRoleData->BaseInfo.iarmorres	= cFile.ReadInteger("ROLE",
-  // "iarmorres", 0); 	pRoleData->BaseInfo.iweaponres	=
-  // cFile.ReadInteger("ROLE", "iweaponres", 0);
+  //0); 	pRoleData->BaseInfo.iarmorres	= cFile.ReadInteger("ROLE", "iarmorres",
+  //0); 	pRoleData->BaseInfo.iweaponres	= cFile.ReadInteger("ROLE",
+  //"iweaponres", 0);
 
   // 玩家等级信息
   pRoleData->BaseInfo.fightexp = cFile.ReadInteger("ROLE", "ifightexp", 0);

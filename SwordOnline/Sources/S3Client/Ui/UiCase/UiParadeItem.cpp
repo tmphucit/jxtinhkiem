@@ -15,8 +15,9 @@
 #include "KWin32.h"
 
 extern iCoreShell *g_pCoreShell;
-#define IMAGE_PLAYER "\\Settings\\AvatarPlayer.ini"
-#define SCHEME_INI "UiParadeItem.ini"
+
+#define IMAGE_PLAYER "\\Ui\\Ui3\\AvatarPlayer.ini"
+#define SCHEME_INI "看对方玩家装备.ini"
 
 KUiParadeItem *KUiParadeItem::m_pSelf = NULL;
 
@@ -96,11 +97,11 @@ void KUiParadeItem::Initialize() {
   AddChild(&m_Name);
   AddChild(&m_Title);
   AddChild(&m_Repute);
-  AddChild(&m_Pk);
-  AddChild(&m_Pd);
-  AddChild(&m_Xh);
-  AddChild(&m_Cs);
-  AddChild(&m_Qh);
+  AddChild(&m_PKValue);
+  AddChild(&m_FuYuan);
+  AddChild(&m_WorldRank);
+  AddChild(&m_TransLife);
+  // AddChild(&m_Qh);
   AddChild(&m_Avatar);
   //	AddChild(&m_MateName);
   for (int i = 0; i < _ITEM_COUNT; i++) {
@@ -137,12 +138,13 @@ void KUiParadeItem::LoadScheme(class KIniFile *pIni) {
   m_Face.Init(pIni, "Face");
   m_Name.Init(pIni, "Name");
   m_Title.Init(pIni, "Title");
-  m_Repute.Init(pIni, "Repute");
-  m_Pk.Init(pIni, "PKValue");
-  m_Pd.Init(pIni, "Pd");
-  m_Xh.Init(pIni, "Xh");
-  m_Cs.Init(pIni, "Cs");
-  m_Qh.Init(pIni, "Qh");
+  m_Repute.Init(pIni, "Prestige");
+  m_PKValue.Init(pIni, "PKValue");
+  m_FuYuan.Init(pIni, "FuYuan");
+  m_WorldRank.Init(pIni, "WorldRank");
+  m_TransLife.Init(pIni, "TransLife");
+  // m_Qh      .Init(pIni, "Qh");
+  m_Avatar.Init(pIni, "Avatar");
   m_Close.Init(pIni, "Close");
   //	m_MateName	 .Init(pIni, "MateName");
 
@@ -181,14 +183,14 @@ void KUiParadeItem::UpdateBaseData(KUiPlayerItem *pDest) {
   m_Name.SetText(Info.Name);
   m_Title.SetText(Info.Title);
   m_Repute.SetIntText(Info.nRepute);
-  m_Pk.SetIntText(Info.nPk);
-  m_Pd.SetIntText(Info.nPd);
-  m_Xh.SetIntText(Info.nXh);
+  m_PKValue.SetIntText(Info.nPk);
+  m_FuYuan.SetIntText(Info.nPd);
+  m_WorldRank.SetIntText(Info.nXh);
 
   char cCs[32] = "";
   sprintf(cCs, "Tr飊g sinh %d", Info.nCs);
 
-  m_Cs.SetText(cCs);
+  m_TransLife.SetText(cCs);
 
   // chan dung
   KIniFile Ini;
@@ -197,9 +199,10 @@ void KUiParadeItem::UpdateBaseData(KUiPlayerItem *pDest) {
   char ImageNpc[100];
   int nNumIcon = Info.nNumImg;
   if (Ini.Load(IMAGE_PLAYER)) {
-    sprintf(sz_Temp, "%d_Position", nNumIcon);
-    Ini.GetInteger2("AvatarInfo", sz_Temp, &Left, &Top);
-    m_Avatar.SetPosition(Left, Top);
+    // sprintf(sz_Temp, "%d_Position", nNumIcon);
+    // Ini.GetInteger2("AvatarInfo", sz_Temp, &Left, &Top);
+    // m_Avatar.SetPosition(Left,Top);
+
     sprintf(sz_Temp, "%d_Image", nNumIcon);
     Ini.GetString("AvatarInfo", sz_Temp, "", ImageNpc, sizeof(ImageNpc));
     m_Avatar.SetImage(ISI_T_SPR, ImageNpc);

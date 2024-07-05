@@ -639,7 +639,9 @@ STDMETHODIMP CIOCPServer::ShutdownClient(const unsigned long &ulnClientID) {
 
     if (pCN) {
       if (pCN->pSocket) {
-        pCN->pSocket->AbortiveClose();
+        // Fix by BladeKnight109 21042020
+        // pCN->pSocket->AbortiveClose();
+        pCN->pSocket->Shutdown();
         pCN->pSocket = NULL;
       }
 
@@ -654,7 +656,6 @@ STDMETHODIMP CIOCPServer::ShutdownClient(const unsigned long &ulnClientID) {
 }
 
 STDMETHODIMP CIOCPServer::SetShutdownClient(const unsigned long &ulnClientID) {
-
   if (ulnClientID < m_nPlayerMaxCount) {
 
     if ((DWORD)(-1) != ulnClientID) {

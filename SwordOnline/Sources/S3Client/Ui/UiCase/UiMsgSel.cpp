@@ -183,13 +183,13 @@ void KUiMsgSel::Show(KUiQuestionAndAnswer *pContent) {
     m_InfoText.SetText(pContent->Question, pContent->QuestionLen);
     int i = 0;
     if (pContent->AnswerCount <= 0) {
-      m_MsgScrollList.GetMessageListBox()->AddOneMessage("结束对话", -1);
+      m_MsgScrollList.GetMessageListBox()->AddOneMessage("K誸 th骳 i tho筰",
+                                                         -1);
     } else {
       for (i = 0; i < pContent->AnswerCount; i++) {
         if (!m_MsgScrollList.GetMessageListBox()->AddOneMessage(
                 pContent->Answer[i].AnswerText, pContent->Answer[i].AnswerLen))
-          m_MsgScrollList.GetMessageListBox()->AddOneMessage(
-              "[--脚本或脚本处理有错！--]", -1);
+          m_MsgScrollList.GetMessageListBox()->AddOneMessage("Error", -1);
       }
     }
   }

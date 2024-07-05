@@ -6,9 +6,11 @@
 *****************************************************************************************/
 #include "KWin32.h"
 
+#include "../../../Core/src/CoreShell.h"
 #include "../Elem/WndMessage.h"
 #include "../ShortcutKey.h"
 #include "../UiBase.h"
+#include "CommCtrl.h"
 #include "KEngine.h"
 #include "KWin32Wnd.h"
 #include "MouseHover.h"
@@ -18,7 +20,7 @@
 #include "WndWindow.h"
 #include "Wnds.h"
 
-#include "CommCtrl.h"
+extern iCoreShell *g_pCoreShell;
 
 int WND_SHOW_MOUSE_OVER_WND = false;
 

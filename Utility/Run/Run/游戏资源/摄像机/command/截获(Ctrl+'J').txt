@@ -1,4 +1,0 @@
-[MAIN]
-icon=command
-type=camera
-command=camera_get

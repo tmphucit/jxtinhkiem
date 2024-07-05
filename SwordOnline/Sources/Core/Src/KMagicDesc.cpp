@@ -73,7 +73,7 @@ const char MAGIC_ATTRIB_STRING[][100] = {
     "damage_begin",
     "attackrating_v",
     "attackrating_p",
-    "ignoredefense_p",
+    "ignoredefense_p", // 59
     "physicsdamage_v",
     "colddamage_v",
     "firedamage_v",
@@ -84,7 +84,7 @@ const char MAGIC_ATTRIB_STRING[][100] = {
     "steallife_p",
     "stealmana_p",
     "stealstamina_p",
-    "knockback_p",
+    "knockback_p", // 70
     "deadlystrike_p",
     "fatallystrike_p",
     "stun_p",
@@ -100,12 +100,12 @@ const char MAGIC_ATTRIB_STRING[][100] = {
     "damage_reserve10",
     "damage_end",
 
-    "normal_begin",
+    "normal_begin", // 85
     "lifemax_v",
     "lifemax_p",
     "life_v",
     "lifereplenish_v",
-    "manamax_v",
+    "manamax_v", // 90
     "manamax_p",
     "mana_v",
     "manareplenish_v",
@@ -115,7 +115,7 @@ const char MAGIC_ATTRIB_STRING[][100] = {
     "staminareplenish_v",
     "strength_v",
     "dexterity_v",
-    "vitality_v",
+    "vitality_v", // 100
     "energy_v",
     "poisonres_p",
     "fireres_p",
@@ -135,7 +135,7 @@ const char MAGIC_ATTRIB_STRING[][100] = {
     "castspeed_v",
     "meleedamagereturn_v",
     "meleedamagereturn_p",
-    "rangedamagereturn_v",
+    "rangedamagereturn_v", // 120
     "rangedamagereturn_p",
     "addphysicsdamage_v",
     "addfiredamage_v",
@@ -157,7 +157,7 @@ const char MAGIC_ATTRIB_STRING[][100] = {
     "stealstaminaenhance_p",
     "allskill_v",
     "metalskill_v",
-    "woodskill_v",
+    "woodskill_v", // 142
     "waterskill_v",
     "fireskill_v",
     "earthskill_v",
@@ -259,9 +259,12 @@ const char *KMagicDesc::GetDesc(void *pData) {
   while (*pTempDesc) {
     if (*pTempDesc == '#') {
       int nDescAddType = 0;
-      switch (*pTempDesc + 3) {
+      switch (*(pTempDesc + 3)) {
       case '+':
         nDescAddType = 1;
+        break;
+      case '~':
+        nDescAddType = 2;
         break;
       default:
         nDescAddType = 0;
@@ -270,6 +273,9 @@ const char *KMagicDesc::GetDesc(void *pData) {
       int nValue = 0;
 
       switch (*(pTempDesc + 2)) {
+      case 'A':
+        nValue = (int)(pAttrib->nValue[0] / 256);
+        break;
       case '1':
         nValue = pAttrib->nValue[0];
         break;
@@ -278,6 +284,15 @@ const char *KMagicDesc::GetDesc(void *pData) {
         break;
       case '3':
         nValue = pAttrib->nValue[2];
+        break;
+      case '6':
+        nValue = (int)(pAttrib->nValue[2] / 256);
+        break;
+      case '7':
+        nValue = (int)(pAttrib->nValue[0] % 256);
+        break;
+      case '9':
+        nValue = (int)(pAttrib->nValue[2] % 256);
         break;
       default:
         nValue = pAttrib->nValue[0];
@@ -291,22 +306,22 @@ const char *KMagicDesc::GetDesc(void *pData) {
       case 's': // ÎåĞĞ
         switch (nValue) {
         case series_metal:
-          strcat(m_szDesc, "Kim ");
+          strcat(m_szDesc, "HÖ Kim");
           break;
         case series_wood:
-          strcat(m_szDesc, "Méc ");
+          strcat(m_szDesc, "HÖ Méc");
           break;
         case series_water:
-          strcat(m_szDesc, "Thuû ");
+          strcat(m_szDesc, "HÖ Thñy");
           break;
         case series_fire:
-          strcat(m_szDesc, "Ho¶ ");
+          strcat(m_szDesc, "HÖ Háa");
           break;
         case series_earth:
-          strcat(m_szDesc, "Thæ ");
+          strcat(m_szDesc, "HÖ Thæ ");
           break;
         default:
-          strcat(m_szDesc, "V« ");
+          strcat(m_szDesc, "V« HÖ ");
           break;
         }
         i += 4;
@@ -314,37 +329,40 @@ const char *KMagicDesc::GetDesc(void *pData) {
       case 'k': // ÏûºÄÀàĞÍ
         switch (nValue) {
         case 0:
-          strcat(m_szDesc, "ÄÚÁ¦");
+          strcat(m_szDesc, "Néi Lùc\n");
           break;
         case 1:
-          strcat(m_szDesc, "ÉúÃü");
+          strcat(m_szDesc, "Sinh Lùc\n");
           break;
         case 2:
-          strcat(m_szDesc, "ÌåÁ¦");
+          strcat(m_szDesc, "ThÓ Lùc\n");
           break;
         case 3:
-          strcat(m_szDesc, "½ğÇ®");
+          strcat(m_szDesc, "TiÒn\n");
           break;
         default:
-          strcat(m_szDesc, "ÄÚÁ¦");
+          strcat(m_szDesc, "Néi Lùc\n");
           break;
         }
         i += 4;
         break;
       case 'd': // Êı×Ö
       {
-        // if (nValue == 0)	// ÊıÖµÎªÁãµÄ»°£¬²»ÏÔÊ¾
-        {
-          //	return NULL;
-        }
-
         switch (nDescAddType) {
         case 1:
           if (nValue > 0) {
-            strcat(m_szDesc, "Ôö¼Ó");
+            strcat(m_szDesc, "+");
+            i += 1;
           } else {
             nValue = -nValue;
-            strcat(m_szDesc, "¼õÉÙ");
+            strcat(m_szDesc, "-");
+            i += 1;
+          }
+          break;
+        case 2:
+          if (nValue > 0) {
+            strcat(m_szDesc, "-");
+            i += 1;
           }
           break;
         default:
@@ -355,6 +373,12 @@ const char *KMagicDesc::GetDesc(void *pData) {
         strcat(m_szDesc, szMsg);
         i += strlen(szMsg);
       } break;
+      case 'f': // Êı×Ö
+        char szMsg[80];
+        sprintf(szMsg, "%d", (int)(nValue / 18));
+        strcat(m_szDesc, szMsg);
+        i += strlen(szMsg);
+        break;
       case 'x': // ĞÔ±ğ
         if (nValue)
           strcat(m_szDesc, "N÷ ");
@@ -362,6 +386,29 @@ const char *KMagicDesc::GetDesc(void *pData) {
           strcat(m_szDesc, "Nam ");
         i += 4;
         break;
+      case 'l': {
+        char szMsg[60];
+        if (nValue > 0) {
+          ISkill *pSkill = g_SkillManager.GetSkill(nValue, 1);
+          sprintf(szMsg, "Kü n¨ng [ %s ]: +", pSkill->GetSkillName());
+        } else
+          sprintf(szMsg, "Kü n¨ng vâ c«ng vèn cã: +", "");
+        strcat(m_szDesc, szMsg);
+        i += strlen(szMsg);
+      } break;
+      case 'w': {
+        char szMsg[32];
+        switch (nValue) {
+        case 9:
+          strcpy(szMsg, "tµn ¶nh kĞo dµi");
+          break;
+        default:
+          strcpy(szMsg, "tµn ¶nh");
+          break;
+        }
+        strcat(m_szDesc, szMsg);
+        i += strlen(szMsg);
+      } break;
       default:
         break;
       }
@@ -416,6 +463,20 @@ int g_String2MagicID(char *szMagicAttribName) {
   // ĞèÒª½«×´Ì¬Êı¾İÓë·Ç×´Ì¬Êı¾İ·ÖÀë³öÀ´£¬·ÅÈëÏàÓ¦µÄÊı×éÄÚ£¬²¢¼ÇÂ¼×ÜÊıÁ¿
 
   for (int i = 0; i <= magic_pass_new_end; i++) {
+    if (!strcmp(szMagicAttribName, g_MagicID2String(i)))
+      return i;
+  }
+  return -1;
+}
+
+int KMagicDesc::String2MagicID(char *szMagicAttribName) {
+  if ((!szMagicAttribName) || (!szMagicAttribName[0]))
+    return -1;
+
+  // nValue2 µ±ÖµÎª-1Ê±ÎªÓÀ¾ÃĞÔ×´Ì¬£¬0Îª·Ç×´Ì¬£¬ÆäËüÖµÎªÓĞÊ±Ğ§ĞÔ×´Ì¬Ä§·¨Ğ§¹û
+  // ĞèÒª½«×´Ì¬Êı¾İÓë·Ç×´Ì¬Êı¾İ·ÖÀë³öÀ´£¬·ÅÈëÏàÓ¦µÄÊı×éÄÚ£¬²¢¼ÇÂ¼×ÜÊıÁ¿
+
+  for (int i = 0; i <= magic_normal_end; i++) {
     if (!strcmp(szMagicAttribName, g_MagicID2String(i)))
       return i;
   }

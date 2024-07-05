@@ -44,6 +44,10 @@ void KNpcAI::Activate(int nIndex) {
 #ifdef _SERVER
   if (Npc[m_nIndex].m_CurrentLifeMax == 0)
     return;
+  if (Npc[m_nIndex].Owner[0] && Npc[m_nIndex].m_bNpcFollowFindPath) {
+    FindPathNpc();
+    return;
+  }
   int nCurTime = SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_dwCurrentTime;
   if (/*Npc[m_nIndex].m_nPeopleIdx ||*/ Npc[m_nIndex].m_NextAITime <=
       nCurTime) {
@@ -91,20 +95,101 @@ void KNpcAI::Activate(int nIndex) {
 // flying add the code for the macro such as "_CLIENT".
 // because this code only run at client.
 #else
-  if (Npc[m_nIndex].m_Kind > 3 && Npc[m_nIndex].m_AiMode > 10) {
-    if (CanShowNpc()) {
-      // 让NPC随机休息一下，是个好建议。
-      if (GetRandomNumber(0, 1)) {
-        Npc[m_nIndex].m_AiParam[5] = 0;
-        Npc[m_nIndex].m_AiParam[4] = 5;
-        return;
-      }
-      if (!KeepActiveRange())
-        ProcessShowNpc();
-    }
-  }
+/*	if (Npc[m_nIndex].m_Kind >= kind_bird && Npc[m_nIndex].m_AiMode > 10)
+        {
+                if (CanShowNpc())
+                {
+                        // 让NPC随机休息一下，是个好建议。
+                        if (GetRandomNumber(0, 1))
+                        {
+                                Npc[m_nIndex].m_AiParam[5] = 0;
+                                Npc[m_nIndex].m_AiParam[4] = 5;
+                                return;
+                        }
+                        if (!KeepActiveRange())
+                                ProcessShowNpc();
+                }
+        }*/
 #endif
 }
+
+#define MAX_FIND_PATH_NPC_DISTANCE 750
+#define MIN_FIND_PATH_NPC_DISTANCE 32
+#define MAX_WAIT_PATH_NPC_TIME 5 * 60 * 20  // 5 minute
+#define MAX_FIND_PATH_NPC_TIME 30 * 60 * 20 // 30 minute
+
+#ifdef _SERVER
+void KNpcAI::FindPathNpc() {
+  int nIdx = Npc[m_nIndex].FindAroundPlayer(Npc[m_nIndex].Owner);
+
+  if (nIdx <= 0 || Npc[nIdx].m_dwID <= 0)
+    return;
+
+  if (Npc[m_nIndex].m_SubWorldIndex != Npc[nIdx].m_SubWorldIndex)
+    return;
+
+  if (Npc[nIdx].m_Doing == do_death || Npc[nIdx].m_Doing == do_revive)
+    return;
+
+  if (Npc[m_nIndex].m_uFindPathTime) {
+    if (Npc[m_nIndex].m_uFindPathMaxTime != -1) {
+      DWORD dwTime = MAX_FIND_PATH_NPC_TIME;
+
+      if (Npc[m_nIndex].m_uFindPathMaxTime > 0)
+        dwTime = Npc[m_nIndex].m_uFindPathMaxTime;
+
+      if (g_SubWorldSet.GetGameTime() - Npc[m_nIndex].m_uFindPathTime >
+          dwTime) {
+        if (Npc[m_nIndex].m_RegionIndex >= 0) {
+          SubWorld[Npc[m_nIndex].m_SubWorldIndex]
+              .m_Region[Npc[m_nIndex].m_RegionIndex]
+              .RemoveNpc(m_nIndex);
+          SubWorld[Npc[m_nIndex].m_SubWorldIndex]
+              .m_Region[Npc[m_nIndex].m_RegionIndex]
+              .DecRef(Npc[m_nIndex].m_MapX, Npc[m_nIndex].m_MapY, obj_npc);
+        }
+        NpcSet.Remove(m_nIndex);
+        return;
+      }
+    }
+  }
+  // 取得到目标的距离
+  int distance = NpcSet.GetDistance(nIdx, m_nIndex);
+  if (distance <= MAX_FIND_PATH_NPC_DISTANCE) {
+    if (Npc[m_nIndex].m_CurrentCamp != camp_event)
+      Npc[m_nIndex].SetCurrentCamp(camp_event);
+
+    if (distance > MIN_FIND_PATH_NPC_DISTANCE) {
+      if (Npc[m_nIndex].m_uLastFindPathTime)
+        Npc[m_nIndex].m_uLastFindPathTime = 0;
+
+      int nDesX, nDesY;
+      Npc[nIdx].GetMpsPos(&nDesX, &nDesY);
+      Npc[m_nIndex].SendCommand(do_walk, nDesX, nDesY);
+    }
+  } else {
+    if (Npc[m_nIndex].m_CurrentCamp != camp_animal)
+      Npc[m_nIndex].SetCurrentCamp(camp_animal);
+
+    if (Npc[m_nIndex].m_uLastFindPathTime <= 0)
+      Npc[m_nIndex].m_uLastFindPathTime = g_SubWorldSet.GetGameTime();
+    else {
+      if (g_SubWorldSet.GetGameTime() - Npc[m_nIndex].m_uLastFindPathTime >
+          MAX_WAIT_PATH_NPC_TIME) {
+        if (Npc[m_nIndex].m_RegionIndex >= 0) {
+          SubWorld[Npc[m_nIndex].m_SubWorldIndex]
+              .m_Region[Npc[m_nIndex].m_RegionIndex]
+              .RemoveNpc(m_nIndex);
+          SubWorld[Npc[m_nIndex].m_SubWorldIndex]
+              .m_Region[Npc[m_nIndex].m_RegionIndex]
+              .DecRef(Npc[m_nIndex].m_MapX, Npc[m_nIndex].m_MapY, obj_npc);
+        }
+        NpcSet.Remove(m_nIndex);
+      }
+    }
+  }
+}
+#endif
 //---------------------------------------------------------------------
 // flying add these functions
 // Run at client.
@@ -624,25 +709,38 @@ void KNpcAI::ProcessPlayer() {
 }
 
 #ifndef _SERVER
-void KNpcAI::FollowObject(int nIdx) {
+void KNpcAI::FollowObject(int nIdx) // loi rot item tu quai ra xa
+{
   int nX1, nY1, nX2, nY2;
   Npc[m_nIndex].GetMpsPos(&nX1, &nY1);
   Object[nIdx].GetMpsPos(&nX2, &nY2);
 
-  //	if ((nX1 - nX2) * (nX1 - nX2) + (nY1 - nY2) * (nY1 - nY2) <
-  // PLAYER_PICKUP_CLIENT_DISTANCE * PLAYER_PICKUP_CLIENT_DISTANCE)
-  //	{
-  // #ifndef _SERVER
-  Player[CLIENT_PLAYER_INDEX].CheckObject(nIdx);
-  // #endif
-  //	}
+  if ((nX1 - nX2) * (nX1 - nX2) + (nY1 - nY2) * (nY1 - nY2) <
+      PLAYER_PICKUP_CLIENT_DISTANCE * PLAYER_PICKUP_CLIENT_DISTANCE) {
+    // #ifndef _SERVER
+    Player[CLIENT_PLAYER_INDEX].CheckObject(nIdx);
+    // #endif
+  }
 }
 #endif
 
+BOOL KNpcAI::CheckNpc(int nIndex) {
+  if (nIndex < 0 || /*Npc[nIndex].m_SubWorldIndex !=
+                       Npc[m_nIndex].m_SubWorldIndex || */
+      Npc[nIndex].m_RegionIndex < 0 ||
+      Npc[nIndex].m_CurrentLifeMax <= 0 ||
+      Npc[nIndex].m_InvisibilityState.nTime > 0 || !Npc[nIndex].IsAlive()) {
+    return TRUE;
+  }
+  return FALSE;
+}
+
 #ifndef _SERVER
 void KNpcAI::FollowPeople(int nIdx) {
-  if (Npc[nIdx].m_Doing == do_death || Npc[nIdx].m_Doing == do_revive ||
-      Npc[nIdx].m_InvisibilityState.nTime > 0) {
+  if (CheckNpc(nIdx))
+  // if (Npc[nIdx].m_Doing == do_death || Npc[nIdx].m_Doing == do_revive ||
+  // Npc[nIdx].m_InvisibilityState.nTime > 0 ||!Npc[nIdx].IsAlive())
+  {
     Npc[m_nIndex].m_nPeopleIdx = 0;
     Npc[m_nIndex].m_nPeopleIdxCheckClient = 0;
     return;
@@ -670,11 +768,9 @@ void KNpcAI::FollowPeople(int nIdx) {
       Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_nPeopleIdxCheckClient = 0;
 
       Npc[nIdx].TurnTo(Player[CLIENT_PLAYER_INDEX].m_nIndex);
-
       return;
     }
   }
-
   // 距离小于攻击范围就开始攻击
   if (nRelation == relation_enemy) {
 
@@ -1003,13 +1099,35 @@ void KNpcAI::KeepAttackRange(int nEnemy, int nRange) {
 }
 
 void KNpcAI::FollowAttack(int i) {
+  if (CheckNpc(i))
+    return;
+
   if (Npc[i].m_RegionIndex < 0)
     return;
 
   int distance = NpcSet.GetDistance(m_nIndex, i);
+#define MINI_ATTACK_RANGE 32
 
+  if (distance <= MINI_ATTACK_RANGE) {
+    KeepAttackRange(i, MINI_ATTACK_RANGE);
+    return;
+  }
   // Attack Enemy
   if (distance <= Npc[m_nIndex].m_CurrentAttackRadius && InEyeshot(i)) {
+    ISkill *pISkill = g_SkillManager.GetSkill(Npc[m_nIndex].m_ActiveSkillID, 1);
+    if (!pISkill)
+      return;
+    if (pISkill->IsAura())
+      return;
+    if (pISkill->GetSkillStyle() == SKILL_SS_Missles &&
+        (pISkill->IsTargetAlly() /*|| pISkill->IsTargetSelf()*/)) {
+      int nX;
+      int nY;
+      Npc[m_nIndex].GetMpsPos(&nX, &nY);
+      Npc[m_nIndex].SendCommand(do_skill, Npc[m_nIndex].m_ActiveSkillID, nX,
+                                nY);
+      return;
+    }
     Npc[m_nIndex].SendCommand(do_skill, Npc[m_nIndex].m_ActiveSkillID, -1, i);
     return;
   }
@@ -1119,7 +1237,7 @@ void KNpcAI::Flee(int nIdx) {
 //	功能：普通主动类1
 //	m_AiParam[0] 无敌人时候的巡逻概率
 //	m_AiParam[1、2、3、4] 四种技能的使用概率，分别对应SkillList里的技能1 2 3
-// 4 	m_AiParam[5、6] 看见敌人但比较远时，待机、巡逻的概率
+//4 	m_AiParam[5、6] 看见敌人但比较远时，待机、巡逻的概率
 //------------------------------------------------------------------------------
 void KNpcAI::ProcessAIType01() {
   int *pAIParam = Npc[m_nIndex].m_AiParam;
@@ -1196,10 +1314,10 @@ void KNpcAI::ProcessAIType01() {
 //	m_AiParam[1] 剩余生命低于这个百分比的时候执行相应处理
 //	m_AiParam[2] 在m_AiParam[1]的情况出现的时候是否执行相应处理的概率
 //	m_AiParam[3]
-// 在m_AiParam[1]的情况出现并决定要执行相应处理，使用回复技能的概率
-// 对应SkillList里面的技能 1 	m_AiParam[4、5、6]
-// 三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
-// 看见敌人但比较远时，待机、巡逻的概率
+//在m_AiParam[1]的情况出现并决定要执行相应处理，使用回复技能的概率
+//对应SkillList里面的技能 1 	m_AiParam[4、5、6]
+//三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
+//看见敌人但比较远时，待机、巡逻的概率
 //------------------------------------------------------------------------------
 void KNpcAI::ProcessAIType02() {
   int *pAIParam = Npc[m_nIndex].m_AiParam;
@@ -1291,10 +1409,10 @@ void KNpcAI::ProcessAIType02() {
 //	m_AiParam[1] 剩余生命低于这个百分比的时候执行相应处理
 //	m_AiParam[2] 在m_AiParam[1]的情况出现的时候是否执行相应处理的概率
 //	m_AiParam[3]
-// 在m_AiParam[1]的情况出现并决定要执行相应处理，使用攻击技能的概率
-// 对应SkillList里面的技能 1 	m_AiParam[4、5、6]
-// 三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
-// 看见敌人但比较远时，待机、巡逻的概率
+//在m_AiParam[1]的情况出现并决定要执行相应处理，使用攻击技能的概率
+//对应SkillList里面的技能 1 	m_AiParam[4、5、6]
+//三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
+//看见敌人但比较远时，待机、巡逻的概率
 //------------------------------------------------------------------------------
 void KNpcAI::ProcessAIType03() {
   int *pAIParam = Npc[m_nIndex].m_AiParam;
@@ -1381,7 +1499,7 @@ void KNpcAI::ProcessAIType03() {
 //	功能：普通被动类1
 //	m_AiParam[0] 无敌人时候的巡逻概率
 //	m_AiParam[1、2、3、4] 四种攻击技能的使用概率，分别对应SkillList里的技能
-// 1 2 3 4 	m_AiParam[5、6] 看见敌人但比较远时，待机、巡逻的概率
+//1 2 3 4 	m_AiParam[5、6] 看见敌人但比较远时，待机、巡逻的概率
 //------------------------------------------------------------------------------
 void KNpcAI::ProcessAIType04() {
   int *pAIParam = Npc[m_nIndex].m_AiParam;
@@ -1452,10 +1570,10 @@ void KNpcAI::ProcessAIType04() {
 //	m_AiParam[1] 剩余生命低于这个百分比的时候执行相应处理
 //	m_AiParam[2] 在m_AiParam[1]的情况出现的时候是否执行相应处理的概率
 //	m_AiParam[3]
-// 在m_AiParam[1]的情况出现并决定要执行相应处理，使用回复技能的概率
-// 对应SkillList里面的技能 1 	m_AiParam[4、5、6]
-// 三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
-// 看见敌人但比较远时，待机、巡逻的概率
+//在m_AiParam[1]的情况出现并决定要执行相应处理，使用回复技能的概率
+//对应SkillList里面的技能 1 	m_AiParam[4、5、6]
+//三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
+//看见敌人但比较远时，待机、巡逻的概率
 //------------------------------------------------------------------------------
 void KNpcAI::ProcessAIType05() {
   int *pAIParam = Npc[m_nIndex].m_AiParam;
@@ -1542,10 +1660,10 @@ void KNpcAI::ProcessAIType05() {
 //	m_AiParam[1] 剩余生命低于这个百分比的时候执行相应处理
 //	m_AiParam[2] 在m_AiParam[1]的情况出现的时候是否执行相应处理的概率
 //	m_AiParam[3]
-// 在m_AiParam[1]的情况出现并决定要执行相应处理，使用攻击技能的概率
-// 对应SkillList里面的技能 1 	m_AiParam[4、5、6]
-// 三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
-// 看见敌人但比较远时，待机、巡逻的概率
+//在m_AiParam[1]的情况出现并决定要执行相应处理，使用攻击技能的概率
+//对应SkillList里面的技能 1 	m_AiParam[4、5、6]
+//三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
+//看见敌人但比较远时，待机、巡逻的概率
 //------------------------------------------------------------------------------
 void KNpcAI::ProcessAIType06() {
   int *pAIParam = Npc[m_nIndex].m_AiParam;

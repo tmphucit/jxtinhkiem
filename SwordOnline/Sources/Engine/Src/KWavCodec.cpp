@@ -67,7 +67,7 @@ static void ImaInitTable() {
 //			nInLen		缓存长度
 //			lpOut		PCM缓存
 //			nBlockAlign
-// PCM块大小 11.1K=512 22.1k=1024 44.1k=2048
+//PCM块大小 11.1K=512 22.1k=1024 44.1k=2048
 // 返回:	实际读取长度
 //---------------------------------------------------------------------------
 DWORD g_ImaAdpcmDecode(PVOID lpIn, int nInLen, PVOID lpOut, int nBlockAlign) {
@@ -102,8 +102,7 @@ static void ImaDecodeBlock(PBYTE lpIma, short *lpPcm, int nBlockAlign) {
 // 参数:    ch     声道号
 //			chans  声道总数
 //			ibuff
-// 输入的缓冲区地址,应为block块首开始buffer[blockAlign]
-// obuff  输出缓冲
+//输入的缓冲区地址,应为block块首开始buffer[blockAlign] 			obuff  输出缓冲
 //          n      每声道每block采样数 16位应为1017
 //          o_inc  输出声道数
 // 返回:	void

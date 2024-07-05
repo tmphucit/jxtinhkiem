@@ -46,7 +46,7 @@ void KWndBitmap::PaintWindow() {
 //	{
 //		g_pCanvas->DrawBitmap16(m_nAbsoluteLeft, m_nAbsoluteTop,
 //			m_Bitmap.GetWidth(), m_Bitmap.GetHeight(),
-// m_Bitmap.GetBitmap());
+//m_Bitmap.GetBitmap());
 //	}
 #ifdef _DEBUG
   //	else

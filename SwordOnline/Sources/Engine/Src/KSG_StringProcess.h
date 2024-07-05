@@ -23,4 +23,7 @@ inline bool KSG_StringSkipSymbol(char **ppszString, int nSymbol) {
   return KSG_StringSkipSymbol((const char **)ppszString, nSymbol);
 }
 
+ENGINE_API int KSG_GetCurSec();
+ENGINE_API int KSG_StringSetValue(int t, int n, int p, int v);
+ENGINE_API int KSG_StringGetValue(int t, int n, int p);
 #endif

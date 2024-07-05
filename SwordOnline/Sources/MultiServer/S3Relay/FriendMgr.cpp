@@ -383,7 +383,7 @@ BOOL CFriendMgr::SomeoneSyncFriends(const std::string &role,
         THEFRIEND theFriend = *itFriend;
 
         //					spec	state	name
-        // 0
+        //0
         size_t appendsize = 1 + 1 + theFriend.second.size() + 1;
 
         //				item			specOver

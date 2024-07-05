@@ -110,6 +110,7 @@ typedef struct {
 #ifndef _SERVER
   char szImageName[80]; // 界面中的动画文件名
   char szIntro[256];    // 说明文字
+
 #endif
   // Time Item
   KTime LimitTime;
@@ -264,6 +265,9 @@ public:
   int GetBaseMagic() const { return m_aryBaseAttrib[0].nValue[0]; }; // MASK
   int GetKind() { return m_SpecialParam.uItemType; };
   int GetItemGroup() { return m_SpecialParam.uItemGroup; };
+  int GetBaseMagicAttribType(int i = 0) const {
+    return m_aryBaseAttrib[i].nAttribType;
+  };
 #ifndef _SERVER
   void Paint(int nX, int nY);
   void GetDesc(char *pszMsg, bool bShowPrice = false, int nPriceScale = 1,

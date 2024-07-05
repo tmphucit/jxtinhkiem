@@ -1,7 +1,0 @@
-; Common.def : Declares the module parameters for the DLL.
-
-LIBRARY      "Common"
-DESCRIPTION  'Common Windows Dynamic Link Library'
-
-EXPORTS
-    ; Explicit exports can go here

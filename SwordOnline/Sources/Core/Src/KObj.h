@@ -11,7 +11,7 @@
 
 #ifdef _SERVER
 
-#define MAX_OBJECT 30000
+#define MAX_OBJECT 25000
 
 // #define	MAX_OBJECT	10000
 
@@ -46,7 +46,7 @@
 #define OBJ_TRAP_STATE_ACTIVE 1  // 陷阱状态 开
 #define OBJ_TRAP_STATE_ACTING 2  // 陷阱状态 正在动作
 
-#define OBJ_BELONG_TIME 600
+#define OBJ_BELONG_TIME 300
 
 enum Obj_Bar_Type // 物件地面格子障碍类型
 {
@@ -176,8 +176,7 @@ public:
   OBJ_SKILL m_cSkill; // 物件所带魔法技能（用于obj trap，暂时无用）
 
   char m_szName[32];  // 物件名称
-                      //	char		m_szScriptName[80];		//
-                      //所带脚本文件名
+                      //	char		m_szScriptName[80];		// 所带脚本文件名
   DWORD m_dwScriptID; // 所带脚本文件ID
   int m_nColorID;     // 物件名字显示时的颜色id，客户端通过查表找到相应颜色
 
@@ -185,10 +184,13 @@ public:
   int m_nItemWidth;  // 物品长（放置在容器中的时候）
   int m_nItemHeight; // 物品宽（放置在容器中的时候）
   int m_nMoneyNum;   // 如果是掉在地上的钱，钱的数量
-
+  int m_nGenre;
+  int m_nDetailType;
   BOOL m_bByPlayer;
+  DWORD m_dwNpcId;
 
 #ifdef _SERVER
+  BOOL m_bPickExecute;
   // 如果是打怪物掉出来的装备或钱：谁打出来的(记录的是player index) if == -1
   // 不从属于任何人，任何人都能捡
   int m_nBelong;
@@ -241,7 +243,7 @@ public:
   void Activate();
   //	void		Save(KIniFile *IniFile, LPSTR Section);
   //	void		Load(int nObjIndex, int nSubWorldID, KIniFile *IniFile,
-  // LPSTR Section);
+  //LPSTR Section);
 
   void ExecScript(int nPlayerIdx);
   void CastSkill(int nDir);
@@ -268,6 +270,8 @@ public:
   int GetItemDataID();
   void SetItemBelong(int nPlayerIdx);
   void SetEntireBelong(int nPlayerIdx);
+  void SetObjPickExecute(BOOL bFlag) { m_bPickExecute = (BOOL)bFlag; };
+  BOOL GetObjPickExecute() { return m_bPickExecute; };
 #endif
 
 #ifndef _SERVER
@@ -283,6 +287,7 @@ public:
                           int nTableWidth,    // 表格长
                           int nTableHeight,   // 表格宽
                           BYTE *lpbBarTable); // 表格内容
+  int GetDistanceSquare(int nNpcIndex);
 
 private:
   void BoxOpen();

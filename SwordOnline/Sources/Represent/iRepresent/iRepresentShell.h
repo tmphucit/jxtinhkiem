@@ -51,7 +51,7 @@ struct KBitmapDataBuffInfo {
   int nHeight; // 图形高度
   int nPitch;  // 图形缓冲区每横行数据的起点的间隔
   BITMAP_DATA_BUFFER_FORMAT
-  eFormat;     // 数据格式，取值来自枚举BITMAP_DATA_BUFFER_FORMAT
+      eFormat; // 数据格式，取值来自枚举BITMAP_DATA_BUFFER_FORMAT
   void *pData; // 数据区指针
 };
 
@@ -73,7 +73,7 @@ public:
       int nHeight,
       // ## 是否独占全屏幕
       bool bFullScreen) = 0;
-
+  int FPSDelay;
   // ## 重置绘图设备
   virtual bool Reset(
       // ## 设备（窗口）横宽（单位：像素点）
@@ -360,8 +360,8 @@ public:
   // 设置偏色列表
   virtual unsigned int SetAdjustColorList(
       unsigned int
-          *puColorList,   // 偏色的颜色列表，每个颜色为一个unsigned int数，
-                          // 用32bit数以0RGB的格式表示颜色，每个分量8bit。
+          *puColorList, // 偏色的颜色列表，每个颜色为一个unsigned int数，
+                        // 用32bit数以0RGB的格式表示颜色，每个分量8bit。
       unsigned int uCount // 颜色列表中颜色数的数目
       ) = 0;
 };

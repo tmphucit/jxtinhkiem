@@ -188,8 +188,8 @@ bool ZPackFile::_readData(int node_index, char *node) {
     } else if (compress_type == TYPE_BZIP2) {
       //			dest_length = index_list[node_index].size;
       //			r = BZ2_bzBuffToBuffDecompress(node +
-      // sizeof(id), &dest_length, source, index_list[node_index].compress_size
-      // & 0x00FFFFFF, 0, 0);
+      //sizeof(id), &dest_length, source, index_list[node_index].compress_size &
+      //0x00FFFFFF, 0, 0);
     }
   }
   if (!r)

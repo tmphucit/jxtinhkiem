@@ -130,10 +130,10 @@ inline int KSkill::Param2PCoordinate(int nLauncher, int nParam1, int nParam2,
     break;
   }
 
-  if (*npPX < 0 || *npPY < 0)
-    g_DebugLog("Param2PCoordinate函数获得参数违法！nParam1 ,nParam2 "
-               "[%d,%d], nPX,nPY",
-               nParam1, nParam2, *npPX, *npPY);
+  /*if (*npPX < 0 || *npPY < 0)
+          g_DebugLog("Param2PCoordinate函数获得参数违法！nParam1
+     ,nParam2 [%d,%d], nPX,nPY", nParam1, nParam2, *npPX, * npPY)*/
+  ;
 
   return nTargetId;
 }
@@ -1153,9 +1153,10 @@ int KSkill::CastZoneZ(TOrdinSkillParam *pSkillParam, int nDir, int nRefPX,
         Missle[nMissleIndex].m_nSubWorldId = nSubWorldId;
         Missle[nMissleIndex].m_nLauncher = nLauncher;
         Missle[nMissleIndex].m_dwLauncherId = Npc[nLauncher].m_dwID;
-        // printf("CastZoneZ: nMissleIndex: %d nLauncher: %d m_dwID: %d
-        // nSubWorldId: %d  \n", nMissleIndex, nLauncher, Npc[nLauncher].m_dwID,
-        // nSubWorldId);
+#ifdef _SERVER
+        Missle[nMissleIndex].m_nPKFlag =
+            Player[Npc[nLauncher].GetPlayerIdx()].m_cPK.GetNormalPKState();
+#endif
 
         if (pSkillParam->nParent)
           Missle[nMissleIndex].m_nParentMissleIndex = pSkillParam->nParent;
@@ -1276,6 +1277,10 @@ int KSkill::CastZone(TOrdinSkillParam *pSkillParam, int nDir, int nRefPX,
       Missle[nMissleIndex].m_nSubWorldId = nSubWorldId;
       Missle[nMissleIndex].m_nLauncher = nLauncher;
       Missle[nMissleIndex].m_dwLauncherId = Npc[nLauncher].m_dwID;
+#ifdef _SERVER
+      Missle[nMissleIndex].m_nPKFlag =
+          Player[Npc[nLauncher].GetPlayerIdx()].m_cPK.GetNormalPKState();
+#endif
 
       if (pSkillParam->nParent)
         Missle[nMissleIndex].m_nParentMissleIndex = pSkillParam->nParent;
@@ -1403,6 +1408,10 @@ int KSkill::CastLine(TOrdinSkillParam *pSkillParam, int nDir, int nRefPX,
       Missle[nMissleIndex].m_nSubWorldId = nSubWorldId;
       Missle[nMissleIndex].m_nLauncher = nLauncher;
       Missle[nMissleIndex].m_dwLauncherId = Npc[nLauncher].m_dwID;
+#ifdef _SERVER
+      Missle[nMissleIndex].m_nPKFlag =
+          Player[Npc[nLauncher].GetPlayerIdx()].m_cPK.GetNormalPKState();
+#endif
 
       if (pSkillParam->nParent)
         Missle[nMissleIndex].m_nParentMissleIndex = pSkillParam->nParent;
@@ -1507,6 +1516,10 @@ int KSkill::CastExtractiveLineMissle(TOrdinSkillParam *pSkillParam, int nDir,
       Missle[nMissleIndex].m_nSubWorldId = nSubWorldId;
       Missle[nMissleIndex].m_nLauncher = nLauncher;
       Missle[nMissleIndex].m_dwLauncherId = Npc[nLauncher].m_dwID;
+#ifdef _SERVER
+      Missle[nMissleIndex].m_nPKFlag =
+          Player[Npc[nLauncher].GetPlayerIdx()].m_cPK.GetNormalPKState();
+#endif
 
       if (pSkillParam->nParent)
         Missle[nMissleIndex].m_nParentMissleIndex = pSkillParam->nParent;
@@ -1662,6 +1675,10 @@ int KSkill::CastWall(TOrdinSkillParam *pSkillParam, int nDir, int nRefPX,
       Missle[nMissleIndex].m_dwBornTime = SubWorld[nSubWorldId].m_dwCurrentTime;
       Missle[nMissleIndex].m_nLauncher = nLauncher;
       Missle[nMissleIndex].m_dwLauncherId = Npc[nLauncher].m_dwID;
+#ifdef _SERVER
+      Missle[nMissleIndex].m_nPKFlag =
+          Player[Npc[nLauncher].GetPlayerIdx()].m_cPK.GetNormalPKState();
+#endif
 
       if (pSkillParam->nParent)
         Missle[nMissleIndex].m_nParentMissleIndex = pSkillParam->nParent;
@@ -1798,6 +1815,10 @@ int KSkill::CastCircle(TOrdinSkillParam *pSkillParam, int nDir, int nRefPX,
       Missle[nMissleIndex].m_nSubWorldId = nSubWorldId;
       Missle[nMissleIndex].m_nLauncher = nLauncher;
       Missle[nMissleIndex].m_dwLauncherId = Npc[nLauncher].m_dwID;
+#ifdef _SERVER
+      Missle[nMissleIndex].m_nPKFlag =
+          Player[Npc[nLauncher].GetPlayerIdx()].m_cPK.GetNormalPKState();
+#endif
 
       if (pSkillParam->nParent)
         Missle[nMissleIndex].m_nParentMissleIndex = pSkillParam->nParent;
@@ -2000,6 +2021,10 @@ int KSkill::CastSpread(TOrdinSkillParam *pSkillParam, int nDir, int nRefPX,
       Missle[nMissleIndex].m_nLauncher = nLauncher;
       Missle[nMissleIndex].m_dwLauncherId = Npc[nLauncher].m_dwID;
       Missle[nMissleIndex].m_dwFollowNpcID = Npc[nTargetId].m_dwID;
+#ifdef _SERVER
+      Missle[nMissleIndex].m_nPKFlag =
+          Player[Npc[nLauncher].GetPlayerIdx()].m_cPK.GetNormalPKState();
+#endif
 
       if (m_nId == 346) {
 
@@ -2330,8 +2355,6 @@ BOOL KSkill::GetInfoFromTabFile(KITabFile *pSkillsSettingFile, int nRow) {
                                 100);
   pSkillsSettingFile->GetString(nRow, "FMCastSnd", "", m_szFMPreCastSoundFile,
                                 100);
-  pSkillsSettingFile->GetString(nRow, "SkillMiniIcon", "", m_szSkillMiniIcon,
-                                80); // load mini icon
 #else
   char szLevelScript[MAX_PATH];
 
@@ -2396,8 +2419,7 @@ void KSkill::LoadSkillLevelData(unsigned long nLevel /* =0*/, int nParam) {
   KLuaScript Script;
   Script.Init();
   if (!Script.Load(szSettingScriptName)) {
-    g_DebugLog("无法读取技能设定脚本文件%s，请确认是否文件�"
-               "��在或脚本语法有误！",
+    g_DebugLog("[KSkill::LoadSkillLevelData] Can not load script %s�",
                szSettingScriptName);
     return;
   }
@@ -3164,7 +3186,7 @@ void KSkill::GetDesc(unsigned long ulSkillId, unsigned long ulLevel,
       strcat(pszMsg, szTemp);
     }
   } break; //	主动类
-           // 本技能用于改变当前Npc的主动状态
+           //本技能用于改变当前Npc的主动状态
   case SKILL_SS_PassivityNpcState: {
     strcat(pszMsg, "被动辅助武功\n");
   } break; //	被动类		本技能用于改变Npc的被动状态

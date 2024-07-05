@@ -107,33 +107,34 @@ TGetSecondVisibleCharacterThisLine(const char *pCharacter, int nPos, int nLen) {
 //	参数：pString    --> 想要分割的字符串
 //		　nDesirePos --> 期望分割的位置（以字节为单位）
 //		  bLess      -->
-// 如果期望分割的位置处于一个字符编码的中间时，结果位置
-// 为前靠还是后靠，0: 向后靠; 非0: 向前靠。 	注释：Chinese
-// GBK编码版本，此字符串中字符全部视为显示字符，不包含控制字符
+//如果期望分割的位置处于一个字符编码的中间时，结果位置 					为前靠还是后靠，0:
+//向后靠; 非0: 向前靠。 	注释：Chinese
+//GBK编码版本，此字符串中字符全部视为显示字符，不包含控制字符
 //--------------------------------------------------------------------------
 extern "C" ENGINE_API int TSplitString(const char *pString, int nDesirePos,
                                        int bLess) {
   register int nPos = 0;
   if (pString) {
-    nDesirePos -= 2;
+    nDesirePos -= 1; // nDesirePos -= 2;
     while (nPos < nDesirePos) {
       if ((unsigned char)pString[nPos] > 0x80)
-        nPos += 2;
+        nPos += 1; // nPos += 2;
       else if (pString[nPos])
         nPos++;
       else
         break;
     };
-    nDesirePos += 2;
+    nDesirePos += 1; // nDesirePos += 2;
     while (nPos < nDesirePos) {
       if ((unsigned char)pString[nPos] > 0x80) {
-        if (bLess && (nPos + 2 > nDesirePos))
+        if (bLess &&
+            (nPos + 1 > nDesirePos)) // kiem tra cho nay loi go tieng viet
           break;
         if (pString[nPos + 1] == 0) { // 防止出现单BYTE的高于0x80的字符
           nPos++;
           break;
         }
-        nPos += 2;
+        nPos += 1; // nPos += 2;
       } else if (pString[nPos])
         nPos++;
       else
@@ -149,9 +150,9 @@ extern "C" ENGINE_API int TSplitString(const char *pString, int nDesirePos,
 //		  nCount	 -->字符串内容的长度（以字节为单位）
 //		　nDesirePos --> 期望分割的位置（以缓冲驱存储字节为单位）
 //		  bLess      -->
-// 如果期望分割的位置处于一个中文字符编码的中间时，
-// 结果位置为前靠还是后靠，0: 向后靠; 非0: 向前靠。 	注释：Chinese
-// GBK编码版本，此字符串中可包含已经编码的控制符
+//如果期望分割的位置处于一个中文字符编码的中间时， 						结果位置为前靠还是后靠，0:
+//向后靠; 非0: 向前靠。 	注释：Chinese
+//GBK编码版本，此字符串中可包含已经编码的控制符
 //--------------------------------------------------------------------------
 extern "C" ENGINE_API int TSplitEncodedString(const char *pString, int nCount,
                                               int nDesirePos, int bLess) {
@@ -527,7 +528,7 @@ extern "C" ENGINE_API int TRemoveCtrlInEncodedText(char *pBuffer, int nCount) {
 //		nFontSize		采用字体的大小 [wxb 2003-6-19]
 //		nSkipLine		跳过前面多少行的数据
 //		nNumLineLimit
-// 检测的文本的行数，超过限制行数目之后的内容被忽略。如果此值小于等于0则表示无此限制。
+//检测的文本的行数，超过限制行数目之后的内容被忽略。如果此值小于等于0则表示无此限制。
 // 返回：文本的行数
 // extern "C" ENGINE_API
 // int	TGetEncodedTextLineCount(const char* pBuffer, int nCount, int
@@ -854,12 +855,11 @@ extern "C" ENGINE_API
 //	参数：pOrigString     --> 原字符串，要求不为空指针
 //		　nOrigLen		  --> 原字符串长度（不包括结尾符）
 //		  pLimitLenString -->
-// 如果原字符串超出限长，用来存储截短后的字符串的缓冲区，要求不为空指针
-// nLimitLen
+//如果原字符串超出限长，用来存储截短后的字符串的缓冲区，要求不为空指针 		  nLimitLen
 //--> 限定长度，此值要求大于等于3
 //	返回：如原字符串不超过限长，则返回原缓冲区指针，否则返回用来存储截短后的字符串的缓冲区的指针
 //	注释：Chinese
-// GBK编码版本，此字符串中字符全部视为显示字符，不包含控制字符
+//GBK编码版本，此字符串中字符全部视为显示字符，不包含控制字符
 //--------------------------------------------------------------------------
 extern "C" ENGINE_API const char *TGetLimitLenString(const char *pOrigString,
                                                      int nOrigLen,

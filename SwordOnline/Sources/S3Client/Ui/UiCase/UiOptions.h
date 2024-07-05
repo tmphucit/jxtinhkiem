@@ -19,7 +19,9 @@ enum SWORD_ONLINE_OPTION_INDEX {
   OPTION_I_DYNALIGHT = OPTION_I_START, // 动态光影
   OPTION_I_WEATHER,                    // 天气开关
   OPTION_I_PERSPECTIVE,                // 透视模式
-
+  OPTION_H_PLAYER,
+  OPTION_H_SKILL,
+  OPTION_H_NPC,
   OPTION_INDEX_COUNT,
 };
 
@@ -75,8 +77,17 @@ private:
   //	KWndLabeledButton	m_SkinBtn;		//界面方案按钮
 
   KWndScrollBar m_BrightnessScroll; // 亮度调节滑块
-  KWndScrollBar m_BGMValue;         // 音乐音量滑块
-  KWndScrollBar m_SoundValue;       // 音效音量滑块
+  KWndText80 m_BrightnessText;      // 亮度调节滑块
+  KWndText80 m_BrightnessEx;        // 亮度调节滑块
+
+  KWndScrollBar m_BGMValue; // 音乐音量滑块
+  KWndText80 m_BGMValueText;
+  KWndText80 m_BGMValueEx;
+
+  KWndScrollBar m_SoundValue; // 音效音量滑块
+  KWndText80 m_SoundValueText;
+  KWndText80 m_SoundValueEx;
+
   KPopupMenuData *m_pSkinMenu;
 
   KWndLabeledButton m_ShortcutSetView; // e...这个表示当前所选择的快捷键方案
@@ -84,7 +95,7 @@ private:
   int m_nBrightness, m_nSoundValue, m_nMusicValue;
   int m_nShortcutSet;
 
-#define MAX_TOGGLE_BTN_COUNT 4
+#define MAX_TOGGLE_BTN_COUNT 7
   KWndScrollBar m_Scroll;
   KWndLabeledButton m_ToggleBtn[MAX_TOGGLE_BTN_COUNT];
   KWndImage m_StatusImage[MAX_TOGGLE_BTN_COUNT];

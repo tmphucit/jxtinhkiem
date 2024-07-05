@@ -21,9 +21,11 @@ public:
   void Clone(KWndImage *pCopy);
 
   void SetFrame(int nFrame); // …Ë÷√Õº–Œ÷°
-  int NextFrame();           // Õº–Œªª÷°
+  void SetMaxFrame(int nMaxFrame);
+  int NextFrame(); // Õº–Œªª÷°
   void SetImage(short nType, const char *pszImgName,
                 bool bAdjustWndSize = false);
+  void RemoveImage();
   void UpdateTimer();
   KWndImage();
 

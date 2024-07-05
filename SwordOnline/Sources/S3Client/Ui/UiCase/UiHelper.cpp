@@ -130,7 +130,7 @@ void KUiHelper::Show() {
   g_UiBase.GetCurSchemePath(Scheme, 256);
   KUiHeaderControlBar::DefaultScheme(Scheme);
   KUiToolsControlBar::DefaultScheme(Scheme);
-  KUiAuto::DefaultScheme(Scheme);
+  //	KUiAuto::DefaultScheme(Scheme);
   KUiKtc::DefaultScheme(Scheme);
   KUiMsgCentrePad::DefaultScheme(Scheme);
   KUiMsgCentrePad::HideAllMessage();

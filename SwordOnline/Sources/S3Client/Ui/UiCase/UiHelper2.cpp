@@ -32,8 +32,8 @@ extern iCoreShell *g_pCoreShell;
 // extern KMouseOver	g_MouseOver;
 KUiHelper2 *KUiHelper2::m_pSelf = NULL;
 
-#define SCHEME_INI_HELP2 "详细帮助界面.ini"
-#define DETAIL_HELP_LIST "详细帮助项目.ini"
+#define SCHEME_INI_HELP2 "UiHelper2.ini"
+#define DETAIL_HELP_LIST "DetailHelper.ini"
 
 //--------------------------------------------------------------------------
 //	功能：如果窗口正被显示，则返回实例指针
@@ -184,7 +184,7 @@ int KUiHelper2::WndProc(unsigned int uMsg, unsigned int uParam, int nParam) {
     }
     //			}
     //			else if (nParam == (unsigned
-    // int)(KWndWindow*)&m_MessageList)
+    //int)(KWndWindow*)&m_MessageList)
     //			{
     //				nCurIdx = m_MessageList.GetCurSel();
     //				nTotal = m_IndexList.GetCount();

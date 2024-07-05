@@ -56,7 +56,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib GdiPlus.lib /nologo /dll /map /debug /machine:I386
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\bin\client\release\	copy Release\Represent2.dll ..\..\..\..\bin\client\Represent2.dll	copy Release\Represent2.pdb ..\..\..\..\bin\client\Represent2.pdb	copy Release\Represent2.map ..\..\..\..\bin\client\Represent2.map	copy Release\Represent2.dll ..\..\..\..\bin\client\release\Represent2.dll	copy Release\Represent2.pdb ..\..\..\..\bin\client\release\Represent2.pdb	copy Release\Represent2.map ..\..\..\..\bin\client\release\Represent2.map
+PostBuild_Cmds=md ..\..\..\..\bin\client\	copy release\Represent2.dll ..\..\..\..\bin\client\Represent2.dll	copy release\Represent2.pdb ..\..\..\..\bin\client\Represent2.pdb	md ..\..\..\..\bin\client\release\	copy release\Represent2.dll ..\..\..\..\bin\client\release\Represent2.dll	copy release\Represent2.pdb ..\..\..\..\bin\client\release\Represent2.pdb
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Represent2 - Win32 Debug"
@@ -83,11 +83,11 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib  GdiPlus.lib /nologo /dll /incremental:no /map /debug /machine:I386 /implib:"../../../lib/Represent.lib" /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib GdiPlus.lib /nologo /dll /incremental:no /map /debug /machine:I386 /implib:"../../../lib/Represent.lib" /pdbtype:sept
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\bin\client\debug\	copy Debug\Represent2.dll ..\..\..\..\bin\client\Represent2.dll	copy Debug\Represent2.dll ..\..\..\..\bin\client\debug\Represent2.dll
+PostBuild_Cmds=md ..\..\..\..\bin\client\	copy debug\Represent2.dll ..\..\..\..\bin\client\Represent2.dll	copy debug\Represent2.pdb ..\..\..\..\bin\client\Represent2.pdb	md ..\..\..\..\bin\client\debug\	copy debug\Represent2.dll ..\..\..\..\bin\client\debug\Represent2.dll	copy debug\Represent2.pdb ..\..\..\..\bin\client\debug\Represent2.pdb
 # End Special Build Tool
 
 !ENDIF 

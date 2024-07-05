@@ -114,7 +114,7 @@ public:
 
 #ifdef _SERVER
   KPK_DEATH_PUNISH_PARAM
-  m_sPKPunishParam[MAX_DEATH_PUNISH_PK_VALUE + 1]; // PK惩罚参数
+      m_sPKPunishParam[MAX_DEATH_PUNISH_PK_VALUE + 1]; // PK惩罚参数
 #endif
 
 public:

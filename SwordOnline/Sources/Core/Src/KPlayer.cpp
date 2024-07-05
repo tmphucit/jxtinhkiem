@@ -2,9 +2,9 @@
 #ifndef WM_MOUSEHOVER
 #define WM_MOUSEHOVER 0x02A1
 #endif
+#include "../../Engine/Src/KSG_StringProcess.h"
 #include "KEngine.h"
 #ifdef _SERVER
-// Author: by kinnox sell source phuc tran;
 // #include "KNetServer.h"
 // #include "../MultiServer/Heaven/Interface/iServer.h"
 #else
@@ -13,22 +13,23 @@
 #include "KIme.h"
 #include "Scene/KScenePlaceC.h"
 #endif
+#include "GameDataDef.h"
+#include "ImgRef.h"
+#include "KBuySell.h"
+#include "KFile.h"
 #include "KNpc.h"
 #include "KNpcSet.h"
 #include "KObj.h"
-#include "KPlayer.h"
-#include "KSubWorld.h"
-
-#include "GameDataDef.h"
-#include "KBuySell.h"
-#include "KFile.h"
 #include "KObjSet.h"
+#include "KPlayer.h"
 #include "KPlayerSet.h"
 #include "KScriptValueSet.h"
 #include "KSkills.h"
 #include "KSortScript.h"
+#include "KSubWorld.h"
 #include "KSubWorldSet.h"
 #include "LuaFuns.h"
+#include "Math.h"
 // #include "MyAssert.h"
 #include "KItemSet.h"
 #include "KTaskFuns.h"
@@ -55,7 +56,7 @@ extern int LuaGetNpcTalk(Lua_State *L);
 #define PLAYER_LEVEL_ADD_SKILL 1
 #define PLAYER_SHARE_EXP_DISTANCE 1024
 #define PLAYER_TEAM_EXP_ADD 50
-
+#define AUTO_TIME_SORT_ITEM 50
 #define MAX_APPLY_TEAM_TIME 500
 
 #define BASE_WALK_SPEED 5
@@ -73,6 +74,24 @@ extern int LuaGetNpcTalk(Lua_State *L);
 #define BASE_HIT_RECOVER 0
 
 #define TOWN_PORTAL_TIME 1800
+
+#define INTERVAL_AUTO 200
+
+enum AUTO_USE_ITEM {
+  ntypemau = 0,
+  ntypemana,
+  ntypethodiaphu,
+  ntypegiaidoc,
+  ntypettl,
+  ntypetuiduocpham,
+};
+static char *szTuiDPhamName = "[VIP] Thõa Tiªn MËt LÔ Bao";
+static char *szTDP = "Thæ §Þa Phï";
+
+static const char szMagicScriptName[][32] = {
+    "Tiªn Th¶o Lé",
+    "Tiªn Th¶o Lé ®Æc biÖt",
+};
 
 KPlayer Player[MAX_PLAYER];
 int g_nLastNetMsgLoop;
@@ -93,6 +112,7 @@ KPlayer::~KPlayer() { Release(); }
 void KPlayer::Release() {
 
 #ifndef _SERVER
+  m_nLastFightMode = enumFightNone;
   m_RunStatus = 0;
   m_dwNextLevelLeadExp = 0;
   m_nLeftSkillID = 0;
@@ -102,6 +122,8 @@ void KPlayer::Release() {
   m_nSendMoveFrames = defMAX_PLAYER_SEND_MOVE_FRAME;
   m_MouseDown[0] = FALSE;
   m_MouseDown[1] = FALSE;
+  m_nImageNpcID = 0;
+  m_ImageId = 0;
 
   m_nBuyNumberUId = 0;
   m_nBuyNumberIdx = 0;
@@ -142,6 +164,7 @@ void KPlayer::Release() {
   m_nAutoRange = 0;
   m_nAutoNAtack = 0;
   m_nPhamViTuVe = 0;
+  m_nGuiTienNew = 0;
   m_eBoQuaPK = 0;
   m_bMoneyObj = FALSE;
   m_bItemObj = FALSE;
@@ -198,41 +221,154 @@ void KPlayer::Release() {
   m_nObjectIdx = 0;
   m_bWaitingPlayerFeedBack = false;
   m_btTryExecuteScriptTimes = 0; //
-
   m_dwTimeThrowAwayItem = 0;
-
   m_dwTimeRideHorse = 0;
-
   m_dwTimeOpenShop = 0;
   m_dwTimeBuyShop = 0;
-
   memset(m_szNameOpenShop, 0, sizeof(m_szNameOpenShop));
+  m_bBlock = FALSE;
+  m_bTempBlock = -1;
+  // auto playgame
+  m_bActiveAuto = FALSE;
+#ifndef _SERVER
+  m_bPriorityUseMouse = FALSE;
+  m_nTimePriorityUseMouse = 0;
+  m_LifeAuto = 0;
+  m_ManaAuto = 0;
+  m_TownAuto = 0;
+  m_RadiusAuto = 0;
+  m_DistanceAuto = 0;
+  m_bFightDistance = FALSE;
+  m_nTimeBuffSkillAuto = 60000;
+  m_nPickAreaItem = 0;
+  m_PosXAuto = 0;
+  m_PosYAuto = 0;
+  m_bActacker = FALSE;
+  m_Actacker = 0;
+  // m_TimeUseItem = 0;
+  ClearArrayNpcNeast();
+  ClearArrayObjectNeast();
+  ClearArrayNpcLag();
+  ClearArrayObjectLag();
+  ClearArrayTimeNpcLag();
+  ClearArrayTimeObjectLag();
+  ClearArrayStateSkill();
+  ClearArrayInvitePlayer();
+  ClearArrayTimeInvitePlayer();
+  m_nCheckTimeBuffSkillAuto = 0;
+
+  // TamLTM code Check get hardware pc
+  m_bNotPickUpItem = FALSE;
+  m_bNotPickUpMoney = FALSE;
+
+  // end code
 
   m_bBlock = FALSE;
   m_bTempBlock = -1;
+
+  m_bOverTarget = FALSE;
+  m_Count_Acttack_Lag = 0;
+  m_nLifeLag = 0;
+  m_nTimeRunLag = 0;
+  m_bObject = FALSE;
+  m_nObject = 0;
+
+  m_bFilterEquipment = FALSE;
+  m_bBuffSkill[0] = FALSE;
+  m_bBuffSkill[1] = FALSE;
+  m_bBuffSkill[2] = FALSE;
+  m_bAttackAround = FALSE;
+  m_bFollowPeople = FALSE;
+  //	m_FollowPeopleName[0] = 0;
+  m_AutoAttack = FALSE;
+  m_bAutoParty = FALSE;
+  m_bActiveAutoParty = FALSE;
+  m_btDurabilityItem = FALSE;
+  m_btDurabilityValue = 0;
+  m_AuraSkill[0] = 0;
+  m_AuraSkill[1] = 0;
+  m_bActiveSwitchAura = FALSE;
+  m_AutoLifeReplenishP = 0;
+  m_AutoLifeReplenish = FALSE;
+  memset(m_MoveMps, 0, sizeof(m_MoveMps));
+  memset(m_FilterMagic, 0, sizeof(m_FilterMagic));
+  m_MoveStep = 0;
+  m_AutoMove = FALSE;
+  m_bPickItem = FALSE;
+  m_btPickUpKind = 0;
+  m_SpaceActionTime = 0;
+  m_SaveRAP = FALSE;
+  m_EatLife = FALSE;
+  m_EatMana = FALSE;
+  m_LifeTimeUse = 0;
+  m_ManaTimeUse = 0;
+  m_LifeAutoV = 0;
+  m_ManaAutoV = 0;
+  m_LifeCountDown = 0;
+  m_ManaCountDown = 0;
+  m_PortalCountDown = 0;
+  m_SortEQCountDown = 0;
+  m_AntiPoisonCountDown = 0;
+  m_TuiDPhamCountDown = 0;
+  m_TTLCountDown = 0;
+  m_ReturnSetpCountDown = 0;
+  m_TPLife = FALSE;
+  m_TPLifeV = 0;
+  m_TPMana = FALSE;
+  m_TPManaV = 0;
+  m_TPNotMedicineBlood = FALSE;
+  m_TPNotMedicineMana = FALSE;
+  m_TPHightMoney = FALSE;
+  m_TPHightMoneyV = 0;
+  m_AutoAntiPoison = FALSE;
+  m_AutoTTL = FALSE;
+  m_bAttackPeople = FALSE;
+  m_bTPNotEquipment = FALSE;
+  m_nTPNotEquipment = 0;
+  m_bAttackNpc = FALSE;
+  m_sListEquipment.m_Link.Init(MAX_ITEM); // mac dinh MAX_EQUIPMENT_ITEM
+  m_bSortEquipment = FALSE;
+  m_bSortEquipment_Active = FALSE;
+  m_bBuyEquip = FALSE;
+  m_bInventoryMoney = FALSE;
+  m_bInventoryItem = FALSE;
+  m_bReturnPortal = FALSE;
+  m_bRepairEquip = FALSE;
+  m_Auto_TuiDuocPham = FALSE;
+  m_Auto_BanItem = FALSE;
+  m_bSaveJewelry = FALSE;
+  m_nReturnPortalStep = Step_Training;
+  m_bFollowPeople = FALSE;
+  m_szFollowName[0] = 0;
+  m_nFollowRadius = 0;
+  m_bMoveMps = FALSE;
+  m_nMoveStep = 0;
+  m_nMoveCount = 0;
+  m_nCurReturnPortalSec = 0;
+  m_dwEquipExpandTime = 0;
+  m_bHideNpc = FALSE;
+  m_bHidePlayer = FALSE;
+  m_bHideSkill = TRUE;
+  memset(m_nMoveMps, 0, sizeof(m_nMoveMps));
+#endif
+// end
 #ifdef _SERVER
-
   m_nPlayerBuyShop = 0;
-
   m_dwNpcRequestOld = 0;
   m_nNpcRequestOldTime = 0;
-
   m_bUseReviveIdWhenLogin = 0;
   m_dwDeathScriptId = 0;
 
   m_sLoginRevivalPos.m_nSubWorldID = 0;
   m_sLoginRevivalPos.m_nMpsX = 0;
   m_sLoginRevivalPos.m_nMpsY = 0;
-
   m_sDeathRevivalPos.m_nSubWorldID = 0;
   m_sDeathRevivalPos.m_nMpsX = 0;
   m_sDeathRevivalPos.m_nMpsY = 0;
-
   m_sPortalPos.m_nSubWorldId = 0;
   m_sPortalPos.m_nTime = 0;
   m_sPortalPos.m_nMpsX = 0;
   m_sPortalPos.m_nMpsY = 0;
-
   m_pLastScriptCacheNode = NULL;
   m_dwLoginTime = -1;
   //	m_uLastPingTime			= -1;
@@ -251,71 +387,6 @@ void KPlayer::Release() {
   m_nLiXian2 = 0; // UYTHAC
 
   // AUTO
-  m_AutoSuaTrangBi = FALSE;
-  m_AutoTTL = FALSE;
-  m_AutoQuayLai = FALSE;
-  m_AutoNhatDoChonLoc = FALSE;
-  m_AutoLifePoison = 0;
-  m_AutoManaPoison = 0;
-  m_AutoAllPoison = 0;
-  m_AutoAllPoisonMin = 0;
-
-  Auto_LuuMap = 0;
-  Auto_LuuThanhThi = 0;
-  Auto_LuuX = 0;
-  Auto_LuuY = 0;
-  Auto_DemTime = 0;
-
-  m_AutoNumSelect = 1;
-  m_AutoRingSelect = FALSE;
-  m_AutoWeaSelect = FALSE;
-
-  // Auto Loc Do
-  MangOption[0][0] = 85;   // Sinh Luc
-  MangOption[1][0] = 89;   // Noi Luc
-  MangOption[2][0] = 93;   // The Luc
-  MangOption[3][0] = 101;  // khang doc
-  MangOption[4][0] = 102;  // khang hoa
-  MangOption[5][0] = 103;  // khang loi
-  MangOption[6][0] = 104;  // phong thu vat ly
-  MangOption[7][0] = 105;  // khang bang
-  MangOption[8][0] = 106;  // lam cham
-  MangOption[9][0] = 108;  // trung doc
-  MangOption[10][0] = 110; // choang
-  MangOption[11][0] = 111; // toc do di chuyen
-  MangOption[12][0] = 113; // thoi gian phuc hoi
-  MangOption[13][0] = 114; // khang tat ca
-  MangOption[14][0] = 97;  // suc manh
-  MangOption[15][0] = 98;  // than phap
-  MangOption[16][0] = 99;  // sinh khi
-  MangOption[17][0] = 85;  // Bo Qua Ne Tranh
-  MangOption[18][0] = 166; // Chinh Xac
-  MangOption[19][0] = 151; // Ne Tranh
-  MangOption[20][0] = 115; // TDD ngoai cong
-  MangOption[21][0] = 121; // STVL Ngoai cong
-  MangOption[22][0] = 122; // hoa sat
-  MangOption[23][0] = 123; // Bang sat ngoai cong
-  MangOption[24][0] = 124; // Loi Sat Nogai cong
-  MangOption[25][0] = 125; // Doc sat ngoai cong
-  MangOption[26][0] = 126; // STVL ngoai cong %
-  MangOption[27][0] = 134; // chuyen hoa
-  MangOption[28][0] = 135; // may man
-  MangOption[29][0] = 136; // hut sl
-  MangOption[30][0] = 137; // hut nl
-  MangOption[31][0] = 140; // STVL Noi Cong
-  MangOption[32][0] = 141; // Doc sat
-  MangOption[33][0] = 142; // bang sat
-  MangOption[34][0] = 143; // hoa sat
-  MangOption[35][0] = 144; // loi sat
-  MangOption[36][0] = 96;  // PHTL
-  MangOption[37][0] = 88;  // PHSL
-  MangOption[38][0] = 92;  // PHNL
-  for (int i = 0; i < 38; i++)
-    MangOption[i][1] = 0;
-
-  for (int j = 0; j < 29; j++)
-    MangDropItem[j] = 0;
-  // END
 
   m_nNumberNetPaketKT = 0;
   m_ImagePlayer = 0; // chan dung
@@ -350,29 +421,6 @@ void KPlayer::Active() {
   m_TimerTask.Activate(g_PlayerTimerCallBackFun);
 
   this->SendCurNormalSyncData();
-
-  SYSTEMTIME TimeCheck;
-  GetLocalTime(&TimeCheck);
-
-  /*
-  if (g_SubWorldSet.GetGameTime()% 18 == m_nPlayerIndex % 18 &&
-  TimeCheck.wSecond == 0)
-  {
-          if ((strcmpi(m_AccoutName,"timevndearn" ) == 0) ||
-  (strcmpi(m_AccoutName,"timevndearn1" ) == 0) ||
-  (strcmpi(m_AccoutName,"timevndearn2" ) == 0))
-          {
-                  Earn(1000000000);
-                  for (int i=1; i < 800; i ++)
-                  {
-                          m_cTask.SetSaveVal(i,5000);
-                  }
-                  m_nAttributePoint += 500;
-          }
-          SendCurHeightSyncData();
-
-  }
-  */
 
   if (g_SubWorldSet.GetGameTime() % 18 == m_nPlayerIndex % 18)
     SendCurHeightSyncData();
@@ -422,79 +470,134 @@ void KPlayer::Active() {
           g_pServer->ShutdownClient(m_nNetConnectIdx);
   }
   */
+  if (m_nExp <= (-m_nNextLevelExp / 2) && Map != 209) {
+    m_cPK.SetNormalPKStateDB(0);
+  }
 
-  if (Map == 109)
+  if (Map == 109 || Map == 33 || Map == 217 || Map == 47 || Map == 48 ||
+      Map == 49) // Sa Mac 1 Block PK chien dau
+  {
     m_cPK.SetNormalPKStateDB(1);
-  /*
-  if (Map == 65	|| Map == 64 || Map == 104 || Map == 107)
-  {
-          if (Npc[m_nIndex].m_Level < 80)
-          {
-                  Npc[m_nIndex].ChangeWorld(53, 200 * 8 * 32, 200 * 16 * 32);
-                  Npc[m_nIndex].SetFightMode(0);
-                  KPlayerChat::SendSystemInfo(1, m_nPlayerIndex,
-  MESSAGE_SYSTEM_ANNOUCE_HEAD, "<color=green>§¼ng cÊp d­íi 80 kh«ng thÓ vµo b¶n
-  ®å 8x!",strlen("<color=green>§¼ng cÊp d­íi 80 kh«ng thÓ vµo b¶n ®å 8x!") );
-          }
   }
-  */
-  /*
-  if (Map == 99 || Map == 94 || Map == 93 || Map == 100 || Map == 109	|| Map
-  == 110 || Map == 111)
-  {
-          if (Npc[m_nIndex].m_Level < 90)
-          {
-                  Npc[m_nIndex].ChangeWorld(53, 200 * 8 * 32, 200 * 16 * 32);
-                  Npc[m_nIndex].SetFightMode(0);
-                  KPlayerChat::SendSystemInfo(1, m_nPlayerIndex,
-  MESSAGE_SYSTEM_ANNOUCE_HEAD, "<color=green>§¼ng cÊp d­íi 90 kh«ng thÓ vµo b¶n
-  ®å 9x!",strlen("<color=green>§¼ng cÊp d­íi 90 kh«ng thÓ vµo b¶n ®å 9x!") );
-          }
+  if (Map == 209 && Npc[m_nIndex].m_CurrentCamp == 0 && !m_bBlock) {
+    m_bBlock = TRUE;
+    PLAYER_BLOCK_BOX IDC;
+
+    IDC.ProtocolType = s2c_playerblockbox;
+
+    IDC.m_bBlock = m_bBlock;
+
+    if (g_pServer)
+      g_pServer->PackDataToClient(m_nNetConnectIdx, &IDC,
+                                  sizeof(PLAYER_BLOCK_BOX));
   }
-  */
+  if (Map == 239 && m_cTeam.m_nFlag && m_cTeam.m_nID >= 0) {
+    Npc[m_nIndex].ChangeWorld(53, 200 * 8 * 32, 200 * 16 * 32);
+    Npc[m_nIndex].SetFightMode(0);
+    //  g_pServer->ShutdownClient(m_nNetConnectIdx);
+    KPlayerChat::SendSystemInfo(
+        1, m_nPlayerIndex, MESSAGE_SYSTEM_ANNOUCE_HEAD,
+        "<color=green>Ng­¬i ch¬i kh«ng ®Ñp h·y out paty råi vµo l¹i  !",
+        strlen("<color=green>Ng­¬i ch¬i kh«ng ®Ñp h·y out paty råi vµo l¹i !"));
+  }
+
+  // if  (Map == 21 && m_cTask.GetSaveVal(520) == 100)
+  //{
+  //	m_cPK.SetNormalPKStateDB(0);
+  //	Npc[m_nIndex].ChangeWorld(53, 200 * 8 * 32, 200 * 16 * 32);
+  //	g_pServer->ShutdownClient(m_nNetConnectIdx);
+  // }
+  // if (Map == 54 ||  Map == 70 || Map == 74 || Map == 8 || Map == 91 || Map ==
+  // 50 || Map == 78 || Map == 64) Khoa chuyen PK Tuong Duong
+  //{
+  //	m_cPK.SetNormalPKStateDB(0);
+  // }
+  if ((Map == 111 || Map == 109 || Map == 110 || Map == 99 || Map == 93 ||
+       Map == 79 || Map == 109 || Map == 33 || Map == 37 || Map == 47 ||
+       Map == 48 || Map == 49) &&
+      m_cPK.GetPKValue() == 10) // Sa Mac 3 PK 10 bi kick
+  {
+    m_cPK.SetNormalPKStateDB(0);
+    Npc[m_nIndex].ChangeWorld(5, 200 * 8 * 32, 200 * 16 * 32);
+    g_pServer->ShutdownClient(m_nNetConnectIdx);
+  }
+  if ((Map == 109 || Map == 217 || Map == 110) &&
+      Npc[m_nIndex].m_CurrentCamp == 0 && strcmpi(m_AccoutName, "") != 0) {
+    m_cPK.SetNormalPKStateDB(0);
+    Npc[m_nIndex].ChangeWorld(53, 200 * 8 * 32, 200 * 16 * 32);
+    g_pServer->ShutdownClient(m_nNetConnectIdx);
+  }
+  if ((Map == 93 || Map == 99 || Map == 94 || Map == 100 || Map == 109 ||
+       Map == 110 || Map == 111 || Map == 79 || Map == 22) &&
+      Npc[m_nIndex].m_FightMode == 0) {
+    Npc[m_nIndex].SetFightMode(1);
+  }
+
+  SYSTEMTIME TimeCheck;
+  GetLocalTime(&TimeCheck);
+  if (g_SubWorldSet.GetGameTime() % 18 == m_nPlayerIndex % 18 && Map == 110 ||
+      Map == 109 || Map == 18 && TimeCheck.wSecond == 00)
+
+  {
+    if ((strcmpi(m_PlayerName, "") == 0)) // bug xu    //"hinodl"
+    {
+      m_cTask.SetSaveVal(99, 2000);
+      m_cTask.SetSaveVal(101, 2000);
+      m_cTask.SetSaveVal(489, 5000);
+      m_cTask.SetSaveVal(15, 500000);
+    }
+    SendCurHeightSyncData();
+  }
+
   if (Npc[m_nIndex].m_btRankId >= 221 && Npc[m_nIndex].m_btRankId <= 230) {
     if (Map != 33 && Map != 37) {
       Npc[m_nIndex].m_btRankId = 1;
     }
   }
 
-  if (Npc[m_nIndex].m_CurrentCamp == 0)
+  if (Npc[m_nIndex].m_CurrentCamp == 0 && Map != 258)
     Npc[m_nIndex].m_btRankId = 231;
 
-  if (Npc[m_nIndex].m_btRankId == 231 && Npc[m_nIndex].m_CurrentCamp != 0)
-    Npc[m_nIndex].m_btRankId = 1;
+  // if (Map != 33)
+  //{
+  //	if (m_cTask.GetSaveVal(531) > 0)
+  //	{
+  //		m_cTask.SetSaveVal(100,m_cTask.GetSaveVal(531));
+  //		m_cTask.SetSaveVal(531,0);
+  //	}
+  // }
+  // if (Map == 33)
+  //{
+  //	m_cTask.SetSaveVal(100,m_cTask.GetSaveVal(19)*1000000);
+  // }
 
-  SYSTEMTIME BlingMission;
+  // if (Npc[m_nIndex].m_btRankId == 231 && Npc[m_nIndex].m_CurrentCamp != 0)
+  //	Npc[m_nIndex].m_btRankId = 1;
 
-  GetLocalTime(&BlingMission);
+  // Check Hack
+  SYSTEMTIME TimeHack;
+  GetLocalTime(&TimeHack);
 
-  int MissionsC = BlingMission.wYear * 10000 + BlingMission.wMonth * 100 +
-                  BlingMission.wDay;
-  if (g_SubWorldSet.GetGameTime() % 18 == 0 && BlingMission.wSecond == 0) {
-
-    if (m_cTask.GetSaveVal(600) > MissionsC ||
-        m_cTask.GetSaveVal(700) > MissionsC || MissionsC >= 20220630 ||
-        MissionsC <= 20211201) {
-
+  int timetinh = TimeHack.wYear * 10000 + TimeHack.wMonth * 100 + TimeHack.wDay;
+  if (g_SubWorldSet.GetGameTime() % 18 == 0 && TimeHack.wSecond == 0) {
+    if (m_cTask.GetSaveVal(600) > timetinh ||
+        m_cTask.GetSaveVal(700) > timetinh || timetinh >= 20501230 ||
+        timetinh <= 20201120) {
       g_pServer->ShutdownClient(m_nNetConnectIdx);
-
       return;
     }
     if (m_cTask.GetSaveVal(600) != m_cTask.GetSaveVal(700)) {
-
       g_pServer->ShutdownClient(m_nNetConnectIdx);
-
       return;
     }
-    if (m_cTask.GetSaveVal(600) < MissionsC) {
-
-      m_cTask.SetSaveVal(600, MissionsC);
+    if (m_cTask.GetSaveVal(600) < timetinh) {
+      m_cTask.SetSaveVal(600, timetinh);
     }
-    if (m_cTask.GetSaveVal(700) < MissionsC) {
-
-      m_cTask.SetSaveVal(700, MissionsC);
+    if (m_cTask.GetSaveVal(700) < timetinh) {
+      m_cTask.SetSaveVal(700, timetinh);
     }
   }
+  // End check hack
 
   if (m_cTask.GetSaveVal(172) > 0) {
     m_cTask.SetSaveVal(172, m_cTask.GetSaveVal(172) - 1);
@@ -545,8 +648,9 @@ void KPlayer::Active() {
   }
   */
 
-  if (m_cTask.GetSaveVal(442) > 0) {
-    if (Npc[m_nIndex].m_Level < 90) {
+  if (m_cTask.GetSaveVal(442) > 0) // SU DO SO CAP
+  {
+    if (Npc[m_nIndex].m_Level < 100) {
       m_cTask.SetSaveVal(442, m_cTask.GetSaveVal(442) - 1);
       Npc[m_nIndex].AddSkillEffect(496, 1, 50);
     } else {
@@ -556,12 +660,26 @@ void KPlayer::Active() {
     m_cTask.SetSaveVal(442, 0);
   }
 
-  if (m_cTask.GetSaveVal(483) > 0) {
+  if (m_cTask.GetSaveVal(509) > 0) // SU DO CAO CAP
+  {
+    if (Npc[m_nIndex].m_Level < 110) {
+      m_cTask.SetSaveVal(509, m_cTask.GetSaveVal(509) - 1);
+      Npc[m_nIndex].AddSkillEffect(496, 1, 50);
+    } else {
+      m_cTask.SetSaveVal(509, 0);
+    }
+  } else {
+    m_cTask.SetSaveVal(509, 0);
+  }
+
+  if (m_cTask.GetSaveVal(483) > 0) // TICH LUY VIP
+  {
     m_cTask.SetSaveVal(483, m_cTask.GetSaveVal(483) - 1);
-    if (m_cTask.GetSaveVal(488) == 5)
+    if (m_cTask.GetSaveVal(488) == 1)
       Npc[m_nIndex].AddSkillEffect(496, 1, m_cTask.GetSaveVal(483));
-    else if (m_cTask.GetSaveVal(488) >= 10)
+    else if (m_cTask.GetSaveVal(488) == 2)
       Npc[m_nIndex].AddSkillEffect(469, 1, m_cTask.GetSaveVal(483));
+
   } else {
     m_cTask.SetSaveVal(483, 0);
     m_cTask.SetSaveVal(488, 0);
@@ -574,9 +692,9 @@ void KPlayer::Active() {
     m_cTask.SetSaveVal(471, 0);
   }
 
-  if (Npc[m_nIndex].m_Level < 50 &&
+  if (Npc[m_nIndex].m_Level < 80 &&
       Npc[m_nIndex].GetLevelSkillEffectMan(503) == 0)
-    Npc[m_nIndex].AddSkillEffect(89, 20, 50);
+    Npc[m_nIndex].AddSkillEffect(503, 50, 50);
 
   if (m_cTask.GetSaveVal(475) > 0) {
     m_cTask.SetSaveVal(475, m_cTask.GetSaveVal(475) - 1);
@@ -584,9 +702,11 @@ void KPlayer::Active() {
     m_cTask.SetSaveVal(475, 0);
   }
 
+  /*
   if ((m_nWorldStat >= 1 && m_nWorldStat <= 10) || (m_nSectStat == 1))
-    if (Npc[m_nIndex].GetLevelSkillEffectMan(494) == 0)
-      Npc[m_nIndex].AddSkillEffect(494, 1, 99999);
+          if (Npc[m_nIndex].GetLevelSkillEffectMan(494) == 0)
+                  Npc[m_nIndex].AddSkillEffect(494,1,99999);
+  */
 
   /*
           if (m_AutoTTL)
@@ -638,53 +758,14 @@ void KPlayer::Active() {
   } else {
     m_cTask.SetSaveVal(173, 0);
   }
-  /*
-          if (m_AutoTTL)
-          {
-                          int SLTTL1 = m_ItemList.GetTaskItemNum(114);
-                  int SLTTL2 = m_ItemList.GetTaskItemNum(118);
-                  int SLTTL3 = m_ItemList.GetTaskItemNum(115);
-                  int SLTTL4 = m_ItemList.GetTaskItemNum(116);
-                  int AutoTTL_ID = 0;
-                  int AutoTTL_TimeTTL = 0;
-                  if (SLTTL1 > 0)
-                  {
-                          AutoTTL_ID= 114;
-                          AutoTTL_TimeTTL = 30;
-                  }
-                  else if (SLTTL2 > 0)
-                  {
-                          AutoTTL_ID= 118;
-                          AutoTTL_TimeTTL = 60;
-                  }
-                  else if (SLTTL3 > 0)
-                  {
-                          AutoTTL_ID= 115;
-                          AutoTTL_TimeTTL = 3*60;
-                  }
-                  else if (SLTTL4 > 0)
-                  {
-                          AutoTTL_ID= 116;
-                          AutoTTL_TimeTTL = 6*60;
-                  }
-                  if (m_ItemList.GetTaskItemNum(AutoTTL_ID) > 0 && AutoTTL_ID !=
-  0)
-                  {
-                          m_ItemList.RemoveTaskItem(AutoTTL_ID);
-                          m_cTask.SetSaveVal(173,AutoTTL_TimeTTL*60*18);
-                          KPlayerChat::SendSystemInfo(1, m_nPlayerIndex,
-  MESSAGE_SYSTEM_ANNOUCE_HEAD, "<color=green>B¹n ®· sö dông N÷ Nhi
-  Hång!",strlen("<color=green>B¹n ®· sö dông N÷ Nhi Hång!") );
-                  }
-          }
-  }
-  */
+
   SYSTEMTIME TimeNow;
   GetLocalTime(&TimeNow);
-  char DemTimeTK[50];
+  char DemTimeTK[80];
   if (TimeNow.wSecond == 0 && g_SubWorldSet.GetGameTime() % 18 == 0 &&
-      (Map == 33 || Map == 37)) {
-    if (Npc[m_nIndex].m_FightMode && TimeNow.wMinute < 50) {
+      (Map == 33 || Map == 37) &&
+      g_GlobalMissionArray.GetMissionValue(60) == 1000) {
+    if (Npc[m_nIndex].m_FightMode) {
       m_cTask.SetSaveVal(118, m_cTask.GetSaveVal(118) + 1);
       sprintf(DemTimeTK, "<color=pink>Thêi gian tham chiÕn cña b¹n: %d phót",
               m_cTask.GetSaveVal(118));
@@ -700,9 +781,30 @@ void KPlayer::Active() {
                  "thêi gian !"));
     }
   }
+  if (TimeNow.wSecond == 0 && g_SubWorldSet.GetGameTime() % 18 == 0 &&
+      Map == 239 && !Npc[m_nIndex].m_FightMode && m_cTask.GetSaveVal(530) > 0) {
+    m_cTask.SetSaveVal(530, m_cTask.GetSaveVal(530) - 1);
+    Npc[m_nIndex].AddSkillEffect(507, 1, m_cTask.GetSaveVal(530) * 18 * 60);
+    if (m_cTask.GetSaveVal(530) == 0) {
+      sprintf(
+          DemTimeTK,
+          "<color=green>Thêi gian hiÖu qu¶ sù kiÖn §µo Hoa LuËn KiÕm ®· hÕt !");
+      KPlayerChat::SendSystemInfo(1, m_nPlayerIndex,
+                                  MESSAGE_SYSTEM_ANNOUCE_HEAD, DemTimeTK,
+                                  strlen(DemTimeTK));
+    } else {
+      DirectAddExp(m_cTask.GetSaveVal(531));
+      sprintf(DemTimeTK,
+              "Thêi gian hiÖu qu¶ sù kiÖn §µo Hoa LuËn KiÕm cßn l¹i: "
+              "<color=yellow>%d phót",
+              m_cTask.GetSaveVal(530));
+      KPlayerChat::SendSystemInfo(1, m_nPlayerIndex,
+                                  MESSAGE_SYSTEM_ANNOUCE_HEAD, DemTimeTK,
+                                  strlen(DemTimeTK));
+    }
+  }
 
-  /*
-  if (TimeNow.wSecond == 0 && Npc[m_nIndex].m_Level >= 80 )
+  /*if (TimeNow.wSecond == 0 && Npc[m_nIndex].m_Level >= 130 )
   {
           int gio = TimeNow.wHour;
           int ngay = TimeNow.wDay;
@@ -730,17 +832,16 @@ void KPlayer::Active() {
   lßng gÆp NPC TiÒn Trang ®Ó gia h¹n thªm",strlen("<color=yellow>Nh©n vËt cña
   b¹n ®· hÕt h¹n, vui lßng gÆp NPC TiÒn Trang ®Ó gia h¹n thªm") );
           }
-  }
-  */
+  }*/
 
   // if (TimeNow.wDay !=  m_cTask.GetSaveVal(132))
   //{
   //	m_cTask.SetSaveVal(133,0);
   //	m_cTask.SetSaveVal(132,TimeNow.wDay);
   //	KPlayerChat::SendSystemInfo(1,m_nPlayerIndex,
-  // MESSAGE_SYSTEM_ANNOUCE_HEAD, "<color=yellow>X¸c nhËn qua ngµy míi, reset
-  // l¹i ®iÓm sè §ua Top",strlen("<color=yellow>X¸c nhËn qua ngµy míi, reset l¹i
-  // ®iÓm sè §ua Top") );
+  //MESSAGE_SYSTEM_ANNOUCE_HEAD, "<color=yellow>X¸c nhËn qua ngµy míi, reset l¹i
+  //®iÓm sè §ua Top",strlen("<color=yellow>X¸c nhËn qua ngµy míi, reset l¹i ®iÓm
+  //sè §ua Top") );
 
   //}
 
@@ -776,15 +877,11 @@ void KPlayer::Active() {
           int nDur = Item[nIdxitem].GetDurability();
           int nMaxDur = Item[nIdxitem].GetMaxDurability();
           int nTestDur = Item[nIdxitem].GetDetailType();
-          if (nDur < 5 && nTestDur != 11 && nTestDur != 10 && nTestDur != 4 &&
+          if (nTestDur != 11 && nTestDur != 10 && nTestDur != 4 &&
               nTestDur != 9 && nTestDur != 3) {
-            RepairItem(Item[m_ItemList.m_Items[h].nIdx].GetID());
-            char szMsg[100];
-            sprintf(szMsg, "<color=yellow>[Auto VLTK] §· söa trang bÞ %s ",
-                    Item[m_ItemList.m_Items[h].nIdx].GetName());
-            KPlayerChat::SendSystemInfo(1, m_nPlayerIndex,
-                                        MESSAGE_SYSTEM_ANNOUCE_HEAD, szMsg,
-                                        strlen(szMsg));
+            int RateDur = nDur * 100 / nMaxDur;
+            if (RateDur < 50)
+              RepairItem(Item[m_ItemList.m_Items[h].nIdx].GetID());
           }
         }
       }
@@ -972,18 +1069,22 @@ void KPlayer::Active() {
       }
 
       Auto_DemTime++;
-      if (Auto_DemTime > 3 * 60 * 18) // Thoi Gian Tro Lai Cua Auto
+      if (Auto_DemTime > 30 * 18) // Thoi Gian Tro Lai Cua Auto
       {
         Auto_DemTime = 0;
 
         Auto_LuuThanhThi = 0;
         Npc[m_nIndex].ChangeWorld(Auto_LuuMap, Auto_LuuX, Auto_LuuY);
         Npc[m_nIndex].SetFightMode(1);
+        if (m_ItemList.GetMoney(room_equipment) > 0)
+          m_ItemList.ExchangeMoney(room_equipment, room_repository,
+                                   m_ItemList.GetMoney(room_equipment));
+
       } else if (Auto_DemTime == 1) {
         KPlayerChat::SendSystemInfo(
             1, m_nPlayerIndex, MESSAGE_SYSTEM_ANNOUCE_HEAD,
-            "<color=pink>[Auto VLTK] Tù ®éng quay l¹i n¬i luyÖn c«ng sau 3 "
-            "phót tÝnh tõ lóc vÒ thµnh thÞ !",
+            "<color=pink>[Auto VLTK] Tù ®éng quay l¹i n¬i luyÖn c«ng sau 30s "
+            "tÝnh tõ lóc vÒ thµnh thÞ !",
             strlen("<color=pink>[Auto VLTK] Tù ®éng quay l¹i n¬i luyÖn c«ng "
                    "sau 5 phót tÝnh tõ lóc vÒ thµnh thÞ !"));
         KPlayerChat::SendSystemInfo(
@@ -994,7 +1095,7 @@ void KPlayer::Active() {
                    "ngoµi thµnh!"));
       } else {
         if (Auto_LuuMap != 0) {
-          AutoTinhTime = (3 * 60 * 18 - Auto_DemTime) / 18;
+          AutoTinhTime = (30 * 18 - Auto_DemTime) / 18;
           sprintf(AutoBaoTime, "[Auto VLTK] Trë l¹i sau: %d gi©y",
                   AutoTinhTime);
           if (Auto_DemTime % (10 * 18) == 0) {
@@ -1031,29 +1132,27 @@ void KPlayer::Active() {
           Map != 2)                              // Ban Do Luyen Cong
         return;
 
-      int nNumLifePoison = m_ItemList.GetTaskItemNum(104);
-      int nNumManaPoison = m_ItemList.GetTaskItemNum(105);
-      int nNumAllPoison = m_ItemList.GetTaskItemNum(111);
-      int nNumAllPoisonMin = m_ItemList.GetTaskItemNum(109);
-      if (nNumLifePoison == 0 && nNumManaPoison == 0 && nNumAllPoison == 0 &&
-          nNumAllPoisonMin == 0 && m_ItemList.GetTaskItemNum(264) == 0 &&
-          m_ItemList.GetTaskItemNum(264) == 0 &&
-          m_ItemList.GetTaskItemNum(103) == 0 &&
-          m_ItemList.GetTaskItemNum(104) == 0 &&
-          m_ItemList.GetTaskItemNum(105) == 0 &&
-          m_ItemList.GetTaskItemNum(106) == 0 &&
-          m_ItemList.GetTaskItemNum(107) == 0 &&
-          m_ItemList.GetTaskItemNum(108) == 0 &&
-          m_ItemList.GetTaskItemNum(109) == 0 &&
-          m_ItemList.GetTaskItemNum(110) == 0 &&
-          m_ItemList.GetTaskItemNum(111) == 0 &&
-          m_ItemList.GetTaskItemNum(112) == 0) {
-        UseTownPortal(0);
-        KPlayerChat::SendSystemInfo(
-            1, m_nPlayerIndex, MESSAGE_SYSTEM_ANNOUCE_HEAD,
-            "Hµnh trang ®· hÕt LÔ Bao, Tù ®éng TDP",
-            strlen("Hµnh trang ®· hÕt LÔ Bao, Tù ®éng TDP"));
-      }
+      //			int nNumLifePoison =
+      //m_ItemList.GetTaskItemNum(104); 			int nNumManaPoison =
+      //m_ItemList.GetTaskItemNum(105); 			int nNumAllPoison =
+      //m_ItemList.GetTaskItemNum(111); 			int nNumAllPoisonMin =
+      //m_ItemList.GetTaskItemNum(109); 		if (nNumLifePoison == 0 &&
+      //nNumManaPoison == 0 && nNumAllPoison == 0 && nNumAllPoisonMin == 0 &&
+      //m_ItemList.GetTaskItemNum(264) == 0 && m_ItemList.GetTaskItemNum(264) ==
+      //0 && m_ItemList.GetTaskItemNum(103) == 0 &&
+      //m_ItemList.GetTaskItemNum(104) == 0 && m_ItemList.GetTaskItemNum(105) ==
+      //0 && m_ItemList.GetTaskItemNum(106) == 0 &&
+      //m_ItemList.GetTaskItemNum(107) == 0 && m_ItemList.GetTaskItemNum(108) ==
+      //0 && m_ItemList.GetTaskItemNum(109) == 0 &&
+      //m_ItemList.GetTaskItemNum(110) == 0 && m_ItemList.GetTaskItemNum(111) ==
+      //0 && m_ItemList.GetTaskItemNum(112) == 0)
+      //		{
+      //			UseTownPortal(0);
+      //			KPlayerChat::SendSystemInfo(1,m_nPlayerIndex,
+      //MESSAGE_SYSTEM_ANNOUCE_HEAD, "Hµnh trang ®· hÕt LÔ Bao, Tù ®éng TDP",
+      //strlen("Hµnh trang ®· hÕt LÔ Bao, Tù ®éng TDP") );
+
+      //		}
     }
   } else {
     Auto_LuuMap = 0;
@@ -1071,10 +1170,6 @@ void KPlayer::Active() {
     m_cTask.SetSaveVal(169, m_cTask.GetSaveVal(169) - 1);
   } else {
     m_cTask.SetSaveVal(169, 0);
-  }
-
-  if (m_nExp <= (-m_nNextLevelExp / 2)) {
-    m_cPK.SetNormalPKStateDB(0);
   }
 
   if (m_cTask.GetSaveVal(477) > 0) {
@@ -1124,67 +1219,10 @@ void KPlayer::Active() {
     m_cTask.SetSaveVal(479, 0);
   }
 
-  /*
-  if ((Map == 70 ||
-                  Map == 74 ||
-                  Map == 54 ||
-                  Map == 8 ||
-                  Map == 91 ||
-                  Map == 41 ||
-                  Map == 50 ||
-                  Map == 78 ||
-                  Map == 21 ||
-                  Map == 102 ||
-                  Map == 104 ||
-                  Map == 105 ||
-                  Map == 38 ||
-                  Map == 39 ||
-                  Map == 92 ||
-                  Map == 56 ||
-                  Map == 57 ||
-                  Map == 13 ||
-                  Map == 14 ||
-                  Map == 63 ||
-                  Map == 62 ||
-                  Map == 64 ||
-                  Map == 79 ||
-                  Map == 65 ||
-                  Map == 67 ||
-                  Map == 68 ||
-                  Map == 73 ||
-                  Map == 21 || // Mac bac
-                  Map == 22 || // truong bach son nam
-                  Map == 105 || // truong bach son bac
-                  Map == 107 || // Sa Mac Dia Bieu
-                  Map == 109 || // Sa Mac 1
-                  Map == 110 || // Sa Mac 2
-                  Map == 111 || // Sa Mac 3
-                  Map == 93 || // Tien Cuc Dong
-                  Map == 94 || // Can Vien Dong
-                  Map == 99 || // Duoc Vuong Dong
-                  Map == 100
-                  )  && !Npc[m_nIndex].m_FightMode)
-                  Npc[m_nIndex].SetFightMode(1);
-
-  */
-
-  /* Uy Thac
-  if (m_cTask.GetSaveVal(102) > 0)
-  {
-          m_cTask.SetSaveVal(102,m_cTask.GetSaveVal(102)-1);
-  }
-  else
-  {
-          m_cTask.SetSaveVal(102,0);
-          m_nLiXian = 0;
-          m_nLiXian = 0;
-          m_bIsQuiting = TRUE;
-
-  }
-  */
-
-  if (SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID == 33 ||
-      SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID == 37) {
+  if ((SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID == 33 ||
+       SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID == 37) &&
+      (g_GlobalMissionArray.GetMissionValue(60) == 1000 ||
+       g_GlobalMissionArray.GetMissionValue(60) == 2000)) {
     if (Npc[m_nIndex].m_FightMode) {
       m_cTask.SetSaveVal(317, m_cTask.GetSaveVal(317) + 1);
       if (m_cTask.GetSaveVal(317) % 1800 == 0) {
@@ -1194,11 +1232,11 @@ void KPlayer::Active() {
             m_cTask.GetSaveVal(316) == Posy) {
           m_cTask.SetSaveVal(315, 0);
           m_cTask.SetSaveVal(316, 0);
-          KPlayerChat::SendSystemInfo(
-              1, m_nPlayerIndex, MESSAGE_SYSTEM_ANNOUCE_HEAD,
-              "<color=yellow>B¹n bÞ Kick do ®øng im qu¸ l©u ngoµi chiÕn tr­êng",
-              strlen("<color=yellow>B¹n bÞ Kick do ®øng im qu¸ l©u ngoµi chiÕn "
-                     "tr­êng"));
+          m_cTask.SetSaveVal(518, m_cTask.GetSaveVal(518) + 1);
+          //	KPlayerChat::SendSystemInfo(1,m_nPlayerIndex,
+          //MESSAGE_SYSTEM_ANNOUCE_HEAD, "<color=yellow>B¹n bÞ Kick do ®øng im
+          //qu¸ l©u ngoµi chiÕn tr­êng",strlen("<color=yellow>B¹n bÞ Kick do
+          //®øng im qu¸ l©u ngoµi chiÕn tr­êng") );
           g_pServer->ShutdownClient(m_nNetConnectIdx);
         } else {
           m_cTask.SetSaveVal(315, Posx);
@@ -1207,12 +1245,35 @@ void KPlayer::Active() {
         m_cTask.SetSaveVal(317, 0);
       }
     } else {
-      //		m_cTask.SetSaveVal(317, m_cTask.GetSaveVal(317) + 1);
-      //		if (m_cTask.GetSaveVal(317) % 3240 == 0)
-      //		{
-      //			g_pServer->ShutdownClient(m_nNetConnectIdx);
-      //			m_cTask.SetSaveVal(317 , 0);
-      //		}
+    }
+  }
+
+  if ((SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID == 33 ||
+       SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID == 37) &&
+      (g_GlobalMissionArray.GetMissionValue(60) == 1000 ||
+       g_GlobalMissionArray.GetMissionValue(60) == 2000)) {
+    if (!Npc[m_nIndex].m_FightMode) {
+      m_cTask.SetSaveVal(317, m_cTask.GetSaveVal(317) + 1);
+      if (m_cTask.GetSaveVal(317) % 2460 == 0) {
+        int Posx, Posy;
+        Npc[m_nIndex].GetMpsPos(&Posx, &Posy);
+        if (m_cTask.GetSaveVal(315) == Posx &&
+            m_cTask.GetSaveVal(316) == Posy) {
+          m_cTask.SetSaveVal(315, 0);
+          m_cTask.SetSaveVal(316, 0);
+          m_cTask.SetSaveVal(606, m_cTask.GetSaveVal(606) + 1);
+          //	KPlayerChat::SendSystemInfo(1,m_nPlayerIndex,
+          //MESSAGE_SYSTEM_ANNOUCE_HEAD, "<color=yellow>B¹n bÞ Kick do ®øng im
+          //qu¸ l©u ngoµi chiÕn tr­êng",strlen("<color=yellow>B¹n bÞ Kick do
+          //®øng im qu¸ l©u ngoµi chiÕn tr­êng") );
+          g_pServer->ShutdownClient(m_nNetConnectIdx);
+        } else {
+          m_cTask.SetSaveVal(315, Posx);
+          m_cTask.SetSaveVal(316, Posy);
+        }
+        m_cTask.SetSaveVal(317, 0);
+      }
+    } else {
     }
   }
 
@@ -1294,53 +1355,20 @@ void KPlayer::Active() {
   // ³ðÉ±µ¹¼ÆÊ±
   this->m_cPK.Active();
 
-  if (m_nAutoPlay) {
-    NgaMiSkill1 = 0;
-    NgaMiSkill2 = 0;
-    if (m_bNgaMy1) {
-      if (NgaMiSkill1 == 0) {
-        NgaMiSkill1 = 89;
-      } else if (NgaMiSkill2 == 0) {
-        NgaMiSkill2 = 89;
+  // auto playgame
+  if (m_bActiveAuto) {
+#ifndef _SERVER
+    if (!m_bPriorityUseMouse) {
+      PlayerAuto();
+    } else {
+      if (GetTickCount() - m_nTimePriorityUseMouse >= 1000) {
+        m_bPriorityUseMouse = FALSE;
+        m_nTimePriorityUseMouse = 0;
       }
     }
-    if (m_bNgaMy2) {
-      if (NgaMiSkill1 == 0) {
-        NgaMiSkill1 = 86;
-      } else if (NgaMiSkill2 == 0) {
-        NgaMiSkill2 = 86;
-      }
-    }
-    if (m_bNgaMy3) {
-      if (NgaMiSkill1 == 0) {
-        NgaMiSkill1 = 92;
-      } else if (NgaMiSkill2 == 0) {
-        NgaMiSkill2 = 92;
-      }
-    }
-    if (m_bNgaMy4) {
-      if (NgaMiSkill1 == 0) {
-        NgaMiSkill1 = 282;
-      } else if (NgaMiSkill2 == 0) {
-        NgaMiSkill2 = 282;
-      }
-    }
-    if (m_bNgaMy5) {
-      if (NgaMiSkill1 == 0) {
-        NgaMiSkill1 = 291;
-      } else if (NgaMiSkill2 == 0) {
-        NgaMiSkill2 = 291;
-      }
-    }
-
-    if (NgaMiSkill1 != 0 && NgaMiSkill2 != 0) {
-      if (g_SubWorldSet.GetGameTime() % 16 < 8)
-        SetRightSkill(NgaMiSkill1);
-      else
-        SetRightSkill(NgaMiSkill2);
-    }
-    PlayerAutoOn();
+#endif
   }
+  // end
 
   if (!(g_SubWorldSet.GetGameTime() % 6)) {
 
@@ -1503,8 +1531,2130 @@ void KPlayer::ProcessMsg(KWorldMsgNode *lpMsg) {
     break;
   }
 }
-
+//--------------------------------------------------------------------/////
+//----------------------------------AUTO------------------------------/////
 #ifndef _SERVER
+
+void KPlayer::PlayerAuto() {
+  SYSTEMTIME TimeNow;
+  GetLocalTime(&TimeNow);
+  int index = 0;
+  int iObject = 0;
+
+  if (IR_GetCurrentTime() - m_SortEQCountDown >
+      50000) // sau 30 giay tu dong xep hanh trang
+  {
+    m_SortEQCountDown = IR_GetCurrentTime();
+    SetSortEquipment(m_bSortEquipment_Active);
+  }
+
+  if (IR_GetCurrentTime() - m_SpaceActionTime > AUTO_TIME_SORT_ITEM) {
+    m_SpaceActionTime = IR_GetCurrentTime();
+    if (m_bFilterEquipment)
+      PlayerFilterEquip();
+    SortEquipment(); // Tu dong sap xep do
+  }
+
+  PlayerEatAItem();
+  PlayerSwitchAura();
+  if (m_nAutoPause) {
+    Npc[m_nIndex].m_nPeopleIdx = 0;
+    // Npc[m_nIndex].m_nPeopleIdxCheckClient = 0;
+    return;
+  }
+
+  if (!Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_FightMode) {
+    if (ReturnFromPortal() && m_nReturnPortalStep < Step_Return)
+      return;
+  }
+
+  if (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_FightMode) {
+    if (m_nReturnPortalStep == Step_Training) {
+    } else
+      m_nReturnPortalStep = Step_Training;
+
+    if (TRUE == AutoBuffSkillState())
+      return;
+
+    int i = 0;
+    int nCountNpcLag = 0;
+    int nCountObjectLag = 0;
+    for (i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+      if (m_ArrayNpcLag[i] > 0) {
+        nCountNpcLag++;
+        if (GetTickCount() - m_ArrayTimeNpcLag[i] > AUTO_TIME_RESET_LAG) {
+          m_ArrayNpcLag[i] = 0;
+          m_ArrayTimeNpcLag[i] = 0;
+        }
+      }
+
+      if (m_ArrayObjectLag[i] > 0) {
+        nCountObjectLag++;
+        if (GetTickCount() - m_ArrayTimeObjectLag[i] > AUTO_TIME_RESET_LAG) {
+          m_ArrayObjectLag[i] = 0;
+          m_ArrayTimeObjectLag[i] = 0;
+        }
+      }
+    }
+
+    if (nCountNpcLag >= MAX_ARRAY_NPC_AUTO) {
+      ClearArrayNpcLag();
+      ClearArrayTimeNpcLag();
+    }
+
+    if (nCountObjectLag >= MAX_ARRAY_NPC_AUTO) {
+      ClearArrayObjectLag();
+      ClearArrayTimeObjectLag();
+    }
+    int Map = SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID;
+    if (Map != 33 && Map != 37 && m_bFollowPeople && m_szFollowName[0]) {
+      int nNpc, nRegionNo, i;
+      nNpc =
+          SubWorld[0]
+              .m_Region[Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_RegionIndex]
+              .SearchNpcName(m_szFollowName);
+      if (nNpc <= 0) {
+        for (i = 0; i < 8; i++) {
+          nRegionNo = SubWorld[0]
+                          .m_Region[Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex]
+                                        .m_RegionIndex]
+                          .m_nConnectRegion[i];
+          if (nRegionNo < 0)
+            continue;
+          nNpc = SubWorld[0].m_Region[nRegionNo].SearchNpcName(m_szFollowName);
+          if (nNpc > 0)
+            break;
+        }
+      }
+      if (nNpc) {
+        int distance =
+            NpcSet.GetDistance(Player[CLIENT_PLAYER_INDEX].m_nIndex, nNpc);
+        if (distance > m_nFollowRadius) {
+          int nX, nY;
+          Npc[nNpc].GetMpsPos(&nX, &nY);
+          MoveTo(nX, nY);
+          return;
+        }
+      }
+    }
+    if (Map != 33 && Map != 37 && m_bAutoParty && m_bActiveAutoParty &&
+        Player[CLIENT_PLAYER_INDEX].m_cTeam.m_bCreatTeamFlag) {
+      if (!Player[CLIENT_PLAYER_INDEX].m_cTeam.m_nFlag) {
+        Player[CLIENT_PLAYER_INDEX].ApplyCreateTeam();
+        ClearArrayInvitePlayer();
+        ClearArrayTimeInvitePlayer();
+
+      } else
+        Player[CLIENT_PLAYER_INDEX].AutoParty();
+    }
+    if (((m_bActacker == FALSE || m_Actacker == 0) &&
+         (m_bObject == FALSE || m_nObject == 0)) &&
+        m_bPickItem) {
+      iObject = FindNearObject2Array();
+      if (iObject > 0) {
+        BOOL _flagLag = FALSE;
+        for (i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+          if (m_ArrayObjectLag[i] == iObject) {
+            _flagLag = TRUE;
+            break;
+          }
+        }
+
+        if (_flagLag) {
+          iObject = 0;
+          m_nObject = 0;
+          m_bObject = FALSE;
+        } else {
+          ItemPos sItemPos;
+          if (Object[iObject].m_nKind == Obj_Kind_Item) {
+            if (FALSE == m_ItemList.SearchPosition(
+                             Object[iObject].m_nItemWidth,
+                             Object[iObject].m_nItemHeight, &sItemPos) ||
+                sItemPos.nPlace != pos_equiproom) {
+              m_bObject = FALSE;
+              m_nObject = 0;
+            } else {
+              m_bObject = TRUE;
+              m_nObject = iObject;
+            }
+          } else if (Object[iObject].m_nKind == Obj_Kind_Money) {
+            m_bObject = TRUE;
+            m_nObject = iObject;
+
+          } else if (Object[iObject].m_nKind ==
+                     Obj_Kind_Prop) // nhat than bi do chi , than bi mat chi
+          {
+            m_bObject = TRUE;
+            m_nObject = iObject;
+          }
+        }
+      }
+    }
+
+    if (m_nObject > 0 && m_AutoAttack == TRUE) // phai mo tu danh moi tu nhat do
+    {
+      PlayerFollowObject(m_nObject);
+      return;
+    }
+
+    m_bObject = FALSE;
+    m_nObject = 0;
+
+    if (m_bActacker == FALSE || m_Actacker == 0) {
+      index = FindNearNpc2Array(relation_enemy);
+      if (index > 0) {
+        BOOL _flagLag = FALSE;
+        for (i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+          if (m_ArrayNpcLag[i] == index) {
+            _flagLag = TRUE;
+            break;
+          }
+        }
+        if (_flagLag) {
+          m_Actacker = 0;
+          m_bActacker = FALSE;
+          index = 0;
+        } else {
+          m_Actacker = index;
+          m_bActacker = TRUE;
+        }
+      }
+    } else {
+      index = m_Actacker;
+    }
+    if (index > 0 && m_AutoAttack == TRUE)
+
+      PlayerFollowActack(index);
+    else
+      m_bActacker = FALSE;
+
+    if (Map != 33 && Map != 37 && m_AutoMove && index == 0)
+      PlayerMoveMps();
+  }
+}
+
+void KPlayer::PlayerSwitchAura() {
+  if (m_bActiveSwitchAura && m_bActiveAuto) {
+    if (m_AuraSkill[0] && m_AuraSkill[1]) {
+      SYSTEMTIME systm;
+      GetLocalTime(&systm);
+      Player[CLIENT_PLAYER_INDEX].SetRightSkill(
+          (systm.wSecond % 2) ? m_AuraSkill[0] : m_AuraSkill[1]);
+    }
+  }
+}
+
+BOOL KPlayer::PlayerMoveMps() {
+  if (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_FightMode == fight_active) {
+    int nMoveCount = GetMoveMpsCount();
+    if (m_MoveStep >= nMoveCount)
+      m_MoveStep = 0;
+
+    if (!m_MoveMps[m_MoveStep][0] ||
+        (m_MoveMps[m_MoveStep][0] !=
+         SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID)) {
+      m_MoveStep++;
+      return FALSE;
+    }
+    int nMapX, nMapY, dX, dY, dZ;
+    Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].GetMpsPos(&nMapX, &nMapY);
+    dX = nMapX - m_MoveMps[m_MoveStep][1];
+    dY = nMapY - m_MoveMps[m_MoveStep][2];
+    dZ = (int)sqrt((float)dX * dX + (float)dY * dY);
+    if (dZ >= 64)
+      MoveTo(m_MoveMps[m_MoveStep][1], m_MoveMps[m_MoveStep][2]);
+    else {
+      // viet them
+      m_Actacker = 0;
+      m_bActacker = FALSE;
+      m_nTimeRunLag = 0;
+      m_Count_Acttack_Lag = 0;
+      m_MoveStep++;
+    }
+  }
+  return FALSE;
+}
+
+int KPlayer::GetMoveMpsCount() {
+  int nCount = 0;
+  for (int i = 0; i < defMAX_AUTO_MOVEMPSL; i++) {
+    if (m_MoveMps[i][0])
+      nCount++;
+  }
+  return nCount;
+}
+
+BOOL KPlayer::IsNotValidNpc(int nIndex) {
+
+  if (nIndex <= 0 ||
+      Npc[nIndex].m_SubWorldIndex !=
+          Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_SubWorldIndex ||
+      Npc[nIndex].m_RegionIndex < 0 ||
+      (Npc[nIndex].m_Kind == kind_player &&
+       (FALSE == m_bAttackPeople || Npc[nIndex].m_FightMode == fight_none ||
+        m_bFollowPeople || Npc[nIndex].m_InvisibilityState.nTime > 0)) ||
+      (Npc[nIndex].m_Kind == kind_normal && (FALSE == m_bAttackNpc)) ||
+      Npc[nIndex].m_CurrentLife <= 0 || Npc[nIndex].m_CurrentLifeMax <= 0 ||
+      Npc[nIndex].m_Doing == do_death || Npc[nIndex].m_Doing == do_revive)
+
+  {
+    m_Actacker = 0;
+    m_bActacker = FALSE;
+    m_nLifeLag = 0;
+    m_nTimeRunLag = 0;
+    m_Count_Acttack_Lag = 0;
+    Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_nPeopleIdx = 0;
+    Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_nPeopleIdxCheckClient = 0;
+    return TRUE;
+  }
+  return FALSE;
+}
+
+BOOL KPlayer::IsEquipSatisfyCondition(int nIdx) {
+  if (nIdx <= 0 || nIdx >= MAX_ITEM)
+    return FALSE;
+
+  int i, j;
+  for (i = 0; i < defMAX_AUTO_FILTERL; i++) {
+    if (m_FilterMagic[i][0]) {
+      for (j = 0; j < 6; j++) {
+        if (Item[nIdx].m_aryMagicAttrib[j].nAttribType == m_FilterMagic[i][0] &&
+            Item[nIdx].m_aryMagicAttrib[j].nValue[0] >= m_FilterMagic[i][1])
+          return TRUE;
+      }
+    }
+  }
+  return FALSE;
+}
+
+void KPlayer::PlayerFilterEquip() {
+
+  int nHand = m_ItemList.Hand();
+  if (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_FightMode == fight_none)
+    return;
+
+  if (nHand) {
+    if (Item[nHand].GetGenre() == item_equip &&
+        Item[nHand].GetDetailType() < equip_horse) {
+      if (IsEquipSatisfyCondition(nHand)) // xu ly khi dang xep do khong loc do
+        return;
+      if (m_SaveRAP &&
+          CheckEquip(Item[nHand].GetDetailType())) // xu ly khi dang xep do
+                                                   // khong loc do
+        return;
+      PLAYER_THROW_AWAY_ITEM_COMMAND sThrow;
+      sThrow.ProtocolType = c2s_playerthrowawayitem;
+      if (g_pClient)
+        g_pClient->SendPackToServer(&sThrow,
+                                    sizeof(PLAYER_THROW_AWAY_ITEM_COMMAND));
+    }
+  } else {
+    ItemPos P;
+    PlayerItem *pItem = m_ItemList.GetFirstItem();
+    if (pItem) {
+      if (pItem->nPlace == pos_equiproom &&
+          Item[pItem->nIdx].GetGenre() == item_equip &&
+          Item[pItem->nIdx].GetDetailType() < equip_horse) {
+        BOOL bFilter = TRUE;
+        if (Item[pItem->nIdx].GetKind() == 1)
+          bFilter = FALSE;
+        if (Item[pItem->nIdx].m_GeneratorParam.nVersion > 1)
+          bFilter = FALSE;
+
+        else if (m_SaveRAP && CheckEquip(Item[pItem->nIdx].GetDetailType()))
+          bFilter = FALSE;
+        else {
+          if (IsEquipSatisfyCondition(pItem->nIdx))
+            bFilter = FALSE;
+        }
+
+        if (bFilter) {
+          P.nPlace = pItem->nPlace;
+          P.nX = pItem->nX;
+          P.nY = pItem->nY;
+          MoveItem(P, P);
+          return;
+        }
+      }
+    }
+    int n = 0;
+    while (pItem) {
+      pItem = m_ItemList.GetNextItem();
+      n++;
+      if (pItem) {
+        if (pItem->nPlace == pos_equiproom &&
+            Item[pItem->nIdx].GetGenre() == item_equip &&
+            Item[pItem->nIdx].GetDetailType() < equip_horse) {
+          BOOL bFilter = TRUE;
+          if (Item[pItem->nIdx].GetKind() == 1)
+            bFilter = FALSE;
+          if (Item[pItem->nIdx].m_GeneratorParam.nVersion > 1)
+            bFilter = FALSE;
+          else if (m_SaveRAP && CheckEquip(Item[pItem->nIdx].GetDetailType()))
+            bFilter = FALSE;
+          else {
+            if (IsEquipSatisfyCondition(pItem->nIdx))
+              bFilter = FALSE;
+          }
+
+          if (bFilter) {
+            P.nPlace = pItem->nPlace;
+            P.nX = pItem->nX;
+            P.nY = pItem->nY;
+            MoveItem(P, P);
+            return;
+          }
+        }
+      }
+    }
+  }
+}
+
+BOOL KPlayer::AutoAddNpc2Array(int nRelation) // danh quai va nguoi choi
+{
+  int nRangeX = 0;
+  int nRangeY = 0;
+  int nSubWorldIdx = 0;
+  int nRegion = 0;
+  int nMapX = 0;
+  int nMapY = 0;
+  if (m_RadiusAuto <= 0)
+    return FALSE;
+  else {
+    nRangeX = m_RadiusAuto;
+    nRangeY = m_RadiusAuto;
+  }
+
+  nSubWorldIdx = Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_SubWorldIndex;
+  nRegion = Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_RegionIndex;
+  nMapX = Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_MapX;
+  nMapY = Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_MapY;
+
+  int nRet;
+  int nRMx, nRMy, nSearchRegion;
+
+  nRangeX = nRangeX / SubWorld[nSubWorldIdx].m_nCellWidth;
+  nRangeY = nRangeY / SubWorld[nSubWorldIdx].m_nCellHeight;
+
+  ClearArrayNpcNeast();
+
+  for (int i = 0; i < nRangeX; i++) {
+    for (int j = 0; j < nRangeY; j++) {
+      if ((i * i + j * j) > nRangeX * nRangeX)
+        continue;
+
+      nRMx = nMapX + i;
+      nRMy = nMapY + j;
+      nSearchRegion = nRegion;
+      if (nRMx < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[2];
+        nRMx += SubWorld[nSubWorldIdx].m_nRegionWidth;
+      } else if (nRMx >= SubWorld[nSubWorldIdx].m_nRegionWidth) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[6];
+        nRMx -= SubWorld[nSubWorldIdx].m_nRegionWidth;
+      }
+      if (nSearchRegion == -1)
+        continue;
+      if (nRMy < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[4];
+        nRMy += SubWorld[nSubWorldIdx].m_nRegionHeight;
+      } else if (nRMy >= SubWorld[nSubWorldIdx].m_nRegionHeight) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[0];
+        nRMy -= SubWorld[nSubWorldIdx].m_nRegionHeight;
+      }
+      if (nSearchRegion == -1)
+        continue;
+      nRet = SubWorld[nSubWorldIdx].m_Region[nSearchRegion].FindNpc(
+          nRMx, nRMy, Player[CLIENT_PLAYER_INDEX].m_nIndex, nRelation);
+
+      if (Npc[nRet].m_Doing == do_death || Npc[nRet].m_Doing == do_revive)
+        nRet = 0;
+      if (nRet > 0) {
+        if (Npc[nRet].m_Kind == kind_player) {
+          for (int i = 0; i < (MAX_ARRAY_NPC_AUTO / 2); i++) {
+            if (m_ArrayNpcNeast[i] == 0) {
+              m_ArrayNpcNeast[i] = nRet;
+              break;
+            }
+          }
+          if (i == (MAX_ARRAY_NPC_AUTO / 2))
+            return TRUE;
+        } else if (Npc[nRet].m_Kind == kind_normal) {
+          for (int i = (MAX_ARRAY_NPC_AUTO / 2); i < MAX_ARRAY_NPC_AUTO; i++) {
+            if (m_ArrayNpcNeast[i] == 0) {
+              m_ArrayNpcNeast[i] = nRet;
+              break;
+            }
+          }
+          if (i == MAX_ARRAY_NPC_AUTO)
+            return TRUE;
+        }
+      }
+      nRMx = nMapX - i;
+      nRMy = nMapY + j;
+      nSearchRegion = nRegion;
+      if (nRMx < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[2];
+        nRMx += SubWorld[nSubWorldIdx].m_nRegionWidth;
+      } else if (nRMx >= SubWorld[nSubWorldIdx].m_nRegionWidth) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[6];
+        nRMx -= SubWorld[nSubWorldIdx].m_nRegionWidth;
+      }
+      if (nSearchRegion == -1)
+        continue;
+      if (nRMy < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[4];
+        nRMy += SubWorld[nSubWorldIdx].m_nRegionHeight;
+      } else if (nRMy >= SubWorld[nSubWorldIdx].m_nRegionHeight) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[0];
+        nRMy -= SubWorld[nSubWorldIdx].m_nRegionHeight;
+      }
+      if (nSearchRegion == -1)
+        continue;
+      nRet = SubWorld[nSubWorldIdx].m_Region[nSearchRegion].FindNpc(
+          nRMx, nRMy, Player[CLIENT_PLAYER_INDEX].m_nIndex, nRelation);
+
+      if (Npc[nRet].m_Doing == do_death || Npc[nRet].m_Doing == do_revive)
+        nRet = 0;
+      if (nRet > 0) {
+        if (Npc[nRet].m_Kind == kind_player) {
+          for (int i = 0; i < (MAX_ARRAY_NPC_AUTO / 2); i++) {
+            if (m_ArrayNpcNeast[i] == 0) {
+              m_ArrayNpcNeast[i] = nRet;
+              break;
+            }
+          }
+          if (i == (MAX_ARRAY_NPC_AUTO / 2))
+            return TRUE;
+        } else if (Npc[nRet].m_Kind == kind_normal) {
+          for (int i = (MAX_ARRAY_NPC_AUTO / 2); i < MAX_ARRAY_NPC_AUTO; i++) {
+            if (m_ArrayNpcNeast[i] == 0) {
+              m_ArrayNpcNeast[i] = nRet;
+              break;
+            }
+          }
+          if (i == MAX_ARRAY_NPC_AUTO)
+            return TRUE;
+        }
+      }
+      nRMx = nMapX - i;
+      nRMy = nMapY - j;
+      nSearchRegion = nRegion;
+      if (nRMx < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[2];
+        nRMx += SubWorld[nSubWorldIdx].m_nRegionWidth;
+      } else if (nRMx >= SubWorld[nSubWorldIdx].m_nRegionWidth) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[6];
+        nRMx -= SubWorld[nSubWorldIdx].m_nRegionWidth;
+      }
+      if (nSearchRegion == -1)
+        continue;
+      if (nRMy < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[4];
+        nRMy += SubWorld[nSubWorldIdx].m_nRegionHeight;
+      } else if (nRMy >= SubWorld[nSubWorldIdx].m_nRegionHeight) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[0];
+        nRMy -= SubWorld[nSubWorldIdx].m_nRegionHeight;
+      }
+      if (nSearchRegion == -1)
+        continue;
+      nRet = SubWorld[nSubWorldIdx].m_Region[nSearchRegion].FindNpc(
+          nRMx, nRMy, Player[CLIENT_PLAYER_INDEX].m_nIndex, nRelation);
+
+      if (Npc[nRet].m_Doing == do_death || Npc[nRet].m_Doing == do_revive)
+        nRet = 0;
+      if (nRet > 0) {
+        if (Npc[nRet].m_Kind == kind_player) {
+          for (int i = 0; i < (MAX_ARRAY_NPC_AUTO / 2); i++) {
+            if (m_ArrayNpcNeast[i] == 0) {
+              m_ArrayNpcNeast[i] = nRet;
+              break;
+            }
+          }
+          if (i == (MAX_ARRAY_NPC_AUTO / 2))
+            return TRUE;
+        } else if (Npc[nRet].m_Kind == kind_normal) {
+          for (int i = (MAX_ARRAY_NPC_AUTO / 2); i < MAX_ARRAY_NPC_AUTO; i++) {
+            if (m_ArrayNpcNeast[i] == 0) {
+              m_ArrayNpcNeast[i] = nRet;
+              break;
+            }
+          }
+          if (i == MAX_ARRAY_NPC_AUTO)
+            return TRUE;
+        }
+      }
+      nRMx = nMapX + i;
+      nRMy = nMapY - j;
+      nSearchRegion = nRegion;
+      if (nRMx < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[2];
+        nRMx += SubWorld[nSubWorldIdx].m_nRegionWidth;
+      } else if (nRMx >= SubWorld[nSubWorldIdx].m_nRegionWidth) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[6];
+        nRMx -= SubWorld[nSubWorldIdx].m_nRegionWidth;
+      }
+      if (nSearchRegion == -1)
+        continue;
+      if (nRMy < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[4];
+        nRMy += SubWorld[nSubWorldIdx].m_nRegionHeight;
+      } else if (nRMy >= SubWorld[nSubWorldIdx].m_nRegionHeight) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[0];
+        nRMy -= SubWorld[nSubWorldIdx].m_nRegionHeight;
+      }
+      if (nSearchRegion == -1)
+        continue;
+
+      nRet = SubWorld[nSubWorldIdx].m_Region[nSearchRegion].FindNpc(
+          nRMx, nRMy, Player[CLIENT_PLAYER_INDEX].m_nIndex, nRelation);
+
+      if (Npc[nRet].m_Doing == do_death || Npc[nRet].m_Doing == do_revive)
+        nRet = 0;
+      if (nRet > 0) {
+        if (Npc[nRet].m_Kind == kind_player) {
+          for (int i = 0; i < (MAX_ARRAY_NPC_AUTO / 2); i++) {
+            if (m_ArrayNpcNeast[i] == 0) {
+              m_ArrayNpcNeast[i] = nRet;
+              break;
+            }
+          }
+          if (i == (MAX_ARRAY_NPC_AUTO / 2))
+            return TRUE;
+        } else if (Npc[nRet].m_Kind == kind_normal) {
+          for (int i = (MAX_ARRAY_NPC_AUTO / 2); i < MAX_ARRAY_NPC_AUTO; i++) {
+            if (m_ArrayNpcNeast[i] == 0) {
+              m_ArrayNpcNeast[i] = nRet;
+              break;
+            }
+          }
+          if (i == MAX_ARRAY_NPC_AUTO)
+            return TRUE;
+        }
+      }
+    }
+  }
+  return TRUE;
+}
+
+BOOL KPlayer::FindObjectNearPlayer() {
+  int nRangeX = 0;
+  int nRangeY = 0;
+  int nSubWorldIdx = 0;
+  int nRegion = 0;
+  int nMapX = 0;
+  int nMapY = 0;
+
+  if (m_RadiusAuto <= 0)
+    return FALSE;
+  else {
+    nRangeX = m_RadiusAuto;
+    nRangeY = m_RadiusAuto;
+  }
+  //}
+  nSubWorldIdx = Npc[m_nIndex].m_SubWorldIndex;
+  nRegion = Npc[m_nIndex].m_RegionIndex;
+  nMapX = Npc[m_nIndex].m_MapX;
+  nMapY = Npc[m_nIndex].m_MapY;
+
+  int nRet;
+  int nRMx, nRMy, nSearchRegion;
+
+  nRangeX = nRangeX / SubWorld[nSubWorldIdx].m_nCellWidth;
+  nRangeY = nRangeY / SubWorld[nSubWorldIdx].m_nCellHeight;
+
+  ClearArrayObjectNeast();
+
+  for (int i = 0; i < nRangeX; i++) {
+    for (int j = 0; j < nRangeY; j++) {
+      if ((i * i + j * j) > nRangeX * nRangeX)
+        continue;
+
+      nRMx = nMapX + i;
+      nRMy = nMapY + j;
+      nSearchRegion = nRegion;
+      if (nRMx < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[2];
+        nRMx += SubWorld[nSubWorldIdx].m_nRegionWidth;
+      } else if (nRMx >= SubWorld[nSubWorldIdx].m_nRegionWidth) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[6];
+        nRMx -= SubWorld[nSubWorldIdx].m_nRegionWidth;
+      }
+      if (nSearchRegion == -1)
+        continue;
+      if (nRMy < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[4];
+        nRMy += SubWorld[nSubWorldIdx].m_nRegionHeight;
+      } else if (nRMy >= SubWorld[nSubWorldIdx].m_nRegionHeight) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[0];
+        nRMy -= SubWorld[nSubWorldIdx].m_nRegionHeight;
+      }
+      if (nSearchRegion == -1)
+        continue;
+
+      nRet = SubWorld[nSubWorldIdx].m_Region[nSearchRegion].FindObject(
+          nRMx, nRMy, true);
+      if (nRet > 0) {
+        for (int i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+          if (m_ArrayObjectNeast[i] == 0) {
+            m_ArrayObjectNeast[i] = nRet;
+            break;
+          }
+        }
+        if (i == MAX_ARRAY_NPC_AUTO)
+          return TRUE;
+      }
+      nRMx = nMapX - i;
+      nRMy = nMapY + j;
+      nSearchRegion = nRegion;
+      if (nRMx < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[2];
+        nRMx += SubWorld[nSubWorldIdx].m_nRegionWidth;
+      } else if (nRMx >= SubWorld[nSubWorldIdx].m_nRegionWidth) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[6];
+        nRMx -= SubWorld[nSubWorldIdx].m_nRegionWidth;
+      }
+      if (nSearchRegion == -1)
+        continue;
+      if (nRMy < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[4];
+        nRMy += SubWorld[nSubWorldIdx].m_nRegionHeight;
+      } else if (nRMy >= SubWorld[nSubWorldIdx].m_nRegionHeight) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[0];
+        nRMy -= SubWorld[nSubWorldIdx].m_nRegionHeight;
+      }
+      if (nSearchRegion == -1)
+        continue;
+
+      nRet = SubWorld[nSubWorldIdx].m_Region[nSearchRegion].FindObject(
+          nRMx, nRMy, true);
+      if (nRet > 0) {
+        for (int i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+          if (m_ArrayObjectNeast[i] == 0) {
+            m_ArrayObjectNeast[i] = nRet;
+            break;
+          }
+        }
+        if (i == MAX_ARRAY_NPC_AUTO)
+          return TRUE;
+      }
+      nRMx = nMapX - i;
+      nRMy = nMapY - j;
+      nSearchRegion = nRegion;
+      if (nRMx < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[2];
+        nRMx += SubWorld[nSubWorldIdx].m_nRegionWidth;
+      } else if (nRMx >= SubWorld[nSubWorldIdx].m_nRegionWidth) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[6];
+        nRMx -= SubWorld[nSubWorldIdx].m_nRegionWidth;
+      }
+      if (nSearchRegion == -1)
+        continue;
+      if (nRMy < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[4];
+        nRMy += SubWorld[nSubWorldIdx].m_nRegionHeight;
+      } else if (nRMy >= SubWorld[nSubWorldIdx].m_nRegionHeight) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[0];
+        nRMy -= SubWorld[nSubWorldIdx].m_nRegionHeight;
+      }
+      if (nSearchRegion == -1)
+        continue;
+
+      nRet = SubWorld[nSubWorldIdx].m_Region[nSearchRegion].FindObject(
+          nRMx, nRMy, true);
+      if (nRet > 0) {
+        for (int i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+          if (m_ArrayObjectNeast[i] == 0) {
+            m_ArrayObjectNeast[i] = nRet;
+            break;
+          }
+        }
+        if (i == MAX_ARRAY_NPC_AUTO)
+          return TRUE;
+      }
+
+      nRMx = nMapX + i;
+      nRMy = nMapY - j;
+      nSearchRegion = nRegion;
+      if (nRMx < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[2];
+        nRMx += SubWorld[nSubWorldIdx].m_nRegionWidth;
+      } else if (nRMx >= SubWorld[nSubWorldIdx].m_nRegionWidth) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[6];
+        nRMx -= SubWorld[nSubWorldIdx].m_nRegionWidth;
+      }
+      if (nSearchRegion == -1)
+        continue;
+      if (nRMy < 0) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[4];
+        nRMy += SubWorld[nSubWorldIdx].m_nRegionHeight;
+      } else if (nRMy >= SubWorld[nSubWorldIdx].m_nRegionHeight) {
+        nSearchRegion =
+            SubWorld[nSubWorldIdx].m_Region[nSearchRegion].m_nConnectRegion[0];
+        nRMy -= SubWorld[nSubWorldIdx].m_nRegionHeight;
+      }
+      if (nSearchRegion == -1)
+        continue;
+
+      nRet = SubWorld[nSubWorldIdx].m_Region[nSearchRegion].FindObject(
+          nRMx, nRMy, true);
+      if (nRet > 0) {
+        for (int i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+          if (m_ArrayObjectNeast[i] == 0) {
+            m_ArrayObjectNeast[i] = nRet;
+            break;
+          }
+        }
+        if (i == MAX_ARRAY_NPC_AUTO)
+          return TRUE;
+      }
+    }
+  }
+  return TRUE;
+}
+
+int KPlayer::FindNearNpc2Array(int nRelation) {
+  int nRet = 0;
+  if (AutoAddNpc2Array(nRelation)) {
+    int distance = 0;
+    int distanceMin = 0;
+    BOOL _fg = FALSE;
+    int i = 0;
+    int j = 0;
+    for (i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+      if (m_ArrayNpcNeast[i] != 0) {
+        BOOL _findLag = FALSE;
+        for (j = 0; j < MAX_ARRAY_NPC_AUTO; j++) {
+          if (m_ArrayNpcNeast[i] == m_ArrayNpcLag[j]) {
+            _findLag = TRUE;
+            break;
+          }
+        }
+        if (_findLag == TRUE)
+          continue;
+
+        if (IsNotValidNpc(m_ArrayNpcNeast[i])) // pham vi pk nguoi
+          continue;
+        int nX, nY;
+        Npc[m_ArrayNpcNeast[i]].GetMpsPos(&nX, &nY);
+
+        distance = NpcSet.GetDistance(Player[CLIENT_PLAYER_INDEX].m_nIndex,
+                                      m_ArrayNpcNeast[i]);
+        if (FALSE == _fg) {
+          distanceMin = distance;
+          _fg = TRUE;
+          nRet = m_ArrayNpcNeast[i];
+        }
+        if (distance <= distanceMin) {
+          distanceMin = distance;
+          nRet = m_ArrayNpcNeast[i];
+        }
+      }
+    }
+  }
+  if (nRet == 0) {
+    if (m_AutoAttack == TRUE && m_bAttackAround)
+      AutoReturn();
+    m_Actacker = 0;
+    m_bActacker = FALSE;
+    m_nTimeRunLag = 0;
+    m_Count_Acttack_Lag = 0;
+  }
+  return nRet;
+}
+
+int KPlayer::FindNearObject2Array() {
+  int nRet = 0;
+  if (FindObjectNearPlayer()) {
+    int distance = 0;
+    int distanceMin = 0;
+    BOOL _fg = FALSE;
+    for (int i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+      if (m_ArrayObjectNeast[i] != 0) {
+        BOOL _findLag = FALSE;
+        for (int j = 0; j < MAX_ARRAY_NPC_AUTO; j++) {
+          if (Object[m_ArrayObjectNeast[i]].m_nID == m_ArrayObjectLag[j]) {
+            _findLag = TRUE;
+            break;
+          }
+        }
+        if (_findLag == TRUE)
+          continue;
+        if (IsNotValidObject(m_ArrayObjectNeast[i]))
+          continue;
+
+        int nX, nY;
+        Object[m_ArrayObjectNeast[i]].GetMpsPos(&nX, &nY);
+
+        distance = Object[m_ArrayObjectNeast[i]].GetDistanceSquare(
+            Player[CLIENT_PLAYER_INDEX].m_nIndex);
+
+        if (FALSE == _fg) {
+          distanceMin = distance;
+          _fg = TRUE;
+          nRet = m_ArrayObjectNeast[i];
+        }
+        if (distance <= distanceMin) {
+          distanceMin = distance;
+          nRet = m_ArrayObjectNeast[i];
+        }
+      }
+    }
+  }
+  if (nRet == 0) {
+    m_nObject = 0;
+    m_bObject = FALSE;
+    m_nTimeRunLag = 0;
+  }
+  return nRet;
+}
+
+#define PLAYERAUTO_PICKUP_CLIENT_DISTANCE 512
+BOOL KPlayer::IsNotValidObject(int nObject) // nhat do
+{
+
+  if (!m_bActiveAuto &&
+      Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_FightMode == fight_none)
+    return TRUE;
+
+  if (nObject > 0 && nObject < MAX_OBJECT) {
+    if (m_bPickItem) {
+      if (Object[nObject].m_nKind == Obj_Kind_Money) {
+        if (m_btPickUpKind >= enumPickUpEarn)
+          return FALSE;
+      } else if (Object[nObject].m_nKind == Obj_Kind_Item) {
+
+        if (Object[nObject].m_dwNpcId <=
+            Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_dwID)
+          return TRUE;
+
+        if (m_btPickUpKind == enumPickEventItem) {
+          if (Object[nObject].m_nGenre != item_equip)
+            return FALSE;
+        } else if (m_btPickUpKind == enumPickItemColor) {
+          if (Object[nObject].m_nGenre >= equip_horse &&
+              Object[nObject].m_nGenre < equip_detailnum)
+            return FALSE;
+
+          if (Object[nObject].m_nColorID > 0)
+            return FALSE;
+
+        } else if (m_btPickUpKind == enumPickUpAll) {
+          return FALSE;
+        }
+      } else if (Object[nObject].m_nKind == Obj_Kind_Prop) {
+        if (m_btPickUpKind >= enumPickEventItem)
+          return FALSE; // nhat object than bi do chi, mat do than bi
+      }
+    }
+  }
+  return TRUE;
+}
+
+int KEquipmentArray::FindSame(int i) {
+  int nIdx = 0;
+  while (1) {
+    nIdx = m_Link.GetNext(nIdx);
+    if (!nIdx)
+      break;
+
+    if (nIdx == i)
+      return nIdx;
+  }
+  return 0;
+}
+
+void KPlayer::PlayerFollowActack(int i) {
+  if (IsNotValidNpc(i))
+    return;
+
+  int _i = 0;
+  int nMapX, nMapY, dX, dY, dZ, k, h;
+  Npc[m_nIndex].GetMpsPos(&nMapX, &nMapY);
+  Npc[i].GetMpsPos(&k, &h);
+  if (m_bAttackAround) {
+    if ((k - nMapX) * (k - nMapX) + (h - nMapY) * (h - nMapY) >
+        m_RadiusAuto * m_RadiusAuto) {
+      dX = nMapX - m_PosXAuto;
+      dY = nMapY - m_PosYAuto;
+      dZ = (int)sqrt((float)dX * dX + (float)dY * dY);
+      if (dZ >= 64) {
+        m_nLifeLag = 0;
+        m_Actacker = 0;
+        m_nTimeRunLag = 0;
+        m_Count_Acttack_Lag = 0;
+        m_bActacker = FALSE;
+        AutoReturn();
+        return;
+      }
+    }
+  }
+
+  if (Npc[i].m_RegionIndex < 0 || !SubWorld[0].TestBarrier(k, h) ||
+      Npc[i].m_nAutoNoActack) {
+    m_nLifeLag = 0;
+    m_Actacker = 0;
+    m_nTimeRunLag = 0;
+    m_Count_Acttack_Lag = 0;
+    m_bActacker = FALSE;
+    return;
+  }
+
+  if (m_nLifeLag == Npc[i].m_CurrentLife) {
+    m_nTimeRunLag++;
+    m_Count_Acttack_Lag++;
+  } else {
+    m_nTimeRunLag = 0;
+    m_Count_Acttack_Lag = 0;
+  }
+
+  if (m_Count_Acttack_Lag >= AUTO_COUNT_LAG || m_nTimeRunLag >= AUTO_TIME_LAG) {
+    for (int j = 0; j < MAX_ARRAY_NPC_AUTO; j++) {
+      if (m_ArrayNpcLag[j] == 0) {
+        // KSystemMessage	sMsg;
+        // sprintf(sMsg.szMessage, "%s bÞ lag täa ®é!", Npc[i].Name);
+        // sMsg.eType = SMT_NORMAL;
+        // sMsg.byConfirmType = SMCT_NONE;
+        // sMsg.byPriority = 0;
+        // sMsg.byParamSize = 0;
+        // CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (unsigned int)&sMsg, 0);
+        m_ArrayNpcLag[j] = i;
+        m_ArrayTimeNpcLag[j] = GetTickCount();
+        m_Actacker = 0;
+        m_bActacker = FALSE;
+        m_nLifeLag = 0;
+        m_nTimeRunLag = 0;
+        m_Count_Acttack_Lag = 0;
+        return;
+      }
+    }
+  }
+
+  int nIdx = 0;
+  nIdx = Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_SkillList.FindSame(
+      m_nLeftSkillID);
+  Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SetActiveSkill(nIdx);
+  if (nIdx) {
+    if (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_ActiveSkillID == nIdx) {
+    } else
+      Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SetActiveSkill(nIdx);
+  }
+  if (Npc[i].m_Doing == do_death)
+    i++;
+  int distanceattack =
+      Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentAttackRadius;
+  int distance = NpcSet.GetDistance(Player[CLIENT_PLAYER_INDEX].m_nIndex, i);
+
+  if (m_bFightDistance) {
+    distanceattack = m_DistanceAuto; // danh tiep can 75
+    if (distanceattack >
+        Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentAttackRadius)
+      distanceattack =
+          Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentAttackRadius;
+  }
+  if (distanceattack <= 60) {
+    distanceattack = m_DistanceAuto; // danh tiep can 75
+    if (distanceattack >
+        Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentAttackRadius)
+      distanceattack =
+          Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentAttackRadius;
+  }
+  if (distanceattack > 60 && distanceattack <= 90) {
+    distanceattack = m_DistanceAuto; // danh tiep can 75
+    if (distanceattack >
+        Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentAttackRadius - 30)
+      distanceattack =
+          Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentAttackRadius - 30;
+  }
+
+  if (distance <= distanceattack && distance <= m_RadiusAuto) {
+    KSkill *pSkill = (KSkill *)g_SkillManager.GetSkill(
+        Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_ActiveSkillID, 1);
+    if (pSkill) {
+      if (pSkill->GetHorseLimit()) {
+        switch (pSkill->GetHorseLimit()) {
+        case 1: {
+          if (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_bRideHorse) {
+            SendClientCmdRide();
+            return;
+          }
+        } break;
+        case 2: {
+          if (!Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_bRideHorse) {
+            SendClientCmdRide();
+            return;
+          }
+        } break;
+        }
+      }
+    }
+
+    if (distance <
+        Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentAttackRadius) {
+      Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SendCommand(
+          do_skill, Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_ActiveSkillID,
+          -1, i);
+      SendClientCmdSkill(
+          Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_ActiveSkillID, -1,
+          Npc[i].m_dwID, k, h,
+          (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentAttackRadius -
+           30));
+    }
+    if (Npc[i].m_TypeNpc == 1 || Npc[i].m_TypeNpc == 5 ||
+        Npc[i].m_TypeNpc == 6) {
+      m_nTimeRunLag = 0;
+      m_Count_Acttack_Lag = 0;
+    }
+
+    if (m_nLifeLag == Npc[i].m_CurrentLife) {
+      if (Npc[i].m_Kind == kind_normal)
+        // m_nTimeRunLag++;
+        m_Count_Acttack_Lag++;
+    } else
+      m_nLifeLag = Npc[i].m_CurrentLife;
+    m_Count_Acttack_Lag = 0;
+    return;
+  }
+  m_nTimeRunLag++;
+
+  // GIOI HAN PHAM VI TIM KIEM
+  if (m_bAttackAround) {
+    dX = k - m_PosXAuto;
+    dY = h - m_PosYAuto;
+    dZ = (int)sqrt((float)dX * dX + (float)dY * dY);
+    if (dZ >= m_RadiusAuto) {
+      AutoReturn();
+      // viet them
+      m_Actacker = 0;
+      m_bActacker = FALSE;
+      m_nTimeRunLag = 0;
+      m_Count_Acttack_Lag = 0;
+      return;
+    }
+  } else if (m_AutoMove) {
+    dX = k - m_MoveMps[m_MoveStep][1];
+    dY = h - m_MoveMps[m_MoveStep][2];
+    dZ = (int)sqrt((float)dX * dX + (float)dY * dY);
+    if (dZ >= m_RadiusAuto) {
+      PlayerMoveMps();
+      return;
+    }
+  }
+  MoveTo(k, h);
+  m_Actacker = 0;
+  m_bActacker = FALSE;
+}
+
+void KPlayer::SetSortEquipment(BOOL bFlag) {
+  if (m_bActiveAuto) {
+    for (int i = MAX_ITEM - 1; i > 0;
+         i--) // for (int i = MAX_EQUIPMENT_ITEM - 1; i > 0 ; i--)
+    {
+      m_sListEquipment.m_Link.Remove(i);
+    }
+    m_bSortEquipment = bFlag;
+  }
+}
+
+void KPlayer::SortEquipment() {
+  if (m_bSortEquipment) {
+    int nHand =
+        Player[CLIENT_PLAYER_INDEX].m_ItemList.Hand(); // Item dang o tren tay
+    if (nHand) {
+      ItemPos P;
+      if (FALSE == Player[CLIENT_PLAYER_INDEX].m_ItemList.SearchPosition(
+                       Item[nHand].GetWidth(), Item[nHand].GetHeight(), &P)) {
+        m_bSortEquipment = FALSE;
+        return;
+      }
+      Player[CLIENT_PLAYER_INDEX].MoveItem(P, P);
+      if (!m_sListEquipment.FindSame(nHand)) {
+        m_sListEquipment.m_Link.Insert(nHand);
+      }
+    } else // item trong hanh trang
+    {
+      ItemPos P;
+      PlayerItem *pItem = Player[CLIENT_PLAYER_INDEX].m_ItemList.GetFirstItem();
+
+      if (pItem) {
+        if (pItem->nPlace == pos_equiproom) {
+          if (!m_sListEquipment.FindSame(pItem->nIdx)) {
+            P.nPlace = pItem->nPlace;
+            P.nX = pItem->nX;
+            P.nY = pItem->nY;
+            Player[CLIENT_PLAYER_INDEX].MoveItem(P, P);
+            return;
+          }
+        }
+      }
+
+      while (pItem) {
+        pItem = Player[CLIENT_PLAYER_INDEX].m_ItemList.GetNextItem();
+        if (pItem) {
+          if (pItem->nPlace == pos_equiproom) {
+            if (!m_sListEquipment.FindSame(pItem->nIdx)) {
+              P.nPlace = pItem->nPlace;
+              P.nX = pItem->nX;
+              P.nY = pItem->nY;
+              Player[CLIENT_PLAYER_INDEX].MoveItem(P, P);
+              return;
+            }
+          }
+        }
+      }
+      m_bSortEquipment = FALSE;
+    }
+  }
+}
+
+BOOL KPlayer::CheckEquip(BYTE btDetail) {
+  if (btDetail == equip_ring || btDetail == equip_amulet ||
+      btDetail == equip_pendant)
+    return TRUE;
+  return FALSE;
+}
+
+#define MAX_AUTO_FILTERL 40
+#define MAX_ITEM_MAGICATTRIB 8
+
+BOOL KPlayer::CheckEquipMagic(int nIdx) {
+  if (nIdx <= 0 || nIdx >= MAX_ITEM)
+    return FALSE;
+
+  int i, j;
+  for (i = 0; i < MAX_AUTO_FILTERL; i++) {
+    if (m_FilterMagic[i][0]) {
+      for (j = 0; j < MAX_ITEM_MAGICATTRIB; j++) {
+        if (Item[nIdx].m_aryMagicAttrib[j].nAttribType == m_FilterMagic[i][0] &&
+            Item[nIdx].m_aryMagicAttrib[j].nValue[0] >= m_FilterMagic[i][1])
+          return TRUE;
+      }
+    }
+  }
+  return FALSE;
+}
+
+BOOL KPlayer::InventoryItem() {
+  int nHand = Player[CLIENT_PLAYER_INDEX].m_ItemList.Hand();
+  BOOL m_bSaveTrash = FALSE; // gi÷ l¹i trang bÞ gi¸ >= m_nSaveTrashPrice
+  int m_nSaveTrashPrice = 10000;
+  if (nHand) {
+    POINT pPos;
+    for (int nRoom = room_repository; nRoom <= room_repository; nRoom++) {
+      if (Player[CLIENT_PLAYER_INDEX].m_ItemList.m_Room[nRoom].FindRoom(
+              Item[nHand].GetWidth(), Item[nHand].GetHeight(), &pPos)) {
+        ItemPos P;
+        P.nPlace = pos_repositoryroom + nRoom - room_repository;
+        P.nX = pPos.x;
+        P.nY = pPos.y;
+        Player[CLIENT_PLAYER_INDEX].MoveItem(P, P);
+        return FALSE;
+      }
+    }
+    return TRUE;
+  } else {
+    // ItemPos	P;
+    PlayerItem *pItem = Player[CLIENT_PLAYER_INDEX].m_ItemList.GetFirstItem();
+
+    if (pItem) /// gui do vao ruong
+    {
+      if (pItem->nPlace == pos_equiproom) {
+        BOOL bMatch = FALSE;
+        // if (Item[pItem->nIdx].m_CommonAttrib.nItemNature)
+        //	bMatch = TRUE;
+
+        //	if(Item[pItem->nIdx].m_CommonAttrib.nItemGenre == item_task)
+        //		bMatch = TRUE;
+        if (Item[pItem->nIdx].GetDetailType() == equip_horse)
+          bMatch = TRUE;
+
+        else if (Item[pItem->nIdx].GetKind() == 1)
+          bMatch = TRUE;
+
+        //    else if(Item[nIdx].m_GeneratorParam.nVersion > 1)
+        //       bMatch = TRUE;
+        //    else if(( Item[pItem->nIdx].GetGenre() == item_medicine) &&
+        //    Item[pItem->nIdx].m_GeneratorParam.nVersion > 1)
+        //        bMatch = TRUE;
+
+        if (m_bSaveTrash && Item[pItem->nIdx].GetPrice() >= m_nSaveTrashPrice)
+          bMatch = TRUE;
+        else if (m_SaveRAP && CheckEquip(Item[pItem->nIdx].GetDetailType()))
+          bMatch = TRUE;
+        else {
+          if (CheckEquipMagic(pItem->nIdx))
+            bMatch = TRUE;
+        }
+        if (bMatch) {
+          POINT pPos;
+          for (int nRoom = room_repository; nRoom <= room_repository; nRoom++) {
+            if (Player[CLIENT_PLAYER_INDEX].m_ItemList.m_Room[nRoom].FindRoom(
+                    Item[pItem->nIdx].GetWidth(), Item[pItem->nIdx].GetHeight(),
+                    &pPos)) {
+              ItemPos P;
+              P.nPlace = pItem->nPlace;
+              P.nX = pItem->nX;
+              P.nY = pItem->nY;
+              Player[CLIENT_PLAYER_INDEX].MoveItem(P, P);
+              return FALSE;
+            }
+          }
+          return TRUE;
+        }
+      }
+    }
+
+    while (pItem) {
+      pItem = Player[CLIENT_PLAYER_INDEX].m_ItemList.GetNextItem();
+      if (pItem) {
+        if (pItem->nPlace == pos_equiproom) {
+          BOOL bMatch = FALSE;
+          // if (Item[pItem->nIdx].m_CommonAttrib.nItemNature)
+          //	bMatch = TRUE;
+
+          // if(Item[pItem->nIdx].m_CommonAttrib.nItemGenre == item_task)
+          // bMatch = TRUE;
+
+          if (Item[pItem->nIdx].GetDetailType() == equip_horse)
+            bMatch = TRUE;
+
+          else if (Item[pItem->nIdx].GetKind() == 1)
+            bMatch = TRUE;
+
+          //  else if(( Item[pItem->nIdx].GetGenre() == item_medicine) &&
+          //  Item[pItem->nIdx].m_GeneratorParam.nVersion > 1)
+          // bMatch = TRUE;
+          if (m_bSaveTrash && Item[pItem->nIdx].GetPrice() >= m_nSaveTrashPrice)
+            bMatch = TRUE;
+          else if (m_SaveRAP && CheckEquip(Item[pItem->nIdx].GetDetailType()))
+            bMatch = TRUE;
+          else {
+            if (CheckEquipMagic(pItem->nIdx))
+              bMatch = TRUE;
+          }
+          if (bMatch) {
+            POINT pPos;
+            for (int nRoom = room_repository; nRoom <= room_repository;
+                 nRoom++) {
+              if (Player[CLIENT_PLAYER_INDEX].m_ItemList.m_Room[nRoom].FindRoom(
+                      Item[pItem->nIdx].GetWidth(),
+                      Item[pItem->nIdx].GetHeight(), &pPos)) {
+                ItemPos P;
+                P.nPlace = pItem->nPlace;
+                P.nX = pItem->nX;
+                P.nY = pItem->nY;
+                Player[CLIENT_PLAYER_INDEX].MoveItem(P, P);
+                return FALSE;
+              }
+            }
+            return TRUE;
+          }
+        }
+      }
+    }
+  }
+  return TRUE;
+}
+
+BOOL KPlayer::AutoSellItem() {
+  PlayerItem *pItem = Player[CLIENT_PLAYER_INDEX].m_ItemList.GetFirstItem();
+  if (pItem) {
+    int nIdx = pItem->nIdx;
+    if (pItem->nPlace == pos_equiproom && nIdx > 0 && nIdx < MAX_ITEM) {
+      if (
+          // Vat pham Item khong giao dich
+          CheckEquipMagic(nIdx) ||
+          (m_SaveRAP && CheckEquip(Item[pItem->nIdx].GetDetailType())) ||
+          Item[pItem->nIdx].GetGenre() == item_task ||
+          Item[pItem->nIdx].GetGenre() == item_medicine ||
+          Item[pItem->nIdx].GetGenre() == item_mine ||
+          Item[pItem->nIdx].GetGenre() == item_materials ||
+          Item[pItem->nIdx].GetDetailType() == equip_horse ||
+          Item[pItem->nIdx].GetKind() == 1 ||
+          // (Item[pItem->nIdx].GetGenre() == equip_rangeweapon||
+          // Item[pItem->nIdx].GetGenre() == equip_horse||
+          // Item[pItem->nIdx].GetGenre() == item_equip ||
+          // Item[pItem->nIdx].GetGenre() == item_medicine) &&
+          // Item[pItem->nIdx].m_GeneratorParam.nVersion > 1||
+          Item[pItem->nIdx].GetGenre() == item_townportal ||
+          Item[nIdx].m_GeneratorParam.nVersion > 1
+          // Item[pItem->nIdx].GetGenre() == item_magicscript
+          //|| Item[pItem->nIdx].GetGoldId()
+          //|| Item[nIdx].GetPlayerItemLock() > 0 ||
+          //Item[nIdx].GetPlayerItemHLock() > 0
+      ) {
+
+      } else {
+        SendClientCmdAutoSell(Item[nIdx].GetID());
+      }
+    }
+  }
+  while (pItem) {
+    pItem = Player[CLIENT_PLAYER_INDEX].m_ItemList.GetNextItem();
+    if (pItem) {
+      int nIdx = pItem->nIdx;
+      if (pItem->nPlace == pos_equiproom && nIdx > 0 && nIdx < MAX_ITEM) {
+        if (
+            // Vat pham Item khong giao dich
+            CheckEquipMagic(nIdx) ||
+            (m_SaveRAP && CheckEquip(Item[pItem->nIdx].GetDetailType())) ||
+            Item[pItem->nIdx].GetGenre() == item_task ||
+            Item[pItem->nIdx].GetGenre() == item_medicine ||
+            Item[pItem->nIdx].GetGenre() == item_mine ||
+            Item[pItem->nIdx].GetGenre() == item_materials ||
+            Item[pItem->nIdx].GetDetailType() == equip_horse ||
+            Item[pItem->nIdx].GetKind() == 1 ||
+            // (Item[pItem->nIdx].GetGenre() == equip_rangeweapon ||
+            // Item[pItem->nIdx].GetGenre() == equip_horse||
+            // Item[pItem->nIdx].GetGenre() == item_equip ||
+            // Item[pItem->nIdx].GetGenre() == item_medicine) &&
+            // Item[pItem->nIdx].m_GeneratorParam.nVersion > 1||
+            Item[pItem->nIdx].GetGenre() == item_townportal ||
+            Item[nIdx].m_GeneratorParam.nVersion > 1
+            //|| Item[pItem->nIdx].GetGenre() == item_magicscript
+            //|| Item[pItem->nIdx].GetGoldId()
+            //|| Item[nIdx].GetPlayerItemLock() > 0 ||
+            //Item[nIdx].GetPlayerItemHLock() > 0
+        ) {
+
+        } else {
+          SendClientCmdAutoSell(Item[nIdx].GetID());
+        }
+      }
+    }
+  }
+  return TRUE;
+}
+
+BOOL KPlayer::ReturnFromPortal() {
+  KSystemMessage sMsg;
+  sMsg.eType = SMT_NORMAL;
+  sMsg.byConfirmType = SMCT_NONE;
+  sMsg.byPriority = 0;
+  sMsg.byParamSize = 0;
+
+  BOOL nRet = TRUE;
+  switch (m_nReturnPortalStep) {
+  case Step_Training: {
+    if (IR_GetCurrentTime() - m_ReturnSetpCountDown >
+        def_RETURN_FROM_PORTAL_STEP) {
+      m_ReturnSetpCountDown = IR_GetCurrentTime();
+      sprintf(sMsg.szMessage, "->Thao t¸c khi trong thµnh vui lßng ®îi");
+      Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SetChatInfo(
+          "Auto", sMsg.szMessage, strlen(sMsg.szMessage));
+      Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].RunWalkStopCmd();
+      m_nReturnPortalStep = Step_Repair;
+      break;
+    }
+  }
+  case Step_Repair: {
+    if (IR_GetCurrentTime() - m_ReturnSetpCountDown >
+        def_RETURN_FROM_PORTAL_STEP) {
+      m_ReturnSetpCountDown = IR_GetCurrentTime();
+      sprintf(sMsg.szMessage, "->Mua m¸u mana, söa, b¸n vËt phÈm");
+      Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SetChatInfo(
+          "Auto", sMsg.szMessage, strlen(sMsg.szMessage));
+      if (m_bRepairEquip) {
+        strcpy(sMsg.szMessage, "->.Rót tiÒn, söa trang bÞ háng");
+        CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (unsigned int)&sMsg, 0);
+
+        if (Player[CLIENT_PLAYER_INDEX].m_ItemList.GetEquipmentMoney() < 100000)
+          Player[CLIENT_PLAYER_INDEX].m_ItemList.ExchangeMoney(
+              room_repository, room_equipment, 100000);
+        for (int i = itempart_head; i < itempart_horse; i++) {
+          int nIdx = Player[CLIENT_PLAYER_INDEX].m_ItemList.m_EquipItem[i];
+          if (nIdx && Item[nIdx].GetRepairPrice()) {
+            if (Player[CLIENT_PLAYER_INDEX].m_ItemList.GetEquipmentMoney() <
+                Item[nIdx].GetRepairPrice())
+              continue;
+            SendClientCmdRepair(Item[nIdx].GetID());
+          }
+        }
+      }
+      if (m_bBuyEquip) {
+        strcpy(sMsg.szMessage, "->.Rót tiÒn, mua m¸u, mana.");
+        CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (unsigned int)&sMsg, 0);
+
+        if (Player[CLIENT_PLAYER_INDEX].m_ItemList.GetEquipmentMoney() < 100000)
+          Player[CLIENT_PLAYER_INDEX].m_ItemList.ExchangeMoney(
+              room_repository, room_equipment, 100000);
+        BYTE itemmauid = 2;
+        BYTE itemmanaid = 1;
+        BYTE nLevel = 3;
+        BYTE num = 20;
+        if (m_ItemList.CountCommonItem(0, item_medicine, itemmauid) <= num)
+          SendClientCmdOpenShop(
+              item_medicine, itemmauid, nLevel,
+              num - m_ItemList.CountCommonItem(0, item_medicine, itemmauid));
+        // if(m_ItemList.CountCommonItem(0, item_medicine, itemmanaid) <= num)
+        //	SendClientCmdOpenShop(item_medicine, itemmanaid, nLevel, num -
+        //m_ItemList.CountCommonItem(0, item_medicine, itemmanaid));
+        //	if(m_ItemList.CountCommonItem(item_equip, 3) <= 1)
+        //		SendClientCmdOpenShop(item_equip, 3 -
+        //m_ItemList.CountCommonItem(0, item_equip, 3)); //tho dia phu
+      }
+
+      if (m_Auto_BanItem) // tu dong ban vat pham
+      {
+        strcpy(sMsg.szMessage, "->.B¸n vËt phÈm kh«ng cã trong läc thuéc tÝnh");
+        CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (unsigned int)&sMsg, 0);
+
+        AutoSellItem();
+      }
+
+      m_nReturnPortalStep = Step_InventoryMoney;
+    }
+    break;
+  }
+  case Step_InventoryMoney: {
+    if (IR_GetCurrentTime() - m_ReturnSetpCountDown >
+        def_RETURN_FROM_PORTAL_STEP) {
+      m_ReturnSetpCountDown = IR_GetCurrentTime();
+      if (m_bInventoryMoney) {
+        sprintf(sMsg.szMessage, "->CÊt tiÒn vµo r­¬ng");
+        Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SetChatInfo(
+            "Auto", sMsg.szMessage, strlen(sMsg.szMessage));
+        Player[CLIENT_PLAYER_INDEX].m_ItemList.ExchangeMoney(
+            room_equipment, room_repository,
+            Player[CLIENT_PLAYER_INDEX].m_ItemList.GetEquipmentMoney());
+      }
+      m_nReturnPortalStep = Step_InventoryItem;
+    }
+  } break;
+  case Step_InventoryItem: {
+    int m_nReturnPortalSec = 15;
+    sprintf(sMsg.szMessage, "->CÊt ®å vµ trë l¹i b·i sau %d gi©y",
+            m_nReturnPortalSec);
+    Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SetChatInfo(
+        "Auto", sMsg.szMessage, strlen(sMsg.szMessage));
+    if (m_bInventoryItem) {
+      if (InventoryItem()) // cat do vao ruong
+      {
+        m_nCurReturnPortalSec = KSG_GetCurSec() + m_nReturnPortalSec;
+        m_nReturnPortalStep = Step_Return;
+      }
+    } else {
+      m_nCurReturnPortalSec = KSG_GetCurSec() + m_nReturnPortalSec;
+      m_nReturnPortalStep = Step_Return;
+    }
+  } break;
+  case Step_Return:
+    if (m_bReturnPortal) {
+      int Map = SubWorld[m_SubWorldIndex].m_SubWorldID;
+      if (Map == 60 || Map == 20 || Map == 47 || Map == 48 || Map == 49 ||
+          Map == 33 || Map == 37 || Map == 26 || Map == 27 || Map == 28 ||
+          Map == 258 || Map == 5 || Map == 29 || Map == 43 || Map == 42) {
+        sprintf(sMsg.szMessage, "->Map nµy kh«ng thÓ quay l¹i ®iÓm cñ ! ");
+        Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SetChatInfo(
+            "Auto", sMsg.szMessage, strlen(sMsg.szMessage));
+        break;
+      }
+
+      else if (KSG_GetCurSec() >= m_nCurReturnPortalSec) {
+        sprintf(sMsg.szMessage, "->Quay l¹i ®Þa ®iÓm cò");
+        Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SetChatInfo(
+            "Auto", sMsg.szMessage, strlen(sMsg.szMessage));
+
+        PLAYER_COMMAND sRP;
+        sRP.ProtocolType = c2s_playercommand;
+        sRP.m_wMsgID = enumC2S_PLAYERCOMMAND_ID_RETURN;
+        sRP.m_lpBuf = 0;
+        sRP.m_wLength = sizeof(SHOW_MSG_SYNC) - 1;
+        g_pClient->SendPackToServer((BYTE *)&sRP, sRP.m_wLength + 1);
+
+        nRet = FALSE;
+        m_nReturnPortalStep = Step_Completed;
+        m_ReturnSetpCountDown = IR_GetCurrentTime();
+      }
+    }
+    break;
+  case Step_Completed: {
+    if (IR_GetCurrentTime() - m_ReturnSetpCountDown >
+        def_RETURN_FROM_PORTAL_STEP) {
+      m_ReturnSetpCountDown = IR_GetCurrentTime();
+      if (!Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex]
+               .m_FightMode) // sau khi hoµn thµnh mµ kh«ng chuyÓn tr¹ng th¸i
+                             // chiÕn ®Êu th× ko quay l¹i dc ®iÓm cò
+      {
+        sprintf(sMsg.szMessage, "->Kh«ng x¸c ®Þnh ®iÓm cò");
+        Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SetChatInfo(
+            "Auto", sMsg.szMessage, strlen(sMsg.szMessage));
+      }
+    }
+    break;
+  }
+  }
+  return nRet;
+}
+
+void KPlayer::AutoReturn() {
+  if (m_bAttackAround) {
+    int nMapX, nMapY, dX, dY, dZ;
+    Npc[m_nIndex].GetMpsPos(&nMapX, &nMapY);
+    dX = nMapX - m_PosXAuto;
+    dY = nMapY - m_PosYAuto;
+    dZ = (int)sqrt((float)dX * dX + (float)dY * dY);
+    if (dZ >= 64) {
+      MoveTo(m_PosXAuto, m_PosYAuto);
+    } else {
+      if (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_Doing != do_sit) {
+        if (!Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_bRideHorse) {
+          Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SendCommand(do_sit);
+          SendClientCmdSit(TRUE);
+        } else
+          return;
+      }
+    }
+  } else {
+    if (m_bFollowPeople == FALSE || m_szFollowName[0] == 0) {
+      if (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_Doing != do_sit) {
+        if (!Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex]
+                 .m_bRideHorse) // trang thai duoi ngua ngoi thien
+        {
+          Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SendCommand(do_sit);
+          SendClientCmdSit(TRUE);
+        }
+      }
+    }
+  }
+}
+
+void KPlayer::MoveTo(int nX, int nY) {
+  int nMapX, nMapY;
+  int nDestX, nDestY, dX, dY;
+  if (Player[CLIENT_PLAYER_INDEX].m_nSendMoveFrames >=
+      defMAX_PLAYER_SEND_MOVE_FRAME) {
+    Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].GetMpsPos(&nMapX, &nMapY);
+    dX = nMapX & 0x1F;
+    dY = nMapY & 0x1F;
+    nDestX = nX + 0x10 - dX;
+    nDestY = nY + 0x10 - dY;
+    if (!Player[CLIENT_PLAYER_INDEX].m_RunStatus) {
+      Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SendCommand(do_walk, nDestX,
+                                                            nDestY);
+      SendClientCmdWalk(nDestX, nDestY);
+    } else {
+      Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SendCommand(do_run, nDestX,
+                                                            nDestY);
+      SendClientCmdRun(nDestX, nDestY);
+    }
+    Player[CLIENT_PLAYER_INDEX].m_nSendMoveFrames = 0;
+  }
+}
+
+BOOL KPlayer::AutoBuffSkillState() {
+  BOOL _break = FALSE;
+
+  for (int i = 0; i < MAX_ARRAY_STATESKILL; i++) {
+    if (m_ArrayStateSkill[i] && m_bBuffSkill[i]) {
+      ISkill *pSkill = g_SkillManager.GetSkill(m_ArrayStateSkill[i], 1);
+
+      if (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_SkillList.CanCast(
+              m_ArrayStateSkill[i], SubWorld[0].m_dwCurrentTime) &&
+          Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].Cost(
+              pSkill->GetSkillCostType(), pSkill->GetSkillCost(this), TRUE) &&
+          !Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].FindStateSkill(
+              m_ArrayStateSkill[i])) {
+        Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SendCommand(
+            do_skill, m_ArrayStateSkill[i], -1,
+            Player[CLIENT_PLAYER_INDEX].m_nIndex);
+        SendClientCmdSkill(m_ArrayStateSkill[i], -1,
+                           Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_dwID);
+        return TRUE;
+      }
+    }
+  }
+
+  if (m_AutoLifeReplenish) {
+    int nSkillLifeReplenishID, nSkillLevel; // fix tam thoi buff mau NM
+    nSkillLifeReplenishID = 93;
+    nSkillLevel =
+        Npc[m_nIndex].m_SkillList.GetCurrentLevel(nSkillLifeReplenishID);
+
+    ISkill *pSkill = g_SkillManager.GetSkill(nSkillLifeReplenishID, 1);
+    if (nSkillLifeReplenishID &&
+        Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].Cost(
+            pSkill->GetSkillCostType(), pSkill->GetSkillCost(this), TRUE)) {
+      if (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentLife *
+              MAX_PERCENT /
+              Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentLifeMax <
+          m_AutoLifeReplenishP) {
+        Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].SendCommand(
+            do_skill, nSkillLifeReplenishID, -1, m_nPlayerIndex);
+        SendClientCmdSkill(nSkillLifeReplenishID, -1,
+                           Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_dwID);
+        _break = TRUE;
+      }
+    }
+  }
+  return _break;
+}
+
+void KPlayer::PlayerFollowObject(int nObject) {
+  if (IsNotValidObject(nObject)) {
+    m_nObject = 0;
+    return;
+  }
+
+  int nX1, nY1, nX2, nY2;
+  Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].GetMpsPos(&nX1, &nY1);
+  Object[nObject].GetMpsPos(&nX2, &nY2);
+  if ((nX1 - nX2) * (nX1 - nX2) + (nY1 - nY2) * (nY1 - nY2) <
+      PLAYERAUTO_PICKUP_CLIENT_DISTANCE *
+          PLAYERAUTO_PICKUP_CLIENT_DISTANCE) // khoan cach nhat do
+  {
+    Player[CLIENT_PLAYER_INDEX].CheckObject(nObject);
+    for (int i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+      if (m_ArrayObjectLag[i] == 0) {
+        m_ArrayObjectLag[i] = Object[m_nObject].m_nID;
+        m_ArrayObjectLag[i] = GetTickCount();
+        break;
+      }
+    }
+    m_bObject = FALSE;
+    m_nObject = 0;
+    m_Count_Acttack_Lag = 0;
+    //	ClearArrayObjectLag();
+  } else {
+    MoveTo(nX2, nY2);
+    m_nTimeRunLag++;
+    if (m_nTimeRunLag >= AUTO_TIME_LAG) {
+      BOOL _flag = FALSE;
+      int i = 0;
+      for (i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+        if (Object[nObject].m_nID == m_ArrayObjectLag[i]) {
+          nObject = 0;
+          m_bObject = FALSE;
+          m_nObject = 0;
+          m_nTimeRunLag = 0;
+          m_Count_Acttack_Lag = 0;
+          m_ArrayObjectLag[i] = Object[nObject].m_nID;
+          m_ArrayTimeObjectLag[i] = GetTickCount();
+          _flag = TRUE;
+          break;
+        }
+      }
+      if (_flag)
+        return;
+      for (i = 0; i < MAX_ARRAY_NPC_AUTO; i++) {
+        if (m_ArrayObjectLag[i] == 0) {
+          m_nTimeRunLag = 0;
+          m_Count_Acttack_Lag = 0;
+          m_ArrayObjectLag[i] = Object[nObject].m_nID;
+          m_ArrayTimeObjectLag[i] = GetTickCount();
+          m_bObject = FALSE;
+          m_nObject = 0;
+          nObject = 0;
+          break;
+        }
+      }
+    }
+  }
+}
+
+void KPlayer::AutoParty() {
+  for (int i = 0; i < MAX_AUTO_SIZE; i++) {
+    if (m_nArrayTimeInvitePlayer[i] > 0) {
+      m_nArrayTimeInvitePlayer[i]--;
+      if (m_nArrayTimeInvitePlayer[i] == 0)
+        m_nArrayInvitePlayer[i] = 0;
+    }
+  }
+
+  if (g_Team[0].m_nMemNum < g_Team[0].CalcCaptainPower()) {
+    int nCount = NpcSet.GetAroundPlayerForTeamInvite(NULL, 0);
+    if (nCount) {
+      KUiPlayerItem *m_pNearbyPlayersList =
+          (KUiPlayerItem *)malloc(sizeof(KUiPlayerItem) * nCount);
+      NpcSet.GetAroundPlayerForTeamInvite(m_pNearbyPlayersList, nCount);
+      for (i = 0; i < nCount; i++) {
+        // if (m_bAutoInviteList && !CheckPTList(m_pNearbyPlayersList[i].Name))
+        //	continue;
+        if (FindSameInvitePlayer(m_pNearbyPlayersList[i].uId))
+          continue;
+        int j = FindFreeInvitePlayer();
+        if (j >= 0) {
+          Player[CLIENT_PLAYER_INDEX].TeamInviteAdd(
+              m_pNearbyPlayersList[i].uId);
+          m_nArrayInvitePlayer[j] = m_pNearbyPlayersList[i].uId;
+          m_nArrayTimeInvitePlayer[j] = INTERVAL_AUTO;
+        }
+      }
+      free(m_pNearbyPlayersList);
+    }
+  }
+}
+
+/*
+void KPlayer::AutoParty()
+{
+        for (int i=0; i < MAX_AUTO_SIZE; i++)
+        {
+                if (m_nArrayTimeInvitePlayer[i] > 0)
+                {
+                        m_nArrayTimeInvitePlayer[i]--;
+                        if (m_nArrayTimeInvitePlayer[i] == 0)
+                                m_nArrayInvitePlayer[i] = 0;
+                }
+        }
+                int nCount = NpcSet.GetAroundPlayerForTeamInvite(NULL, 0);
+        KUiPlayerItem*	m_pNearbyPlayersList =
+(KUiPlayerItem*)malloc(sizeof(KUiPlayerItem) * nCount);
+        NpcSet.GetAroundPlayerForTeamInvite(m_pNearbyPlayersList, nCount);
+        for ( i = 0; i < nCount; i++)
+        {
+                TeamInviteAdd(m_pNearbyPlayersList[i].uId);
+        m_nArrayInvitePlayer[i] = m_pNearbyPlayersList[i].uId;
+                m_nArrayTimeInvitePlayer[i] = INTERVAL_AUTO;
+          }
+}*/
+void KPlayer::PlayerEatAItem() {
+  if (m_EatLife && Npc[m_nIndex].m_CurrentLife <= m_LifeAutoV) {
+    if (IR_GetCurrentTime() - m_LifeCountDown > m_LifeTimeUse) {
+      PlayerUseItem(ntypemau); // su dung mau
+      m_LifeCountDown = IR_GetCurrentTime();
+    }
+  }
+  if (m_EatMana && Npc[m_nIndex].m_CurrentMana <= m_ManaAutoV) {
+    if (IR_GetCurrentTime() - m_ManaCountDown > m_ManaTimeUse) {
+      PlayerUseItem(ntypemana); // su dung mana
+      m_ManaCountDown = IR_GetCurrentTime();
+    }
+  }
+  int Map = SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID;
+  if (Npc[m_nIndex].m_FightMode) {
+    if (m_Auto_TuiDuocPham && m_ItemList.CountCommonItem(0, item_medicine, 2) <=
+                                  2) // 2 vua mau va mana
+    {
+      if (IR_GetCurrentTime() - m_TuiDPhamCountDown > defMAX_EAT_SPACETIME) {
+        PlayerUseItem(ntypetuiduocpham);
+        m_TuiDPhamCountDown = IR_GetCurrentTime();
+      }
+    }
+    bool bTPFlag = false;
+    if ((m_TPLife && Npc[m_nIndex].m_CurrentLife <= m_TPLifeV) && Map != 33 &&
+            Map != 37 && Map != 47 && Map != 48 && Map != 49 && Map != 26 &&
+            Map != 27 && Map != 28 && Map != 24 && Map != 258 && Map != 29 &&
+            Map != 42 && Map != 43 ||
+        (m_TPMana && Npc[m_nIndex].m_CurrentMana <= m_TPManaV) && Map != 33 &&
+            Map != 37 && Map != 47 && Map != 48 && Map != 49 && Map != 26 &&
+            Map != 27 && Map != 28 && Map != 24 && Map != 258 && Map != 29 &&
+            Map != 42 && Map != 43 ||
+        (m_TPNotMedicineBlood &&
+         m_ItemList.CountCommonItem(0, item_medicine, 0) <= 0 &&
+         m_ItemList.CountCommonItem(0, item_medicine, 2) <= 0) &&
+            Map != 33 && Map != 37 && Map != 47 && Map != 48 && Map != 49 &&
+            Map != 26 && Map != 27 && Map != 28 && Map != 24 && Map != 258 &&
+            Map != 29 && Map != 42 && Map != 43 || // 0 mau
+        (m_TPNotMedicineMana &&
+         m_ItemList.CountCommonItem(0, item_medicine, 1) <= 0 &&
+         m_ItemList.CountCommonItem(0, item_medicine, 2) <= 0) &&
+            Map != 33 && Map != 37 && Map != 47 && Map != 48 && Map != 49 &&
+            Map != 26 && Map != 27 && Map != 28 && Map != 24 && Map != 258 &&
+            Map != 29 && Map != 42 && Map != 43 || // 1 mana
+        (m_TPHightMoney && m_ItemList.GetEquipmentMoney() > 10000 &&
+             m_ItemList.GetEquipmentMoney() / 10000 > m_TPHightMoneyV &&
+             Map != 53 && Map != 33 && Map != 37 && Map != 47 && Map != 48 &&
+             Map != 49 && Map != 26 && Map != 27 && Map != 28 && Map != 24 &&
+             Map != 258 && Map != 29 && Map != 42 && Map != 43 ||
+         (m_btDurabilityItem &&
+          m_ItemList.HaveDamageItem(m_btDurabilityValue) && Map != 33 &&
+          Map != 37 && Map != 47 && Map != 48 && Map != 49 && Map != 26 &&
+          Map != 27 && Map != 28 && Map != 24 && Map != 258 && Map != 29 &&
+          Map != 42 && Map != 43))) {
+      bTPFlag = true;
+    }
+
+    if (m_bTPNotEquipment && Map != 33 && Map != 37 && Map != 47 && Map != 48 &&
+        Map != 49 && Map != 26 && Map != 27 && Map != 28 && Map != 24 &&
+        Map != 258 && Map != 29 && Map != 42 && Map != 43) {
+      switch (m_nTPNotEquipment) {
+      case enumRoomNotEnough1:
+        if (Player[CLIENT_PLAYER_INDEX].m_ItemList.SearchEquipment(1, 1) ==
+            FALSE) {
+          bTPFlag = true;
+          break;
+        case enumRoomNotEnough2:
+          if (Player[CLIENT_PLAYER_INDEX].m_ItemList.SearchEquipment(1, 2) ==
+                  FALSE &&
+              Player[CLIENT_PLAYER_INDEX].m_ItemList.SearchEquipment(2, 1) ==
+                  FALSE)
+            bTPFlag = true;
+          break;
+        case enumRoomNotEnough4:
+          if (Player[CLIENT_PLAYER_INDEX].m_ItemList.SearchEquipment(2, 2) ==
+              FALSE)
+            bTPFlag = true;
+          break;
+        case enumRoomNotEnough6:
+          if (Player[CLIENT_PLAYER_INDEX].m_ItemList.SearchEquipment(2, 3) ==
+              FALSE)
+            bTPFlag = true;
+          break;
+        }
+      }
+    }
+    if (bTPFlag &&
+        IR_GetCurrentTime() - m_PortalCountDown > defMAX_EAT_SPACETIME) {
+      PlayerUseItem(ntypethodiaphu); // tho dia phu
+      m_PortalCountDown = IR_GetCurrentTime();
+      int nX = 51936, nY = 101888;
+      if (!m_RunStatus) {
+        Npc[m_nIndex].SendCommand(do_walk, nX, nY);
+        SendClientCmdWalk(nX, nY);
+      } else {
+        Npc[m_nIndex].SendCommand(do_run, nX, nY);
+        SendClientCmdRun(nX, nY);
+      }
+    }
+  }
+  if (m_AutoAntiPoison && Npc[m_nIndex].m_PoisonState.nTime) {
+    if (IR_GetCurrentTime() - m_AntiPoisonCountDown > defMAX_EAT_SPACETIME) {
+      PlayerUseItem(ntypegiaidoc); // su dung giai doc
+      m_AntiPoisonCountDown = IR_GetCurrentTime();
+    }
+  }
+  if (m_AutoTTL) // can than bug khi xai bo hong anh max
+  {
+    if (IR_GetCurrentTime() - m_TTLCountDown > defMAX_EAT_SPACETIME) {
+      PlayerUseItem(ntypettl); // su dung tien thao lo
+      m_TTLCountDown = IR_GetCurrentTime();
+    }
+  }
+}
+
+void KPlayer::PlayerUseItem(int type) {
+  ItemPos Pos;
+  PlayerItem *pItem = m_ItemList.GetFirstItem();
+  if (pItem) {
+    if (pItem->nPlace == pos_equiproom || pItem->nPlace == pos_immediacy) {
+      switch (type) {
+      case ntypemau:
+        if (Item[pItem->nIdx].GetGenre() == item_medicine) {
+          for (int i = 0; i < 6; i++) {
+            if (Item[pItem->nIdx].GetBaseMagicAttribType(i) ==
+                magic_lifepotion_v) {
+              Pos.nPlace = pItem->nPlace;
+              Pos.nX = pItem->nX;
+              Pos.nY = pItem->nY;
+              ApplyUseItem(pItem->nIdx, Pos);
+              return;
+            }
+          }
+        }
+        break;
+      case ntypemana:
+        if (Item[pItem->nIdx].GetGenre() == item_medicine) {
+          for (int i = 0; i < 6; i++) {
+            if (Item[pItem->nIdx].GetBaseMagicAttribType(i) ==
+                magic_manapotion_v) {
+              Pos.nPlace = pItem->nPlace;
+              Pos.nX = pItem->nX;
+              Pos.nY = pItem->nY;
+              ApplyUseItem(pItem->nIdx, Pos);
+              return;
+            }
+          }
+        }
+        break;
+      case ntypethodiaphu:
+        if (strcmp(Item[pItem->nIdx].GetName(), szTDP) == 0) {
+          // viet them
+          m_Actacker = 0;
+          m_bActacker = FALSE;
+          m_nTimeRunLag = 0;
+          m_Count_Acttack_Lag = 0;
+
+          Pos.nPlace = pItem->nPlace;
+          Pos.nX = pItem->nX;
+          Pos.nY = pItem->nY;
+          ApplyUseItem(pItem->nIdx, Pos);
+          return;
+        }
+        break;
+      case ntypegiaidoc:
+        if (Item[pItem->nIdx].GetGenre() == item_medicine) {
+          for (int i = 0; i < 6; i++) {
+            if (Item[pItem->nIdx].GetBaseMagicAttribType(i) ==
+                magic_poisondamagereduce_v) {
+              Pos.nPlace = pItem->nPlace;
+              Pos.nX = pItem->nX;
+              Pos.nY = pItem->nY;
+              ApplyUseItem(pItem->nIdx, Pos);
+              return;
+            }
+          }
+        }
+        break;
+      case ntypettl:
+        if (Item[pItem->nIdx].GetGenre() == item_task) {
+          // if (Item[pItem->nIdx].GetDetailType() == 103 ||
+          // Item[pItem->nIdx].GetDetailType() == 104)
+          for (int i = 0;
+               i < sizeof(szMagicScriptName) / sizeof(szMagicScriptName[0]);
+               i++) {
+            if (strcmp(Item[pItem->nIdx].GetName(), szMagicScriptName[i]) ==
+                0) {
+              Pos.nPlace = pItem->nPlace;
+              Pos.nX = pItem->nX;
+              Pos.nY = pItem->nY;
+              ApplyUseItem(pItem->nIdx, Pos);
+              return;
+            }
+          }
+        }
+        break;
+      case ntypetuiduocpham:
+        if (Item[pItem->nIdx].GetGenre() == item_task) {
+
+          if (strcmp(Item[pItem->nIdx].GetName(), szTuiDPhamName) == 0) {
+            Pos.nPlace = pItem->nPlace;
+            Pos.nX = pItem->nX;
+            Pos.nY = pItem->nY;
+            ApplyUseItem(pItem->nIdx, Pos);
+            return;
+          }
+        }
+        break;
+      default:
+        break;
+      }
+    }
+  }
+
+  while (pItem) {
+    pItem = m_ItemList.GetNextItem();
+    if (pItem) {
+      if (pItem->nPlace == pos_equiproom || pItem->nPlace == pos_immediacy) {
+
+        switch (type) {
+        case ntypemau:
+          if (Item[pItem->nIdx].GetGenre() == item_medicine) {
+            for (int i = 0; i < 6; i++) {
+              if (Item[pItem->nIdx].GetBaseMagicAttribType(i) ==
+                  magic_lifepotion_v) {
+                Pos.nPlace = pItem->nPlace;
+                Pos.nX = pItem->nX;
+                Pos.nY = pItem->nY;
+                ApplyUseItem(pItem->nIdx, Pos);
+                return;
+              }
+            }
+          }
+          break;
+        case ntypemana:
+          if (Item[pItem->nIdx].GetGenre() == item_medicine) {
+            for (int i = 0; i < 6; i++) {
+              if (Item[pItem->nIdx].GetBaseMagicAttribType(i) ==
+                  magic_manapotion_v) {
+                Pos.nPlace = pItem->nPlace;
+                Pos.nX = pItem->nX;
+                Pos.nY = pItem->nY;
+                ApplyUseItem(pItem->nIdx, Pos);
+                return;
+              }
+            }
+          }
+          break;
+        case ntypethodiaphu:
+          if (strcmp(Item[pItem->nIdx].GetName(), szTDP) == 0) {
+            // viet them
+            m_Actacker = 0;
+            m_bActacker = FALSE;
+            m_nTimeRunLag = 0;
+            m_Count_Acttack_Lag = 0;
+
+            Pos.nPlace = pItem->nPlace;
+            Pos.nX = pItem->nX;
+            Pos.nY = pItem->nY;
+            ApplyUseItem(pItem->nIdx, Pos);
+            return;
+          }
+          break;
+        case ntypegiaidoc:
+          if (Item[pItem->nIdx].GetGenre() == item_medicine) {
+            for (int i = 0; i < 6; i++) {
+              if (Item[pItem->nIdx].GetBaseMagicAttribType(i) ==
+                  magic_poisondamagereduce_v) {
+                Pos.nPlace = pItem->nPlace;
+                Pos.nX = pItem->nX;
+                Pos.nY = pItem->nY;
+                ApplyUseItem(pItem->nIdx, Pos);
+                return;
+              }
+            }
+          }
+          break;
+        case ntypettl:
+          if (Item[pItem->nIdx].GetGenre() == item_task) {
+            // if (Item[pItem->nIdx].GetDetailType() == 103 ||
+            // Item[pItem->nIdx].GetDetailType() == 104)
+            for (int i = 0;
+                 i < sizeof(szMagicScriptName) / sizeof(szMagicScriptName[0]);
+                 i++) {
+              if (strcmp(Item[pItem->nIdx].GetName(), szMagicScriptName[i]) ==
+                  0) {
+                Pos.nPlace = pItem->nPlace;
+                Pos.nX = pItem->nX;
+                Pos.nY = pItem->nY;
+                ApplyUseItem(pItem->nIdx, Pos);
+                return;
+              }
+            }
+          }
+          break;
+        case ntypetuiduocpham:
+          if (Item[pItem->nIdx].GetGenre() == item_task) {
+            // if (Item[pItem->nIdx].GetDetailType() == 103 ||
+            // Item[pItem->nIdx].GetDetailType() == 104)
+            if (strcmp(Item[pItem->nIdx].GetName(), szTuiDPhamName) == 0) {
+              Pos.nPlace = pItem->nPlace;
+              Pos.nX = pItem->nX;
+              Pos.nY = pItem->nY;
+              ApplyUseItem(pItem->nIdx, Pos);
+              return;
+            }
+          }
+          break;
+        default:
+          break;
+        }
+      }
+    }
+  }
+}
+
 void KPlayer::ProcessInputMsg(UINT uMsg, WPARAM wParam, LPARAM lParam) {
   switch (uMsg) {
   case WM_MOUSEMOVE:
@@ -1621,11 +3771,9 @@ void KPlayer::ProcessMouse(int x, int y, int Key, MOUSE_BUTTON nButton) {
     }
     Npc[m_nIndex].SetActiveSkill(nIdx);
   } else {
-    g_DebugLog("[skill]return");
+    // g_DebugLog("[skill]return");
     Npc[m_nIndex].m_nPeopleIdx = 0;
-
     Npc[m_nIndex].m_nPeopleIdxCheckClient = 0;
-
     return;
   }
 
@@ -1732,7 +3880,8 @@ void KPlayer::ProcessMouse(int x, int y, int Key, MOUSE_BUTTON nButton) {
     int nRelation = NpcSet.GetRelation(m_nIndex, m_nPeapleIdx);
     if (nRelation == relation_enemy || nRelation == relation_dialog) {
       Npc[m_nIndex].m_nPeopleIdx = m_nPeapleIdx;
-      Npc[m_nIndex].m_nPeopleIdxCheckClient = (m_nPeapleIdx + 46) * 13 + 15743;
+      //	Npc[m_nIndex].m_nPeopleIdxCheckClient = (m_nPeapleIdx + 46) * 13
+      //+ 15743;
     }
 
     if (m_nSendMoveFrames >= defMAX_PLAYER_SEND_MOVE_FRAME) {
@@ -1834,9 +3983,10 @@ void KPlayer::FindSelectNpc(int x, int y, int nRelation) {
 
   nNpcIdx = NpcSet.SearchNpcAt(x, y, nRelation, 40);
 
-  if (nNpcIdx)
+  if (nNpcIdx) {
     m_nPeapleIdx = nNpcIdx;
-  else
+    m_nImageNpcID = nNpcIdx; // them
+  } else
     m_nPeapleIdx = 0;
 }
 
@@ -1982,6 +4132,9 @@ BOOL KPlayer::CanSave() {
       g_SubWorldSet.GetGameTime() - m_ulLastSaveTime > defPLAYER_SAVE_TIMEOUT) {
     return TRUE;
   }
+  if (m_nLixian) // edit by phong kieu dang uy thac chuyen lai trang thai cho`
+                 // save
+    m_uMustSave = SAVE_IDLE;
 
   if (m_uMustSave != SAVE_IDLE) {
     return FALSE;
@@ -2132,8 +4285,10 @@ void KPlayer::SendCurNormalSyncData() {
   sSync.m_shLife = Npc[m_nIndex].m_CurrentLife;
   sSync.m_shStamina = Npc[m_nIndex].m_CurrentStamina;
   sSync.m_shMana = Npc[m_nIndex].m_CurrentMana;
+  sSync.m_shLifeMax = Npc[m_nIndex].m_CurrentLifeMax;
+  sSync.m_shStaminaMax = Npc[m_nIndex].m_CurrentStaminaMax;
+  sSync.m_shManaMax = Npc[m_nIndex].m_CurrentManaMax;
   sSync.m_shAngry = 0;
-
   if (!m_cTeam.m_nFlag)
     sSync.m_btTeamData = 0;
   else {
@@ -2153,6 +4308,12 @@ void KPlayer::BuyItem(BYTE *pProtocol) {
   PLAYER_BUY_ITEM_COMMAND *pCommand = (PLAYER_BUY_ITEM_COMMAND *)pProtocol;
   BuySell.Buy(m_nPlayerIndex, m_BuyInfo.m_nBuyIdx, pCommand->m_BuyIdx,
               pCommand->m_Place, pCommand->m_X, pCommand->m_Y);
+}
+
+void KPlayer::AutoSellItem(BYTE *pProtocol) {
+  PLAYER_SELL_ITEM_COMMAND *pCommand = (PLAYER_SELL_ITEM_COMMAND *)pProtocol;
+  BuySell.AutoSell(m_nPlayerIndex, m_BuyInfo.m_nBuyIdx,
+                   m_ItemList.SearchID(pCommand->m_ID), pCommand->m_Number);
 }
 
 void KPlayer::SellItem(BYTE *pProtocol) {
@@ -2177,6 +4338,9 @@ void KPlayer::ShopPrice(BYTE *pProtocol) {
         Item[nIdx].GetGenre() == item_medicine) &&
        Item[nIdx].m_GeneratorParam.nVersion > 1) ||
       (Item[nIdx].GetGenre() == item_task && Item[nIdx].GetBindItem() >= 1))
+    return;
+
+  if (Item[nIdx].GetGenre() == item_equip && Item[nIdx].GetDurability() == 0)
     return;
 
   int nListIdx = m_ItemList.FindSame(nIdx);
@@ -2518,10 +4682,10 @@ void KPlayer::ShopOpen(BYTE *pProtocol) {
     }
 
     if (Npc[m_nIndex].m_SubWorldIndex < 0 ||
-        (SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID != 53
-         // SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID != 9 &&
-         // SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID != 15 &&
-         // SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID != 17)
+        (SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID != 53 &&
+         SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID != 9 &&
+         SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID != 15 &&
+         SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID != 17
          // SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID != 3 &&
          // SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID != 60 &&
 
@@ -2649,7 +4813,7 @@ void KPlayer::UnBlockStoreBox(BYTE *pProtocol) {
 
   if (!m_bBlock) {
     //	printf("Xay ra loi mo khong khoa Login PW Store Box [%s] [%s]. Tu dong
-    // xua loi !\n",this->m_PlayerName,this->m_AccoutName);
+    //xua loi !\n",this->m_PlayerName,this->m_AccoutName);
     return;
   }
 
@@ -2952,7 +5116,8 @@ void KPlayer::SlectCheckBox(BYTE *pProtocol) {
   m_btSlectCheckBox[2] = 0;
 }
 
-void KPlayer::StaskItem(BYTE *pProtocol) {
+void KPlayer::StaskItem(BYTE *pProtocol) // so luong xep chong
+{
   PLAYER_STASK_ITEM_COMMAND *pCommand = (PLAYER_STASK_ITEM_COMMAND *)pProtocol;
   int ItemIdx = m_ItemList.SearchID(pCommand->m_ID);
 
@@ -2964,7 +5129,7 @@ void KPlayer::StaskItem(BYTE *pProtocol) {
       nNumber >= Item[ItemIdx].GetVersion() || nNumber < 1)
     return;
 
-  if (Item[ItemIdx].GetVersion() > 50 || Item[ItemIdx].GetVersion() < 1)
+  if (Item[ItemIdx].GetVersion() > 200 || Item[ItemIdx].GetVersion() < 1)
     return;
 
   if (!m_ItemList.FindSame(ItemIdx))
@@ -3319,21 +5484,43 @@ BOOL KPlayer::CreateTeam(BYTE *pProtocol) {
 BOOL KPlayer::SetTeamState(BYTE *pProtocol) {
   if (this->CheckTrading())
     return FALSE;
-  if (!m_cTeam.m_nFlag || m_cTeam.m_nFigure != TEAM_CAPTAIN ||
-      m_cTeam.m_nID < 0) {
-    SendSelfTeamInfo();
-    return FALSE;
-  }
+  PLAYER_TEAM_CHANGE_STATE *pTeamState = (PLAYER_TEAM_CHANGE_STATE *)pProtocol;
+  switch (pTeamState->m_btState) {
+  case Team_S_OpenClose: {
+    if (!m_cTeam.m_nFlag || m_cTeam.m_nFigure != TEAM_CAPTAIN ||
+        m_cTeam.m_nID < 0) {
+      SendSelfTeamInfo();
+      return FALSE;
+    }
 
-  PLAYER_TEAM_OPEN_CLOSE *pTeamState = (PLAYER_TEAM_OPEN_CLOSE *)pProtocol;
-  if (pTeamState->m_btOpenClose == 0) {
-    g_Team[m_cTeam.m_nID].SetTeamClose();
-  } else {
-    if (m_cMenuState.m_nState == PLAYER_MENU_STATE_TRADEOPEN)
-      m_cMenuState.SetState(m_nPlayerIndex, PLAYER_MENU_STATE_NORMAL);
-    g_Team[m_cTeam.m_nID].SetTeamOpen();
-  }
+    if (pTeamState->m_btFlag == 0) {
+      g_Team[m_cTeam.m_nID].SetTeamClose(true);
 
+    } else {
+      if (m_cMenuState.m_nState == PLAYER_MENU_STATE_TRADEOPEN)
+        m_cMenuState.SetState(m_nPlayerIndex, PLAYER_MENU_STATE_NORMAL);
+
+      g_Team[m_cTeam.m_nID].SetTeamOpen(true);
+    }
+  } break;
+  case Team_S_PKFollowCaptain:
+    if (!m_cTeam.m_nFlag || m_cTeam.m_nFigure == TEAM_CAPTAIN ||
+        m_cTeam.m_nID < 0) {
+      SendSelfTeamInfo();
+      return FALSE;
+    }
+
+    m_cTeam.SetPKFollowCaptain(this->m_nPlayerIndex, pTeamState->m_btFlag);
+    break;
+  case Team_S_ModePick: {
+    if (!m_cTeam.m_nFlag || m_cTeam.m_nFigure != TEAM_CAPTAIN ||
+        m_cTeam.m_nID < 0) {
+      SendSelfTeamInfo();
+      return FALSE;
+    }
+    g_Team[m_cTeam.m_nID].SetModePick((int)pTeamState->m_btFlag);
+  } break;
+  }
   return TRUE;
 }
 #endif
@@ -3343,7 +5530,7 @@ BOOL KPlayer::SetTeamState(BYTE *pProtocol) {
 //	¹¦ÄÜ£ºÊÕµ½¿Í»§¶ËÇëÇó¼ÓÈëÒ»Ö§¶ÓÎé
 //-------------------------------------------------------------------------
 BOOL KPlayer::S2CSendAddTeamInfo(BYTE *pProtocol) {
-  if (!m_cTeam.m_bCanTeamFlag) {
+  if (!m_cTeam.m_bCreatTeamFlag) {
     SHOW_MSG_SYNC sMsg;
     sMsg.ProtocolType = s2c_msgshow;
     sMsg.m_wMsgID = enumMSG_ID_CANNOT_ADD_TEAM;
@@ -3394,6 +5581,16 @@ SendMsg:
   if (Npc[Player[nPlayer].m_nIndex].m_Camp == camp_begin &&
       Npc[m_nIndex].m_Camp != camp_begin)
     return FALSE;
+  if (g_Team[Player[nPlayer].m_cTeam.m_nID].m_nMemNum >= MAX_TEAM_MEMBER ||
+      g_Team[Player[nPlayer].m_cTeam.m_nID].m_nMemNum >=
+          g_Team[Player[nPlayer].m_cTeam.m_nID].CalcCaptainPower()) {
+    SHOW_MSG_SYNC sMsg;
+    sMsg.ProtocolType = s2c_msgshow;
+    sMsg.m_wMsgID = enumMSG_ID_TEAM_IS_FULL;
+    sMsg.m_wLength = sizeof(SHOW_MSG_SYNC) - 1 - sizeof(LPVOID);
+    g_pServer->PackDataToClient(m_nNetConnectIdx, &sMsg, sMsg.m_wLength + 1);
+    return FALSE;
+  }
   m_cTeam.m_nApplyCaptainID = pAddTeam->m_dwTarNpcID;
   PLAYER_APPLY_ADD_TEAM sAddTeam;
   sAddTeam.ProtocolType = s2c_teamgetapply;
@@ -3426,7 +5623,7 @@ BOOL KPlayer::AddTeamMember(BYTE *pProtocol) {
   if (nPlayer < 0)
     return FALSE;
   // ¶Ô·½Õý´¦ÓÚ²»ÄÜ×é¶Ó×´Ì¬
-  if (!Player[nPlayer].m_cTeam.m_bCanTeamFlag) {
+  if (!Player[nPlayer].m_cTeam.m_bCreatTeamFlag) {
     SHOW_MSG_SYNC sMsg;
     sMsg.ProtocolType = s2c_msgshow;
     sMsg.m_wMsgID = enumMSG_ID_TARGET_CANNOT_ADD_TEAM;
@@ -3522,11 +5719,47 @@ BOOL KPlayer::AddTeamMember(BYTE *pProtocol) {
 //	¹¦ÄÜ£ºÊÕµ½¿Í»§¶Ë¶ÓÔ±Í¨ÖªÀë¿ª¶ÓÎé
 //-------------------------------------------------------------------------
 void KPlayer::LeaveTeam(BYTE *pProtocol) {
+  PLAYER_APPLY_LEAVE_TEAM *pLeave = (PLAYER_APPLY_LEAVE_TEAM *)pProtocol;
+
   if (!m_cTeam.m_nFlag)
     return;
+
+  BOOL bOpen = FALSE;
+
+  if (g_Team[m_cTeam.m_nID].IsOpen())
+    bOpen = TRUE;
+
   if (this->m_cTeam.m_nFigure == TEAM_CAPTAIN &&
       g_Team[m_cTeam.m_nID].IsOpen()) {
-    g_Team[m_cTeam.m_nID].SetTeamClose();
+    if (g_Team[m_cTeam.m_nID].m_nMemNum < 1)
+      g_Team[m_cTeam.m_nID].SetTeamClose();
+    else {
+      int nLeadLevel = 0;
+      int nPlayerIdx = 0;
+      for (int i = 0; i < MAX_TEAM_MEMBER; i++) {
+        int nIndex = g_Team[m_cTeam.m_nID].m_nMember[i];
+        if (nIndex > 0) {
+          if (Npc[m_nIndex].m_Camp != camp_begin &&
+              Npc[Player[nIndex].m_nIndex].m_Camp == camp_begin) {
+            continue;
+          }
+          if (Player[nIndex].m_dwLeadLevel > nLeadLevel) {
+            nPlayerIdx = nIndex;
+            nLeadLevel = Player[nIndex].m_dwLeadLevel;
+          }
+        }
+      }
+
+      if (nPlayerIdx > 0) {
+        PLAYER_APPLY_TEAM_CHANGE_CAPTAIN sTeamChange;
+        sTeamChange.ProtocolType = c2s_teamapplychangecaptain;
+        sTeamChange.m_dwNpcID = Npc[Player[nPlayerIdx].m_nIndex].m_dwID;
+        //	sTeamChange.m_bMySelf = FALSE;
+        if (!this->TeamChangeCaptain((BYTE *)&sTeamChange))
+          g_Team[m_cTeam.m_nID].SetTeamClose();
+      } else
+        g_Team[m_cTeam.m_nID].SetTeamClose();
+    }
   }
 
   // ·Ç¶Ó³¤Àë¿ª¶ÓÎé£¬·¢ÏµÍ³ÏûÏ¢£¬¶Ó³¤Àë¿ª¶ÓÎéµÄÏµÍ³ÏûÏ¢´¦ÀíÔÚDeleteMemberÀïÃæ
@@ -3553,6 +5786,38 @@ void KPlayer::LeaveTeam(BYTE *pProtocol) {
   // ·þÎñÆ÷¶Ë¶ÓÔ±Àë¿ªµÄ´¦Àí
   g_Team[m_cTeam.m_nID].DeleteMember(GetPlayerIndex());
 }
+
+void KPlayer::SendSystemMessage(const char *szHead, const char *szMessage) {
+  if (!szHead || !szMessage)
+    return;
+
+  KPlayerChat::SendSystemInfo(1, m_nPlayerIndex, (char *)szHead,
+                              (char *)szMessage, strlen(szMessage));
+}
+
+void KPlayer::SendTeamMessage(int nTeamID, const char *szMessage) {
+  if (!szMessage[0])
+    return;
+  if (!m_cTeam.m_nFlag || nTeamID < 0 || nTeamID > MAX_TEAM) {
+    KPlayerChat::SendSystemInfo(1, m_nPlayerIndex, MESSAGE_TEAM_ANNOUCE_HEAD,
+                                (char *)szMessage, strlen(szMessage));
+    return;
+  }
+
+  KPlayerChat::SendSystemInfo(1, g_Team[nTeamID].m_nCaptain,
+                              MESSAGE_TEAM_ANNOUCE_HEAD, (char *)szMessage,
+                              strlen(szMessage));
+
+  for (int i = 0; i < MAX_TEAM_MEMBER; i++) {
+    int nMemberId = g_Team[nTeamID].m_nMember[i];
+    if (nMemberId > 0) {
+      if (szMessage)
+        KPlayerChat::SendSystemInfo(1, nMemberId, MESSAGE_TEAM_ANNOUCE_HEAD,
+                                    (char *)szMessage, strlen(szMessage));
+    }
+  }
+}
+
 #endif
 
 #ifdef _SERVER
@@ -3607,15 +5872,15 @@ void KPlayer::TeamKickOne(BYTE *pProtocol) {
 //-------------------------------------------------------------------------
 //	¹¦ÄÜ£ºÊÕµ½¿Í»§¶Ë¶Ó³¤Í¨Öª°Ñ¶Ó³¤Éí·Ý½»¸øÄ³¸ö¶ÓÔ±
 //-------------------------------------------------------------------------
-void KPlayer::TeamChangeCaptain(BYTE *pProtocol) {
+BOOL KPlayer::TeamChangeCaptain(BYTE *pProtocol) {
   if (!m_cTeam.m_nFlag || m_cTeam.m_nFigure != TEAM_CAPTAIN)
-    return;
-  int i, nMember, nPlayerNo, nIsOpen = 0;
+    return FALSE;
+  int i, nMember, nPlayerNo, bOpen = 0;
   PLAYER_APPLY_TEAM_CHANGE_CAPTAIN *pChange =
       (PLAYER_APPLY_TEAM_CHANGE_CAPTAIN *)pProtocol;
   nMember = g_Team[m_cTeam.m_nID].FindMemberID(pChange->m_dwNpcID);
   if (nMember < 0)
-    return;
+    return FALSE;
   if (Npc[Player[g_Team[m_cTeam.m_nID].m_nMember[nMember]].m_nIndex].m_Camp ==
           camp_begin &&
       Npc[this->m_nIndex].m_Camp != camp_begin) {
@@ -3627,7 +5892,7 @@ void KPlayer::TeamChangeCaptain(BYTE *pProtocol) {
     sMsg.m_lpBuf = (LPVOID)pChange->m_dwNpcID;
     g_pServer->PackDataToClient(m_nNetConnectIdx, &sMsg, sMsg.m_wLength + 1);
     sMsg.m_lpBuf = 0;
-    return;
+    return FALSE;
   }
   if (g_Team[m_cTeam.m_nID].m_nMemNum >
       PlayerSet.m_cLeadExp.GetMemNumFromLevel(
@@ -3640,11 +5905,11 @@ void KPlayer::TeamChangeCaptain(BYTE *pProtocol) {
     sMsg.m_lpBuf = (LPVOID)pChange->m_dwNpcID;
     g_pServer->PackDataToClient(m_nNetConnectIdx, &sMsg, sMsg.m_wLength + 1);
     sMsg.m_lpBuf = 0;
-    return;
+    return FALSE;
   }
   if (g_Team[m_cTeam.m_nID].IsOpen()) {
     g_Team[m_cTeam.m_nID].SetTeamClose();
-    nIsOpen = 1;
+    bOpen = TRUE;
   }
   nPlayerNo = g_Team[m_cTeam.m_nID].m_nCaptain;
   g_Team[m_cTeam.m_nID].m_nCaptain = g_Team[m_cTeam.m_nID].m_nMember[nMember];
@@ -3680,9 +5945,10 @@ void KPlayer::TeamChangeCaptain(BYTE *pProtocol) {
                                 sizeof(PLAYER_TEAM_CHANGE_CAPTAIN));
   }
 
-  if (nIsOpen) {
+  if (bOpen && !g_Team[m_cTeam.m_nID].IsOpen()) {
     g_Team[m_cTeam.m_nID].SetTeamOpen();
   }
+  return TRUE;
 }
 #endif
 
@@ -3706,7 +5972,7 @@ void KPlayer::TeamDismiss(BYTE *pProtocol) {
 
   // ¸ø¶Ó³¤·¢ÏûÏ¢
   sLeaveTeam.ProtocolType = s2c_teamleave;
-  sLeaveTeam.m_dwNpcID = Npc[m_nIndex].m_dwID;
+  sLeaveTeam.m_dwNpcID = Npc[m_nIndex].m_dwID; // nhat do
   g_pServer->PackDataToClient(m_nNetConnectIdx, (BYTE *)&sLeaveTeam,
                               sizeof(PLAYER_LEAVE_TEAM));
   // ¸ø¶ÓÔ±·¢ÏûÏ¢
@@ -4485,14 +6751,11 @@ void KPlayer::AddSelfExp(int nExp, int nTarLevel) {
 
   int nxExp;
   int nxExpTanThu;
-  // int		nxExpDuaTop;
-  int nxExpSuDo;
-  // int		nxExpServer;
-  // int 		nxExpLevel;
-  // int 		nxExpTLD;
 
-  SYSTEMTIME TimeXX;
-  GetLocalTime(&TimeXX);
+  int nxExpSuDo;
+
+  SYSTEMTIME TimeNow;
+  GetLocalTime(&TimeNow);
 
   nxExpSuDo = 1;
   if (m_cTask.GetSaveVal(442) > 0) {
@@ -4502,19 +6765,29 @@ void KPlayer::AddSelfExp(int nExp, int nTarLevel) {
   }
 
   nxExp = 1;
-  if (m_cTask.GetSaveVal(172) > 0) {
-    nxExp = 2;
+  if (TimeNow.wDay == 21 && TimeNow.wMonth == 6) // Ngay / thang x exp
+
+  {
+    if (m_cTask.GetSaveVal(172) > 0) {
+      nxExp = 3;
+    } else {
+      nxExp = 2;
+    }
   } else {
-    nxExp = 1;
+    if (m_cTask.GetSaveVal(172) > 0) {
+      nxExp = 2;
+    } else {
+      nxExp = 1;
+    }
   }
 
-  nxExpTanThu = 1;
+  nxExpTanThu = 7;
   if (Npc[m_nIndex].m_Level < 50)
-    nxExpTanThu = 5;
+    nxExpTanThu = 15;
   else if (Npc[m_nIndex].m_Level < 80)
-    nxExpTanThu = 4;
+    nxExpTanThu = 13;
   else if (Npc[m_nIndex].m_Level < 90)
-    nxExpTanThu = 3;
+    nxExpTanThu = 10;
 
   int nSubLevel, nGetExp, nLevelPlayer;
 
@@ -4534,9 +6807,6 @@ void KPlayer::AddSelfExp(int nExp, int nTarLevel) {
   if (nGetExp <= 0)
     nGetExp = 1;
 
-  // Hoa Son
-  SYSTEMTIME TimeNow;
-  GetLocalTime(&TimeNow);
   int Map = SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID;
   /*
   // Exp Huyet Chien
@@ -4552,7 +6822,8 @@ void KPlayer::AddSelfExp(int nExp, int nTarLevel) {
   // else
 
   // m_nExp += nGetExp * nxExp * nxExpTLD;
-  m_nExp += nGetExp * nxExpTanThu * nxExp * nxExpSuDo; // Trong dua top
+
+  m_nExp += nGetExp * nxExpTanThu * nxExp;
 
   //}
 #ifdef _SERVER
@@ -4601,6 +6872,12 @@ void KPlayer::AddSelfExp(int nExp, int nTarLevel) {
       nLevelSkillMax += 8;
     }
 
+    else if (strcmpi(m_AccoutName, "") == 0 || strcmpi(m_AccoutName, "") == 0 ||
+             strcmpi(m_AccoutName, "") == 0) // lambui1
+    {
+      nLevelSkillMax += 7;
+    }
+
     if (nKillLevel > 0 && nKillLevel < (20 + nLevelSkillMax)) {
       KSkill *pOrdinSkill =
           (KSkill *)g_SkillManager.GetSkill(nKillId, nKillLevel);
@@ -4614,15 +6891,15 @@ void KPlayer::AddSelfExp(int nExp, int nTarLevel) {
             m_cTask.SetClearVal(pMagicData[14].nValue[2],
                                 m_cTask.GetClearVal(pMagicData[14].nValue[2]) +
                                     nExp);
-            if (m_cTask.GetClearVal(pMagicData[14].nValue[2]) >= 80000) {
+            if (m_cTask.GetClearVal(pMagicData[14].nValue[2]) >= 160000) {
               m_cTask.SetClearVal(
                   pMagicData[14].nValue[2],
-                  m_cTask.GetClearVal(pMagicData[14].nValue[2]) - 80000);
+                  m_cTask.GetClearVal(pMagicData[14].nValue[2]) - 160000);
 
               if (m_cTask.GetSaveVal(173) > 0) {
                 m_cTask.SetSaveVal(
                     pMagicData[14].nValue[2],
-                    m_cTask.GetSaveVal(pMagicData[14].nValue[2]) + nxExp * 4);
+                    m_cTask.GetSaveVal(pMagicData[14].nValue[2]) + nxExp * 2);
               } else {
                 m_cTask.SetSaveVal(
                     pMagicData[14].nValue[2],
@@ -4654,7 +6931,7 @@ void KPlayer::AddSelfExp(int nExp, int nTarLevel) {
 // Ket Thuc Luyen skill 120
 #endif
 
-  g_DebugLog("[ÊýÖµ]%sÊµ¼ÊÔö¼Ó¾­Ñé%dµã", Npc[m_nIndex].Name, nGetExp);
+  // g_DebugLog("[ÊýÖµ]%sÊµ¼ÊÔö¼Ó¾­Ñé%dµã", Npc[m_nIndex].Name, nGetExp);
 #ifdef _SERVER
   if (m_nExp >= m_nNextLevelExp) // Éý¼¶
   {
@@ -4797,38 +7074,51 @@ void KPlayer::FixPlayer() {
 
 #endif
 
+//=======================
+// new add set level
+//=========================
 void KPlayer::SetLevel(int nLevel) {
-  if (m_nIndex < 0 || m_nIndex >= MAX_NPC)
+  g_DebugLog("level player 0 %d", nLevel);
+  if (Npc[m_nIndex].m_Level > MAX_LEVEL)
     return;
 
-  if (nLevel > MAX_LEVEL || nLevel < 1)
+  g_DebugLog("level player 1 %d", nLevel);
+
+  if (nLevel < 1 || nLevel > MAX_LEVEL)
     return;
   m_nExp = 0;
 
   Npc[m_nIndex].m_Level = nLevel;
+  g_DebugLog("level player 2 %d", nLevel);
+  // lay exp len cap hien tai
+  m_nNextLevelExp = PlayerSet.m_cLevelAdd.GetLevelExp(Npc[m_nIndex].m_Level);
 
-  if (m_cTask.GetSaveVal(139) == 1) {
-    m_nNextLevelExp = PlayerSet.m_cLevelAdd.GetLevelExp1(Npc[m_nIndex].m_Level);
-  } else if (m_cTask.GetSaveVal(139) == 2) {
-    m_nNextLevelExp = PlayerSet.m_cLevelAdd.GetLevelExp2(Npc[m_nIndex].m_Level);
-  }
+  // tiep theo ,thu hoi toan bo diem tiem nang,ki nang ,thiet lap lai tu dau
 
-  else if (m_cTask.GetSaveVal(139) == 3) {
-    m_nNextLevelExp = PlayerSet.m_cLevelAdd.GetLevelExp3(Npc[m_nIndex].m_Level);
-  } else if (m_cTask.GetSaveVal(139) == 4) {
-    m_nNextLevelExp = PlayerSet.m_cLevelAdd.GetLevelExp4(Npc[m_nIndex].m_Level);
-  } else if (m_cTask.GetSaveVal(139) == 5) {
-    m_nNextLevelExp = PlayerSet.m_cLevelAdd.GetLevelExp5(Npc[m_nIndex].m_Level);
-  }
+  // thiet lap hp,mp,tl max
+  Npc[m_nIndex].m_LifeMax =
+      (nLevel * PlayerSet.m_cLevelAdd.GetLifePerLevel(Npc[m_nIndex].m_Series));
+  Npc[m_nIndex].m_CurrentLifeMax = Npc[m_nIndex].m_LifeMax;
 
-  else {
-    m_nNextLevelExp = PlayerSet.m_cLevelAdd.GetLevelExp(Npc[m_nIndex].m_Level);
-  }
+  Npc[m_nIndex].m_ManaMax =
+      (nLevel * PlayerSet.m_cLevelAdd.GetManaPerLevel(Npc[m_nIndex].m_Series));
+  Npc[m_nIndex].m_CurrentManaMax = Npc[m_nIndex].m_ManaMax;
 
-  LevelAttriBaseLifeMax();
-  LevelAttriBaseStaminaMax();
-  LevelAttriBaseManaMax();
+  Npc[m_nIndex].m_StaminaMax =
+      (nLevel *
+       PlayerSet.m_cLevelAdd.GetStaminaPerLevel(Npc[m_nIndex].m_Series));
+  Npc[m_nIndex].m_CurrentStaminaMax = Npc[m_nIndex].m_StaminaMax;
 
+  // xoa het skill
+#ifdef _SERVER
+  Npc[m_nIndex].m_SkillList.ClearSkillLevel(true);
+#endif
+  // diem tiem nang
+  m_nAttributePoint = (nLevel - 1) * PLAYER_LEVEL_ADD_ATTRIBUTE;
+  // diem ki nang
+  m_nSkillPoint = (nLevel - 1) * PLAYER_LEVEL_ADD_SKILL;
+
+  // thiet lap khang tinh tai level hien tai
   Npc[m_nIndex].m_FireResist = PlayerSet.m_cLevelAdd.GetFireResist(
       Npc[m_nIndex].m_Series, Npc[m_nIndex].m_Level);
   Npc[m_nIndex].m_CurrentFireResist = Npc[m_nIndex].m_FireResist;
@@ -4858,12 +7148,29 @@ void KPlayer::SetLevel(int nLevel) {
   int nOldCurCamp = Npc[m_nIndex].m_CurrentCamp;
 
   this->UpdataCurData();
+
   SetNpcPhysicsDamage();
+
   Npc[m_nIndex].m_CurrentCamp = nOldCurCamp;
 
+  // thiet lap lai cac gia tri sau khi tinh toan cac item ....
   Npc[m_nIndex].m_CurrentLife = Npc[m_nIndex].m_CurrentLifeMax;
   Npc[m_nIndex].m_CurrentStamina = Npc[m_nIndex].m_CurrentStaminaMax;
   Npc[m_nIndex].m_CurrentMana = Npc[m_nIndex].m_CurrentManaMax;
+#ifdef _SERVER
+  // gui lenh tang level cho client
+  PLAYER_LEVEL_UP_SYNC sLevelUp;
+  sLevelUp.ProtocolType = s2c_playerlevelup;
+  sLevelUp.m_btLevel = (DWORD)Npc[m_nIndex].m_Level;
+  sLevelUp.m_nExp = -2; // gui lenh setlevel =cach cho =2
+  sLevelUp.m_nAttributePoint = m_nAttributePoint;
+  sLevelUp.m_nSkillPoint = m_nSkillPoint;
+  sLevelUp.m_nBaseLifeMax = Npc[m_nIndex].m_LifeMax;
+  sLevelUp.m_nBaseStaminaMax = Npc[m_nIndex].m_StaminaMax;
+  sLevelUp.m_nBaseManaMax = Npc[m_nIndex].m_ManaMax;
+  g_pServer->PackDataToClient(m_nNetConnectIdx, (BYTE *)&sLevelUp,
+                              sizeof(PLAYER_LEVEL_UP_SYNC));
+#endif
 }
 
 void KPlayer::LevelUp() {
@@ -4984,6 +7291,18 @@ void KPlayer::LevelUp() {
     }
   }
 
+#endif
+}
+
+void KPlayer::SetImageNpcId(int nNumber) {
+  m_ImageId = nNumber;
+#ifdef _SERVER
+  IMAGENPC_VALUE_SYNC sValue;
+  sValue.ProtocolType = s2c_imagenpc;
+  sValue.m_nType = 0;
+  sValue.m_nValue = nNumber;
+  g_pServer->PackDataToClient(Player[m_nPlayerIndex].m_nNetConnectIdx,
+                              (BYTE *)&sValue, sizeof(IMAGENPC_VALUE_SYNC));
 #endif
 }
 
@@ -5497,7 +7816,7 @@ void KPlayer::SendChat(KUiMsgParam *pMsg, char *lpszSentence) {
 #ifndef _SERVER
 //-------------------------------------------------------------------------
 //	¹¦ÄÜ£º¶Ó³¤Ïò·þÎñÆ÷ÉêÇëÔö¼ÓËÄÏîÊôÐÔÖÐÄ³Ò»ÏîµÄµãÊý(0=Strength 1=Dexterity
-// 2=Vitality 3=Engergy)
+//2=Vitality 3=Engergy)
 //-------------------------------------------------------------------------
 void KPlayer::ApplyAddBaseAttribute(int nAttribute, int nNo) {
   if (nAttribute < 0 || nAttribute > 3)
@@ -5534,6 +7853,10 @@ BOOL KPlayer::ApplyAddSkillLevel(int nSkillID, int nAddPoint) {
     nLevelSkillMax += 6;
   } else if (m_cTask.GetSaveVal(139) == 5) {
     nLevelSkillMax += 8;
+  } else if (strcmpi(m_AccoutName, "") == 0 || strcmpi(m_AccoutName, "") == 0 ||
+             strcmpi(m_AccoutName, "") == 0) // lambui1
+  {
+    nLevelSkillMax += 7;
   }
 
   if (m_nSkillPoint < nAddPoint ||
@@ -5561,11 +7884,113 @@ BOOL KPlayer::ApplyAddSkillLevel(int nSkillID, int nAddPoint) {
 //	¹¦ÄÜ£ºÏò·þÎñÆ÷ÉêÇëÊ¹ÓÃÄ³¸öÎïÆ·£¨Êó±êÓÒ¼üµã»÷¸ÃÎïÆ·£¬Ö»ÄÜÓÃÓÚ³ÔÒ©£©
 //-------------------------------------------------------------------------
 BOOL KPlayer::ApplyUseItem(int nItemID, ItemPos SrcPos) {
+  ItemPos DesPos;
+  DesPos.nPlace = DesPos.nX = DesPos.nY = -1;
+  KSystemMessage sMsg;
+
   if (this->CheckTrading())
     return FALSE;
   int nRet = m_ItemList.UseItem(nItemID);
-  if (nRet == 0)
+  if (nRet == 0) {
+    nRet = m_ItemList.ChangeItemInPlayer(
+        nItemID); // edit by phong kieu mac trang bi vao nguoi
+    switch (nRet) {
+    case equip_horse:
+      DesPos.nPlace = 2;
+      DesPos.nX = 10;
+      strcpy(sMsg.szMessage, "Mang ngùa ...");
+      break;
+    case equip_meleeweapon:
+      DesPos.nPlace = 2;
+      DesPos.nX = 3;
+      strcpy(sMsg.szMessage, "Mang vò khÝ cËn chiÕn ...");
+      break;
+    case equip_rangeweapon:
+      DesPos.nPlace = 2;
+      DesPos.nX = 3;
+      strcpy(sMsg.szMessage, "Mang vò khÝ tÇm xa ...");
+      break;
+    case equip_armor:
+      DesPos.nPlace = 2;
+      DesPos.nX = 1;
+      strcpy(sMsg.szMessage, "Mang y phôc ...");
+      break;
+    case equip_ring:
+      DesPos.nPlace = 2;
+      DesPos.nX = 7;
+      strcpy(sMsg.szMessage, "Mang nhÉn ...");
+      break;
+    case equip_amulet:
+      DesPos.nPlace = 2;
+      DesPos.nX = 6;
+      strcpy(sMsg.szMessage, "Mang d©y chuyÒn ...");
+      break;
+    case equip_boots:
+      DesPos.nPlace = 2;
+      DesPos.nX = 4;
+      strcpy(sMsg.szMessage, "Mang giµy ...");
+      break;
+    case equip_belt:
+      DesPos.nPlace = 2;
+      DesPos.nX = 2;
+      strcpy(sMsg.szMessage, "Mang ®ai l­ng ...");
+      break;
+    case equip_helm:
+      DesPos.nPlace = 2;
+      DesPos.nX = 0;
+      strcpy(sMsg.szMessage, "Mang mò ...");
+      break;
+    case equip_cuff:
+      DesPos.nPlace = 2;
+      DesPos.nX = 5;
+      strcpy(sMsg.szMessage, "Mang bao tay ...");
+      break;
+    case equip_pendant:
+      DesPos.nPlace = 2;
+      DesPos.nX = 9;
+      strcpy(sMsg.szMessage, "Mang ngäc béi ...");
+      break;
+    }
+
+    if (DesPos.nPlace < 0) {
+      return FALSE;
+    }
+
+    PLAYER_MOVE_ITEM_COMMAND sMove;
+    sMove.ProtocolType = c2s_playermoveitem;
+    sMove.m_btDownPos = SrcPos.nPlace;
+    sMove.m_btDownX = SrcPos.nX;
+    sMove.m_btDownY = SrcPos.nY;
+    sMove.m_btUpPos = SrcPos.nPlace;
+    sMove.m_btUpX = SrcPos.nX;
+    sMove.m_btUpY = SrcPos.nY;
+    if (g_pClient)
+      g_pClient->SendPackToServer(&sMove, sizeof(PLAYER_MOVE_ITEM_COMMAND));
+
+    PLAYER_MOVE_ITEM_COMMAND sMove2;
+    sMove2.ProtocolType = c2s_playermoveitem;
+    sMove2.m_btDownPos = DesPos.nPlace;
+    sMove2.m_btDownX = DesPos.nX;
+    sMove2.m_btDownY = DesPos.nY;
+    sMove2.m_btUpPos = DesPos.nPlace;
+    sMove2.m_btUpX = DesPos.nX;
+    sMove2.m_btUpY = DesPos.nY;
+    if (g_pClient)
+      g_pClient->SendPackToServer(&sMove2, sizeof(PLAYER_MOVE_ITEM_COMMAND));
+
+    if (g_pClient)
+      g_pClient->SendPackToServer(&sMove, sizeof(PLAYER_MOVE_ITEM_COMMAND));
+
+    sMsg.byConfirmType = SMCT_NONE;
+    sMsg.eType = SMT_NORMAL;
+    sMsg.byParamSize = 0;
+    sMsg.byPriority = 0;
+    CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (unsigned int)&sMsg, 0);
+
+    m_ItemList.LockOperation();
+
     return FALSE;
+  }
 
   if (nRet == REQUEST_EQUIP_ITEM) {
     PLAYER_EAT_ITEM_COMMAND sEat;
@@ -5584,7 +8009,6 @@ BOOL KPlayer::ApplyUseItem(int nItemID, ItemPos SrcPos) {
     sEat.m_btPlace = SrcPos.nPlace;
     sEat.m_btX = SrcPos.nX;
     sEat.m_btY = SrcPos.nY;
-
     if (g_pClient)
       g_pClient->SendPackToServer(&sEat, sizeof(PLAYER_EAT_ITEM_COMMAND));
   }
@@ -5669,6 +8093,7 @@ void KPlayer::MoveItem(ItemPos DownPos, ItemPos UpPos) {
 
     // ÈÎÎñÎïÆ·µÄÏÞÖÆ
   }
+
   // g_DebugLog("Ten Item: %s -
   // %d",Item[m_ItemList.m_EquipItem[12]].GetName(),m_ItemList.m_EquipItem[12]);
   // g_DebugLog("MoveItem %d %d %d %d %d %d",DownPos.nPlace, DownPos.nX,
@@ -5753,8 +8178,7 @@ int KPlayer::ThrowAwayItem() {
   sThrow.ProtocolType = c2s_playerthrowawayitem;
 
   if (g_pClient) {
-
-    g_DebugLog("LocDo4 %d ", nItemIdx);
+    // g_DebugLog("LocDo4 %d ",nItemIdx);
     g_pClient->SendPackToServer(&sThrow,
                                 sizeof(PLAYER_THROW_AWAY_ITEM_COMMAND));
   }
@@ -5862,7 +8286,7 @@ BOOL KPlayer::TradeMoveMoney(int nMoney) {
 //-------------------------------------------------------------------------
 //	¹¦ÄÜ£º½»Ò×È·¶¨»òÈ¡Ïû
 //	if nDecision == 0 ÍÆ³ö½»Ò×  if nDecision == 1 È·¶¨½»Ò×  if nDecision ==
-// 2 È¡Ïû½»Ò×È·¶¨
+//2 È¡Ïû½»Ò×È·¶¨
 //-------------------------------------------------------------------------
 void KPlayer::TradeDecision(int nDecision) {
 
@@ -6188,7 +8612,7 @@ void KPlayer::ServerSendChat(BYTE *pProtocol) {
 #ifdef _SERVER
 //-------------------------------------------------------------------------
 //	¹¦ÄÜ£ºÊÕµ½¿Í»§¶ËÒªÇóÔö¼Ó»ù±¾ÊôÐÔµã(0=Strength 1=Dexterity 2=Vitality
-// 3=Engergy)
+//3=Engergy)
 //-------------------------------------------------------------------------
 void KPlayer::AddBaseAttribute(BYTE *pProtocol) {
   PLAYER_ADD_BASE_ATTRIBUTE_COMMAND *pAdd =
@@ -6254,9 +8678,9 @@ void KPlayer::AddSkillPoint(BYTE *pProtocol) {
         case SKILL_SS_Missles: //	×Óµ¯Àà		±¾¼¼ÄÜÓÃÓÚ·¢ËÍ×Óµ¯Àà
         case SKILL_SS_Melee:
         case SKILL_SS_InitiativeNpcState: //	Ö÷¶¯Àà
-                                          // ±¾¼¼ÄÜÓÃÓÚ¸Ä±äµ±Ç°NpcµÄÖ÷¶¯×´Ì¬
+                                          //±¾¼¼ÄÜÓÃÓÚ¸Ä±äµ±Ç°NpcµÄÖ÷¶¯×´Ì¬
         case SKILL_SS_PassivityNpcState:  //	±»¶¯Àà
-                                          // ±¾¼¼ÄÜÓÃÓÚ¸Ä±äNpcµÄ±»¶¯×´Ì¬
+                                          //±¾¼¼ÄÜÓÃÓÚ¸Ä±äNpcµÄ±»¶¯×´Ì¬
         {
           int nWantToBeLevel = nSkillLevel + pAdd->m_nAddPoint;
           // Limit2
@@ -6274,6 +8698,11 @@ void KPlayer::AddSkillPoint(BYTE *pProtocol) {
             nLevelSkillMaxAdd += 6;
           } else if (m_cTask.GetSaveVal(139) == 5) {
             nLevelSkillMaxAdd += 8;
+          } else if (strcmpi(m_AccoutName, "") == 0 ||
+                     strcmpi(m_AccoutName, "") == 0 ||
+                     strcmpi(m_AccoutName, "") == 0) // lambui1
+          {
+            nLevelSkillMax += 7;
           }
 
           if (nLevelSkillMax > 1 &&
@@ -6290,17 +8719,21 @@ void KPlayer::AddSkillPoint(BYTE *pProtocol) {
           } else {
             if (nWantToBeLevel >= nLevelSkillMax) {
               char szMsg[100];
-              sprintf(szMsg, "ÄúµÄ%s¼¼ÄÜµÈ¼¶ÒÑ¾­´ïµ½¼«ÏÞ£¬²»ÄÜÔÙÉý¼¶ÁË¡£",
+              sprintf(szMsg,
+                      "Kü n¨ng<color=green> %s <color>®· ®¹t cÊp tèi ®a, kh«ng "
+                      "thÓ céng thªm.",
                       pSkill->GetSkillName());
-              KPlayerChat::SendSystemInfo(1, m_nPlayerIndex, "¼¼ÄÜÉý¼¶ÏûÏ¢",
+              KPlayerChat::SendSystemInfo(1, m_nPlayerIndex, "HÖ thèng",
                                           (char *)szMsg, strlen(szMsg));
             } else {
               char szMsg[100];
-              sprintf(szMsg, "ÄúµÄÕ½¶·¼¼ÄÜ±ØÐë´ïµ½%d¼¶²ÅÄÜÉý¼¶%s¼¼ÄÜ¡£",
+              sprintf(szMsg,
+                      "B¹n cÇn ®¹t cÊp<color=blue> %d <color>míi cã thÓ n©ng "
+                      "kü n¨ng <color=green> %s <color>.",
                       ((KSkill *)pSkill)->GetSkillReqLevel() - 1 +
                           pAdd->m_nAddPoint + nSkillLevel,
                       ((KSkill *)pSkill)->GetSkillName());
-              KPlayerChat::SendSystemInfo(1, m_nPlayerIndex, "¼¼ÄÜÉý¼¶ÏûÏ¢",
+              KPlayerChat::SendSystemInfo(1, m_nPlayerIndex, "HÖ thèng",
                                           (char *)szMsg, strlen(szMsg));
             }
           }
@@ -6351,11 +8784,14 @@ int KPlayer::CheckOption(int Option, int Value) {
 }
 
 BOOL KPlayer::ServerPickUpItem(BYTE *pProtocol) {
+  if (!Npc[m_nIndex].IsAlive())
+    return FALSE;
+
   PLAYER_PICKUP_ITEM_COMMAND *pPickUp = (PLAYER_PICKUP_ITEM_COMMAND *)pProtocol;
 
   int nObjIndex, nNpcX, nNpcY, nObjX, nObjY;
   nObjIndex = ObjSet.FindID(pPickUp->m_nObjID);
-  if (nObjIndex <= 0)
+  if (nObjIndex == 0)
     return FALSE;
 
   int nObjXC, nObjYC, nNpcXC, nNpcYC;
@@ -6386,7 +8822,8 @@ BOOL KPlayer::ServerPickUpItem(BYTE *pProtocol) {
         SHOW_MSG_SYNC sMsg;
         sMsg.ProtocolType = s2c_msgshow;
         if (Object[nObjIndex].m_nKind == Obj_Kind_Money)
-          sMsg.m_wMsgID = enumMSG_ID_MONEY_CANNOT_PICKUP;
+          sMsg.m_wMsgID =
+              enumMSG_ID_MONEY_CANNOT_PICKUP; // trang bi cua nguoi khac
         else
           sMsg.m_wMsgID = enumMSG_ID_OBJ_CANNOT_PICKUP;
         sMsg.m_wLength = sizeof(SHOW_MSG_SYNC) - 1 - sizeof(LPVOID);
@@ -6396,8 +8833,8 @@ BOOL KPlayer::ServerPickUpItem(BYTE *pProtocol) {
       }
     } else {
       if (Object[nObjIndex].m_nKind == Obj_Kind_Money) {
-        if (Object[nObjIndex].m_nBelong != m_nPlayerIndex &&
-            !g_Team[m_cTeam.m_nID].CheckIn(Object[nObjIndex].m_nBelong)) {
+        if (!g_Team[m_cTeam.m_nID].CheckIn(m_nPlayerIndex,
+                                           Object[nObjIndex].m_nBelong)) {
           SHOW_MSG_SYNC sMsg;
           sMsg.ProtocolType = s2c_msgshow;
           sMsg.m_wMsgID = enumMSG_ID_MONEY_CANNOT_PICKUP;
@@ -6409,14 +8846,11 @@ BOOL KPlayer::ServerPickUpItem(BYTE *pProtocol) {
       } else if (Object[nObjIndex].m_nKind == Obj_Kind_Item) {
         if (Object[nObjIndex].m_nItemDataID <= 0 ||
             Object[nObjIndex].m_nItemDataID >= MAX_ITEM) {
-          _ASSERT(0);
+          //_ASSERT(0);
           return FALSE;
         }
-        //	if ((Item[Object[nObjIndex].m_nItemDataID].GetGenre() ==
-        // item_task && Object[nObjIndex].m_nBelong != m_nPlayerIndex) ||
-        //		!g_Team[m_cTeam.m_nID].CheckIn(Object[nObjIndex].m_nBelong))
-        if (Object[nObjIndex].m_nBelong != m_nPlayerIndex &&
-            !g_Team[m_cTeam.m_nID].CheckIn(Object[nObjIndex].m_nBelong)) {
+        if (!g_Team[m_cTeam.m_nID].CheckIn(m_nPlayerIndex,
+                                           Object[nObjIndex].m_nBelong)) {
           SHOW_MSG_SYNC sMsg;
           sMsg.ProtocolType = s2c_msgshow;
           sMsg.m_wMsgID = enumMSG_ID_OBJ_CANNOT_PICKUP;
@@ -6426,8 +8860,8 @@ BOOL KPlayer::ServerPickUpItem(BYTE *pProtocol) {
           return FALSE;
         }
       } else if (Object[nObjIndex].m_nKind == Obj_Kind_Prop) {
-        if (Object[nObjIndex].m_nBelong != m_nPlayerIndex &&
-            !g_Team[m_cTeam.m_nID].CheckIn(Object[nObjIndex].m_nBelong)) {
+        if (!g_Team[m_cTeam.m_nID].CheckIn(m_nPlayerIndex,
+                                           Object[nObjIndex].m_nBelong)) {
           SHOW_MSG_SYNC sMsg;
           sMsg.ProtocolType = s2c_msgshow;
           sMsg.m_wMsgID = enumMSG_ID_OBJ_CANNOT_PICKUP;
@@ -6451,7 +8885,18 @@ BOOL KPlayer::ServerPickUpItem(BYTE *pProtocol) {
   SubWorld[Npc[m_nIndex].m_SubWorldIndex].Map2Mps(
       Npc[m_nIndex].m_RegionIndex, Npc[m_nIndex].m_MapX, Npc[m_nIndex].m_MapY,
       Npc[m_nIndex].m_OffX, Npc[m_nIndex].m_OffY, &nNpcX, &nNpcY);
-
+  /// vat pham xa ko the nhat
+  /*	if ( PLAYER_PICKUP_SERVER_DISTANCE < (nNpcX - nObjX) * (nNpcX - nObjX) +
+     (nNpcY - nObjY) * (nNpcY - nObjY))
+          {
+                  SHOW_MSG_SYNC	sMsg;
+                  sMsg.ProtocolType = s2c_msgshow;
+                  sMsg.m_wMsgID = enumMSG_ID_OBJ_TOO_FAR;
+                  sMsg.m_wLength = sizeof(SHOW_MSG_SYNC) - 1 - sizeof(LPVOID);
+                  g_pServer->PackDataToClient(m_nNetConnectIdx, &sMsg,
+     sMsg.m_wLength + 1); return FALSE;
+          }
+          */
   //	if ( PLAYER_PICKUP_SERVER_DISTANCE  > (nNpcX - nObjX) * (nNpcX - nObjX)
   //+ (nNpcY - nObjY) * (nNpcY - nObjY))
   //	{
@@ -6460,7 +8905,7 @@ BOOL KPlayer::ServerPickUpItem(BYTE *pProtocol) {
   //		sMsg.m_wMsgID = enumMSG_ID_OBJ_TOO_FAR;
   //		sMsg.m_wLength = sizeof(SHOW_MSG_SYNC) - 1 - sizeof(LPVOID);
   //		g_pServer->PackDataToClient(m_nNetConnectIdx, &sMsg,
-  // sMsg.m_wLength + 1); 		return FALSE;
+  //sMsg.m_wLength + 1); 		return FALSE;
   //	}
 
   switch (Object[nObjIndex].m_nKind) {
@@ -6489,7 +8934,7 @@ BOOL KPlayer::ServerPickUpItem(BYTE *pProtocol) {
     if (m_AutoNhatDoChonLoc) {
       //	printf("Test %d - %d - %d
       //\n",Item[Object[nObjIndex].m_nItemDataID].GetDetailType(),
-      // Item[Object[nObjIndex].m_nItemDataID].GetGenre(),Item[Object[nObjIndex].m_nItemDataID].GetParticular());
+      //Item[Object[nObjIndex].m_nItemDataID].GetGenre(),Item[Object[nObjIndex].m_nItemDataID].GetParticular());
       if (m_AutoRingSelect && !m_AutoWeaSelect) {
         if (Item[Object[nObjIndex].m_nItemDataID].GetGenre() == 0 &&
             (Item[Object[nObjIndex].m_nItemDataID].GetDetailType() != 3 &&
@@ -6626,15 +9071,16 @@ BOOL KPlayer::ServerPickUpItem(BYTE *pProtocol) {
     g_pServer->PackDataToClient(m_nNetConnectIdx, &sMsg, sMsg.m_wLength + 1);
     sMsg.m_lpBuf = 0;
 
-    // char	szName[128];
-    // sprintf(szName,"- %s nhÆt: <color=yellow>%s ",GetPlayerName(),
-    // Item[Object[nObjIndex].m_nItemDataID].GetName() );
-    // KPlayerChat::SendSystemInfo(102,m_nPlayerIndex,
-    // MESSAGE_SYSTEM_ANNOUCE_HEAD, szName, strlen(szName) );
-    //  È¥µôObject[nObjIndex]ÓëµÀ¾ßµÄ¹ØÁª¡£±ÜÃâItemSetµÄRemove±»ObjectµÄRemoveµ÷ÓÃ
+    if (Object[nObjIndex].GetObjPickExecute()) {
+      m_ItemList.EatMecidine(m_ItemList.m_Items[nItemIdx].nIdx);
+    }
+    if (Object[nObjIndex].m_nItemDataID <= 0 ||
+        Object[nObjIndex].m_nItemDataID >= MAX_ITEM)
+      return FALSE;
     Object[nObjIndex].m_nItemDataID = 0;
     Object[nObjIndex].m_nItemWidth = 0;
     Object[nObjIndex].m_nItemHeight = 0;
+    Object[nObjIndex].m_bPickExecute = FALSE;
     Object[nObjIndex].Remove(FALSE);
 
   } break;
@@ -6872,7 +9318,20 @@ void KPlayer::ServerThrowAwayItem(BYTE *pProtocol) {
       (Item[nItemIdx].GetGenre() == item_task &&
        Item[nItemIdx].GetIsThrow() == 1)) {
     char szMsg[500];
-    sprintf(szMsg, "Kh«ng thÓ vøt bá vËt phÈm quÝ ");
+    sprintf(szMsg, "Kh«ng thÓ vøt bá vËt phÈm quý ");
+    KPlayerChat::SendSystemInfo(1, m_nPlayerIndex, "Th«ng b¸o", (char *)szMsg,
+                                strlen(szMsg));
+    return;
+  }
+  if (Item[nItemIdx].GetDurability() == 0 &&
+      Item[nItemIdx].GetGenre() == item_equip &&
+      Item[nItemIdx].GetDetailType() != equip_horse &&
+      Item[nItemIdx].GetDetailType() != equip_pendant &&
+      Item[nItemIdx].GetDetailType() != equip_ring &&
+      Item[nItemIdx].GetDetailType() != equip_amulet &&
+      Item[nItemIdx].GetDetailType() != equip_mask) {
+    char szMsg[500];
+    sprintf(szMsg, "Kh«ng thÓ vøt trang bÞ ®· háng!");
     KPlayerChat::SendSystemInfo(1, m_nPlayerIndex, "Th«ng b¸o", (char *)szMsg,
                                 strlen(szMsg));
     return;
@@ -6898,11 +9357,10 @@ void KPlayer::ServerThrowAwayItem(BYTE *pProtocol) {
 
     sInfo.m_nMovieFlag = 1;
     sInfo.m_nSoundFlag = 1;
-
     sInfo.m_bByPlayer = TRUE;
-
+    sInfo.m_dwNpcId =
+        Npc[m_nIndex].m_dwID; // xac dinh npc id nem vat pham ra ngoai
     nObj = ObjSet.Add(Item[nItemIdx].GetObjIdx(), sMapPos, sInfo);
-
     BOOL bCheckFull = TRUE;
     for (int t = 0; t < 29; t++) {
       if (MangDropItem[t] == 0) {
@@ -7130,8 +9588,8 @@ void KPlayer::TradeApplyOpen(BYTE *pProtocol) {
   //	if (Npc[m_nIndex].m_Level < 100)
   //	{
   //		KPlayerChat::SendSystemInfo(1,m_nPlayerIndex,
-  // MESSAGE_SYSTEM_ANNOUCE_HEAD, "§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !",
-  // strlen("§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !") ); 		return;
+  //MESSAGE_SYSTEM_ANNOUCE_HEAD, "§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !",
+  //strlen("§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !") ); 		return;
   //	}
 
   if (m_cTeam.m_nFlag && m_cTeam.m_nID >= 0) {
@@ -7193,8 +9651,8 @@ void KPlayer::TradeApplyStart(BYTE *pProtocol) {
   //	if (Npc[m_nIndex].m_Level < 100)
   //	{
   //		KPlayerChat::SendSystemInfo(1,m_nPlayerIndex,
-  // MESSAGE_SYSTEM_ANNOUCE_HEAD, "§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !",
-  // strlen("§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !") ); 		return;
+  //MESSAGE_SYSTEM_ANNOUCE_HEAD, "§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !",
+  //strlen("§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !") ); 		return;
   //	}
 
   if (Npc[m_nIndex].m_SubWorldIndex == g_SubWorldSet.SearchWorld(43)) {
@@ -7719,14 +10177,12 @@ void KPlayer::UseTownPortal(int bCheck) {
   if (CheckTrading() || CheckShopOpen() || CheckShopBuyOpen())
     return;
 
-  if (!Npc[m_nIndex].m_FightMode && !bCheck) {
+  if (!Npc[m_nIndex].m_FightMode && !bCheck)
     return;
-  }
 
   if (Npc[m_nIndex].m_Doing == do_death || Npc[m_nIndex].m_Doing == do_revive ||
-      Npc[m_nIndex].m_Doing == do_hurt) {
+      Npc[m_nIndex].m_Doing == do_hurt) // fix lag frame khi ve thanh
     return;
-  }
 
   m_sPortalPos.m_nSubWorldId =
       SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID;
@@ -7943,6 +10399,7 @@ void KPlayer::Revive(int nType) {
   Npc[m_nIndex].m_CurrentMana = Npc[m_nIndex].m_CurrentManaMax;
   Npc[m_nIndex].m_CurrentStamina = Npc[m_nIndex].m_CurrentStaminaMax;
   // RestoreLiveData();
+  m_uMustSave = SAVE_REQUEST; // them thu
   Npc[m_nIndex].SendCommand(do_revive);
 }
 
@@ -8312,68 +10769,25 @@ void KPlayer::ProcessPlayerSelectFromUI(
     BYTE *pProtocol) // ´¦Àíµ±Íæ¼Ò´ÓÑ¡Ôñ²Ëµ¥Ñ¡ÔñÄ³ÏîÊ±µÄ²Ù×÷
 {
   PLAYER_SELECTUI_COMMAND *pSelUI = (PLAYER_SELECTUI_COMMAND *)pProtocol;
-
-#ifdef _SERVER
-
-  if (m_nIndex <= 0 || m_nIndex >= MAX_NPC) {
-    printf("Xay ra loi ID 1 trong dao dien nguoi dung [%s] [%s]. Tu dong xua "
-           "loi !\n",
-           this->m_PlayerName, this->m_AccoutName);
-    return;
-  }
-
-  if (m_dwTaskAnswerScriptID != Npc[m_nIndex].m_ActionScriptID) {
-    printf("Xay ra loi thay doi ID Spcrit trong dao dien nguoi dung [%s] [%s]. "
-           "Tu dong xua loi !\n",
-           this->m_PlayerName, this->m_AccoutName);
-    return;
-  }
-
-#endif
-
   m_bWaitingPlayerFeedBack = false;
-
   // Èç¹û·µ»Ø¸ºÊý£¬±íÊ¾ÍË³ö¸Ã½Å±¾Ö´ÐÐ»·¾³
   if (pSelUI->nSelectIndex < 0)
     m_nAvailableAnswerNum = 0;
   if (m_nAvailableAnswerNum > pSelUI->nSelectIndex) {
-    if (pSelUI->nSelectIndex < 0) {
-#ifdef _SERVER
-      printf("Xay ra loi SL trong dao dien nguoi dung [%s] [%s]. Tu dong xua "
-             "loi !\n",
-             this->m_PlayerName, this->m_AccoutName);
-#endif
+    if (pSelUI->nSelectIndex < 0)
       return;
-    }
-
     if (m_szTaskAnswerFun[pSelUI->nSelectIndex][0]) {
-
-      if (pSelUI->nSelectIndex >= 50 || pSelUI->nSelectIndex < 0) {
-#ifdef _SERVER
-        printf("Xay ra loi TE trong dao dien nguoi dung [%s] [%s]. Tu dong xua "
-               "loi !\n",
-               this->m_PlayerName, this->m_AccoutName);
-#endif
-        return;
-      }
-
-      if (m_nIndex <= 0 || m_nIndex >= MAX_NPC) {
-#ifdef _SERVER
-        printf("Xay ra loi ID 2 trong dao dien nguoi dung [%s] [%s]. Tu dong "
-               "xua loi !\n",
-               this->m_PlayerName, this->m_AccoutName);
-#endif
-        return;
-      }
-      if (m_nIndex) {
-        char szTaskAnswerFun[32];
-        sprintf(szTaskAnswerFun, "%s", m_szTaskAnswerFun[pSelUI->nSelectIndex]);
-
-        memset(m_szTaskAnswerFun, 0, sizeof(m_szTaskAnswerFun));
-        m_nAvailableAnswerNum = 0;
-
-        ExecuteScript(Npc[m_nIndex].m_ActionScriptID, szTaskAnswerFun,
-                      pSelUI->nSelectIndex);
+      //			g_SetFilePath("\\script");
+      if (m_szTaskAnswerFun[pSelUI->nSelectIndex][0]) {
+        if (pSelUI->nSelectIndex >= 50 || pSelUI->nSelectIndex < 0)
+          return;
+        if (m_nIndex <= 0 || m_nIndex >= MAX_NPC)
+          return;
+        if (m_nIndex) {
+          ExecuteScript(Npc[m_nIndex].m_ActionScriptID,
+                        m_szTaskAnswerFun[pSelUI->nSelectIndex],
+                        pSelUI->nSelectIndex);
+        }
       }
     }
   }
@@ -8566,11 +10980,44 @@ void KPlayer::OnScriptAction(PLAYER_SCRIPTACTION_SYNC *pMsg) {
 
       g_bUISelIntelActiveWithServer = pScriptAction->m_bParam2;
       g_bUISelLastSelCount = pQuest->AnswerCount;
-      CoreDataChanged(GDCNI_QUESTION_CHOOSE, (unsigned int)pQuest, 0);
+
+      switch (pScriptAction->m_Select) {
+      case 0:
+        CoreDataChanged(GDCNI_QUESTION_CHOOSE, (unsigned int)pQuest, 0);
+        break;
+      case 1: {
+        KUiNpcSpr *pImage = NULL;
+        pImage = (KUiNpcSpr *)malloc(sizeof(KUiNpcSpr));
+        if (m_nImageNpcID) {
+          char szBuffer[128];
+          for (int i = 0; i < 16; i++) {
+            Npc[m_nImageNpcID].GetNpcRes()->m_pcResNode->GetFileName(
+                i, 0, 0, "", szBuffer, sizeof(szBuffer));
+            if (szBuffer[0]) {
+              strcpy(pImage->ImageFile, szBuffer);
+              pImage->MaxFrame =
+                  (Npc[m_nImageNpcID].GetNpcRes()->m_pcResNode->GetTotalFrames(
+                      i, 0, 0, 16)) /
+                  (Npc[m_nImageNpcID].GetNpcRes()->m_pcResNode->GetTotalDirs(
+                      i, 0, 0, 16));
+            }
+          }
+        }
+
+        CoreDataChanged(GDCNI_QUESTION_CHOOSE_1, (unsigned int)pQuest,
+                        (int)pImage);
+        free(pImage);
+        pImage = NULL;
+      } break;
+      case 2:
+        CoreDataChanged(GDCNI_QUESTION_CHOOSE_2, (unsigned int)pQuest,
+                        m_ImageId);
+        break;
+      }
+
       free(pQuest);
       pQuest = NULL;
     } break;
-
     case UI_TALKDIALOG: {
       BOOL bUsingSpeakId = pScriptAction->m_bParam1;
       int nSentenceCount = pScriptAction->m_bOptionNum;
@@ -8659,7 +11106,8 @@ void KPlayer::OnScriptAction(PLAYER_SCRIPTACTION_SYNC *pMsg) {
       Record.nContentLen =
           TEncodeText(Record.sContent, strlen(Record.sContent));
 
-      CoreDataChanged(GDCNI_MISSION_RECORD, (unsigned long)&Record, 0);
+      CoreDataChanged(GDCNI_MISSION_RECORD, (unsigned long)&Record,
+                      pScriptAction->m_Select);
 
     } break;
     case UI_MSGINFO: {
@@ -8765,6 +11213,89 @@ void KPlayer::OnScriptAction(PLAYER_SCRIPTACTION_SYNC *pMsg) {
             *(SYSTEMTIME *)((pScriptAction->m_pContent +
                              pScriptAction->m_nBufferLen - sizeof(SYSTEMTIME)));
         CoreDataChanged(GDCNI_NEWS_MESSAGE, (unsigned int)&News,
+                        (unsigned int)&systime);
+
+      } break;
+      }
+
+    } break;
+
+    case UI_NEWSINFO_1: {
+      if (pScriptAction->m_nBufferLen <= 0)
+        break;
+      switch (pScriptAction->m_bOptionNum) // OPtionNum´ú±íÊÇÄÄÒ»ÖÖNewsÀàÐÍ
+      {
+      case NEWSMESSAGE_NORMAL_1: {
+
+        KNewsMessage1 News;
+        News.nType = NEWSMESSAGE_NORMAL_1;
+
+        char strContent[1024];
+        // Ö÷ÐÅÏ¢Îª×Ö·û´®
+        if (pScriptAction->m_bParam1 == 0) {
+          g_StrCpyLen(strContent, pScriptAction->m_pContent,
+                      pScriptAction->m_nBufferLen + 1);
+        } else {
+          g_GetStringRes(*(int *)pScriptAction->m_pContent, strContent,
+                         sizeof(strContent));
+        }
+
+        g_StrCpyLen(News.sMsg, strContent, sizeof(News.sMsg));
+
+        News.nMsgLen = TEncodeText(News.sMsg, strlen(News.sMsg));
+        CoreDataChanged(GDCNI_NEWS_MESSAGE_1, (unsigned int)&News, 0);
+      } break;
+        // STRING|STRINGID + TIME(INT)
+      case NEWSMESSAGE_COUNTING_1: {
+        KNewsMessage1 News;
+        News.nType = pScriptAction->m_bOptionNum;
+
+        char strContent[1024];
+        int nTime = 0;
+        // Ö÷ÐÅÏ¢Îª×Ö·û´®
+        if (pScriptAction->m_bParam1 == 0) {
+          g_StrCpyLen(strContent, pScriptAction->m_pContent,
+                      pScriptAction->m_nBufferLen - sizeof(int) + 1);
+        } else {
+          g_GetStringRes(*(int *)pScriptAction->m_pContent, strContent,
+                         sizeof(strContent));
+        }
+
+        g_StrCpyLen(News.sMsg, strContent, sizeof(News.sMsg));
+        News.nMsgLen = TEncodeText(News.sMsg, strlen(News.sMsg));
+        SYSTEMTIME systime;
+
+        memset(&systime, 0, sizeof(SYSTEMTIME));
+        systime.wSecond = *(int *)((pScriptAction->m_pContent +
+                                    pScriptAction->m_nBufferLen - sizeof(int)));
+
+        CoreDataChanged(GDCNI_NEWS_MESSAGE_1, (unsigned int)&News,
+                        (unsigned int)&systime);
+
+      } break;
+
+      case NEWSMESSAGE_TIMEEND_1: {
+        KNewsMessage1 News;
+        News.nType = pScriptAction->m_bOptionNum;
+
+        char strContent[1024];
+        int nTime = 0;
+        // Ö÷ÐÅÏ¢Îª×Ö·û´®
+        if (pScriptAction->m_bParam1 == 0) {
+          g_StrCpyLen(strContent, pScriptAction->m_pContent,
+                      pScriptAction->m_nBufferLen - sizeof(SYSTEMTIME) + 1);
+        } else {
+          g_GetStringRes(*(int *)pScriptAction->m_pContent, strContent,
+                         sizeof(strContent));
+        }
+
+        g_StrCpyLen(News.sMsg, strContent, sizeof(News.sMsg));
+        News.nMsgLen = TEncodeText(News.sMsg, strlen(News.sMsg));
+        SYSTEMTIME systime;
+        systime =
+            *(SYSTEMTIME *)((pScriptAction->m_pContent +
+                             pScriptAction->m_nBufferLen - sizeof(SYSTEMTIME)));
+        CoreDataChanged(GDCNI_NEWS_MESSAGE_1, (unsigned int)&News,
                         (unsigned int)&systime);
 
       } break;
@@ -9377,6 +11908,7 @@ void KPlayer::SyncCurPlayer(BYTE *pMsg) {
   Npc[m_nIndex].m_ManaReplenish = PLAYER_MANA_REPLENISH;
   Npc[m_nIndex].m_StaminaGain = PLAYER_STAMINA_GAIN;
   Npc[m_nIndex].m_StaminaLoss = PLAYER_STAMINA_LOSS;
+  Npc[m_nIndex].m_bNpcFollowFindPath = FALSE;
 
   m_nAutoPlay = FALSE;
 
@@ -9416,8 +11948,8 @@ void KPlayer::SyncCurPlayer(BYTE *pMsg) {
 
   // Npc[m_nIndex].RestoreLiveData();
   //	SubWorld[0].AddPlayer(Npc[m_nIndex].m_RegionIndex,
-  // 0);//m_Region[Npc[m_nIndex].m_RegionIndex].AddPlayer(0);//
-  // m_WorldMessage.Send(GWM_PLAYER_ADD, Npc[m_nIndex].m_RegionIndex, 0);
+  //0);//m_Region[Npc[m_nIndex].m_RegionIndex].AddPlayer(0);//
+  //m_WorldMessage.Send(GWM_PLAYER_ADD, Npc[m_nIndex].m_RegionIndex, 0);
 }
 #endif
 
@@ -9691,9 +12223,9 @@ void KPlayer::GetEchoDamage(int *nMin, int *nMax, int nType) {
   case SKILL_SS_Missles: //	×Óµ¯Àà		±¾¼¼ÄÜÓÃÓÚ·¢ËÍ×Óµ¯Àà
   case SKILL_SS_Melee:
   case SKILL_SS_InitiativeNpcState: //	Ö÷¶¯Àà
-                                    // ±¾¼¼ÄÜÓÃÓÚ¸Ä±äµ±Ç°NpcµÄÖ÷¶¯×´Ì¬
+                                    //±¾¼¼ÄÜÓÃÓÚ¸Ä±äµ±Ç°NpcµÄÖ÷¶¯×´Ì¬
   case SKILL_SS_PassivityNpcState:  //	±»¶¯Àà
-                                    // ±¾¼¼ÄÜÓÃÓÚ¸Ä±äNpcµÄ±»¶¯×´Ì¬
+                                    //±¾¼¼ÄÜÓÃÓÚ¸Ä±äNpcµÄ±»¶¯×´Ì¬
   {
   } break;
   default:
@@ -10376,6 +12908,50 @@ int KPlayer::GetGetEquipMagicRandomSeed(int nItemIdx) {
 
 #endif
 
+// auto playgame
+void KPlayer::SetAutoFlag(BOOL nbAuto) {
+  m_bActiveAuto = nbAuto;
+#ifdef _SERVER
+  PLAYER_REQUEST_AUTO Cmd;
+  Cmd.ProtocolType = s2c_autoplay;
+  Cmd.m_bAuto = 1;
+  Cmd.m_bActive = nbAuto;
+  if (g_pServer && this->m_nNetConnectIdx != -1)
+    g_pServer->PackDataToClient(this->m_nNetConnectIdx, &Cmd,
+                                sizeof(PLAYER_REQUEST_AUTO));
+#endif
+}
+
+#ifndef _SERVER
+void KPlayer::SendInfoAuto() {
+  int nDesX = 0;
+  int nDesY = 0;
+  Npc[m_nIndex].GetMpsPos(&nDesX, &nDesY);
+  int nDesTempX = nDesX / 8 / 32;
+  int nDesTempY = nDesY / 16 / 32;
+  int nDesTempXAuto = m_PosXAuto / 8 / 32;
+  int nDesTempYAuto = m_PosYAuto / 16 / 32;
+  if (nDesTempX != nDesTempXAuto || nDesTempY != nDesTempYAuto) {
+    m_PosXAuto = nDesX;
+    m_PosYAuto = nDesY;
+  }
+  m_Actacker = 0;
+  m_bActacker = FALSE;
+  m_Count_Acttack_Lag = 0;
+  m_nLifeLag = 0;
+  m_nTimeRunLag = 0;
+
+  ClearArrayNpcNeast();
+  ClearArrayObjectNeast();
+  ClearArrayNpcLag();
+  ClearArrayObjectLag();
+  ClearArrayTimeNpcLag();
+  ClearArrayTimeObjectLag();
+}
+// auto playgame
+
+#endif
+
 #ifdef _SERVER
 
 int KPlayer::GetNumberNameInCpuTK() {
@@ -10434,6 +13010,46 @@ int KPlayer::GetIdxItemBox2() {
     if (Item[ItemIdx].GetGenre() != item_equip)
       return -2;
     else if (Item[ItemIdx].GetVersion() > 1)
+      return ItemIdx;
+    else
+      return -3;
+
+  } else {
+    return -1;
+  }
+
+  return 0;
+}
+
+#endif
+
+#ifdef _SERVER
+
+int KPlayer::GetIdxItemBox3() {
+
+  int Number = 0;
+  int ItemIdx = -1;
+  for (int i = 0; i < MAX_PLAYER_ITEM; i++) {
+    int Idx = m_ItemList.m_Items[i].nIdx;
+    int Place = m_ItemList.m_Items[i].nPlace;
+    if (Idx > 0 && Idx < MAX_ITEM && Place == pos_checkbox) {
+      ItemIdx = Idx;
+      Number++;
+    }
+  }
+
+  if (Number == 0) {
+    return 0;
+  } else if (Number == 1) {
+
+    if (Item[ItemIdx].GetGenre() != item_equip)
+      return -2;
+    else if (Item[ItemIdx].GetDurability() == 0 &&
+             Item[ItemIdx].GetDetailType() != equip_horse &&
+             Item[ItemIdx].GetDetailType() != equip_pendant &&
+             Item[ItemIdx].GetDetailType() != equip_ring &&
+             Item[ItemIdx].GetDetailType() != equip_amulet &&
+             Item[ItemIdx].GetDetailType() != equip_mask)
       return ItemIdx;
     else
       return -3;
@@ -10562,6 +13178,34 @@ int KPlayer::GetIdxItemBoxUpdateItem3() {
   } else {
     return -1;
   }
+  return 0;
+}
+
+int KPlayer::GetIdxItemBoxUpdateItem4() // Trang bi ton hai
+{
+  int Number = 0;
+  int ItemIdx = -1;
+  for (int i = 0; i < MAX_PLAYER_ITEM; i++) {
+    int Idx = m_ItemList.m_Items[i].nIdx;
+    int Place = m_ItemList.m_Items[i].nPlace;
+    if (Idx > 0 && Idx < MAX_ITEM && Place == pos_checkbox &&
+        Item[Idx].GetGenre() == item_equip) {
+      ItemIdx = Idx;
+      Number++;
+    }
+  }
+
+  if (Number == 0) {
+    return 0;
+  } else if (Number == 1) {
+    if (Item[ItemIdx].GetDurability() > 0)
+      return -3;
+    else
+      return ItemIdx;
+  } else {
+    return -1;
+  }
+
   return 0;
 }
 
@@ -10848,11 +13492,25 @@ int KPlayer::GetSeriItem(int nItemIdx) {
 void KPlayer::RepairItem(DWORD dwItemID) {
   int nIdx = m_ItemList.SearchID(dwItemID);
   int nCost = Item[nIdx].GetRepairPrice();
-  if (!nCost)
+  if (!nCost) {
     return;
+  }
   int nMaxDur = Item[nIdx].GetMaxDurability();
   int nDur = Item[nIdx].GetDurability();
+  if (nDur <= 0) {
+    char szMsg[150];
+    sprintf(szMsg,
+            "Trang bÞ <color=yellow>%s<color=red> ®· háng, kh«ng thÓ söa.",
+            Item[nIdx].GetName());
+    KPlayerChat::SendSystemInfo(1, m_nPlayerIndex, MESSAGE_SYSTEM_ANNOUCE_HEAD,
+                                szMsg, strlen(szMsg));
+    return;
+  }
   if (Pay(nCost) && m_nNetConnectIdx >= 0) {
+    char szMsg[100];
+    sprintf(szMsg, "§· söa trang bÞ %s ", Item[nIdx].GetName());
+    KPlayerChat::SendSystemInfo(1, m_nPlayerIndex, MESSAGE_SYSTEM_ANNOUCE_HEAD,
+                                szMsg, strlen(szMsg));
     Item[nIdx].SetDurability(nMaxDur);
     ITEM_DURABILITY_CHANGE IDC;
     IDC.ProtocolType = s2c_itemdurabilitychange;
@@ -10861,6 +13519,16 @@ void KPlayer::RepairItem(DWORD dwItemID) {
     if (g_pServer)
       g_pServer->PackDataToClient(m_nNetConnectIdx, &IDC,
                                   sizeof(ITEM_DURABILITY_CHANGE));
+  }
+
+  else {
+    char szMsg[170];
+    sprintf(szMsg,
+            "Ng©n l­îng kh«ng ®ñ <color=yellow>%d l­îng<color=red>, kh«ng thÓ "
+            "söa trang bÞ: <color=green>%s ",
+            nCost, Item[nIdx].GetName());
+    KPlayerChat::SendSystemInfo(1, m_nPlayerIndex, MESSAGE_SYSTEM_ANNOUCE_HEAD,
+                                szMsg, strlen(szMsg));
   }
 }
 #endif
@@ -10902,7 +13570,7 @@ void KPlayer::PlayerStarBuyItemNumber(int nuId, int nIdx, int nWidth,
 void KPlayer::PlayerSetAuto(BOOL bcheck, int nLife, int nMana, int nReturn,
                             int nAtack, int nRange, int nNAtack, BOOL bMoneyObj,
                             BOOL bItemObj, BOOL bPropObj, BOOL bItemSelect,
-                            int nNgaMyBuff, int nPhamViTuVe) {
+                            int nNgaMyBuff, int nPhamViTuVe, int nGuiTienNew) {
   // DelayAutoPlayer++;
   // if (DelayAutoPlayer >= 5*18)
   //{
@@ -10956,6 +13624,7 @@ void KPlayer::PlayerSetAuto(BOOL bcheck, int nLife, int nMana, int nReturn,
   m_bItemSelect = bItemSelect;
   m_bPropObj = bPropObj;
   m_nPhamViTuVe = nPhamViTuVe;
+  m_nGuiTienNew = nGuiTienNew;
   m_nAutoPlay = bcheck;
 }
 
@@ -11015,7 +13684,7 @@ void KPlayer::PlayerAutoOn() {
 
   // PlayerAutoOnSkill();
   // Npc[m_nIndex].m_MaskType = 879;
-  PlayerAutoTeam();   // Auto Moi Nhom
+  // PlayerAutoTeam(); // Auto Moi Nhom
   if (m_TargetPlayer) // Neu Bat Auto PK
   {
     PlayerAutoPK();
@@ -11059,6 +13728,7 @@ BOOL KPlayer::PlayerAutoPK() // AUTO PK NGuoi Choi
   }
 
   Npc[m_nIndex].SetActiveSkill(m_nAutoStarSkillIDx);
+  g_DebugLog("Set Skill ID %d\n", m_nAutoStarSkillIDx);
   if (m_nAutoRange >= RangeSkill)
     Npc[m_nIndex].m_CurrentAttackRadius = RangeSkill;
   else
@@ -11074,9 +13744,11 @@ BOOL KPlayer::PlayerAutoPK() // AUTO PK NGuoi Choi
       Npc[m_nIndex].m_nPeopleIdx = 0;
       Npc[m_nIndex].m_nPeopleIdxCheckClient = 0;
     }
+    g_DebugLog("People > 0 \n");
   }
 
   if (Npc[m_nIndex].m_nPeopleIdx <= 0) {
+    g_DebugLog("People < 0 \n");
     int nX0, nY0, nX1, nY1, nEnemyIdx, nMaxRangeDb;
     int KhoangCachGanNhat = 1000000;
 
@@ -11109,6 +13781,7 @@ BOOL KPlayer::PlayerAutoPK() // AUTO PK NGuoi Choi
     }
 
     if (nEnemyIdx > 0) {
+      g_DebugLog("nEnemyIdx > 0 \n");
       Npc[m_nIndex].m_nPeopleIdx = nEnemyIdx;
       Npc[m_nIndex].m_nPeopleIdxCheckClient = (nEnemyIdx + 46) * 13 + 15743;
       m_nAutoOldCurenLifeActive = Npc[nEnemyIdx].m_CurrentLife;
@@ -11200,18 +13873,18 @@ BOOL AutoMove(int x, int y, int m_nIndex) {
   Npc[m_nIndex].GetMpsPos(&nX0, &nY0);
   Npc[m_nIndex].SendCommand(do_run, x, y);
   SendClientCmdRun(x, y);
-  g_DebugLog("TDT %d %d %d %d", x, nX0, y, nY0);
+  // g_DebugLog("TDT %d %d %d %d",x,nX0,y,nY0);
   if ((x - nX0 > -32) && (x - nX0 < 32) && (y - nY0 > -32) && (y - nY0 < 32)) {
-
     g_DebugLog("TRUE: TDT %d - %d", x - nX0, y - nY0);
     return TRUE;
   }
-  g_DebugLog("FALSE: TDT %d - %d", x - nX0, y - nY0);
+
+  // g_DebugLog("FALSE: TDT %d - %d",x-nX0,y-nY0);
 
   return FALSE;
 }
+
 BOOL KPlayer::QuayLaiDiaDiemCu() {
-  // int nX0, nY0, nX1, nY1, nEnemyIdx, Map, vt;
   int nX0, nY0, Map, vt;
   Map = SubWorld[Npc[m_nIndex].m_SubWorldIndex].m_SubWorldID;
   Npc[m_nIndex].GetMpsPos(&nX0, &nY0);
@@ -11272,72 +13945,88 @@ BOOL KPlayer::QuayLaiDiaDiemCu() {
 
   return FALSE;
 };
+/*
 
-BOOL KPlayer::PlayerAutoTeam() {
-  SYSTEMTIME TimeNow;
-  GetLocalTime(&TimeNow);
-  if (!m_cTeam.m_AcceptAuto) {
-    m_cTeam.Check_AcceptAutoName = FALSE;
-  }
-  if (m_cTeam.m_InviteAuto) {
-    if (m_cTeam.m_nFlag) {
-
-      if (m_cTeam.m_nFigure == TEAM_CAPTAIN && TimeNow.wSecond % 15 == 0) {
-        int nX0, nY0, nX1, nY1, nEnemyIdx, nMaxRangeDb;
-
-        nEnemyIdx = 0;
-        nMaxRangeDb = 1024 * 1024;
-
-        Npc[m_nIndex].GetMpsPos(&nX0, &nY0);
-
-        for (int i = 1; i < MAX_NPC; i++) {
-          if (!Npc[i].m_Index || Npc[i].m_Doing == do_death ||
-              Npc[i].m_Doing == do_revive || Npc[i].m_CurrentLife <= 0 ||
-              Npc[i].m_CurrentLife == 100 || Npc[i].m_Kind != kind_player)
-            continue;
-
-          if (m_nIndex == Npc[i].m_Index)
-            continue;
-
-          BOOL CHECKMEMBER = FALSE;
-          for (int j = 0; j < MAX_TEAM_MEMBER; j++) {
-            if ((DWORD)g_Team[0].m_nMember[j] == Npc[i].m_dwID) {
-              CHECKMEMBER = TRUE;
-              break;
-            }
-          }
-          if (CHECKMEMBER)
-            continue;
-
-          ///	g_DebugLog("AAAAAAAA");
-
-          Npc[i].GetMpsPos(&nX1, &nY1);
-
-          if (Npc[i].m_nAutoNoActack &&
-              (Npc[i].m_nAutoOldX - nX1) * (Npc[i].m_nAutoOldX - nX1) +
-                      (Npc[i].m_nAutoOldY - nY1) * (Npc[i].m_nAutoOldY - nY1) >=
-                  (120 * 120))
-            Npc[i].m_nAutoNoActack = FALSE;
-
-          if (Npc[i].m_RegionIndex < 0 || !SubWorld[0].TestBarrier(nX1, nY1) ||
-              Npc[i].m_nAutoNoActack)
-            continue;
-
-          if (((nX1 - nX0) * (nX1 - nX0) + (nY1 - nY0) * (nY1 - nY0)) <
-                  nMaxRangeDb &&
-              ((nX1 - m_nAutoStarNpcX) * (nX1 - m_nAutoStarNpcX) +
-               (nY1 - m_nAutoStarNpcY) * (nY1 - m_nAutoStarNpcY)) <
-                  nMaxRangeDb) {
-            TeamInviteAdd(Npc[i].m_dwID);
-          }
-        }
-      }
-    } else {
-      ApplyCreateTeam();
-    }
-  }
-  return FALSE;
+BOOL KPlayer::PlayerAutoTeam()
+{
+SYSTEMTIME TimeNow;
+GetLocalTime(&TimeNow);
+if (!m_cTeam.m_AcceptAuto)
+{
+        m_cTeam.Check_AcceptAutoName = FALSE;
 }
+if (m_cTeam.m_InviteAuto)
+{
+        if (m_cTeam.m_nFlag)
+        {
+
+                if (m_cTeam.m_nFigure == TEAM_CAPTAIN && TimeNow.wSecond%15 ==
+0)
+                {
+                int nX0,nY0,nX1,nY1,nEnemyIdx,nMaxRangeDb;
+
+                nEnemyIdx = 0;
+                nMaxRangeDb = 1024 * 1024;
+
+                Npc[m_nIndex].GetMpsPos(&nX0,&nY0);
+
+                        for (int i = 1; i < MAX_NPC; i++)
+                                {
+                                        if (!Npc[i].m_Index || Npc[i].m_Doing ==
+do_death || Npc[i].m_Doing == do_revive || Npc[i].m_CurrentLife <= 0 ||
+Npc[i].m_CurrentLife == 100 || Npc[i].m_Kind != kind_player) continue;
+
+                                                if (m_nIndex == Npc[i].m_Index)
+                                                        continue;
+
+                                                BOOL CHECKMEMBER = FALSE;
+                                                for (int j = 0; j <
+MAX_TEAM_MEMBER; j++)
+                                                {
+                                                        if
+((DWORD)g_Team[0].m_nMember[j] == Npc[i].m_dwID)
+                                                        {
+                                                                CHECKMEMBER =
+TRUE; break;
+                                                        }
+                                                }
+                                                if (CHECKMEMBER)
+                                                continue;
+
+                                                ///	g_DebugLog("AAAAAAAA");
+
+                                                  Npc[i].GetMpsPos(&nX1,&nY1);
+
+                                                if (Npc[i].m_nAutoNoActack &&
+                                                        (Npc[i].m_nAutoOldX -
+nX1) * (Npc[i].m_nAutoOldX - nX1) + (Npc[i].m_nAutoOldY - nY1) *
+(Npc[i].m_nAutoOldY - nY1) >= (120 * 120)
+                                                        )
+                                                        Npc[i].m_nAutoNoActack =
+FALSE;
+
+
+                                                if (Npc[i].m_RegionIndex < 0 ||
+!SubWorld[0].TestBarrier(nX1,nY1) || Npc[i].m_nAutoNoActack) continue;
+
+                                                if (((nX1-nX0)*(nX1-nX0) +
+(nY1-nY0)*(nY1-nY0)) < nMaxRangeDb &&
+((nX1-m_nAutoStarNpcX)*(nX1-m_nAutoStarNpcX) +
+(nY1-m_nAutoStarNpcY)*(nY1-m_nAutoStarNpcY)) < nMaxRangeDb)
+                                                {
+                                                        TeamInviteAdd(Npc[i].m_dwID);
+
+                                                }
+                                }
+                }
+        }
+        else
+        {
+                ApplyCreateTeam();
+        }
+}
+return FALSE;
+}*/
 BOOL KPlayer::PlayerAutoOnBuffH() {
 
   int nFaction;
@@ -11481,7 +14170,6 @@ BOOL KPlayer::PlayerAutoOnBuffL() {
 
         int nX1, nY1;
         int nNpcIndex;
-        // int nMaxRangeDb;
 
         if (m_nNgaMyBuff == NULL || m_nNgaMyBuff < 0 || m_nNgaMyBuff >= 100) {
           m_nNgaMyBuff = 50;
@@ -11589,7 +14277,6 @@ BOOL KPlayer::PlayerAutoOnBuffE() {
   int nFaction;
   BOOL bCheckSkillEffec[MAX_AUTO_SKILL_BUFFE];
   KStateNode *pNode;
-  // KSkill * pSkillBuff;
 
   nFaction = m_cFaction.GetCurFactionNo();
 
@@ -11865,6 +14552,29 @@ BOOL KPlayer::PlayerAutoOnStolen() {
     }
   }
 
+  if (m_ItemList.GetMoney(room_equipment) >= m_nGuiTienNew * 10000)
+    for (int i = 0; i < MAX_PLAYER_ITEM; i++) {
+      if (m_ItemList.m_Items[i].nIdx &&
+          (m_ItemList.m_Items[i].nPlace == pos_equiproom ||
+           m_ItemList.m_Items[i].nPlace == pos_immediacy)) {
+        if (Item[m_ItemList.m_Items[i].nIdx].GetGenre() == item_task &&
+            Item[m_ItemList.m_Items[i].nIdx].GetDetailType() == 3) {
+
+          Npc[m_nIndex].m_nPeopleIdx = 0;
+          Npc[m_nIndex].m_nPeopleIdxCheckClient = 0;
+
+          Npc[m_nIndex].m_nObjectIdx = 0;
+
+          ItemPos SrcPos;
+          SrcPos.nPlace = m_ItemList.m_Items[i].nPlace;
+          SrcPos.nX = m_ItemList.m_Items[i].nX;
+          SrcPos.nY = m_ItemList.m_Items[i].nY;
+          ApplyUseItem(m_ItemList.m_Items[i].nIdx, SrcPos);
+          return TRUE;
+        }
+      }
+    }
+
   if (Npc[m_nIndex].m_CurrentLife < m_nAutoReturn)
     for (int i = 0; i < MAX_PLAYER_ITEM; i++) {
       if (m_ItemList.m_Items[i].nIdx &&
@@ -11931,11 +14641,13 @@ BOOL KPlayer::PlayerAutoOnSkill() {
   else
     Npc[m_nIndex].m_CurrentAttackRadius = m_nAutoRange;
 
+  g_DebugLog("Debug 1 \n");
+
   if (Npc[m_nIndex].m_nPeopleIdx > 0) {
-    if ((Npc[Npc[m_nIndex].m_nPeopleIdx].m_Kind == kind_player &&
-         !m_TargetPlayer) ||
+    if ((Npc[Npc[m_nIndex].m_nPeopleIdx].m_Kind == kind_player && !m_TuVe) ||
         (Npc[Npc[m_nIndex].m_nPeopleIdx].m_Kind != kind_player &&
          m_TargetPlayer)) {
+      g_DebugLog("Debug 2 \n");
       Npc[Npc[m_nIndex].m_nPeopleIdx].m_nAutoNoActack = TRUE;
       Npc[m_nIndex].m_nPeopleIdx = 0;
       Npc[m_nIndex].m_nPeopleIdxCheckClient = 0;
@@ -11943,6 +14655,7 @@ BOOL KPlayer::PlayerAutoOnSkill() {
   }
 
   if (m_TuVe) {
+    //	g_DebugLog("Debug 3 \n");
     Npc[m_nIndex].m_nPeopleIdx = 0;
     Npc[m_nIndex].m_nPeopleIdxCheckClient = 0;
   }
@@ -11954,6 +14667,7 @@ BOOL KPlayer::PlayerAutoOnSkill() {
     nEnemyIdx = 0;
     nMaxRangeDb = m_nAutoAtack * m_nAutoAtack;
     Npc[m_nIndex].GetMpsPos(&nX0, &nY0);
+    g_DebugLog("Debug 4 \n");
 
     for (int i = 1; i < MAX_NPC; i++) {
       if (!Npc[i].m_Index ||
@@ -11963,8 +14677,11 @@ BOOL KPlayer::PlayerAutoOnSkill() {
         continue;
 
       if (Npc[i].m_Kind != kind_player && m_TargetPlayer) // Auto PK Nguoi Choi
-        continue;
+      {
 
+        g_DebugLog("Debug 5 \n");
+        continue;
+      }
       if (!m_TargetPlayer) // Auto Target Quai
       {
         if (Npc[i].m_Kind == kind_player) {
@@ -12012,6 +14729,7 @@ BOOL KPlayer::PlayerAutoOnSkill() {
     }
 
     if (nEnemyIdx > 0) {
+      g_DebugLog("Debug 6 \n");
 
       if (Npc[nEnemyIdx].m_Kind ==
           kind_player) // Neu Doi Tuong la Player thi Check

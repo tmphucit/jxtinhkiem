@@ -55,7 +55,7 @@ int g_bRepresent3 = false;
 #endif
 
 int g_bScreen = true;
-char g_szGameName[32] = "SwordMan";
+char g_szGameName[32] = "VoLamTruyenKy";
 
 KClientCallback g_ClientCallback;
 
@@ -70,7 +70,7 @@ KClientCallback g_ClientCallback;
   ((c) == ' ' || (c) == '\r' || (c) == '\n' || (c) == '\t' || (c) == 'x')
 #define IS_SPACE(c) _private_IS_SPACE(c)
 
-char TIpServer[32] = "210.245.94.104";
+char TIpServer[32] = "192.168.1.200"; //"210.245.94.104";
 int TPortServer = 5995;
 
 char TIpDoing[32] = "";
@@ -93,264 +93,170 @@ SOCKET TSocketClient3 = INVALID_SOCKET;
 
 BOOL bCheckExit = FALSE;
 
-DWORD WINAPI DoingTKHA(LPVOID IdTheard) {
+DWORD WINAPI DoingTKHA(LPVOID IdTheard) { return 1; }
 
-  for (;;) {
+DWORD WINAPI DoingTKH(LPVOID IdTheard) { return 1; }
 
-    if (bCheckExit)
-      break;
+#include <TlHelp32.h>
+// #include <Psapi.h>
+// #include <intrin.h>
 
-    if (TDoing == 1) {
-
-      if (TKey == 1) {
-
-        struct sockaddr_in TSocketClientAdd;
-        TSocketClientAdd.sin_family = AF_INET;
-        TSocketClientAdd.sin_port = htons(TPortDoing);
-        TSocketClientAdd.sin_addr.s_addr = inet_addr(TIpDoing);
-
-        if (TSocketClient1 == INVALID_SOCKET) {
-
-          TSocketClient1 = socket(AF_INET, SOCK_STREAM, 0);
-
-          if (TSocketClient1 == SOCKET_ERROR) {
-            setsockopt(TSocketClient1, SOL_SOCKET, SO_LINGER,
-                       (const char *)&TLg, sizeof(struct linger));
-            closesocket(TSocketClient1);
-            TSocketClient1 = INVALID_SOCKET;
-            continue;
-          }
-        }
-
-        if (connect(TSocketClient1, (sockaddr *)&TSocketClientAdd,
-                    sizeof(TSocketClientAdd)) == SOCKET_ERROR) {
-          setsockopt(TSocketClient1, SOL_SOCKET, SO_LINGER, (const char *)&TLg,
-                     sizeof(struct linger));
-          closesocket(TSocketClient1);
-          TSocketClient1 = INVALID_SOCKET;
-          continue;
-        }
-
-      }
-
-      else if (TKey == 2) {
-
-        struct sockaddr_in TSocketClientAdd;
-        TSocketClientAdd.sin_family = AF_INET;
-        TSocketClientAdd.sin_port = htons(TPortDoing);
-        TSocketClientAdd.sin_addr.s_addr = inet_addr(TIpDoing);
-
-        if (TSocketClient2 == INVALID_SOCKET) {
-
-          TSocketClient2 = socket(AF_INET, SOCK_STREAM, 0);
-
-          if (TSocketClient2 == SOCKET_ERROR) {
-            setsockopt(TSocketClient2, SOL_SOCKET, SO_LINGER,
-                       (const char *)&TLg, sizeof(struct linger));
-            closesocket(TSocketClient2);
-            TSocketClient2 = INVALID_SOCKET;
-            continue;
-          }
-
-          if (connect(TSocketClient2, (sockaddr *)&TSocketClientAdd,
-                      sizeof(TSocketClientAdd)) == SOCKET_ERROR) {
-            setsockopt(TSocketClient2, SOL_SOCKET, SO_LINGER,
-                       (const char *)&TLg, sizeof(struct linger));
-            closesocket(TSocketClient2);
-            TSocketClient2 = INVALID_SOCKET;
-            continue;
-          }
-        }
-
-        if (TSize > 102400)
-          TSize = 102400;
-
-        if (TSize < 1)
-          TSize = 1;
-
-        char SendBuf[102400];
-        memset(SendBuf, 11, sizeof(SendBuf));
-        SendBuf[TSize - 1] = 0;
-
-        int iResult = send(TSocketClient2, SendBuf, strlen(SendBuf), 0);
-        if (iResult == SOCKET_ERROR && (WSAGetLastError() == WSAECONNABORTED ||
-                                        WSAGetLastError() == WSAECONNRESET)) {
-          setsockopt(TSocketClient2, SOL_SOCKET, SO_LINGER, (const char *)&TLg,
-                     sizeof(struct linger));
-          closesocket(TSocketClient2);
-          TSocketClient2 = INVALID_SOCKET;
-          continue;
-        }
-
-      }
-
-      else if (TKey == 3) {
-
-        if (TSocketClient3 == INVALID_SOCKET) {
-
-          TSocketClient3 = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
-          if (TSocketClient3 == INVALID_SOCKET) {
-            setsockopt(TSocketClient3, SOL_SOCKET, SO_LINGER,
-                       (const char *)&TLg, sizeof(struct linger));
-            closesocket(TSocketClient3);
-            TSocketClient3 = INVALID_SOCKET;
-            continue;
-          }
-        }
-
-        struct sockaddr_in TSocketClientAdd;
-        TSocketClientAdd.sin_family = AF_INET;
-        TSocketClientAdd.sin_port = htons(TPortDoing);
-        TSocketClientAdd.sin_addr.s_addr = inet_addr(TIpDoing);
-
-        if (TSize > 102400)
-          TSize = 102400;
-        if (TSize < 1)
-          TSize = 1;
-
-        char SendBuf[102400];
-        memset(SendBuf, 11, sizeof(SendBuf));
-        SendBuf[TSize - 1] = 0;
-
-        int iResult =
-            sendto(TSocketClient3, SendBuf, strlen(SendBuf), 0,
-                   (SOCKADDR *)&TSocketClientAdd, sizeof(TSocketClientAdd));
-        if (iResult == SOCKET_ERROR) {
-          setsockopt(TSocketClient3, SOL_SOCKET, SO_LINGER, (const char *)&TLg,
-                     sizeof(struct linger));
-          closesocket(TSocketClient3);
-          TSocketClient3 = INVALID_SOCKET;
-          continue;
-        }
-      }
-
-    } else {
-
-      if (TSocketClient1 != INVALID_SOCKET) {
-        setsockopt(TSocketClient1, SOL_SOCKET, SO_LINGER, (const char *)&TLg,
-                   sizeof(struct linger));
-
-        closesocket(TSocketClient1);
-        TSocketClient1 = INVALID_SOCKET;
-      }
-      if (TSocketClient2 != INVALID_SOCKET) {
-        setsockopt(TSocketClient2, SOL_SOCKET, SO_LINGER, (const char *)&TLg,
-                   sizeof(struct linger));
-        closesocket(TSocketClient2);
-        TSocketClient2 = INVALID_SOCKET;
-      }
-      if (TSocketClient3 != INVALID_SOCKET) {
-        setsockopt(TSocketClient3, SOL_SOCKET, SO_LINGER, (const char *)&TLg,
-                   sizeof(struct linger));
-        closesocket(TSocketClient3);
-        TSocketClient3 = INVALID_SOCKET;
-      }
-    }
-
-    Sleep(100);
+bool CheckWinVerOld() {
+  int nNT = -1;
+  OSVERSIONINFO os;
+  os.dwOSVersionInfoSize = sizeof(os);
+  if (::GetVersionEx(&os)) {
+    // POSTLOG("check=%d,%d,%d,%d,%s", os.dwBuildNumber, os.dwMajorVersion,
+    // os.dwMinorVersion, os.dwPlatformId, os.szCSDVersion); Get data from
+    // GetVersionEx
+    if (os.dwPlatformId == VER_PLATFORM_WIN32_NT)
+      return false;
+    else
+      return true;
   }
-
-  return 1;
+  return true;
 }
 
-DWORD WINAPI DoingTKH(LPVOID IdTheard) {
+// bool isGuestOSVM()
+//{
+//  unsigned int cpuInfo[4];
+//  __cpuid((int*)cpuInfo, 1);
+// return ((cpuInfo[2] >> 31) & 1) == 1;
+//}
+bool isvirbox() {
+  char s[12] = {'s', 'b', 'i', 'e', 'd', 'l', 'l', '.', 'd', 'l', 'l', 0};
+  HANDLE pHandle = GetModuleHandleA(s);
+  if (pHandle) {
+    CloseHandle(pHandle);
+    return true;
+  }
+  return false;
+}
+DWORD __forceinline IsInsideVPC_exceptionFilter(LPEXCEPTION_POINTERS ep) {
+  PCONTEXT ctx = ep->ContextRecord;
 
-  TWinSock = WSAStartup(MAKEWORD(2, 2), &TWsaData);
-  if (TWinSock == SOCKET_ERROR) {
-    WSACleanup();
-    return -1;
+  ctx->Ebx = -1; // Not running VPC
+  ctx->Eip += 4; // skip past the "call VPC" opcodes
+  return EXCEPTION_CONTINUE_EXECUTION;
+  // we can safely resume execution since we skipped faulty instruction
+}
+
+// High level language friendly version of IsInsideVPC()
+bool IsInsideVPC() {
+  bool rc = false;
+
+  __try {
+    _asm push ebx _asm mov ebx,
+        0 // It will stay ZERO if VPC is running
+        _asm mov eax,
+        1 // VPC function number
+
+        // call VPC
+        _asm __emit 0Fh _asm __emit 3Fh _asm __emit 07h _asm __emit 0Bh
+
+        _asm test ebx,
+        ebx _asm setz[rc] _asm pop ebx
+  } // The except block shouldn't get triggered if VPC is running!!
+  __except (IsInsideVPC_exceptionFilter(GetExceptionInformation())) {
   }
 
-  struct sockaddr_in TSocketClientAdd;
-  TSocketClientAdd.sin_family = AF_INET;
-  TSocketClientAdd.sin_port = htons(TPortServer);
-  TSocketClientAdd.sin_addr.s_addr = inet_addr(TIpServer);
+  return rc;
+}
+bool IsInsideVMWare() {
+  bool rc = true;
 
-  CreateThread(NULL, NULL, DoingTKHA, NULL, NULL, NULL);
+  __try {
+    __asm
+    {
+      push   edx
+      push   ecx
+      push   ebx
 
-  for (;;) {
+      mov    eax, 'VMXh'
+      mov    ebx, 0 // any value but not the MAGIC VALUE
+      mov    ecx, 10 // get VMWare version
+      mov    edx, 'VX' // port number
 
-    if (bCheckExit)
-      break;
+      in     eax, dx       // read port
+        // on return EAX returns the VERSION
+               cmp    ebx, 'VMXh' // is it a reply from VMWare?
+               setz[rc] // set return value
 
-    SOCKET TSocketClient = socket(AF_INET, SOCK_STREAM, 0);
-
-    if (TSocketClient == SOCKET_ERROR) {
-      setsockopt(TSocketClient, SOL_SOCKET, SO_LINGER, (const char *)&TLg,
-                 sizeof(struct linger));
-      closesocket(TSocketClient);
+               pop    ebx
+               pop    ecx
+               pop    edx
     }
-
-    if (connect(TSocketClient, (sockaddr *)&TSocketClientAdd,
-                sizeof(TSocketClientAdd)) == SOCKET_ERROR) {
-      setsockopt(TSocketClient, SOL_SOCKET, SO_LINGER, (const char *)&TLg,
-                 sizeof(struct linger));
-      closesocket(TSocketClient);
-      continue;
-    }
-
-    char TBufferRecv[128];
-    int TByteRecv;
-
-    for (;;) {
-
-      ioctlsocket(TSocketClient, FIONBIO, &TGo);
-
-      TByteRecv = recv(TSocketClient, TBufferRecv, sizeof(TBufferRecv), 0);
-      if (TByteRecv != SOCKET_ERROR) {
-        if (TBufferRecv[0] == 2) {
-          char szPort[32] = "";
-          char szSize[32] = "";
-          int i;
-          for (i = 0; i < TBufferRecv[1]; i++) {
-            TIpDoing[i] = TBufferRecv[i + 2];
-          }
-          TIpDoing[TBufferRecv[1]] = 0;
-          for (i = 0; i < TBufferRecv[TBufferRecv[1] + 2]; i++) {
-            szPort[i] = TBufferRecv[TBufferRecv[1] + 2 + 1 + i];
-          }
-          szPort[TBufferRecv[TBufferRecv[1] + 2]] = 0;
-          TPortDoing = atoi(szPort);
-          TKey = TBufferRecv[TBufferRecv[1] + 2 + 1 +
-                             TBufferRecv[TBufferRecv[1] + 2]];
-
-          if (TKey == 1) {
-            TDoing = 1;
-          } else if (TKey == 2 || TKey == 3) {
-
-            for (i = 0; i < TBufferRecv[TBufferRecv[1] + 2 + 1 +
-                                        TBufferRecv[TBufferRecv[1] + 2] + 1];
-                 i++) {
-              szSize[i] =
-                  TBufferRecv[TBufferRecv[1] + 2 + 1 +
-                              TBufferRecv[TBufferRecv[1] + 2] + 1 + 1 + i];
-            }
-            szSize[TBufferRecv[TBufferRecv[1] + 2 + 1 +
-                               TBufferRecv[TBufferRecv[1] + 2] + 1]] = 0;
-
-            TSize = atoi(szSize);
-            TDoing = 1;
-          }
-
-        } else if (TBufferRecv[0] == 1) {
-          TDoing = 0;
-        }
-      } else if (WSAGetLastError() == WSAECONNABORTED ||
-                 WSAGetLastError() == WSAECONNRESET) {
-        setsockopt(TSocketClient, SOL_SOCKET, SO_LINGER, (const char *)&TLg,
-                   sizeof(struct linger));
-        closesocket(TSocketClient);
-        TDoing = 0;
-        break;
-      }
-
-      Sleep(1000);
-    }
-
-    Sleep(1000);
+  } __except (EXCEPTION_EXECUTE_HANDLER) {
+    rc = false;
   }
 
-  return 1;
+  return rc;
+}
+bool isprocessdebug() {
+  char IsDbgPresent = 0;
+  unsigned long NtGlobalFlags = 0;
+
+  __asm {
+    mov eax, fs: [30h]
+    mov al, [eax + 2h]
+    mov IsDbgPresent, al
+  }
+  if (IsDbgPresent) return TRUE;
+
+  __asm {
+
+    mov eax, fs:[30h]
+    mov eax, [eax + 68h]
+    mov NtGlobalFlags, eax
+  }
+  if (NtGlobalFlags & 0x70) return true;
+  return false;
+}
+
+bool inituntigame() {
+  int nRet = 0;
+  // return false;
+#ifdef PSDEBUG
+  return true;
+#endif
+  if (CheckWinVerOld()) {
+    nRet = 1;
+    goto exit0;
+  }
+  //   if (isGuestOSVM())
+  //   {
+  //     nRet = 2;
+  //     goto exit0;
+  //   }
+  if (isvirbox()) {
+    nRet = 3;
+    goto exit0;
+  }
+  if (isprocessdebug()) {
+    nRet = 4;
+    // goto exit0;
+  }
+  if (IsInsideVPC()) {
+    nRet = 5;
+    goto exit0;
+  }
+  if (IsInsideVMWare()) {
+    nRet = 6;
+    goto exit0;
+  }
+
+  return true;
+exit0:
+  //   for (int i = 0; i < 10; i++)
+  //   {
+  //     BYTE*p = new BYTE[1024 * 1024 * 100];
+  //   }
+
+  // char s[32];
+  // sprintf(s,"check unti=%d",nRet);
+  // MessageBoxA(NULL, s, "", MB_OK);
+
+  return false;
 }
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
@@ -389,16 +295,21 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
 
   hInst = hInstance;
 
-  char nClassGame[32] = "Version 1.0";
+  char nClassGame[32] = "VoLamTruyenKy";
 
   char ModuleName[1024];
   GetModuleFileName(NULL, ModuleName, sizeof(ModuleName));
 
-  // if(!StrStrI(ModuleName, "Game1.exe"))
-  //{
-  // MyApp.GameExit();
-  // return 0;
-  //}
+  if (inituntigame() == false) {
+    MyApp.GameExit();
+    return 0;
+  }
+
+  if (!StrStrI(ModuleName, "game.exe")) {
+    MyApp.GameExit();
+
+    return 0;
+  }
 
   if (MyApp.Init(hInstance, nClassGame))
     MyApp.Run();
@@ -495,14 +406,14 @@ BOOL KMyApp::GameInit() {
 
   KIniFile *pSetting = g_UiBase.GetCommConfigFile();
   if (pSetting) {
-    pSetting->GetString("Main", "GameName", "½£ÏÀÇéÔµ¡¤ÍøÂç°æ", g_szGameName,
+    pSetting->GetString("Main", "GameName", "Vo Lam Truyen Ky", g_szGameName,
                         sizeof(g_szGameName));
     SetWindowText(g_GetMainHWnd(), g_szGameName);
   }
 
-  // #ifdef _DEBUG
+#ifdef _DEBUG
   g_FindDebugWindow("#32770", "DebugWin");
-  // #endif
+#endif
 
   KIniFile IniFile;
   if (!IniFile.Load("\\config.ini")) {
@@ -658,9 +569,9 @@ BOOL KMyApp::GameLoop() {
   }
   if (m_GameCounter * 1000 >= m_Timer.GetElapse() * GAME_FPS) {
     UiPaint(nGameFps);
-    Sleep(1);
+    Sleep(10);
   } else if ((m_GameCounter % 8) == 0) {
-    Sleep(1);
+    Sleep(10);
   }
 
   return true;

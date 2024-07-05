@@ -161,7 +161,7 @@ typedef struct XACT_RUNTIME_PARAMETERS {
                                          // attributes (see XMemAlloc)
   XACT_FILEIO_CALLBACKS fileIOCallbacks; // File I/O callbacks
   XACT_NOTIFICATION_CALLBACK
-  fnNotificationCallback; // Callback that receives notifications.
+      fnNotificationCallback; // Callback that receives notifications.
 #ifndef _XBOX
   PWSTR pRendererID; // Ptr to the ID for the audio renderer the engine should
                      // connect to.
@@ -176,7 +176,7 @@ typedef const XACT_RUNTIME_PARAMETERS *LPCXACT_RUNTIME_PARAMETERS;
 typedef struct XACT_WAVEBANK_STREAMING_PARAMETERS {
   HANDLE file; // File handle associated with wavebank data
   DWORD
-  offset;      // Offset within file of wavebank header (must be sector aligned)
+      offset;  // Offset within file of wavebank header (must be sector aligned)
   DWORD flags; // Flags (none currently)
   WORD packetSize; // Stream packet size (in sectors) to use for each stream
                    // (min = 2)
@@ -201,9 +201,9 @@ typedef struct XACTCUEPROPERTIES {
                                 // in the first track (does not account for
                                 // pitch changes)
   XACTCHANNEL
-  MaxTrackChannelCount;   // The highest number of channels in any track
-  BYTE MaxTrackLoopCount; // The highest loop count of any track (255 is
-                          // infinite)
+      MaxTrackChannelCount; // The highest number of channels in any track
+  BYTE MaxTrackLoopCount;   // The highest loop count of any track (255 is
+                            // infinite)
 } XACTCUEPROPERTIES, *LPXACTCUEPROPERTIES;
 #endif // _XBOX
 

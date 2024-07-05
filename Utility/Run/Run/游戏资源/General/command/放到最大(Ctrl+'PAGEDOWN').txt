@@ -1,4 +1,0 @@
-[MAIN]
-command=camera_enlarge
-icon=command
-type=camera

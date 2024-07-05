@@ -105,10 +105,8 @@ void KFont2::OutputText(const char *pszText, int nCount /*= KF_ZERO_END*/,
                         int nLineWidth /*=0*/) {
   if (!pszText || !m_bLoaded)
     return;
-
   unsigned char *lpByte = (unsigned char *)pszText;
-  int /*nL,*/ h;
-
+  int nL, h;
   int nPos = 0;
   int nHalfIndex = 0;
 
@@ -126,19 +124,21 @@ void KFont2::OutputText(const char *pszText, int nCount /*= KF_ZERO_END*/,
   int sColor = g_RGB(c.Color_b.r, c.Color_b.g, c.Color_b.b);
 
   if (nLineWidth < m_nOutputWidth + m_nOutputWidth)
-    nLineWidth = 0; // 不做自动换行处理
+    nLineWidth = 0;
 
   while (nPos < nCount) {
-    //*********字符的判断与处理*********
-
-    DrawCharacter(nX + h, nY, lpByte[nPos], lpByte[nPos + 1], sColor);
-    nPos += 1;
-    h += m_nOutputWidth / 2;
-
+    nL = lpByte[nPos++];
+    DrawCharacter(nX + h, nY, nL, 0, sColor);
+    if (nL != 0x0a) {
+      h += m_nFontHalfWidth[nHalfIndex];
+      nHalfIndex ^= 1;
+    } else {
+      h = 0;
+      nY += m_nOutputHeight;
+    }
     if (nLineWidth) {
       if (h + m_nOutputWidth > nLineWidth) {
-        if (nPos < nCount &&
-            lpByte[nPos] == 0x0a) // 处理自动换行位置后恰好紧接一个换行符号
+        if (nPos < nCount && lpByte[nPos] == 0x0a)
           nPos++;
         h = 0;
         nY += m_nOutputHeight;
@@ -189,8 +189,7 @@ void KFont2::DrawCharacter(int x, int y, unsigned char cFirst,
     if (pCharacterData) {
       //			if (m_nDrawBorderWithDeffColor == false)
       //				((KCanvas*)m_pDevice)->DrawFont(x, y,
-      // m_nFontWidth, m_nFontHeight, nColor, 31, pCharacterData);
-      // else
+      //m_nFontWidth, m_nFontHeight, nColor, 31, pCharacterData); 			else
       ((KCanvas *)m_pDevice)
           ->DrawFontWithBorder(x, y, m_nFontWidth, m_nFontHeight, nColor, 31,
                                pCharacterData, m_nBorderColor);

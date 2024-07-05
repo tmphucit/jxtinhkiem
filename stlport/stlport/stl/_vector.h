@@ -538,7 +538,7 @@ protected:
     pointer __result = this->_M_end_of_storage.allocate(__n);
     _STLP_TRY {
 #if !defined(__MRC__) //*TY 12/17/2000 - added workaround for MrCpp. it confuses
-                      // on nested try/catch block
+                      //on nested try/catch block
       __uninitialized_copy(__first, __last, __result, _IsPODType());
 #else
       uninitialized_copy(__first, __last, __result);
@@ -581,7 +581,7 @@ protected:
 #if defined(_STLP_USE_TEMPLATE_EXPORT)
 _STLP_EXPORT_TEMPLATE_CLASS allocator<void *>;
 _STLP_EXPORT_TEMPLATE_CLASS
-_STLP_alloc_proxy<void **, void *, allocator<void *>>;
+    _STLP_alloc_proxy<void **, void *, allocator<void *>>;
 _STLP_EXPORT_TEMPLATE_CLASS _Vector_base<void *, allocator<void *>>;
 _STLP_EXPORT_TEMPLATE_CLASS vector<void *, allocator<void *>>;
 #endif

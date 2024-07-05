@@ -43,7 +43,7 @@
 #include "KScriptList.h"
 #include "KSkillManager.h"
 #include "KTabFile.h"
-#include "MyAssert.H"
+#include "MyAssert.h"
 class ISkill;
 #ifdef _SERVER
 #ifdef _STANDALONE

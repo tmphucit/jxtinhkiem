@@ -1,5 +1,0 @@
-MISSION	SCRIPT
-0	\script\timerserver.lua
-1	\script\timerserver.lua
-2	\script\timerserver.lua
-

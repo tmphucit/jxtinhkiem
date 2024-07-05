@@ -18,7 +18,7 @@
 
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI_RPNEWBOX "ui_rpnewbox.ini"
+#define SCHEME_INI_RPNEWBOX "UiRPNewBox.ini"
 
 KUiRPNewBox *KUiRPNewBox::m_pSelf = NULL;
 

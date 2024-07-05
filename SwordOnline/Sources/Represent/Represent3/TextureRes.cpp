@@ -70,18 +70,18 @@ loc_DrawSprite_0103:
 		inc		esi
 		mov		dx, [ebx + eax * 2] // 获得 16位 r4g4b4a4 a = 0
 		
-		pop     ebx // ebx = nAlpha
+		pop     ebx  // ebx = nAlpha
 		push	ebx  
 		
-		or		dx, bx // 生成最终的r4g4b4a4值
+		or		dx, bx          // 生成最终的r4g4b4a4值
 		mov		[edi], dx
 		inc		edi
 		inc		edi
 		dec		ecx
 		jnz		loc_DrawSprite_0103
 		pop     ebx // ebx = nAlpha
-		pop		edx // edx = 该行剩于
-		pop		eax // eax = n
+		pop		edx                                       // edx = 该行剩于
+		pop		eax                                   // eax = n
 		sub		edx, eax
 		jg		loc_DrawSprite_0101
 		dec		height

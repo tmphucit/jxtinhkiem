@@ -1,6 +1,0 @@
-[MAIN]
-help=F
-icon=setting
-title=设置平行自动拼接
-type=doodad_simple
-want=bool

@@ -14,7 +14,7 @@
 // #include "../MultiServer/Heaven/Interface/iServer.h"
 #endif
 #include "KRegion.h"
-#include "MyAssert.H"
+#include "MyAssert.h"
 #include "Scene/ObstacleDef.h"
 #include "Scene/SceneDataDef.h"
 
@@ -148,9 +148,10 @@ BOOL KRegion::LoadObject(int nSubWorld, int nX, int nY) {
     LoadServerTrap(&cData, sElemFile[REGION_TRAP_FILE_INDEX].uLength);
 
     // 载入npc数据
-    //	cData.Seek(dwHeadSize + sElemFile[REGION_NPC_FILE_INDEX].uOffset,
-    // FILE_BEGIN); 	LoadServerNpc(nSubWorld, &cData,
-    // sElemFile[REGION_NPC_FILE_INDEX].uLength);
+    //		cData.Seek(dwHeadSize +
+    //sElemFile[REGION_NPC_FILE_INDEX].uOffset, FILE_BEGIN);
+    //		LoadServerNpc(nSubWorld, &cData,
+    //sElemFile[REGION_NPC_FILE_INDEX].uLength);
 
     // 载入obj数据
     cData.Seek(dwHeadSize + sElemFile[REGION_OBJ_FILE_INDEX].uOffset,
@@ -174,66 +175,68 @@ BOOL KRegion::LoadObject(int nSubWorld, int nX, int nY) {
       ZeroMemory(m_Obstacle, sizeof(m_Obstacle));
     }
 
-    KPakFile cTrapData, cNpcData;
+    /*		KPakFile	cTrapData, cNpcData;
 
-    // 载入trap信息
-    KTrapFileHead sTrapFileHead;
-    KSPTrap sTrapCell;
-    int i, j;
-
-    //		g_SetFilePath(szFilePath);
-    sprintf(szFile, "%s\\%03d_%s", szFilePath, nX, REGION_TRAP_FILE);
-    memset(this->m_dwTrap, 0, sizeof(m_dwTrap));
-    if (!cTrapData.Open(szFile))
-      goto TRAP_CLOSE;
-    if (cTrapData.Size() < sizeof(KTrapFileHead))
-      goto TRAP_CLOSE;
-    cTrapData.Read(&sTrapFileHead, sizeof(KTrapFileHead));
-    if (sTrapFileHead.uNumTrap * sizeof(KSPTrap) + sizeof(KTrapFileHead) !=
-        cTrapData.Size())
-      goto TRAP_CLOSE;
-    for (i = 0; i < sTrapFileHead.uNumTrap; i++) {
-      cTrapData.Read(&sTrapCell, sizeof(KSPTrap));
-      if (sTrapCell.cY >= REGION_GRID_HEIGHT ||
-          sTrapCell.cX + sTrapCell.cNumCell - 1 >= REGION_GRID_WIDTH)
-        continue;
-      for (j = 0; j < sTrapCell.cNumCell; j++) {
-        m_dwTrap[sTrapCell.cX + j][sTrapCell.cY] = sTrapCell.uTrapId;
-      }
-    }
-
-  TRAP_CLOSE:
-    cTrapData.Close();
-
-    // 载入npc数据
-    KNpcFileHead sNpcFileHead;
-    KSPNpc sNpcCell;
+                    // 载入trap信息
+                    KTrapFileHead	sTrapFileHead;
+                    KSPTrap			sTrapCell;
+                    int				i, j;
 
     //		g_SetFilePath(szFilePath);
-    sprintf(szFile, "%s\\%03d_%s", szFilePath, nX, REGION_NPC_FILE_SERVER);
-    if (!cNpcData.Open(szFile))
-      goto NPC_CLOSE;
-    if (cNpcData.Size() < sizeof(KNpcFileHead))
-      goto NPC_CLOSE;
-    cNpcData.Read(&sNpcFileHead, sizeof(KNpcFileHead));
-    for (i = 0; i < sNpcFileHead.uNumNpc; i++) {
-      cNpcData.Read(&sNpcCell, sizeof(KSPNpc) - sizeof(sNpcCell.szScript));
-      if (sNpcCell.nScriptNameLen < sizeof(sNpcCell.szScript)) {
-        cNpcData.Read(sNpcCell.szScript, sNpcCell.nScriptNameLen);
-        sNpcCell.szScript[sNpcCell.nScriptNameLen] = 0;
-      } else {
-        sNpcCell.szScript[0] = 0;
-      }
+                    sprintf(szFile, "%s\\%03d_%s", szFilePath, nX,
+    REGION_TRAP_FILE); memset(this->m_dwTrap, 0, sizeof(m_dwTrap)); if
+    (!cTrapData.Open(szFile)) goto TRAP_CLOSE; if (cTrapData.Size() <
+    sizeof(KTrapFileHead)) goto TRAP_CLOSE; cTrapData.Read(&sTrapFileHead,
+    sizeof(KTrapFileHead)); if (sTrapFileHead.uNumTrap * sizeof(KSPTrap) +
+    sizeof(KTrapFileHead) != cTrapData.Size()) goto TRAP_CLOSE; for (i = 0; i <
+    sTrapFileHead.uNumTrap; i++)
+                    {
+                            cTrapData.Read(&sTrapCell, sizeof(KSPTrap));
+                            if (sTrapCell.cY >= REGION_GRID_HEIGHT ||
+    sTrapCell.cX + sTrapCell.cNumCell - 1 >= REGION_GRID_WIDTH) continue; for (j
+    = 0; j < sTrapCell.cNumCell; j++)
+                            {
+                                    m_dwTrap[sTrapCell.cX + j][sTrapCell.cY] =
+    sTrapCell.uTrapId;
+                            }
+                    }
 
-      NpcSet.Add(nSubWorld, &sNpcCell);
-    }
-    g_DebugLog("[TEST]Region%x have %d npc", m_RegionID, sNpcFileHead.uNumNpc);
+    TRAP_CLOSE:
+                    cTrapData.Close();
 
-  NPC_CLOSE:
-    cNpcData.Close();
+                    // 载入npc数据
+                    KNpcFileHead	sNpcFileHead;
+                    KSPNpc			sNpcCell;
 
-    // 载入obj数据
-    ObjSet.ServerLoadRegionObj(szFilePath, nX, nY, nSubWorld);
+    //		g_SetFilePath(szFilePath);
+                    sprintf(szFile, "%s\\%03d_%s", szFilePath, nX,
+    REGION_NPC_FILE_SERVER); if (!cNpcData.Open(szFile)) goto NPC_CLOSE; if
+    (cNpcData.Size() < sizeof(KNpcFileHead)) goto NPC_CLOSE;
+                    cNpcData.Read(&sNpcFileHead, sizeof(KNpcFileHead));
+                    for (i = 0; i < sNpcFileHead.uNumNpc; i++)
+                    {
+                            cNpcData.Read(&sNpcCell, sizeof(KSPNpc) -
+    sizeof(sNpcCell.szScript)); if (sNpcCell.nScriptNameLen <
+    sizeof(sNpcCell.szScript))
+                            {
+                                    cNpcData.Read(sNpcCell.szScript,
+    sNpcCell.nScriptNameLen); sNpcCell.szScript[sNpcCell.nScriptNameLen] = 0;
+                            }
+                            else
+                            {
+                                    sNpcCell.szScript[0] = 0;
+                            }
+
+                            NpcSet.Add(nSubWorld, &sNpcCell);
+                    }
+                    g_DebugLog("[TEST]Region%x have %d npc", m_RegionID,
+    sNpcFileHead.uNumNpc);
+
+    NPC_CLOSE:
+                    cNpcData.Close();
+
+                    // 载入obj数据
+                    ObjSet.ServerLoadRegionObj(szFilePath, nX, nY, nSubWorld);*/
   }
 
   return TRUE;
@@ -249,96 +252,106 @@ BOOL KRegion::LoadObject(int nSubWorld, int nX, int nY, char *lpszPath) {
 #ifdef TOOLVERSION
   return TRUE;
 #endif
-  char szPath[FILE_NAME_LENGTH], szFile[FILE_NAME_LENGTH];
+  /*	char	szPath[FILE_NAME_LENGTH], szFile[FILE_NAME_LENGTH];   // fix loi
+  1 so map goc lag
 
-  if (!lpszPath || !lpszPath[0] || strlen(lpszPath) >= FILE_NAME_LENGTH)
-    return FALSE;
-  sprintf(szPath, "\\%s\\v_%03d", lpszPath, nY);
+          if (!lpszPath || !lpszPath[0] || strlen(lpszPath) >= FILE_NAME_LENGTH)
+                  return FALSE;
+          sprintf(szPath, "\\%s\\v_%03d", lpszPath, nY);
   //	g_SetFilePath(szPath);
 
-  // 载入npc数组中位于本地的 client npc
-  NpcSet.InsertNpcToRegion(this->m_nIndex);
+          // 载入npc数组中位于本地的 client npc
+          NpcSet.InsertNpcToRegion(this->m_nIndex);
 
-  KPakFile cData;
-  sprintf(szFile, "%s\\%03d_%s", szPath, nX, REGION_COMBIN_FILE_NAME_CLIENT);
-  if (cData.Open(szFile)) {
-    DWORD dwHeadSize;
-    DWORD dwMaxElemFile = 0;
-    KCombinFileSection sElemFile[REGION_ELEM_FILE_COUNT];
+          KPakFile	cData;
+          sprintf(szFile, "%s\\%03d_%s", szPath, nX,
+  REGION_COMBIN_FILE_NAME_CLIENT); if (cData.Open(szFile))
+          {
+                  DWORD	dwHeadSize;
+                  DWORD	dwMaxElemFile = 0;
+                  KCombinFileSection	sElemFile[REGION_ELEM_FILE_COUNT];
 
-    if (cData.Size() <
-        sizeof(DWORD) + sizeof(KCombinFileSection) * REGION_ELEM_FILE_COUNT)
-      goto gotoCLOSE;
-    cData.Read(&dwMaxElemFile, sizeof(DWORD));
-    if (dwMaxElemFile > REGION_ELEM_FILE_COUNT) {
-      cData.Read(sElemFile, sizeof(sElemFile));
-      cData.Seek(sizeof(KCombinFileSection) *
-                     (dwMaxElemFile - REGION_ELEM_FILE_COUNT),
-                 FILE_CURRENT);
-    } else {
-      cData.Read(sElemFile, sizeof(sElemFile));
-    }
-    dwHeadSize = sizeof(DWORD) + sizeof(KCombinFileSection) * dwMaxElemFile;
+                  if (cData.Size() < sizeof(DWORD) + sizeof(KCombinFileSection)
+  * REGION_ELEM_FILE_COUNT) goto gotoCLOSE; cData.Read(&dwMaxElemFile,
+  sizeof(DWORD)); if (dwMaxElemFile > REGION_ELEM_FILE_COUNT)
+                  {
+                          cData.Read(sElemFile, sizeof(sElemFile));
+                          cData.Seek(sizeof(KCombinFileSection) * (dwMaxElemFile
+  - REGION_ELEM_FILE_COUNT), FILE_CURRENT);
+                  }
+                  else
+                  {
+                          cData.Read(sElemFile, sizeof(sElemFile));
+                  }
+                  dwHeadSize = sizeof(DWORD) + sizeof(KCombinFileSection) *
+  dwMaxElemFile;
 
-    // 载入npc数据
-    cData.Seek(dwHeadSize + sElemFile[REGION_NPC_FILE_INDEX].uOffset,
-               FILE_BEGIN);
-    LoadClientNpc(&cData, sElemFile[REGION_NPC_FILE_INDEX].uLength);
+                  // 载入npc数据
+                  cData.Seek(dwHeadSize +
+  sElemFile[REGION_NPC_FILE_INDEX].uOffset, FILE_BEGIN); LoadClientNpc(&cData,
+  sElemFile[REGION_NPC_FILE_INDEX].uLength);
 
-    // 载入obj数据
-    cData.Seek(dwHeadSize + sElemFile[REGION_OBJ_FILE_INDEX].uOffset,
-               FILE_BEGIN);
-    LoadClientObj(&cData, sElemFile[REGION_OBJ_FILE_INDEX].uLength);
+                  // 载入obj数据
+                  cData.Seek(dwHeadSize +
+  sElemFile[REGION_OBJ_FILE_INDEX].uOffset, FILE_BEGIN); LoadClientObj(&cData,
+  sElemFile[REGION_OBJ_FILE_INDEX].uLength);
 
   gotoCLOSE:
-    cData.Close();
-  } else {
-    // 载入 Client npc 数据
-    KPakFile cNpcData;
-    KNpcFileHead sNpcFileHead;
-    KSPNpc sNpcCell;
-    DWORD i;
-    KClientNpcID sTempID;
-    int nNpcNo;
+                  cData.Close();
+          }
+          else
+          {
+                  // 载入 Client npc 数据
+                  KPakFile		cNpcData;
+                  KNpcFileHead	sNpcFileHead;
+                  KSPNpc			sNpcCell;
+                  DWORD			i;
+                  KClientNpcID	sTempID;
+                  int				nNpcNo;
 
-    // 载入地图文件里的 client npc
-    //		g_SetFilePath(szPath);
-    sprintf(szFile, "%s\\%03d_%s", szPath, nX, REGION_NPC_FILE_CLIENT);
-    if (!cNpcData.Open(szFile))
-      goto NPC_CLOSE;
-    if (cNpcData.Size() < sizeof(KNpcFileHead))
-      goto NPC_CLOSE;
-    cNpcData.Read(&sNpcFileHead, sizeof(KNpcFileHead));
-    for (i = 0; i < sNpcFileHead.uNumNpc; i++) {
-      cNpcData.Read(&sNpcCell, sizeof(KSPNpc) - sizeof(sNpcCell.szScript));
-      _ASSERT(sNpcCell.nScriptNameLen < sizeof(sNpcCell.szScript));
-      if (sNpcCell.nScriptNameLen > 0) {
-        cNpcData.Read(sNpcCell.szScript, sNpcCell.nScriptNameLen);
-        sNpcCell.szScript[sNpcCell.nScriptNameLen] = 0;
-      } else {
-        sNpcCell.szScript[0] = 0;
-      }
-      sTempID.m_dwRegionID = MAKELONG(nX, nY);
-      sTempID.m_nNo = i;
-      nNpcNo = NpcSet.SearchClientID(sTempID);
-      if (nNpcNo == 0) {
-        int nIdx =
-            NpcSet.AddClientNpc(sNpcCell.nTemplateID, nX, nY,
-                                sNpcCell.nPositionX, sNpcCell.nPositionY, i);
-        if (nIdx > 0) {
-          Npc[nIdx].m_Kind = sNpcCell.shKind;
-          Npc[nIdx].SendCommand(do_stand);
-          Npc[nIdx].m_Dir = Npc[nIdx].GetNormalNpcStandDir(sNpcCell.nCurFrame);
-        }
-      }
-    }
+                  // 载入地图文件里的 client npc
+  //		g_SetFilePath(szPath);
+                  sprintf(szFile, "%s\\%03d_%s", szPath, nX,
+  REGION_NPC_FILE_CLIENT); if (!cNpcData.Open(szFile)) goto NPC_CLOSE; if
+  (cNpcData.Size() < sizeof(KNpcFileHead)) goto NPC_CLOSE;
+                  cNpcData.Read(&sNpcFileHead, sizeof(KNpcFileHead));
+                  for (i = 0; i < sNpcFileHead.uNumNpc; i++)
+                  {
+                          cNpcData.Read(&sNpcCell, sizeof(KSPNpc) -
+  sizeof(sNpcCell.szScript)); _ASSERT(sNpcCell.nScriptNameLen <
+  sizeof(sNpcCell.szScript)); if (sNpcCell.nScriptNameLen > 0)
+                          {
+                                  cNpcData.Read(sNpcCell.szScript,
+  sNpcCell.nScriptNameLen); sNpcCell.szScript[sNpcCell.nScriptNameLen] = 0;
+                          }
+                          else
+                          {
+                                  sNpcCell.szScript[0] = 0;
+                          }
+                          sTempID.m_dwRegionID = MAKELONG(nX, nY);
+                          sTempID.m_nNo = i;
+                          nNpcNo = NpcSet.SearchClientID(sTempID);
+                          if (nNpcNo == 0)
+                          {
+                                  int nIdx =
+  NpcSet.AddClientNpc(sNpcCell.nTemplateID, nX, nY, sNpcCell.nPositionX,
+  sNpcCell.nPositionY, i); if (nIdx > 0)
+                                  {
+                                          Npc[nIdx].m_Kind = sNpcCell.shKind;
+                                          Npc[nIdx].SendCommand(do_stand);
+                                          Npc[nIdx].m_Dir =
+  Npc[nIdx].GetNormalNpcStandDir(sNpcCell.nCurFrame);
+                                  }
+                          }
+                  }
 
   NPC_CLOSE:
-    cNpcData.Close();
+                  cNpcData.Close();
 
-    // 载入ClientObject数据
-    ObjSet.ClientLoadRegionObj(szPath, nX, nY, nSubWorld, this->m_nIndex);
-  }
+                  // 载入ClientObject数据
+                  ObjSet.ClientLoadRegionObj(szPath, nX, nY, nSubWorld,
+  this->m_nIndex);
+          }*/
 
   return TRUE;
 }
@@ -564,7 +577,7 @@ void KRegion::Activate() {
       // 发送同步信号
 
       //	if (Npc[nNpcIdx].m_nCurConutTimeSyn > 1 ||
-      // Npc[nNpcIdx].m_nCurConutTimeSyn < 0)
+      //Npc[nNpcIdx].m_nCurConutTimeSyn < 0)
       //	{
       //		Npc[nNpcIdx].m_nCurConutTimeSyn = 0;
       Npc[nNpcIdx].NormalSync();
@@ -593,7 +606,7 @@ void KRegion::Activate() {
     if ((nCounter == m_nObjSyncCounter / 2) && (m_nObjSyncCounter & 1)) {
 
       //	if (Object[pNode->m_nIndex].m_nCurConutTimeSyn > 1 ||
-      // Object[pNode->m_nIndex].m_nCurConutTimeSyn < 0)
+      //Object[pNode->m_nIndex].m_nCurConutTimeSyn < 0)
       //	{
       //		Object[pNode->m_nIndex].m_nCurConutTimeSyn = 0;
       Object[pNode->m_nIndex].SyncState();
@@ -617,7 +630,7 @@ void KRegion::Activate() {
   while (pNode) {
     pTmpNode = (KIndexNode *)pNode->GetNext();
     //		g_DebugLog("[Missle]Missle%d,Activate,in R%d", pNode->m_nIndex,
-    // this->m_nIndex);
+    //this->m_nIndex);
     Missle[pNode->m_nIndex].Activate();
     pNode = pTmpNode;
   }
@@ -641,7 +654,8 @@ void KRegion::Activate() {
 
 void KRegion::AddNpc(int nIdx) {
   if (nIdx > 0 && nIdx < MAX_NPC) {
-    _ASSERT(Npc[nIdx].m_Node.m_Ref == 0);
+    if (Npc[nIdx].m_Node.m_Ref != 0)
+      return;
     if (Npc[nIdx].m_Node.m_Ref == 0) {
       m_NpcList.AddTail(&Npc[nIdx].m_Node);
       Npc[nIdx].m_Node.AddRef();
@@ -653,8 +667,8 @@ void KRegion::RemoveNpc(int nIdx) {
   if (nIdx <= 0 || nIdx >= MAX_NPC)
     return;
 
-  _ASSERT(Npc[nIdx].m_Node.m_Ref > 0);
-
+  if (Npc[nIdx].m_Node.m_Ref <= 0)
+    return;
   if (Npc[nIdx].m_Node.m_Ref > 0) {
     Npc[nIdx].m_Node.Remove();
     Npc[nIdx].m_Node.Release();
@@ -666,7 +680,8 @@ void KRegion::RemoveNpc(int nIdx) {
 
 void KRegion::AddMissle(int nId) {
   if (nId > 0 && nId < MAX_MISSLE) {
-    _ASSERT(Missle[nId].m_Node.m_Ref == 0);
+    if (Missle[nId].m_Node.m_Ref != 0)
+      return;
     if (Missle[nId].m_Node.m_Ref == 0) {
       m_MissleList.AddTail(&Missle[nId].m_Node);
       Missle[nId].m_Node.AddRef();
@@ -709,7 +724,6 @@ void KRegion::RemoveObj(int nIdx) {
     }
     pNode = (KIndexNode *)pNode->GetNext();
   }
-
   if (Object[nIdx].m_nMapX > 0 && Object[nIdx].m_nMapY > 0) {
     DecRef(Object[nIdx].m_nMapX, Object[nIdx].m_nMapY, obj_object);
   }
@@ -976,7 +990,7 @@ int KRegion::SearchNpc(DWORD dwNpcID) {
   return 0;
 }
 
-int KRegion::FindObject(int nMapX, int nMapY) {
+int KRegion::FindObject(int nMapX, int nMapY, bool bAutoFind) {
   KIndexNode *pNode = NULL;
 
   pNode = (KIndexNode *)m_ObjList.GetHead();
@@ -984,10 +998,29 @@ int KRegion::FindObject(int nMapX, int nMapY) {
   while (pNode) {
     if (Object[pNode->m_nIndex].m_nMapX == nMapX &&
         Object[pNode->m_nIndex].m_nMapY == nMapY) {
-      return pNode->m_nIndex;
+      if (bAutoFind) {
+        if (Object[pNode->m_nIndex].m_nKind == Obj_Kind_Money ||
+            Object[pNode->m_nIndex].m_nKind == Obj_Kind_Item ||
+            Object[pNode->m_nIndex].m_nKind == Obj_Kind_Prop)
+          return pNode->m_nIndex;
+      } else
+        return pNode->m_nIndex;
     }
     pNode = (KIndexNode *)pNode->GetNext();
   }
+  return 0;
+}
+
+int KRegion::SearchNpcName(const char *szName) {
+  KIndexNode *pNode = NULL;
+
+  pNode = (KIndexNode *)m_NpcList.GetHead();
+  while (pNode) {
+    if (strcmp(Npc[pNode->m_nIndex].Name, szName) == 0)
+      return pNode->m_nIndex;
+    pNode = (KIndexNode *)pNode->GetNext();
+  }
+
   return 0;
 }
 

@@ -56,7 +56,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /map /debug /machine:I386
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\bin\client\release\	copy Release\FilterText.dll ..\..\..\bin\Client\FilterText.dll	copy Release\FilterText.dll ..\..\..\bin\Client\release\FilterText.dll
+PostBuild_Cmds=md ..\..\..\bin\client\	copy release\FilterText.dll ..\..\..\bin\client\FilterText.dll	copy release\FilterText.pdb ..\..\..\bin\client\FilterText.pdb	md ..\..\..\bin\client\release\	copy release\FilterText.dll ..\..\..\bin\client\release\FilterText.dll	copy release\FilterText.pdb ..\..\..\bin\client\release\FilterText.pdb	md ..\..\..\bin\server\	copy release\FilterText.dll ..\..\..\bin\server\FilterText.dll	copy release\FilterText.pdb ..\..\..\bin\server\FilterText.pdb	md ..\..\..\bin\server\release\	copy release\FilterText.dll ..\..\..\bin\server\release\FilterText.dll	copy release\FilterText.pdb ..\..\..\bin\server\release\FilterText.pdb	md ..\..\..\bin\multiserver\	copy release\FilterText.dll ..\..\..\bin\multiserver\FilterText.dll	copy release\FilterText.pdb ..\..\..\bin\multiserver\FilterText.pdb	md ..\..\..\bin\multiserver\release\	copy release\FilterText.dll ..\..\..\bin\multiserver\release\FilterText.dll	copy release\FilterText.pdb ..\..\..\bin\multiserver\release\FilterText.pdb
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "FilterText - Win32 Debug"
@@ -83,10 +83,10 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /map /debug /machine:I386 /pdbtype:sept
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\bin\client\debug	copy debug\FilterText.dll ..\..\..\bin\Client\FilterText.dll	copy debug\FilterText.dll ..\..\..\bin\Client\debug\FilterText.dll	copy debug\FilterText.dll ..\..\..\bin\Server\FilterText.dll	copy debug\FilterText.dll ..\..\..\bin\Server\debug\FilterText.dll
+PostBuild_Cmds=md ..\..\..\bin\client\	copy debug\FilterText.dll ..\..\..\bin\client\FilterText.dll	copy debug\FilterText.pdb ..\..\..\bin\client\FilterText.pdb	md ..\..\..\bin\client\debug\	copy debug\FilterText.dll ..\..\..\bin\client\debug\FilterText.dll	copy debug\FilterText.pdb ..\..\..\bin\client\debug\FilterText.pdb	md ..\..\..\bin\server\	copy debug\FilterText.dll ..\..\..\bin\server\FilterText.dll	copy debug\FilterText.pdb ..\..\..\bin\server\FilterText.pdb	md ..\..\..\bin\server\debug\	copy debug\FilterText.dll ..\..\..\bin\server\debug\FilterText.dll	copy debug\FilterText.pdb ..\..\..\bin\server\debug\FilterText.pdb	md ..\..\..\bin\multiserver\	copy debug\FilterText.dll ..\..\..\bin\multiserver\FilterText.dll	copy debug\FilterText.pdb ..\..\..\bin\multiserver\FilterText.pdb	md ..\..\..\bin\multiserver\debug\	copy debug\FilterText.dll ..\..\..\bin\multiserver\debug\FilterText.dll	copy debug\FilterText.pdb ..\..\..\bin\multiserver\debug\FilterText.pdb
 # End Special Build Tool
 
 !ENDIF 

@@ -25,8 +25,8 @@ KUiFaceSelector *KUiFaceSelector::m_pSelf = NULL;
 KUiFaceSelector::KFaceItem *KUiFaceSelector::ms_pFaceList = NULL;
 int KUiFaceSelector::ms_nNumFaces = 0;
 
-#define SCHEME_INI_FACE "UiFaceSelector.ini"
-#define SCHEME_INI_FACE_DETAIL "\\Ui\\FaceDetail.ini"
+#define SCHEME_INI_FACE "表情符号选择窗口.ini"
+#define SCHEME_INI_FACE_DETAIL "\\Ui\\表情大全.ini"
 
 KUiFaceSelector::KUiFaceSelector() {
   m_nCurrIndex = -1;
@@ -124,8 +124,7 @@ int KUiFaceSelector::ConvertFace(char *pDest, int &nConvertCount,
     int nLen = strlen(ms_pFaceList[i].szFaceText);
     if (nLen <= nRemainCount &&
         memcmp(ms_pFaceList[i].szFaceText, pSrc + nReadPos, nLen) == 0) {
-      nConvertCount +=
-          sprintf(pDest + nConvertCount, "<pic=%d>", ms_pFaceList[i].nTrim - 1);
+      nConvertCount += sprintf(pDest + nConvertCount, "<pic=%d>", i);
       nReadPos += nLen;
       return true;
     }
@@ -166,7 +165,6 @@ void KUiFaceSelector::LoadFaceList() {
                         sizeof(ms_pFaceList[i].szFaceText));
           Ini.GetString(szSection, "Tip", "", ms_pFaceList[i].szFaceTip,
                         sizeof(ms_pFaceList[i].szFaceTip));
-          Ini.GetInteger(szSection, "Trim", 0, &ms_pFaceList[i].nTrim);
         }
       }
     }
@@ -414,7 +412,7 @@ void KUiFaceSelector::PaintWindow() {
           g_pRepresentShell->DrawPrimitives(1, &bg, RU_T_SHADOW, true);
         }
 
-        *((WORD *)(cBuffer + 1)) = ms_pFaceList[nIndex].nTrim - 1;
+        *((WORD *)(cBuffer + 1)) = nIndex;
         g_pRepresentShell->OutputRichText(12, &param, cBuffer, 3);
         param.nX += m_nBtnWidth;
         nIndex++;

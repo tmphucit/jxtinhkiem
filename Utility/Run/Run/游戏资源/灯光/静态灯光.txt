@@ -1,4 +1,0 @@
-[MAIN]
-icon=light
-lighttype=static
-type=light_static

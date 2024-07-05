@@ -41,7 +41,6 @@ public:
 
 #ifndef _SERVER
   char m_szSkillIcon[80];
-  char m_szSkillMiniIcon[80];
   char m_szPreCastEffectFile[100];
   char m_szManPreCastSoundFile[100];
   char m_szFMPreCastSoundFile[100];
@@ -80,6 +79,7 @@ private:
 
   BOOL m_bIsSkillPhysical; //	是否为物理技能
   BOOL m_bIsSkillMagic;    //	是否为物理技能
+  int m_bAttrib;
 
   int m_nCost; //	技能使用时所需要花费的内力、体力、精力、金钱的类型
   NPCATTRIB m_nSkillCostType;  //	发该技能所需的内力、体力等的消耗
@@ -147,6 +147,7 @@ public:
   int GetMaxTimes() const { return m_nMaxTimes; };
   static int GetSkillIdFromName(char *szSkillName);
   unsigned short GetSkillReqLevel() const { return m_usReqLevel; };
+  BOOL IsTargetSelf() const { return m_bTargetSelf; };
 
 #ifdef _SERVER
   unsigned long GetSkillLevelUpScriptId() const {
@@ -202,7 +203,7 @@ public:
 
   BOOL IsSkillPhysical() const { return m_bIsSkillPhysical; };
   BOOL IsSkillMagic() const { return m_bIsSkillMagic; };
-
+  BOOL IsAbs() const { return m_bAttrib == 0 || m_bAttrib == 1; };
   int GetMeleeType() const { return m_eMisslesForm; };
   int GetStateSpecailId() const { return m_nStateSpecialId; };
   BOOL CanCastSkill(int nLauncher, int &nParam1, int &nParam2) const;
@@ -256,6 +257,7 @@ public:
                       unsigned long ulCurLevel, char *pszMsg, int nOwnerIndex,
                       bool bGetNextLevelDesc);
   void GetDescAboutLevel(char *pszMsg, int pszlevel = 0, int nOwnerIndex = 0);
+  BOOL GetHorseLimit() { return m_nHorseLimited; };
 #endif
 };
 

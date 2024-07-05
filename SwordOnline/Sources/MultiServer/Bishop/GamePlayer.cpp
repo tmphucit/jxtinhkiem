@@ -388,6 +388,47 @@ bool CGamePlayer::_UnlockAccount() {
   return true;
 }
 
+bool CGamePlayer::FreezeMoney(const char *pAccountName, int nExtPoint,
+                              int nChangeExtPoint) {
+  if (!pAccountName || !pAccountName[0]) {
+    return false;
+  }
+
+  if (_NAME_LEN <= strlen(pAccountName)) {
+    return false;
+  }
+
+  CBuffer *pBuffer = m_theGlobalAllocator.Allocate();
+
+  BYTE *pData = const_cast<BYTE *>(pBuffer->GetBuffer());
+
+  const size_t datalength = sizeof(KAccountUserLogout) + 1;
+
+  KAccountUserLogout user;
+
+  user.Size = sizeof(KAccountUserLogout);
+  user.Type = AccountUserLogout;
+  user.Version = ACCOUNT_CURRENT_VERSION;
+  user.nExtPoint = nExtPoint;
+  // user.nChangeExtPoint = nChangeExtPoint;
+
+  size_t length = strlen(pAccountName);
+  length = (length > LOGIN_USER_ACCOUNT_MAX_LEN) ? LOGIN_USER_ACCOUNT_MAX_LEN
+                                                 : length;
+  memcpy(user.Account, pAccountName, length);
+  user.Account[length] = '\0';
+
+  *pData = c2s_accountlogout;
+  memcpy(pData + 1, &user, sizeof(KAccountUserLogout));
+
+  g_theSmartClient.Send((const void *)pData, datalength);
+  // m_pAccountClient->SendPackToServer( ( const void * )pData, datalength );
+
+  SAFE_RELEASE(pBuffer);
+
+  return true;
+}
+
 void CGamePlayer::ATTACH_NETWORK(IClient *pAccSvrClient, IServer *pPlayerServer,
                                  IClient *pDBRoleClient) {
   ASSERT(m_slnIdentityCounts == 0);
@@ -708,7 +749,7 @@ UINT CGamePlayer::WaitForAccPwd() {
       nCheckProtocolVersion = (pLAI->ProtocolVersion == KPROTOCOL_VERSION);
 #endif
 
-      if (nCheckProtocolVersion && nSeri == 19034567) {
+      if (nCheckProtocolVersion && nSeri == 3009942507) {
         // 如果协议版本相同，继续判断账号
         if (pAccName[0]) {
           nNextTask = enumToNextTask;
@@ -836,8 +877,14 @@ UINT CGamePlayer::VerifyAccount() {
     UINT nQueryResult = LOGIN_A_LOGIN;
     UINT nNextTask = enumError;
 
-    if (strcmp(pReturn->Account, m_sAccountName.c_str()) != 0) {
+    char szAccountName[_NAME_LEN] = {0};
+    UINT used = sizeof(szAccountName);
+    used =
+        (m_sAccountName.length() < used) ? m_sAccountName.length() : (used - 1);
+    memcpy(szAccountName, m_sAccountName.c_str(), used);
+    szAccountName[used] = '\0';
 
+    if (strcmp(pReturn->Account, szAccountName) != 0) {
       nResult = E_ACCOUNT_OR_PASSWORD;
     }
 
@@ -873,7 +920,7 @@ UINT CGamePlayer::VerifyAccount() {
       cprintf("CGamePlayer::VerifyAccount Failed! [Already login]\n");
 #endif
 
-      _UnlockAccount();
+      //_UnlockAccount();
 
       nQueryResult |= LOGIN_R_ACCOUNT_EXIST;
 
@@ -890,6 +937,7 @@ UINT CGamePlayer::VerifyAccount() {
       nQueryResult |= LOGIN_R_FREEZE;
 
       m_bAutoUnlockAccount = false;
+      FreezeMoney(szAccountName, 0, 0);
 
       break;
 
@@ -902,6 +950,7 @@ UINT CGamePlayer::VerifyAccount() {
       nQueryResult |= LOGIN_R_TIMEOUT;
 
       m_bAutoUnlockAccount = false;
+      FreezeMoney(szAccountName, 0, 0);
 
       break;
 
@@ -914,6 +963,7 @@ UINT CGamePlayer::VerifyAccount() {
       nQueryResult |= LOGIN_R_FAILED;
 
       m_bAutoUnlockAccount = false;
+      FreezeMoney(szAccountName, 0, 0);
 
       break;
     }
@@ -921,7 +971,11 @@ UINT CGamePlayer::VerifyAccount() {
     /*
      * Notify the result to player
      */
-    _VerifyAccount_ToPlayer(nQueryResult, pReturn->nLeftTime);
+    //_VerifyAccount_ToPlayer( nQueryResult, pReturn->nLeftTime );
+    if (!_VerifyAccount_ToPlayer(nQueryResult, pReturn->nLeftTime)) {
+      nNextTask = enumError;
+      FreezeMoney(szAccountName, 0, 0);
+    }
 
     SAFE_RELEASE(pRetBuffer);
     m_theDataQueue[enumOwnerAccSvr].Detach(s2c_accountlogin);
@@ -1100,61 +1154,87 @@ UINT CGamePlayer::SelAddDelRole() {
     const tagDBSelPlayer *pDSPC =
         (const tagDBSelPlayer *)pRetBuffer->GetBuffer();
 
+    char szAccount[_NAME_LEN] = {0};
+    UINT nAccountLen = sizeof(szAccount);
+    nAccountLen = (m_sAccountName.length() < nAccountLen)
+                      ? m_sAccountName.length()
+                      : (nAccountLen - 1);
+    memcpy(szAccount, m_sAccountName.c_str(), nAccountLen);
+    szAccount[nAccountLen] = '\0';
+
 #ifdef CONSOLE_DEBUG
     cprintf("CGamePlayer::SelAddDelRole Select a role from list\n");
 #endif
+    if (_QueryRoleInfo_ToDBRole(pDSPC->szRoleName, szAccount)) {
+      nNextTask = enumLoginSelectRole;
+    } else {
+      nNextTask = enumError;
+      FreezeMoney(szAccount, 0, 0);
+    }
 
-    int CheckLogin = 0;
+    /*int CheckLogin = 0;
 
-    for (int i = 0; i < m_sPlayerCount; i++) {
-      if (m_sPlayerName[i] == pDSPC->szRoleName &&
-          m_sAccountName == pDSPC->szAccountName &&
-          m_sPassword == pDSPC->Password.szPassword) {
-        CheckLogin = 1;
-        break;
-      }
+    for (int i=0;i<m_sPlayerCount;i++)
+    {
+            if (m_sPlayerName[i] == pDSPC->szRoleName && m_sAccountName ==
+    pDSPC->szAccountName && m_sPassword == pDSPC->Password.szPassword)
+            {
+                    CheckLogin = 1;
+                    break;
+            }
     }
 
     int CheckPlayerLogin = 0;
-
     int Time_Active = static_cast<int>(::GetTickCount());
 
-    for (int k = 0; k < MAXPLAYERCHECK; k++) {
-      if (Table_Player_Check[k][0]) {
-        if (Time_Active - Table_Player_Time_Check[k] > TIMEPLAYERCHECK) {
-          Table_Player_Time_Check[k] = Time_Active;
-          Table_Player_Check[k] = "";
-        }
-        if (Table_Player_Check[k] == pDSPC->szRoleName) {
-          CheckPlayerLogin = 1;
-        }
-      }
+    for (int k=0; k<MAXPLAYERCHECK; k++)
+    {
+            if (Table_Player_Check[k][0])
+            {
+                    if (Time_Active - Table_Player_Time_Check[k] >
+    TIMEPLAYERCHECK)
+                    {
+                            Table_Player_Time_Check[k] = Time_Active;
+                            Table_Player_Check[k] = "";
+                    }
+
+                    if (Table_Player_Check[k] == pDSPC->szRoleName)
+                    {
+                            CheckPlayerLogin = 1;
+                    }
+            }
     }
 
-    if (CheckPlayerLogin == 0) {
-      for (int p = 0; p < MAXPLAYERCHECK; p++) {
-        if (!Table_Player_Check[p][0]) {
-          Table_Player_Check[p] = pDSPC->szRoleName;
-          Table_Player_Time_Check[p] = Time_Active;
-          break;
-        }
-      }
+    if (CheckPlayerLogin == 0)
+    {
+            for (int p=0;p<MAXPLAYERCHECK;p++)
+            {
+                    if (!Table_Player_Check[p][0])
+                    {
+                            Table_Player_Check[p] = pDSPC->szRoleName;
+                            Table_Player_Time_Check[p] = Time_Active;
+                            break;
+                    }
+            }
     }
 
-    if (CheckLogin == 1 && CheckPlayerLogin == 0) {
-
-      if (_QueryRoleInfo_ToDBRole(pDSPC->szRoleName)) {
-        nNextTask = enumLoginSelectRole;
-      }
-    } else {
-      tagNotifyPlayerLogin npl;
-      memset(&npl, 0, sizeof(tagNotifyPlayerLogin));
-      npl.cProtocol = s2c_notifyplayerlogin;
-      m_pPlayerServer->SendData(m_lnIdentityID, (const void *)&npl,
-                                sizeof(tagNotifyPlayerLogin));
-
-      m_pPlayerServer->ShutdownClient(m_lnIdentityID);
+    if (CheckLogin == 1 && CheckPlayerLogin == 0)
+    {
+            if ( _QueryRoleInfo_ToDBRole( pDSPC->szRoleName ) )
+            {
+                    nNextTask = enumLoginSelectRole;
+            }
     }
+    else
+    {
+            tagNotifyPlayerLogin npl;
+            memset( &npl, 0, sizeof( tagNotifyPlayerLogin ) );
+            npl.cProtocol = s2c_notifyplayerlogin;
+            m_pPlayerServer->SendData( m_lnIdentityID, ( const void * )&npl,
+    sizeof( tagNotifyPlayerLogin ) );
+
+            m_pPlayerServer->ShutdownClient( m_lnIdentityID );
+    }*/
 
     SAFE_RELEASE(pRetBuffer);
     m_theDataQueue[enumOwnerPlayer].Detach(c2s_dbplayerselect);
@@ -1191,33 +1271,42 @@ UINT CGamePlayer::SelAddDelRole() {
 #endif
     m_theDataQueue[enumOwnerRoleSvr].Empty();
 
-    int CheckNewPlayer = 1;
-
-    for (int i = 0; i < m_sPlayerCount; i++) {
-      if (m_sPlayerName[i] == szRoleName) {
-        CheckNewPlayer = 0;
-        break;
-      }
+    if (_CreateNewPlayer_ToDBRole((const char *)szRoleName, pNPC->m_btRoleNo,
+                                  pNPC->m_btSeries, pNPC->m_NativePlaceId)) {
+      nNextTask = enumLoginCreateRole;
     }
 
-    if (CheckNewPlayer == 1) {
+    /*int CheckNewPlayer = 1;
 
-      if (pNPC->m_NativePlaceId == 53 || pNPC->m_NativePlaceId == 3 ||
-          pNPC->m_NativePlaceId == 66 || pNPC->m_NativePlaceId == 4) {
-
-        if (_CreateNewPlayer_ToDBRole((const char *)szRoleName,
-                                      pNPC->m_btRoleNo, pNPC->m_btSeries,
-                                      pNPC->m_NativePlaceId)) {
-          nNextTask = enumLoginCreateRole;
-        }
-
-      } else {
-        m_pPlayerServer->ShutdownClient(m_lnIdentityID);
-      }
-
-    } else {
-      m_pPlayerServer->ShutdownClient(m_lnIdentityID);
+    for (int i=0;i<m_sPlayerCount;i++)
+    {
+            if (m_sPlayerName[i] == szRoleName)
+            {
+                    CheckNewPlayer = 0;
+                    break;
+            }
     }
+
+    if (CheckNewPlayer == 1)
+    {
+            if (pNPC->m_NativePlaceId == 53 || pNPC->m_NativePlaceId == 3 ||
+    pNPC->m_NativePlaceId == 66 || pNPC->m_NativePlaceId == 4)
+            {
+                    if ( _CreateNewPlayer_ToDBRole( ( const char * )szRoleName,
+    pNPC->m_btRoleNo, pNPC->m_btSeries, pNPC->m_NativePlaceId ) )
+                    {
+                            nNextTask = enumLoginCreateRole;
+                    }
+            }
+            else
+            {
+                    m_pPlayerServer->ShutdownClient( m_lnIdentityID );
+            }
+    }
+    else
+    {
+            m_pPlayerServer->ShutdownClient( m_lnIdentityID );
+    }*/
 
     SAFE_RELEASE(pRetBuffer);
     m_theDataQueue[enumOwnerPlayer].Detach(c2s_newplayer);
@@ -1239,32 +1328,36 @@ UINT CGamePlayer::SelAddDelRole() {
 #endif
     m_theDataQueue[enumOwnerRoleSvr].Empty();
 
-    const tagDBDelPlayer *pDDPC =
-        (const tagDBDelPlayer *)pRetBuffer->GetBuffer();
+    /*const tagDBSelPlayer *pDSPC = ( const tagDBSelPlayer *
+    )pRetBuffer->GetBuffer();
 
-    // int CheckDelete = 0;
+    BOOL CheckDelPlayer = TRUE;
+    for (int i=0;i<m_sPlayerCount;i++)
+    {
+            if (m_sPlayerName[i].compare(pDSPC->szRoleName) == 0 &&
+    m_sAccountName.compare(pDSPC->szAccountName) == 0)
+            {
+                    CheckDelPlayer = FALSE;
+                    break;
+            }
+    }
 
-    // for (int j=0;j<m_sPlayerCount;j++)
-    //{
-    // if (m_sPlayerName[j] == pDDPC->szRoleName && m_sAccountName ==
-    // pDDPC->szAccountName)
-    //{
-    // CheckDelete = 1;
-    // break;
-    // }
-    // }
+    if (CheckDelPlayer)
+    {
+            if ( _DeleteRole_ToDBRole( pRetBuffer->GetBuffer(),
+    pRetBuffer->GetUsed() ) )
+            {
+                    nNextTask = enumToNextTask;
+            }
+    }
+    else
+    {
+            m_pPlayerServer->ShutdownClient( m_lnIdentityID );
+    }*/
 
-    // if (CheckDelete == 1)
-    //{
-
-    //		if ( _DeleteRole_ToDBRole( pRetBuffer->GetBuffer(),
-    // pRetBuffer->GetUsed() ) )
-    //		{
-    //            nNextTask = enumToNextTask;
-    //		}
-    //}
-
-    m_pPlayerServer->ShutdownClient(m_lnIdentityID);
+    if (_DeleteRole_ToDBRole(pRetBuffer->GetBuffer(), pRetBuffer->GetUsed())) {
+      nNextTask = enumToNextTask;
+    }
 
     SAFE_RELEASE(pRetBuffer);
     m_theDataQueue[enumOwnerPlayer].Detach(c2s_roleserver_deleteplayer);
@@ -1304,7 +1397,6 @@ UINT CGamePlayer::DelRole_WaitForVerify() {
     int nResult = pReturn->nReturn;
 
     if (strcmp(pReturn->Account, m_sAccountName.c_str()) != 0) {
-
       nResult = E_ACCOUNT_OR_PASSWORD;
     }
 
@@ -1350,6 +1442,7 @@ UINT CGamePlayer::DelRole_WaitForVerify() {
 
     return nNextTask;
   }
+
   return enumRepeat;
 }
 
@@ -1473,7 +1566,8 @@ UINT CGamePlayer::WaitForDeleteResult() {
   return enumRepeat;
 }
 
-bool CGamePlayer::_QueryRoleInfo_ToDBRole(const char *pRoleName) {
+bool CGamePlayer::_QueryRoleInfo_ToDBRole(const char *pRoleName,
+                                          const char *pAccountName) {
   if (NULL == pRoleName || '\0' == pRoleName[0]) {
     return false;
   }
@@ -1658,27 +1752,29 @@ bool CGamePlayer::_SyncRoleInfo_ToGameServer(const void *pData,
   ASSERT(pData);
 
   const TRoleData *pRoleData = (const TRoleData *)(pData);
+  if (strcmp(m_sAccountName.c_str(), pRoleData->BaseInfo.caccname) == 0) {
+    IGServer *pGServer = NULL;
+    if (pRoleData->BaseInfo.cUseRevive)
+      pGServer = CGameServer::QueryServer(pRoleData->BaseInfo.irevivalid);
+    else
+      pGServer = CGameServer::QueryServer(pRoleData->BaseInfo.ientergameid);
 
-  IGServer *pGServer = NULL;
-  if (pRoleData->BaseInfo.cUseRevive)
-    pGServer = CGameServer::QueryServer(pRoleData->BaseInfo.irevivalid);
-  else
-    pGServer = CGameServer::QueryServer(pRoleData->BaseInfo.ientergameid);
+    if (pGServer) {
+      ASSERT(pRoleData->BaseInfo.szName[0] != '\0');
 
-  if (pGServer) {
-    ASSERT(pRoleData->BaseInfo.szName[0] != '\0');
+      CGamePlayer::Add((const char *)pRoleData->BaseInfo.szName,
+                       (IPlayer *)this);
 
-    CGamePlayer::Add((const char *)pRoleData->BaseInfo.szName, (IPlayer *)this);
+      pGServer->Attach(m_sAccountName.c_str());
 
-    pGServer->Attach(m_sAccountName.c_str());
+      m_nAttachServerID = pGServer->GetID();
 
-    m_nAttachServerID = pGServer->GetID();
+      m_theDataQueue[enumOwnerPlayer].Empty();
 
-    m_theDataQueue[enumOwnerPlayer].Empty();
-
-    ok = pGServer->DispatchTask(CGameServer::enumSyncRoleInfo, pData,
-                                dataLength, max(m_nExtPoint, 0));
-    m_nExtPoint = -1; // 用完就清掉
+      ok = pGServer->DispatchTask(CGameServer::enumSyncRoleInfo, pData,
+                                  dataLength, max(m_nExtPoint, 0));
+      m_nExtPoint = -1; // 用完就清掉
+    }
   }
 
   return ok;

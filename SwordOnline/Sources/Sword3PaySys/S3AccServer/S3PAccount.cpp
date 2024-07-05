@@ -110,7 +110,7 @@ int S3PAccount::Login(S3PDBConVBC *pConn, const char *strAccName,
       iRet = E_ACCOUNT_OR_PASSWORD;
       //	char strSQL3[MAX_PATH];
       //	sprintf(strSQL3, "DELETE FROM Account_Info	WHERE (iid NOT
-      // IN (SELECT MIN(iid) FROM Account_Info GROUP BY cAccName))");
+      //IN (SELECT MIN(iid) FROM Account_Info GROUP BY cAccName))");
       //	pConn->Do(strSQL3);
     }
   }
@@ -190,11 +190,12 @@ int S3PAccount::Logout(S3PDBConVBC *pConn, DWORD ClientID,
   pConn->Do(strSQL); // 扣点,即使被的冻结帐户
 
   if (nExtPoint != 0) {
-    // sprintf(strSQL, "update View_AccountMoney set nExtPoint = CASE WHEN
-    // nExtPoint - %d >= 0 THEN nExtPoint - %d WHEN nExtPoint - %d < 0 THEN 0
-    // END where cAccName = '%s'", 	nExtPoint, nExtPoint, nExtPoint,
-    // strAccName); pConn->Do(strSQL);	//扣附加点,即使被的冻结帐户
-    // 拆成两句是因为执行的SQL有长度限制
+    sprintf(strSQL,
+            "update View_AccountMoney set nExtPoint = CASE WHEN nExtPoint - %d "
+            ">= 0 THEN nExtPoint - %d WHEN nExtPoint - %d < 0 THEN 0 END where "
+            "cAccName = '%s'",
+            nExtPoint, nExtPoint, nExtPoint, strAccName);
+    pConn->Do(strSQL);
   }
 
   DWORD NewClientID = 0;
@@ -220,6 +221,14 @@ int S3PAccount::Logout(S3PDBConVBC *pConn, DWORD ClientID,
               strAccName);
       pConn->Do(strSQL);
 
+      if (nExtPoint > 0) {
+        sprintf(
+            strSQL,
+            "update Account_Habitus set nExtPoint = %d where (cAccName = '%s')",
+            nExtPoint, strAccName);
+        pConn->Do(strSQL);
+        nExtPoint = 0;
+      }
     } else
       iRet = ACTION_FAILED;
     //		}
@@ -499,13 +508,10 @@ int S3PAccount::GetLeftSecondsOfDeposit(S3PDBConVBC *pConn,
   }
 
   char strSQL[MAX_PATH];
-  // sprintf(strSQL, "select datediff(second, getdate(), dEndDate), iLeftSecond,
-  // nExtPoint, iNumLogin from View_AccountMoney where (cAccname = '%s')",
-  // strAccName); // old qry
   sprintf(strSQL,
           "select datediff(second, getdate(), dEndDate), iLeftSecond, "
-          "nExtPoint from View_AccountMoney where (cAccname = '%s')",
-          strAccName); // new fix
+          "nExtPoint, iNumLogin from View_AccountMoney where (cAccname = '%s')",
+          strAccName);
   S3PResultVBC *pResult = NULL;
   if (pConn->QuerySql(strSQL, &pResult)) {
     if (pResult->num_rows() <= 0)

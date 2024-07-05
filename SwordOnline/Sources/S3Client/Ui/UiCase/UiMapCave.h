@@ -8,6 +8,7 @@
 #pragma once
 
 #include "../Elem/UiImage.h"
+#include "../Elem/WndButton.h"
 #include "../Elem/WndImage.h"
 
 class KUiMapCave : protected KWndImage {

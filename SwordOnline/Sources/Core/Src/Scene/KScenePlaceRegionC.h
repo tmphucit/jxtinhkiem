@@ -83,7 +83,7 @@ public:
   // ##ModelId=3DDBD8C80309
   // ##Documentation
   // ## 绘制场景区域地表层
-  void PaintGround();
+  void PaintGround(int bPrerenderGroundImg);
 
   void PaintGroundDirect();
 

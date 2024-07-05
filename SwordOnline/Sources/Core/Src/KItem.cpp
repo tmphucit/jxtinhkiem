@@ -3,7 +3,7 @@
 #include "KItemSet.h"
 #include "KNpc.h"
 #include "KTabFile.h"
-#include "MyAssert.H"
+#include "MyAssert.h"
 #include <time.h>
 
 #ifndef _STANDALONE
@@ -90,52 +90,20 @@ void KItem::ApplyMagicAttribToNPC(IN KNpc *pNPC,
       pNPC->ModifyAttrib(pNPC->m_Index, (void *)pAttrib);
     }
   }
-
+  // 魔法属性调整NPC
   for (i = 0; i < sizeof(m_aryMagicAttrib) / sizeof(m_aryMagicAttrib[0]); i++) {
     const KItemNormalAttrib *pAttrib;
     pAttrib = &(m_aryMagicAttrib[i]);
-
-    int PhanTichDiem = GetNgoaiTrang();
-    int cuonghoa = PhanTichDiem / 1000000;
-
-    int d1 = (PhanTichDiem % 1000000) / 100000;
-    int d2 = (PhanTichDiem % 100000) / 10000;
-    int d3 = (PhanTichDiem % 10000) / 1000;
-    int d4 = (PhanTichDiem % 1000) / 100;
-    int d5 = (PhanTichDiem % 100) / 10;
-    int d6 = PhanTichDiem % 10;
-
-    KItemNormalAttrib AddAttrib;
-    if (((d1 == 1 && i == 0) || (d2 == 1 && i == 1) || (d3 == 1 && i == 2) ||
-         (d4 == 1 && i == 3) || (d5 == 1 && i == 4) || (d6 == 1 && i == 5)) &&
-        m_SpecialParam.uItemType != 2 && m_SpecialParam.uItemType != 1) {
-      AddAttrib.nAttribType = pAttrib->nAttribType;
-      AddAttrib.nValue[0] =
-          pAttrib->nValue[0] + (int)(pAttrib->nValue[0] * cuonghoa * 2.5 / 100);
-      AddAttrib.nValue[1] = pAttrib->nValue[1];
-      AddAttrib.nValue[2] = pAttrib->nValue[2];
-    } else {
-      AddAttrib.nAttribType = pAttrib->nAttribType;
-      AddAttrib.nValue[0] = pAttrib->nValue[0];
-      AddAttrib.nValue[1] = pAttrib->nValue[1];
-      AddAttrib.nValue[2] = pAttrib->nValue[2];
-    }
 
     if (INVALID_ATTRIB != pAttrib->nAttribType) {
       if (i & 1) // 为奇数，是后缀（i从零开始）
       {
         if (nCount > 0) {
-          g_DebugLog("Xac nhan mac do 1:  %d , %d, %d\n", pAttrib->nAttribType,
-                     pAttrib->nValue[0]);
-          pNPC->ModifyAttrib(pNPC->m_Index, (void *)&AddAttrib);
+          pNPC->ModifyAttrib(pNPC->m_Index, (void *)pAttrib);
           nCount--;
         }
       } else {
-        g_DebugLog("Xac nhan mac do 2:  %d , %d, %d\n", pAttrib->nAttribType,
-                   AddAttrib.nValue[0]);
-
-        pNPC->ModifyAttrib(pNPC->m_Index, (void *)&AddAttrib);
-        // pNPC->ModifyAttribCuongHoa(pNPC->m_Index, (void *)pAttrib,5000);
+        pNPC->ModifyAttrib(pNPC->m_Index, (void *)pAttrib);
       }
     }
   }
@@ -174,23 +142,6 @@ void KItem::RemoveMagicAttribFromNPC(IN KNpc *pNPC,
     const KItemNormalAttrib *pAttrib;
     pAttrib = &(m_aryMagicAttrib[i]);
 
-    int PhanTichDiem = GetNgoaiTrang();
-    int cuonghoa = PhanTichDiem / 1000000;
-
-    int d1 = (PhanTichDiem % 1000000) / 100000;
-    int d2 = (PhanTichDiem % 100000) / 10000;
-    int d3 = (PhanTichDiem % 10000) / 1000;
-    int d4 = (PhanTichDiem % 1000) / 100;
-    int d5 = (PhanTichDiem % 100) / 10;
-    int d6 = PhanTichDiem % 10;
-
-    int TyLe = 0;
-    if (((d1 == 1 && i == 0) || (d2 == 1 && i == 1) || (d3 == 1 && i == 2) ||
-         (d4 == 1 && i == 3) || (d5 == 1 && i == 4) || (d6 == 1 && i == 5)) &&
-        m_SpecialParam.uItemType != 2 && m_SpecialParam.uItemType != 1) {
-      TyLe = cuonghoa;
-    }
-
     if (INVALID_ATTRIB !=
         pAttrib->nAttribType) // TODO: 为 -1 定义一个常量?
     {
@@ -199,9 +150,7 @@ void KItem::RemoveMagicAttribFromNPC(IN KNpc *pNPC,
       {
         if (nCount > 0) {
           RemoveAttrib.nAttribType = pAttrib->nAttribType;
-          RemoveAttrib.nValue[0] =
-              -(pAttrib->nValue[0] +
-                (int)(pAttrib->nValue[0] * TyLe * 2.5 / 100));
+          RemoveAttrib.nValue[0] = -pAttrib->nValue[0];
           RemoveAttrib.nValue[1] = -pAttrib->nValue[1];
           RemoveAttrib.nValue[2] = -pAttrib->nValue[2];
           pNPC->ModifyAttrib(pNPC->m_Index, (void *)&RemoveAttrib);
@@ -209,8 +158,7 @@ void KItem::RemoveMagicAttribFromNPC(IN KNpc *pNPC,
         }
       } else {
         RemoveAttrib.nAttribType = pAttrib->nAttribType;
-        RemoveAttrib.nValue[0] =
-            -(pAttrib->nValue[0] + pAttrib->nValue[0] * TyLe * 2.5 / 100);
+        RemoveAttrib.nValue[0] = -pAttrib->nValue[0];
         RemoveAttrib.nValue[1] = -pAttrib->nValue[1];
         RemoveAttrib.nValue[2] = -pAttrib->nValue[2];
         pNPC->ModifyAttrib(pNPC->m_Index, (void *)&RemoveAttrib);
@@ -223,6 +171,14 @@ void KItem::RemoveMagicAttribFromNPC(IN KNpc *pNPC,
 功能:	将item上的第N项隐藏魔法属性应用到NPC身上
 入口：	pNPC: 指向NPC的指针
 出口:	魔法被应用。
+                具体工作由KNpc的成员函数完成。
+                KItem 对象本身没有成员变量被修改
+******************************************************************************/
+
+/******************************************************************************
+功能:	将item上的第N项隐藏魔法属性从NPC身上移除
+入口：	pNPC: 指向NPC的指针，nMagicActive：第n项魔法属性
+出口:	魔法被移除。
                 具体工作由KNpc的成员函数完成。
                 KItem 对象本身没有成员变量被修改
 ******************************************************************************/
@@ -239,14 +195,6 @@ void KItem::ApplyHiddenMagicAttribToNPC(IN KNpc *pNPC,
     pNPC->ModifyAttrib(pNPC->m_Index, (void *)pAttrib);
   }
 }
-
-/******************************************************************************
-功能:	将item上的第N项隐藏魔法属性从NPC身上移除
-入口：	pNPC: 指向NPC的指针，nMagicActive：第n项魔法属性
-出口:	魔法被移除。
-                具体工作由KNpc的成员函数完成。
-                KItem 对象本身没有成员变量被修改
-******************************************************************************/
 void KItem::RemoveHiddenMagicAttribFromNPC(IN KNpc *pNPC,
                                            IN int nMagicActive) const {
   _ASSERT(this != NULL);
@@ -891,10 +839,14 @@ void KItem::GetDesc(char *pszMsg, bool bShowPrice, int nPriceScale,
   char szColor[item_number][32] = {
       "", "<color=White>", "", "", "<color=Yellow>",
   };
+  int nDetailType = GetDetailType();
 
-  if (m_CommonAttrib.nItemGenre == item_equip &&
-      GetDetailType() != equip_mask) {
-    if (m_SpecialParam.uItemType == 1) // 黄金装备
+  if (m_CommonAttrib.nItemGenre == item_equip && nDetailType != equip_mask) {
+    if (m_nCurrentDur == 0 && nDetailType != equip_horse &&
+        nDetailType != equip_pendant && nDetailType != equip_ring &&
+        nDetailType != equip_amulet) {
+      strcpy(szColor[item_equip], "<color=Red>");
+    } else if (m_SpecialParam.uItemType == 1) // 黄金装备
     {
       strcpy(szColor[item_equip], "<color=Yellow>");
     } else if (m_SpecialParam.uItemType == 2) // 黄金装备
@@ -907,9 +859,19 @@ void KItem::GetDesc(char *pszMsg, bool bShowPrice, int nPriceScale,
       strcpy(szColor[item_equip], "<color=White>");
     }
   }
-  strcpy(pszMsg, szColor[m_CommonAttrib.nItemGenre]);
-  strcat(pszMsg, " ");
-  strcat(pszMsg, m_CommonAttrib.szItemName);
+  if (m_CommonAttrib.nItemGenre == item_equip && m_nCurrentDur == 0 &&
+      nDetailType != equip_horse && nDetailType != equip_pendant &&
+      nDetailType != equip_ring && nDetailType != equip_amulet) {
+    char item_name[120];
+    sprintf(item_name, " <trang b� t�n h�i> %s", m_CommonAttrib.szItemName);
+    strcpy(pszMsg, szColor[m_CommonAttrib.nItemGenre]);
+    strcat(pszMsg, " ");
+    strcat(pszMsg, item_name);
+  } else {
+    strcpy(pszMsg, szColor[m_CommonAttrib.nItemGenre]);
+    strcat(pszMsg, " ");
+    strcat(pszMsg, m_CommonAttrib.szItemName);
+  }
 
   if (m_CommonAttrib.nItemGenre == item_equip &&
       GetDetailType() != equip_mask) {
@@ -937,7 +899,7 @@ void KItem::GetDesc(char *pszMsg, bool bShowPrice, int nPriceScale,
              " <color=Green>Trang b� n�y �� ���c kh�a b�o hi�m <color=White>");
       strcat(pszMsg, "\n");
     } else if (m_GeneratorParam.nVersion == 550324) {
-      strcat(pszMsg, " <color=Pink>Trang b� trong tr�ng th�i kh�a v�nh vi�n "
+      strcat(pszMsg, " <color=Green>Trang b� trong tr�ng th�i kh�a v�nh vi�n "
                      "<color=White>");
       strcat(pszMsg, "\n");
     } else if (m_GeneratorParam.nVersion > 2) {
@@ -965,7 +927,7 @@ void KItem::GetDesc(char *pszMsg, bool bShowPrice, int nPriceScale,
       TimeNowMinute -= Hour * 60;
       Minute = TimeNowMinute;
 
-      sprintf(pszMsg, "%s <color=Red>�ang m� kh�a: %d:%d %d-%d <color=White>",
+      sprintf(pszMsg, "%s <color=Green>�ang m� kh�a: %d:%d %d-%d <color=White>",
               pszMsg, Hour, Minute, Day, Month);
       strcat(pszMsg, "\n");
     }
@@ -979,23 +941,13 @@ void KItem::GetDesc(char *pszMsg, bool bShowPrice, int nPriceScale,
     }
   }
 
-  if (m_CommonAttrib.iShopCost > 0) {
-    PLAYER_SHOP_PRICE_COMMAND PlayerPrice;
-    PlayerPrice.ProtocolType = c2s_playershopprice;
-    PlayerPrice.m_ID = m_dwID;
-    PlayerPrice.m_Price = m_CommonAttrib.iShopCost;
-    if (g_pClient)
-      g_pClient->SendPackToServer((BYTE *)&PlayerPrice,
-                                  sizeof(PLAYER_SHOP_PRICE_COMMAND));
-  }
-
   if (bShowPrice) {
 
     if (this->m_nPriceGold > 0) {
 
       char szPrice1[32];
 
-      sprintf(szPrice1, "<color=Yellow>Gi� tr�: %d v�ng", m_nPriceGold);
+      sprintf(szPrice1, "<color=Yellow>Gi� tr�: %d Xu", m_nPriceGold);
 
       strcat(pszMsg, " ");
       strcat(pszMsg, szPrice1);
@@ -1216,16 +1168,17 @@ void KItem::GetDesc(char *pszMsg, bool bShowPrice, int nPriceScale,
       continue;
     }
     if (m_aryBaseAttrib[i].nAttribType == magic_durability_v) {
-      char szDurInfo[32];
+      char szDurInfo[120];
       if (m_nCurrentDur == -1)
         sprintf(szDurInfo, "<color=Yellow>Kh�ng th� b� ph� hu� <color=White>");
       else if (m_nCurrentDur == 0)
         sprintf(szDurInfo,
-                "<color=red>Trang b� �� h�ng, kh�ng th� s� d�ng<color=White>");
+                "<color=Red>Trang b� �� h�ng kh�ng c� t�c d�ng\nMang ��n "
+                "<color=Yellow>Th� R�n<color=Red> �� ph�c h�i <color=White>");
       else {
         //	if (GetDetailType() == equip_mask)
         //		sprintf(szDurInfo, "<color=Yellow>V�t ph�m ch� s� d�ng
-        // duy nh�t 1 l�n");
+        //duy nh�t 1 l�n");
         //		else
         sprintf(szDurInfo, "�� b�n s� d�ng: %3d /%3d", GetDurability(),
                 GetMaxDurability());
@@ -1297,25 +1250,7 @@ void KItem::GetDesc(char *pszMsg, bool bShowPrice, int nPriceScale,
 
     } else {
 
-      int PhanTichDiem = GetNgoaiTrang();
-      int cuonghoa = PhanTichDiem / 1000000;
-
-      int d1 = (PhanTichDiem % 1000000) / 100000;
-      int d2 = (PhanTichDiem % 100000) / 10000;
-      int d3 = (PhanTichDiem % 10000) / 1000;
-      int d4 = (PhanTichDiem % 1000) / 100;
-      int d5 = (PhanTichDiem % 100) / 10;
-      int d6 = PhanTichDiem % 10;
-
-      if (((d1 == 1 && i == 0) || (d2 == 1 && i == 1) || (d3 == 1 && i == 2) ||
-           (d4 == 1 && i == 3) || (d5 == 1 && i == 4) || (d6 == 1 && i == 5)) &&
-          m_SpecialParam.uItemType != 2 && m_SpecialParam.uItemType != 1) {
-        sprintf(pszInfoT, "%s <color=yellow>[+%d]",
-                (char *)g_MagicDesc.GetDesc(&m_aryMagicAttrib[i]),
-                (int)(m_aryMagicAttrib[i].nValue[0] * cuonghoa * 2.5 / 100));
-        pszInfo = pszInfoT;
-      } else
-        pszInfo = (char *)g_MagicDesc.GetDesc(&m_aryMagicAttrib[i]);
+      pszInfo = (char *)g_MagicDesc.GetDesc(&m_aryMagicAttrib[i]);
     }
 
     if (!pszInfo || !pszInfo[0])
@@ -1488,23 +1423,6 @@ void KItem::GetDesc(char *pszMsg, bool bShowPrice, int nPriceScale,
       strcat(pszMsg, Guide);
     }
   }
-
-  if (m_SpecialParam.uItemType != 2 && m_SpecialParam.uItemType != 1) {
-    int PhanTichDiem = GetNgoaiTrang();
-    int cuonghoa = PhanTichDiem / 1000000;
-    int d1 = (PhanTichDiem % 1000000) / 100000;
-    int d2 = (PhanTichDiem % 100000) / 10000;
-    int d3 = (PhanTichDiem % 10000) / 1000;
-    int d4 = (PhanTichDiem % 1000) / 100;
-    int d5 = (PhanTichDiem % 100) / 10;
-    int d6 = PhanTichDiem % 10;
-
-    if (cuonghoa != 0) {
-      char sTmp[64];
-      sprintf(sTmp, "\n<color=HPink>Trang b� c��ng h�a: %d / 10", cuonghoa);
-      strcat(pszMsg, sTmp);
-    }
-  }
 }
 // Tra lai ngu hanh tuong sinh
 void KItem::ReturnSupportSeries(int nSeries, LPSTR lpRString) {
@@ -1573,7 +1491,7 @@ BOOL KItem::CanBeRepaired() {
   if (GetGenre() != item_equip)
     return FALSE;
 
-  if (m_nCurrentDur == -1)
+  if (m_nCurrentDur == -1 || m_nCurrentDur == 0)
     return FALSE;
 
   int nMaxDur = GetMaxDurability();

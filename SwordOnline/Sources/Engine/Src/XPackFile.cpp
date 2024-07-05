@@ -33,10 +33,11 @@ struct XPackIndexInfo {
 
 // 包文件的压缩方式
 enum XPACK_METHOD {
-  TYPE_NONE = 0x00000000,  // 没有压缩
-  TYPE_UCL = 0x01000000,   // UCL压缩
-  TYPE_BZIP2 = 0x02000000, // bzip2压缩
-  TYPE_FRAME = 0x10000000, // 使用了独立帧压缩,子文件为spr类型时才可能用到
+  TYPE_NONE = 0x00000000,    // 没有压缩
+  TYPE_UCL = 0x01000000,     // UCL压缩
+  TYPE_UPL_NEW = 0x20000000, // Load Pak new
+  TYPE_BZIP2 = 0x02000000,   // bzip2压缩
+  TYPE_FRAME = 0x10000000,   // 使用了独立帧压缩,子文件为spr类型时才可能用到
 
   TYPE_METHOD_FILTER = 0x0f000000, // 过滤标记
   TYPE_FILTER = 0xff000000,        // 过滤标记
@@ -188,9 +189,9 @@ bool XPackFile::DirectRead(void *pBuffer, unsigned int uOffset,
 // 功能：带解压地读取包文件到缓冲区
 // 参数：pBuffer --> 缓冲区指针
 //		uExtractSize  -->
-// 数据（期望）解压后的大小，pBuffer缓冲区的大小不小于此数
-// lCompressType --> 直接从包中度取得原始（/压缩）大小 		uOffset  -->
-// 从包中的此偏移位置开始读取 		uSize    --> 从包中直接读取得（压缩）数据的大小
+//数据（期望）解压后的大小，pBuffer缓冲区的大小不小于此数 		lCompressType -->
+//直接从包中度取得原始（/压缩）大小 		uOffset  --> 从包中的此偏移位置开始读取
+//		uSize    --> 从包中直接读取得（压缩）数据的大小
 // 返回：成功与否
 //-------------------------------------------------
 bool XPackFile::ExtractRead(void *pBuffer, unsigned int uExtractSize,
@@ -204,8 +205,7 @@ bool XPackFile::ExtractRead(void *pBuffer, unsigned int uExtractSize,
   } else {
     void *pReadBuffer = malloc(uSize);
     if (pReadBuffer) {
-      // Load Pak VNG
-      if ((lCompressType == TYPE_UCL || lCompressType == 0x20000000) &&
+      if ((lCompressType == TYPE_UCL || lCompressType == TYPE_UPL_NEW) &&
           DirectRead(pReadBuffer, uOffset, uSize)) {
         unsigned int uDestLength;
         ucl_nrv2b_decompress_8((BYTE *)pReadBuffer, uSize, (BYTE *)pBuffer,
@@ -379,10 +379,9 @@ int XPackFile::ElemFileRead(XPackElemFileRef &ElemRef, void *pBuffer,
             ms_ElemFileCache[ElemRef.nCacheIndex].nElemIndex &&
         ElemRef.nSize == ms_ElemFileCache[ElemRef.nCacheIndex].lSize) {
       //_ASSERT(ElemRef.nPackIndex ==
-      // ms_ElemFileCache[ElemRef.nCacheIndex].nPackIndex);
+      //ms_ElemFileCache[ElemRef.nCacheIndex].nPackIndex);
       //_ASSERT(ElemRef.nElemIndex ==
-      // ms_ElemFileCache[ElemRef.nCacheIndex].nElemIndex);
-      // _ASSERT(ElemRef.nSize
+      //ms_ElemFileCache[ElemRef.nCacheIndex].nElemIndex); _ASSERT(ElemRef.nSize
       //== ms_ElemFileCache[ElemRef.nCacheIndex].lSize);
 
       if (ElemRef.nOffset < 0)

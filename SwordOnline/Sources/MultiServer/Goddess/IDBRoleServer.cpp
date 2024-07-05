@@ -446,7 +446,7 @@ int SaveRoleInfo(char *pRoleBuffer, const char *strUser,
 
     ZCursor *user_cursor = db_table->search(pName, strlen(pName) + 1);
     //		char *user_data = db_table->search( pName, strlen( pName ) + 1,
-    // size );
+    //size );
     if (user_cursor) {
       db_table->closeCursor(user_cursor);
 
@@ -459,7 +459,7 @@ int SaveRoleInfo(char *pRoleBuffer, const char *strUser,
     ZCursor *cursor =
         db_table->search(szAccountName, strlen(szAccountName) + 1, 0);
     //		char *buffer = db_table->search( szAccountName, strlen(
-    // szAccountName ) + 1, size, 0 );
+    //szAccountName ) + 1, size, 0 );
 
     while (cursor) {
       nCount++;

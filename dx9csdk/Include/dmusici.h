@@ -205,10 +205,9 @@ typedef struct _DMUS_PMSG {
 #define DMUS_PATH_AUDIOPATH                                                    \
   0x2000 /* Get the audiopath itself (from a segment state.) */
 #define DMUS_PATH_AUDIOPATH_GRAPH 0x2200 /* Get the audiopath's tool graph. */
-#define DMUS_PATH_AUDIOPATH_TOOL                                               \
-  0x2300                             /* Look in Tool Graph of Audio Path.      \
-                                      */
-#define DMUS_PATH_PERFORMANCE 0x3000 /* Access the performance. */
+#define DMUS_PATH_AUDIOPATH_TOOL 0x2300  /* Look in Tool Graph of Audio Path.  \
+                                          */
+#define DMUS_PATH_PERFORMANCE 0x3000     /* Access the performance. */
 #define DMUS_PATH_PERFORMANCE_GRAPH                                            \
   0x3200 /* Get the performance's tool graph. */
 #define DMUS_PATH_PERFORMANCE_TOOL                                             \
@@ -614,8 +613,8 @@ typedef struct _DMUS_CURVE_PMSG {
 
   MUSIC_TIME mtDuration; /* how long this curve lasts */
   MUSIC_TIME
-  mtOriginalStart; /* must be set to either zero when this PMSG is created
-                      or to the original mtTime of the curve */
+      mtOriginalStart; /* must be set to either zero when this PMSG is created
+                          or to the original mtTime of the curve */
   MUSIC_TIME mtResetDuration; /* how long after the curve is finished to allow a
                                  flush or invalidation to reset to the reset
                                  value, nResetValue */
@@ -663,9 +662,8 @@ enum {
 #define DMUS_CURVET_CCCURVE 0x04  /* Control change curve. */
 #define DMUS_CURVET_MATCURVE 0x05 /* Mono aftertouch curve. */
 #define DMUS_CURVET_PATCURVE 0x06 /* Poly aftertouch curve. */
-#define DMUS_CURVET_RPNCURVE                                                   \
-  0x07 /* RPN curve with curve type in wParamType.                             \
-        */
+#define DMUS_CURVET_RPNCURVE 0x07 /* RPN curve with curve type in wParamType.  \
+                                   */
 #define DMUS_CURVET_NRPNCURVE                                                  \
   0x08 /* NRPN curve with curve type in wParamType. */
 
@@ -770,18 +768,18 @@ typedef struct _DMUS_TIMESIGNATURE {
 
 typedef struct _DMUS_VALID_START_PARAM {
   MUSIC_TIME
-  mtTime; /* Time of the first legal start
-             point after (or including) the requested time.
-             This is a returned value.
-             Time format is the relative offset from requested time. */
+      mtTime; /* Time of the first legal start
+                 point after (or including) the requested time.
+                 This is a returned value.
+                 Time format is the relative offset from requested time. */
 } DMUS_VALID_START_PARAM;
 
 typedef struct _DMUS_PLAY_MARKER_PARAM {
   MUSIC_TIME
-  mtTime; /* Time of the first legal segment play
-             marker before (or including) the requested time.
-             This is a returned value.
-             Time format is the relative offset from requested time. */
+      mtTime; /* Time of the first legal segment play
+                 marker before (or including) the requested time.
+                 This is a returned value.
+                 Time format is the relative offset from requested time. */
 } DMUS_PLAY_MARKER_PARAM;
 
 /*      The DMUSOBJECTDESC structure is used to communicate everything you could
@@ -848,9 +846,8 @@ typedef struct _DMUS_SCRIPT_ERRORINFO {
        controlling segments don't succeed. */
 #define DMUS_TRACKCONFIG_CONTROL_ENABLED                                       \
   8 /* GetParam() enabled for this track. */
-#define DMUS_TRACKCONFIG_PLAY_ENABLED                                          \
-  0x10 /* Play() enabled for this track.                                       \
-        */
+#define DMUS_TRACKCONFIG_PLAY_ENABLED 0x10 /* Play() enabled for this track.   \
+                                            */
 #define DMUS_TRACKCONFIG_NOTIFICATION_ENABLED                                  \
   0x20 /* Notifications enabled for this track. */
 #define DMUS_TRACKCONFIG_PLAY_CLOCKTIME                                        \

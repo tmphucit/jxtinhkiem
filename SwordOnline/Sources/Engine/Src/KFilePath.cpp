@@ -461,6 +461,6 @@ ENGINE_API void g_ExtractFilePath(LPSTR lpPathName, LPSTR lpFilePath) {
     if (lpFilePath[nPos] == '\\' || lpFilePath[nPos] == '/')
       break;
   }
-  g_StrCpyLen(lpPathName, lpFilePath, nPos + 1); // fix by nhim jx
+  g_StrCpyLen(lpPathName, lpFilePath, nPos);
 }
 //---------------------------------------------------------------------------
