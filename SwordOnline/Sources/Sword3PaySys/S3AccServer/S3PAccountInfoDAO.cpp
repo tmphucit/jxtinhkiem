@@ -12,22 +12,12 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PAccountInfoDAO::S3PAccountInfoDAO( S3PDBConnection * pConn )
-{
-	m_pConn = pConn;
+S3PAccountInfoDAO::S3PAccountInfoDAO(S3PDBConnection *pConn) {
+  m_pConn = pConn;
 }
 
-S3PAccountInfoDAO::~S3PAccountInfoDAO()
-{
+S3PAccountInfoDAO::~S3PAccountInfoDAO() {}
 
-}
+std::string S3PAccountInfoDAO::GetTableName() { return "Account_Info"; }
 
-std::string S3PAccountInfoDAO::GetTableName()
-{
-	return "Account_Info";
-}
-
-S3PDBConnection * S3PAccountInfoDAO::GetConnection()
-{
-	return m_pConn;
-}
+S3PDBConnection *S3PAccountInfoDAO::GetConnection() { return m_pConn; }

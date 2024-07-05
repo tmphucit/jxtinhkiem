@@ -9,16 +9,15 @@
 #ifndef KEvent_H
 #define KEvent_H
 //---------------------------------------------------------------------------
-class ENGINE_API KEvent
-{
+class ENGINE_API KEvent {
 private:
-	HANDLE m_hEvent;//用于多进程的线程同步
+  HANDLE m_hEvent; // 用于多进程的线程同步
 public:
-    KEvent();
-    ~KEvent();
-    void Signal(void);
-    void Wait(void);
-    bool TimedWait(long ms);
+  KEvent();
+  ~KEvent();
+  void Signal(void);
+  void Wait(void);
+  bool TimedWait(long ms);
 };
 //---------------------------------------------------------------------------
 #endif

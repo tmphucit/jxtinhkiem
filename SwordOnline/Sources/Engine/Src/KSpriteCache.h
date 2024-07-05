@@ -11,14 +11,13 @@
 //---------------------------------------------------------------------------
 #include "KCache.h"
 //---------------------------------------------------------------------------
-class ENGINE_API KSpriteCache : public KCache
-{
+class ENGINE_API KSpriteCache : public KCache {
 public:
-    KSpriteCache();
-    ~KSpriteCache();
+  KSpriteCache();
+  ~KSpriteCache();
 
-	virtual BOOL LoadNode(KCacheNode* lpNode);
-	virtual void FreeNode(KCacheNode* lpNode);
+  virtual BOOL LoadNode(KCacheNode *lpNode);
+  virtual void FreeNode(KCacheNode *lpNode);
 };
 //---------------------------------------------------------------------------
 #endif

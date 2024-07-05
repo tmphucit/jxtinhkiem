@@ -6,39 +6,24 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Header File
 //---------------------------------------------------------------------------
-#ifndef	KSafeList_H
-#define	KSafeList_H
+#ifndef KSafeList_H
+#define KSafeList_H
 //---------------------------------------------------------------------------
+#include "KEvent.h"
 #include "KList.h"
 #include "KMutex.h"
-#include "KEvent.h"
 //---------------------------------------------------------------------------
-class ENGINE_API KSafeList : public KList
-{
+class ENGINE_API KSafeList : public KList {
 protected:
-	KMutex	m_Mutex;
-	KEvent	m_Event;
+  KMutex m_Mutex;
+  KEvent m_Event;
+
 public:
-    void SignalEvent(void)
-	{
-		m_Event.Signal();
-	};
-    void WaitEvent(void)
-	{
-		m_Event.Wait();
-	};
-    void TimedWaitEvent(long ms)
-	{
-		m_Event.TimedWait(ms);
-	};
-    void Lock(void)
-	{
-		m_Mutex.Lock();
-	};
-    void Unlock(void)
-	{
-		m_Mutex.Unlock();
-	};
+  void SignalEvent(void) { m_Event.Signal(); };
+  void WaitEvent(void) { m_Event.Wait(); };
+  void TimedWaitEvent(long ms) { m_Event.TimedWait(ms); };
+  void Lock(void) { m_Mutex.Lock(); };
+  void Unlock(void) { m_Mutex.Unlock(); };
 };
 //---------------------------------------------------------------------------
 #endif

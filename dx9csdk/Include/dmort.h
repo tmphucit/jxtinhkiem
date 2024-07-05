@@ -6,7 +6,6 @@
 // Copyright (c) 1999 - 2001, Microsoft Corporation.  All rights reserved.
 //------------------------------------------------------------------------------
 
-
 #ifndef __DMORT_H__
 #define __DMORT_H__
 
@@ -14,8 +13,6 @@
 // Mediatype helpers.  MoInitMediaType() goes with MoFreeMediaType(), and
 // MoCreateMediaType() goes with MoDeleteMediaType().  Don't mix them!
 //
-
-
 
 //
 // Takes a pointer to an already allocated DMO_MEDIA_TYPE structure, allocates
@@ -42,8 +39,6 @@ STDAPI MoFreeMediaType(DMO_MEDIA_TYPE *pmt);
 //
 STDAPI MoCopyMediaType(DMO_MEDIA_TYPE *pmtDest, const DMO_MEDIA_TYPE *pmtSrc);
 
-
-
 //
 // Allocates a new DMO_MEDIA_TYPE structure and initializes it just like
 // MoInitMediaType.  I.e., this function allocates both the format block
@@ -68,8 +63,7 @@ STDAPI MoDeleteMediaType(DMO_MEDIA_TYPE *pmt);
 // as well as a new format block for the target mediatype.  Trager mediatype
 // must later be freed using MoDeleteMediaType().
 //
-STDAPI MoDuplicateMediaType(DMO_MEDIA_TYPE **ppmtDest, const DMO_MEDIA_TYPE *pmtSrc);
-
-
+STDAPI MoDuplicateMediaType(DMO_MEDIA_TYPE **ppmtDest,
+                            const DMO_MEDIA_TYPE *pmtSrc);
 
 #endif //__DMORT_H__

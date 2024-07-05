@@ -1,6 +1,6 @@
-#include "stdafx.h"
 #include "NodeList.h"
 #include "Macro.h"
+#include "stdafx.h"
 
 /*
  * namespace OnlineGameLib
@@ -11,107 +11,81 @@ namespace OnlineGameLib {
 /*
  * CNodeList
  */
-CNodeList::CNodeList()
-		: m_pHead( 0 ),
-		m_numNodes( 0 ) 
-{
+CNodeList::CNodeList() : m_pHead(0), m_numNodes(0) {}
+
+void CNodeList::PushNode(Node *pNode) {
+  ASSERT(pNode);
+
+  pNode->AddToList(this);
+
+  pNode->Next(m_pHead);
+
+  m_pHead = pNode;
+
+  ++m_numNodes;
 }
 
-void CNodeList::PushNode( Node *pNode )
-{
-	ASSERT( pNode );
+CNodeList::Node *CNodeList::PopNode() {
+  Node *pNode = m_pHead;
 
-	pNode->AddToList( this );
+  if (pNode) {
+    RemoveNode(pNode);
+  }
 
-	pNode->Next( m_pHead );
-
-	m_pHead = pNode;
-
-	++ m_numNodes;
+  return pNode;
 }
 
-CNodeList::Node *CNodeList::PopNode()
-{
-	Node *pNode = m_pHead;
+void CNodeList::RemoveNode(Node *pNode) {
+  ASSERT(pNode);
 
-	if ( pNode )
-	{
-		RemoveNode( pNode );
-	}
+  if (pNode == m_pHead) {
+    m_pHead = pNode->Next();
+  }
 
-	return pNode;
-}
+  pNode->Unlink();
 
-void CNodeList::RemoveNode( Node *pNode )
-{
-	ASSERT( pNode );
-
-	if ( pNode == m_pHead )
-	{
-		m_pHead = pNode->Next();
-	}
-
-	pNode->Unlink();
-
-	-- m_numNodes;
+  --m_numNodes;
 }
 
 /*
  * CNodeList::Node
  */
 
-CNodeList::Node::Node() 
-		: m_pNext( 0 ),
-		m_pPrev( 0 ),
-		m_pList( 0 ) 
-{
+CNodeList::Node::Node() : m_pNext(0), m_pPrev(0), m_pList(0) {}
+
+CNodeList::Node::~Node() {
+  try {
+    RemoveFromList();
+  } catch (...) {
+    TRACE("CNodeList::Node::~Node() exception!");
+  }
+
+  m_pNext = 0;
+  m_pPrev = 0;
+  m_pList = 0;
 }
 
-CNodeList::Node::~Node() 
-{
-	try
-	{
-		RemoveFromList();   
-	}
-	catch( ... )
-	{
-		TRACE( "CNodeList::Node::~Node() exception!" );
-	}
+void CNodeList::Node::AddToList(CNodeList *pList) { m_pList = pList; }
 
-	m_pNext = 0;
-	m_pPrev = 0;
-	m_pList = 0;
+void CNodeList::Node::RemoveFromList() {
+  if (m_pList) {
+    m_pList->RemoveNode(this);
+  }
 }
 
-void CNodeList::Node::AddToList( CNodeList *pList )
-{
-	m_pList = pList;
-}
+void CNodeList::Node::Unlink() {
+  if (m_pPrev) {
+    m_pPrev->m_pNext = m_pNext;
+  }
 
-void CNodeList::Node::RemoveFromList()
-{
-	if ( m_pList )
-	{
-		m_pList->RemoveNode( this );
-	}
-}
+  if (m_pNext) {
+    m_pNext->m_pPrev = m_pPrev;
+  }
 
-void CNodeList::Node::Unlink()
-{
-	if ( m_pPrev )
-	{
-		m_pPrev->m_pNext = m_pNext;
-	}
+  m_pNext = 0;
+  m_pPrev = 0;
 
-	if ( m_pNext )
-	{
-		m_pNext->m_pPrev = m_pPrev;
-	}
-   
-	m_pNext = 0;
-	m_pPrev = 0;
-
-	m_pList = 0;
+  m_pList = 0;
 }
 
 } // End of namespace OnlineGameLib

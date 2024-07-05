@@ -2,12 +2,12 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
 #include "cBNodeRoot.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -15,24 +15,16 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cBNodeRoot::cBNodeRoot() : cBNode(NULL)
-{
-	_p1 = cPoint(0,-1000);
-	_p2 = cPoint(1,-1000);
+cBNodeRoot::cBNodeRoot() : cBNode(NULL) {
+  _p1 = cPoint(0, -1000);
+  _p2 = cPoint(1, -1000);
 }
 
-cBNodeRoot::~cBNodeRoot()
-{
+cBNodeRoot::~cBNodeRoot() {}
 
-}
+VersortEnum cBNodeRoot::GetVersortType() { return VERSORT_TREE; }
 
-VersortEnum cBNodeRoot::GetVersortType()
-{
-	return VERSORT_TREE;
-}
-
-void cBNodeRoot::GetSortLine(float& k,float& b)
-{
-	k = 0;
-	b = -1000;
+void cBNodeRoot::GetSortLine(float &k, float &b) {
+  k = 0;
+  b = -1000;
 }

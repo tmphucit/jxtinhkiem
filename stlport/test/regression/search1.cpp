@@ -3,28 +3,27 @@
 #include <iterator>
 
 #include <algorithm>
-#include <vector>
 #include <iostream>
 #include <iterator>
+#include <vector>
 // #include <functional>
 #include <numeric>
 
-#ifdef MAIN 
+#ifdef MAIN
 #define search1_test main
 #endif
 
-#if !defined (STLPORT) || defined(__STL_USE_NAMESPACES)
+#if !defined(STLPORT) || defined(__STL_USE_NAMESPACES)
 using namespace std;
 #endif
-int search1_test(int, char**)
-{
-  cout<<"Results of search1_test:"<<endl;
-  typedef vector <int> IntVec;
+int search1_test(int, char **) {
+  cout << "Results of search1_test:" << endl;
+  typedef vector<int> IntVec;
   IntVec v1(10);
   iota(v1.begin(), v1.end(), 0);
   IntVec v2(3);
   iota(v2.begin(), v2.end(), 50);
-  ostream_iterator <int> iter(cout, " ");
+  ostream_iterator<int> iter(cout, " ");
 
   cout << "v1: ";
   copy(v1.begin(), v1.end(), iter);
@@ -36,7 +35,7 @@ int search1_test(int, char**)
   IntVec::iterator location;
   location = search(v1.begin(), v1.end(), v2.begin(), v2.end());
 
-  if(location == v1.end())
+  if (location == v1.end())
     cout << "v2 not contained in v1" << endl;
   else
     cout << "Found v2 in v1 at offset: " << location - v1.begin() << endl;
@@ -51,7 +50,7 @@ int search1_test(int, char**)
 
   location = search(v1.begin(), v1.end(), v2.begin(), v2.end());
 
-  if(location == v1.end())
+  if (location == v1.end())
     cout << "v2 not contained in v1" << endl;
   else
     cout << "Found v2 in v1 at offset: " << location - v1.begin() << endl;

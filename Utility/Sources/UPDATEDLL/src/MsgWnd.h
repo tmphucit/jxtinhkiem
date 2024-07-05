@@ -10,44 +10,42 @@
 /////////////////////////////////////////////////////////////////////////////
 // CMsgWnd window
 
-class CMsgWnd : public CWnd
-{
-// Construction
+class CMsgWnd : public CWnd {
+  // Construction
 public:
-	CMsgWnd();
+  CMsgWnd();
 
-// Attributes
+  // Attributes
 public:
-
-// Operations
+  // Operations
 public:
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CMsgWnd)
-	public:
-	virtual BOOL PreTranslateMessage(MSG* pMsg);
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CMsgWnd)
 public:
-	virtual ~CMsgWnd();
+  virtual BOOL PreTranslateMessage(MSG *pMsg);
+  //}}AFX_VIRTUAL
 
-	// Generated message map functions
+  // Implementation
+public:
+  virtual ~CMsgWnd();
+
+  // Generated message map functions
 protected:
-	//{{AFX_MSG(CMsgWnd)
-	afx_msg void OnDestroy();
-	afx_msg void OnPaint();
-	//}}AFX_MSG
-    
-    LRESULT OnDefaultMessage(WPARAM wParam, LPARAM lParam);
-    
-	DECLARE_MESSAGE_MAP()
+  //{{AFX_MSG(CMsgWnd)
+  afx_msg void OnDestroy();
+  afx_msg void OnPaint();
+  //}}AFX_MSG
+
+  LRESULT OnDefaultMessage(WPARAM wParam, LPARAM lParam);
+
+  DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_MSGWND_H__0A898AD8_AD2D_4D2F_A5DC_30D6DEF75553__INCLUDED_)

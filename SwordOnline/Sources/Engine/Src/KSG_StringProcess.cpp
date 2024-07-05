@@ -13,105 +13,91 @@
 
 #include "KSG_StringProcess.h"
 
+int KSG_StringGetInt(const char **ppcszString, int nDefaultValue) {
+  int nResult = false;
+  int nRetValue = 0;
+  int nNegSignFlag = false;
+  int nRetValueValidFlag = false;
+  const char *pcszString = NULL;
 
-int KSG_StringGetInt(const char **ppcszString, int nDefaultValue)
-{
-    int nResult = false;
-    int nRetValue = 0;
-    int nNegSignFlag = false;
-    int nRetValueValidFlag = false;
-    const char *pcszString = NULL;
+  if (!ppcszString)
+    goto Exit0;
 
-    if (!ppcszString)
-        goto Exit0;
-    
-    pcszString = *ppcszString;
+  pcszString = *ppcszString;
 
-    if (!pcszString)
-        goto Exit0;
+  if (!pcszString)
+    goto Exit0;
 
+  while (isspace(*pcszString))
+    pcszString++;
+
+  if ((*pcszString) == '\0')
+    goto Exit0;
+
+  if ((*pcszString) == '-') {
+    nNegSignFlag = true;
+    pcszString++;
+
+    // Skip Prev Space
     while (isspace(*pcszString))
-        pcszString++;
-    
+      pcszString++;
+
     if ((*pcszString) == '\0')
-        goto Exit0;
+      goto Exit0;
+  }
 
-    if ((*pcszString) == '-')
-    {
-        nNegSignFlag = true;
-        pcszString++;
+  while (isdigit(*pcszString)) {
+    nRetValueValidFlag = true;
 
-        // Skip Prev Space
-        while (isspace(*pcszString))
-            pcszString++;
+    nRetValue = nRetValue * 10 + ((int)(*pcszString - '0'));
 
-        if ((*pcszString) == '\0')
-            goto Exit0;
-    }
+    pcszString++;
+  }
 
-    
-    while (isdigit(*pcszString))
-    {
-        nRetValueValidFlag = true;
-
-        nRetValue = nRetValue * 10 +  ((int)(*pcszString - '0'));
-
-        pcszString++;
-    }
-
-    nResult = true;
+  nResult = true;
 Exit0:
 
-    if (pcszString)
-    {
-        if (ppcszString)
-            *ppcszString = pcszString;
-    }
+  if (pcszString) {
+    if (ppcszString)
+      *ppcszString = pcszString;
+  }
 
-    if (nNegSignFlag)
-        nRetValue = -nRetValue;
+  if (nNegSignFlag)
+    nRetValue = -nRetValue;
 
-    if (
-        (!nResult) ||
-        (!nRetValueValidFlag)
-    )
-        nRetValue = nDefaultValue; 
+  if ((!nResult) || (!nRetValueValidFlag))
+    nRetValue = nDefaultValue;
 
-
-    return nRetValue;
+  return nRetValue;
 }
 
+bool KSG_StringSkipSymbol(const char **ppcszString, int nSymbol) {
+  bool bResult = false;
+  const char *pcszString = NULL;
 
-bool KSG_StringSkipSymbol(const char **ppcszString, int nSymbol)
-{
-    bool bResult = false;
-    const char *pcszString = NULL;
+  if (!ppcszString)
+    goto Exit0;
 
-    if (!ppcszString)
-        goto Exit0;
-    
-    pcszString = *ppcszString;
+  pcszString = *ppcszString;
 
-    if (!pcszString)
-        goto Exit0;
+  if (!pcszString)
+    goto Exit0;
 
-    while (isspace(*pcszString))
-        pcszString++;
-    
-    if (((unsigned)(*pcszString)) != (unsigned)nSymbol)
-        goto Exit0;
+  while (isspace(*pcszString))
+    pcszString++;
 
-    pcszString++;   // Skip Symbol
+  if (((unsigned)(*pcszString)) != (unsigned)nSymbol)
+    goto Exit0;
 
-    bResult = true;
+  pcszString++; // Skip Symbol
+
+  bResult = true;
 Exit0:
 
-    if (pcszString)
-    {
-        if (ppcszString)
-            *ppcszString = pcszString;
-    }
+  if (pcszString) {
+    if (ppcszString)
+      *ppcszString = pcszString;
+  }
 
-    return bResult;
+  return bResult;
 }
-

@@ -10,105 +10,94 @@
 
 #ifndef _SERVER
 
-#include	"CoreUseNameDef.h"
-#include	"KNpcResList.h"
+#include "CoreUseNameDef.h"
+#include "KNpcResList.h"
 
 #ifndef _SERVER
-KNpcResList	g_NpcResList;
+KNpcResList g_NpcResList;
 #endif
 
-KNpcResList::KNpcResList()
-{
-}
+KNpcResList::KNpcResList() {}
 
-KNpcResList::~KNpcResList()
-{
-	KNpcResNode		*pTempNode;
-	KNpcResNode		*pTempNextNode;
+KNpcResList::~KNpcResList() {
+  KNpcResNode *pTempNode;
+  KNpcResNode *pTempNextNode;
 
-    // 释放所有链表中的节点
-   	pTempNode = (KNpcResNode *)this->GetHead();
-	while (pTempNode)
-    {
-		pTempNextNode = (KNpcResNode *)pTempNode->GetNext();
+  // 释放所有链表中的节点
+  pTempNode = (KNpcResNode *)this->GetHead();
+  while (pTempNode) {
+    pTempNextNode = (KNpcResNode *)pTempNode->GetNext();
 
-        delete pTempNode;
+    delete pTempNode;
 
-        pTempNode = pTempNextNode;
-	}
+    pTempNode = pTempNextNode;
+  }
 }
 
 //-------------------------------------------------------------------------
 //	功能：	初始化
 //-------------------------------------------------------------------------
-BOOL	KNpcResList::Init()
-{
-	if ( !m_cActionName.Init(ACTION_FILE_NAME) )
-		return FALSE;
-	if ( !m_cNpcAction.Init(NPC_ACTION_NAME) )
-		return FALSE;
-	if ( !m_cStateTable.Init() )
-		return FALSE;
-	if ( !m_cMenuState.Init() )
-		return FALSE;
-	return TRUE;
+BOOL KNpcResList::Init() {
+  if (!m_cActionName.Init(ACTION_FILE_NAME))
+    return FALSE;
+  if (!m_cNpcAction.Init(NPC_ACTION_NAME))
+    return FALSE;
+  if (!m_cStateTable.Init())
+    return FALSE;
+  if (!m_cMenuState.Init())
+    return FALSE;
+  return TRUE;
 }
 
 //-------------------------------------------------------------------------
 //	功能：	查找同名的 NpcResNode 并返回节点
 //-------------------------------------------------------------------------
-KNpcResNode*	KNpcResList::FindNpcRes(char *lpszNpcName)
-{
-	if ( !lpszNpcName || !lpszNpcName[0])
-		return NULL;
+KNpcResNode *KNpcResList::FindNpcRes(char *lpszNpcName) {
+  if (!lpszNpcName || !lpszNpcName[0])
+    return NULL;
 
-	KNpcResNode		*pTempNode;
+  KNpcResNode *pTempNode;
 
-	pTempNode = (KNpcResNode *)this->GetHead();
-	if (pTempNode == NULL)
-		return NULL;
-	if (strcmp(pTempNode->m_szNpcName, lpszNpcName) == 0)
-	{
-		return pTempNode;
-	}
+  pTempNode = (KNpcResNode *)this->GetHead();
+  if (pTempNode == NULL)
+    return NULL;
+  if (strcmp(pTempNode->m_szNpcName, lpszNpcName) == 0) {
+    return pTempNode;
+  }
 
-	while (1)
-	{
-		pTempNode = (KNpcResNode *)pTempNode->GetNext();
-		if (pTempNode == NULL)
-			return NULL;
-		if (strcmp(pTempNode->m_szNpcName, lpszNpcName) == 0)
-		{
-			return pTempNode;
-		}
-	}
+  while (1) {
+    pTempNode = (KNpcResNode *)pTempNode->GetNext();
+    if (pTempNode == NULL)
+      return NULL;
+    if (strcmp(pTempNode->m_szNpcName, lpszNpcName) == 0) {
+      return pTempNode;
+    }
+  }
 
-	return NULL;
+  return NULL;
 }
 
 //-------------------------------------------------------------------------
 //	功能：	添加一个 NpcResNode 并返回节点，如果已存在，直接返回节点
 //-------------------------------------------------------------------------
-KNpcResNode*	KNpcResList::AddNpcRes(char *lpszNpcName)
-{
-	if ( !lpszNpcName || !lpszNpcName[0])
-		return FALSE;
+KNpcResNode *KNpcResList::AddNpcRes(char *lpszNpcName) {
+  if (!lpszNpcName || !lpszNpcName[0])
+    return FALSE;
 
-	KNpcResNode		*pTempNode;
-	pTempNode = FindNpcRes(lpszNpcName);
-	if ( pTempNode != NULL )
-		return pTempNode;
+  KNpcResNode *pTempNode;
+  pTempNode = FindNpcRes(lpszNpcName);
+  if (pTempNode != NULL)
+    return pTempNode;
 
-	pTempNode = new KNpcResNode;
-	if ( !pTempNode->Init(lpszNpcName, &m_cActionName, &m_cNpcAction) )
-	{
-		delete pTempNode;
-		return NULL;
-	}
+  pTempNode = new KNpcResNode;
+  if (!pTempNode->Init(lpszNpcName, &m_cActionName, &m_cNpcAction)) {
+    delete pTempNode;
+    return NULL;
+  }
 
-	this->AddTail(pTempNode);
+  this->AddTail(pTempNode);
 
-	return pTempNode;
+  return pTempNode;
 }
 
 #endif

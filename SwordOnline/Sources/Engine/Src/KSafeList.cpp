@@ -6,7 +6,7 @@
 // Code:	WangWei(Daphnis)
 // Desc:	simple double linked node class
 //---------------------------------------------------------------------------
-#include "KWin32.h"
-#include "KDebug.h"
 #include "KSafeList.h"
+#include "KDebug.h"
+#include "KWin32.h"
 //---------------------------------------------------------------------------

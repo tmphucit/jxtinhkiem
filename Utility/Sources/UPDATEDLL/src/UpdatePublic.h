@@ -8,17 +8,15 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-
 #ifndef __UPDATE_PUBLIC_H__
 #define __UPDATE_PUBLIC_H__ 1
 
 #include "DataDefine.h"
-#include "ProcessIndex.h" 
+#include "ProcessIndex.h"
 
 extern CProcessIndex g_ProcessIndex;
 
 //------------------------------------------------------------------------------------
-
 
 int GetSerialNumberFromRegistry(HKEY hKey, const char cszKeyName[]);
 
@@ -29,7 +27,7 @@ int ProcessIndexFile(const char cszFileName[]);
 int UpdateFiles();
 int UpdateSelf();
 
-int GetHostURL(const char cszFileName[], const char cszHostName[], char szHostURL[]);
+int GetHostURL(const char cszFileName[], const char cszHostName[],
+               char szHostURL[]);
 
-#endif  //__UPDATE_PUBLIC_H__
-
+#endif //__UPDATE_PUBLIC_H__

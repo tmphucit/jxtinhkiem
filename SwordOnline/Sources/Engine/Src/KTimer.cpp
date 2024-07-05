@@ -6,26 +6,25 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Timer Class
 //---------------------------------------------------------------------------
-#include "KWin32.h"
+#include "KTimer.h"
 #include "KDebug.h"
 #include "KMemBase.h"
-#include "KTimer.h"
+#include "KWin32.h"
 // flying add this macro.
 // must pay more attention in the platform porting job.
 #ifdef __linux
 #include <sys/time.h>
 #endif
 
-KTimer::KTimer()
-{
+KTimer::KTimer() {
 #ifdef WIN32
-	m_nFrequency.QuadPart = 200 * 1024 * 1024;
-	m_nTimeStart.QuadPart = 0;
-	m_nTimeStop.QuadPart = 0;
-	m_nFPS = 0;
-	QueryPerformanceFrequency(&m_nFrequency);
+  m_nFrequency.QuadPart = 200 * 1024 * 1024;
+  m_nTimeStart.QuadPart = 0;
+  m_nTimeStop.QuadPart = 0;
+  m_nFPS = 0;
+  QueryPerformanceFrequency(&m_nFrequency);
 #else
-    //m_nFrequency = CLOCKS_PER_SEC;
+  // m_nFrequency = CLOCKS_PER_SEC;
 #endif
 }
 //---------------------------------------------------------------------------
@@ -34,12 +33,11 @@ KTimer::KTimer()
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KTimer::Start()
-{
+void KTimer::Start() {
 #ifdef WIN32
-	QueryPerformanceCounter(&m_nTimeStart);
+  QueryPerformanceCounter(&m_nTimeStart);
 #else
-    gettimeofday(&m_nTimeStart, NULL);
+  gettimeofday(&m_nTimeStart, NULL);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -48,12 +46,11 @@ void KTimer::Start()
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KTimer::Stop()
-{
+void KTimer::Stop() {
 #ifdef WIN32
-	QueryPerformanceCounter(&m_nTimeStop);
+  QueryPerformanceCounter(&m_nTimeStop);
 #else
-	gettimeofday(&m_nTimeStop, NULL);
+  gettimeofday(&m_nTimeStop, NULL);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -62,17 +59,16 @@ void KTimer::Stop()
 // 参数:	void
 // 返回:	DWORD in ms
 //---------------------------------------------------------------------------
-DWORD KTimer::GetElapse()
-{
+DWORD KTimer::GetElapse() {
 #ifdef WIN32
-	LARGE_INTEGER nTime;
-	QueryPerformanceCounter(&nTime);
-	return (DWORD)((nTime.QuadPart - m_nTimeStart.QuadPart) 
-		* 1000 / m_nFrequency.QuadPart);
+  LARGE_INTEGER nTime;
+  QueryPerformanceCounter(&nTime);
+  return (DWORD)((nTime.QuadPart - m_nTimeStart.QuadPart) * 1000 /
+                 m_nFrequency.QuadPart);
 #else
-	timeval tv;
-	gettimeofday(&tv, NULL);
-    return (tv.tv_sec - m_nTimeStart.tv_sec) * 1000 + tv.tv_usec / 1000;
+  timeval tv;
+  gettimeofday(&tv, NULL);
+  return (tv.tv_sec - m_nTimeStart.tv_sec) * 1000 + tv.tv_usec / 1000;
 #endif
 }
 //---------------------------------------------------------------------------
@@ -81,14 +77,13 @@ DWORD KTimer::GetElapse()
 // 参数:	void
 // 返回:	DWORD in frequency
 //---------------------------------------------------------------------------
-DWORD KTimer::GetElapseFrequency()
-{
+DWORD KTimer::GetElapseFrequency() {
 #ifdef WIN32
-	LARGE_INTEGER nTime;
-	QueryPerformanceCounter(&nTime);
-	return (DWORD)(nTime.QuadPart - m_nTimeStart.QuadPart);
+  LARGE_INTEGER nTime;
+  QueryPerformanceCounter(&nTime);
+  return (DWORD)(nTime.QuadPart - m_nTimeStart.QuadPart);
 #endif
-	return 0;
+  return 0;
 }
 //---------------------------------------------------------------------------
 // 函数:	GetInterval
@@ -96,13 +91,12 @@ DWORD KTimer::GetElapseFrequency()
 // 参数:	void
 // 返回:	毫秒值
 //---------------------------------------------------------------------------
-DWORD KTimer::GetInterval()
-{
+DWORD KTimer::GetInterval() {
 #ifdef WIN32
-	return (DWORD)((m_nTimeStop.QuadPart - m_nTimeStart.QuadPart) 
-		* 1000 / m_nFrequency.QuadPart);
+  return (DWORD)((m_nTimeStop.QuadPart - m_nTimeStart.QuadPart) * 1000 /
+                 m_nFrequency.QuadPart);
 #endif
-	return 0;
+  return 0;
 }
 //---------------------------------------------------------------------------
 // 函数:	Passed
@@ -111,15 +105,13 @@ DWORD KTimer::GetInterval()
 // 返回:	TRUE	已经过了
 //			FALSE	还没有过
 //---------------------------------------------------------------------------
-BOOL KTimer::Passed(int nTime)
-{
+BOOL KTimer::Passed(int nTime) {
 
-	if (GetElapse() >= (DWORD)nTime)
-	{
-		Start();
-		return TRUE;
-	}
-	return FALSE;
+  if (GetElapse() >= (DWORD)nTime) {
+    Start();
+    return TRUE;
+  }
+  return FALSE;
 }
 //---------------------------------------------------------------------------
 // 函数:	GetFPS
@@ -128,15 +120,13 @@ BOOL KTimer::Passed(int nTime)
 // 返回:	TRUE	成功
 //			FALSE	失败
 //---------------------------------------------------------------------------
-BOOL KTimer::GetFPS(int *nFPS)
-{
-	if (GetElapse() >= 1000)
-	{
-		*nFPS = m_nFPS;
-		m_nFPS = 0;
-		Start();
-		return TRUE;
-	}
-	m_nFPS++;
-	return FALSE;
+BOOL KTimer::GetFPS(int *nFPS) {
+  if (GetElapse() >= 1000) {
+    *nFPS = m_nFPS;
+    m_nFPS = 0;
+    Start();
+    return TRUE;
+  }
+  m_nFPS++;
+  return FALSE;
 }

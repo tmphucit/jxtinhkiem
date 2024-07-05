@@ -7,7 +7,6 @@
 *****************************************************************************************/
 #pragma once
 
-struct iKNetMsgTargetObject
-{
-	virtual void	AcceptNetMsg(void* pMsgData) = 0;
+struct iKNetMsgTargetObject {
+  virtual void AcceptNetMsg(void *pMsgData) = 0;
 };

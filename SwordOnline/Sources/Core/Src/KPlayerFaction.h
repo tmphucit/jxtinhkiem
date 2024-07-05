@@ -10,32 +10,33 @@
 #ifndef KPLAYERFACTION_H
 #define KPLAYERFACTION_H
 
-#include	"KFaction.h"
-#include	"KSkillList.h"
+#include "KFaction.h"
+#include "KSkillList.h"
 
 // Player 自带的有关门派的模块
-class KPlayerFaction
-{
+class KPlayerFaction {
 public:
-	int		m_nCurFaction;						// 当前加入门派 id ，如果为 -1 ，当前没有在门派中
-	int		m_nFirstAddFaction;					// 第一次加入的门派 id
-	int		m_nAddTimes;						// 当前加入门派的次数
-//	struct	SSkillOpen
-//	{
-//		int		m_nID;							// 本系（五行）某个门派 id
-//		int		m_nOpenLevel;					// 本系某个门派技能开放到第几级
-//	}		m_sSkillOpen[FACTIONS_PRR_SERIES];	// 本系某个门派的技能开放度
+  int m_nCurFaction;      // 当前加入门派 id ，如果为 -1 ，当前没有在门派中
+  int m_nFirstAddFaction; // 第一次加入的门派 id
+  int m_nAddTimes;        // 当前加入门派的次数
+  //	struct	SSkillOpen
+  //	{
+  //		int		m_nID;
+  //// 本系（五行）某个门派 id 		int		m_nOpenLevel;
+  //// 本系某个门派技能开放到第几级 	}
+  // m_sSkillOpen[FACTIONS_PRR_SERIES];	// 本系某个门派的技能开放度
 public:
-	KPlayerFaction();							// 构造函数
-	void	Release();
-	void	SetSeries(int nSeries);				// 根据玩家的五行属性确定玩家门派数据
-	BOOL	AddFaction(int nSeries, char *lpszFactionName);// 加入门派
-	BOOL	AddFaction(int nSeries, int nFactionID);// 加入门派
-	void	LeaveFaction();						// 离开当前门派
-	BOOL	OpenCurSkillLevel(int nLevel, KSkillList *pSkillList);// 开放当前门派某个等级的技能
-	int		GetGurFactionCamp();				// 获得当前门派阵营
-	int		GetCurFactionNo();					// 获得当前门派
-	void	GetCurFactionName(char *lpszGetName);
+  KPlayerFaction(); // 构造函数
+  void Release();
+  void SetSeries(int nSeries); // 根据玩家的五行属性确定玩家门派数据
+  BOOL AddFaction(int nSeries, char *lpszFactionName); // 加入门派
+  BOOL AddFaction(int nSeries, int nFactionID);        // 加入门派
+  void LeaveFaction();                                 // 离开当前门派
+  BOOL OpenCurSkillLevel(int nLevel,
+                         KSkillList *pSkillList); // 开放当前门派某个等级的技能
+  int GetGurFactionCamp();                        // 获得当前门派阵营
+  int GetCurFactionNo();                          // 获得当前门派
+  void GetCurFactionName(char *lpszGetName);
 };
 
 /*

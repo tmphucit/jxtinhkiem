@@ -7,66 +7,54 @@
 
 #include "Macro.h"
 
+int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
+                     LPSTR lpCmdLine, int nCmdShow) {
+  /*
+   * Add this funtion by liupeng on 2003
+   * We can find some error when start a console tracer
+   *
+   * Please check 'project-setting'
+   */
+#ifdef CONSOLE_DEBUG
 
-int APIENTRY WinMain(HINSTANCE hInstance,
-                     HINSTANCE hPrevInstance,
-                     LPSTR     lpCmdLine,
-                     int       nCmdShow)
-{
-	/*
-	 * Add this funtion by liupeng on 2003
-	 * We can find some error when start a console tracer
-	 *
-	 * Please check 'project-setting'
-	 */
-#ifdef	CONSOLE_DEBUG
+  bool bOpenTracer = false;
 
-	bool bOpenTracer = false;
+  while (lpCmdLine[0] == '-' || lpCmdLine[0] == '/') {
+    lpCmdLine++;
 
-    while( lpCmdLine[0] == '-' || lpCmdLine[0] == '/' )
-    {
-        lpCmdLine++;
-		
-        switch ( *lpCmdLine++ )
-        {
-		case 'c':
-        case 'C':
-            bOpenTracer = true;
-            break;
-        }
-		
-        while( IS_SPACE( *lpCmdLine ) )
-        {
-            lpCmdLine++;
-        }
+    switch (*lpCmdLine++) {
+    case 'c':
+    case 'C':
+      bOpenTracer = true;
+      break;
     }
-	
-	if ( bOpenTracer ) 
-	{
-		AllocConsole();
-	}
 
-	cprintf( "Startup application!\n" );
+    while (IS_SPACE(*lpCmdLine)) {
+      lpCmdLine++;
+    }
+  }
+
+  if (bOpenTracer) {
+    AllocConsole();
+  }
+
+  cprintf("Startup application!\n");
 
 #endif
 
-	CBishopApp app( hInstance );
+  CBishopApp app(hInstance);
 
-	int nRet = app.Run();
+  int nRet = app.Run();
 
 #ifdef CONSOLE_DEBUG
 
-	cprintf( "End of application!\n" );
+  cprintf("End of application!\n");
 
-	if ( bOpenTracer )
-	{
-		FreeConsole();
-	}
+  if (bOpenTracer) {
+    FreeConsole();
+  }
 
 #endif
-	
-	return nRet;
+
+  return nRet;
 }
-
-
-

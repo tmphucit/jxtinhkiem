@@ -12,49 +12,47 @@
 /////////////////////////////////////////////////////////////////////////////
 // CSpecialDlg dialog
 class iSpecial;
-class CSpecialDlg : public CDialog
-{
-// Construction
+class CSpecialDlg : public CDialog {
+  // Construction
 public:
-	CSpecialDlg(CWnd* pParent = NULL);   // standard constructor
+  CSpecialDlg(CWnd *pParent = NULL); // standard constructor
 
-	iSpecial* m_pSpecial;
-	void SetSpecial(iSpecial* p){m_pSpecial = p;}
-	
-	enum {MAX_ITEM = 16};
-	CString m_aValue[MAX_ITEM];
-	CString m_aItem[MAX_ITEM];
-	CString m_aDescription[MAX_ITEM];
+  iSpecial *m_pSpecial;
+  void SetSpecial(iSpecial *p) { m_pSpecial = p; }
 
-	CEdit	m_aValueControl[MAX_ITEM];
-	CStatic	m_aItemControl[MAX_ITEM];
-	CStatic	m_aDescriptionControl[MAX_ITEM];
-	
-// Dialog Data
-	//{{AFX_DATA(CSpecialDlg)
-	enum { IDD = IDD_SPECIAL };
-	//}}AFX_DATA
+  enum { MAX_ITEM = 16 };
+  CString m_aValue[MAX_ITEM];
+  CString m_aItem[MAX_ITEM];
+  CString m_aDescription[MAX_ITEM];
 
+  CEdit m_aValueControl[MAX_ITEM];
+  CStatic m_aItemControl[MAX_ITEM];
+  CStatic m_aDescriptionControl[MAX_ITEM];
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CSpecialDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
+  // Dialog Data
+  //{{AFX_DATA(CSpecialDlg)
+  enum { IDD = IDD_SPECIAL };
+  //}}AFX_DATA
 
-// Implementation
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CSpecialDlg)
 protected:
+  virtual void DoDataExchange(CDataExchange *pDX); // DDX/DDV support
+                                                   //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CSpecialDlg)
-	afx_msg void OnOk();
-	virtual BOOL OnInitDialog();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  // Implementation
+protected:
+  // Generated message map functions
+  //{{AFX_MSG(CSpecialDlg)
+  afx_msg void OnOk();
+  virtual BOOL OnInitDialog();
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_SPECIALDLG_H__FCD18709_2438_45B5_8EA6_04D539A8E5AA__INCLUDED_)

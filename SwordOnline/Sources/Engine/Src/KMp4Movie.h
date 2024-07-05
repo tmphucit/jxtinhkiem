@@ -13,19 +13,19 @@
 #include "KMp4Video.h"
 //---------------------------------------------------------------------------
 
-class ENGINE_API KMp4Movie
-{
+class ENGINE_API KMp4Movie {
 private:
-	KMp4Audio		m_Audio;
-	KMp4Video		m_Video;
+  KMp4Audio m_Audio;
+  KMp4Video m_Video;
+
 public:
-	BOOL			Open(LPSTR FileName);
-	void			Close();
-	void			Play(int nX=0, int nY=0,int nZoom=0);
-	void			Stop();
-	void			Seek(int nPercent);
-	void			Rewind();
-	void			WaitForEnd();
+  BOOL Open(LPSTR FileName);
+  void Close();
+  void Play(int nX = 0, int nY = 0, int nZoom = 0);
+  void Stop();
+  void Seek(int nPercent);
+  void Rewind();
+  void WaitForEnd();
 };
 //---------------------------------------------------------------------------
 #endif

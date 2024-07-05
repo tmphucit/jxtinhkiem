@@ -6,25 +6,25 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Header File
 //---------------------------------------------------------------------------
-#ifndef	KMsgNode_H
-#define	KMsgNode_H
+#ifndef KMsgNode_H
+#define KMsgNode_H
 //---------------------------------------------------------------------------
 #include "KNode.h"
 //---------------------------------------------------------------------------
-class ENGINE_API KMsgNode : public KNode
-{
+class ENGINE_API KMsgNode : public KNode {
 public:
-	PVOID	m_pCustom;
-	PVOID	m_pBuffer;
-	ULONG	m_nBufLen;
+  PVOID m_pCustom;
+  PVOID m_pBuffer;
+  ULONG m_nBufLen;
+
 public:
-	KMsgNode();
-	~KMsgNode();
-	void	SetMsg(PVOID pBuf, ULONG nLen);
-	PVOID	GetMsgBuf(){return m_pBuffer;};
-	ULONG	GetMsgLen(){return m_nBufLen;};
-	void	SetPtr(PVOID pPtr){m_pCustom = pPtr;};
-	PVOID	GetPtr(){return m_pCustom;};
+  KMsgNode();
+  ~KMsgNode();
+  void SetMsg(PVOID pBuf, ULONG nLen);
+  PVOID GetMsgBuf() { return m_pBuffer; };
+  ULONG GetMsgLen() { return m_nBufLen; };
+  void SetPtr(PVOID pPtr) { m_pCustom = pPtr; };
+  PVOID GetPtr() { return m_pCustom; };
 };
 //---------------------------------------------------------------------------
 #endif

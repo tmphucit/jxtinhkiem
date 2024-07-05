@@ -13,31 +13,20 @@
 
 #include "DataDefine.h"
 
-
 //------------------------------------------------------------------------------------
-int GetKAVFileVersion(
-    const char cszFileName[], 
-    KCHECKVERSIONMETHOD CheckVersionMethod, 
-    DWORD *pdwMajorVersion, 
-    DWORD *pdwMinorVersion
-);
-int GetEngineFileVersion(
-    const char cszFileName[], 
-    DWORD *pdwMajorVersion, 
-    DWORD *pdwMinorVersion
-);
-int GetSignFileVersion(
-    const char cszFileName[], 
-    DWORD *pdwMajorVersion, 
-    DWORD *pdwMinorVersion
-);
+int GetKAVFileVersion(const char cszFileName[],
+                      KCHECKVERSIONMETHOD CheckVersionMethod,
+                      DWORD *pdwMajorVersion, DWORD *pdwMinorVersion);
+int GetEngineFileVersion(const char cszFileName[], DWORD *pdwMajorVersion,
+                         DWORD *pdwMinorVersion);
+int GetSignFileVersion(const char cszFileName[], DWORD *pdwMajorVersion,
+                       DWORD *pdwMinorVersion);
 
 int GetLocalSignVersion(DWORD *pdwMajorVersion, DWORD *pdwMinorVersion);
 int GetLocalSignVersion(char szVersion[]);
 
 // Check is exist the same version sign file
 int CheckExistSameVersionFile(const char cszFileName[]);
-
 
 int GetLocalSignFileNumber();
 int IsSignFile(const char cszPathName[]);
@@ -53,6 +42,4 @@ int GetNormalVersion(const char cszPathName[], char szVersion[]);
 int GetEngineVersion(const char cszPathName[], char szVersion[]);
 int GetVirusCountFromSignFile(const char cszPathName[]);
 
-
-
-#endif      //__GET_FILES_VERSION_H__
+#endif //__GET_FILES_VERSION_H__

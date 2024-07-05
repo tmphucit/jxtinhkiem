@@ -2,301 +2,277 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "Global.h"
 #include "NetServer.h"
+#include "Global.h"
 #include "S3Relay.h"
+#include "stdafx.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CNetServer::CNetServer()
-	: m_pServer(NULL), m_ready(FALSE)
-{
+CNetServer::CNetServer() : m_pServer(NULL), m_ready(FALSE) {}
+
+CNetServer::~CNetServer() {
+  // assert(!m_pServer);
+  //_SafeRelease(m_pServer);
 }
 
-CNetServer::~CNetServer()
-{
-	//assert(!m_pServer);
-	//_SafeRelease(m_pServer);
-}
-
-
-//static 
+// static
 void __stdcall CNetServer::ServerEventNotify(
-			LPVOID lpParam,
-			const unsigned long &ulnID,
-			const unsigned long &ulnEventType )
-{
-	CNetServer* pThis = (CNetServer*)lpParam;
-	assert(pThis);
+    LPVOID lpParam, const unsigned long &ulnID,
+    const unsigned long &ulnEventType) {
+  CNetServer *pThis = (CNetServer *)lpParam;
+  assert(pThis);
 
-	switch( ulnEventType )
-	{
-	case enumClientConnectCreate:
-		pThis->_NotifyClientConnectCreate(ulnID);
-		break;
-	case enumClientConnectClose:
-		pThis->_NotifyClientConnectClose(ulnID);
-		break;
-	}
+  switch (ulnEventType) {
+  case enumClientConnectCreate:
+    pThis->_NotifyClientConnectCreate(ulnID);
+    break;
+  case enumClientConnectClose:
+    pThis->_NotifyClientConnectClose(ulnID);
+    break;
+  }
 }
 
+BOOL CNetServer::Startup(size_t nPlayerMaxCount, size_t nPrecision,
+                         size_t maxFreeBuffers_Cache, size_t bufferSize_Cache,
+                         unsigned long ulnAddressToListenOn,
+                         unsigned short usnPortToListenOn) {
+  if (m_pServer)
+    return FALSE;
 
-BOOL CNetServer::Startup (size_t nPlayerMaxCount, size_t nPrecision, size_t maxFreeBuffers_Cache, size_t bufferSize_Cache,
-						  unsigned long ulnAddressToListenOn, unsigned short usnPortToListenOn)
-{
-	if (m_pServer)
-		return FALSE;
+  AUTOLOCKWRITE(m_lockAccess);
 
-	AUTOLOCKWRITE(m_lockAccess);
+  assert(!m_ready);
+  m_ready = FALSE;
 
-	assert(!m_ready);
-	m_ready = FALSE;
+  assert(m_mapId2Connect.empty());
+  m_mapId2Connect.clear();
 
-	assert(m_mapId2Connect.empty());
-	m_mapId2Connect.clear();
+  IServerFactory *pSvrFac = NULL;
+  if (FAILED(g_libHeaven.CreateInterface(IID_IServerFactory,
+                                         reinterpret_cast<void **>(&pSvrFac))))
+    return FALSE;
 
-	IServerFactory* pSvrFac = NULL;
-	if (FAILED(g_libHeaven.CreateInterface( IID_IServerFactory, reinterpret_cast< void ** >(&pSvrFac) )))
-		return FALSE;
+  pSvrFac->SetEnvironment(nPlayerMaxCount, nPrecision, maxFreeBuffers_Cache,
+                          bufferSize_Cache);
+  pSvrFac->CreateServerInterface(IID_IIOCPServer,
+                                 reinterpret_cast<void **>(&m_pServer));
 
-	pSvrFac->SetEnvironment(nPlayerMaxCount, nPrecision, maxFreeBuffers_Cache, bufferSize_Cache);
-	pSvrFac->CreateServerInterface(IID_IIOCPServer, reinterpret_cast< void ** >(&m_pServer));
+  pSvrFac->Release();
 
-	pSvrFac->Release();
+  // init server
 
-	//init server
+  if (FAILED(m_pServer->Startup()))
+    return FALSE;
 
-	if (FAILED(m_pServer->Startup()))
-		return FALSE;
+  m_pServer->RegisterMsgFilter((LPVOID)this, ServerEventNotify);
 
-	m_pServer->RegisterMsgFilter((LPVOID)this, ServerEventNotify);
+  OnBuildup();
 
-	OnBuildup();
+  m_pServer->OpenService(ulnAddressToListenOn, usnPortToListenOn);
 
-	m_pServer->OpenService(ulnAddressToListenOn, usnPortToListenOn);
+  m_ready = TRUE;
 
-	m_ready = TRUE;
-
-	return TRUE;
+  return TRUE;
 }
 
-BOOL CNetServer::Shutdown()
-{
-	AUTOLOCKWRITE(m_lockAccess);
+BOOL CNetServer::Shutdown() {
+  AUTOLOCKWRITE(m_lockAccess);
 
-	m_ready = FALSE;
+  m_ready = FALSE;
 
-	if (m_pServer)
-	{
-		m_pServer->CloseService();
+  if (m_pServer) {
+    m_pServer->CloseService();
 
-		OnClearup();
+    OnClearup();
 
-		{{
-		for (ID2CONNECTMAP::iterator it = m_mapId2Connect.begin(); it != m_mapId2Connect.end(); it++)
-		{
-			m_pServer->ShutdownClient((*it).first);
+    {
+      {
+        for (ID2CONNECTMAP::iterator it = m_mapId2Connect.begin();
+             it != m_mapId2Connect.end(); it++) {
+          m_pServer->ShutdownClient((*it).first);
 
-			CNetConnect* pConn = (*it).second;
-			assert(pConn);
-			if (pConn)
-			{
+          CNetConnect *pConn = (*it).second;
+          assert(pConn);
+          if (pConn) {
 #ifndef _WORKMODE_SINGLETHREAD
-				pConn->Stop();
-				DestroyConnect(pConn);
+            pConn->Stop();
+            DestroyConnect(pConn);
 #endif
-			}
-		}
-		m_mapId2Connect.clear();
-		}}
+          }
+        }
+        m_mapId2Connect.clear();
+      }
+    }
 
-		m_pServer->Cleanup();
-		m_pServer->Release();
-		m_pServer = NULL;
-	}
+    m_pServer->Cleanup();
+    m_pServer->Release();
+    m_pServer = NULL;
+  }
 
-	return TRUE;
+  return TRUE;
 }
 
-BOOL CNetServer::Disconnect(unsigned long id)
-{
-	if (!m_pServer)
-		return FALSE;
+BOOL CNetServer::Disconnect(unsigned long id) {
+  if (!m_pServer)
+    return FALSE;
 
-	//the event will be do clearing !
-	return SUCCEEDED(m_pServer->ShutdownClient(id));
+  // the event will be do clearing !
+  return SUCCEEDED(m_pServer->ShutdownClient(id));
 }
 
+void CNetServer::_NotifyClientConnectCreate(unsigned long ulnID) {
+  AUTOLOCKWRITE(m_lockAccess);
 
-void CNetServer::_NotifyClientConnectCreate(unsigned long ulnID)
-{
-	AUTOLOCKWRITE(m_lockAccess);
+  assert(m_pServer);
+  assert(m_mapId2Connect.find(ulnID) == m_mapId2Connect.end());
 
-	assert(m_pServer);
-	assert(m_mapId2Connect.find(ulnID) == m_mapId2Connect.end());
+  BOOL oncreate = FALSE;
+  ID2CONNECTMAP::iterator itID = m_mapId2Connect.end();
 
-	BOOL oncreate = FALSE;
-	ID2CONNECTMAP::iterator itID = m_mapId2Connect.end();
-
-	CNetConnect* pConn = CreateConnect(this, ulnID);
-	if (pConn == NULL)
-		goto on_fail;
+  CNetConnect *pConn = CreateConnect(this, ulnID);
+  if (pConn == NULL)
+    goto on_fail;
 
 #ifdef _WORKMODE_MULTITHREAD2
-	m_pServer->RegisterMsgFilter(ulnID, pConn);
+  m_pServer->RegisterMsgFilter(ulnID, pConn);
 #endif
 
-	OnClientConnectCreate(pConn);
-	pConn->_NotifyClientConnectCreate();
-	oncreate = TRUE;
+  OnClientConnectCreate(pConn);
+  pConn->_NotifyClientConnectCreate();
+  oncreate = TRUE;
 
-	{{
-	std::pair<ID2CONNECTMAP::iterator, bool> insret = m_mapId2Connect.insert(ID2CONNECTMAP::value_type(ulnID, pConn));
-	itID = insret.first;
-	if (!insret.second)	//has existed ? unexpected
-	{
-		rTRACE("warning: unexpected repeated connect");
+  {
+    {
+      std::pair<ID2CONNECTMAP::iterator, bool> insret =
+          m_mapId2Connect.insert(ID2CONNECTMAP::value_type(ulnID, pConn));
+      itID = insret.first;
+      if (!insret.second) // has existed ? unexpected
+      {
+        rTRACE("warning: unexpected repeated connect");
 
-		CNetConnect* pConnOld = (*itID).second;
-		if (pConnOld)
-		{
-			try
-			{
+        CNetConnect *pConnOld = (*itID).second;
+        if (pConnOld) {
+          try {
 #ifndef _WORKMODE_SINGLETHREAD
-				pConnOld->Stop();
+            pConnOld->Stop();
 #endif
-				pConnOld->_NotifyClientConnectClose();
-				DestroyConnect(pConnOld);
-			}
-			catch (...)
-			{
-				assert(FALSE);
-			}
-		}
+            pConnOld->_NotifyClientConnectClose();
+            DestroyConnect(pConnOld);
+          } catch (...) {
+            assert(FALSE);
+          }
+        }
 
-		(*itID).second = pConn;
-	}
-	}}
+        (*itID).second = pConn;
+      }
+    }
+  }
 
 #ifndef _WORKMODE_SINGLETHREAD
-	if (!pConn->Start())
-		goto on_fail;
+  if (!pConn->Start())
+    goto on_fail;
 #endif
 
-	return;	//succ
+  return; // succ
 
 on_fail:
-	rTRACE("error: connect initial fail");
+  rTRACE("error: connect initial fail");
 
-	try
-	{
-		if (oncreate)
-		{
-			OnClientConnectClose(pConn);
-			pConn->_NotifyClientConnectClose();
-		}
+  try {
+    if (oncreate) {
+      OnClientConnectClose(pConn);
+      pConn->_NotifyClientConnectClose();
+    }
 
-		m_pServer->ShutdownClient(ulnID);
-		if (pConn != NULL)
-			DestroyConnect(pConn);
+    m_pServer->ShutdownClient(ulnID);
+    if (pConn != NULL)
+      DestroyConnect(pConn);
 
-		if (itID != m_mapId2Connect.end())
-			m_mapId2Connect.erase(itID);
-	}
-	catch (...)
-	{
-		assert(FALSE);
-	}
+    if (itID != m_mapId2Connect.end())
+      m_mapId2Connect.erase(itID);
+  } catch (...) {
+    assert(FALSE);
+  }
 }
 
-void CNetServer::_NotifyClientConnectClose(unsigned long ulnID)
-{
-	AUTOLOCKWRITE(m_lockAccess);
+void CNetServer::_NotifyClientConnectClose(unsigned long ulnID) {
+  AUTOLOCKWRITE(m_lockAccess);
 
-	ID2CONNECTMAP::iterator it = m_mapId2Connect.find(ulnID);
-	if (it != m_mapId2Connect.end())
-	{
-		CNetConnect* pConn = (*it).second;
-		assert(pConn);
+  ID2CONNECTMAP::iterator it = m_mapId2Connect.find(ulnID);
+  if (it != m_mapId2Connect.end()) {
+    CNetConnect *pConn = (*it).second;
+    assert(pConn);
 
-		if (pConn)
-		{
-			pConn->Stop();
-			pConn->_NotifyClientConnectClose();
-			OnClientConnectClose(pConn);
-		}
+    if (pConn) {
+      pConn->Stop();
+      pConn->_NotifyClientConnectClose();
+      OnClientConnectClose(pConn);
+    }
 
-		m_mapId2Connect.erase(it);
-		DestroyConnect(pConn);
-	}
+    m_mapId2Connect.erase(it);
+    DestroyConnect(pConn);
+  }
 }
 
-size_t CNetServer::GetConnectCount() 
-{
-	AUTOLOCKREAD(m_lockAccess);
+size_t CNetServer::GetConnectCount() {
+  AUTOLOCKREAD(m_lockAccess);
 
-	return m_mapId2Connect.size();
+  return m_mapId2Connect.size();
 }
 
-BOOL CNetServer::IsConnectReady(unsigned long id)
-{
-	AUTOLOCKREAD(m_lockAccess);
+BOOL CNetServer::IsConnectReady(unsigned long id) {
+  AUTOLOCKREAD(m_lockAccess);
 
-	return m_mapId2Connect.find(id) != m_mapId2Connect.end();
+  return m_mapId2Connect.find(id) != m_mapId2Connect.end();
 }
 
-CNetConnectDup CNetServer::FindNetConnect(unsigned long id)
-{
-	AUTOLOCKREAD(m_lockAccess);
+CNetConnectDup CNetServer::FindNetConnect(unsigned long id) {
+  AUTOLOCKREAD(m_lockAccess);
 
-	ID2CONNECTMAP::iterator it = m_mapId2Connect.find(id);
-	if (it == m_mapId2Connect.end())
-		return CNetConnectDup();
+  ID2CONNECTMAP::iterator it = m_mapId2Connect.find(id);
+  if (it == m_mapId2Connect.end())
+    return CNetConnectDup();
 
-	CNetConnect* pNetConn = (*it).second;
-	if (pNetConn == NULL)
-		return CNetConnectDup();
+  CNetConnect *pNetConn = (*it).second;
+  if (pNetConn == NULL)
+    return CNetConnectDup();
 
-	return CNetConnectDup(*pNetConn);
+  return CNetConnectDup(*pNetConn);
 }
 
-BOOL CNetServer::BroadPackage(const void* pData, size_t size)
-{
-	if (!m_ready || m_pServer == NULL)
-		return FALSE;
+BOOL CNetServer::BroadPackage(const void *pData, size_t size) {
+  if (!m_ready || m_pServer == NULL)
+    return FALSE;
 
-	AUTOLOCKREAD(m_lockAccess);
+  AUTOLOCKREAD(m_lockAccess);
 
-	for (ID2CONNECTMAP::iterator it = m_mapId2Connect.begin(); it != m_mapId2Connect.end(); it++)
-	{
-		CNetConnect* pNetConnect = (*it).second;
-		assert(pNetConnect);
-		if (pNetConnect)
-			pNetConnect->SendPackage(pData, size);
-	}
+  for (ID2CONNECTMAP::iterator it = m_mapId2Connect.begin();
+       it != m_mapId2Connect.end(); it++) {
+    CNetConnect *pNetConnect = (*it).second;
+    assert(pNetConnect);
+    if (pNetConnect)
+      pNetConnect->SendPackage(pData, size);
+  }
 
-	return TRUE;
+  return TRUE;
 }
 
+BOOL CNetServer::Route() {
+  AUTOLOCKREAD(m_lockAccess);
 
-BOOL CNetServer::Route()
-{
-	AUTOLOCKREAD(m_lockAccess);
+  if (m_pServer == NULL)
+    return FALSE;
 
-	if (m_pServer == NULL)
-		return FALSE;
+  for (ID2CONNECTMAP::iterator it = m_mapId2Connect.begin();
+       it != m_mapId2Connect.end(); it++) {
+    CNetConnect *pConnect = (*it).second;
+    assert(pConnect);
+    if (pConnect != NULL)
+      pConnect->Route();
+  }
 
-	for (ID2CONNECTMAP::iterator it = m_mapId2Connect.begin(); it != m_mapId2Connect.end(); it++)
-	{
-		CNetConnect* pConnect = (*it).second;
-		assert(pConnect);
-		if (pConnect != NULL)
-			pConnect->Route();
-
-	}
-
-	return TRUE;
+  return TRUE;
 }

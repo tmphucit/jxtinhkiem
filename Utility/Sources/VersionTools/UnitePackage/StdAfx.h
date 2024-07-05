@@ -10,10 +10,10 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-
 // TODO: reference additional headers your program requires here
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_STDAFX_H__DD994700_6529_4C77_9BFA_F31F1B8461D8__INCLUDED_)

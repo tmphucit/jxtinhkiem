@@ -9,6 +9,6 @@
 #ifndef KDrawFade_H
 #define KDrawFade_H
 //---------------------------------------------------------------------------
-void g_DrawFade(void* node, void* canvas);
+void g_DrawFade(void *node, void *canvas);
 //---------------------------------------------------------------------------
 #endif

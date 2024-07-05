@@ -1,15 +1,15 @@
 
-#include <iostream>
-#include <vector>
-#include <sqlplus.hh>
-#include <custom.hh>
 #include "util.hh"
+#include <custom.hh>
+#include <iostream>
+#include <sqlplus.hh>
+#include <vector>
 // util.hh/cc contains the print_stock_table function
 
-sql_create_5 (stock, 1, 5, string, item, int, num, 
-	     double, weight, double, price, Date, sdate)
+sql_create_5(stock, 1, 5, string, item, int, num, double, weight, double, price,
+             Date, sdate)
 
-int main() {
+    int main() {
   try { // its in one big try block
 
     Connection con(use_exceptions);
@@ -18,7 +18,7 @@ int main() {
 
     stock row;
     // create an empty stock object
-    
+
     /*    row.item = "Hot Dogs";
     row.num = 100;
     row.weight = 1.5;
@@ -37,15 +37,15 @@ int main() {
 
     print_stock_table(query);
     // now print the new table;
-    
+
     return 0;
-    
+
   } catch (BadQuery er) {
     cerr << "Error: " << er.error << endl;
     return -1;
-  } catch (BadConversion er) { 
-    cerr << "Error: Tried to convert \"" << er.data << "\" to a \"" 
-	 << er.type_name << "\"." << endl;
+  } catch (BadConversion er) {
+    cerr << "Error: Tried to convert \"" << er.data << "\" to a \""
+         << er.type_name << "\"." << endl;
     return -1;
   }
 }

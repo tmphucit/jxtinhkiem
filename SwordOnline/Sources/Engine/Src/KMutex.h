@@ -20,18 +20,18 @@ class KMutex
 private:
 #ifdef WIN32
 #ifdef SINGLE_PROCESS
-	CRITICAL_SECTION m_CriticalSection;//用于单进程的线程同步
+  CRITICAL_SECTION m_CriticalSection; // 用于单进程的线程同步
 #else
-	HANDLE m_hMutex;//用于多进程的线程同步
+  HANDLE m_hMutex; // 用于多进程的线程同步
 #endif
 #else
-    pthread_mutex_t mutex;
+  pthread_mutex_t mutex;
 #endif
 public:
-    KMutex();
-    ~KMutex();
-    void Lock(void);
-    void Unlock(void);
+  KMutex();
+  ~KMutex();
+  void Lock(void);
+  void Unlock(void);
 };
 //---------------------------------------------------------------------------
 #endif

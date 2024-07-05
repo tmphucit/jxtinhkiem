@@ -14,28 +14,32 @@
 class iMsg;
 
 #include <queue>
-typedef std::queue<iMsg*> msgQueue;
+typedef std::queue<iMsg *> msgQueue;
 
-class kMsgQueue : public iMsgQueue  
-{
+class kMsgQueue : public iMsgQueue {
 public:
-	kMsgQueue();
-	virtual ~kMsgQueue();
+  kMsgQueue();
+  virtual ~kMsgQueue();
 
-	ULONG m_ulCount;
-	virtual ULONG AddRef() {return ++m_ulCount; };
-	virtual ULONG Release() {ULONG count = --m_ulCount; if(m_ulCount == 0)delete this; return count;};
+  ULONG m_ulCount;
+  virtual ULONG AddRef() { return ++m_ulCount; };
+  virtual ULONG Release() {
+    ULONG count = --m_ulCount;
+    if (m_ulCount == 0)
+      delete this;
+    return count;
+  };
 
 public:
-	HANDLE m_hMessageArrive;
-	ULONG WaitForMessageArrive(long time);
-	
-	msgQueue m_msgQueue;
-	CRITICAL_SECTION m_criticalSection;
-	void Clear();
-	
-	bool PushMsg(iMsg* pMsg);
-	iMsg* PopMsg();
+  HANDLE m_hMessageArrive;
+  ULONG WaitForMessageArrive(long time);
+
+  msgQueue m_msgQueue;
+  CRITICAL_SECTION m_criticalSection;
+  void Clear();
+
+  bool PushMsg(iMsg *pMsg);
+  iMsg *PopMsg();
 };
 
 #endif // !defined(AFX_KMSGQUEUE_H__ABC6F4F2_E08F_4E7A_89D6_149B29CD99F5__INCLUDED_)

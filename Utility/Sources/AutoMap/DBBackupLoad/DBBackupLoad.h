@@ -1,7 +1,8 @@
 // DBBackupLoad.h : main header file for the DBBACKUPLOAD application
 //
 
-#if !defined(AFX_DBBACKUPLOAD_H__176089DA_C6FF_4FC3_B797_D40DA64AD33B__INCLUDED_)
+#if !defined(                                                                  \
+    AFX_DBBACKUPLOAD_H__176089DA_C6FF_4FC3_B797_D40DA64AD33B__INCLUDED_)
 #define AFX_DBBACKUPLOAD_H__176089DA_C6FF_4FC3_B797_D40DA64AD33B__INCLUDED_
 
 #if _MSC_VER > 1000
@@ -9,39 +10,38 @@
 #endif // _MSC_VER > 1000
 
 #ifndef __AFXWIN_H__
-	#error include 'stdafx.h' before including this file for PCH
+#error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include "resource.h"		// main symbols
+#include "resource.h" // main symbols
 
 /////////////////////////////////////////////////////////////////////////////
 // CDBBackupLoadApp:
 // See DBBackupLoad.cpp for the implementation of this class
 //
 
-class CDBBackupLoadApp : public CWinApp
-{
+class CDBBackupLoadApp : public CWinApp {
 public:
-	CDBBackupLoadApp();
+  CDBBackupLoadApp();
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CDBBackupLoadApp)
-	public:
-	virtual BOOL InitInstance();
-	//}}AFX_VIRTUAL
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CDBBackupLoadApp)
+public:
+  virtual BOOL InitInstance();
+  //}}AFX_VIRTUAL
 
-// Implementation
+  // Implementation
 
-	//{{AFX_MSG(CDBBackupLoadApp)
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  //{{AFX_MSG(CDBBackupLoadApp)
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
-
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_DBBACKUPLOAD_H__176089DA_C6FF_4FC3_B797_D40DA64AD33B__INCLUDED_)

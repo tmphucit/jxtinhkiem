@@ -2,20 +2,19 @@
 // To compile as a separate example, please #define MAIN.
 
 #include <algorithm>
-#include <iostream>
 #include <cstring>
+#include <iostream>
 
-#ifdef MAIN 
+#ifdef MAIN
 #define copy1_test main
 #endif
 
-#if !defined (STLPORT) || defined(__STL_USE_NAMESPACES)
+#if !defined(STLPORT) || defined(__STL_USE_NAMESPACES)
 using namespace std;
 #endif
-int copy1_test(int, char**)
-{
-  cout<<"Results of copy1_test:"<<endl;
-char string[23] = "A string to be copied.";
+int copy1_test(int, char **) {
+  cout << "Results of copy1_test:" << endl;
+  char string[23] = "A string to be copied.";
 
   char result[23];
   copy(string, string + 23, result);

@@ -14,22 +14,12 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PEquipBaseInfoDAO::S3PEquipBaseInfoDAO(S3PDBConnection *pConn)
-{
-	m_pConn=pConn;
+S3PEquipBaseInfoDAO::S3PEquipBaseInfoDAO(S3PDBConnection *pConn) {
+  m_pConn = pConn;
 }
 
-S3PEquipBaseInfoDAO::~S3PEquipBaseInfoDAO()
-{
+S3PEquipBaseInfoDAO::~S3PEquipBaseInfoDAO() {}
 
-}
+S3PDBConnection *S3PEquipBaseInfoDAO::GetConnection() { return m_pConn; }
 
-S3PDBConnection * S3PEquipBaseInfoDAO::GetConnection()
-{
-	return m_pConn;
-}
-
-std::string S3PEquipBaseInfoDAO::GetTableName()
-{
-	return "EquipBaseInfo";
-}
+std::string S3PEquipBaseInfoDAO::GetTableName() { return "EquipBaseInfo"; }

@@ -2,10 +2,10 @@
 //
 //  FileName    :   stdafx.cpp
 //  Version     :   1.0
-//  Creater     :   
+//  Creater     :
 //  Date        :   2003-5-28 13:06:22
-//  Comment     :   
+//  Comment     :
 //
 //////////////////////////////////////////////////////////////////////////////////////
 
-#include	"KCore.h"
+#include "KCore.h"

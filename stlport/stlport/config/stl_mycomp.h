@@ -2,13 +2,13 @@
  * Copyright (c) 1997
  * Moscow Center for SPARC Technology
  *
- * Copyright (c) 1999 
+ * Copyright (c) 1999
  * Boris Fomitchev
  *
  * This material is provided "as is", with absolutely no warranty expressed
  * or implied. Any use is at your own risk.
  *
- * Permission to use or copy this software for any purpose is hereby granted 
+ * Permission to use or copy this software for any purpose is hereby granted
  * without fee, provided the above notices are retained on all copies.
  * Permission to modify the code and to distribute modified code is granted,
  * provided the above notices are retained, and a notice that the code was
@@ -21,16 +21,17 @@
  *
  * A list of COMPILER-SPECIFIC portion of STLport settings.
  * This file is provided to help in manulal configuration
- * of STLport. This file is being included by stlcomp.h 
+ * of STLport. This file is being included by stlcomp.h
  * when STLport is unable to identify your compiler.
- * Please remove the error diagnostic below before adjusting 
+ * Please remove the error diagnostic below before adjusting
  * macros.
- * 
+ *
  */
-# ifndef _STLP_MYCOMP_H
-#  define  _STLP_MYCOMP_H
+#ifndef _STLP_MYCOMP_H
+#define _STLP_MYCOMP_H
 
-# error "Your compiler version is not recognized by STLport. Please edit <config/stl_mycomp.h>"
+#error                                                                         \
+    "Your compiler version is not recognized by STLport. Please edit <config/stl_mycomp.h>"
 
 //==========================================================
 
@@ -44,8 +45,8 @@
 // Disables wchar_t functinality
 // #  define _STLP_NO_WCHAR_T  1
 
-// Define if wchar_t is not a unique type, and is actually a typedef to unsigned short. 
-// #  define _STLP_WCHAR_T_IS_USHORT 1
+// Define if wchar_t is not a unique type, and is actually a typedef to unsigned
+// short. #  define _STLP_WCHAR_T_IS_USHORT 1
 
 // Uncomment if long long is available
 // #  define _STLP_LONG_LONG long long
@@ -68,18 +69,18 @@
 // Uncomment this if your compiler does not have "bool" type
 // #  define  _STLP_NO_BOOL 1
 
-// Uncomment this if your compiler does not have "bool" type, but has "bool" keyword reserved
-// #  define  _STLP_DONT_USE_BOOL_TYPEDEF 1
+// Uncomment this if your compiler does not have "bool" type, but has "bool"
+// keyword reserved #  define  _STLP_DONT_USE_BOOL_TYPEDEF 1
 
-// Uncomment this if your compiler does not have "bool" type, but defines "bool" in <yvals.h>
-// #  define  _STLP_YVALS_H 1
+// Uncomment this if your compiler does not have "bool" type, but defines "bool"
+// in <yvals.h> #  define  _STLP_YVALS_H 1
 
-// Uncomment this if your compiler has limited or no default template arguments for classes
-// #  define _STLP_LIMITED_DEFAULT_TEMPLATES 1
+// Uncomment this if your compiler has limited or no default template arguments
+// for classes #  define _STLP_LIMITED_DEFAULT_TEMPLATES 1
 
-// Uncomment this if your compiler support only complete (not dependent on other parameters)
-// types as default parameters for class templates
-// #  define _STLP_DEFAULT_TYPE_PARAM 1
+// Uncomment this if your compiler support only complete (not dependent on other
+// parameters) types as default parameters for class templates #  define
+// _STLP_DEFAULT_TYPE_PARAM 1
 
 // Uncomment this if your compiler has problem with not-type
 // default template parameters
@@ -94,10 +95,10 @@
 // #  define _STLP_NO_STATIC_TEMPLATE_DATA 1
 // #  define _STLP_WEAK_ATTRIBUTE 1
 
-// Uncomment this if your compiler does not support namespaces 
+// Uncomment this if your compiler does not support namespaces
 // #  define _STLP_HAS_NO_NAMESPACES 1
 
-// Uncomment if "using" keyword does not work with template types 
+// Uncomment if "using" keyword does not work with template types
 // # define _STLP_BROKEN_USING_DIRECTIVE 1
 
 // Uncomment this if your compiler does not support exceptions
@@ -109,7 +110,7 @@
 // Define this if your compiler requires return statement after throw()
 // # define _STLP_THROW_RETURN_BUG 1
 
-// Header <new> that comes with the compiler 
+// Header <new> that comes with the compiler
 // does not define bad_alloc exception
 // #  define _STLP_NO_BAD_ALLOC  1
 
@@ -119,8 +120,8 @@
 // Uncomment if member template classes are not available
 // #  define _STLP_NO_MEMBER_TEMPLATE_CLASSES   1
 
-// Uncomment if no "template" keyword should be used with member template classes
-// #  define _STLP_NO_MEMBER_TEMPLATE_KEYWORD   1
+// Uncomment if no "template" keyword should be used with member template
+// classes #  define _STLP_NO_MEMBER_TEMPLATE_KEYWORD   1
 
 // Uncomment if friend member templates are not available
 // #  define _STLP_NO_FRIEND_TEMPLATES   1
@@ -131,11 +132,11 @@
 // Uncomment if partial specialization is not available
 // #  define _STLP_NO_CLASS_PARTIAL_SPECIALIZATION 1
 
-// Define if class being partially specialized require full name (template parameters)
-// of itself for method declarations
-// #  define _STLP_PARTIAL_SPEC_NEEDS_TEMPLATE_ARGS
+// Define if class being partially specialized require full name (template
+// parameters) of itself for method declarations #  define
+// _STLP_PARTIAL_SPEC_NEEDS_TEMPLATE_ARGS
 
-// Compiler has problems specializing members of partially 
+// Compiler has problems specializing members of partially
 // specialized class
 // #  define _STLP_MEMBER_SPECIALIZATION_BUG
 
@@ -145,14 +146,14 @@
 // Uncomment if specialization of methods is not allowed
 // #  define _STLP_NO_METHOD_SPECIALIZATION  1
 
-// Uncomment if full  specialization does not use partial spec. syntax : template <> struct ....
-// #  define _STLP_NO_PARTIAL_SPECIALIZATION_SYNTAX  1
+// Uncomment if full  specialization does not use partial spec. syntax :
+// template <> struct .... #  define _STLP_NO_PARTIAL_SPECIALIZATION_SYNTAX  1
 
-// Uncomment if compiler does not support explicit template arguments for functions
-// # define _STLP_NO_EXPLICIT_FUNCTION_TMPL_ARGS
+// Uncomment if compiler does not support explicit template arguments for
+// functions # define _STLP_NO_EXPLICIT_FUNCTION_TMPL_ARGS
 
-// Uncomment if "__typetraits is being instaniated automatically by the compiler (SGI only ?)
-// #  define _STLP_AUTOMATIC_TYPE_TRAITS 1
+// Uncomment if "__typetraits is being instaniated automatically by the compiler
+// (SGI only ?) #  define _STLP_AUTOMATIC_TYPE_TRAITS 1
 
 // Uncomment this if your compiler can't inline while(), for()
 // #  define _STLP_LOOP_INLINE_PROBLEMS 1
@@ -162,13 +163,13 @@
 
 // Define if the compiler fails to match a template function argument of base
 // (non-template)
-//#  define  _STLP_NONTEMPL_BASE_MATCH_BUG 1
+// #  define  _STLP_NONTEMPL_BASE_MATCH_BUG 1
 
-// Define if the compiler rejects outline method definition 
+// Define if the compiler rejects outline method definition
 // explicitly taking nested types/typedefs
 // #  define _STLP_NESTED_TYPE_PARAM_BUG   1
 
-// Compiler requires typename keyword on outline method definition 
+// Compiler requires typename keyword on outline method definition
 // explicitly taking nested types/typedefs
 // #define  _STLP_TYPENAME_ON_RETURN_TYPE
 
@@ -192,19 +193,19 @@
 //   of integer type.  (See section 9.4.2, paragraph 4, of the C++ standard.)
 // # define _STLP_STATIC_CONST_INIT_BUG
 
-// Define if default constructor for builtin integer type fails to initialize it to 0
-// #  define _STLP_DEFAULT_CONSTRUCTOR_BUG    1
+// Define if default constructor for builtin integer type fails to initialize it
+// to 0 #  define _STLP_DEFAULT_CONSTRUCTOR_BUG    1
 
 // Defined if constructor
 // required to explicitly call member's default constructors for const objects
 // #  define _STLP_CONST_CONSTRUCTOR_BUG    1
 
-// Defined if the compiler has trouble calling POD-types constructors/destructors
-// #  define _STLP_TRIVIAL_CONSTRUCTOR_BUG    1
-// #  define _STLP_TRIVIAL_DESTRUCTOR_BUG    1
+// Defined if the compiler has trouble calling POD-types
+// constructors/destructors #  define _STLP_TRIVIAL_CONSTRUCTOR_BUG    1 #
+// define _STLP_TRIVIAL_DESTRUCTOR_BUG    1
 
 // Define if having problems specializing maps/sets with
-// key type being const 
+// key type being const
 // #  define _STLP_MULTI_CONST_TEMPLATE_ARG_BUG
 
 // Uncomment this to disable -> operators on all iterators
@@ -222,21 +223,20 @@
 // Uncomment this if your C library has lrand48() function
 // #  define _STLP_RAND48 1
 
-// Uncomment if native new-style C library headers lile <cstddef>, etc are not available.
-// #   define _STLP_HAS_NO_NEW_C_HEADERS 1
+// Uncomment if native new-style C library headers lile <cstddef>, etc are not
+// available. #   define _STLP_HAS_NO_NEW_C_HEADERS 1
 
 // uncomment if new-style headers <new> is available
 // #  define _STLP_HAS_NEW_NEW_HEADER 1
 
-// uncomment this if <iostream> and other STD headers put their stuff in ::namespace,
-// not std::
-// #  define _STLP_VENDOR_GLOBAL_STD
+// uncomment this if <iostream> and other STD headers put their stuff in
+// ::namespace, not std:: #  define _STLP_VENDOR_GLOBAL_STD
 
 // uncomment this if <cstdio> and the like put stuff in ::namespace,
 // not std::
 // #  define _STLP_VENDOR_GLOBAL_CSTD
 
-// Edit relative path below (or put full path) to get native 
+// Edit relative path below (or put full path) to get native
 // compiler headers included. Default is "../include".
 // C headers may reside in different directory, so separate macro is provided.
 // Hint : never install STLport in the directory that ends with "include"
@@ -245,15 +245,16 @@
 // # define _STLP_NATIVE_CPP_C_INCLUDE_PATH ../include
 
 // This macro constructs header path from directory and name.
-// You may change it if your compiler does not understand "/". 
+// You may change it if your compiler does not understand "/".
 // #  define _STLP_MAKE_HEADER(path, header) <path/header>
 
 // This macro constructs native include header path from include path and name.
 // You may have do define it if experirncing problems with preprocessor
-// # define _STLP_NATIVE_HEADER(header) _STLP_MAKE_HEADER(_STLP_NATIVE_INCLUDE_PATH,header)
+// # define _STLP_NATIVE_HEADER(header)
+// _STLP_MAKE_HEADER(_STLP_NATIVE_INCLUDE_PATH,header)
 
 // Same for C headers
 // _STLP_NATIVE_C_HEADER(header)
 
 //==========================================================
-# endif
+#endif

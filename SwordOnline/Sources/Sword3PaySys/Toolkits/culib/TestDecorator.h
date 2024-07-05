@@ -18,46 +18,31 @@ class TestResult;
  *
  * Does not assume ownership of the test it decorates
  *
- */ 
+ */
 
-class TestDecorator : public Test 
-{
-    REFERENCEOBJECT (TestDecorator)
+class TestDecorator : public Test {
+  REFERENCEOBJECT(TestDecorator)
 
 public:
-                TestDecorator   (Test *test);
-                ~TestDecorator  ();
+  TestDecorator(Test *test);
+  ~TestDecorator();
 
-    int         countTestCases  ();
-    void        run             (TestResult *result);
-    std::string toString        ();
+  int countTestCases();
+  void run(TestResult *result);
+  std::string toString();
 
 protected:
-    Test        *m_test;
-
-
+  Test *m_test;
 };
 
+inline TestDecorator::TestDecorator(Test *test) { m_test = test; }
 
-inline TestDecorator::TestDecorator (Test *test)
-{ m_test = test; }
+inline TestDecorator::~TestDecorator() {}
 
+inline TestDecorator::countTestCases() { return m_test->countTestCases(); }
 
-inline TestDecorator::~TestDecorator ()
-{}
+inline void TestDecorator::run(TestResult *result) { m_test->run(result); }
 
-
-inline TestDecorator::countTestCases ()
-{ return m_test->countTestCases (); }
-
-
-inline void TestDecorator::run (TestResult *result)
-{ m_test->run (result); }
-
-
-inline std::string TestDecorator::toString ()
-{ return m_test->toString (); }
-
+inline std::string TestDecorator::toString() { return m_test->toString(); }
 
 #endif
-

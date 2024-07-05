@@ -1,4 +1,5 @@
-#if !defined(AFX_CQIMAGEBUTTON_H__F4E8EDAB_3561_4ED4_9E7B_710306B9EB21__INCLUDED_)
+#if !defined(                                                                  \
+    AFX_CQIMAGEBUTTON_H__F4E8EDAB_3561_4ED4_9E7B_710306B9EB21__INCLUDED_)
 #define AFX_CQIMAGEBUTTON_H__F4E8EDAB_3561_4ED4_9E7B_710306B9EB21__INCLUDED_
 
 #if _MSC_VER > 1000
@@ -9,51 +10,50 @@
 
 /////////////////////////////////////////////////////////////////////////////
 // CCQImageButton window
-#include<string>
+#include <string>
 using namespace std;
-void DisplayErrorInfo(string& ErrorInfo);
+void DisplayErrorInfo(string &ErrorInfo);
 
-class CCQImageButton : public CButton
-{
-// Construction
+class CCQImageButton : public CButton {
+  // Construction
 public:
-	CCQImageButton();
+  CCQImageButton();
 
-// Attributes
+  // Attributes
 public:
-
-// Operations
+  // Operations
 public:
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CCQImageButton)
+  //}}AFX_VIRTUAL
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CCQImageButton)
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // Implementation
 public:
-	void SetButtonBmp(UINT csPushBmpID, UINT csNormalBmpID,UINT csFocusBmpID,HINSTANCE AppHandle);
-	//CString m_csFocusBmpID;
-	virtual ~CCQImageButton();
+  void SetButtonBmp(UINT csPushBmpID, UINT csNormalBmpID, UINT csFocusBmpID,
+                    HINSTANCE AppHandle);
+  // CString m_csFocusBmpID;
+  virtual ~CCQImageButton();
+
 private:
+  HBITMAP m_csDownBmpID;
+  HBITMAP m_csNormalBmpID;
+  HBITMAP m_csFocusBmpID;
 
-	HBITMAP m_csDownBmpID;
-	HBITMAP m_csNormalBmpID;
-	HBITMAP m_csFocusBmpID;
-
-	// Generated message map functions
+  // Generated message map functions
 protected:
-	void DrawItem(LPDRAWITEMSTRUCT);
-	//{{AFX_MSG(CCQImageButton)
-	afx_msg void OnMouseMove(UINT nFlags, CPoint point);
-	//}}AFX_MSG
+  void DrawItem(LPDRAWITEMSTRUCT);
+  //{{AFX_MSG(CCQImageButton)
+  afx_msg void OnMouseMove(UINT nFlags, CPoint point);
+  //}}AFX_MSG
 
-	DECLARE_MESSAGE_MAP()
+  DECLARE_MESSAGE_MAP()
 };
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_CQIMAGEBUTTON_H__F4E8EDAB_3561_4ED4_9E7B_710306B9EB21__INCLUDED_)

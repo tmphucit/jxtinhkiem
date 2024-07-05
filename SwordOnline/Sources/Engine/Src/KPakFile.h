@@ -19,43 +19,45 @@
 ENGINE_API void g_SetPakFileMode(int nFileMode);
 //---------------------------------------------------------------------------
 
-class ENGINE_API KPakFile
-{
+class ENGINE_API KPakFile {
 public:
-	KPakFile();
-	~KPakFile();
-	BOOL		Open(const char* pszFileName);
-	void		Close();
-	bool		IsFileInPak();
-	DWORD		Read(void* pBuffer, unsigned int uSize);
-	DWORD		Seek(int nOffset, unsigned int uMethod);
-	DWORD		Tell();
-	DWORD		Size();
-	BOOL		Save(const char* pszFileName);
+  KPakFile();
+  ~KPakFile();
+  BOOL Open(const char *pszFileName);
+  void Close();
+  bool IsFileInPak();
+  DWORD Read(void *pBuffer, unsigned int uSize);
+  DWORD Seek(int nOffset, unsigned int uMethod);
+  DWORD Tell();
+  DWORD Size();
+  BOOL Save(const char *pszFileName);
+
 private:
-	KFile		m_File;			// 真实文件(不在包中)
-	#ifndef _SERVER
-		XPackElemFileRef	m_PackRef;
-	#endif
+  KFile m_File; // 真实文件(不在包中)
+#ifndef _SERVER
+  XPackElemFileRef m_PackRef;
+#endif
 };
 
 //---------------------------------------------------------------------------
 #ifndef _SERVER
-	struct KSGImageContent
-	{
-		int				nWidth;
-		int				nHeight;
-		unsigned short	Data[1];
-	};
-	#define	KSG_IMAGE_CONTENT_SIZE(w, h)    ((unsigned)((&((KSGImageContent *)0)->Data[0])) + w * h * 2)
+struct KSGImageContent {
+  int nWidth;
+  int nHeight;
+  unsigned short Data[1];
+};
+#define KSG_IMAGE_CONTENT_SIZE(w, h)                                           \
+  ((unsigned)((&((KSGImageContent *)0)->Data[0])) + w * h * 2)
 
-	ENGINE_API SPRHEAD*		SprGetHeader(const char* pszFileName, SPROFFS*& pOffsetTable);
-	ENGINE_API void			SprReleaseHeader(SPRHEAD* pSprHeader);
-	ENGINE_API SPRFRAME*	SprGetFrame(SPRHEAD* pSprHeader, int nFrame);
-	ENGINE_API void			SprReleaseFrame(SPRFRAME* pFrame);
+ENGINE_API SPRHEAD *SprGetHeader(const char *pszFileName,
+                                 SPROFFS *&pOffsetTable);
+ENGINE_API void SprReleaseHeader(SPRHEAD *pSprHeader);
+ENGINE_API SPRFRAME *SprGetFrame(SPRHEAD *pSprHeader, int nFrame);
+ENGINE_API void SprReleaseFrame(SPRFRAME *pFrame);
 
-	ENGINE_API KSGImageContent *get_jpg_image(const char cszName[], unsigned uRGBMask16 = ((unsigned)-1));
-	ENGINE_API void release_image(KSGImageContent *pImage);
+ENGINE_API KSGImageContent *get_jpg_image(const char cszName[],
+                                          unsigned uRGBMask16 = ((unsigned)-1));
+ENGINE_API void release_image(KSGImageContent *pImage);
 #endif
 
 #endif

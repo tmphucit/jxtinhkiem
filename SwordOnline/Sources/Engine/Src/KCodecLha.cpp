@@ -6,10 +6,10 @@
 // Code:	WangWei(Daphnis)
 // Desc:	LHA Encode and Decode Algorithm
 //---------------------------------------------------------------------------
-#include "KWin32.h"
-#include "KDebug.h"
-#include "lhalib.h"
 #include "KCodecLha.h"
+#include "KDebug.h"
+#include "KWin32.h"
+#include "lhalib.h"
 //---------------------------------------------------------------------------
 // 函数:	Encode
 // 功能:	压缩
@@ -17,13 +17,10 @@
 // 返回:	TRUE		成功
 //			FALSE		失败
 //---------------------------------------------------------------------------
-BOOL KCodecLha::Encode(TCodeInfo* pCodeInfo)
-{
-	lha_encode(pCodeInfo->lpData,
-		pCodeInfo->dwDataLen, 
-		pCodeInfo->lpPack,
-		&pCodeInfo->dwPackLen);
-	return TRUE;
+BOOL KCodecLha::Encode(TCodeInfo *pCodeInfo) {
+  lha_encode(pCodeInfo->lpData, pCodeInfo->dwDataLen, pCodeInfo->lpPack,
+             &pCodeInfo->dwPackLen);
+  return TRUE;
 }
 //---------------------------------------------------------------------------
 // 函数:	Decode
@@ -32,12 +29,9 @@ BOOL KCodecLha::Encode(TCodeInfo* pCodeInfo)
 // 返回:	TRUE		成功
 //			FALSE		失败
 //---------------------------------------------------------------------------
-BOOL KCodecLha::Decode(TCodeInfo* pCodeInfo)
-{
-	lha_decode(pCodeInfo->lpPack,
-		pCodeInfo->dwPackLen,
-		pCodeInfo->lpData,
-		&pCodeInfo->dwDataLen);
-	return TRUE;
+BOOL KCodecLha::Decode(TCodeInfo *pCodeInfo) {
+  lha_decode(pCodeInfo->lpPack, pCodeInfo->dwPackLen, pCodeInfo->lpData,
+             &pCodeInfo->dwDataLen);
+  return TRUE;
 }
 //---------------------------------------------------------------------------

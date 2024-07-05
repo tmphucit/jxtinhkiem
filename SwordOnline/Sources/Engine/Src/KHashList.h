@@ -6,16 +6,15 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Header File
 //---------------------------------------------------------------------------
-#ifndef	KHashList_H
-#define	KHashList_H
+#ifndef KHashList_H
+#define KHashList_H
 //---------------------------------------------------------------------------
 #include "KList.h"
 #include "KStrNode.h"
 //---------------------------------------------------------------------------
-class ENGINE_API KHashList : public KList
-{
+class ENGINE_API KHashList : public KList {
 public:
-	KHashList();
+  KHashList();
 };
 //---------------------------------------------------------------------------
 #endif

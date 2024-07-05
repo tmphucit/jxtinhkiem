@@ -9,29 +9,30 @@
 #ifndef __KThread_H__
 #define __KThread_H__
 //---------------------------------------------------------------------------
-typedef void (* TThreadFunc)(void* arg);
+typedef void (*TThreadFunc)(void *arg);
 //---------------------------------------------------------------------------
-class KLThread
-{
+class KLThread {
 private:
-	HANDLE			m_ThreadHandle;
-	DWORD			m_ThreadId;
-	TThreadFunc 	m_ThreadFunc;
-	LPVOID			m_ThreadParam;
+  HANDLE m_ThreadHandle;
+  DWORD m_ThreadId;
+  TThreadFunc m_ThreadFunc;
+  LPVOID m_ThreadParam;
+
 public:
-	KLThread();
-	~KLThread();
-	BOOL			Create(TThreadFunc lpFunc, void* lpParam);
-	void			Destroy();
-	void			Suspend();
-	void			Resume();
-	BOOL			IsRunning();
-	void			WaitForExit();
-	int				GetPriority();
-	BOOL			SetPriority(int priority);
+  KLThread();
+  ~KLThread();
+  BOOL Create(TThreadFunc lpFunc, void *lpParam);
+  void Destroy();
+  void Suspend();
+  void Resume();
+  BOOL IsRunning();
+  void WaitForExit();
+  int GetPriority();
+  BOOL SetPriority(int priority);
+
 private:
-	DWORD			ThreadFunction();
-	static			DWORD WINAPI ThreadProc(LPVOID lpParam);
+  DWORD ThreadFunction();
+  static DWORD WINAPI ThreadProc(LPVOID lpParam);
 };
 //---------------------------------------------------------------------------
 #endif

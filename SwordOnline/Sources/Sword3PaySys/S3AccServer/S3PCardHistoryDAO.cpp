@@ -8,22 +8,12 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PCardHistoryDAO::S3PCardHistoryDAO(S3PDBConnection * pConn)
-{
-	m_pConn = pConn;
+S3PCardHistoryDAO::S3PCardHistoryDAO(S3PDBConnection *pConn) {
+  m_pConn = pConn;
 }
 
-S3PCardHistoryDAO::~S3PCardHistoryDAO()
-{
+S3PCardHistoryDAO::~S3PCardHistoryDAO() {}
 
-}
+std::string S3PCardHistoryDAO::GetTableName() { return "card_history"; }
 
-std::string S3PCardHistoryDAO::GetTableName()
-{
-	return "card_history";
-}
-
-S3PDBConnection * S3PCardHistoryDAO::GetConnection()
-{
-	return m_pConn;
-}
+S3PDBConnection *S3PCardHistoryDAO::GetConnection() { return m_pConn; }

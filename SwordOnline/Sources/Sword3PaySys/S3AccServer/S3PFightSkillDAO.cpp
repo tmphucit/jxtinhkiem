@@ -14,22 +14,10 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PFightSkillDAO::S3PFightSkillDAO(S3PDBConnection * pConn)
-{
-	m_pConn = pConn;
-}
+S3PFightSkillDAO::S3PFightSkillDAO(S3PDBConnection *pConn) { m_pConn = pConn; }
 
-S3PFightSkillDAO::~S3PFightSkillDAO()
-{
+S3PFightSkillDAO::~S3PFightSkillDAO() {}
 
-}
+S3PDBConnection *S3PFightSkillDAO::GetConnection() { return m_pConn; }
 
-S3PDBConnection * S3PFightSkillDAO::GetConnection()
-{
-	return m_pConn;
-}
-
-std::string S3PFightSkillDAO::GetTableName()
-{
-	return "FightSkill";
-}
+std::string S3PFightSkillDAO::GetTableName() { return "FightSkill"; }

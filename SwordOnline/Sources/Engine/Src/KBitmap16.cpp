@@ -6,24 +6,23 @@
 // Code:	Daniel Wang
 // Desc:	256 Color bitmap file class
 //---------------------------------------------------------------------------
-#include "KWin32.h"
-#include "KDebug.h"
+#include "KBitmap16.h"
+#include "KCanvas.h"
+#include "KColors.h"
 #include "KDDraw.h"
+#include "KDebug.h"
 #include "KMemBase.h"
 #include "KPakFile.h"
-#include "KColors.h"
-#include "KCanvas.h"
-#include "KBitmap16.h"
+#include "KWin32.h"
 //---------------------------------------------------------------------------
 // 函数:	KBitmap16
 // 功能:	购造函数
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-KBitmap16::KBitmap16()
-{
-	m_nWidth  = 0;
-	m_nHeight = 0;
+KBitmap16::KBitmap16() {
+  m_nWidth = 0;
+  m_nHeight = 0;
 }
 //---------------------------------------------------------------------------
 // 函数:	Init
@@ -32,11 +31,10 @@ KBitmap16::KBitmap16()
 //			nHeight		高度
 // 返回:	void
 //---------------------------------------------------------------------------
-BOOL KBitmap16::Init(int nWidth, int nHeight)
-{
-	m_nWidth  = nWidth;
-	m_nHeight = nHeight;
-	return m_Bitmap.Alloc(m_nWidth * m_nHeight * 2) != NULL;
+BOOL KBitmap16::Init(int nWidth, int nHeight) {
+  m_nWidth = nWidth;
+  m_nHeight = nHeight;
+  return m_Bitmap.Alloc(m_nWidth * m_nHeight * 2) != NULL;
 }
 //---------------------------------------------------------------------------
 // 函数:	Free
@@ -44,20 +42,14 @@ BOOL KBitmap16::Init(int nWidth, int nHeight)
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KBitmap16::Free()
-{
-	m_Bitmap.Free();
-}
+void KBitmap16::Free() { m_Bitmap.Free(); }
 //---------------------------------------------------------------------------
 // 函数:	Clear
 // 功能:	位图清零
 // 参数:	void
 // 返回:	void
 //---------------------------------------------------------------------------
-void KBitmap16::Clear()
-{
-	m_Bitmap.Zero();
-}
+void KBitmap16::Clear() { m_Bitmap.Zero(); }
 //---------------------------------------------------------------------------
 // 函数:	Draw
 // 功能:	绘制位图
@@ -65,13 +57,11 @@ void KBitmap16::Clear()
 //			nY		Y坐标
 // 返回:	void
 //---------------------------------------------------------------------------
-void KBitmap16::Draw(int nX, int nY)
-{
-	LPVOID lpBitmap = m_Bitmap.GetMemPtr();
-	if (lpBitmap)
-	{
-		//g_DrawBitmap16(nX, nY, m_nWidth, m_nHeight, lpBitmap);
-	}
+void KBitmap16::Draw(int nX, int nY) {
+  LPVOID lpBitmap = m_Bitmap.GetMemPtr();
+  if (lpBitmap) {
+    // g_DrawBitmap16(nX, nY, m_nWidth, m_nHeight, lpBitmap);
+  }
 }
 //---------------------------------------------------------------------------
 // 函数:	DrawLum
@@ -81,13 +71,11 @@ void KBitmap16::Draw(int nX, int nY)
 //			nLum	亮度
 // 返回:	void
 //---------------------------------------------------------------------------
-void KBitmap16::DrawLum(int nX, int nY, int nLum)
-{
-	LPVOID lpBitmap = m_Bitmap.GetMemPtr();
-	if (lpBitmap)
-	{
-		//g_DrawBitmap16Lum(nX, nY, m_nWidth, m_nHeight, nLum, lpBitmap);
-	}
+void KBitmap16::DrawLum(int nX, int nY, int nLum) {
+  LPVOID lpBitmap = m_Bitmap.GetMemPtr();
+  if (lpBitmap) {
+    // g_DrawBitmap16Lum(nX, nY, m_nWidth, m_nHeight, nLum, lpBitmap);
+  }
 }
 //---------------------------------------------------------------------------
 // 函数:	PutPixel
@@ -97,14 +85,13 @@ void KBitmap16::DrawLum(int nX, int nY, int nLum)
 //			wColor	颜色值
 // 返回:	void
 //---------------------------------------------------------------------------
-void KBitmap16::PutPixel(int nX, int nY, WORD wColor)
-{
-	if ((nX < 0) || (nY < 0) || (nX >= m_nWidth) || (nY >= m_nHeight))
-		return;
-	LPWORD lpBitmap = (LPWORD)m_Bitmap.GetMemPtr();
-	if (NULL == lpBitmap)
-		return;
-	lpBitmap[nY * m_nWidth + nX] = wColor;
+void KBitmap16::PutPixel(int nX, int nY, WORD wColor) {
+  if ((nX < 0) || (nY < 0) || (nX >= m_nWidth) || (nY >= m_nHeight))
+    return;
+  LPWORD lpBitmap = (LPWORD)m_Bitmap.GetMemPtr();
+  if (NULL == lpBitmap)
+    return;
+  lpBitmap[nY * m_nWidth + nX] = wColor;
 }
 //---------------------------------------------------------------------------
 // 函数:	GetPixel
@@ -113,14 +100,13 @@ void KBitmap16::PutPixel(int nX, int nY, WORD wColor)
 //			nY		Y 坐标
 // 返回:	颜色值
 //---------------------------------------------------------------------------
-WORD KBitmap16::GetPixel(int nX, int nY)
-{
-	if ((nX < 0) || (nY < 0) || (nX >= m_nWidth) || (nY >= m_nHeight))
-		return 0;
-	LPWORD lpBitmap = (LPWORD)m_Bitmap.GetMemPtr();
-	if (NULL == lpBitmap)
-		return 0;
-	return lpBitmap[nY * m_nWidth + nX];
+WORD KBitmap16::GetPixel(int nX, int nY) {
+  if ((nX < 0) || (nY < 0) || (nX >= m_nWidth) || (nY >= m_nHeight))
+    return 0;
+  LPWORD lpBitmap = (LPWORD)m_Bitmap.GetMemPtr();
+  if (NULL == lpBitmap)
+    return 0;
+  return lpBitmap[nY * m_nWidth + nX];
 }
 //---------------------------------------------------------------------------
 // 函数:	GetPointer
@@ -129,10 +115,9 @@ WORD KBitmap16::GetPixel(int nX, int nY)
 //			nY		Y 坐标
 // 返回:	指向点的指针
 //---------------------------------------------------------------------------
-LPWORD KBitmap16::GetPointer(int nX, int nY)
-{
-	LPWORD lpBitmap = (LPWORD)m_Bitmap.GetMemPtr();
-	return &lpBitmap[nY * m_nWidth + nX];
+LPWORD KBitmap16::GetPointer(int nX, int nY) {
+  LPWORD lpBitmap = (LPWORD)m_Bitmap.GetMemPtr();
+  return &lpBitmap[nY * m_nWidth + nX];
 }
 //---------------------------------------------------------------------------
 // 函数:	Load
@@ -141,30 +126,28 @@ LPWORD KBitmap16::GetPointer(int nX, int nY)
 // 返回:	TRUE		成功
 //			FALSE		失败
 //---------------------------------------------------------------------------
-BOOL KBitmap16::Load(LPSTR lpFileName)
-{
-	KPakFile		File;
-	KBMPHEADER16	Header;
+BOOL KBitmap16::Load(LPSTR lpFileName) {
+  KPakFile File;
+  KBMPHEADER16 Header;
 
-	File.Open(lpFileName);
-	File.Read(&Header, sizeof(Header));
-	
-	if (!g_MemComp(Header.Id, "BM16", 4))
-		return FALSE;
+  File.Open(lpFileName);
+  File.Read(&Header, sizeof(Header));
 
-	if (!Init(Header.Width, Header.Height))
-		return FALSE;
+  if (!g_MemComp(Header.Id, "BM16", 4))
+    return FALSE;
 
-	File.Read(m_Bitmap.GetMemPtr(), m_nWidth * m_nHeight * 2);
-	
-	if (g_pDirectDraw->GetRGBBitMask16() != (DWORD)Header.RGBMask)
-	{
-		if (RGB_565 == Header.RGBMask)
-			g_565To555(m_nWidth, m_nHeight, m_Bitmap.GetMemPtr());
-		else
-			g_555To565(m_nWidth, m_nHeight, m_Bitmap.GetMemPtr());
-	}
-	return TRUE;
+  if (!Init(Header.Width, Header.Height))
+    return FALSE;
+
+  File.Read(m_Bitmap.GetMemPtr(), m_nWidth * m_nHeight * 2);
+
+  if (g_pDirectDraw->GetRGBBitMask16() != (DWORD)Header.RGBMask) {
+    if (RGB_565 == Header.RGBMask)
+      g_565To555(m_nWidth, m_nHeight, m_Bitmap.GetMemPtr());
+    else
+      g_555To565(m_nWidth, m_nHeight, m_Bitmap.GetMemPtr());
+  }
+  return TRUE;
 }
 //---------------------------------------------------------------------------
 // 函数:	Save
@@ -172,21 +155,20 @@ BOOL KBitmap16::Load(LPSTR lpFileName)
 // 参数:	lpFileName	文件名
 // 返回:	TRUE－成功 FALSE－失败
 //---------------------------------------------------------------------------
-BOOL KBitmap16::Save(LPSTR lpFileName)
-{
-	KFile			File;
-	KBMPHEADER16	Header;
+BOOL KBitmap16::Save(LPSTR lpFileName) {
+  KFile File;
+  KBMPHEADER16 Header;
 
-	File.Create(lpFileName);
+  File.Create(lpFileName);
 
-	g_MemZero(&Header, sizeof(Header));
-	g_MemCopy(Header.Id, "BM16", 4);
-	Header.Width = m_nWidth;
-	Header.Height = m_nHeight;
-	Header.RGBMask = g_pDirectDraw->GetRGBBitMask16();
+  g_MemZero(&Header, sizeof(Header));
+  g_MemCopy(Header.Id, "BM16", 4);
+  Header.Width = m_nWidth;
+  Header.Height = m_nHeight;
+  Header.RGBMask = g_pDirectDraw->GetRGBBitMask16();
 
-	File.Write(&Header, sizeof(Header));
-	File.Write(m_Bitmap.GetMemPtr(), m_nWidth * m_nHeight * 2);
-	return TRUE;
+  File.Write(&Header, sizeof(Header));
+  File.Write(m_Bitmap.GetMemPtr(), m_nWidth * m_nHeight * 2);
+  return TRUE;
 }
 //---------------------------------------------------------------------------

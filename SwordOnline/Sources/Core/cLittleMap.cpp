@@ -8,12 +8,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cLittleMap::cLittleMap()
-{
+cLittleMap::cLittleMap() {}
 
-}
-
-cLittleMap::~cLittleMap()
-{
-
-}
+cLittleMap::~cLittleMap() {}

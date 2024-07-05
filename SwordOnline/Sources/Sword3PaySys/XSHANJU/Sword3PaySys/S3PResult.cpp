@@ -14,7 +14,4 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PResult::~S3PResult()
-{
-
-}
+S3PResult::~S3PResult() {}

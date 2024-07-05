@@ -15,12 +15,14 @@ int				KPartnerSkill::GetSkillStyle()
 
 }
 
-void			KPartnerSkill::LoadSkillLevelData(unsigned long  ulLevel, int nParam)
+void			KPartnerSkill::LoadSkillLevelData(unsigned long ulLevel,
+int nParam)
 {
 
 }
 
-BOOL			KPartnerSkill::Cast(int nLauncher,  int nParam1, int nParam2)
+BOOL			KPartnerSkill::Cast(int nLauncher,  int nParam1, int
+nParam2)
 {
 
 
@@ -28,6 +30,6 @@ BOOL			KPartnerSkill::Cast(int nLauncher,  int nParam1, int nParam2)
 
 BOOL			KPartnerSkill::InitSkill()
 {
-	
+
 }
 */

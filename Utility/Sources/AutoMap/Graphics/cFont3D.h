@@ -11,30 +11,30 @@
 
 #include "cFont.h"
 
-class cFont3D : public cFont  
-{
+class cFont3D : public cFont {
 public:
-	cFont3D(cGraphics* );
-	virtual ~cFont3D();
+  cFont3D(cGraphics *);
+  virtual ~cFont3D();
 
-/**************************************************************************/
-//the below are different between 2d and 3d
-/**************************************************************************/
-	//device 
-    HRESULT InitDeviceObjects();
-    HRESULT RestoreDeviceObjects();
-    HRESULT InvalidateDeviceObjects();
-    HRESULT DeleteDeviceObjects();
-	LPDIRECT3DDEVICE8 GetDevice();
+  /**************************************************************************/
+  // the below are different between 2d and 3d
+  /**************************************************************************/
+  // device
+  HRESULT InitDeviceObjects();
+  HRESULT RestoreDeviceObjects();
+  HRESULT InvalidateDeviceObjects();
+  HRESULT DeleteDeviceObjects();
+  LPDIRECT3DDEVICE8 GetDevice();
 
-	//create	
-	CD3DFont* m_pFont;
-	char m_strName[64];
+  // create
+  CD3DFont *m_pFont;
+  char m_strName[64];
 
-	//create	
-	virtual HRESULT Create(LPCSTR strFontName, DWORD dwHeight, DWORD dwFlags=0L) ;
-	//draw
-    HRESULT DrawText( const stParam& param, LPCSTR strText, int nLength) ;
+  // create
+  virtual HRESULT Create(LPCSTR strFontName, DWORD dwHeight,
+                         DWORD dwFlags = 0L);
+  // draw
+  HRESULT DrawText(const stParam &param, LPCSTR strText, int nLength);
 };
 
 #endif // !defined(AFX_CFONT3D_H__974E803F_04AB_4FF5_B4AD_B7F9E4F6B6B9__INCLUDED_)

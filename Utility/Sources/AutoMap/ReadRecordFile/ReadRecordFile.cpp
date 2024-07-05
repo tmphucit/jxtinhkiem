@@ -3,44 +3,36 @@
 
 #include "stdafx.h"
 
-#include"RecordProcess.h"
-#include"UpdateRelativeFileProcess1.h"
-#include<fstream>
-#include<iostream>
-#include<memory>
+#include "RecordProcess.h"
+#include "UpdateRelativeFileProcess1.h"
+#include <fstream>
+#include <iostream>
+#include <memory>
 
 using namespace std;
 
-int main(int argc, char* argv[])
-{
-	try
-	{
-		
-		ifstream in("E:\\updataTest\\Info\\UpdateRelativeFile.ini");
-		auto_ptr<UpdateRelativeFileProcess> UpdateRelativeProcess (new UpdateRelativeFileProcess());
-		RecordProcess InfoProcess;
-		
-		InfoProcess.AddProcessFunction(UpdateRelativeProcess.get());
-		
-		InfoProcess.AnalyseRecordStream(in);
+int main(int argc, char *argv[]) {
+  try {
 
-		TextSet FileNameS = UpdateRelativeProcess->GetResult();
+    ifstream in("E:\\updataTest\\Info\\UpdateRelativeFile.ini");
+    auto_ptr<UpdateRelativeFileProcess> UpdateRelativeProcess(
+        new UpdateRelativeFileProcess());
+    RecordProcess InfoProcess;
 
-		TextSet::iterator Pointer;
-		for(Pointer = FileNameS.begin();Pointer!=FileNameS.end();Pointer++)
-		{
-			cout<<(* Pointer)<<endl;
+    InfoProcess.AddProcessFunction(UpdateRelativeProcess.get());
 
-		}
-        
+    InfoProcess.AnalyseRecordStream(in);
 
-		
+    TextSet FileNameS = UpdateRelativeProcess->GetResult();
 
-	}
-	catch(exception& Error)
-	{
-		cout<<Error.what()<<endl;
-	}
+    TextSet::iterator Pointer;
+    for (Pointer = FileNameS.begin(); Pointer != FileNameS.end(); Pointer++) {
+      cout << (*Pointer) << endl;
+    }
 
-	return 0;
+  } catch (exception &Error) {
+    cout << Error.what() << endl;
+  }
+
+  return 0;
 }

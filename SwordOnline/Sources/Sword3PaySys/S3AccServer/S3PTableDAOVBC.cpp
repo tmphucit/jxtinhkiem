@@ -8,12 +8,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PTableDAOVBC::S3PTableDAOVBC()
-{
+S3PTableDAOVBC::S3PTableDAOVBC() {}
 
-}
-
-S3PTableDAOVBC::~S3PTableDAOVBC()
-{
-
-}
+S3PTableDAOVBC::~S3PTableDAOVBC() {}

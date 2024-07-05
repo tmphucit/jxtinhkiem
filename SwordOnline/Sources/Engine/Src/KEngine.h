@@ -9,33 +9,33 @@
 #ifndef KEngine_H
 #define KEngine_H
 //---------------------------------------------------------------------------
-#include "KWin32.h"
 #include "KDebug.h"
+#include "KWin32.h"
 #ifndef _SERVER
 #include "KDDraw.h"
-#include "KDSound.h"
 #include "KDInput.h"
+#include "KDSound.h"
 #endif
 #include "KFile.h"
 #include "KFilePath.h"
 #ifndef _SERVER
 #include "KFileDialog.h"
 #endif
-#include "KTimer.h"
 #include "KMemBase.h"
 #include "KRandom.h"
-//#include "KPakList.h"
-#include "KPakFile.h"
+#include "KTimer.h"
+// #include "KPakList.h"
 #include "KIniFile.h"
+#include "KPakFile.h"
 #ifndef _SERVER
 #include "KCanvas.h"
-#include "KSprite.h"
 #include "KFont.h"
+#include "KSprite.h"
 #include "KWin32App.h"
 #endif
 #include "KList.h"
 //---------------------------------------------------------------------------
-ENGINE_API BOOL	g_InitEngine();
-ENGINE_API void	g_ExitEngine();
+ENGINE_API BOOL g_InitEngine();
+ENGINE_API void g_ExitEngine();
 //---------------------------------------------------------------------------
 #endif

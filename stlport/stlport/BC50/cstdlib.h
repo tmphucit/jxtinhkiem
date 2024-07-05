@@ -5,11 +5,11 @@
 
 /*
  *
- *  This wrapper is needed for Borland C++ 5.0 to get STLport 
+ *  This wrapper is needed for Borland C++ 5.0 to get STLport
  *  header properly included
  */
 
-#  include  <..\cstdlib.>
+#include <..\cstdlib.>
 
 // Local Variables:
 // mode:C++

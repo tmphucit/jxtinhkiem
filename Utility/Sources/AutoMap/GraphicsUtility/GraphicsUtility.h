@@ -1,7 +1,8 @@
 // GraphicsUtility.h : main header file for the GRAPHICSUTILITY DLL
 //
 
-#if !defined(AFX_GRAPHICSUTILITY_H__C3E03F15_8627_480C_BFB9_52995BC25A6E__INCLUDED_)
+#if !defined(                                                                  \
+    AFX_GRAPHICSUTILITY_H__C3E03F15_8627_480C_BFB9_52995BC25A6E__INCLUDED_)
 #define AFX_GRAPHICSUTILITY_H__C3E03F15_8627_480C_BFB9_52995BC25A6E__INCLUDED_
 
 #if _MSC_VER > 1000
@@ -9,37 +10,36 @@
 #endif // _MSC_VER > 1000
 
 #ifndef __AFXWIN_H__
-	#error include 'stdafx.h' before including this file for PCH
+#error include 'stdafx.h' before including this file for PCH
 #endif
 
-#include "resource.h"		// main symbols
+#include "resource.h" // main symbols
 
 /////////////////////////////////////////////////////////////////////////////
 // CGraphicsUtilityApp
 // See GraphicsUtility.cpp for the implementation of this class
 //
 
-class CGraphicsUtilityApp : public CWinApp
-{
+class CGraphicsUtilityApp : public CWinApp {
 public:
-	CGraphicsUtilityApp();
+  CGraphicsUtilityApp();
 
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CGraphicsUtilityApp)
-	//}}AFX_VIRTUAL
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CGraphicsUtilityApp)
+  //}}AFX_VIRTUAL
 
-	//{{AFX_MSG(CGraphicsUtilityApp)
-		// NOTE - the ClassWizard will add and remove member functions here.
-		//    DO NOT EDIT what you see in these blocks of generated code !
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  //{{AFX_MSG(CGraphicsUtilityApp)
+  // NOTE - the ClassWizard will add and remove member functions here.
+  //    DO NOT EDIT what you see in these blocks of generated code !
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
-
 
 /////////////////////////////////////////////////////////////////////////////
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_GRAPHICSUTILITY_H__C3E03F15_8627_480C_BFB9_52995BC25A6E__INCLUDED_)

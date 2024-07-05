@@ -1,34 +1,34 @@
 /********************************************************************
-	created:	2003/04/08
-	file base:	GamePlayer
-	file ext:	h
-	author:		liupeng
-	
-	purpose:	
+        created:	2003/04/08
+        file base:	GamePlayer
+        file ext:	h
+        author:		liupeng
+
+        purpose:
 *********************************************************************/
 #ifndef __INCLUDE_GAMEPLAYER_H__
 #define __INCLUDE_GAMEPLAYER_H__
 
-#include "IPlayer.h"
 #include "ICommand.h"
+#include "IPlayer.h"
 
+#include "Buffer.h"
 #include "CriticalSection.h"
 #include "tstring.h"
-#include "Buffer.h"
 
-#include "IClient.h"
-#include "RainbowInterface.h"
-#include "IServer.h"
 #include "HeavenInterface.h"
+#include "IClient.h"
+#include "IServer.h"
+#include "RainbowInterface.h"
 
-#include "IGServer.h"
 #include "GameServer.h"
+#include "IGServer.h"
 
 #include "PlayerCreator.h"
 
-#include <vector>
-#include <map>
 #include <list>
+#include <map>
+#include <vector>
 
 using namespace std;
 
@@ -36,287 +36,281 @@ using namespace std;
  * class CGamePlayer
  */
 
-#define	MAXPLAYERACCOUNT			3
-#define	MAXPLAYERCHECK             500
-#define	TIMEPLAYERCHECK            10000
+#define MAXPLAYERACCOUNT 3
+#define MAXPLAYERCHECK 500
+#define TIMEPLAYERCHECK 10000
 
-class CGamePlayer : public IPlayer
-{
+class CGamePlayer : public IPlayer {
 public:
+  CGamePlayer(UINT nIdentityID = (UINT)(-1));
 
-	CGamePlayer( UINT nIdentityID = ( UINT )( -1 ) );
+  virtual ~CGamePlayer();
 
-	virtual ~CGamePlayer();
+  /*
+   * Task option
+   */
+  enum {
+    /*
+     * Task command
+     */
+    enumLogin = 0,
+    enumSelAddDelRole,
+    enumLoginCreateRole,
+    enumLoginSelectRole,
+    enumLoginDeleteRole,
 
-	/*
-	 * Task option
-	 */
-	enum
-	{		
-		/*
-		 * Task command
-		 */
-		enumLogin = 0,
-		enumSelAddDelRole,
-		enumLoginCreateRole,
-		enumLoginSelectRole,
-		enumLoginDeleteRole,
-		
-		enumSafeClose,
+    enumSafeClose,
 
-		/*
-		 * Task status
-		 */
-		enumToGotoTask,
-		enumToNextTask,
-		enumCompleted,
-		enumRepeat,
-		enumError,
-		enumNone
-	};
-	
-	enum enumCDataQueueOwner
-	{
-		enumOwnerAccSvr = 0,
-		enumOwnerRoleSvr,
-		enumOwnerPlayer,
+    /*
+     * Task status
+     */
+    enumToGotoTask,
+    enumToNextTask,
+    enumCompleted,
+    enumRepeat,
+    enumError,
+    enumNone
+  };
 
-		enumOwnerTotal
-	};
+  enum enumCDataQueueOwner {
+    enumOwnerAccSvr = 0,
+    enumOwnerRoleSvr,
+    enumOwnerPlayer,
 
-	virtual bool DispatchTask( UINT nTaskID );
-	virtual bool IsWorking();
-	virtual bool Run();
-	virtual bool AppendData( UINT nOwner, const void *pData, size_t dataLength );
-	
-	static bool SetupGlobalAllocator( size_t bufferSize, size_t maxFreeBuffers );
+    enumOwnerTotal
+  };
 
-	virtual bool Attach( const char *pRoleName );
+  virtual bool DispatchTask(UINT nTaskID);
+  virtual bool IsWorking();
+  virtual bool Run();
+  virtual bool AppendData(UINT nOwner, const void *pData, size_t dataLength);
 
-	virtual bool IsActive() { return m_bActiveStatus; };
-	virtual bool Active();
-	virtual bool Inactive();
+  static bool SetupGlobalAllocator(size_t bufferSize, size_t maxFreeBuffers);
 
-	static bool Add( const char *pRoleName, IPlayer *pPlayer );
-	static bool Del( const char *pRoleName );
-	static IPlayer *Get( const char *pRoleName );
+  virtual bool Attach(const char *pRoleName);
 
-	static void ATTACH_NETWORK( IClient *pAccSvrClient, 
-				IServer *pPlayerServer, 
-				IClient	*pDBRoleClient );
+  virtual bool IsActive() { return m_bActiveStatus; };
+  virtual bool Active();
+  virtual bool Inactive();
 
-	static void DETACH_NETWORK();
+  static bool Add(const char *pRoleName, IPlayer *pPlayer);
+  static bool Del(const char *pRoleName);
+  static IPlayer *Get(const char *pRoleName);
 
-	static LONG GetCapability() { return ::InterlockedExchange( &m_slnIdentityCounts, m_slnIdentityCounts ); }
-	static LONG GetWorking() { return ::InterlockedExchange( &m_lnWorkingCounts, m_lnWorkingCounts ); }
+  static void ATTACH_NETWORK(IClient *pAccSvrClient, IServer *pPlayerServer,
+                             IClient *pDBRoleClient);
+
+  static void DETACH_NETWORK();
+
+  static LONG GetCapability() {
+    return ::InterlockedExchange(&m_slnIdentityCounts, m_slnIdentityCounts);
+  }
+  static LONG GetWorking() {
+    return ::InterlockedExchange(&m_lnWorkingCounts, m_lnWorkingCounts);
+  }
 
 private:
+  static OnlineGameLib::Win32::CBuffer::Allocator m_theGlobalAllocator;
 
-	static OnlineGameLib::Win32::CBuffer::Allocator	m_theGlobalAllocator;
+  static LONG m_slnIdentityCounts;
+  LONG m_lnIdentityID;
 
-	static LONG m_slnIdentityCounts;
-	LONG		m_lnIdentityID;
-	
-	static LONG m_lnWorkingCounts;
+  static LONG m_lnWorkingCounts;
 
-	int m_nExtPoint;
+  int m_nExtPoint;
 
-	/*
-	 * Task system
-	 */
-	class CTask
-	{
-	public:
+  /*
+   * Task system
+   */
+  class CTask {
+  public:
+    explicit CTask(CGamePlayer *pReceiver, UINT nTaskID);
+    ~CTask();
 
-		explicit CTask( CGamePlayer *pReceiver, UINT nTaskID );
-		~CTask();
+    typedef UINT (CGamePlayer::*Action)();
 
-		typedef UINT ( CGamePlayer::* Action )();
+    size_t AddCmd(Action pFun);
 
-		size_t	AddCmd( Action pFun );
-		
-		UINT	Execute();
-		void	Reset() { m_indexCmd = 0; }
+    UINT Execute();
+    void Reset() { m_indexCmd = 0; }
 
-	protected:
+  protected:
+    CTask();
 
-		CTask();
+    // OnlineGameLib::Win32::CCriticalSection	m_csTask;
 
-		//OnlineGameLib::Win32::CCriticalSection	m_csTask;
+  private:
+    CGamePlayer *m_pReceiver;
 
-	private:
+    typedef vector<ICommand *> stdVector;
 
-		CGamePlayer *m_pReceiver;
+    stdVector m_stdCommand;
+    size_t m_indexCmd;
 
-		typedef vector< ICommand * > stdVector;
+    UINT m_nTaskProgID;
+  };
 
-		stdVector	m_stdCommand;
-		size_t		m_indexCmd;
+  CTask m_theLoginTask;
 
-		UINT		m_nTaskProgID;
+  CTask m_theSelAddDelTask;
 
-	};
+  CTask m_theLoginCreateRoleTask;
+  CTask m_theLoginSelectRoleTask;
+  CTask m_theLoginDeleteRoleTask;
 
-	CTask	m_theLoginTask;
+  CTask m_theSafeCloseTask;
 
-	CTask	m_theSelAddDelTask;
+  void SetCurrentTask(LONG nID) { /* m_nCurrentTaskID = nID; */
+    ::InterlockedExchange(&m_nCurrentTaskID, nID);
+  }
+  UINT GetCurrentTask() {
+    return /* m_nCurrentTaskID; */ ::InterlockedExchange(&m_nCurrentTaskID,
+                                                         m_nCurrentTaskID);
+  }
 
-	CTask	m_theLoginCreateRoleTask;
-	CTask	m_theLoginSelectRoleTask;
-	CTask	m_theLoginDeleteRoleTask;
+  LONG m_nCurrentTaskID;
 
-	CTask	m_theSafeCloseTask;
+  void InitTaskProcessor();
 
-	void SetCurrentTask( LONG nID ) { /* m_nCurrentTaskID = nID; */ ::InterlockedExchange( &m_nCurrentTaskID, nID ); }
-	UINT GetCurrentTask() { return /* m_nCurrentTaskID; */ ::InterlockedExchange( &m_nCurrentTaskID, m_nCurrentTaskID ); }
+  /*
+   * Information
+   */
 
-	LONG m_nCurrentTaskID;
-	
-	void InitTaskProcessor();
+  OnlineGameLib::Win32::_tstring m_sAccountName;
+  OnlineGameLib::Win32::_tstring m_sPassword;
+  OnlineGameLib::Win32::_tstring m_sRoleName;
 
-	/*
-	 * Information
-	 */
+  OnlineGameLib::Win32::_tstring m_sPlayerName[MAXPLAYERACCOUNT];
+  int m_sPlayerCount;
 
-	OnlineGameLib::Win32::_tstring	m_sAccountName;
-	OnlineGameLib::Win32::_tstring	m_sPassword;
-	OnlineGameLib::Win32::_tstring	m_sRoleName;
+  bool m_bUseSuperPassword;
+  OnlineGameLib::Win32::_tstring m_sSuperPassword;
+  OnlineGameLib::Win32::_tstring m_sDelRoleName;
 
-	OnlineGameLib::Win32::_tstring	m_sPlayerName[MAXPLAYERACCOUNT];
-	int m_sPlayerCount;
+  size_t m_nAttachServerID;
 
-    bool    m_bUseSuperPassword;
-    OnlineGameLib::Win32::_tstring	m_sSuperPassword;
-    OnlineGameLib::Win32::_tstring	m_sDelRoleName;
+  bool m_bActiveStatus;
 
-	size_t	m_nAttachServerID;
-	
-	bool	m_bActiveStatus;
+  DWORD m_dwTaskBeginTimer;
+  DWORD m_dwTaskTotalTimer;
 
-	DWORD	m_dwTaskBeginTimer;
-	DWORD	m_dwTaskTotalTimer;
-	
-	bool	m_bAutoUnlockAccount;
+  bool m_bAutoUnlockAccount;
 
-	static OnlineGameLib::Win32::CCriticalSection CGamePlayer::m_csMapSP;
+  static OnlineGameLib::Win32::CCriticalSection CGamePlayer::m_csMapSP;
 
-	typedef map< OnlineGameLib::Win32::_tstring, IPlayer * > stdMapSP;
+  typedef map<OnlineGameLib::Win32::_tstring, IPlayer *> stdMapSP;
 
-	static stdMapSP	m_sthePlayerTable;
+  static stdMapSP m_sthePlayerTable;
 
-	static const int s_nRoleListCount;
-	static const int s_nLoginTimeoutTimer;
-	static const int s_nProcessTimeoutTimer;
+  static const int s_nRoleListCount;
+  static const int s_nLoginTimeoutTimer;
+  static const int s_nProcessTimeoutTimer;
 
-//	static IClient *m_pAccSvrClient;
-	static IServer *m_pPlayerServer;
-	static IClient *m_pDBRoleClient;
+  //	static IClient *m_pAccSvrClient;
+  static IServer *m_pPlayerServer;
+  static IClient *m_pDBRoleClient;
 
-	/*
-	 * class CDataQueue
-	 */
-	class CDataQueue
-	{
-	public:
+  /*
+   * class CDataQueue
+   */
+  class CDataQueue {
+  public:
+    explicit CDataQueue(size_t bufferSize = 1024 * 64,
+                        size_t maxFreeBuffers = 1);
 
-		explicit CDataQueue( size_t bufferSize = 1024 * 64, size_t maxFreeBuffers = 1 );
-		
-		~CDataQueue();
+    ~CDataQueue();
 
-		/*
-		 * Function
-		 */
-		bool		AddData( LONG lnID, const BYTE *pData, size_t datalength );
+    /*
+     * Function
+     */
+    bool AddData(LONG lnID, const BYTE *pData, size_t datalength);
 
-		OnlineGameLib::Win32::CBuffer *Attach( LONG lnID );
-		void		Detach( LONG lnID );
+    OnlineGameLib::Win32::CBuffer *Attach(LONG lnID);
+    void Detach(LONG lnID);
 
-		void		Clear( LONG lnID );
+    void Clear(LONG lnID);
 
-		void		Empty();
+    void Empty();
 
-	private:
-		/*
-		 * Data
-		 */
-		typedef map< LONG, OnlineGameLib::Win32::CBuffer * > stdDataMap;
+  private:
+    /*
+     * Data
+     */
+    typedef map<LONG, OnlineGameLib::Win32::CBuffer *> stdDataMap;
 
-		stdDataMap									m_theData;
+    stdDataMap m_theData;
 
-		OnlineGameLib::Win32::CBuffer::Allocator	m_theDQAllocator;
+    OnlineGameLib::Win32::CBuffer::Allocator m_theDQAllocator;
 
-		OnlineGameLib::Win32::CCriticalSection		m_csQueue;
-	};
+    OnlineGameLib::Win32::CCriticalSection m_csQueue;
+  };
 
-	CDataQueue	m_theDataQueue[enumOwnerTotal];
+  CDataQueue m_theDataQueue[enumOwnerTotal];
 
-	OnlineGameLib::Win32::CPackager			m_thePackager;
+  OnlineGameLib::Win32::CPackager m_thePackager;
 
-	static CPlayerCreator					m_thePlayerCreator;
-	
+  static CPlayerCreator m_thePlayerCreator;
+
 protected:
+  /*
+   * Helper function
+   */
+  bool TaskCompleted();
 
-	/*
-	 * Helper function
-	 */
-	bool TaskCompleted();
+  bool SmallPackProcess(UINT nOwner, const void *pData, size_t dataLength);
+  bool LargePackProcess(UINT nOwner, const void *pData, size_t dataLength);
 
-	bool SmallPackProcess( UINT nOwner, const void *pData, size_t dataLength );
-	bool LargePackProcess( UINT nOwner, const void *pData, size_t dataLength );
-	
-	bool DispatchTaskForAccount( const void *pData, size_t dataLength );
-	bool DispatchTaskForDBRole( const void *pData, size_t dataLength );
-	bool DispatchTaskForPlayer( const void *pData, size_t dataLength );
+  bool DispatchTaskForAccount(const void *pData, size_t dataLength);
+  bool DispatchTaskForDBRole(const void *pData, size_t dataLength);
+  bool DispatchTaskForPlayer(const void *pData, size_t dataLength);
 
-	/*
-	 * Task function
-	 */
-	// {{
+  /*
+   * Task function
+   */
+  // {{
 
-		/*
-		 * Login
-		 */
-		UINT WaitForAccPwd();
-		UINT QueryAccPwd();
-		UINT VerifyAccount();
-		UINT QueryRoleList();
-		UINT ProcessRoleList();
-		UINT SelAddDelRole();
-		UINT DelRole_WaitForVerify();
-		
-		UINT WaitForCreateResult();
+  /*
+   * Login
+   */
+  UINT WaitForAccPwd();
+  UINT QueryAccPwd();
+  UINT VerifyAccount();
+  UINT QueryRoleList();
+  UINT ProcessRoleList();
+  UINT SelAddDelRole();
+  UINT DelRole_WaitForVerify();
 
-		UINT WaitForDeleteResult();
+  UINT WaitForCreateResult();
 
-		UINT ProcessRoleInfo();
-		UINT WaitForGameSvrPermit();
+  UINT WaitForDeleteResult();
 
-		/*
-		 * Logout
-		 */
+  UINT ProcessRoleInfo();
+  UINT WaitForGameSvrPermit();
 
-	// }}
+  /*
+   * Logout
+   */
 
-	UINT SafeClose();
+  // }}
 
-	/*
-	 * Help function for task
-	 */
-	void _ClearTaskQueue();
+  UINT SafeClose();
 
-	bool _VerifyAccount_ToPlayer( UINT nQueryResult , unsigned long nLeftTime);
-	bool _QueryRoleInfo_ToDBRole( const char *pRoleName );
-	bool _SyncRoleInfo_ToGameServer( const void *pData, size_t dataLength );
+  /*
+   * Help function for task
+   */
+  void _ClearTaskQueue();
 
-	bool _CreateNewPlayer_ToDBRole( const char *pRoleName,
-		int nRoleSex /* male or female */, 
-		int nRoleClass, 
-		unsigned short nMapID );
+  bool _VerifyAccount_ToPlayer(UINT nQueryResult, unsigned long nLeftTime);
+  bool _QueryRoleInfo_ToDBRole(const char *pRoleName);
+  bool _SyncRoleInfo_ToGameServer(const void *pData, size_t dataLength);
 
-	UINT _DeleteRole_ToDBRole( const void *pData, size_t dataLength );
+  bool _CreateNewPlayer_ToDBRole(const char *pRoleName,
+                                 int nRoleSex /* male or female */,
+                                 int nRoleClass, unsigned short nMapID);
 
-	bool _UnlockAccount();
-	
+  UINT _DeleteRole_ToDBRole(const void *pData, size_t dataLength);
+
+  bool _UnlockAccount();
 };
 
 #endif // __INCLUDE_GAMEPLAYER_H__

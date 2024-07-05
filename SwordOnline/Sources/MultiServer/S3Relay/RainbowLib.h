@@ -11,24 +11,23 @@
 
 #include "../../Multiserver/Rainbow/Interface/IClient.h"
 
-class CRainbowLib  
-{
+class CRainbowLib {
 public:
-	CRainbowLib();
-	virtual ~CRainbowLib();
+  CRainbowLib();
+  virtual ~CRainbowLib();
 
 public:
-	BOOL Initialize();
-	BOOL Uninitialize();
+  BOOL Initialize();
+  BOOL Uninitialize();
 
 private:
-	HMODULE m_hRainbow;
+  HMODULE m_hRainbow;
 
-	typedef HRESULT ( __stdcall * LPFNCREATEINTERFACE )(REFIID, void**);
-	LPFNCREATEINTERFACE m_lpfnCreateInterface;
+  typedef HRESULT(__stdcall *LPFNCREATEINTERFACE)(REFIID, void **);
+  LPFNCREATEINTERFACE m_lpfnCreateInterface;
 
 public:
-	HRESULT CreateInterface(REFIID riid, void** pp);
+  HRESULT CreateInterface(REFIID riid, void **pp);
 };
 
 #endif // !defined(AFX_RAINBOWLIB_H__847B72C3_1033_46D5_8A09_BA841AB31E14__INCLUDED_)

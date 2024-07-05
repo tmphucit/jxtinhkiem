@@ -2,13 +2,13 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
-#include "Image.h"
 #include "cImage.h"
+#include "Image.h"
+#include "stdafx.h"
 
 #ifdef _DEBUG
 #undef THIS_FILE
-static char THIS_FILE[]=__FILE__;
+static char THIS_FILE[] = __FILE__;
 #define new DEBUG_NEW
 #endif
 
@@ -16,28 +16,18 @@ static char THIS_FILE[]=__FILE__;
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cImage::cImage()
-{
-	m_ulCount = 1;
-}
+cImage::cImage() { m_ulCount = 1; }
 
-cImage::~cImage()
-{
-
-}
+cImage::~cImage() {}
 
 //////////////////////////////////////////////////////////////////////
-//com
+// com
 
-ULONG cImage::AddRef() 
-{
-	return ++m_ulCount;
-}
+ULONG cImage::AddRef() { return ++m_ulCount; }
 
-ULONG cImage::Release() 
-{
-	ULONG count = --m_ulCount;
-	if (!count)
-		delete this;
-	return count;
+ULONG cImage::Release() {
+  ULONG count = --m_ulCount;
+  if (!count)
+    delete this;
+  return count;
 }

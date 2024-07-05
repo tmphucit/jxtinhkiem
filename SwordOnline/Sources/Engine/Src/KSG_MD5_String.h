@@ -9,11 +9,11 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 #ifndef KSG_MD5_STRING_H
-#define KSG_MD5_STRING_H    1
+#define KSG_MD5_STRING_H 1
 
 #include "KWin32.h"
 
-ENGINE_API int KSG_StringToMD5String(char szDestMD5String[64], const char cszSrcString[]);
+ENGINE_API int KSG_StringToMD5String(char szDestMD5String[64],
+                                     const char cszSrcString[]);
 
 #endif // KSG_MD5_STRING_H
-

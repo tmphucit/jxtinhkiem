@@ -2,26 +2,25 @@
 // To compile as a separate example, please #define MAIN.
 
 #include <algorithm>
-#include <vector>
 #include <cstdlib>
+#include <functional>
 #include <iostream>
 #include <iterator>
-#include <functional>
+#include <vector>
 
-#ifdef MAIN 
+#ifdef MAIN
 #define ptition1_test main
 #endif
 
-#if !defined (STLPORT) || defined(__STL_USE_NAMESPACES)
+#if !defined(STLPORT) || defined(__STL_USE_NAMESPACES)
 using namespace std;
 #endif
-int ptition1_test(int, char**)
-{
-  cout<<"Results of ptition1_test:"<<endl;
-  vector <int> v1(10);
-  for(int i = 0; i < v1.size(); i++)
+int ptition1_test(int, char **) {
+  cout << "Results of ptition1_test:" << endl;
+  vector<int> v1(10);
+  for (int i = 0; i < v1.size(); i++)
     v1[i] = rand() % 20;
-  ostream_iterator <int> iter(cout, " ");
+  ostream_iterator<int> iter(cout, " ");
   copy(v1.begin(), v1.end(), iter);
   cout << endl;
   partition(v1.begin(), v1.end(), bind2nd(less<int>(), 11));

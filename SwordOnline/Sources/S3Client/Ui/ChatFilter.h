@@ -11,20 +11,19 @@
 
 #include "FilterTextLib.h"
 
-class CChatFilter  
-{
+class CChatFilter {
 public:
-	CChatFilter();
-	virtual ~CChatFilter();
+  CChatFilter();
+  virtual ~CChatFilter();
 
 public:
-	BOOL Initialize();
-	BOOL Uninitialize();
+  BOOL Initialize();
+  BOOL Uninitialize();
 
-	BOOL IsTextPass(LPCTSTR text);
+  BOOL IsTextPass(LPCTSTR text);
 
 private:
-	ITextFilter* m_pTextFilter;
+  ITextFilter *m_pTextFilter;
 };
 
 #endif // !defined(AFX_CHATFILTER_H__4D8459D3_39B0_454E_95B2_7B1D91C10B36__INCLUDED_)

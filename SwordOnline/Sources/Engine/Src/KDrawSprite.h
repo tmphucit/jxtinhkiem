@@ -9,9 +9,9 @@
 #ifndef KDrawSprite_H
 #define KDrawSprite_H
 //---------------------------------------------------------------------------
-void g_DrawSprite(void* node, void* canvas);
-void g_DrawSpriteWithColor(void* node, void* canvas);
-void g_DrawSpriteMixColor(void* node, void* canvas);
-void g_DrawSpriteBorder(void* node, void* canvas);
+void g_DrawSprite(void *node, void *canvas);
+void g_DrawSpriteWithColor(void *node, void *canvas);
+void g_DrawSpriteMixColor(void *node, void *canvas);
+void g_DrawSpriteBorder(void *node, void *canvas);
 //---------------------------------------------------------------------------
 #endif

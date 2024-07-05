@@ -11,22 +11,20 @@
 
 #include "S3PManipulator.h"
 
-class S3PFriend : public S3PManipulator  
-{
+class S3PFriend : public S3PManipulator {
 public:
-	S3PFriend(int iid);
-	virtual ~S3PFriend();
-	S3PFriend();
+  S3PFriend(int iid);
+  virtual ~S3PFriend();
+  S3PFriend();
 
 public:
-	virtual S3PDBConnection	* GetConn();
-	virtual S3PTableDAO * GetTableDAO();
-	virtual std::string GetAutoIncrementField();
-	virtual std::string GetMandatoryField();
+  virtual S3PDBConnection *GetConn();
+  virtual S3PTableDAO *GetTableDAO();
+  virtual std::string GetAutoIncrementField();
+  virtual std::string GetMandatoryField();
 
 public:
-	int m_iid;
-
+  int m_iid;
 };
 
 #endif // !defined(AFX_S3PFRIEND_H__750048AF_916F_4843_9FCA_0B61129D60A2__INCLUDED_)

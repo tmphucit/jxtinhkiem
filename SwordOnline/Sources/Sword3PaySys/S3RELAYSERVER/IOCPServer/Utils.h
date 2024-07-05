@@ -1,32 +1,32 @@
 /********************************************************************
-	created:	2003/02/13
-	file base:	Utils
-	file ext:	h
-	author:		liupeng
-	
-	purpose:	Header file for common routines
+        created:	2003/02/13
+        file base:	Utils
+        file ext:	h
+        author:		liupeng
+
+        purpose:	Header file for common routines
 *********************************************************************/
 #ifndef __INCLUDE_UTILS_H__
 #define __INCLUDE_UTILS_H__
 
-#if defined (_MSC_VER) && (_MSC_VER >= 1020)
-	#pragma once
+#if defined(_MSC_VER) && (_MSC_VER >= 1020)
+#pragma once
 #endif
 
-#pragma warning(disable: 4201)   // nameless struct/union
+#pragma warning(disable : 4201) // nameless struct/union
 
 #ifndef _WINDOWS_
-	#define WIN32_LEAN_AND_MEAN
-		#include <windows.h>
-	#undef WIN32_LEAN_AND_MEAN
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#undef WIN32_LEAN_AND_MEAN
 #endif
 
 #include "tstring.h"
 
+#include <atlbase.h> // USES_CONVERSION
 #include <strstream>
-#include <atlbase.h>       // USES_CONVERSION
 
-#pragma warning(default: 4201)
+#pragma warning(default : 4201)
 
 /*
  * namespace OnlineGameLib::Win32
@@ -40,11 +40,11 @@ namespace Win32 {
  */
 
 #ifndef DEBUG_ONLY
-	#ifdef _DEBUG
-		#define DEBUG_ONLY(x)   x
-	#else
-		#define DEBUG_ONLY(x)
-	#endif
+#ifdef _DEBUG
+#define DEBUG_ONLY(x) x
+#else
+#define DEBUG_ONLY(x)
+#endif
 #endif
 
 /*
@@ -59,77 +59,71 @@ namespace Win32 {
  * parameter num could be declared as a pointer to const
  */
 
-template <class T>
-_tstring ToString( T num )
-{
-	_tstring strNum = _T("");
+template <class T> _tstring ToString(T num) {
+  _tstring strNum = _T("");
 
-   {
-      std::strstream buf;
+  {
+    std::strstream buf;
 
-	   buf << num << std::ends;
+    buf << num << std::ends;
 
 #ifdef _UNICODE
-      std::string temp = buf.str();
+    std::string temp = buf.str();
 
-      USES_CONVERSION;
+    USES_CONVERSION;
 
-      strNum = A2W(temp.c_str());
-#else 
-	   strNum = buf.str();
+    strNum = A2W(temp.c_str());
+#else
+    strNum = buf.str();
 #endif
-	   buf.freeze(false);
-   }
+    buf.freeze(false);
+  }
 
-   return strNum;
+  return strNum;
 }
 
-template <class T>
-bool ToBool( const T &value )
-{
-   return ( 0 != value );
+template <class T> bool ToBool(const T &value) { return (0 != value); }
+
+inline bool BOOL_to_bool(const BOOL bResult) {
+  /*
+   * Convert a make believe BOOL into a real bool.
+   * Removes warning C4800...
+   */
+
+  return (TRUE == bResult);
 }
 
-inline bool BOOL_to_bool(const BOOL bResult)
-{
-   /*
-    * Convert a make believe BOOL into a real bool.
-    * Removes warning C4800...
-	*/
+_tstring HexToString(const BYTE *pBuffer, size_t iBytes);
+void StringToHex(const _tstring &str, BYTE *pBuffer, size_t nBytes);
 
-   return (TRUE == bResult);
-}
-
-_tstring HexToString( const BYTE *pBuffer, size_t iBytes );
-void StringToHex( const _tstring &str, BYTE *pBuffer, size_t nBytes );
-
-_tstring GetLastErrorMessage( DWORD last_error );
+_tstring GetLastErrorMessage(DWORD last_error);
 
 _tstring GetCurrentDirectory();
 
 _tstring GetDateStamp();
 _tstring GetTimeStamp();
 
-void SetLogFileName( const _tstring &name );
+void SetLogFileName(const _tstring &name);
 
-void Output( const _tstring &message );
-void OutPutInfo( const _tstring &message );
-void Trace2File( const _tstring &message );
+void Output(const _tstring &message);
+void OutPutInfo(const _tstring &message);
+void Trace2File(const _tstring &message);
 
-_tstring ToHex( BYTE c );
+_tstring ToHex(BYTE c);
 
-_tstring DumpData( const BYTE * const pData, size_t dataLength, size_t lineLength = 0 );
+_tstring DumpData(const BYTE *const pData, size_t dataLength,
+                  size_t lineLength = 0);
 
 _tstring GetComputerName();
-_tstring GetModuleFileName( HINSTANCE hModule = 0 );
+_tstring GetModuleFileName(HINSTANCE hModule = 0);
 _tstring GetUserName();
 
 _tstring GetFileVersion();
 
-_tstring StripLeading( const _tstring &source, const char toStrip );
-_tstring StripTrailing( const _tstring &source, const char toStrip );
+_tstring StripLeading(const _tstring &source, const char toStrip);
+_tstring StripTrailing(const _tstring &source, const char toStrip);
 
-} // End of namespace OnlineGameLib
-} // End of namespace Win32
+} // namespace Win32
+} // namespace OnlineGameLib
 
 #endif //__INCLUDE_UTILS_H__

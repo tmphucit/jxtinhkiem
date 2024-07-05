@@ -19,45 +19,41 @@
 // Color matrix
 //----------------------------------------------------------------------------
 
-struct ColorMatrix
-{
-    REAL m[5][5];
+struct ColorMatrix {
+  REAL m[5][5];
 };
 
 //----------------------------------------------------------------------------
 // Color Matrix flags
 //----------------------------------------------------------------------------
 
-enum ColorMatrixFlags
-{
-    ColorMatrixFlagsDefault   = 0,
-    ColorMatrixFlagsSkipGrays = 1,
-    ColorMatrixFlagsAltGray   = 2
+enum ColorMatrixFlags {
+  ColorMatrixFlagsDefault = 0,
+  ColorMatrixFlagsSkipGrays = 1,
+  ColorMatrixFlagsAltGray = 2
 };
 
 //----------------------------------------------------------------------------
 // Color Adjust Type
 //----------------------------------------------------------------------------
 
-enum ColorAdjustType
-{
-    ColorAdjustTypeDefault,
-    ColorAdjustTypeBitmap,
-    ColorAdjustTypeBrush,
-    ColorAdjustTypePen,
-    ColorAdjustTypeText,
-    ColorAdjustTypeCount,   // must be immediately after all the individual ones
-    ColorAdjustTypeAny      // internal use: for querying if any type has recoloring
+enum ColorAdjustType {
+  ColorAdjustTypeDefault,
+  ColorAdjustTypeBitmap,
+  ColorAdjustTypeBrush,
+  ColorAdjustTypePen,
+  ColorAdjustTypeText,
+  ColorAdjustTypeCount, // must be immediately after all the individual ones
+  ColorAdjustTypeAny    // internal use: for querying if any type has recoloring
 };
 
 //----------------------------------------------------------------------------
 // Color Map
 //----------------------------------------------------------------------------
 
-struct ColorMap
-{
-    Color oldColor;
-    Color newColor;
+struct ColorMap {
+  Color oldColor;
+  Color newColor;
 };
 
 #endif

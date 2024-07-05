@@ -2,24 +2,23 @@
 // To compile as a separate example, please #define MAIN.
 
 #include <algorithm>
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
 #include "fadapter.h"
 
-#ifdef MAIN 
+#ifdef MAIN
 #define gener1_test main
 #endif
 
-#if !defined (STLPORT) || defined(__STL_USE_NAMESPACES)
+#if !defined(STLPORT) || defined(__STL_USE_NAMESPACES)
 using namespace std;
 #endif
 
-static  int cxxrand() { return rand();}
+static int cxxrand() { return rand(); }
 
-int gener1_test(int, char**)
-{
-  cout<<"Results of gener1_test:"<<endl;
+int gener1_test(int, char **) {
+  cout << "Results of gener1_test:" << endl;
   int numbers[10];
 #if defined(__MVS__)
   generate(numbers, numbers + 10, ptr_gen(cxxrand));
@@ -27,7 +26,7 @@ int gener1_test(int, char**)
   generate(numbers, numbers + 10, cxxrand);
 #endif
 
-  for(int i = 0; i < 10; i++)
+  for (int i = 0; i < 10; i++)
     cout << numbers[i] << ' ';
   cout << endl;
   return 0;

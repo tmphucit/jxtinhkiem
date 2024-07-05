@@ -2,18 +2,20 @@
 #include "iCommon.h"
 
 /////////////////////////////////////////////////////////////////////
-//plane and doodad
+// plane and doodad
 /////////////////////////////////////////////////////////////////////
 const int MAX_VALUE_ITEM = 32;
 
-_declspec(dllexport) int StringToPlaneTableValue(int table, const CString& strValue);
+_declspec(dllexport) int StringToPlaneTableValue(int table,
+                                                 const CString &strValue);
 _declspec(dllexport) CString GetTablePlaneName(int table);
-_declspec(dllexport) CString* GetTablePlaneValue(int e);
+_declspec(dllexport) CString *GetTablePlaneValue(int e);
 _declspec(dllexport) LPCSTR GetTablePlaneValue(int table, int index);
 
-_declspec(dllexport) int StringToDoodadTableValue(int table, const CString& strValue);
+_declspec(dllexport) int StringToDoodadTableValue(int table,
+                                                  const CString &strValue);
 _declspec(dllexport) CString GetTableDoodadName(int table);
-_declspec(dllexport) CString* GetTableDoodadValue(int e);
+_declspec(dllexport) CString *GetTableDoodadValue(int e);
 _declspec(dllexport) CString GetTableDoodadDefaultValue(int e);
 
 #define FILE_TEMPLATE_INDEX "\\template\\index.txt"

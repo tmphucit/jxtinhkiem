@@ -1,4 +1,4 @@
-/* 
+/*
  * File:     UiTaskDataFile.h
  * Desc:     任务记事文件操作
  * Author:   flying
@@ -36,9 +36,9 @@
  *************************************************************************/
 /*
  * File format specification
- * 1 file header: 
+ * 1 file header:
  *   this section specifies the number of
- *   system record count and the bytes of 
+ *   system record count and the bytes of
  *   personal record.
  * 2 personal record:
  *   this section starts with one byte data
@@ -50,74 +50,67 @@
  *   and then followed by nSystemRecordCount
  *   elements of TASK_SYSTEM_RECORD type.
  * 4 the whole file end with a byte flag as EOF.
- *                        flying 
+ *                        flying
  */
 #if !defined _TASKDATAFILE_H
 #define _TASKDATAFILE_H
 
 #include <time.h>
-#define		TASK_FILE_FLAG				0x46445400	//"\0TDF"
+#define TASK_FILE_FLAG 0x46445400 //"\0TDF"
 
 // data type definition.
-struct TASK_FILE_HEADER 
-{
-	char	cFlag[sizeof(int)];
-	int		nPersonalRecordBytes;
-	int		nSystemRecordCount;
-	int		nReserved;
+struct TASK_FILE_HEADER {
+  char cFlag[sizeof(int)];
+  int nPersonalRecordBytes;
+  int nSystemRecordCount;
+  int nReserved;
 };
 
-struct TASK_SYSTEM_RECORD
-{
-	time_t			tTime;
-	unsigned int	uReserved;
-	int				nContentLen;
-	union
-	{
-		char		cBuffer[4];
-		const char*	pBuffer;	
-	};
+struct TASK_SYSTEM_RECORD {
+  time_t tTime;
+  unsigned int uReserved;
+  int nContentLen;
+  union {
+    char cBuffer[4];
+    const char *pBuffer;
+  };
 };
-
 
 // Classsssssssssssssssssssss
-class KTaskDataFile
-{
+class KTaskDataFile {
 public:
-	static void		LoadData();
-	static bool		SaveData();
+  static void LoadData();
+  static bool SaveData();
 
-	static void		ClearAll();
+  static void ClearAll();
 
-	static int		GetPersonalRecord(char* pszBuffer, int nBufferSize);
-	static bool		SetPersonalRecord(const char* pstrRecord, int nLen);
+  static int GetPersonalRecord(char *pszBuffer, int nBufferSize);
+  static bool SetPersonalRecord(const char *pstrRecord, int nLen);
 
-	static void		ClearSystemRecords();
-	static int		GetSystemRecordCount();
-	static bool		InsertSystemRecord(TASK_SYSTEM_RECORD* pRecord);
-	static bool		RemoveSystemRecord(int nIndex);
-	static const TASK_SYSTEM_RECORD*	GetSystemRecord(int nIndex);
-
-private:
-	struct KPersonalRecord
-	{
-		int			nLen;
-		char		cBuffer[4];
-	};
-	struct KTaskSystemRecordNode
-	{
-		KTaskSystemRecordNode*	pNext;
-		TASK_SYSTEM_RECORD		Record;
-	};
+  static void ClearSystemRecords();
+  static int GetSystemRecordCount();
+  static bool InsertSystemRecord(TASK_SYSTEM_RECORD *pRecord);
+  static bool RemoveSystemRecord(int nIndex);
+  static const TASK_SYSTEM_RECORD *GetSystemRecord(int nIndex);
 
 private:
-	static void		GetFileName(char* pszFileName, int nLen);
-	static void		AppendSystemRecord(KTaskSystemRecordNode* pNode);
-	static void		InsertSystemRecord(KTaskSystemRecordNode* pNode);
+  struct KPersonalRecord {
+    int nLen;
+    char cBuffer[4];
+  };
+  struct KTaskSystemRecordNode {
+    KTaskSystemRecordNode *pNext;
+    TASK_SYSTEM_RECORD Record;
+  };
 
 private:
-	static KPersonalRecord*			ms_pPersonalRecord;
-	static KTaskSystemRecordNode*	ms_pSystemRecordList;
-	static	int						ms_nSystemRecordCount;
+  static void GetFileName(char *pszFileName, int nLen);
+  static void AppendSystemRecord(KTaskSystemRecordNode *pNode);
+  static void InsertSystemRecord(KTaskSystemRecordNode *pNode);
+
+private:
+  static KPersonalRecord *ms_pPersonalRecord;
+  static KTaskSystemRecordNode *ms_pSystemRecordList;
+  static int ms_nSystemRecordCount;
 };
 #endif

@@ -8,27 +8,20 @@
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
-S3PTestAccount::~S3PTestAccount()
-{
+S3PTestAccount::~S3PTestAccount() {}
 
+void S3PTestAccount::testLogin() {
+  S3PAccount account;
+  DWORD dwSize;
+  account.QueryGameserverList("YangXiaodong", "yxd", NULL, dwSize);
 }
 
-void S3PTestAccount::testLogin()
-{
-	S3PAccount account;
-	DWORD dwSize;
-	account.QueryGameserverList( "YangXiaodong", "yxd", NULL, dwSize );
-}
+void S3PTestAccount::setUp() {}
 
-void S3PTestAccount::setUp()
-{
-}
+Test *S3PTestAccount::suite() {
+  TestSuite *testSuite = new TestSuite("Test account Login");
 
-Test* S3PTestAccount::suite()
-{
-	TestSuite *testSuite = new TestSuite ("Test account Login");
+  testSuite->addTest(new TestCaller<S3PTestAccount>("testLogin", testLogin));
 
-	testSuite->addTest( new TestCaller <S3PTestAccount> ("testLogin", testLogin) );
-    
-	return testSuite;
+  return testSuite;
 }

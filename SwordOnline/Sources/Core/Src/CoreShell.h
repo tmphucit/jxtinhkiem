@@ -5,15 +5,15 @@
 //	Author	:   Wooy(Wu yue)
 //	CreateTime:	2002-9-12
 ------------------------------------------------------------------------------------------
-	Íâ½ç£¨Èç½çÃæÏµÍ³£©Í¨¹ı´Ë½Ó¿Ú´ÓCore»ñÈ¡ÓÎÏ·ÊÀ½çÊı¾İ¡£
+        Íâ½ç£¨Èç½çÃæÏµÍ³£©Í¨¹ı´Ë½Ó¿Ú´ÓCore»ñÈ¡ÓÎÏ·ÊÀ½çÊı¾İ¡£
 
-	°üº¬Îé¸ö½Ó¿Úº¯ÊıCoreOperationRequest¡¢CoreGetGameData¡¢CoreDrawGameObj¡¢CoreProcessInput
+        °üº¬Îé¸ö½Ó¿Úº¯ÊıCoreOperationRequest¡¢CoreGetGameData¡¢CoreDrawGameObj¡¢CoreProcessInput
 ÓëCoreSetCallDataChangedNofify¡£
-	CoreOperationRequestÓÃÓÚ·¢ËÍ¶ÔÓÎÏ·µÄ²Ù×÷ÇëÇó¡£²ÎÊıuOperÎª²Ù×÷µÄid£¬ÆäÖµÎªÃ·¾ÙÀàĞÍ
+        CoreOperationRequestÓÃÓÚ·¢ËÍ¶ÔÓÎÏ·µÄ²Ù×÷ÇëÇó¡£²ÎÊıuOperÎª²Ù×÷µÄid£¬ÆäÖµÎªÃ·¾ÙÀàĞÍ
 GAMEOPERATION_INDEXµÄÈ¡ÖµÖ®Ò»¡£²ÎÊıuParamÒÔ¼°nParamµÄ¾ßÌåº¬ÒåÒÀ¾İuOperµÄÈ¡ÖµÇé¿ö¶ø¶¨¡£
 Èç¹û³É¹¦·¢ËÍ²Ù×÷ÇëÇó£¬º¯Êı·µ»Ø·Ç0Öµ£¬·ñÔò·µ»Ø0Öµ¡£ÕâĞ©ÇëÇó¶¼ÒªÇóCoreÁ¢¼´½ÓÊÜ£¬CoreµÄ
 ¿Í»§²»±£Ö¤Í¨¹ı´Ëº¯Êı·¢ËÍµÄÊı¾İÔÚº¯Êıµ÷ÓÃÖ®ºóÒÀÈ»ÓĞĞ§¡£
-	»ñÖªÓÎÏ·Êı¾İÓĞÁ½ÖÖ·½Ê½£¬Ò»ÖÖÊÇµ÷ÓÃ½Ó¿Úº¯ÊıCoreGetGameDataÖ÷¶¯»ñÈ¡£¬ÁíÍâÒ»ÖÖÊÇ×¢²á
+        »ñÖªÓÎÏ·Êı¾İÓĞÁ½ÖÖ·½Ê½£¬Ò»ÖÖÊÇµ÷ÓÃ½Ó¿Úº¯ÊıCoreGetGameDataÖ÷¶¯»ñÈ¡£¬ÁíÍâÒ»ÖÖÊÇ×¢²á
 Í¨Öªº¯Êı£¬µ±ÓÎÏ·Êı¾İ±ä¸üµÄÊ±ºò£¬±»×¢²áµÄÍ¨Öªº¯Êı¾Í»á±»µ÷ÓÃ£¬²»Ò»¶¨ÔÚµ÷ÓÃÍ¨Öªº¯ÊıµÄÍ¬Ê±
 ´«µİ¸Ä±äµÄÓÎÏ·Êı¾İ¡£²¢ÇÒÁ½ÖÖ·½Ê½Ëù´¦ÀïµÄÊı¾İÏî·¶Î§²¢²»ÏàÍ¬¡£
     ½Ó¿Úº¯ÊıCoreGetGameData²ÎÊıuDataId±íÊ¾»ñÈ¡ÓÎÏ·Êı¾İµÄÊı¾İÏîÄÚÈİË÷Òı£¬ÆäÖµÎªÃ·¾ÙÀàĞÍ
@@ -25,7 +25,7 @@ GAMEDATA_INDEXµÄÈ¡ÖµÖ®Ò»¡£²ÎÊıuParam¡¢nParamÒÔ¼°º¯Êı·µ»ØÖµµÄ¾ßÌåº¬ÒåÒÀ¾İuDataIdµ
 ´«ËÍÊı¾İ¸Ä±ä¡£Éè¼ÆÔ­ÔòÉÏÊÇÈç¹û¸Ä±äµÄÊı¾İÄÚÈİÉÙ£¬¿ÉÒÔ·½±ã¼òµ¥µØÍ¨¹ıÍ¨Öªº¯ÊıµÄ²ÎÊı´«µİµÄ£¬
 ÔòËæÍ¨Öªº¯Êı´«µİ£»·ñÔòÖ»ÊÇ·¢ËÍÍ¨Öª¶øÒÑ£¬²¢²»´«ËÍ¸Ä±äµÄÓÎÏ·µÄ
 
-	CoreDrawGameObjÓÃÓÚ»æÖÆµ¥¸öÓÎÏ·¶ÔÏó¡£²ÎÊıuObjGenreÖ¸³ö¶ÔÏóµÄÀàÊô£¬uIdÖ¸³ö¶ÔÏóµÄid£¬
+        CoreDrawGameObjÓÃÓÚ»æÖÆµ¥¸öÓÎÏ·¶ÔÏó¡£²ÎÊıuObjGenreÖ¸³ö¶ÔÏóµÄÀàÊô£¬uIdÖ¸³ö¶ÔÏóµÄid£¬
 x¡¢yÖ¸³ö»æÖÆ·¶Î§µÄ×óÉÏ½Ç×ø±ê£¬Width¡¢HeightnÖ¸³öÁË»æÖÆ·¶Î§µÄ´óĞ¡£¬ParamÓÃÓÚ¶îÍâµÄ²ÎÊı´«
 µİ£¬Æäº¬Òå½«ÒÀÀµÓÚ¾ßÌåÒª»æÖÆµÄ¶ÔÏóÀàĞÍ¡£
 *****************************************************************************************/
@@ -35,925 +35,969 @@ x¡¢yÖ¸³ö»æÖÆ·¶Î§µÄ×óÉÏ½Ç×ø±ê£¬Width¡¢HeightnÖ¸³öÁË»æÖÆ·¶Î§µÄ´óĞ¡£¬ParamÓÃÓÚ¶îÍâµ
 //=========================================================
 // CoreÍâ²¿¿Í»§Ïòcore»ñÈ¡ÓÎÏ·Êı¾İµÄÊı¾İÏîÄÚÈİË÷Òı¶¨Òå
 //=========================================================
-//¸÷Êı¾İÏîË÷ÒıµÄÏà¹Ø²ÎÊıuParamÓënParamÈç¹ûÔÚ×¢ÊÍÖĞÎ´Ìá¼°£¬Ôò´«µİ¶¨Öµ0¡£
-//Èç¹ûÌØ±ğÖ¸Ã÷·µ»ØÖµº¬Òå£¬Ôò³É¹¦»ñÈ¡Êı¾İ·µ»Ø1£¬Î´³É¹¦·µ»Ø0¡£
-enum GAMEDATA_INDEX
-{
-	GDI_GAME_OBJ_DESC = 1,		//ÓÎÏ·¶ÔÏóÃèÊöËµÃ÷ÎÄ±¾´®
-	//uParam = (KUiObjAtContRegion*) ÃèÊöÓÎÏ·¶ÔÏóµÄ½á¹¹Êı¾İµÄÖ¸Õë£¬ÆäÖĞKUiObjAtContRegion::RegionµÄÊı¾İ¹Ì¶¨Îª0£¬ÎŞÒâÒå¡£
-	//nParam = (KGameObjDesc*) ËùÖ¸µÄ½á¹¹¿Õ¼äÓÃÓÚ±£´æÈ¡µÃµÄÃèÊöËµÃ÷¡£
-	
-	GDI_GAME_OBJ_DESC_INCLUDE_TRADEINFO,	//ÓÎÏ·¶ÔÏóÃèÊöËµÃ÷ÎÄ±¾´®(°üº¬½»Ò×Ïà¹ØĞÅÏ¢)
-	//²ÎÊıº¬ÒåÍ¬GDI_GAME_OBJ_DESC
+// ¸÷Êı¾İÏîË÷ÒıµÄÏà¹Ø²ÎÊıuParamÓënParamÈç¹ûÔÚ×¢ÊÍÖĞÎ´Ìá¼°£¬Ôò´«µİ¶¨Öµ0¡£
+// Èç¹ûÌØ±ğÖ¸Ã÷·µ»ØÖµº¬Òå£¬Ôò³É¹¦»ñÈ¡Êı¾İ·µ»Ø1£¬Î´³É¹¦·µ»Ø0¡£
+enum GAMEDATA_INDEX {
+  GDI_GAME_OBJ_DESC = 1, // ÓÎÏ·¶ÔÏóÃèÊöËµÃ÷ÎÄ±¾´®
+  // uParam = (KUiObjAtContRegion*)
+  // ÃèÊöÓÎÏ·¶ÔÏóµÄ½á¹¹Êı¾İµÄÖ¸Õë£¬ÆäÖĞKUiObjAtContRegion::RegionµÄÊı¾İ¹Ì¶¨Îª0£¬ÎŞÒâÒå¡£
+  // nParam = (KGameObjDesc*) ËùÖ¸µÄ½á¹¹¿Õ¼äÓÃÓÚ±£´æÈ¡µÃµÄÃèÊöËµÃ÷¡£
 
-	GDI_GAME_OBJ_DESC_INCLUDE_REPAIRINFO,	//ÓÎÏ·¶ÔÏóÃèÊöËµÃ÷ÎÄ±¾´®(°üº¬ĞŞÀíÏà¹ØĞÅÏ¢)
-	//²ÎÊıº¬ÒåÍ¬GDI_GAME_OBJ_DESC
-	
-	GDI_GAME_OBJ_LIGHT_PROP,	//¶ÔÏóµÄ¹âÔ´ÊôĞÔÊı¾İ
-	//uParam = (KUiGameObject*) ÃèÊöÓÎÏ·¶ÔÏóµÄ½á¹¹Êı¾İµÄÖ¸Õë
-	//nParam = to be def
+  GDI_GAME_OBJ_DESC_INCLUDE_TRADEINFO, // ÓÎÏ·¶ÔÏóÃèÊöËµÃ÷ÎÄ±¾´®(°üº¬½»Ò×Ïà¹ØĞÅÏ¢)
+  // ²ÎÊıº¬ÒåÍ¬GDI_GAME_OBJ_DESC
 
-	GDI_PLAYER_BASE_INFO,		//Ö÷½ÇµÄÒ»Ğ©²»Ò×±äµÄÊı¾İ
-	//uParam = (KUiPlayerBaseInfo*)pInfo
+  GDI_GAME_OBJ_DESC_INCLUDE_REPAIRINFO, // ÓÎÏ·¶ÔÏóÃèÊöËµÃ÷ÎÄ±¾´®(°üº¬ĞŞÀíÏà¹ØĞÅÏ¢)
+  // ²ÎÊıº¬ÒåÍ¬GDI_GAME_OBJ_DESC
 
-	GDI_PLAYER_RT_INFO,			//Ö÷½ÇµÄÒ»Ğ©Ò×±äµÄÊı¾İ
-	//uParam = (KUiPlayerRuntimeInfo*)pInfo
+  GDI_GAME_OBJ_LIGHT_PROP, // ¶ÔÏóµÄ¹âÔ´ÊôĞÔÊı¾İ
+  // uParam = (KUiGameObject*) ÃèÊöÓÎÏ·¶ÔÏóµÄ½á¹¹Êı¾İµÄÖ¸Õë
+  // nParam = to be def
 
-	GDI_PLAYER_RT_ATTRIBUTE,	//Ö÷½ÇµÄÒ»Ğ©Ò×±äµÄÊôĞÔÊı¾İ
-	//uParam = (KUiPlayerAttribute*)pInfo
+  GDI_PLAYER_BASE_INFO, // Ö÷½ÇµÄÒ»Ğ©²»Ò×±äµÄÊı¾İ
+  // uParam = (KUiPlayerBaseInfo*)pInfo
 
-	GDI_PLAYER_IMMED_ITEMSKILL,	//Ö÷½ÇµÄÁ¢¼´Ê¹ÓÃÎïÆ·ÓëÎä¹¦
-	//uParam = (KUiPlayerImmedItemSkill*)pInfo
+  GDI_PLAYER_RT_INFO, // Ö÷½ÇµÄÒ»Ğ©Ò×±äµÄÊı¾İ
+  // uParam = (KUiPlayerRuntimeInfo*)pInfo
 
-	GDI_PLAYER_HOLD_MONEY,		//Ö÷½ÇËæÉíĞ¯´øµÄÇ®
-	//nRet = Ö÷½ÇËæÉíĞ¯´øµÄÇ®
+  GDI_PLAYER_RT_ATTRIBUTE, // Ö÷½ÇµÄÒ»Ğ©Ò×±äµÄÊôĞÔÊı¾İ
+  // uParam = (KUiPlayerAttribute*)pInfo
 
-	GDI_PLAYER_IS_MALE,			//Ö÷½ÇÊÇ·ñÄĞĞÔ
-	//nRet = (int)(bool)bMale	ÊÇ·ñÄĞĞÔ
+  GDI_PLAYER_IMMED_ITEMSKILL, // Ö÷½ÇµÄÁ¢¼´Ê¹ÓÃÎïÆ·ÓëÎä¹¦
+  // uParam = (KUiPlayerImmedItemSkill*)pInfo
 
-	// from now on, flying add this item, get the information whether
-	// a player can ride a horse.
-	GDI_PLAYER_CAN_RIDE,		//Ö÷½ÇÊÇ·ñ¿ÉÒÔÆïÂíÂí
-	//nRet = (int)bCanRide		ÊÇ·ñ¿ÉÒÔ
-	//0 - ²»¿ÉÒÔÆïÂíÅ¶
-	//1 - ¿ÉÒÔÅ¶
+  GDI_PLAYER_HOLD_MONEY, // Ö÷½ÇËæÉíĞ¯´øµÄÇ®
+  // nRet = Ö÷½ÇËæÉíĞ¯´øµÄÇ®
 
-	GDI_ITEM_TAKEN_WITH,		//Ö÷½ÇËæÉíĞ¯´øµÄÎïÆ·µÈ
-	//uParam = (KUiObjAtRegion*) pInfo -> KUiObjAtRegion½á¹¹Êı×éµÄÖ¸Õë£¬KUiObjAtRegion
-	//				½á¹¹ÓÃÓÚ´æ´¢ÎïÆ·µÄÊı¾İ¼°Æä·ÅÖÃÇøÓòÎ»ÖÃĞÅÏ¢¡£
-	//nParam = pInfoÊı×éÖĞ°üº¬KUiObjAtRegion½á¹¹µÄÊıÄ¿
-	//Return = Èç¹û·µ»ØÖµĞ¡ÓÚµÈÓÚ´«Èë²ÎÊınParam£¬ÆäÖµ±íÊ¾pInfoÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiObjAtRegion
-	//			½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ£»·ñÔò±íÊ¾ĞèÒª´«Èë°üº¬¶àÉÙ¸öKUiObjAtRegion½á¹¹µÄÊı×é
-	//			²Å¹»´æ´¢È«²¿µÄËæÉíĞ¯´øµÄÎïÆ·ĞÅÏ¢¡£
+  GDI_PLAYER_IS_MALE, // Ö÷½ÇÊÇ·ñÄĞĞÔ
+  // nRet = (int)(bool)bMale	ÊÇ·ñÄĞĞÔ
 
-	GDI_ITEM_IN_STORE_BOX,		//´¢ÎïÏäÀïµÄÎïÆ·
-	//²ÎÊı¼°·µ»ØÖµº¬ÒåÍ¬GDI_ITEM_TAKEN_WITHµÄ
+  // from now on, flying add this item, get the information whether
+  // a player can ride a horse.
+  GDI_PLAYER_CAN_RIDE, // Ö÷½ÇÊÇ·ñ¿ÉÒÔÆïÂíÂí
+  // nRet = (int)bCanRide		ÊÇ·ñ¿ÉÒÔ
+  // 0 - ²»¿ÉÒÔÆïÂíÅ¶
+  // 1 - ¿ÉÒÔÅ¶
 
-	GDI_EQUIPMENT,				//Ö÷½Ç×°±¸ÎïÆ·
-	//uParam = (KUiObjAtRegion*)pInfo -> °üº¬11¸öÔªËØµÄKUiObjAtRegion½á¹¹Êı×éÖ¸Õë£¬
-	//				KUiObjAtRegion½á¹¹ÓÃÓÚ´æ´¢×°±¸µÄÊı¾İºÍ·ÅÖÃÎ»ÖÃĞÅÏ¢¡£
-	//			KUiObjAtRegion::Region::h = 0
-	//			KUiObjAtRegion::Region::v ±íÊ¾ÊôÓÚÄÄ¸öÎ»ÖÃµÄ×°±¸,ÆäÖµÎªÃ·¾ÙÀàĞÍ
-	//			UI_EQUIPMENT_POSITIONµÄÈ¡ÖµÖ®Ò»¡£Çë²Î¿´UI_EQUIPMENT_POSITIONµÄ×¢ÊÍ¡£
-	//Return =  ÆäÖµ±íÊ¾pInfoÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiObjAtRegion½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ¡£
+  GDI_ITEM_TAKEN_WITH, // Ö÷½ÇËæÉíĞ¯´øµÄÎïÆ·µÈ
+  // uParam = (KUiObjAtRegion*) pInfo ->
+  // KUiObjAtRegion½á¹¹Êı×éµÄÖ¸Õë£¬KUiObjAtRegion
+  //				½á¹¹ÓÃÓÚ´æ´¢ÎïÆ·µÄÊı¾İ¼°Æä·ÅÖÃÇøÓòÎ»ÖÃĞÅÏ¢¡£
+  // nParam = pInfoÊı×éÖĞ°üº¬KUiObjAtRegion½á¹¹µÄÊıÄ¿
+  // Return =
+  // Èç¹û·µ»ØÖµĞ¡ÓÚµÈÓÚ´«Èë²ÎÊınParam£¬ÆäÖµ±íÊ¾pInfoÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiObjAtRegion
+  //			½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ£»·ñÔò±íÊ¾ĞèÒª´«Èë°üº¬¶àÉÙ¸öKUiObjAtRegion½á¹¹µÄÊı×é
+  //			²Å¹»´æ´¢È«²¿µÄËæÉíĞ¯´øµÄÎïÆ·ĞÅÏ¢¡£
 
-	GDI_TRADE_NPC_ITEM,			//npcÁĞ³öÀ´½»Ò×µÄÎïÆ·
-	//uParam = (KUiObjAtContRegion*) pInfo -> KUiObjAtContRegion½á¹¹Êı×éµÄÖ¸Õë£¬KUiObjAtContRegion
-	//				½á¹¹ÓÃÓÚ´æ´¢ÎïÆ·µÄÊı¾İ¼°Æä·ÅÖÃÇøÓòÎ»ÖÃĞÅÏ¢¡£
-	//				ÆäÖĞKUiObjAtContRegion::nContainerÖµ±íÊ¾µÚ¼¸Ò³µÄÎïÆ·
-	//nParam = pInfoÊı×éÖĞ°üº¬KUiObjAtContRegion½á¹¹µÄÊıÄ¿
-	//Return = Èç¹û·µ»ØÖµĞ¡ÓÚµÈÓÚ´«Èë²ÎÊınParam£¬ÆäÖµ±íÊ¾pInfoÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiObjAtContRegion
-	//			½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ£»·ñÔò±íÊ¾ĞèÒª´«Èë°üº¬¶àÉÙ¸öKUiObjAtContRegion½á¹¹µÄÊı×é
-	//			²Å¹»´æ´¢È«²¿µÄnpcÁĞ³öÀ´½»Ò×µÄÎïÆ·ĞÅÏ¢¡£
+  GDI_ITEM_IN_STORE_BOX, // ´¢ÎïÏäÀïµÄÎïÆ·
+  // ²ÎÊı¼°·µ»ØÖµº¬ÒåÍ¬GDI_ITEM_TAKEN_WITHµÄ
 
-	GDI_TRADE_ITEM_PRICE,		//½»Ò×ÎïÆ·µÄ¼Û¸ñ
-	//uParam = (KUiObjAtContRegion*) pItemInfo -> ÓÃÓÚÖ¸³öÊÇÄÄ´¦µÄÄÄ¸öÎïÆ·
-	//nParam = (KUiItemBuySelInfo*) pPriceInfo -> ÓÃÓÚ½ÓÊÕÎïÆ·Ãû³Æ½»Ò×¼Û¸ñµÈĞÅÏ¢
-	//Return = (int)(bool) ¿É·ñ½»Ò×
+  GDI_EQUIPMENT, // Ö÷½Ç×°±¸ÎïÆ·
+  // uParam = (KUiObjAtRegion*)pInfo ->
+  // °üº¬11¸öÔªËØµÄKUiObjAtRegion½á¹¹Êı×éÖ¸Õë£¬
+  //				KUiObjAtRegion½á¹¹ÓÃÓÚ´æ´¢×°±¸µÄÊı¾İºÍ·ÅÖÃÎ»ÖÃĞÅÏ¢¡£
+  //			KUiObjAtRegion::Region::h = 0
+  //			KUiObjAtRegion::Region::v
+  // ±íÊ¾ÊôÓÚÄÄ¸öÎ»ÖÃµÄ×°±¸,ÆäÖµÎªÃ·¾ÙÀàĞÍ
+  //			UI_EQUIPMENT_POSITIONµÄÈ¡ÖµÖ®Ò»¡£Çë²Î¿´UI_EQUIPMENT_POSITIONµÄ×¢ÊÍ¡£
+  // Return =
+  // ÆäÖµ±íÊ¾pInfoÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiObjAtRegion½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ¡£
 
-	GDI_REPAIR_ITEM_PRICE,		//ĞŞÀíÎïÆ·µÄ¼Û¸ñ
-	//uParam = (KUiObjAtContRegion*) pItemInfo -> ÓÃÓÚÖ¸³öÊÇÄÄ´¦µÄÄÄ¸öÎïÆ·
-	//nParam = (KUiItemBuySelInfo*) pPriceInfo -> ÓÃÓÚ½ÓÊÕÎïÆ·Ãû³ÆĞŞÀí·ÑÓÃµÈĞÅÏ¢
-	//Return = (int)(bool) ¿É·ñĞŞÀí
+  GDI_TRADE_NPC_ITEM, // npcÁĞ³öÀ´½»Ò×µÄÎïÆ·
+  // uParam = (KUiObjAtContRegion*) pInfo ->
+  // KUiObjAtContRegion½á¹¹Êı×éµÄÖ¸Õë£¬KUiObjAtContRegion
+  //				½á¹¹ÓÃÓÚ´æ´¢ÎïÆ·µÄÊı¾İ¼°Æä·ÅÖÃÇøÓòÎ»ÖÃĞÅÏ¢¡£
+  //				ÆäÖĞKUiObjAtContRegion::nContainerÖµ±íÊ¾µÚ¼¸Ò³µÄÎïÆ·
+  // nParam = pInfoÊı×éÖĞ°üº¬KUiObjAtContRegion½á¹¹µÄÊıÄ¿
+  // Return =
+  // Èç¹û·µ»ØÖµĞ¡ÓÚµÈÓÚ´«Èë²ÎÊınParam£¬ÆäÖµ±íÊ¾pInfoÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiObjAtContRegion
+  //			½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ£»·ñÔò±íÊ¾ĞèÒª´«Èë°üº¬¶àÉÙ¸öKUiObjAtContRegion½á¹¹µÄÊı×é
+  //			²Å¹»´æ´¢È«²¿µÄnpcÁĞ³öÀ´½»Ò×µÄÎïÆ·ĞÅÏ¢¡£
 
-	GDI_TRADE_OPER_DATA,		//½»Ò×²Ù×÷Ïà¹ØµÄÊı¾İ
-	//uParam = (UI_TRADE_OPER_DATA)eOper ¾ßÌåº¬Òå¼ûUI_TRADE_OPER_DATA
-	//nParam ¾ßÌåÓ¦ÓÃÓëº¬ÒåÓÉuParamµÄÈ¡Öµ×´¿ö¾ö¶¨,¼ûUI_TRADE_OPER_DATAµÄËµÃ÷
-	//Return ¾ßÌåº¬ÒåÓÉuParamµÄÈ¡Öµ×´¿ö¾ö¶¨,¼ûUI_TRADE_OPER_DATAµÄËµÃ÷
+  GDI_TRADE_ITEM_PRICE, // ½»Ò×ÎïÆ·µÄ¼Û¸ñ
+  // uParam = (KUiObjAtContRegion*) pItemInfo -> ÓÃÓÚÖ¸³öÊÇÄÄ´¦µÄÄÄ¸öÎïÆ·
+  // nParam = (KUiItemBuySelInfo*) pPriceInfo -> ÓÃÓÚ½ÓÊÕÎïÆ·Ãû³Æ½»Ò×¼Û¸ñµÈĞÅÏ¢
+  // Return = (int)(bool) ¿É·ñ½»Ò×
 
-	GDI_LIVE_SKILL_BASE,		//Ö÷½ÇµÄÉú»î¼¼ÄÜÊı¾İ
-	//uParam = (KUiPlayerLiveSkillBase*) pInfo -> Ö÷½ÇµÄÉú»î¼¼ÄÜÊı¾İ
+  GDI_REPAIR_ITEM_PRICE, // ĞŞÀíÎïÆ·µÄ¼Û¸ñ
+  // uParam = (KUiObjAtContRegion*) pItemInfo -> ÓÃÓÚÖ¸³öÊÇÄÄ´¦µÄÄÄ¸öÎïÆ·
+  // nParam = (KUiItemBuySelInfo*) pPriceInfo -> ÓÃÓÚ½ÓÊÕÎïÆ·Ãû³ÆĞŞÀí·ÑÓÃµÈĞÅÏ¢
+  // Return = (int)(bool) ¿É·ñĞŞÀí
 
-	GDI_LIVE_SKILLS,			//Ö÷½ÇÕÆÎÕµÄ¸÷ÏîÉú»î¼¼ÄÜ
-	//uParam = (KUiSkillData*) pSkills -> °üº¬10¸öKUiSkillDataµÄÊı×éÓÃÓÚ´æ´¢¸÷ÏîÉú»î¼¼ÄÜµÄµÄÊı¾İ¡£
+  GDI_TRADE_OPER_DATA, // ½»Ò×²Ù×÷Ïà¹ØµÄÊı¾İ
+  // uParam = (UI_TRADE_OPER_DATA)eOper ¾ßÌåº¬Òå¼ûUI_TRADE_OPER_DATA
+  // nParam ¾ßÌåÓ¦ÓÃÓëº¬ÒåÓÉuParamµÄÈ¡Öµ×´¿ö¾ö¶¨,¼ûUI_TRADE_OPER_DATAµÄËµÃ÷
+  // Return ¾ßÌåº¬ÒåÓÉuParamµÄÈ¡Öµ×´¿ö¾ö¶¨,¼ûUI_TRADE_OPER_DATAµÄËµÃ÷
 
-	GDI_FIGHT_SKILL_POINT,		//Ê£ÓàÕ½¶·¼¼ÄÜµãÊı
-	//Return = Ê£ÓàÕ½¶·¼¼ÄÜµãÊı
+  GDI_LIVE_SKILL_BASE, // Ö÷½ÇµÄÉú»î¼¼ÄÜÊı¾İ
+  // uParam = (KUiPlayerLiveSkillBase*) pInfo -> Ö÷½ÇµÄÉú»î¼¼ÄÜÊı¾İ
 
-	GDI_FIGHT_SKILLS,			//Ö÷½ÇÕÆÎÕµÄ¸÷ÏîÕ½¶·¼¼ÄÜ
-	//uParam = (KUiSkillData*) pSkills -> °üº¬50¸öKUiSkillDataµÄÊı×éÓÃÓÚ´æ´¢¸÷ÏîÕ½¶·µÄÊı¾İ¡£
+  GDI_LIVE_SKILLS, // Ö÷½ÇÕÆÎÕµÄ¸÷ÏîÉú»î¼¼ÄÜ
+  // uParam = (KUiSkillData*) pSkills ->
+  // °üº¬10¸öKUiSkillDataµÄÊı×éÓÃÓÚ´æ´¢¸÷ÏîÉú»î¼¼ÄÜµÄµÄÊı¾İ¡£
 
-	GDI_CUSTOM_SKILLS,			//Ö÷½ÇµÄ×Ô´´Îä¹¦
-	//uParam = (KUiSkillData*) pSkills -> °üº¬5¸öKUiSkillDataµÄÊı×éÓÃÓÚ´æ´¢¸÷Ïî×Ô´´Îä¹¦µÄÊı¾İ¡£
+  GDI_FIGHT_SKILL_POINT, // Ê£ÓàÕ½¶·¼¼ÄÜµãÊı
+  // Return = Ê£ÓàÕ½¶·¼¼ÄÜµãÊı
 
-	GDI_LEFT_ENABLE_SKILLS,		//¿ÉÒÔÉèÖÃÔÚ×ó¼üµÄ(ÎïÀí¹¥»÷)¼¼ÄÜ
-	//uParam = (KUiSkillData*) pSkills -> °üº¬65¸öKUiSkillDataµÄÊı×éÓÃÓÚ´æ´¢¸÷¼¼ÄÜµÄÊı¾İ¡£
-	//								KUiSkillData::nLevelÓÃÀ´±íÊö¼¼ÄÜÏÔÊ¾ÔÚµÚ¼¸ĞĞ
-	//Return = ·µ»ØÓĞĞ§Êı¾İµÄSkillsµÄÊıÄ¿
+  GDI_FIGHT_SKILLS, // Ö÷½ÇÕÆÎÕµÄ¸÷ÏîÕ½¶·¼¼ÄÜ
+  // uParam = (KUiSkillData*) pSkills ->
+  // °üº¬50¸öKUiSkillDataµÄÊı×éÓÃÓÚ´æ´¢¸÷ÏîÕ½¶·µÄÊı¾İ¡£
 
-	GDI_RIGHT_ENABLE_SKILLS,	//¿ÉÉèÖÃÔÚÓÒ¼üµÄ¼¼ÄÜ
-	//uParam = (KUiSkillData*) pSkills -> °üº¬65¸öKUiSkillDataµÄÊı×éÓÃÓÚ´æ´¢¸÷¼¼ÄÜµÄÊı¾İ¡£
-	//								KUiSkillData::nLevelÓÃÀ´±íÊö¼¼ÄÜÏÔÊ¾ÔÚµÚ¼¸ĞĞ
-	//Return = ·µ»ØÓĞĞ§Êı¾İµÄSkillsµÄÊıÄ¿
+  GDI_CUSTOM_SKILLS, // Ö÷½ÇµÄ×Ô´´Îä¹¦
+  // uParam = (KUiSkillData*) pSkills ->
+  // °üº¬5¸öKUiSkillDataµÄÊı×éÓÃÓÚ´æ´¢¸÷Ïî×Ô´´Îä¹¦µÄÊı¾İ¡£
 
-	GDI_NEARBY_PLAYER_LIST,		//»ñÈ¡ÖÜÎ§Íæ¼ÒµÄÁĞ±í
-	//uParam = (KUiPlayerItem*)pList -> ÈËÔ±ĞÅÏ¢ÁĞ±í
-	//			KUiPlayerItem::nData = 0
-	//nParam = pListÊı×éÖĞ°üº¬KUiPlayerItem½á¹¹µÄÊıÄ¿
-	//Return = Èç¹û·µ»ØÖµĞ¡ÓÚµÈÓÚ´«Èë²ÎÊınParam£¬ÆäÖµ±íÊ¾pListÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiPlayerItem
-	//			½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ£»·ñÔò±íÊ¾ĞèÒª´«Èë°üº¬¶àÉÙ¸öKUiPlayerItem½á¹¹µÄÊı×é
-	//			²Å¹»´æ´¢È«²¿ÈËÔ±ĞÅÏ¢¡£
+  GDI_LEFT_ENABLE_SKILLS, // ¿ÉÒÔÉèÖÃÔÚ×ó¼üµÄ(ÎïÀí¹¥»÷)¼¼ÄÜ
+  // uParam = (KUiSkillData*) pSkills ->
+  // °üº¬65¸öKUiSkillDataµÄÊı×éÓÃÓÚ´æ´¢¸÷¼¼ÄÜµÄÊı¾İ¡£
+  //								KUiSkillData::nLevelÓÃÀ´±íÊö¼¼ÄÜÏÔÊ¾ÔÚµÚ¼¸ĞĞ
+  // Return = ·µ»ØÓĞĞ§Êı¾İµÄSkillsµÄÊıÄ¿
 
-	GDI_NEARBY_IDLE_PLAYER_LIST,//»ñÈ¡ÖÜÎ§¹Âµ¥¿ÉÊÜÑûÇëµÄÍæ¼ÒµÄÁĞ±í
-	//²ÎÊıº¬ÒåÍ¬GDI_NEARBY_PLAYER_LIST
+  GDI_RIGHT_ENABLE_SKILLS, // ¿ÉÉèÖÃÔÚÓÒ¼üµÄ¼¼ÄÜ
+  // uParam = (KUiSkillData*) pSkills ->
+  // °üº¬65¸öKUiSkillDataµÄÊı×éÓÃÓÚ´æ´¢¸÷¼¼ÄÜµÄÊı¾İ¡£
+  //								KUiSkillData::nLevelÓÃÀ´±íÊö¼¼ÄÜÏÔÊ¾ÔÚµÚ¼¸ĞĞ
+  // Return = ·µ»ØÓĞĞ§Êı¾İµÄSkillsµÄÊıÄ¿
 
-	GDI_NEARBY_NOT_FRIEND_LIST,//»ñÈ¡ÖÜÎ§·ÇºÃÓÑµÄÍæ¼ÒÁĞ±í
-	//²ÎÊıº¬ÒåÍ¬GDI_NEARBY_PLAYER_LIST
+  GDI_NEARBY_PLAYER_LIST, // »ñÈ¡ÖÜÎ§Íæ¼ÒµÄÁĞ±í
+  // uParam = (KUiPlayerItem*)pList -> ÈËÔ±ĞÅÏ¢ÁĞ±í
+  //			KUiPlayerItem::nData = 0
+  // nParam = pListÊı×éÖĞ°üº¬KUiPlayerItem½á¹¹µÄÊıÄ¿
+  // Return =
+  // Èç¹û·µ»ØÖµĞ¡ÓÚµÈÓÚ´«Èë²ÎÊınParam£¬ÆäÖµ±íÊ¾pListÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiPlayerItem
+  //			½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ£»·ñÔò±íÊ¾ĞèÒª´«Èë°üº¬¶àÉÙ¸öKUiPlayerItem½á¹¹µÄÊı×é
+  //			²Å¹»´æ´¢È«²¿ÈËÔ±ĞÅÏ¢¡£
 
-	GDI_PLAYER_LEADERSHIP,		//Ö÷½ÇÍ³Ë§ÄÜÁ¦Ïà¹ØµÄÊı¾İ
-	//uParam = (KUiPlayerLeaderShip*) -> Ö÷½ÇÍ³Ë§ÄÜÁ¦Ïà¹ØµÄÊı¾İ½á¹¹Ö¸Õë
+  GDI_NEARBY_IDLE_PLAYER_LIST, // »ñÈ¡ÖÜÎ§¹Âµ¥¿ÉÊÜÑûÇëµÄÍæ¼ÒµÄÁĞ±í
+  // ²ÎÊıº¬ÒåÍ¬GDI_NEARBY_PLAYER_LIST
 
-	GDI_ITEM_IN_ENVIRO_PROP,	//»ñµÃÎïÆ·ÔÚÄ³¸ö»·¾³Î»ÖÃµÄÊôĞÔ×´Ì¬
-	//uParam = (KUiGameObject*)pObj£¨µ±nParam==0Ê±£©ÎïÆ·µÄĞÅÏ¢
-	//uParam = (KUiObjAtContRegion*)pObj£¨µ±nParam!=0Ê±£©ÎïÆ·µÄĞÅÏ¢
-	//			´ËÊ±KUiObjAtContRegion::RegionµÄÊı¾İ¹Ì¶¨Îª0£¬ÎŞÒâÒå¡£
-	//nParam = (int)(bool)bJustTry  ÊÇ·ñÖ»ÊÇ³¢ÊÔ·ÅÖÃ
-	//Return = (ITEM_IN_ENVIRO_PROP)eProp ÎïÆ·µÄÊôĞÔ×´Ì¬
-	
-	GDI_CHAT_SEND_CHANNEL_LIST,		//Íæ¼Ò¿ÉÒÔ·¢ËÍÏûÏ¢µÄÁÄÌìÆµµÀµÄÁĞ±í
-	//uParam = (KUiChatChannel*) pList -> KUiChatChannel½á¹¹Êı×éµÄÖ¸Õë
-	//nParam = pListÊı×éÖĞ°üº¬KUiChatChannel½á¹¹µÄÊıÄ¿
-	//Return = Èç¹û·µ»ØÖµĞ¡ÓÚµÈÓÚ´«Èë²ÎÊınParam£¬ÆäÖµ±íÊ¾pInfoÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiChatChannel
-	//			½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ£»·ñÔò±íÊ¾ĞèÒª´«Èë°üº¬¶àÉÙ¸öKUiChatChannel½á¹¹µÄÊı×é
-	//			²Å¹»´æ´¢È«²¿µÄÖ¸¶¨ÆµµÀĞÅÏ¢¡£
+  GDI_NEARBY_NOT_FRIEND_LIST, // »ñÈ¡ÖÜÎ§·ÇºÃÓÑµÄÍæ¼ÒÁĞ±í
+  // ²ÎÊıº¬ÒåÍ¬GDI_NEARBY_PLAYER_LIST
 
-	GDI_CHAT_RECEIVE_CHANNEL_LIST,	//Íæ¼Ò¿ÉÒÔ¶©ÔÄµÄÏûÏ¢ÆµµÀµÄÁĞ±í
-	//²ÎÊı¼°·µ»ØÖµº¬ÒåÍ¬GDI_CHAT_SEND_CHANNEL_LIST
+  GDI_PLAYER_LEADERSHIP, // Ö÷½ÇÍ³Ë§ÄÜÁ¦Ïà¹ØµÄÊı¾İ
+  // uParam = (KUiPlayerLeaderShip*) -> Ö÷½ÇÍ³Ë§ÄÜÁ¦Ïà¹ØµÄÊı¾İ½á¹¹Ö¸Õë
 
-	GDI_CHAT_CURRENT_SEND_CHANNEL,	//»ñÈ¡µ±Ç°·¢ËÍÏûÏ¢µÄÆµµÀµÄĞÅÏ¢
-	//uParam = (KUiChatChannel*) pChannelInfo Ö¸ÏòÓÃÓÚÌî³äÆµµÀµÄĞÅÏ¢µÄ½á¹¹¿Õ¼ä
+  GDI_ITEM_IN_ENVIRO_PROP, // »ñµÃÎïÆ·ÔÚÄ³¸ö»·¾³Î»ÖÃµÄÊôĞÔ×´Ì¬
+  // uParam = (KUiGameObject*)pObj£¨µ±nParam==0Ê±£©ÎïÆ·µÄĞÅÏ¢
+  // uParam = (KUiObjAtContRegion*)pObj£¨µ±nParam!=0Ê±£©ÎïÆ·µÄĞÅÏ¢
+  //			´ËÊ±KUiObjAtContRegion::RegionµÄÊı¾İ¹Ì¶¨Îª0£¬ÎŞÒâÒå¡£
+  // nParam = (int)(bool)bJustTry  ÊÇ·ñÖ»ÊÇ³¢ÊÔ·ÅÖÃ
+  // Return = (ITEM_IN_ENVIRO_PROP)eProp ÎïÆ·µÄÊôĞÔ×´Ì¬
 
-	GDI_CHAT_GROUP_INFO,			//ÁÄÌìµÄºÃÓÑ·Ö×éĞÅÏ¢
-	//´ÓnParam¸ø¶¨µÄË÷Òı¿ªÊ¼²éÕÒµÚÒ»¸öÓĞĞ§µÄ·Ö×é£¬·µ»Ø¸Ã·Ö×éµÄĞÅÏ¢Óë·Ö×éË÷Òı¡£
-	//uParam = (KUiChatGroupInfo*) pGroupInfo ·Ö×éĞÅÏ¢
-	//nParam = nIndex Óû»ñÈ¡µÄ·Ö×éµÄË÷Òı
-	//Return = Êµ¼Ê·µ»ØÊı¾İµÄ·Ö×éµÄË÷Òı£¬Èç¹ûÎ´»ñµÃÔò·µ»Ø-1
+  GDI_CHAT_SEND_CHANNEL_LIST, // Íæ¼Ò¿ÉÒÔ·¢ËÍÏûÏ¢µÄÁÄÌìÆµµÀµÄÁĞ±í
+  // uParam = (KUiChatChannel*) pList -> KUiChatChannel½á¹¹Êı×éµÄÖ¸Õë
+  // nParam = pListÊı×éÖĞ°üº¬KUiChatChannel½á¹¹µÄÊıÄ¿
+  // Return =
+  // Èç¹û·µ»ØÖµĞ¡ÓÚµÈÓÚ´«Èë²ÎÊınParam£¬ÆäÖµ±íÊ¾pInfoÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiChatChannel
+  //			½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ£»·ñÔò±íÊ¾ĞèÒª´«Èë°üº¬¶àÉÙ¸öKUiChatChannel½á¹¹µÄÊı×é
+  //			²Å¹»´æ´¢È«²¿µÄÖ¸¶¨ÆµµÀĞÅÏ¢¡£
 
-	GDI_CHAT_FRIENDS_IN_AGROUP,		//ÁÄÌìÒ»¸öºÃÓÑ·Ö×éÖĞºÃÓÑµÄĞÅÏ¢
-	//uParam = (KUiPlayerItem*)pList -> ÈËÔ±ĞÅÏ¢ÁĞ±í
-	//			KUiPlayerItem::nData = (CHAT_STATUS)eFriendStatus ºÃÓÑµÄµ±Ç°×´Ì¬
-	//nParam = Òª»ñÈ¡ÁĞ±íµÄºÃÓÑ·Ö×éµÄË÷Òı
-	//Return = ÆäÖµ±íÊ¾pListÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiPlayerItem½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ.
+  GDI_CHAT_RECEIVE_CHANNEL_LIST, // Íæ¼Ò¿ÉÒÔ¶©ÔÄµÄÏûÏ¢ÆµµÀµÄÁĞ±í
+  // ²ÎÊı¼°·µ»ØÖµº¬ÒåÍ¬GDI_CHAT_SEND_CHANNEL_LIST
 
-	GDI_PK_SETTING,					//»ñÈ¡pkÉèÖÃ
-	//Return = (int)(bool)bEnable	ÊÇ·ñÔÊĞípk
+  GDI_CHAT_CURRENT_SEND_CHANNEL, // »ñÈ¡µ±Ç°·¢ËÍÏûÏ¢µÄÆµµÀµÄĞÅÏ¢
+  // uParam = (KUiChatChannel*) pChannelInfo Ö¸ÏòÓÃÓÚÌî³äÆµµÀµÄĞÅÏ¢µÄ½á¹¹¿Õ¼ä
 
-	GDI_SHOW_PLAYERS_NAME,			//»ñÈ¡ÏÔÊ¾¸÷Íæ¼ÒÈËÃû
-	//Return = (int)(bool)bShow	ÊÇ·ñÏÔÊ¾
-	GDI_SHOW_PLAYERS_LIFE,			//»ñÈ¡ÏÔÊ¾¸÷Íæ¼ÒÉúÃü
-	//Return = (int)(bool)bShow	ÊÇ·ñÏÔÊ¾
-	GDI_SHOW_PLAYERS_MANA,			//»ñÈ¡ÏÔÊ¾¸÷Íæ¼ÒÄÚÁ¦
-	//Return = (int)(bool)bShow	ÊÇ·ñÏÔÊ¾
-	
-	GDI_PARADE_EQUIPMENT,				//¿´Íæ¼Ò×°±¸ÎïÆ·,ÏûÏ¢º¬ÒåÍ¬GDI_EQUIPMENT
-	
-	GDI_IMMEDIATEITEM_NUM,				//È¡µÃ¿ì½İÎïÆ·¸öÊı
-	//uParam = nIndex£¨0£¬1£¬2£©
-	GDI_ITEMDATAINFO,
-	GDI_ATI_SETTING,
-	GDI_ITEM_IN_CHECK_BOX,
-	GDI_ITEM_IN_PG_BOX,
-	GDI_SHOP_ITEM_PRICE,
+  GDI_CHAT_GROUP_INFO, // ÁÄÌìµÄºÃÓÑ·Ö×éĞÅÏ¢
+  // ´ÓnParam¸ø¶¨µÄË÷Òı¿ªÊ¼²éÕÒµÚÒ»¸öÓĞĞ§µÄ·Ö×é£¬·µ»Ø¸Ã·Ö×éµÄĞÅÏ¢Óë·Ö×éË÷Òı¡£
+  // uParam = (KUiChatGroupInfo*) pGroupInfo ·Ö×éĞÅÏ¢
+  // nParam = nIndex Óû»ñÈ¡µÄ·Ö×éµÄË÷Òı
+  // Return = Êµ¼Ê·µ»ØÊı¾İµÄ·Ö×éµÄË÷Òı£¬Èç¹ûÎ´»ñµÃÔò·µ»Ø-1
 
-	GDI_SHOP_ITEM_PRICE_GOLD,
+  GDI_CHAT_FRIENDS_IN_AGROUP, // ÁÄÌìÒ»¸öºÃÓÑ·Ö×éÖĞºÃÓÑµÄĞÅÏ¢
+  // uParam = (KUiPlayerItem*)pList -> ÈËÔ±ĞÅÏ¢ÁĞ±í
+  //			KUiPlayerItem::nData = (CHAT_STATUS)eFriendStatus
+  // ºÃÓÑµÄµ±Ç°×´Ì¬ nParam = Òª»ñÈ¡ÁĞ±íµÄºÃÓÑ·Ö×éµÄË÷Òı Return =
+  // ÆäÖµ±íÊ¾pListÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiPlayerItem½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ.
 
-	GDI_PLAYER_HOLD_GOLD,
+  GDI_PK_SETTING, // »ñÈ¡pkÉèÖÃ
+  // Return = (int)(bool)bEnable	ÊÇ·ñÔÊĞípk
 
+  GDI_SHOW_PLAYERS_NAME, // »ñÈ¡ÏÔÊ¾¸÷Íæ¼ÒÈËÃû
+  // Return = (int)(bool)bShow	ÊÇ·ñÏÔÊ¾
+  GDI_SHOW_PLAYERS_LIFE, // »ñÈ¡ÏÔÊ¾¸÷Íæ¼ÒÉúÃü
+  // Return = (int)(bool)bShow	ÊÇ·ñÏÔÊ¾
+  GDI_SHOW_PLAYERS_MANA, // »ñÈ¡ÏÔÊ¾¸÷Íæ¼ÒÄÚÁ¦
+  // Return = (int)(bool)bShow	ÊÇ·ñÏÔÊ¾
 
-	GDI_PLAYER_BLOCK_BOX,
+  GDI_PARADE_EQUIPMENT, // ¿´Íæ¼Ò×°±¸ÎïÆ·,ÏûÏ¢º¬ÒåÍ¬GDI_EQUIPMENT
 
-	GDI_ITEM_IN_RPNEW_BOX,
+  GDI_IMMEDIATEITEM_NUM, // È¡µÃ¿ì½İÎïÆ·¸öÊı
+  // uParam = nIndex£¨0£¬1£¬2£©
+  GDI_ITEMDATAINFO,
+  GDI_ATI_SETTING,
+  GDI_ITEM_IN_CHECK_BOX,
+  GDI_ITEM_IN_PG_BOX,
+  GDI_SHOP_ITEM_PRICE,
 
-	GDI_SHOP_ITEM_PRICE_TL,
-	GDI_SHOP_ITEM_PRICE_VD,
+  GDI_SHOP_ITEM_PRICE_GOLD,
 
-	GDI_PLAYER_HOLD_TL,
-	GDI_PLAYER_HOLD_VD,
+  GDI_PLAYER_HOLD_GOLD,
 
-	GDI_NPC_STATE_SKILL,
+  GDI_PLAYER_BLOCK_BOX,
 
-	GDI_ITEM_CHAT,// tao ra itemchat
-	GDI_ITEM_NAME,//lay ten item
-	GDI_GET_ITEM_PARAM,//lay thong so cua item
-	GDI_CHAT_ITEM_DESC,//thong tin item chat khi openwin
-	GDI_CHAT_ITEM_IMAGE,//hinh anh bieu tuong cua item
+  GDI_ITEM_IN_RPNEW_BOX,
 
-	GDI_IS_CHECK_IMAGE,
-	GDI_IS_GET_TASK_VALUE,
+  GDI_SHOP_ITEM_PRICE_TL,
+  GDI_SHOP_ITEM_PRICE_VD,
+
+  GDI_PLAYER_HOLD_TL,
+  GDI_PLAYER_HOLD_VD,
+
+  GDI_NPC_STATE_SKILL,
+
+  GDI_ITEM_CHAT,       // tao ra itemchat
+  GDI_ITEM_NAME,       // lay ten item
+  GDI_GET_ITEM_PARAM,  // lay thong so cua item
+  GDI_CHAT_ITEM_DESC,  // thong tin item chat khi openwin
+  GDI_CHAT_ITEM_IMAGE, // hinh anh bieu tuong cua item
+
+  GDI_IS_CHECK_IMAGE,
+  GDI_IS_GET_TASK_VALUE,
 };
 
 //=========================================================
 // CoreÍâ²¿¿Í»§Ïòcore»ñÈ¡ÓÎÏ·Êı¾İµÄÊı¾İÏîÄÚÈİË÷Òı¶¨Òå
 //=========================================================
-//¸÷Êı¾İÏîË÷ÒıµÄÏà¹Ø²ÎÊıuParamÓënParamÈç¹ûÔÚ×¢ÊÍÖĞÎ´Ìá¼°£¬Ôò´«µİ¶¨Öµ0¡£
-enum GAMEDATA_CHANGED_NOTIFY_INDEX
-{
-	GDCNI_HOLD_OBJECT = 1,	//ÄÃÆğÁËÄ³¸ö¶ÔÏó
-	//uParam = (KUiGameObject*)pObject -> ¶ÔÏóĞÅÏ¢£¬Èç¹ûÈ¡ÖµÎª0£¬±íÊ¾·ÅÆúÊÖÉÏÄÃµÄ¶«Î÷
+// ¸÷Êı¾İÏîË÷ÒıµÄÏà¹Ø²ÎÊıuParamÓënParamÈç¹ûÔÚ×¢ÊÍÖĞÎ´Ìá¼°£¬Ôò´«µİ¶¨Öµ0¡£
+enum GAMEDATA_CHANGED_NOTIFY_INDEX {
+  GDCNI_HOLD_OBJECT = 1, // ÄÃÆğÁËÄ³¸ö¶ÔÏó
+  // uParam = (KUiGameObject*)pObject ->
+  // ¶ÔÏóĞÅÏ¢£¬Èç¹ûÈ¡ÖµÎª0£¬±íÊ¾·ÅÆúÊÖÉÏÄÃµÄ¶«Î÷
 
-	GDCNI_PLAYER_BASE_INFO,	//Ö÷½ÇµÄÒ»Ğ©²»Ò×±äµÄÊı¾İ, see also GDI_PLAYER_BASE_INFO
-	GDCNI_PLAYER_RT_ATTRIBUTE,	//Ö÷½ÇµÄÒ»Ğ©Ò×±äµÄÊôĞÔÊı¾İ, see also GDI_PLAYER_RT_ATTRIBUTE
-	GDCNI_PLAYER_IMMED_ITEMSKILL,//Ö÷½ÇµÄÁ¢¼´Ê¹ÓÃÎïÆ·ÓëÎä¹¦
-	//uParam = (KUiGameObject*)pInfo ÎïÆ·»òÕßÎä¹¦µÄÊı¾İ
-	//nParam = ÄÄ¸öÎ»ÖÃµÄÎïÆ·»òÕßÎä¹¦ µ±nParam >=0 Ê±ºò nParam±íÊ¾µÚnParam¸öÁ¢¼´ÎïÆ·
-	//			µ±nParam = -1 Ê±£¬±íÊ¾Îª×óÊÖÎä¹¦£¬-2Ê±ÎªÓÒÊÖÎä¹¦
+  GDCNI_PLAYER_BASE_INFO,       // Ö÷½ÇµÄÒ»Ğ©²»Ò×±äµÄÊı¾İ, see also
+                                // GDI_PLAYER_BASE_INFO
+  GDCNI_PLAYER_RT_ATTRIBUTE,    // Ö÷½ÇµÄÒ»Ğ©Ò×±äµÄÊôĞÔÊı¾İ, see also
+                                // GDI_PLAYER_RT_ATTRIBUTE
+  GDCNI_PLAYER_IMMED_ITEMSKILL, // Ö÷½ÇµÄÁ¢¼´Ê¹ÓÃÎïÆ·ÓëÎä¹¦
+  // uParam = (KUiGameObject*)pInfo ÎïÆ·»òÕßÎä¹¦µÄÊı¾İ
+  // nParam = ÄÄ¸öÎ»ÖÃµÄÎïÆ·»òÕßÎä¹¦ µ±nParam >=0 Ê±ºò
+  // nParam±íÊ¾µÚnParam¸öÁ¢¼´ÎïÆ· 			µ±nParam = -1
+  // Ê±£¬±íÊ¾Îª×óÊÖÎä¹¦£¬-2Ê±ÎªÓÒÊÖÎä¹¦
 
-	GDCNI_PLAYER_BRIEF_PROP,//Ö÷½ÇÉí·İµØÎ»µÈÒ»Ğ©¹Ø¼üÊôĞÔÏîµÄ±ä»¯
-	//uParam = (PLAYER_BRIEF_PROP)eProp ±ä»¯ÄÚÈİÏî£¬È¡ÖµÎªÃ¶¾ÙPLAYER_BRIEF_PROPµÄÖµÖ®Ò»¡£
-	//nParam = º¬ÒåÒÀ¾İuParamµÄ¾ßÌåº¬Òå¶ø¶¨
+  GDCNI_PLAYER_BRIEF_PROP, // Ö÷½ÇÉí·İµØÎ»µÈÒ»Ğ©¹Ø¼üÊôĞÔÏîµÄ±ä»¯
+  // uParam = (PLAYER_BRIEF_PROP)eProp
+  // ±ä»¯ÄÚÈİÏî£¬È¡ÖµÎªÃ¶¾ÙPLAYER_BRIEF_PROPµÄÖµÖ®Ò»¡£ nParam =
+  // º¬ÒåÒÀ¾İuParamµÄ¾ßÌåº¬Òå¶ø¶¨
 
-	GDCNI_OBJECT_CHANGED,		//Ä³´¦ÎïÆ·µÄĞÂÔö»òÕß¼õÉÙ
-	//uParam = (KUiObjAtContRegion*)pInfo -> ÎïÆ·Êı¾İ¼°Æä·ÅÖÃÇøÓòÎ»ÖÃĞÅÏ¢
-	//          µ±pInfo->eContainer == UOC_EQUIPTMENTÊ±
-	//				KUiObjAtRegion::Region::h ±íÊ¾ÊôÓÚµÚ¼¸Ì××°±¸
-	//				KUiObjAtRegion::Region::v ±íÊ¾ÊôÓÚÄÄ¸öÎ»ÖÃµÄ×°±¸,ÆäÖµÎªÃ¶¾ÙÀàĞÍ
-	//				UI_EQUIPMENT_POSITIONµÄÈ¡ÖµÖ®Ò»¡£Çë²Î¿´UI_EQUIPMENT_POSITIONµÄ×¢ÊÍ¡£
-	//nParam = bAdd -> 0Öµ±íÊ¾¼õÉÙÕâ¸öÎïÆ·£¬·Ç0Öµ±íÊ¾Ôö¼ÓÕâ¸öÎïÆ·
-	
-	GDCNI_CONTAINER_OBJECT_CHANGED,	//Õû¸öÃæ°åÀïµÄ¶«Î÷È«²¿¸üĞÂ
-	//uParam = (UIOBJECT_CONTAINER)eContainer;	//Ãæ°åÎ»ÖÃ
+  GDCNI_OBJECT_CHANGED, // Ä³´¦ÎïÆ·µÄĞÂÔö»òÕß¼õÉÙ
+  // uParam = (KUiObjAtContRegion*)pInfo -> ÎïÆ·Êı¾İ¼°Æä·ÅÖÃÇøÓòÎ»ÖÃĞÅÏ¢
+  //           µ±pInfo->eContainer == UOC_EQUIPTMENTÊ±
+  //				KUiObjAtRegion::Region::h ±íÊ¾ÊôÓÚµÚ¼¸Ì××°±¸
+  //				KUiObjAtRegion::Region::v
+  // ±íÊ¾ÊôÓÚÄÄ¸öÎ»ÖÃµÄ×°±¸,ÆäÖµÎªÃ¶¾ÙÀàĞÍ
+  //				UI_EQUIPMENT_POSITIONµÄÈ¡ÖµÖ®Ò»¡£Çë²Î¿´UI_EQUIPMENT_POSITIONµÄ×¢ÊÍ¡£
+  // nParam = bAdd -> 0Öµ±íÊ¾¼õÉÙÕâ¸öÎïÆ·£¬·Ç0Öµ±íÊ¾Ôö¼ÓÕâ¸öÎïÆ·
 
-	GDCNI_LIVE_SKILL_BASE,		//Éú»î¼¼ÄÜÊıÖµ±ä»¯
+  GDCNI_CONTAINER_OBJECT_CHANGED, // Õû¸öÃæ°åÀïµÄ¶«Î÷È«²¿¸üĞÂ
+  // uParam = (UIOBJECT_CONTAINER)eContainer;	//Ãæ°åÎ»ÖÃ
 
-	GDCNI_FIGHT_SKILL_POINT,	//Ê£ÓàÕ½¶·¼¼ÄÜµãÊı±ä»¯
-	//nParam = ĞÂµÄÊ£ÓàÕ½¶·¼¼ÄÜµãÊı
+  GDCNI_LIVE_SKILL_BASE, // Éú»î¼¼ÄÜÊıÖµ±ä»¯
 
-	GDCNI_SKILL_CHANGE,			//ĞÂÕÆÎÕÁËÒ»¸ö¼¼ÄÜ/¼¼ÄÜÉı¼‰
-	//uParam = (KUiSkillData*)pSkill -> ĞÂÕÆÎÕµÄ¼¼ÄÜ
-	//nParam = ĞÂ¼¼ÄÜÔÚÍ¬îÖĞµÄÅÅĞòÎ»ÖÃ
+  GDCNI_FIGHT_SKILL_POINT, // Ê£ÓàÕ½¶·¼¼ÄÜµãÊı±ä»¯
+  // nParam = ĞÂµÄÊ£ÓàÕ½¶·¼¼ÄÜµãÊı
 
-	GDCNI_PLAYER_LEADERSHIP,	//Ö÷½ÇÍ³Ë§ÄÜÁ¦Ïà¹ØµÄÊı¾İ·¢Éú±ä»¯
-	
-	GDCNI_TEAM,					//¶ÓÎéĞÅÏ¢·¢Éú±ä»¯£¨¶ÓÎé½âÉ¢¡¢Íæ¼ÒÍÑÀëÕâ¸ö¶ÓÎé£¬¶Ó³¤È¨Àû×ª¸ø±ğÈËµÈ£¬¹Ø×¢±ğÈËµÄ¶ÓÎéµÈ£©
-	//uParam = (KUiPlayerTeam*)pTeam -> ¶ÓÎéĞÅÏ¢,¿ÉÒÔÎªNULL,±íÊ¾Íæ¼ÒÍÑÀëÁË¶ÓÎé
+  GDCNI_SKILL_CHANGE, // ĞÂÕÆÎÕÁËÒ»¸ö¼¼ÄÜ/¼¼ÄÜÉı¼‰
+  // uParam = (KUiSkillData*)pSkill -> ĞÂÕÆÎÕµÄ¼¼ÄÜ
+  // nParam = ĞÂ¼¼ÄÜÔÚÍ¬îÖĞµÄÅÅĞòÎ»ÖÃ
 
-	GDCNI_TEAM_NEARBY_LIST,		//¸½½ü¶ÓÎéµÄÁĞ±í
-	//uParam = (KUiTeamItem*)pList ´æ¶ÓÎéĞÅÏ¢µÄÊı×é
-	//nParam = nCount ¶ÓÎéµÄÊıÄ¿
+  GDCNI_PLAYER_LEADERSHIP, // Ö÷½ÇÍ³Ë§ÄÜÁ¦Ïà¹ØµÄÊı¾İ·¢Éú±ä»¯
 
-	GDCNI_TRADE_START,			//ÓëÍæ¼Ò½»Ò×¿ªÊ¼
-	//uParam = (KUiPlayerItem*) pPlayer¶Ô·½µÄĞÅÏ¢
+  GDCNI_TEAM, // ¶ÓÎéĞÅÏ¢·¢Éú±ä»¯£¨¶ÓÎé½âÉ¢¡¢Íæ¼ÒÍÑÀëÕâ¸ö¶ÓÎé£¬¶Ó³¤È¨Àû×ª¸ø±ğÈËµÈ£¬¹Ø×¢±ğÈËµÄ¶ÓÎéµÈ£©
+  // uParam = (KUiPlayerTeam*)pTeam -> ¶ÓÎéĞÅÏ¢,¿ÉÒÔÎªNULL,±íÊ¾Íæ¼ÒÍÑÀëÁË¶ÓÎé
 
-	GDCNI_TRADE_DESIRE_ITEM,	//¶Ô·½Ôö¼õÏë½»Ò×µÄÎïÆ·
-	//uParam = (KUiObjAtRegion*) pObject -> ÎïÆ·ĞÅÏ¢£¬ÆäÖĞ×ø±êĞÅÏ¢ÎªÔÚ½»Ò×½çÃæÖĞµÄ×ø±ê
-	//nParam = bAdd -> 0Öµ±íÊ¾¼õÉÙ£¬1Öµ±íÊ¾Ôö¼Ó
-	//Remark : Èç¹ûÎïÆ·ÊÇ½ğÇ®µÄ»°£¬ÔòKUiObjAtRegion::Obj::uId±íÊ¾°Ñ½ğÇ®¶îµ÷ÕûÎªÕâ¸öÖµ£¬ÇÒnParamÎŞÒâÒå¡£
+  GDCNI_TEAM_NEARBY_LIST, // ¸½½ü¶ÓÎéµÄÁĞ±í
+  // uParam = (KUiTeamItem*)pList ´æ¶ÓÎéĞÅÏ¢µÄÊı×é
+  // nParam = nCount ¶ÓÎéµÄÊıÄ¿
 
-	GDCNI_TRADE_OPER_DATA,		//½»Ò×²Ù×÷Ïà¹ØµÄ(×´Ì¬)Êı¾İ·¢Éú±ä»¯
-	//uParam = (const char*) pInfoText ÌáÊ¾µÄÎÄ×Ö£¬Èç"¶Ô·½½â³ıËø¶¨"µÈ
+  GDCNI_TRADE_START, // ÓëÍæ¼Ò½»Ò×¿ªÊ¼
+  // uParam = (KUiPlayerItem*) pPlayer¶Ô·½µÄĞÅÏ¢
 
-	GDCNI_TRADE_END,			//½»Ò×½áÊø
-	//nParam = (int)(bool)bTraded	ÊÇ·ñ½øĞĞÁË½»Ò×
+  GDCNI_TRADE_DESIRE_ITEM, // ¶Ô·½Ôö¼õÏë½»Ò×µÄÎïÆ·
+  // uParam = (KUiObjAtRegion*) pObject ->
+  // ÎïÆ·ĞÅÏ¢£¬ÆäÖĞ×ø±êĞÅÏ¢ÎªÔÚ½»Ò×½çÃæÖĞµÄ×ø±ê nParam = bAdd ->
+  // 0Öµ±íÊ¾¼õÉÙ£¬1Öµ±íÊ¾Ôö¼Ó Remark :
+  // Èç¹ûÎïÆ·ÊÇ½ğÇ®µÄ»°£¬ÔòKUiObjAtRegion::Obj::uId±íÊ¾°Ñ½ğÇ®¶îµ÷ÕûÎªÕâ¸öÖµ£¬ÇÒnParamÎŞÒâÒå¡£
 
-	GDCNI_NPC_TRADE,			//Óënpc½»Ò×¿ªÊ¼
-	//nParam = (bool)bStart	ÊÇ·ñ½»Ò×Îª½»Ò×¿ªÊ¼£¬Èç¹ûÈ¡Öµ·ÇÕæ±íÊ¾½»Ò×£¨¹Ø±Õ£©½áÊø
+  GDCNI_TRADE_OPER_DATA, // ½»Ò×²Ù×÷Ïà¹ØµÄ(×´Ì¬)Êı¾İ·¢Éú±ä»¯
+  // uParam = (const char*) pInfoText ÌáÊ¾µÄÎÄ×Ö£¬Èç"¶Ô·½½â³ıËø¶¨"µÈ
 
-	GDCNI_NPC_TRADE_ITEM,		//npc½»Ò×ÎïÆ·µÄ±ä»¯
-	//Í¨¹ıµ÷ÓÃiCoreShell::GetGameData,Ê¹²ÎÊıuDataIdÎªGDI_TRADE_NPC_ITEM£¬À´»ñÈ¡ĞÂµÄÎïÆ·ĞÅÏ¢¡£
+  GDCNI_TRADE_END, // ½»Ò×½áÊø
+  // nParam = (int)(bool)bTraded	ÊÇ·ñ½øĞĞÁË½»Ò×
 
-	GDCNI_GAME_START,			//½øÈëÓÎÏ·ÊÀ½ç
+  GDCNI_NPC_TRADE, // Óënpc½»Ò×¿ªÊ¼
+  // nParam = (bool)bStart
+  // ÊÇ·ñ½»Ò×Îª½»Ò×¿ªÊ¼£¬Èç¹ûÈ¡Öµ·ÇÕæ±íÊ¾½»Ò×£¨¹Ø±Õ£©½áÊø
 
-	GDCNI_GAME_QUIT,			//Àë¿ªÁËÓÎÏ·ÊÀ½ç
+  GDCNI_NPC_TRADE_ITEM, // npc½»Ò×ÎïÆ·µÄ±ä»¯
+  // Í¨¹ıµ÷ÓÃiCoreShell::GetGameData,Ê¹²ÎÊıuDataIdÎªGDI_TRADE_NPC_ITEM£¬À´»ñÈ¡ĞÂµÄÎïÆ·ĞÅÏ¢¡£
 
-	GDCNI_QUESTION_CHOOSE,		//ÎÊÌâÑ¡Ôñ
-	//uParam = (KUiQuestionAndAnswer*)pQuestionAndAnswer
+  GDCNI_GAME_START, // ½øÈëÓÎÏ·ÊÀ½ç
 
-	GDCNI_SPEAK_WORDS,			//npcËµ»°ÄÚÈİ
-	//uParam = (KUiInformationParam*) pWordDataList Ö¸ÏòKUiInformationParamÊı×é
-	//nParam = pWordDataList°üº¬KUiInformationParamÔªËØµÄÊıÄ¿
+  GDCNI_GAME_QUIT, // Àë¿ªÁËÓÎÏ·ÊÀ½ç
 
-	GDCNI_INFORMATION,			//ĞÂµÄĞÅÏ¢À´µ½£¨µ¯³ö×¨ÃÅµÄÏûÏ¢¿ò£©
-	//uParam = (KUiInformationParam*)pInformation	//ÏûÏ¢ÄÚÈİ
+  GDCNI_QUESTION_CHOOSE, // ÎÊÌâÑ¡Ôñ
+  // uParam = (KUiQuestionAndAnswer*)pQuestionAndAnswer
 
-	GDCNI_MSG_ARRIVAL,			//ĞÂ£¨ÁÄÌìÄÚÈİ´°¿Ú£©ÏûÏ¢À´µ½
-	//uParam = (cons char*)pMsgBuff ÏûÏ¢ÄÚÈİ»º³åÇø
-	//nParam = (KUiMsgParam*)pMsgParam ÏûÏ¢²ÎÊı
+  GDCNI_SPEAK_WORDS, // npcËµ»°ÄÚÈİ
+  // uParam = (KUiInformationParam*) pWordDataList Ö¸ÏòKUiInformationParamÊı×é
+  // nParam = pWordDataList°üº¬KUiInformationParamÔªËØµÄÊıÄ¿
 
-	GDCNI_SEND_CHAT_CHANNEL,	//µ±Ç°·¢ËÍÏûÏ¢µÄÆµµÀ¸Ä±äÁË
+  GDCNI_INFORMATION, // ĞÂµÄĞÅÏ¢À´µ½£¨µ¯³ö×¨ÃÅµÄÏûÏ¢¿ò£©
+  // uParam = (KUiInformationParam*)pInformation	//ÏûÏ¢ÄÚÈİ
 
-	GDCNI_CHAT_GROUP,			//ÁÄÌìºÃÓÑ·Ö×é·¢Éú±ä»¯
+  GDCNI_MSG_ARRIVAL, // ĞÂ£¨ÁÄÌìÄÚÈİ´°¿Ú£©ÏûÏ¢À´µ½
+  // uParam = (cons char*)pMsgBuff ÏûÏ¢ÄÚÈİ»º³åÇø
+  // nParam = (KUiMsgParam*)pMsgParam ÏûÏ¢²ÎÊı
 
-	GDCNI_CHAT_FRIEND,			//ÁÄÌìºÃÓÑ·¢Éú±ä»¯
-	//nParam = nGroupIndex ·¢ÉúºÃÓÑ±ä»¯µÄ·Ö×éµÄË÷Òı
+  GDCNI_SEND_CHAT_CHANNEL, // µ±Ç°·¢ËÍÏûÏ¢µÄÆµµÀ¸Ä±äÁË
 
-	GDCNI_CHAT_FRIEND_STATUS,	//ÁÄÌìºÃÓÑ×´Ì¬·¢Éú±ä»¯
-	//uParam = (KUiPlayerItem*)pFriend ·¢Éú×´Ì¬±ä»¯µÄºÃÓÑ
-	//			KUiPlayerItem::nData = (CHAT_STATUS)eFriendStatus ºÃÓÑµÄµ±Ç°×´Ì¬
-	//nParam = nGroupIndex ºÃÓÑËùÊôÓÚµÄ×éµÄË÷Òı
-	
-	GDCNI_CHAT_MESSAGE,			//ºÃÓĞ·¢À´µÄÑ¶Ï¢
-	//uParam = (KUiChatMessage*)pMessage ÏûÏ¢Êı¾İ
-	//nParam = (KUiPlayerItem*)pFriend   ·¢À´Ñ¶Ï¢µÄºÃÓÑ
+  GDCNI_CHAT_GROUP, // ÁÄÌìºÃÓÑ·Ö×é·¢Éú±ä»¯
 
-	GDCNI_SYSTEM_MESSAGE,		//ÏµÍ³ÏûÏ¢
-	//uParam = (KSystemMessage*)pMsg ÏµÍ³ÏûÏ¢µÄÄÚÈİ
-	//nParam = (void*)pParamBuf Ö¸ÏòÒ»¸ö²ÎÊı»º³åÇø£¬»º³åÄÚÊı¾İº¬ÒåÒÀ¾İpMsgµÄÄÚÈİ¶ø¶¨£¬
-	//			²Î¿´KSystemMessageµÄ×¢ÊÍËµÃ÷£¬»º³åÇøµÄ´óĞ¡ÓÉpMsg->byParamSize¸ø³ö¡£
+  GDCNI_CHAT_FRIEND, // ÁÄÌìºÃÓÑ·¢Éú±ä»¯
+  // nParam = nGroupIndex ·¢ÉúºÃÓÑ±ä»¯µÄ·Ö×éµÄË÷Òı
 
-	GDCNI_NEWS_MESSAGE,			//ĞÂÎÅÏûÏ¢
-	//uParam = (KNewsMessage*)pMsg ĞÂÎÅÏûÏ¢ÄÚÈİ
-	//nParam = (SYSTEMTIME*)pTime  ĞÂÎÅÏûÏ¢µÄÊ±¼ä²ÎÊı£¬¾ßÌåº¬ÒåÒÀÀµÓÚĞÂÎÅÏûÏ¢µÄÀàĞÍ¶ø¶¨
+  GDCNI_CHAT_FRIEND_STATUS, // ÁÄÌìºÃÓÑ×´Ì¬·¢Éú±ä»¯
+  // uParam = (KUiPlayerItem*)pFriend ·¢Éú×´Ì¬±ä»¯µÄºÃÓÑ
+  //			KUiPlayerItem::nData = (CHAT_STATUS)eFriendStatus
+  // ºÃÓÑµÄµ±Ç°×´Ì¬ nParam = nGroupIndex ºÃÓÑËùÊôÓÚµÄ×éµÄË÷Òı
 
-	GDCNI_SWITCH_CURSOR,		//ÇĞ»»Êó±êÖ¸ÕëÍ¼ĞÎ
-	//nParam = \Ui\???\Êó±ê.iniÖĞ¸ø³öµÄÍ¼ĞÎË÷ÒıÊıÖµ
+  GDCNI_CHAT_MESSAGE, // ºÃÓĞ·¢À´µÄÑ¶Ï¢
+  // uParam = (KUiChatMessage*)pMessage ÏûÏ¢Êı¾İ
+  // nParam = (KUiPlayerItem*)pFriend   ·¢À´Ñ¶Ï¢µÄºÃÓÑ
 
-	GDCNI_OPEN_STORE_BOX,		//´ò¿ª´¢ÎïÏä
-	
-	GDCNI_SWITCHING_SCENEPLACE,	//µØÍ¼ÇĞ»»
-	//nParam = (int)(bool)bStart Îª·Ç0Öµ±íÊ¾¿ªÊ¼µØÍ¼ÇĞ»»£¬Îª0Öµ±íÊ¾½áÊøµØÍ¼ÇĞ»»
+  GDCNI_SYSTEM_MESSAGE, // ÏµÍ³ÏûÏ¢
+  // uParam = (KSystemMessage*)pMsg ÏµÍ³ÏûÏ¢µÄÄÚÈİ
+  // nParam = (void*)pParamBuf
+  // Ö¸ÏòÒ»¸ö²ÎÊı»º³åÇø£¬»º³åÄÚÊı¾İº¬ÒåÒÀ¾İpMsgµÄÄÚÈİ¶ø¶¨£¬
+  //			²Î¿´KSystemMessageµÄ×¢ÊÍËµÃ÷£¬»º³åÇøµÄ´óĞ¡ÓÉpMsg->byParamSize¸ø³ö¡£
 
-	GDCNI_MISSION_RECORD,		//ÒªÇó¼ÍÂ¼ÏÂ´ËÈÎÎñÌáÊ¾ĞÅÏ¢
-	//uParam = (KMissionRecord*) pRecord ¼ÍÂ¼ÄÚÈİ
+  GDCNI_NEWS_MESSAGE, // ĞÂÎÅÏûÏ¢
+  // uParam = (KNewsMessage*)pMsg ĞÂÎÅÏûÏ¢ÄÚÈİ
+  // nParam = (SYSTEMTIME*)pTime
+  // ĞÂÎÅÏûÏ¢µÄÊ±¼ä²ÎÊı£¬¾ßÌåº¬ÒåÒÀÀµÓÚĞÂÎÅÏûÏ¢µÄÀàĞÍ¶ø¶¨
 
-	GDCNI_PK_SETTING,			//pkÔÊĞí×´¿ö·¢ÉúÁË±ä»¯
-	//nParam = (int)(bool)bEnable ÊÇ·ñÔÊĞípk
+  GDCNI_SWITCH_CURSOR, // ÇĞ»»Êó±êÖ¸ÕëÍ¼ĞÎ
+  // nParam = \Ui\???\Êó±ê.iniÖĞ¸ø³öµÄÍ¼ĞÎË÷ÒıÊıÖµ
 
-	GDCNI_VIEW_PLAYERITEM,			//±»ÉêÇëÍæ¼Ò×°±¸µÄÊı¾İÒÑµ½
-	//uParam = (KUiPlayerItem*)		//Íæ¼ÒµÄ player data
+  GDCNI_OPEN_STORE_BOX, // ´ò¿ª´¢ÎïÏä
 
-	GDCNII_RANK_INDEX_LIST_ARRIVE,	//ÅÅÃûÏîidÁĞ±íµ½ÁË
-	//uParam = uCount ÅÅÃûÏîidµÄÊıÄ¿
-	//nParam = (KRankIndex*)pIndexList ÅÅÃûÏîidÃèÊö½á¹¹µÄÊı×é
+  GDCNI_SWITCHING_SCENEPLACE, // µØÍ¼ÇĞ»»
+  // nParam = (int)(bool)bStart Îª·Ç0Öµ±íÊ¾¿ªÊ¼µØÍ¼ÇĞ»»£¬Îª0Öµ±íÊ¾½áÊøµØÍ¼ÇĞ»»
 
-	GDCNII_RANK_INFORMATION_ARRIVE,	//ÅÅÃûÏîµÄÄÚÈİµ½ÁË
-	//uParam = ((unsigned short)usCount) | ((unsigned short)usIndexId << 16)
-	//			usCount    ´Ë´Î´«À´µÄÄÚÈİÏîµÄÊıÄ¿
-	//			usIndexId  ÅÅÃûÏîid£¬±íÊ¾´«»ØµÄÊÇÕâ¸öidµÄÅÅÃûÏîµÄÄÚÈİ
-	//nParam = (KRankMessage *) ÁĞ±íÄÚÈİ
+  GDCNI_MISSION_RECORD, // ÒªÇó¼ÍÂ¼ÏÂ´ËÈÎÎñÌáÊ¾ĞÅÏ¢
+  // uParam = (KMissionRecord*) pRecord ¼ÍÂ¼ÄÚÈİ
 
-	//====°ïÅÉÏà¹Ø====
-	GDCNI_TONG_INFO,				//Ä³ÈËËùÔÚµÄ°ïÅÉµÄĞÅÏ¢
-									//¶ÔÓ¦ÓÚGTOI_REQUEST_PLAYER_TONG£¨²éÑ¯Ä³ÈËÊÇÄÄ°ï»á£©
-	//uParam = (KUiPlayerRelationWithOther*) ÄÇ¸ö£¨Ä³£©ÈË,ÒÔ¼°´ËÈËÓë´Ë°ïÅÉµÄ¹ØÏµ
-					//KUiPlayerRelationWithOther::nParam ÊÇ·ñ¿ª×ÅµÄÕĞÈË¿ª¹Ø
-	//nParam = (KTongInfo*) pToneInfo	//°ïÅÉµÄĞÅÏ¢
+  GDCNI_PK_SETTING, // pkÔÊĞí×´¿ö·¢ÉúÁË±ä»¯
+  // nParam = (int)(bool)bEnable ÊÇ·ñÔÊĞípk
 
-	GDCNI_TONG_MEMBER_LIST,			//Ä³¸ö°ïÅÉÖĞµÄ³ÉÔ±µÄÁĞ±í
-	//uParam = (KUiGameObjectWithName*) pTong ÓÃÓÚÃèÊöÊÇÄÄ¸ö°ïÅÉ
-							//KUiGameObjectWithName::szName °ïÅÉÃû³Æ
-							//KUiGameObjectWithName::nData  pMemberListËù¸ø°ïÅÉ³ÉÔ±µÄÀàĞÍ£¬²Î¿´TONG_MEMBER_FIGURE
-							//KUiGameObjectWithName::nParam pMemberListËù¸ø°ïÅÉ³ÉÔ±ÁĞ±í°üº¬³ÉÔ±µÄÆğÊ¼µÄË÷Òı
-							//KUiGameObjectWithName::uParam pMemberListËù¸ø°ïÅÉ³ÉÔ±ÁĞ±í°üº¬³ÉÔ±µÄÊıÄ¿
-	//nParam = (KTongMemberItem*) pMemberList
+  GDCNI_VIEW_PLAYERITEM, // ±»ÉêÇëÍæ¼Ò×°±¸µÄÊı¾İÒÑµ½
+  // uParam = (KUiPlayerItem*)		//Íæ¼ÒµÄ player data
 
-	GDCNI_TONG_ACTION_RESULT,       //°ï»á²Ù×÷·µ»ØµÄ½á¹û
-	//uParam = (KUiGameObjectWithName*) pInfo ·µ»ØµÄÊı¾İ
-	                        //KUiGameObjectWithName::szName ¶ÔÏóÍæ¼ÒµÄÃû×Ö
-							//KUiGameObjectWithName::nData  ²Ù×÷µÄÖÖÀà£¬²Î¿¼TONG_ACTION_TYPE
-							//KUiGameObjectWithName::nParam   V
-							//KUiGameObjectWithName::uParam   V
-							//KUiGameObjectWithName::szString Õâ¼¸¸öº­ÒåËæ²»Í¬²Ù×÷²»Í¬
-	// nParam : ³É¹¦ 1 Ê§°Ü 0
+  GDCNII_RANK_INDEX_LIST_ARRIVE, // ÅÅÃûÏîidÁĞ±íµ½ÁË
+  // uParam = uCount ÅÅÃûÏîidµÄÊıÄ¿
+  // nParam = (KRankIndex*)pIndexList ÅÅÃûÏîidÃèÊö½á¹¹µÄÊı×é
 
-	GDCNI_OPEN_TONG_CREATE_SHEET,   //Í¨Öª½çÃæ´ò¿ª°ï»á´´½¨½çÃæ
+  GDCNII_RANK_INFORMATION_ARRIVE, // ÅÅÃûÏîµÄÄÚÈİµ½ÁË
+  // uParam = ((unsigned short)usCount) | ((unsigned short)usIndexId << 16)
+  //			usCount    ´Ë´Î´«À´µÄÄÚÈİÏîµÄÊıÄ¿
+  //			usIndexId  ÅÅÃûÏîid£¬±íÊ¾´«»ØµÄÊÇÕâ¸öidµÄÅÅÃûÏîµÄÄÚÈİ
+  // nParam = (KRankMessage *) ÁĞ±íÄÚÈİ
 
+  //====°ïÅÉÏà¹Ø====
+  GDCNI_TONG_INFO, // Ä³ÈËËùÔÚµÄ°ïÅÉµÄĞÅÏ¢
+                   // ¶ÔÓ¦ÓÚGTOI_REQUEST_PLAYER_TONG£¨²éÑ¯Ä³ÈËÊÇÄÄ°ï»á£©
+  // uParam = (KUiPlayerRelationWithOther*) ÄÇ¸ö£¨Ä³£©ÈË,ÒÔ¼°´ËÈËÓë´Ë°ïÅÉµÄ¹ØÏµ
+  // KUiPlayerRelationWithOther::nParam ÊÇ·ñ¿ª×ÅµÄÕĞÈË¿ª¹Ø
+  // nParam = (KTongInfo*) pToneInfo	//°ïÅÉµÄĞÅÏ¢
 
+  GDCNI_TONG_MEMBER_LIST, // Ä³¸ö°ïÅÉÖĞµÄ³ÉÔ±µÄÁĞ±í
+  // uParam = (KUiGameObjectWithName*) pTong ÓÃÓÚÃèÊöÊÇÄÄ¸ö°ïÅÉ
+  // KUiGameObjectWithName::szName °ïÅÉÃû³Æ
+  // KUiGameObjectWithName::nData
+  // pMemberListËù¸ø°ïÅÉ³ÉÔ±µÄÀàĞÍ£¬²Î¿´TONG_MEMBER_FIGURE
+  // KUiGameObjectWithName::nParam
+  // pMemberListËù¸ø°ïÅÉ³ÉÔ±ÁĞ±í°üº¬³ÉÔ±µÄÆğÊ¼µÄË÷Òı
+  // KUiGameObjectWithName::uParam pMemberListËù¸ø°ïÅÉ³ÉÔ±ÁĞ±í°üº¬³ÉÔ±µÄÊıÄ¿
+  // nParam = (KTongMemberItem*) pMemberList
 
-	GDCNI_OPEN_STRING_BOX,
+  GDCNI_TONG_ACTION_RESULT, // °ï»á²Ù×÷·µ»ØµÄ½á¹û
+  // uParam = (KUiGameObjectWithName*) pInfo ·µ»ØµÄÊı¾İ
+  // KUiGameObjectWithName::szName ¶ÔÏóÍæ¼ÒµÄÃû×Ö
+  // KUiGameObjectWithName::nData  ²Ù×÷µÄÖÖÀà£¬²Î¿¼TONG_ACTION_TYPE
+  // KUiGameObjectWithName::nParam   V
+  // KUiGameObjectWithName::uParam   V
+  // KUiGameObjectWithName::szString Õâ¼¸¸öº­ÒåËæ²»Í¬²Ù×÷²»Í¬
+  // nParam : ³É¹¦ 1 Ê§°Ü 0
 
-	GDCNI_OPEN_CHECK_ITEM_BOX,
+  GDCNI_OPEN_TONG_CREATE_SHEET, // Í¨Öª½çÃæ´ò¿ª°ï»á´´½¨½çÃæ
 
-	GDCNI_OPEN_SLECT_CHECK_BOX,
+  GDCNI_OPEN_STRING_BOX,
 
-	GDCNI_OPEN_PG_BOX_ITEM,
+  GDCNI_OPEN_CHECK_ITEM_BOX,
 
-	GDCNI_SHOP_OPEN_CHECK,
+  GDCNI_OPEN_SLECT_CHECK_BOX,
 
-	GDCNI_BUY_SHOP_DESIRE_ITEM,
+  GDCNI_OPEN_PG_BOX_ITEM,
 
-	GDCNI_OPEN_BUY_SHOP_ITEM,
+  GDCNI_SHOP_OPEN_CHECK,
 
-	GDCNI_OPEN_LOCK_BOX_ITEM,
+  GDCNI_BUY_SHOP_DESIRE_ITEM,
 
-	GDCNI_OPEN_NEW_PW_BOX_ITEM,
+  GDCNI_OPEN_BUY_SHOP_ITEM,
 
-	GDCNI_SEND_TOP_TK_NEW_ITEM,
-	
-	GDCNI_OPEN_TOADO_BOX,
-	
-	GDCNI_QUERY_TONGKIM,
-	
-	// GDCNII_SET_MATE_NAME,
-	//uParam = ~0 ´ò¿ª    0 ¹Ø±Õ
+  GDCNI_OPEN_LOCK_BOX_ITEM,
+
+  GDCNI_OPEN_NEW_PW_BOX_ITEM,
+
+  GDCNI_SEND_TOP_TK_NEW_ITEM,
+
+  GDCNI_OPEN_TOADO_BOX,
+
+  GDCNI_QUERY_TONGKIM,
+
+  // GDCNII_SET_MATE_NAME,
+  // uParam = ~0 ´ò¿ª    0 ¹Ø±Õ
 };
 
-enum GAMEDEBUGCONTROL
-{
-	DEBUG_SHOWINFO = 1,
-	DEBUG_SHOWOBSTACLE,
+enum GAMEDEBUGCONTROL {
+  DEBUG_SHOWINFO = 1,
+  DEBUG_SHOWOBSTACLE,
 };
 
 //=========================================================
 // CoreÍâ²¿¿Í»§¶ÔcoreµÄ²Ù×÷ÇëÇóµÄË÷Òı¶¨Òå
 //=========================================================
-enum GAMEOPERATION_INDEX
-{
-	GOI_EXIT_GAME = 1,		//Àë¿ªÓÎÏ·
-	//uParam = bIpSpotExit
-
-	GOI_SWITCH_OBJECT_QUERY,		//½»»»
-	//uParam = (KUiObjAtContRegion*)pObject1 -> ÄÃÆğµÄÎïÆ·²Ù×÷Ç°µÄĞÅÏ¢
-	//Èç¹ûÎŞÄÃÆğµÄ¶«Î÷£¬ÔòuParam = 0
-	//nParam = (KUiObjAtContRegion*)pObject2 -> ·ÅÏÂµÄÎïÆ·²Ù×÷ºóµÄĞÅÏ¢
-	//Èç¹ûÎŞ·ÅÏÂµÄ¶«Î÷£¬ÔònParam = 0
-	//nRet = bSwitchable -> ÊÇ·ñ¿É½»»»
-
-	GOI_SWITCH_OBJECT,		//½»»»
-	//uParam = (KUiObjAtContRegion*)pObject1 -> ÄÃÆğµÄÎïÆ·²Ù×÷Ç°µÄĞÅÏ¢
-	//nParam = (KUiObjAtContRegion*)pObject2 -> ·ÅÏÂµÄÎïÆ·²Ù×÷ºóµÄĞÅÏ¢
-	//nRet = bSwitched -> ÊÇ·ñ½»»»ÁË
-
-	GOI_REJECT_OBJECT,		//¶ªÆúÎïÆ·
-	//uParam = (KUiObjAtContRegion*)pObject -> Óû¶ªÆúµÄÎïÆ·
-
-	GOI_MONEY_INOUT_STORE_BOX,	//´ÓStoreBox´æÈ¡Ç®
-	//uParam = (unsigned int)bIn Îª·Ç0ÖµÊ±±íÊ¾´æÈë£¬·ñÔò±íÊ¾È¡³ö
-	//nParam = Ç®µÄÊı¶î
-
-	GOI_PLAYER_ACTION,		//Íæ¼ÒÖ´ĞĞ/È¡ÏûÄ³¸ö¶¯×÷
-	//uParam = (PLAYER_ACTION_LIST)eAction ¶¯×÷±êÊ¶
-
-	GOI_PLAYER_RENASCENCE,		//Íæ¼ÒÖØÉú
-	//nParam = (int)(bool)bBackTown ÊÇ·ñ»Ø³Ç
-
-	GOI_INFORMATION_CONFIRM_NOTIFY,	//ÏûÏ¢»ñµÃÈ·ÈÏµÄÍ¨Öª
-
-	GOI_QUESTION_CHOOSE,	//ÎÊÌâÑ¡Ôñ´ğ°¸
-	//nParma = nAnswerIndex
-
-	GOI_USE_ITEM,			//Ê¹ÓÃÎïÆ·
-	//uParam = (KUiObjAtRegion*)pInfo -> ÎïÆ·µÄÊı¾İÒÔ¼°ÎïÆ·Ô­À´°Ú·ÅµÄÎ»ÖÃ
-	//nParam = ÎïÆ·Ê¹ÓÃÇ°·ÅÖÃµÄÎ»ÖÃ£¬È¡ÖµÎªÃ¶¾ÙÀàĞÍUIOBJECT_CONTAINER¡£
-
-	GOI_WEAR_EQUIP,			//´©ÉÏ×°±¸
-	//uParam = (KUiObjAtRegion*)pInfo -> ×°±¸µÄÊı¾İºÍ·ÅÖÃÎ»ÖÃĞÅÏ¢
-	//			KUiObjAtRegion::Region::h ±íÊ¾ÊôÓÚµÚ¼¸Ì××°±¸
-	//			KUiObjAtRegion::Region::v ±íÊ¾ÊôÓÚÄÄ¸öÎ»ÖÃµÄ×°±¸,ÆäÖµÎªÃ·¾ÙÀàĞÍ
-	//			UI_EQUIPMENT_POSITIONµÄÈ¡ÖµÖ®Ò»¡£Çë²Î¿´UI_EQUIPMENT_POSITIONµÄ×¢ÊÍ¡£
-
-	GOI_USE_SKILL,			//Ê©Õ¹Îä¹¦/¼¼ÄÜ
-	//uParam = (KUiGameObject*)pInfo -> ¼¼ÄÜÊı¾İ
-	//nParam = (Ä¿Ç°Ö»´«0Öµ¡£)Êó±êÖ¸Õëµ±Ç°×ø±ê£¨¾ø¶Ô×ø±ê£©£¬ºá×ø±êÔÚµÍ16Î»£¬×İ×ø±êÔÚ¸ß16Î»¡£(ÏñËØµã×ø±ê)
-
-	GOI_SET_IMMDIA_SKILL,	//ÉèÖÃÁ¢¼´¼¼ÄÜ
-	//uParam = (KUiGameObject*)pSKill, ¼¼ÄÜĞÅÏ¢
-	//nParam = Á¢¼´Î»ÖÃ£¬0±íÊ¾Îª×ó¼ü¼¼ÄÜ£¬1±íÊ¾ÎªÓÒ¼ü¼¼ÄÜ
-
-	GOI_TONE_UP_SKILL,		//ÔöÇ¿Ò»ÖÖ¼¼ÄÜ£¬£¬Ò»´Î¼ÓÒ»µã
-	//uParam = ¼¼ÄÜÀàÊô
-	//nParam = (uint)¼¼ÄÜid
-
-	GOI_TONE_UP_ATTRIBUTE,	//ÔöÇ¿Ò»Ğ©ÊôĞÔµÄÖµ£¬Ò»´Î¼ÓÒ»µã
-	//uParam = ±íÊ¾ÒªÔöÇ¿µÄÊÇÄÄ¸öÊôĞÔ£¬È¡ÖµÎªUI_PLAYER_ATTRIBUTEµÄÃ·¾ÙÖµÖ®Ò»
-
-	//============£¨ÓëÆäËüÍæ¼Ò£©½»Ò×Ïà¹Ø================
-	GOI_TRADE_INVITE_RESPONSE,	//´ğÓ¦/¾Ü¾ø½»Ò×ÇëÇó
-	//uParam = (KUiPlayerItem*)pRequestPlayer ·¢³öÇëÇóµÄÍæ¼Ò
-	//nParam = (int)(bool)bAccept ÊÇ·ñ½ÓÊÜÇëÇó
-
-	GOI_TRADE_DESIRE_ITEM,		//Ôö¼õÒ»¸öÓûÂô³öµÄÎïÆ·
-	//uParam = (KUiObjAtRegion*) pObject -> ÎïÆ·ĞÅÏ¢£¬ÆäÖĞ×ø±êĞÅÏ¢ÎªÔÚ½»Ò×½çÃæÖĞµÄ×ø±ê
-	//nParam = bAdd -> 0Öµ±íÊ¾¼õÉÙ£¬1Öµ±íÊ¾Ôö¼Ó
-	//Remark : Èç¹ûÎïÆ·ÊÇ½ğÇ®µÄ»°£¬ÔòKUiObjAtRegion::Obj::uId±íÊ¾°Ñ½ğÇ®¶îµ÷ÕûÎªÕâ¸öÖµ£¬ÇÒnParamÎŞÒâÒå¡£
-
-	GOI_TRADE_WILLING,			//ÓĞÎŞ½»Ò×ÒâÏò
-	//uParam = (const char*)pszTradMsg ¹ØÓÚ½»Ò×ÏûÏ¢Ò»¾ä»°£¬µ±bWillingÎªtrueÊ±ÓĞĞ§
-	//nParam = (int)(bool)bWilling ÊÇ·ñÆÚ´ı½»Ò×(½ĞÂô)
-
-	GOI_TRADE_LOCK,				//Ëø¶¨½»Ò×
-	//nParam = (int)(bool)bLock ÊÇ·ñËø¶¨
-
-	GOI_TRADE,					//½»Ò×
-	//nParam = (int)(bool)bTrading
-	
-	GOI_TRADE_CANCEL,			//½»Ò×È¡Ïû
-
-	//============£¨Óënpc£©½»Ò×Ïà¹Ø================
-	GOI_TRADE_NPC_BUY,			//ÏònpcÂòÎïÆ·
-	//uParam = (KUiGameObject*)pObj -> ÎïÆ·ĞÅÏ¢
-
-	GOI_TRADE_NPC_SELL,			//ÂôÎïÆ·¸ønpc
-	//uParam = (KUiObjAtContRegion*)pObj -> ÎïÆ·ĞÅÏ¢
-
-	GOI_TRADE_NPC_REPAIR,		//ĞŞÀíÎïÆ·
-	//uParam = (KUiObjAtContRegion*) pObj -> ÏëÒªµÄÎïÆ·µÄĞÅÏ¢
-
-	GOI_TRADE_NPC_CLOSE,		//½áÊø½»Ò×
-
-	GOI_DROP_ITEM_QUERY,		//²éÑ¯ÊÇ·ñ¿ÉÒÔ¶ªÄ³¸ö¶«Î÷µ½ÓÎÏ·´°¿Ú
-	//uParam = (KUiGameObject*)pObject -> ÎïÆ·ĞÅÏ¢
-	//nParam = ±»ÍÏ¶¯¶«Î÷µÄµ±Ç°×ø±ê£¨¾ø¶Ô×ø±ê£©£¬ºá×ø±êÔÚµÍ16Î»£¬×İ×ø±êÔÚ¸ß16Î»¡£(ÏñËØµã×ø±ê)
-	//Return = ÊÇ·ñ¿ÉÒÔ·ÅÏÂ
-	
-//	GOI_DROP_ITEM,				//·ÅÖÃÎïÆ·µ½ÓÎÏ·´°¿Ú
-	//²ÎÊıº¬ÒåÍ¬GOI_DROP_ITEM_QUERY²ÎÊıº¬ÒåÏàÍ¬
-	//Return = ÊÇ·ñ¶«Î÷±»·ÅÏÂÁË
-
-	GOI_SEND_MSG,				//·¢ËÍÏûÏ¢
-	//uParam = (const char*)pMsgBuff ÏûÏ¢ÄÚÈİ»º³åÇø
-	//nParam = (KUiMsgParam*)pMsgParam ÏûÏ¢²ÎÊı
-	
-	//============ÁÄÌìÏà¹Ø================
-	GOI_SET_SEND_CHAT_CHANNEL,	//ÉèÖÃµ±Ç°·¢ËÍÏûÏ¢µÄÆµµÀ
-	//uParam = (KUiChatChannel*) pChannelInfo ÒªÉèÖÃµÄÆµµÀµÄĞÅÏ¢
-	
-	GOI_SET_SEND_WHISPER_CHANNEL,//ÉèÖÃµ±Ç°·¢ËÍÏûÏ¢µÄÆµµÀÎªÓëÄ³ÈËµ¥ÁÄ
-	//uParam = (KUiPlayerItem*) pFriend
+enum GAMEOPERATION_INDEX {
+  GOI_EXIT_GAME = 1, // Àë¿ªÓÎÏ·
+  // uParam = bIpSpotExit
 
-	GOI_SET_RECEIVE_CHAT_CHANNEL,//ÉèÖÃ¶©ÔÄ/È¡ÏûÏûÏ¢ÆµµÀ
-	//uParam = (KUiChatChannel*) pChannelInfo ÒªÉèÖÃµÄÆµµÀµÄĞÅÏ¢
-	//nParam = (int)(bool) bEnable ÊÇ·ñ¶©ÔÄ
+  GOI_SWITCH_OBJECT_QUERY, // ½»»»
+  // uParam = (KUiObjAtContRegion*)pObject1 -> ÄÃÆğµÄÎïÆ·²Ù×÷Ç°µÄĞÅÏ¢
+  // Èç¹ûÎŞÄÃÆğµÄ¶«Î÷£¬ÔòuParam = 0
+  // nParam = (KUiObjAtContRegion*)pObject2 -> ·ÅÏÂµÄÎïÆ·²Ù×÷ºóµÄĞÅÏ¢
+  // Èç¹ûÎŞ·ÅÏÂµÄ¶«Î÷£¬ÔònParam = 0
+  // nRet = bSwitchable -> ÊÇ·ñ¿É½»»»
 
-	GOI_CHAT_GROUP_NEW,			//ĞÂ½¨ÁÄÌìºÃÓÑ×é
-	//uParam = (const char*) pGroupName
-	//Return = (int)(bool) bSuccessed
+  GOI_SWITCH_OBJECT, // ½»»»
+  // uParam = (KUiObjAtContRegion*)pObject1 -> ÄÃÆğµÄÎïÆ·²Ù×÷Ç°µÄĞÅÏ¢
+  // nParam = (KUiObjAtContRegion*)pObject2 -> ·ÅÏÂµÄÎïÆ·²Ù×÷ºóµÄĞÅÏ¢
+  // nRet = bSwitched -> ÊÇ·ñ½»»»ÁË
 
-	GOI_CHAT_GROUP_RENAME,		//ÖØÃüÃûÁÄÌìºÃÓÑ×é
-	//uParam = (const char*) pGroupName
-	//nParam = nIndex ×éË÷Òı
-	//Return = (int)(bool) bSuccessed
+  GOI_REJECT_OBJECT, // ¶ªÆúÎïÆ·
+  // uParam = (KUiObjAtContRegion*)pObject -> Óû¶ªÆúµÄÎïÆ·
 
-	GOI_CHAT_GROUP_DELETE,		//É¾³ıÁÄÌìºÃÓÑ×é
-	//nParam = nIndex ×éË÷Òı
-	//Return = (int)(bool) bSuccessed
+  GOI_MONEY_INOUT_STORE_BOX, // ´ÓStoreBox´æÈ¡Ç®
+  // uParam = (unsigned int)bIn Îª·Ç0ÖµÊ±±íÊ¾´æÈë£¬·ñÔò±íÊ¾È¡³ö
+  // nParam = Ç®µÄÊı¶î
 
-	GOI_CHAT_FRIEND_ADD,		//ĞÂÌí¼ÓÁÄÌìºÃÓÑ
-	//uParam = (KUiPlayerItem*)pFriend
-	//			KUiPlayerItem::nData = 0
+  GOI_PLAYER_ACTION, // Íæ¼ÒÖ´ĞĞ/È¡ÏûÄ³¸ö¶¯×÷
+  // uParam = (PLAYER_ACTION_LIST)eAction ¶¯×÷±êÊ¶
 
-	GOI_CHAT_FRIEND_DELETE,		//É¾³ıÁÄÌìºÃÓÑ
-	//uParam = (KUiPlayerItem*)pFriend
-	//			KUiPlayerItem::nData = 0
-	//nParam = nGroupIndex ºÃÓÑËùÔÚµÄ×éµÄË÷Òı
-	//Return = (int)(bool) bSuccessed
+  GOI_PLAYER_RENASCENCE, // Íæ¼ÒÖØÉú
+  // nParam = (int)(bool)bBackTown ÊÇ·ñ»Ø³Ç
 
-	GOI_CHAT_FRIEND_MOVE,		//ºÃÓÑÒÆµ½ĞÂ×é
-	//uParam = (KUiPlayerItem*)pFriend
-	//			KUiPlayerItem::nData = 0
-	//nParam = nGroupIndex ºÃÓÑËùµ½µÄĞÂ×éµÄË÷Òı
-	//Return = (int)(bool) bSuccessed
+  GOI_INFORMATION_CONFIRM_NOTIFY, // ÏûÏ¢»ñµÃÈ·ÈÏµÄÍ¨Öª
 
-	GOI_CHAT_SET_STATUS,		//ÇĞ»»ÁÄÌì×´Ì¬
-	//uParam = (CHAT_STATUS)eStatus ĞÂµÄÁÄÌì×´Ì¬
+  GOI_QUESTION_CHOOSE, // ÎÊÌâÑ¡Ôñ´ğ°¸
+  // nParma = nAnswerIndex
+
+  GOI_USE_ITEM, // Ê¹ÓÃÎïÆ·
+  // uParam = (KUiObjAtRegion*)pInfo -> ÎïÆ·µÄÊı¾İÒÔ¼°ÎïÆ·Ô­À´°Ú·ÅµÄÎ»ÖÃ
+  // nParam = ÎïÆ·Ê¹ÓÃÇ°·ÅÖÃµÄÎ»ÖÃ£¬È¡ÖµÎªÃ¶¾ÙÀàĞÍUIOBJECT_CONTAINER¡£
+
+  GOI_WEAR_EQUIP, // ´©ÉÏ×°±¸
+  // uParam = (KUiObjAtRegion*)pInfo -> ×°±¸µÄÊı¾İºÍ·ÅÖÃÎ»ÖÃĞÅÏ¢
+  //			KUiObjAtRegion::Region::h ±íÊ¾ÊôÓÚµÚ¼¸Ì××°±¸
+  //			KUiObjAtRegion::Region::v
+  // ±íÊ¾ÊôÓÚÄÄ¸öÎ»ÖÃµÄ×°±¸,ÆäÖµÎªÃ·¾ÙÀàĞÍ
+  //			UI_EQUIPMENT_POSITIONµÄÈ¡ÖµÖ®Ò»¡£Çë²Î¿´UI_EQUIPMENT_POSITIONµÄ×¢ÊÍ¡£
 
-	GOI_CHAT_WORDS_TO_FRIEND,	//·¢¸øºÃÓÑÒ»ÌõÑ¶Ï¢
-	//uParam = (KUiChatMessage*)pMessage ÏûÏ¢Êı¾İ
-	//nParam = (KUiPlayerItem*)pFriend   ·¢À´Ñ¶Ï¢µÄºÃÓÑ
+  GOI_USE_SKILL, // Ê©Õ¹Îä¹¦/¼¼ÄÜ
+  // uParam = (KUiGameObject*)pInfo -> ¼¼ÄÜÊı¾İ
+  // nParam =
+  // (Ä¿Ç°Ö»´«0Öµ¡£)Êó±êÖ¸Õëµ±Ç°×ø±ê£¨¾ø¶Ô×ø±ê£©£¬ºá×ø±êÔÚµÍ16Î»£¬×İ×ø±êÔÚ¸ß16Î»¡£(ÏñËØµã×ø±ê)
+
+  GOI_SET_IMMDIA_SKILL, // ÉèÖÃÁ¢¼´¼¼ÄÜ
+  // uParam = (KUiGameObject*)pSKill, ¼¼ÄÜĞÅÏ¢
+  // nParam = Á¢¼´Î»ÖÃ£¬0±íÊ¾Îª×ó¼ü¼¼ÄÜ£¬1±íÊ¾ÎªÓÒ¼ü¼¼ÄÜ
+
+  GOI_TONE_UP_SKILL, // ÔöÇ¿Ò»ÖÖ¼¼ÄÜ£¬£¬Ò»´Î¼ÓÒ»µã
+  // uParam = ¼¼ÄÜÀàÊô
+  // nParam = (uint)¼¼ÄÜid
+
+  GOI_TONE_UP_ATTRIBUTE, // ÔöÇ¿Ò»Ğ©ÊôĞÔµÄÖµ£¬Ò»´Î¼ÓÒ»µã
+  // uParam = ±íÊ¾ÒªÔöÇ¿µÄÊÇÄÄ¸öÊôĞÔ£¬È¡ÖµÎªUI_PLAYER_ATTRIBUTEµÄÃ·¾ÙÖµÖ®Ò»
+
+  //============£¨ÓëÆäËüÍæ¼Ò£©½»Ò×Ïà¹Ø================
+  GOI_TRADE_INVITE_RESPONSE, // ´ğÓ¦/¾Ü¾ø½»Ò×ÇëÇó
+  // uParam = (KUiPlayerItem*)pRequestPlayer ·¢³öÇëÇóµÄÍæ¼Ò
+  // nParam = (int)(bool)bAccept ÊÇ·ñ½ÓÊÜÇëÇó
+
+  GOI_TRADE_DESIRE_ITEM, // Ôö¼õÒ»¸öÓûÂô³öµÄÎïÆ·
+  // uParam = (KUiObjAtRegion*) pObject ->
+  // ÎïÆ·ĞÅÏ¢£¬ÆäÖĞ×ø±êĞÅÏ¢ÎªÔÚ½»Ò×½çÃæÖĞµÄ×ø±ê nParam = bAdd ->
+  // 0Öµ±íÊ¾¼õÉÙ£¬1Öµ±íÊ¾Ôö¼Ó Remark :
+  // Èç¹ûÎïÆ·ÊÇ½ğÇ®µÄ»°£¬ÔòKUiObjAtRegion::Obj::uId±íÊ¾°Ñ½ğÇ®¶îµ÷ÕûÎªÕâ¸öÖµ£¬ÇÒnParamÎŞÒâÒå¡£
+
+  GOI_TRADE_WILLING, // ÓĞÎŞ½»Ò×ÒâÏò
+  // uParam = (const char*)pszTradMsg ¹ØÓÚ½»Ò×ÏûÏ¢Ò»¾ä»°£¬µ±bWillingÎªtrueÊ±ÓĞĞ§
+  // nParam = (int)(bool)bWilling ÊÇ·ñÆÚ´ı½»Ò×(½ĞÂô)
 
-	GOI_CHAT_FRIEND_INVITE,		//¶Ô±ğÈËÒª¼Ó×Ô¼ºÎªºÃÓÑµÄ»Ø¸´
-	//uParam = (KUiPlayerItem*)pRequestPlayer ·¢³öÇëÇóµÄÍæ¼Ò
-	//nParam = (int)(bool)bAccept ÊÇ·ñ½ÓÊÜÇëÇó
+  GOI_TRADE_LOCK, // Ëø¶¨½»Ò×
+  // nParam = (int)(bool)bLock ÊÇ·ñËø¶¨
+
+  GOI_TRADE, // ½»Ò×
+  // nParam = (int)(bool)bTrading
+
+  GOI_TRADE_CANCEL, // ½»Ò×È¡Ïû
+
+  //============£¨Óënpc£©½»Ò×Ïà¹Ø================
+  GOI_TRADE_NPC_BUY, // ÏònpcÂòÎïÆ·
+  // uParam = (KUiGameObject*)pObj -> ÎïÆ·ĞÅÏ¢
+
+  GOI_TRADE_NPC_SELL, // ÂôÎïÆ·¸ønpc
+  // uParam = (KUiObjAtContRegion*)pObj -> ÎïÆ·ĞÅÏ¢
+
+  GOI_TRADE_NPC_REPAIR, // ĞŞÀíÎïÆ·
+  // uParam = (KUiObjAtContRegion*) pObj -> ÏëÒªµÄÎïÆ·µÄĞÅÏ¢
+
+  GOI_TRADE_NPC_CLOSE, // ½áÊø½»Ò×
 
-	GOI_OPTION_SETTING,			//Ñ¡ÏîÉèÖÃ
-	//uParam = (OPTIONS_LIST)eOptionItem ÒªÉèÖÃµÄÑ¡Ïî
-	//nParam = (int)nValue ÉèÖÃµÄÖµ£¬Æäº¬ÒåÒÀÀµÓÚeOptionItemµÄº¬Òå
-	//					²Î¿´OPTIONS_LIST¸÷ÖµµÄ×¢ÊÍ
+  GOI_DROP_ITEM_QUERY, // ²éÑ¯ÊÇ·ñ¿ÉÒÔ¶ªÄ³¸ö¶«Î÷µ½ÓÎÏ·´°¿Ú
+  // uParam = (KUiGameObject*)pObject -> ÎïÆ·ĞÅÏ¢
+  // nParam =
+  // ±»ÍÏ¶¯¶«Î÷µÄµ±Ç°×ø±ê£¨¾ø¶Ô×ø±ê£©£¬ºá×ø±êÔÚµÍ16Î»£¬×İ×ø±êÔÚ¸ß16Î»¡£(ÏñËØµã×ø±ê)
+  // Return = ÊÇ·ñ¿ÉÒÔ·ÅÏÂ
 
-	GOI_PLAY_SOUND,				//²¥·ÅÉùÒô
-	//uParam = (const char*)pszFileName
+  //	GOI_DROP_ITEM,				//·ÅÖÃÎïÆ·µ½ÓÎÏ·´°¿Ú
+  // ²ÎÊıº¬ÒåÍ¬GOI_DROP_ITEM_QUERY²ÎÊıº¬ÒåÏàÍ¬
+  // Return = ÊÇ·ñ¶«Î÷±»·ÅÏÂÁË
 
-	GOI_PK_SETTING,				//ÉèÖÃPK
-	//nParam = (int)(bool)bEnable	ÊÇ·ñÔÊĞípk
+  GOI_SEND_MSG, // ·¢ËÍÏûÏ¢
+  // uParam = (const char*)pMsgBuff ÏûÏ¢ÄÚÈİ»º³åÇø
+  // nParam = (KUiMsgParam*)pMsgParam ÏûÏ¢²ÎÊı
 
-	GOI_REVENGE_SOMEONE,		//³ğÉ±Ä³ÈË
-	//uParam = (KUiPlayerItem*) pTarget	³ğÉ±Ä¿±ê
+  //============ÁÄÌìÏà¹Ø================
+  GOI_SET_SEND_CHAT_CHANNEL, // ÉèÖÃµ±Ç°·¢ËÍÏûÏ¢µÄÆµµÀ
+  // uParam = (KUiChatChannel*) pChannelInfo ÒªÉèÖÃµÄÆµµÀµÄĞÅÏ¢
 
-	GOI_SHOW_PLAYERS_NAME,		//ÏÔÊ¾¸÷Íæ¼ÒÈËÃû
-	//nParam = (int)(bool)bShow	ÊÇ·ñÏÔÊ¾
-	GOI_SHOW_PLAYERS_LIFE,		//ÏÔÊ¾¸÷Íæ¼ÒÉúÃü
-	//nParam = (int)(bool)bShow	ÊÇ·ñÏÔÊ¾
-	GOI_SHOW_PLAYERS_MANA,		//ÏÔÊ¾¸÷Íæ¼ÒÄÚÁ¦
-	//nParam = (int)(bool)bShow	ÊÇ·ñÏÔÊ¾
+  GOI_SET_SEND_WHISPER_CHANNEL, // ÉèÖÃµ±Ç°·¢ËÍÏûÏ¢µÄÆµµÀÎªÓëÄ³ÈËµ¥ÁÄ
+  // uParam = (KUiPlayerItem*) pFriend
 
-	GOI_GAMESPACE_DISCONNECTED,	//ÓÎÏ·ÊÀ½ç¶Ï¿ªÁ¬½ÓÁË
-	
-	GOI_VIEW_PLAYERITEM,		//ÉêÇë¿´Íæ¼Ò×°±¸
-	//uParam = dwNpcID	Íæ¼ÒµÄm_dwID
-	GOI_VIEW_PLAYERITEM_END,	//¿´Íæ¼Ò×°±¸½áÊø
+  GOI_SET_RECEIVE_CHAT_CHANNEL, // ÉèÖÃ¶©ÔÄ/È¡ÏûÏûÏ¢ÆµµÀ
+  // uParam = (KUiChatChannel*) pChannelInfo ÒªÉèÖÃµÄÆµµÀµÄĞÅÏ¢
+  // nParam = (int)(bool) bEnable ÊÇ·ñ¶©ÔÄ
 
-	GOI_FOLLOW_SOMEONE,			//¸úËæÄ³ÈË
-	//uParam = (KUiPlayerItem*) pTarget	¸úËæÄ¿±ê
+  GOI_CHAT_GROUP_NEW, // ĞÂ½¨ÁÄÌìºÃÓÑ×é
+  // uParam = (const char*) pGroupName
+  // Return = (int)(bool) bSuccessed
 
-	GOI_QUERY_RANK_INFORMATION,  //»ñÈ¡Êı¾İÇëÇó
-	//uParam = usIndexId ÅÅÃûÏîµÄid
+  GOI_CHAT_GROUP_RENAME, // ÖØÃüÃûÁÄÌìºÃÓÑ×é
+  // uParam = (const char*) pGroupName
+  // nParam = nIndex ×éË÷Òı
+  // Return = (int)(bool) bSuccessed
 
-	GOI_BLOCK_ITEM,
+  GOI_CHAT_GROUP_DELETE, // É¾³ıÁÄÌìºÃÓÑ×é
+  // nParam = nIndex ×éË÷Òı
+  // Return = (int)(bool) bSuccessed
 
-	GOI_UNBLOCK_ITEM,
+  GOI_CHAT_FRIEND_ADD, // ĞÂÌí¼ÓÁÄÌìºÃÓÑ
+  // uParam = (KUiPlayerItem*)pFriend
+  //			KUiPlayerItem::nData = 0
 
-	GOI_STOP_TRADE_BUY_NPC,
+  GOI_CHAT_FRIEND_DELETE, // É¾³ıÁÄÌìºÃÓÑ
+  // uParam = (KUiPlayerItem*)pFriend
+  //			KUiPlayerItem::nData = 0
+  // nParam = nGroupIndex ºÃÓÑËùÔÚµÄ×éµÄË÷Òı
+  // Return = (int)(bool) bSuccessed
 
-	GOI_STASK_ITEM,
+  GOI_CHAT_FRIEND_MOVE, // ºÃÓÑÒÆµ½ĞÂ×é
+  // uParam = (KUiPlayerItem*)pFriend
+  //			KUiPlayerItem::nData = 0
+  // nParam = nGroupIndex ºÃÓÑËùµ½µÄĞÂ×éµÄË÷Òı
+  // Return = (int)(bool) bSuccessed
 
-	GOI_STRING_BOX,
+  GOI_CHAT_SET_STATUS, // ÇĞ»»ÁÄÌì×´Ì¬
+  // uParam = (CHAT_STATUS)eStatus ĞÂµÄÁÄÌì×´Ì¬
 
-	GOI_CHECK_ITEM_BOX,
+  GOI_CHAT_WORDS_TO_FRIEND, // ·¢¸øºÃÓÑÒ»ÌõÑ¶Ï¢
+  // uParam = (KUiChatMessage*)pMessage ÏûÏ¢Êı¾İ
+  // nParam = (KUiPlayerItem*)pFriend   ·¢À´Ñ¶Ï¢µÄºÃÓÑ
 
-	GOI_SLECT_CHECK_BOX,
+  GOI_CHAT_FRIEND_INVITE, // ¶Ô±ğÈËÒª¼Ó×Ô¼ºÎªºÃÓÑµÄ»Ø¸´
+  // uParam = (KUiPlayerItem*)pRequestPlayer ·¢³öÇëÇóµÄÍæ¼Ò
+  // nParam = (int)(bool)bAccept ÊÇ·ñ½ÓÊÜÇëÇó
 
-	GOI_BUTTON_PG_BOX,
+  GOI_OPTION_SETTING, // Ñ¡ÏîÉèÖÃ
+  // uParam = (OPTIONS_LIST)eOptionItem ÒªÉèÖÃµÄÑ¡Ïî
+  // nParam = (int)nValue ÉèÖÃµÄÖµ£¬Æäº¬ÒåÒÀÀµÓÚeOptionItemµÄº¬Òå
+  //					²Î¿´OPTIONS_LIST¸÷ÖµµÄ×¢ÊÍ
 
-	GOI_SHOP_NAME,
+  GOI_PLAY_SOUND, // ²¥·ÅÉùÒô
+  // uParam = (const char*)pszFileName
 
-	GOI_SHOP_PRICE,
+  GOI_PK_SETTING, // ÉèÖÃPK
+  // nParam = (int)(bool)bEnable	ÊÇ·ñÔÊĞípk
 
-	GOI_SHOP_OPEN,
+  GOI_REVENGE_SOMEONE, // ³ğÉ±Ä³ÈË
+  // uParam = (KUiPlayerItem*) pTarget	³ğÉ±Ä¿±ê
 
-	GOI_SHOP_BUY_ITEM,
+  GOI_SHOW_PLAYERS_NAME, // ÏÔÊ¾¸÷Íæ¼ÒÈËÃû
+  // nParam = (int)(bool)bShow	ÊÇ·ñÏÔÊ¾
+  GOI_SHOW_PLAYERS_LIFE, // ÏÔÊ¾¸÷Íæ¼ÒÉúÃü
+  // nParam = (int)(bool)bShow	ÊÇ·ñÏÔÊ¾
+  GOI_SHOW_PLAYERS_MANA, // ÏÔÊ¾¸÷Íæ¼ÒÄÚÁ¦
+  // nParam = (int)(bool)bShow	ÊÇ·ñÏÔÊ¾
 
-	GOI_BUY_SHOP_CLOSE,
+  GOI_GAMESPACE_DISCONNECTED, // ÓÎÏ·ÊÀ½ç¶Ï¿ªÁ¬½ÓÁË
 
-	GOI_OPEN_SHOP_GOLD,
+  GOI_VIEW_PLAYERITEM, // ÉêÇë¿´Íæ¼Ò×°±¸
+  // uParam = dwNpcID	Íæ¼ÒµÄm_dwID
+  GOI_VIEW_PLAYERITEM_END, // ¿´Íæ¼Ò×°±¸½áÊø
 
-	GOI_LOGIN_PW_STORE_BOX,
+  GOI_FOLLOW_SOMEONE, // ¸úËæÄ³ÈË
+  // uParam = (KUiPlayerItem*) pTarget	¸úËæÄ¿±ê
 
-	GOI_PW_STORE_BOX,
+  GOI_QUERY_RANK_INFORMATION, // »ñÈ¡Êı¾İÇëÇó
+  // uParam = usIndexId ÅÅÃûÏîµÄid
 
-	GOI_BLOCK_STORE_BOX,
+  GOI_BLOCK_ITEM,
 
-	GOI_UNBLOCK_STORE_BOX,
+  GOI_UNBLOCK_ITEM,
 
-	GOI_NEW_PW_STORE_BOX,
+  GOI_STOP_TRADE_BUY_NPC,
 
-	GOI_OPEN_TOP_TK_NEW,
+  GOI_STASK_ITEM,
 
-	GOI_TOADO,
+  GOI_STRING_BOX,
 
-	//GOI_MARKET,
-	
-	GOI_CP_SET_IMAGE_PLAYER, // chan dung
-	
-	// UY THAC
-	GOI_LIXIAN,
-	// END
-	GOI_AUTOQUAYLAI,
+  GOI_CHECK_ITEM_BOX,
 
-	GOI_AUTOLOCDO,
-	
-	
-	// GOI_GET_MATE_NAME,
-	
-	
+  GOI_SLECT_CHECK_BOX,
+
+  GOI_BUTTON_PG_BOX,
+
+  GOI_SHOP_NAME,
+
+  GOI_SHOP_PRICE,
+
+  GOI_SHOP_OPEN,
+
+  GOI_SHOP_BUY_ITEM,
+
+  GOI_BUY_SHOP_CLOSE,
+
+  GOI_OPEN_SHOP_GOLD,
+
+  GOI_LOGIN_PW_STORE_BOX,
+
+  GOI_PW_STORE_BOX,
+
+  GOI_BLOCK_STORE_BOX,
+
+  GOI_UNBLOCK_STORE_BOX,
+
+  GOI_NEW_PW_STORE_BOX,
+
+  GOI_OPEN_TOP_TK_NEW,
+
+  GOI_TOADO,
+
+  // GOI_MARKET,
+
+  GOI_CP_SET_IMAGE_PLAYER, // chan dung
+
+  // UY THAC
+  GOI_LIXIAN,
+  // END
+  GOI_AUTOQUAYLAI,
+
+  GOI_AUTOLOCDO,
+
+  // GOI_GET_MATE_NAME,
+
 };
 
 //=========================================================
 // CoreÍâ²¿¿Í»§¶ÔcoreµÄ³¡¾°µØÍ¼Ïà¹ØµÄ²Ù×÷ÇëÇóµÄË÷Òı¶¨Òå
 //=========================================================
-//¸÷Êı¾İÏîË÷ÒıµÄÏà¹Ø²ÎÊıuParamÓënParamÈç¹ûÔÚ×¢ÊÍÖĞÎ´Ìá¼°£¬Ôò´«µİ¶¨Öµ0¡£
-//Èç¹ûÌØ±ğÖ¸Ã÷·µ»ØÖµº¬Òå£¬Ôò³É¹¦»ñÈ¡Êı¾İ·µ»Ø1£¬Î´³É¹¦·µ»Ø0¡£
-enum GAME_SCENE_MAP_OPERATION_INDEX
-{
-	GSMOI_SCENE_TIME_INFO,			//µ±Ç°Ö÷½ÇËù´¦µÄµØÓòÊ±¼ä»·¾³
-	//uParam = (KUiSceneTimeInfo*)pInfo
+// ¸÷Êı¾İÏîË÷ÒıµÄÏà¹Ø²ÎÊıuParamÓënParamÈç¹ûÔÚ×¢ÊÍÖĞÎ´Ìá¼°£¬Ôò´«µİ¶¨Öµ0¡£
+// Èç¹ûÌØ±ğÖ¸Ã÷·µ»ØÖµº¬Òå£¬Ôò³É¹¦»ñÈ¡Êı¾İ·µ»Ø1£¬Î´³É¹¦·µ»Ø0¡£
+enum GAME_SCENE_MAP_OPERATION_INDEX {
+  GSMOI_SCENE_TIME_INFO, // µ±Ç°Ö÷½ÇËù´¦µÄµØÓòÊ±¼ä»·¾³
+  // uParam = (KUiSceneTimeInfo*)pInfo
 
-	GSMOI_SCENE_MAP_INFO,				//µ±Ç°Ö÷½ÇËù´¦µÄ³¡¾°µÄµØÍ¼ĞÅÏ¢
-	//uParam = (KSceneMapInfo*) pInfo ÓÃÓÚ»ñÈ¡ĞÅÏ¢µÄ½á¹¹»º³åÇøµÄÖ¸Õë
-	//Return = (int)(bool)bHaveMap ·µ»ØÖµ±íÊ¾µ±Ç°³¡¾°ÊÇ·ñÓĞĞ¡µØÍ¼¡£Èç¹û·µ»Ø0ÖµÊ±£¬ pInfoÄÚ·µ»ØµÄÖµÎŞÒâÒå
+  GSMOI_SCENE_MAP_INFO, // µ±Ç°Ö÷½ÇËù´¦µÄ³¡¾°µÄµØÍ¼ĞÅÏ¢
+  // uParam = (KSceneMapInfo*) pInfo ÓÃÓÚ»ñÈ¡ĞÅÏ¢µÄ½á¹¹»º³åÇøµÄÖ¸Õë
+  // Return = (int)(bool)bHaveMap
+  // ·µ»ØÖµ±íÊ¾µ±Ç°³¡¾°ÊÇ·ñÓĞĞ¡µØÍ¼¡£Èç¹û·µ»Ø0ÖµÊ±£¬ pInfoÄÚ·µ»ØµÄÖµÎŞÒâÒå
 
-	GSMOI_IS_SCENE_MAP_SHOWING,	//ÉèÖÃ³¡¾°µÄĞ¡µØÍ¼ÊÇ·ñÏÔÊ¾µÄ×´Ì¬
-	//uParam = uShowElem,		//ÏÔÊ¾ÄÄĞ©ÄÚÈİ£¬È¡ÖµÎªSCENE_PLACE_MAP_ELEMÃ¶¾ÙµÄÒ»¸ö»ò¶à¸öµÄ×éºÏ¡£
-				//SCENE_PLACE_MAP_ELEMÔÚGameDataDef.hÖĞ¶¨Òå
-				//ä¯ÀÀĞ¡µØÍ¼ÓëÆäËüÒ»Ğ©ÏîÊÇ»¥³âµÄ
-	//nParam = µÍ16Î»±íÊ¾ÏÔÊ¾µÄ¿í¶È£¬¸ß16Î»±íÊ¾ÏÔÊ¾µÄ¸ß¶È£¨µ¥Î»£ºÏñËØµã£©
+  GSMOI_IS_SCENE_MAP_SHOWING, // ÉèÖÃ³¡¾°µÄĞ¡µØÍ¼ÊÇ·ñÏÔÊ¾µÄ×´Ì¬
+  // uParam = uShowElem,
+  // //ÏÔÊ¾ÄÄĞ©ÄÚÈİ£¬È¡ÖµÎªSCENE_PLACE_MAP_ELEMÃ¶¾ÙµÄÒ»¸ö»ò¶à¸öµÄ×éºÏ¡£
+  // SCENE_PLACE_MAP_ELEMÔÚGameDataDef.hÖĞ¶¨Òå
+  // ä¯ÀÀĞ¡µØÍ¼ÓëÆäËüÒ»Ğ©ÏîÊÇ»¥³âµÄ
+  // nParam = µÍ16Î»±íÊ¾ÏÔÊ¾µÄ¿í¶È£¬¸ß16Î»±íÊ¾ÏÔÊ¾µÄ¸ß¶È£¨µ¥Î»£ºÏñËØµã£©
 
-	GSMOI_PAINT_SCENE_MAP,		//»æÖÆ³¡¾°µÄĞ¡µØÍ¼
-	//uParam = (int)h ±íÊ¾»æÖÆÆğÊ¼µãÔÚÆÁÄ»ÉÏºá×ø±ê×ø±ê£¨µ¥Î»£ºÏñËØµã£©
-	//nParam = (int)v ±íÊ¾»æÖÆÆğÊ¼µãÔÚÆÁÄ»ÉÏ×İ×ø±ê×ø±ê£¨µ¥Î»£ºÏñËØµã£©
+  GSMOI_PAINT_SCENE_MAP, // »æÖÆ³¡¾°µÄĞ¡µØÍ¼
+  // uParam = (int)h ±íÊ¾»æÖÆÆğÊ¼µãÔÚÆÁÄ»ÉÏºá×ø±ê×ø±ê£¨µ¥Î»£ºÏñËØµã£©
+  // nParam = (int)v ±íÊ¾»æÖÆÆğÊ¼µãÔÚÆÁÄ»ÉÏ×İ×ø±ê×ø±ê£¨µ¥Î»£ºÏñËØµã£©
 
-	GSMOI_SCENE_MAP_FOCUS_OFFSET,//ÉèÖÃĞ¡µØÍ¼µÄ½¹µã£¨/ÖĞĞÄ£©
-	//uParam = (int)nOffsetH	ÉèÖÃĞ¡µØÍ¼½¹µãµÄË®Æ½×ø±ê£¨µ¥Î»£º³¡¾°×ø±ê£©
-	//nParam = (int)nOffsetV	ÉèÖÃĞ¡µØÍ¼½¹µãµÄ´¹Öµ×ø±ê£¨µ¥Î»£º³¡¾°×ø±ê£©
+  GSMOI_SCENE_MAP_FOCUS_OFFSET, // ÉèÖÃĞ¡µØÍ¼µÄ½¹µã£¨/ÖĞĞÄ£©
+  // uParam = (int)nOffsetH	ÉèÖÃĞ¡µØÍ¼½¹µãµÄË®Æ½×ø±ê£¨µ¥Î»£º³¡¾°×ø±ê£©
+  // nParam = (int)nOffsetV	ÉèÖÃĞ¡µØÍ¼½¹µãµÄ´¹Öµ×ø±ê£¨µ¥Î»£º³¡¾°×ø±ê£©
 
-	GSMOI_SCENE_FOLLOW_WITH_MAP,	//ÉèÖÃ³¡¾°ÊÇ·ñËæ×ÅµØÍ¼µÄÒÆ¶¯¶øÒÆ¶¯
-	//nParam = (int)nbEnable ³¡¾°ÊÇ·ñËæ×ÅµØÍ¼µÄÒÆ¶¯¶øÒÆ¶¯
+  GSMOI_SCENE_FOLLOW_WITH_MAP, // ÉèÖÃ³¡¾°ÊÇ·ñËæ×ÅµØÍ¼µÄÒÆ¶¯¶øÒÆ¶¯
+  // nParam = (int)nbEnable ³¡¾°ÊÇ·ñËæ×ÅµØÍ¼µÄÒÆ¶¯¶øÒÆ¶¯
 
-	GSMOI_SCENE_POST_SEARCH_MAP,
+  GSMOI_SCENE_POST_SEARCH_MAP,
 
-	GSMOI_DRAW_GREEN_LINE,
-	
-	GSMOI_FIND_POS,
+  GSMOI_DRAW_GREEN_LINE,
 
-	GSMOI_DELETE_DRAW_POS,
-	
-	GSMOI_DELETE_DRAW_LINE,
+  GSMOI_FIND_POS,
 
-	GSMOI_PAINT_SCENE_FIND_POS,
+  GSMOI_DELETE_DRAW_POS,
 
-	GSMOI_SET_HIDE_REGION,
+  GSMOI_DELETE_DRAW_LINE,
 
-	GSMOI_GET_HIDE_REGION,
+  GSMOI_PAINT_SCENE_FIND_POS,
 
-	GSMOI_SCENE_CALCFLAG,
+  GSMOI_SET_HIDE_REGION,
+
+  GSMOI_GET_HIDE_REGION,
+
+  GSMOI_SCENE_CALCFLAG,
 };
 
 //=========================================================
 // CoreÍâ²¿¿Í»§¶ÔcoreµÄ°ï»áÏà¹ØµÄ²Ù×÷ÇëÇóµÄË÷Òı¶¨Òå
 //=========================================================
-//¸÷Êı¾İÏîË÷ÒıµÄÏà¹Ø²ÎÊıuParamÓënParamÈç¹ûÔÚ×¢ÊÍÖĞÎ´Ìá¼°£¬Ôò´«µİ¶¨Öµ0¡£
-//Èç¹ûÌØ±ğÖ¸Ã÷·µ»ØÖµº¬Òå£¬Ôò³É¹¦»ñÈ¡Êı¾İ·µ»Ø1£¬Î´³É¹¦·µ»Ø0¡£
-enum GAME_TONG_OPERATION_INDEX
-{
-	GTOI_TONG_CREATE,			//´´½¨°ï»á
-	//uParam = (const char*) pszTongName °ï»áµÄÃû×Ö
-	//nParam = (NPCCAMP)enFaction °ï»áÕóÓª
-	GTOI_TONG_CHANGE_CAMP,
+// ¸÷Êı¾İÏîË÷ÒıµÄÏà¹Ø²ÎÊıuParamÓënParamÈç¹ûÔÚ×¢ÊÍÖĞÎ´Ìá¼°£¬Ôò´«µİ¶¨Öµ0¡£
+// Èç¹ûÌØ±ğÖ¸Ã÷·µ»ØÖµº¬Òå£¬Ôò³É¹¦»ñÈ¡Êı¾İ·µ»Ø1£¬Î´³É¹¦·µ»Ø0¡£
+enum GAME_TONG_OPERATION_INDEX {
+  GTOI_TONG_CREATE, // ´´½¨°ï»á
+  // uParam = (const char*) pszTongName °ï»áµÄÃû×Ö
+  // nParam = (NPCCAMP)enFaction °ï»áÕóÓª
+  GTOI_TONG_CHANGE_CAMP,
 
-	GTOI_TONG_IS_RECRUIT,		//²éÑ¯Ä³ÈËµÄÕĞÈË¿ª¹Ø
-	//uParam = (KUiPlayerItme*) Òª²éË­
-	//Return = (int)(bool)		ÊÇ·ñ¿ª×ÅµÄÕĞÈË¿ª¹Ø
+  GTOI_TONG_IS_RECRUIT, // ²éÑ¯Ä³ÈËµÄÕĞÈË¿ª¹Ø
+  // uParam = (KUiPlayerItme*) Òª²éË­
+  // Return = (int)(bool)		ÊÇ·ñ¿ª×ÅµÄÕĞÈË¿ª¹Ø
 
-	GTOI_TONG_RECRUIT,          //ÕĞÈË¿ª¹Ø
-	//uParam = (int)(bool)bRecruit ÊÇ·ñÔ¸ÒâÕĞÈË
+  GTOI_TONG_RECRUIT, // ÕĞÈË¿ª¹Ø
+  // uParam = (int)(bool)bRecruit ÊÇ·ñÔ¸ÒâÕĞÈË
 
-	GTOI_TONG_ACTION,           //¶Ô°ïÄÚ³ÉÔ±×öµÄ¶¯×÷£¬»ò×Ô¼ºÓë°ï»áµÄ¹ØÏµµÄ¸Ä±ä
-	//uParam = (KTongOperationParam*) pOperParam ¶¯×÷Ê±µÄ²ÎÊı
-	//nParam = (KTongMemberItem*) pMember Ö¸³öÁË²Ù×÷£¨°ï»á³ÉÔ±£©¶ÔÏó£¬
+  GTOI_TONG_ACTION, // ¶Ô°ïÄÚ³ÉÔ±×öµÄ¶¯×÷£¬»ò×Ô¼ºÓë°ï»áµÄ¹ØÏµµÄ¸Ä±ä
+  // uParam = (KTongOperationParam*) pOperParam ¶¯×÷Ê±µÄ²ÎÊı
+  // nParam = (KTongMemberItem*) pMember Ö¸³öÁË²Ù×÷£¨°ï»á³ÉÔ±£©¶ÔÏó£¬
 
-	GTOI_TONG_JOIN_REPLY,       //¶ÔÉêÇë¼ÓÈëµÄ´ğ¸´
-	//uPAram = (KUiPlayerItem *) pTarget   ÉêÇë·½
-	//nParam : !=0Í¬Òâ     ==0¾Ü¾ø
+  GTOI_TONG_JOIN_REPLY, // ¶ÔÉêÇë¼ÓÈëµÄ´ğ¸´
+  // uPAram = (KUiPlayerItem *) pTarget   ÉêÇë·½
+  // nParam : !=0Í¬Òâ     ==0¾Ü¾ø
 
-	GTOI_REQUEST_PLAYER_TONG,	//²éÑ¯Ä³ÈËÊÇÄÄ°ï»á
-	//uParam = (KUiPlayerItem*) Òª²éË­
-	//nParam = (int)(bool)bReturnTongDetail ÊÇ·ñÒª·µ»ØÄÇ¸ö°ï»áµÄĞÅÏ¢
+  GTOI_REQUEST_PLAYER_TONG, // ²éÑ¯Ä³ÈËÊÇÄÄ°ï»á
+  // uParam = (KUiPlayerItem*) Òª²éË­
+  // nParam = (int)(bool)bReturnTongDetail ÊÇ·ñÒª·µ»ØÄÇ¸ö°ï»áµÄĞÅÏ¢
 
-	GTOI_REQUEST_TONG_DATA,     //ÒªÇóÄ³¸ö°ï»áµÄ¸÷ÖÖ×ÊÁÏ
-	//uParam = (KUiGameObjectWithName*)pTong Òª²éÑ¯µÄ°ï»á
-			//KUiGameObjectWithName::szName °ï»áµÄÃû×Ö
-			//KUiGameObjectWithName::nData ×ÊÁÏµÄÖÖÀà£¬ÖµÈ¡×ÔÃ¶¾ÙTONG_MEMBER_FIGURE
-			//			ÁĞ±íµÄÖÖÀàÊÇenumTONG_FIGURE_MASTERµÄ»°´ú±íÒªÇóµÄÊÇ°ï»áµÄ×ÊÑ¶¡£
-			//KUiGameObjectWithName::nParam ¿ªÊ¼µÄË÷Òı
+  GTOI_REQUEST_TONG_DATA, // ÒªÇóÄ³¸ö°ï»áµÄ¸÷ÖÖ×ÊÁÏ
+  // uParam = (KUiGameObjectWithName*)pTong Òª²éÑ¯µÄ°ï»á
+  // KUiGameObjectWithName::szName °ï»áµÄÃû×Ö
+  // KUiGameObjectWithName::nData ×ÊÁÏµÄÖÖÀà£¬ÖµÈ¡×ÔÃ¶¾ÙTONG_MEMBER_FIGURE
+  //			ÁĞ±íµÄÖÖÀàÊÇenumTONG_FIGURE_MASTERµÄ»°´ú±íÒªÇóµÄÊÇ°ï»áµÄ×ÊÑ¶¡£
+  // KUiGameObjectWithName::nParam ¿ªÊ¼µÄË÷Òı
 };
 
 //=========================================================
 // CoreÍâ²¿¿Í»§¶ÔcoreµÄ×é¶ÓÏà¹ØµÄ²Ù×÷ÇëÇóµÄË÷Òı¶¨Òå
 //=========================================================
-//¸÷Êı¾İÏîË÷ÒıµÄÏà¹Ø²ÎÊıuParamÓënParamÈç¹ûÔÚ×¢ÊÍÖĞÎ´Ìá¼°£¬Ôò´«µİ¶¨Öµ0¡£
-//Èç¹ûÌØ±ğÖ¸Ã÷·µ»ØÖµº¬Òå£¬Ôò³É¹¦»ñÈ¡Êı¾İ·µ»Ø1£¬Î´³É¹¦·µ»Ø0¡£
-enum GAME_TEAM_OPERATION_INDEX
-{
-	//----»ñÈ¡Êı¾İ----
-	TEAM_OI_GD_INFO,				//Ö÷½ÇËùÔÚµÄ¶ÓÎéĞÅÏ¢
-	//uParam = (KUiPlayerTeam*)pTeam -> ¶ÓÎéĞÅÏ¢
-	//Return = bInTeam, Èç¹ûÎª·Ç0Öµ±íÊ¾Ö÷½ÇÔÚ¶ÓÎéÖĞ£¬pTeam½á¹¹ÊÇ·ñ±»Ìî³äĞÅÏ¢¡£
-	//					Èç¹ûÎª0Öµ±íÊ¾Ö÷½Ç²»ÔÚ¶ÓÎéÖĞ£¬pTeam½á¹¹Î´±»Ìî³äÓĞĞ§ĞÅÏ¢¡£
+// ¸÷Êı¾İÏîË÷ÒıµÄÏà¹Ø²ÎÊıuParamÓënParamÈç¹ûÔÚ×¢ÊÍÖĞÎ´Ìá¼°£¬Ôò´«µİ¶¨Öµ0¡£
+// Èç¹ûÌØ±ğÖ¸Ã÷·µ»ØÖµº¬Òå£¬Ôò³É¹¦»ñÈ¡Êı¾İ·µ»Ø1£¬Î´³É¹¦·µ»Ø0¡£
+enum GAME_TEAM_OPERATION_INDEX {
+  //----»ñÈ¡Êı¾İ----
+  TEAM_OI_GD_INFO, // Ö÷½ÇËùÔÚµÄ¶ÓÎéĞÅÏ¢
+                   // uParam = (KUiPlayerTeam*)pTeam -> ¶ÓÎéĞÅÏ¢
+                   // Return = bInTeam,
+                   // Èç¹ûÎª·Ç0Öµ±íÊ¾Ö÷½ÇÔÚ¶ÓÎéÖĞ£¬pTeam½á¹¹ÊÇ·ñ±»Ìî³äĞÅÏ¢¡£
+  //					Èç¹ûÎª0Öµ±íÊ¾Ö÷½Ç²»ÔÚ¶ÓÎéÖĞ£¬pTeam½á¹¹Î´±»Ìî³äÓĞĞ§ĞÅÏ¢¡£
 
-	TEAM_OI_GD_MEMBER_LIST,		//»ñÈ¡Ö÷½ÇËùÔÚ¶ÓÎé³ÉÔ±ÁĞ±í
-	//uParam = (KUiPlayerItem*)pList -> ÈËÔ±ĞÅÏ¢ÁĞ±í
-	//			KUiPlayerItem::nData = (int)(bool)bCaptain ÊÇ·ñÊÇ¶Ó³¤
-	//nParam = pListÊı×éÖĞ°üº¬KUiPlayerItem½á¹¹µÄÊıÄ¿
-	//Return = Èç¹û·µ»ØÖµĞ¡ÓÚµÈÓÚ´«Èë²ÎÊınParam£¬ÆäÖµ±íÊ¾pListÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiPlayerItem
-	//			½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ£»·ñÔò±íÊ¾ĞèÒª´«Èë°üº¬¶àÉÙ¸öKUiPlayerItem½á¹¹µÄÊı×é
-	//			²Å¹»´æ´¢È«²¿µÄ³ÉÔ±ĞÅÏ¢¡£
+  TEAM_OI_GD_MEMBER_LIST, // »ñÈ¡Ö÷½ÇËùÔÚ¶ÓÎé³ÉÔ±ÁĞ±í
+                          // uParam = (KUiPlayerItem*)pList -> ÈËÔ±ĞÅÏ¢ÁĞ±í
+                          //			KUiPlayerItem::nData =
+                          //(int)(bool)bCaptain ÊÇ·ñÊÇ¶Ó³¤ nParam =
+                          // pListÊı×éÖĞ°üº¬KUiPlayerItem½á¹¹µÄÊıÄ¿ Return =
+  // Èç¹û·µ»ØÖµĞ¡ÓÚµÈÓÚ´«Èë²ÎÊınParam£¬ÆäÖµ±íÊ¾pListÊı×éÖĞµÄÇ°¶àÉÙ¸öKUiPlayerItem
+  //			½á¹¹±»Ìî³äÁËÓĞĞ§µÄÊı¾İ£»·ñÔò±íÊ¾ĞèÒª´«Èë°üº¬¶àÉÙ¸öKUiPlayerItem½á¹¹µÄÊı×é
+  //			²Å¹»´æ´¢È«²¿µÄ³ÉÔ±ĞÅÏ¢¡£
 
-	TEAM_OI_GD_REFUSE_INVITE_STATUS,//»ñÈ¡¾Ü¾øÑûÇëµÄ×´Ì¬
-	//Return = (int)(bool)bEnableRefuse ÎªÕæÖµ±íÊ¾¾Ü¾ø×´Ì¬ÉúĞ§£¬·ñÔò±íÊ¾²»¾Ü¾ø¡£
+  TEAM_OI_GD_REFUSE_INVITE_STATUS, // »ñÈ¡¾Ü¾øÑûÇëµÄ×´Ì¬
+                                   // Return = (int)(bool)bEnableRefuse
+                                   // ÎªÕæÖµ±íÊ¾¾Ü¾ø×´Ì¬ÉúĞ§£¬·ñÔò±íÊ¾²»¾Ü¾ø¡£
 
-	//----²Ù×÷ÇëÇó----
-	TEAM_OI_COLLECT_NEARBY_LIST,//»ñÈ¡ÖÜÎ§¶ÓÎéµÄÁĞ±í
+  //----²Ù×÷ÇëÇó----
+  TEAM_OI_COLLECT_NEARBY_LIST, // »ñÈ¡ÖÜÎ§¶ÓÎéµÄÁĞ±í
 
-	TEAM_OI_APPLY,				//ÉêÇë¼ÓÈëËıÈË¶ÓÎé
-	//uParam = (KUiTeamItem*)	ÒªÉêÇë¼ÓÈëµÄ¶ÓÎéµÄĞÅÏ¢
+  TEAM_OI_APPLY, // ÉêÇë¼ÓÈëËıÈË¶ÓÎé
+                 // uParam = (KUiTeamItem*)	ÒªÉêÇë¼ÓÈëµÄ¶ÓÎéµÄĞÅÏ¢
 
-	TEAM_OI_CREATE,				//ĞÂ×é¶ÓÎé
+  TEAM_OI_CREATE, // ĞÂ×é¶ÓÎé
 
-	TEAM_OI_APPOINT,			//ÈÎÃü¶Ó³¤£¬Ö»ÓĞ¶Ó³¤µ÷ÓÃ²ÅÓĞĞ§¹û
-	//uParam = (KUiPlayerItem*)pPlayer -> ĞÂ¶Ó³¤µÄĞÅÏ¢
-	//			KUiPlayerItem::nData = 0
+  TEAM_OI_APPOINT, // ÈÎÃü¶Ó³¤£¬Ö»ÓĞ¶Ó³¤µ÷ÓÃ²ÅÓĞĞ§¹û
+                   // uParam = (KUiPlayerItem*)pPlayer -> ĞÂ¶Ó³¤µÄĞÅÏ¢
+                   //			KUiPlayerItem::nData = 0
 
-	TEAM_OI_INVITE,			//ÑûÇë±ğÈË¼ÓÈë¶ÓÎé£¬Ö»ÓĞ¶Ó³¤µ÷ÓÃ²ÅÓĞĞ§¹û
-	TEAM_OI_FOLLOW,
-	//uParam = (KUiPlayerItem*)pPlayer -> ÒªÑûÇëµÄÈËµÄĞÅÏ¢
-	//			KUiPlayerItem::nData = 0
+  TEAM_OI_INVITE, // ÑûÇë±ğÈË¼ÓÈë¶ÓÎé£¬Ö»ÓĞ¶Ó³¤µ÷ÓÃ²ÅÓĞĞ§¹û
+  TEAM_OI_FOLLOW,
+  // uParam = (KUiPlayerItem*)pPlayer -> ÒªÑûÇëµÄÈËµÄĞÅÏ¢
+  //			KUiPlayerItem::nData = 0
 
-	TEAM_OI_KICK,				//Ìß³ı¶ÓÀïµÄÒ»¸ö¶ÓÔ±£¬Ö»ÓĞ¶Ó³¤µ÷ÓÃ²ÅÓĞĞ§¹û
-	//uParam = (KUiPlayerItem*)pPlayer -> ÒªÌß³ıµÄ¶ÓÔ±µÄĞÅÏ¢
-	//			KUiPlayerItem::nData = 0
+  TEAM_OI_KICK, // Ìß³ı¶ÓÀïµÄÒ»¸ö¶ÓÔ±£¬Ö»ÓĞ¶Ó³¤µ÷ÓÃ²ÅÓĞĞ§¹û
+                // uParam = (KUiPlayerItem*)pPlayer -> ÒªÌß³ıµÄ¶ÓÔ±µÄĞÅÏ¢
+                //			KUiPlayerItem::nData = 0
 
-	TEAM_OI_LEAVE,				//Àë¿ª¶ÓÎé
+  TEAM_OI_LEAVE, // Àë¿ª¶ÓÎé
 
-	TEAM_OI_CLOSE,				//¹Ø±Õ×é¶Ó£¬Ö»ÓĞ¶Ó³¤µ÷ÓÃ²ÅÓĞĞ§¹û
-	//nParam = (int)(bool)bClose ÎªÕæÖµ±íÊ¾´¦ÓÚ¹Ø±Õ×´Ì¬£¬·ñÔò±íÊ¾²»´¦ÓÚ¹Ø±Õ×´Ì¬
+  TEAM_OI_CLOSE, // ¹Ø±Õ×é¶Ó£¬Ö»ÓĞ¶Ó³¤µ÷ÓÃ²ÅÓĞĞ§¹û
+                 // nParam = (int)(bool)bClose
+                 // ÎªÕæÖµ±íÊ¾´¦ÓÚ¹Ø±Õ×´Ì¬£¬·ñÔò±íÊ¾²»´¦ÓÚ¹Ø±Õ×´Ì¬
 
-	TEAM_OI_REFUSE_INVITE,		//¾Ü¾ø±ğÈËÑûÇë×Ô¼º¼ÓÈë¶ÓÎé
-	//nParam = (int)(bool)bEnableRefuse ÎªÕæÖµ±íÊ¾¾Ü¾ø×´Ì¬ÉúĞ§£¬·ñÔò±íÊ¾²»¾Ü¾ø¡£
+  TEAM_OI_REFUSE_INVITE, // ¾Ü¾ø±ğÈËÑûÇë×Ô¼º¼ÓÈë¶ÓÎé
+                         // nParam = (int)(bool)bEnableRefuse
+                         // ÎªÕæÖµ±íÊ¾¾Ü¾ø×´Ì¬ÉúĞ§£¬·ñÔò±íÊ¾²»¾Ü¾ø¡£
 
-	TEAM_OI_APPLY_RESPONSE,			//ÊÇ·ñÅú×¼ËûÈË¼ÓÈë¶ÓÎé£¬Ö»ÓĞ¶Ó³¤µ÷ÓÃ²ÅÓĞĞ§¹û
-	//uParam = (KUiPlayerItem*)pPlayer -> ÒªÓûÅú×¼µÄÈËĞÅÏ¢
-	//			KUiPlayerItem::nData = 0
-	//nParam = (int)(bool)bApprove -> ÊÇ·ñÅú×¼ÁË
+  TEAM_OI_APPLY_RESPONSE, // ÊÇ·ñÅú×¼ËûÈË¼ÓÈë¶ÓÎé£¬Ö»ÓĞ¶Ó³¤µ÷ÓÃ²ÅÓĞĞ§¹û
+                          // uParam = (KUiPlayerItem*)pPlayer ->
+  // ÒªÓûÅú×¼µÄÈËĞÅÏ¢ 			KUiPlayerItem::nData = 0 nParam =
+  // (int)(bool)bApprove -> ÊÇ·ñÅú×¼ÁË
 
-	TEAM_OI_INVITE_RESPONSE,	//¶Ô×é¶ÓÑûÇëµÄ»Ø¸´
-	//uParam = (KUiPlayerItem*)pTeamLeader ·¢³ö×é¶ÓÑûÇëµÄ¶Ó³¤
-	//nParam = (int)(bool)bAccept ÊÇ·ñ½ÓÊÜÑûÇë
+  TEAM_OI_INVITE_RESPONSE, // ¶Ô×é¶ÓÑûÇëµÄ»Ø¸´
+                           // uParam = (KUiPlayerItem*)pTeamLeader
+                           // ·¢³ö×é¶ÓÑûÇëµÄ¶Ó³¤ nParam = (int)(bool)bAccept
+                           // ÊÇ·ñ½ÓÊÜÑûÇë
 
 };
-
 
 //-------ÓÎÏ·ÊÀ½çÊı¾İ¸Ä±äµÄÍ¨Öªº¯ÊıÔ­ĞÍ---------
-struct IClientCallback
-{
-	virtual void CoreDataChanged(unsigned int uDataId, unsigned int uParam, int nParam) = 0;
-	virtual void ChannelMessageArrival(int figure, DWORD nChannelID, char* szSendName, const char* pMsgBuff, unsigned short nMsgLength, bool bSucc) = 0;
-	
-	virtual void MSNMessageArrival(char* szSourceName, char* szSendName, const char* pMsgBuff, unsigned short nMsgLength, bool bSucc) = 0;
-	virtual void NotifyChannelID(char* ChannelName, DWORD channelid, BYTE cost) = 0;
-	virtual void FriendInvite(char* roleName) = 0;
-	virtual void AddFriend(char* roleName, BYTE answer) = 0;
-	virtual void FriendStatus(char* roleName, BYTE state) = 0;
-	virtual void FriendInfo(char* roleName, char* unitName, char* groupname, BYTE state) = 0;
-	virtual void AddPeople(char* unitName, char* roleName) = 0;
+struct IClientCallback {
+  virtual void CoreDataChanged(unsigned int uDataId, unsigned int uParam,
+                               int nParam) = 0;
+  virtual void ChannelMessageArrival(int figure, DWORD nChannelID,
+                                     char *szSendName, const char *pMsgBuff,
+                                     unsigned short nMsgLength, bool bSucc) = 0;
+
+  virtual void MSNMessageArrival(char *szSourceName, char *szSendName,
+                                 const char *pMsgBuff,
+                                 unsigned short nMsgLength, bool bSucc) = 0;
+  virtual void NotifyChannelID(char *ChannelName, DWORD channelid,
+                               BYTE cost) = 0;
+  virtual void FriendInvite(char *roleName) = 0;
+  virtual void AddFriend(char *roleName, BYTE answer) = 0;
+  virtual void FriendStatus(char *roleName, BYTE state) = 0;
+  virtual void FriendInfo(char *roleName, char *unitName, char *groupname,
+                          BYTE state) = 0;
+  virtual void AddPeople(char *unitName, char *roleName) = 0;
 };
 
-struct _declspec (novtable) iCoreShell
-{
-	virtual	int	 GetProtocolSize(BYTE byProtocol) = 0;
-	virtual int	 Debug(unsigned int uDataId, unsigned int uParam, int nParam) = 0;
-	//ÏòÓÎÏ··¢ËÍ²Ù×÷
-	virtual int	 OperationRequest(unsigned int uOper, unsigned int uParam, int nParam) = 0;
-	//·¢ËÍÊäÈëÉè±¸µÄÊäÈë²Ù×÷ÏûÏ¢
-	virtual void ProcessInput(unsigned int uMsg, unsigned int uParam, int nParam) = 0;
-	//ÕÒx, yËùÖ¸µÄPlayer
-	virtual int FindSelectNPC(int x, int y, int nRelation, bool bSelect, void* pReturn, int& nKind) = 0;
-	//ÕÒNameÖ¸¶¨µÄPlayer
-	virtual int FindSpecialNPC(char* Name, void* pReturn, int& nKind) = 0;
-	virtual int	SceneMapFindPosOperation(unsigned int uOper, unsigned int uParam, int nParam, bool bCalc = false, bool bLine = false) = 0;
-	//ÕÒx, yËùÖ¸µÄObj
-	virtual int FindSelectObject(int x, int y, bool bSelect, int& nObjectIdx, int& nKind) = 0;
-	virtual int ChatSpecialPlayer(void* pPlayer, const char* pMsgBuff, unsigned short nMsgLength) = 0;
-	virtual void ApplyAddTeam(void* pPlayer) = 0;
-	virtual void TradeApplyStart(void* pPlayer) = 0;
-	virtual int UseSkill(int x, int y, int nSkillID) = 0;
-	virtual int LockSomeoneUseSkill(int nTargetIndex, int nSkillID) = 0;
-	virtual int LockSomeoneAction(int nTargetIndex) = 0;
-	virtual int LockSomeoneUseSkillCC(int nTargetIndex) = 0;
+struct _declspec(novtable) iCoreShell {
+  virtual int GetProtocolSize(BYTE byProtocol) = 0;
+  virtual int Debug(unsigned int uDataId, unsigned int uParam, int nParam) = 0;
+  // ÏòÓÎÏ··¢ËÍ²Ù×÷
+  virtual int OperationRequest(unsigned int uOper, unsigned int uParam,
+                               int nParam) = 0;
+  // ·¢ËÍÊäÈëÉè±¸µÄÊäÈë²Ù×÷ÏûÏ¢
+  virtual void ProcessInput(unsigned int uMsg, unsigned int uParam,
+                            int nParam) = 0;
+  // ÕÒx, yËùÖ¸µÄPlayer
+  virtual int FindSelectNPC(int x, int y, int nRelation, bool bSelect,
+                            void *pReturn, int &nKind) = 0;
+  // ÕÒNameÖ¸¶¨µÄPlayer
+  virtual int FindSpecialNPC(char *Name, void *pReturn, int &nKind) = 0;
+  virtual int SceneMapFindPosOperation(unsigned int uOper, unsigned int uParam,
+                                       int nParam, bool bCalc = false,
+                                       bool bLine = false) = 0;
+  // ÕÒx, yËùÖ¸µÄObj
+  virtual int FindSelectObject(int x, int y, bool bSelect, int &nObjectIdx,
+                               int &nKind) = 0;
+  virtual int ChatSpecialPlayer(void *pPlayer, const char *pMsgBuff,
+                                unsigned short nMsgLength) = 0;
+  virtual void ApplyAddTeam(void *pPlayer) = 0;
+  virtual void TradeApplyStart(void *pPlayer) = 0;
+  virtual int UseSkill(int x, int y, int nSkillID) = 0;
+  virtual int LockSomeoneUseSkill(int nTargetIndex, int nSkillID) = 0;
+  virtual int LockSomeoneAction(int nTargetIndex) = 0;
+  virtual int LockSomeoneUseSkillCC(int nTargetIndex) = 0;
 
-	virtual void AutoPause() = 0;
+  virtual void AutoPause() = 0;
 
-	virtual int LockObjectAction(int nTargetIndex) = 0;
-	virtual void GotoWhere(int x, int y, int mode) = 0;	//mode 0 is auto, 1 is walk, 2 is run
-	virtual void Goto(int nDir, int mode) = 0;	//nDir 0~63, mode 0 is auto, 1 is walk, 2 is run
-	virtual void Turn(int nDir) = 0;	//nDir 0 is left, 1 is right, 2 is back
-	virtual int ThrowAwayItem() = 0;
-	virtual int GetNPCRelation(int nIndex) = 0;
-	virtual BOOL CheckOpenShop(int nIndex) = 0;
-	virtual void OpenBuyShop(DWORD dwId) = 0;
+  virtual int LockObjectAction(int nTargetIndex) = 0;
+  virtual void GotoWhere(int x, int y,
+                         int mode) = 0; // mode 0 is auto, 1 is walk, 2 is run
+  virtual void
+  Goto(int nDir,
+       int mode) = 0; // nDir 0~63, mode 0 is auto, 1 is walk, 2 is run
+  virtual void Turn(int nDir) = 0; // nDir 0 is left, 1 is right, 2 is back
+  virtual int ThrowAwayItem() = 0;
+  virtual int GetNPCRelation(int nIndex) = 0;
+  virtual BOOL CheckOpenShop(int nIndex) = 0;
+  virtual void OpenBuyShop(DWORD dwId) = 0;
 
-	//===========¶ÔÓÎÏ·ÊÀ½çµÄ·ÖÀà²Ù×÷==========
-	//ÓëµØÍ¼Ïà¹ØµÄ²Ù×÷, uOperµÄÈ¡ÖµÀ´×Ô GAME_SCENE_MAP_OPERATION_INDEX
-	virtual int	SceneMapOperation(unsigned int uOper, unsigned int uParam, int nParam) = 0;
-	//Óë°ï»áÏà¹ØµÄ²Ù×÷, uOperµÄÈ¡ÖµÀ´×Ô GAME_TONG_OPERATION_INDEX
-	virtual int	TongOperation(unsigned int uOper, unsigned int uParam, int nParam) = 0;
-	//Óë×é¶ÓÏà¹ØµÄ²Ù×÷£¬uOperµÄÈ¡ÖµÀ´×Ô GAME_TEAM_OPERATION_INDEX
-	virtual int TeamOperation(unsigned int uOper, unsigned int uParam, int nParam) = 0;
+  //===========¶ÔÓÎÏ·ÊÀ½çµÄ·ÖÀà²Ù×÷==========
+  // ÓëµØÍ¼Ïà¹ØµÄ²Ù×÷, uOperµÄÈ¡ÖµÀ´×Ô GAME_SCENE_MAP_OPERATION_INDEX
+  virtual int SceneMapOperation(unsigned int uOper, unsigned int uParam,
+                                int nParam) = 0;
+  // Óë°ï»áÏà¹ØµÄ²Ù×÷, uOperµÄÈ¡ÖµÀ´×Ô GAME_TONG_OPERATION_INDEX
+  virtual int TongOperation(unsigned int uOper, unsigned int uParam,
+                            int nParam) = 0;
+  // Óë×é¶ÓÏà¹ØµÄ²Ù×÷£¬uOperµÄÈ¡ÖµÀ´×Ô GAME_TEAM_OPERATION_INDEX
+  virtual int TeamOperation(unsigned int uOper, unsigned int uParam,
+                            int nParam) = 0;
 
-	//´ÓÓÎÏ·ÊÀ½ç»ñÈ¡Êı¾İ
-	virtual int	 GetGameData(unsigned int uDataId, unsigned int uParam, int nParam) = 0;
+  // ´ÓÓÎÏ·ÊÀ½ç»ñÈ¡Êı¾İ
+  virtual int GetGameData(unsigned int uDataId, unsigned int uParam,
+                          int nParam) = 0;
 
-	//»æÖÆÓÎÏ·¶ÔÏó
-	virtual void DrawGameObj(unsigned int uObjGenre, unsigned int uId, int x, int y, int Width, int Height, int nParam) = 0;
-	//»æÖÆÓÎÏ·ÊÀ½ç
-	virtual void DrawGameSpace() = 0;
+  // »æÖÆÓÎÏ·¶ÔÏó
+  virtual void DrawGameObj(unsigned int uObjGenre, unsigned int uId, int x,
+                           int y, int Width, int Height, int nParam) = 0;
+  // »æÖÆÓÎÏ·ÊÀ½ç
+  virtual void DrawGameSpace() = 0;
 
-	virtual DWORD GetPing() = 0;
-	//virtual void SendPing() = 0;
-	//ÉèÖÃÓÎÏ·ÊÀ½çÊı¾İ¸Ä±äµÄÍ¨Öªº¯Êı
-	virtual int	 SetCallDataChangedNofify(IClientCallback* pNotifyFunc) = 0;
-	//½ÓÊÜÓë·ÖÅÉ´¦ÀíÍøÂçÏûÏ¢
-	virtual void NetMsgCallbackFunc(void* pMsgData) = 0;
-	//ÉèÖÃ»æÍ¼½Ó¿ÚÊµÀıµÄÖ¸Õë
-	virtual void SetRepresentShell(struct iRepresentShell* pRepresent) = 0;
-	virtual void SetMusicInterface(void* pMusicInterface) = 0;
-	virtual void SetRepresentAreaSize(int nWidth, int nHeight) = 0;
-	//ÈÕ³£»î¶¯£¬coreÈç¹ûÒªÊÙÖÕÕıÇŞÔò·µ»Ø0£¬·ñÔò·µ»Ø·Ç0Öµ
-	virtual int  Breathe() = 0;
-	//ÊÍ·Å½Ó¿Ú¶ÔÏó
-	virtual void Release() = 0;
-	virtual void SetClient(LPVOID pClient) = 0;
-	
-	virtual void SendNewDataToServer(void* pData, int nLength) = 0;
+  virtual DWORD GetPing() = 0;
+  // virtual void SendPing() = 0;
+  // ÉèÖÃÓÎÏ·ÊÀ½çÊı¾İ¸Ä±äµÄÍ¨Öªº¯Êı
+  virtual int SetCallDataChangedNofify(IClientCallback *pNotifyFunc) = 0;
+  // ½ÓÊÜÓë·ÖÅÉ´¦ÀíÍøÂçÏûÏ¢
+  virtual void NetMsgCallbackFunc(void *pMsgData) = 0;
+  // ÉèÖÃ»æÍ¼½Ó¿ÚÊµÀıµÄÖ¸Õë
+  virtual void SetRepresentShell(struct iRepresentShell *pRepresent) = 0;
+  virtual void SetMusicInterface(void *pMusicInterface) = 0;
+  virtual void SetRepresentAreaSize(int nWidth, int nHeight) = 0;
+  // ÈÕ³£»î¶¯£¬coreÈç¹ûÒªÊÙÖÕÕıÇŞÔò·µ»Ø0£¬·ñÔò·µ»Ø·Ç0Öµ
+  virtual int Breathe() = 0;
+  // ÊÍ·Å½Ó¿Ú¶ÔÏó
+  virtual void Release() = 0;
+  virtual void SetClient(LPVOID pClient) = 0;
 
+  virtual void SendNewDataToServer(void *pData, int nLength) = 0;
 
-	virtual int GetKind(int nItemID) = 0; //
-	virtual int GetGenre(int nItemID) = 0;
-	virtual BOOL IsBlueItem(int nItemID) = 0;
-	virtual int GetDurabilityItem(int nItemID) = 0;
-	virtual int GetDetailItem2(int nItemID) = 0;
-	virtual int GetTongFigure() = 0;
-	virtual	BOOL GetPaintFindPos() = 0;
-	virtual	void SetPaintFindPos(BOOL nIndex) = 0;
-	virtual	void SetAutoMove(BOOL nIndex) = 0;
-
+  virtual int GetKind(int nItemID) = 0; //
+  virtual int GetGenre(int nItemID) = 0;
+  virtual BOOL IsBlueItem(int nItemID) = 0;
+  virtual int GetDurabilityItem(int nItemID) = 0;
+  virtual int GetDetailItem2(int nItemID) = 0;
+  virtual int GetTongFigure() = 0;
+  virtual BOOL GetPaintFindPos() = 0;
+  virtual void SetPaintFindPos(BOOL nIndex) = 0;
+  virtual void SetAutoMove(BOOL nIndex) = 0;
 };
 
 #ifndef CORE_EXPORTS
 
-	//»ñÈ¡iCoreShell½Ó¿ÚÊµÀıµÄÖ¸Õë
-	extern "C" iCoreShell* CoreGetShell();
+// »ñÈ¡iCoreShell½Ó¿ÚÊµÀıµÄÖ¸Õë
+extern "C" iCoreShell *CoreGetShell();
 
 #else
 
-	//¶ÔÍâ·¢ËÍÓÎÏ·ÊÀ½çÊı¾İ·¢Éú¸Ä±äµÄÍ¨Öª
-	void	CoreDataChanged(unsigned int uDataId, unsigned int uParam, int nParam);
+// ¶ÔÍâ·¢ËÍÓÎÏ·ÊÀ½çÊı¾İ·¢Éú¸Ä±äµÄÍ¨Öª
+void CoreDataChanged(unsigned int uDataId, unsigned int uParam, int nParam);
 
 #endif

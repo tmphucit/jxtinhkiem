@@ -1,10 +1,10 @@
-#include "KCore.h"
-#include "MyAssert.H"
-#include "KTabFile.h"
-#include "KNpc.h"
 #include "KItem.h"
+#include "KCore.h"
 #include "KItemSet.h"
-#include	<time.h>
+#include "KNpc.h"
+#include "KTabFile.h"
+#include "MyAssert.H"
+#include <time.h>
 
 #ifndef _STANDALONE
 #include "../../../lib/S3DBInterface.h"
@@ -13,1925 +13,1646 @@
 #endif
 
 #ifndef _SERVER
-#include "ImgRef.h"
-#include "KPlayer.h"
 #include "../../Represent/iRepresent/iRepresentshell.h"
+#include "ImgRef.h"
 #include "KMagicDesc.h"
+#include "KPlayer.h"
 #endif
 
-KItem	Item[MAX_ITEM];
+KItem Item[MAX_ITEM];
 int GetRandomNumber(int nMin, int nMax);
 
-KItem::KItem()
-{
-	::memset(&m_CommonAttrib,    0, sizeof(m_CommonAttrib));
-	::memset(m_aryBaseAttrib,    0, sizeof(m_aryBaseAttrib));
-	::memset(m_aryRequireAttrib, 0, sizeof(m_aryRequireAttrib));
-	::memset(m_aryMagicAttrib,   0, sizeof(m_aryMagicAttrib));
-	::memset(&m_GeneratorParam,	 0, sizeof(m_GeneratorParam));
-	::memset(&m_SpecialParam,	 0, sizeof(m_SpecialParam));
-	m_nCurrentDur = -1;
+KItem::KItem() {
+  ::memset(&m_CommonAttrib, 0, sizeof(m_CommonAttrib));
+  ::memset(m_aryBaseAttrib, 0, sizeof(m_aryBaseAttrib));
+  ::memset(m_aryRequireAttrib, 0, sizeof(m_aryRequireAttrib));
+  ::memset(m_aryMagicAttrib, 0, sizeof(m_aryMagicAttrib));
+  ::memset(&m_GeneratorParam, 0, sizeof(m_GeneratorParam));
+  ::memset(&m_SpecialParam, 0, sizeof(m_SpecialParam));
+  m_nCurrentDur = -1;
 #ifndef _SERVER
-	::memset(&m_Image,   0, sizeof(KRUImage));
+  ::memset(&m_Image, 0, sizeof(KRUImage));
 #endif
-	m_bShow = FALSE;
+  m_bShow = FALSE;
 
+  m_nPriceShop = 0;
+  m_nPriceGold = 0;
 
-	m_nPriceShop = 0;
-	m_nPriceGold = 0;
+  m_nPriceTL = 0;
+  m_nPriceVD = 0;
 
-	m_nPriceTL = 0;
-    m_nPriceVD = 0;
-
-	m_nPoitAbrate = 0;
+  m_nPoitAbrate = 0;
 
 #ifndef _SERVER
-for (int i=0;i<11;i++)
-{
-strcpy(m_GroupItemName[i],"");
-}
-m_ItemLevel = 0;
-m_Place = -1;
+  for (int i = 0; i < 11; i++) {
+    strcpy(m_GroupItemName[i], "");
+  }
+  m_ItemLevel = 0;
+  m_Place = -1;
 #endif
 
-for (int e=0;e<11;e++)
-{
-for (int f=0;f<3;f++)
-{
-m_GroupItemNameInfo[e][f] = 0;
-}
-}
-
+  for (int e = 0; e < 11; e++) {
+    for (int f = 0; f < 3; f++) {
+      m_GroupItemNameInfo[e][f] = 0;
+    }
+  }
 }
 
-KItem::~KItem()
-{
-}
+KItem::~KItem() {}
 
-void* KItem::GetRequirement(IN int nReq)
-{
-	int i = sizeof(m_aryRequireAttrib)/sizeof(m_aryRequireAttrib[0]);
-	if (nReq >= i)
-		return NULL;
+void *KItem::GetRequirement(IN int nReq) {
+  int i = sizeof(m_aryRequireAttrib) / sizeof(m_aryRequireAttrib[0]);
+  if (nReq >= i)
+    return NULL;
 
-	return &m_aryRequireAttrib[nReq];
+  return &m_aryRequireAttrib[nReq];
 }
 /******************************************************************************
 ÂäüËÉΩ:	Â∞Üitem‰∏äÁöÑÈ≠îÊ≥ïÂ∫îÁî®Âà∞NPCË∫´‰∏ä
-ÂÖ•Âè£Ôºö	pNPC: ÊåáÂêëNPCÁöÑÊåáÈíàÔºånMagicAciveÔºöÊâìÂºÄÁöÑÈöêËóèÂ±ûÊÄßÊï∞ÁõÆ
-Âá∫Âè£:	È≠îÊ≥ïË¢´Â∫îÁî®„ÄÇ
-		ÂÖ∑‰ΩìÂ∑•‰ΩúÁî±KNpcÁöÑÊàêÂëòÂáΩÊï∞ÂÆåÊàê„ÄÇ
-		KItem ÂØπË±°Êú¨Ë∫´Ê≤°ÊúâÊàêÂëòÂèòÈáèË¢´‰øÆÊîπ
+ÂÖ•Âè£Ôºö	pNPC:
+ÊåáÂêëNPCÁöÑÊåáÈíàÔºånMagicAciveÔºöÊâìÂºÄÁöÑÈöêËóèÂ±ûÊÄßÊï∞ÁõÆ Âá∫Âè£:
+È≠îÊ≥ïË¢´Â∫îÁî®„ÄÇ ÂÖ∑‰ΩìÂ∑•‰ΩúÁî±KNpcÁöÑÊàêÂëòÂáΩÊï∞ÂÆåÊàê„ÄÇ KItem
+ÂØπË±°Êú¨Ë∫´Ê≤°ÊúâÊàêÂëòÂèòÈáèË¢´‰øÆÊîπ
 ******************************************************************************/
-void KItem::ApplyMagicAttribToNPC(IN KNpc* pNPC, IN int nMagicActive /* = 0 */) const
-{
-	_ASSERT(this != NULL);
-	_ASSERT(nMagicActive >= 0);
+void KItem::ApplyMagicAttribToNPC(IN KNpc *pNPC,
+                                  IN int nMagicActive /* = 0 */) const {
+  _ASSERT(this != NULL);
+  _ASSERT(nMagicActive >= 0);
 
-	int nCount = nMagicActive;
-	int i;
+  int nCount = nMagicActive;
+  int i;
 
-	// Âü∫Á°ÄÂ±ûÊÄßË∞ÉÊï¥NPC
-	for (i = 0; i < sizeof(m_aryBaseAttrib)/sizeof(m_aryBaseAttrib[0]); i++)
-	{
-		const KItemNormalAttrib* pAttrib;
-		pAttrib = &(m_aryBaseAttrib[i]);
-		if (INVALID_ATTRIB != pAttrib->nAttribType)
-		{
-			pNPC->ModifyAttrib(pNPC->m_Index, (void *)pAttrib);
-		}
-	}
+  // Âü∫Á°ÄÂ±ûÊÄßË∞ÉÊï¥NPC
+  for (i = 0; i < sizeof(m_aryBaseAttrib) / sizeof(m_aryBaseAttrib[0]); i++) {
+    const KItemNormalAttrib *pAttrib;
+    pAttrib = &(m_aryBaseAttrib[i]);
+    if (INVALID_ATTRIB != pAttrib->nAttribType) {
+      pNPC->ModifyAttrib(pNPC->m_Index, (void *)pAttrib);
+    }
+  }
 
-	for (i = 0; i < sizeof(m_aryMagicAttrib)/sizeof(m_aryMagicAttrib[0]); i++)
-	{
-		const KItemNormalAttrib* pAttrib;
-		pAttrib = &(m_aryMagicAttrib[i]);
-		
+  for (i = 0; i < sizeof(m_aryMagicAttrib) / sizeof(m_aryMagicAttrib[0]); i++) {
+    const KItemNormalAttrib *pAttrib;
+    pAttrib = &(m_aryMagicAttrib[i]);
 
-			int PhanTichDiem = GetNgoaiTrang();
-			int cuonghoa = PhanTichDiem / 1000000;
-	
-			int d1 = (PhanTichDiem%1000000) / 100000;
-			int d2 = (PhanTichDiem%100000) / 10000;
-			int d3 = (PhanTichDiem%10000) / 1000;
-			int d4 = (PhanTichDiem%1000) / 100;
-			int d5 = (PhanTichDiem%100) / 10;
-			int d6 = PhanTichDiem%10;		
-	
-		KItemNormalAttrib AddAttrib;
-		if (((d1 == 1 && i == 0) || (d2 == 1 && i == 1)  || (d3 == 1 && i == 2) || (d4 == 1 && i == 3) || (d5 == 1 && i == 4) || (d6 == 1 && i == 5)) && m_SpecialParam.uItemType != 2 &&  m_SpecialParam.uItemType != 1)
-		{
-			AddAttrib.nAttribType = pAttrib->nAttribType;
-			AddAttrib.nValue[0] = pAttrib->nValue[0] + (int)(pAttrib->nValue[0] * cuonghoa * 2.5 / 100);
-			AddAttrib.nValue[1] = pAttrib->nValue[1];
-			AddAttrib.nValue[2] = pAttrib->nValue[2];
-		}
-		else
-		{
-			AddAttrib.nAttribType = pAttrib->nAttribType;
-			AddAttrib.nValue[0] = pAttrib->nValue[0];
-			AddAttrib.nValue[1] = pAttrib->nValue[1];
-			AddAttrib.nValue[2] = pAttrib->nValue[2];
-		}
-		
-		if (INVALID_ATTRIB != pAttrib->nAttribType)
-		{
-			if (i & 1)						// ‰∏∫Â•áÊï∞ÔºåÊòØÂêéÁºÄÔºài‰ªéÈõ∂ÂºÄÂßãÔºâ
-			{
-				if (nCount > 0)
-				{
-					g_DebugLog("Xac nhan mac do 1:  %d , %d, %d\n",pAttrib->nAttribType,pAttrib->nValue[0]);
-					pNPC->ModifyAttrib(pNPC->m_Index, (void *)&AddAttrib);
-					nCount--;
-				}
-			}
-			else
-			{
-				g_DebugLog("Xac nhan mac do 2:  %d , %d, %d\n",pAttrib->nAttribType,AddAttrib.nValue[0]);
-				
-				pNPC->ModifyAttrib(pNPC->m_Index, (void *)&AddAttrib);
-				//pNPC->ModifyAttribCuongHoa(pNPC->m_Index, (void *)pAttrib,5000);
-				
-			}
-		}
-	}
+    int PhanTichDiem = GetNgoaiTrang();
+    int cuonghoa = PhanTichDiem / 1000000;
+
+    int d1 = (PhanTichDiem % 1000000) / 100000;
+    int d2 = (PhanTichDiem % 100000) / 10000;
+    int d3 = (PhanTichDiem % 10000) / 1000;
+    int d4 = (PhanTichDiem % 1000) / 100;
+    int d5 = (PhanTichDiem % 100) / 10;
+    int d6 = PhanTichDiem % 10;
+
+    KItemNormalAttrib AddAttrib;
+    if (((d1 == 1 && i == 0) || (d2 == 1 && i == 1) || (d3 == 1 && i == 2) ||
+         (d4 == 1 && i == 3) || (d5 == 1 && i == 4) || (d6 == 1 && i == 5)) &&
+        m_SpecialParam.uItemType != 2 && m_SpecialParam.uItemType != 1) {
+      AddAttrib.nAttribType = pAttrib->nAttribType;
+      AddAttrib.nValue[0] =
+          pAttrib->nValue[0] + (int)(pAttrib->nValue[0] * cuonghoa * 2.5 / 100);
+      AddAttrib.nValue[1] = pAttrib->nValue[1];
+      AddAttrib.nValue[2] = pAttrib->nValue[2];
+    } else {
+      AddAttrib.nAttribType = pAttrib->nAttribType;
+      AddAttrib.nValue[0] = pAttrib->nValue[0];
+      AddAttrib.nValue[1] = pAttrib->nValue[1];
+      AddAttrib.nValue[2] = pAttrib->nValue[2];
+    }
+
+    if (INVALID_ATTRIB != pAttrib->nAttribType) {
+      if (i & 1) // ‰∏∫Â•áÊï∞ÔºåÊòØÂêéÁºÄÔºài‰ªéÈõ∂ÂºÄÂßãÔºâ
+      {
+        if (nCount > 0) {
+          g_DebugLog("Xac nhan mac do 1:  %d , %d, %d\n", pAttrib->nAttribType,
+                     pAttrib->nValue[0]);
+          pNPC->ModifyAttrib(pNPC->m_Index, (void *)&AddAttrib);
+          nCount--;
+        }
+      } else {
+        g_DebugLog("Xac nhan mac do 2:  %d , %d, %d\n", pAttrib->nAttribType,
+                   AddAttrib.nValue[0]);
+
+        pNPC->ModifyAttrib(pNPC->m_Index, (void *)&AddAttrib);
+        // pNPC->ModifyAttribCuongHoa(pNPC->m_Index, (void *)pAttrib,5000);
+      }
+    }
+  }
 }
-
 
 /******************************************************************************
 ÂäüËÉΩ:	Â∞Üitem‰∏äÁöÑÈ≠îÊ≥ï‰ªéNPCË∫´‰∏äÁßªÈô§
-ÂÖ•Âè£Ôºö	pNPC: ÊåáÂêëNPCÁöÑÊåáÈíàÔºånMagicAciveÔºöÊâìÂºÄÁöÑÈöêËóèÂ±ûÊÄßÊï∞ÁõÆ
-Âá∫Âè£:	È≠îÊ≥ïË¢´Â∫îÁî®„ÄÇ
-		ÂÖ∑‰ΩìÂ∑•‰ΩúÁî±KNpcÁöÑÊàêÂëòÂáΩÊï∞ÂÆåÊàê„ÄÇ
-		KItem ÂØπË±°Êú¨Ë∫´Ê≤°ÊúâÊàêÂëòÂèòÈáèË¢´‰øÆÊîπ
+ÂÖ•Âè£Ôºö	pNPC:
+ÊåáÂêëNPCÁöÑÊåáÈíàÔºånMagicAciveÔºöÊâìÂºÄÁöÑÈöêËóèÂ±ûÊÄßÊï∞ÁõÆ Âá∫Âè£:
+È≠îÊ≥ïË¢´Â∫îÁî®„ÄÇ ÂÖ∑‰ΩìÂ∑•‰ΩúÁî±KNpcÁöÑÊàêÂëòÂáΩÊï∞ÂÆåÊàê„ÄÇ KItem
+ÂØπË±°Êú¨Ë∫´Ê≤°ÊúâÊàêÂëòÂèòÈáèË¢´‰øÆÊîπ
 ******************************************************************************/
-void KItem::RemoveMagicAttribFromNPC(IN KNpc* pNPC, IN int nMagicActive /* = 0 */) const
-{
-	_ASSERT(this != NULL);
-	_ASSERT(nMagicActive >= 0);
+void KItem::RemoveMagicAttribFromNPC(IN KNpc *pNPC,
+                                     IN int nMagicActive /* = 0 */) const {
+  _ASSERT(this != NULL);
+  _ASSERT(nMagicActive >= 0);
 
-	int nCount = nMagicActive;
-	int	i;
-	
-	// Âü∫Á°ÄÂ±ûÊÄßË∞ÉÊï¥NPC
-	for (i = 0; i < sizeof(m_aryBaseAttrib)/sizeof(m_aryBaseAttrib[0]); i++)
-	{
-		const KItemNormalAttrib* pAttrib;
-		pAttrib = &(m_aryBaseAttrib[i]);
-		if (INVALID_ATTRIB != pAttrib->nAttribType)
-		{
-			KItemNormalAttrib RemoveAttrib;
-			RemoveAttrib.nAttribType = pAttrib->nAttribType;
-			RemoveAttrib.nValue[0] = -pAttrib->nValue[0];
-			RemoveAttrib.nValue[1] = -pAttrib->nValue[1];
-			RemoveAttrib.nValue[2] = -pAttrib->nValue[2];
-			pNPC->ModifyAttrib(pNPC->m_Index, (void *)&RemoveAttrib);
-		}
-	}
+  int nCount = nMagicActive;
+  int i;
 
-	for (i = 0; i < sizeof(m_aryMagicAttrib)/sizeof(m_aryMagicAttrib[0]); i++)
-	{
-		const KItemNormalAttrib* pAttrib;
-		pAttrib = &(m_aryMagicAttrib[i]);
+  // Âü∫Á°ÄÂ±ûÊÄßË∞ÉÊï¥NPC
+  for (i = 0; i < sizeof(m_aryBaseAttrib) / sizeof(m_aryBaseAttrib[0]); i++) {
+    const KItemNormalAttrib *pAttrib;
+    pAttrib = &(m_aryBaseAttrib[i]);
+    if (INVALID_ATTRIB != pAttrib->nAttribType) {
+      KItemNormalAttrib RemoveAttrib;
+      RemoveAttrib.nAttribType = pAttrib->nAttribType;
+      RemoveAttrib.nValue[0] = -pAttrib->nValue[0];
+      RemoveAttrib.nValue[1] = -pAttrib->nValue[1];
+      RemoveAttrib.nValue[2] = -pAttrib->nValue[2];
+      pNPC->ModifyAttrib(pNPC->m_Index, (void *)&RemoveAttrib);
+    }
+  }
 
-			int PhanTichDiem = GetNgoaiTrang();
-			int cuonghoa = PhanTichDiem / 1000000;
-			
-			int d1 = (PhanTichDiem%1000000) / 100000;
-			int d2 = (PhanTichDiem%100000) / 10000;
-			int d3 = (PhanTichDiem%10000) / 1000;
-			int d4 = (PhanTichDiem%1000) / 100;
-			int d5 = (PhanTichDiem%100) / 10;
-			int d6 = PhanTichDiem%10;		
-	
-		int TyLe = 0;
-		if (((d1 == 1 && i == 0) || (d2 == 1 && i == 1)  || (d3 == 1 && i == 2) || (d4 == 1 && i == 3) || (d5 == 1 && i == 4) || (d6 == 1 && i == 5)) && m_SpecialParam.uItemType != 2 &&  m_SpecialParam.uItemType != 1)
-		{
-			TyLe = cuonghoa;
-		}
-		
-		if (INVALID_ATTRIB != pAttrib->nAttribType)		// TODO: ‰∏∫ -1 ÂÆö‰πâ‰∏Ä‰∏™Â∏∏Èáè?
-		{
-			KItemNormalAttrib RemoveAttrib;
-			if (i & 1)						// ‰∏∫Â•áÊï∞ÔºåÊòØÂêéÁºÄÔºài‰ªéÈõ∂ÂºÄÂßãÔºâ
-			{
-				if (nCount > 0)
-				{
-					RemoveAttrib.nAttribType = pAttrib->nAttribType;
-					RemoveAttrib.nValue[0] = -(pAttrib->nValue[0] + (int)(pAttrib->nValue[0] * TyLe * 2.5 / 100));
-					RemoveAttrib.nValue[1] = -pAttrib->nValue[1];
-					RemoveAttrib.nValue[2] = -pAttrib->nValue[2];
-					pNPC->ModifyAttrib(pNPC->m_Index, (void *)&RemoveAttrib);
-					nCount--;
-				}
-			}
-			else
-			{
-				RemoveAttrib.nAttribType = pAttrib->nAttribType;
-				RemoveAttrib.nValue[0] = -(pAttrib->nValue[0] + pAttrib->nValue[0] * TyLe * 2.5 / 100);
-				RemoveAttrib.nValue[1] = -pAttrib->nValue[1];
-				RemoveAttrib.nValue[2] = -pAttrib->nValue[2];
-				pNPC->ModifyAttrib(pNPC->m_Index, (void *)&RemoveAttrib);
-			}
-		}
-	}
+  for (i = 0; i < sizeof(m_aryMagicAttrib) / sizeof(m_aryMagicAttrib[0]); i++) {
+    const KItemNormalAttrib *pAttrib;
+    pAttrib = &(m_aryMagicAttrib[i]);
+
+    int PhanTichDiem = GetNgoaiTrang();
+    int cuonghoa = PhanTichDiem / 1000000;
+
+    int d1 = (PhanTichDiem % 1000000) / 100000;
+    int d2 = (PhanTichDiem % 100000) / 10000;
+    int d3 = (PhanTichDiem % 10000) / 1000;
+    int d4 = (PhanTichDiem % 1000) / 100;
+    int d5 = (PhanTichDiem % 100) / 10;
+    int d6 = PhanTichDiem % 10;
+
+    int TyLe = 0;
+    if (((d1 == 1 && i == 0) || (d2 == 1 && i == 1) || (d3 == 1 && i == 2) ||
+         (d4 == 1 && i == 3) || (d5 == 1 && i == 4) || (d6 == 1 && i == 5)) &&
+        m_SpecialParam.uItemType != 2 && m_SpecialParam.uItemType != 1) {
+      TyLe = cuonghoa;
+    }
+
+    if (INVALID_ATTRIB !=
+        pAttrib->nAttribType) // TODO: ‰∏∫ -1 ÂÆö‰πâ‰∏Ä‰∏™Â∏∏Èáè?
+    {
+      KItemNormalAttrib RemoveAttrib;
+      if (i & 1) // ‰∏∫Â•áÊï∞ÔºåÊòØÂêéÁºÄÔºài‰ªéÈõ∂ÂºÄÂßãÔºâ
+      {
+        if (nCount > 0) {
+          RemoveAttrib.nAttribType = pAttrib->nAttribType;
+          RemoveAttrib.nValue[0] =
+              -(pAttrib->nValue[0] +
+                (int)(pAttrib->nValue[0] * TyLe * 2.5 / 100));
+          RemoveAttrib.nValue[1] = -pAttrib->nValue[1];
+          RemoveAttrib.nValue[2] = -pAttrib->nValue[2];
+          pNPC->ModifyAttrib(pNPC->m_Index, (void *)&RemoveAttrib);
+          nCount--;
+        }
+      } else {
+        RemoveAttrib.nAttribType = pAttrib->nAttribType;
+        RemoveAttrib.nValue[0] =
+            -(pAttrib->nValue[0] + pAttrib->nValue[0] * TyLe * 2.5 / 100);
+        RemoveAttrib.nValue[1] = -pAttrib->nValue[1];
+        RemoveAttrib.nValue[2] = -pAttrib->nValue[2];
+        pNPC->ModifyAttrib(pNPC->m_Index, (void *)&RemoveAttrib);
+      }
+    }
+  }
 }
 
 /******************************************************************************
 ÂäüËÉΩ:	Â∞Üitem‰∏äÁöÑÁ¨¨NÈ°πÈöêËóèÈ≠îÊ≥ïÂ±ûÊÄßÂ∫îÁî®Âà∞NPCË∫´‰∏ä
 ÂÖ•Âè£Ôºö	pNPC: ÊåáÂêëNPCÁöÑÊåáÈíà
 Âá∫Âè£:	È≠îÊ≥ïË¢´Â∫îÁî®„ÄÇ
-		ÂÖ∑‰ΩìÂ∑•‰ΩúÁî±KNpcÁöÑÊàêÂëòÂáΩÊï∞ÂÆåÊàê„ÄÇ
-		KItem ÂØπË±°Êú¨Ë∫´Ê≤°ÊúâÊàêÂëòÂèòÈáèË¢´‰øÆÊîπ
+                ÂÖ∑‰ΩìÂ∑•‰ΩúÁî±KNpcÁöÑÊàêÂëòÂáΩÊï∞ÂÆåÊàê„ÄÇ
+                KItem ÂØπË±°Êú¨Ë∫´Ê≤°ÊúâÊàêÂëòÂèòÈáèË¢´‰øÆÊîπ
 ******************************************************************************/
-void KItem::ApplyHiddenMagicAttribToNPC(IN KNpc* pNPC, IN int nMagicActive) const
-{
-	_ASSERT(this != NULL);
-	if (nMagicActive <= 0)
-		return;
+void KItem::ApplyHiddenMagicAttribToNPC(IN KNpc *pNPC,
+                                        IN int nMagicActive) const {
+  _ASSERT(this != NULL);
+  if (nMagicActive <= 0)
+    return;
 
-	const KItemNormalAttrib* pAttrib;
-	pAttrib = &(m_aryMagicAttrib[(nMagicActive << 1) - 1]);	// ÂêéÁºÄ‰∏∫ÈöêËóèÂ±ûÊÄßÊâÄ‰ª•‰πò2Âáè‰∏Ä
-	if (-1 != pAttrib->nAttribType)
-	{
-		pNPC->ModifyAttrib(pNPC->m_Index, (void *)pAttrib);
-	}
+  const KItemNormalAttrib *pAttrib;
+  pAttrib = &(m_aryMagicAttrib[(nMagicActive << 1) -
+                               1]); // ÂêéÁºÄ‰∏∫ÈöêËóèÂ±ûÊÄßÊâÄ‰ª•‰πò2Âáè‰∏Ä
+  if (-1 != pAttrib->nAttribType) {
+    pNPC->ModifyAttrib(pNPC->m_Index, (void *)pAttrib);
+  }
 }
 
 /******************************************************************************
 ÂäüËÉΩ:	Â∞Üitem‰∏äÁöÑÁ¨¨NÈ°πÈöêËóèÈ≠îÊ≥ïÂ±ûÊÄß‰ªéNPCË∫´‰∏äÁßªÈô§
 ÂÖ•Âè£Ôºö	pNPC: ÊåáÂêëNPCÁöÑÊåáÈíàÔºånMagicActiveÔºöÁ¨¨nÈ°πÈ≠îÊ≥ïÂ±ûÊÄß
 Âá∫Âè£:	È≠îÊ≥ïË¢´ÁßªÈô§„ÄÇ
-		ÂÖ∑‰ΩìÂ∑•‰ΩúÁî±KNpcÁöÑÊàêÂëòÂáΩÊï∞ÂÆåÊàê„ÄÇ
-		KItem ÂØπË±°Êú¨Ë∫´Ê≤°ÊúâÊàêÂëòÂèòÈáèË¢´‰øÆÊîπ
+                ÂÖ∑‰ΩìÂ∑•‰ΩúÁî±KNpcÁöÑÊàêÂëòÂáΩÊï∞ÂÆåÊàê„ÄÇ
+                KItem ÂØπË±°Êú¨Ë∫´Ê≤°ÊúâÊàêÂëòÂèòÈáèË¢´‰øÆÊîπ
 ******************************************************************************/
-void KItem::RemoveHiddenMagicAttribFromNPC(IN KNpc* pNPC, IN int nMagicActive) const
-{
-	_ASSERT(this != NULL);
-	if (nMagicActive <= 0)
-		return;
+void KItem::RemoveHiddenMagicAttribFromNPC(IN KNpc *pNPC,
+                                           IN int nMagicActive) const {
+  _ASSERT(this != NULL);
+  if (nMagicActive <= 0)
+    return;
 
-	const KItemNormalAttrib* pAttrib;
-	pAttrib = &(m_aryMagicAttrib[(nMagicActive << 1) - 1]);	// ÂêéÁºÄ‰∏∫ÈöêËóèÂ±ûÊÄßÊâÄ‰ª•‰πò2Âáè‰∏Ä
-	if (-1 != pAttrib->nAttribType)
-	{
-		KItemNormalAttrib RemoveAttrib;
-		RemoveAttrib.nAttribType = pAttrib->nAttribType;
-		RemoveAttrib.nValue[0] = -pAttrib->nValue[0];
-		RemoveAttrib.nValue[1] = -pAttrib->nValue[1];
-		RemoveAttrib.nValue[2] = -pAttrib->nValue[2];
-		pNPC->ModifyAttrib(pNPC->m_Index, (void *)&RemoveAttrib);
-	}
+  const KItemNormalAttrib *pAttrib;
+  pAttrib = &(m_aryMagicAttrib[(nMagicActive << 1) -
+                               1]); // ÂêéÁºÄ‰∏∫ÈöêËóèÂ±ûÊÄßÊâÄ‰ª•‰πò2Âáè‰∏Ä
+  if (-1 != pAttrib->nAttribType) {
+    KItemNormalAttrib RemoveAttrib;
+    RemoveAttrib.nAttribType = pAttrib->nAttribType;
+    RemoveAttrib.nValue[0] = -pAttrib->nValue[0];
+    RemoveAttrib.nValue[1] = -pAttrib->nValue[1];
+    RemoveAttrib.nValue[2] = -pAttrib->nValue[2];
+    pNPC->ModifyAttrib(pNPC->m_Index, (void *)&RemoveAttrib);
+  }
 }
 
 /******************************************************************************
 ÂäüËÉΩ:	Ê†πÊçÆÈÖçÁΩÆÊñá‰ª∂‰∏≠ÁöÑÊï∞ÊçÆ,‰∏∫itemÁöÑÂêÑÈ°πËµãÂàùÂÄº
 ÂÖ•Âè£Ôºö	pData: ÁªôÂá∫Êù•Ëá™ÈÖçÁΩÆÊñá‰ª∂ÁöÑÊï∞ÊçÆ
 Âá∫Âè£:	ÊàêÂäüÊó∂ËøîÂõûÈùûÈõ∂, ‰ª•‰∏ãÊàêÂëòÂèòÈáèË¢´ÂÄº:
-			m_CommonAttrib,m_aryBaseAttrib,m_aryRequireAttrib
-		Â§±Ë¥•Êó∂ËøîÂõûÈõ∂
+                        m_CommonAttrib,m_aryBaseAttrib,m_aryRequireAttrib
+                Â§±Ë¥•Êó∂ËøîÂõûÈõ∂
 ËØ¥Êòé:	CBR: Common,Base,Require
 ******************************************************************************/
-BOOL KItem::SetAttrib_CBR(IN const KBASICPROP_EQUIPMENT* pData)
-{
-	_ASSERT(pData != NULL);
-	
-	BOOL bEC = FALSE;
-	if (pData)
-	{
-		//SetAttrib_Common(pData);
-		*this = *pData;		// ËøêÁÆóÁ¨¶ÈáçËΩΩ
-		SetAttrib_Base(pData->m_aryPropBasic);
-		SetAttrib_Req(pData->m_aryPropReq);
-		m_SpecialParam.uItemType = pData->m_ItemType;
-		m_SpecialParam.uItemGroup = pData->m_ItemGroup;
-		m_SpecialParam.uItemGroupCount = 0;
-		bEC = TRUE;
-	}
-	else
-	{
-	m_SpecialParam.uItemType = 0;
-	m_SpecialParam.uItemGroup = 0;
-	m_SpecialParam.uItemGroupCount = 0;
-	}
+BOOL KItem::SetAttrib_CBR(IN const KBASICPROP_EQUIPMENT *pData) {
+  _ASSERT(pData != NULL);
+
+  BOOL bEC = FALSE;
+  if (pData) {
+    // SetAttrib_Common(pData);
+    *this = *pData; // ËøêÁÆóÁ¨¶ÈáçËΩΩ
+    SetAttrib_Base(pData->m_aryPropBasic);
+    SetAttrib_Req(pData->m_aryPropReq);
+    m_SpecialParam.uItemType = pData->m_ItemType;
+    m_SpecialParam.uItemGroup = pData->m_ItemGroup;
+    m_SpecialParam.uItemGroupCount = 0;
+    bEC = TRUE;
+  } else {
+    m_SpecialParam.uItemType = 0;
+    m_SpecialParam.uItemGroup = 0;
+    m_SpecialParam.uItemGroupCount = 0;
+  }
 
 #ifndef _SERVER
-for (int i=0;i<11;i++)
-{
-strcpy(m_GroupItemName[i],"");
-}
-m_ItemLevel = 0;
+  for (int i = 0; i < 11; i++) {
+    strcpy(m_GroupItemName[i], "");
+  }
+  m_ItemLevel = 0;
 #endif
-for (int e=0;e<11;e++)
-{
-for (int f=0;f<3;f++)
-{
-m_GroupItemNameInfo[e][f] = 0;
-}
-}
+  for (int e = 0; e < 11; e++) {
+    for (int f = 0; f < 3; f++) {
+      m_GroupItemNameInfo[e][f] = 0;
+    }
+  }
 
-
-	return bEC;
+  return bEC;
 }
 
-BOOL KItem::SetAttrib_Base(const KEQCP_BASIC* pBasic)
-{
-	for (int i = 0;
-		 i < sizeof(m_aryBaseAttrib)/sizeof(m_aryBaseAttrib[0]); i++)
-	{
-		KItemNormalAttrib* pDst;
-		const KEQCP_BASIC* pSrc;
-		pDst = &(m_aryBaseAttrib[i]);
-		pSrc = &(pBasic[i]);
-		pDst->nAttribType = pSrc->nType;
-		pDst->nValue[0] = ::GetRandomNumber(pSrc->sRange.nMin, pSrc->sRange.nMax);
-		pDst->nValue[1] = 0;	// RESERVED
-		pDst->nValue[2] = 0;	// RESERVED
-		if (pDst->nAttribType == magic_durability_v)
-			SetDurability(pDst->nValue[0]);
-	}
-	
-	return TRUE;
+BOOL KItem::SetAttrib_Base(const KEQCP_BASIC *pBasic) {
+  for (int i = 0; i < sizeof(m_aryBaseAttrib) / sizeof(m_aryBaseAttrib[0]);
+       i++) {
+    KItemNormalAttrib *pDst;
+    const KEQCP_BASIC *pSrc;
+    pDst = &(m_aryBaseAttrib[i]);
+    pSrc = &(pBasic[i]);
+    pDst->nAttribType = pSrc->nType;
+    pDst->nValue[0] = ::GetRandomNumber(pSrc->sRange.nMin, pSrc->sRange.nMax);
+    pDst->nValue[1] = 0; // RESERVED
+    pDst->nValue[2] = 0; // RESERVED
+    if (pDst->nAttribType == magic_durability_v)
+      SetDurability(pDst->nValue[0]);
+  }
+
+  return TRUE;
 }
 
-BOOL KItem::SetAttrib_Req(const KEQCP_REQ* pReq)
-{
-	for (int i = 0;
-		 i < sizeof(m_aryRequireAttrib)/sizeof(m_aryRequireAttrib[0]); i++)
-	{
-		KItemNormalAttrib* pDst;
-		pDst = &(m_aryRequireAttrib[i]);
-		pDst->nAttribType = pReq[i].nType;
-		pDst->nValue[0] = pReq[i].nPara;
-		pDst->nValue[1] = 0;	// RESERVED
-		pDst->nValue[2] = 0;	// RESERVED
-	}
-	return TRUE;
+BOOL KItem::SetAttrib_Req(const KEQCP_REQ *pReq) {
+  for (int i = 0;
+       i < sizeof(m_aryRequireAttrib) / sizeof(m_aryRequireAttrib[0]); i++) {
+    KItemNormalAttrib *pDst;
+    pDst = &(m_aryRequireAttrib[i]);
+    pDst->nAttribType = pReq[i].nType;
+    pDst->nValue[0] = pReq[i].nPara;
+    pDst->nValue[1] = 0; // RESERVED
+    pDst->nValue[2] = 0; // RESERVED
+  }
+  return TRUE;
 }
 
 /******************************************************************************
 ÂäüËÉΩ:	Ê†πÊçÆ‰º†ÂÖ•ÁöÑÊï∞ÊçÆ, ‰∏∫itemÁöÑÈ≠îÊ≥ïÂ±ûÊÄßËµãÂàùÂÄº
 ÂÖ•Âè£Ôºö	pMA: ÁªôÂá∫Êï∞ÊçÆ
 Âá∫Âè£:	ÊàêÂäüÊó∂ËøîÂõûÈùûÈõ∂, ‰ª•‰∏ãÊàêÂëòÂèòÈáèË¢´ÂÄº:
-			m_aryMagicAttrib
-		Â§±Ë¥•Êó∂ËøîÂõûÈõ∂
+                        m_aryMagicAttrib
+                Â§±Ë¥•Êó∂ËøîÂõûÈõ∂
 ******************************************************************************/
-BOOL KItem::SetAttrib_MA(IN const KItemNormalAttrib* pMA)
-{
-	if (NULL == pMA)
-		{ _ASSERT(FALSE); return FALSE; }
+BOOL KItem::SetAttrib_MA(IN const KItemNormalAttrib *pMA) {
+  if (NULL == pMA) {
+    _ASSERT(FALSE);
+    return FALSE;
+  }
 
-	for (int i = 0; i < sizeof(m_aryMagicAttrib) / sizeof(m_aryMagicAttrib[0]); i++)
-	{
-		m_aryMagicAttrib[i] = pMA[i];
-		// Ê∞∏‰∏çÁ£®Êçü
-		if (m_aryMagicAttrib[i].nAttribType == magic_indestructible_b)
-		{
-			SetDurability(-1);
-		}
-	}
-	return TRUE;
+  for (int i = 0; i < sizeof(m_aryMagicAttrib) / sizeof(m_aryMagicAttrib[0]);
+       i++) {
+    m_aryMagicAttrib[i] = pMA[i];
+    // Ê∞∏‰∏çÁ£®Êçü
+    if (m_aryMagicAttrib[i].nAttribType == magic_indestructible_b) {
+      SetDurability(-1);
+    }
+  }
+  return TRUE;
 }
-
-
 
 /******************************************************************************
 ÂäüËÉΩ:	Ê†πÊçÆ‰º†ÂÖ•ÁöÑÊï∞ÊçÆ, ‰∏∫itemÁöÑÈ≠îÊ≥ïÂ±ûÊÄßËµãÂàùÂÄº
 ÂÖ•Âè£Ôºö	pMA: ÁªôÂá∫Êï∞ÊçÆ
 Âá∫Âè£:	ÊàêÂäüÊó∂ËøîÂõûÈùûÈõ∂, ‰ª•‰∏ãÊàêÂëòÂèòÈáèË¢´ÂÄº:
-			m_aryMagicAttrib
-		Â§±Ë¥•Êó∂ËøîÂõûÈõ∂
+                        m_aryMagicAttrib
+                Â§±Ë¥•Êó∂ËøîÂõûÈõ∂
 ******************************************************************************/
-BOOL KItem::SetAttrib_MA(IN const KMACP* pMA)
-{
-	if (NULL == pMA)
-		{ _ASSERT(FALSE); return FALSE; }
+BOOL KItem::SetAttrib_MA(IN const KMACP *pMA) {
+  if (NULL == pMA) {
+    _ASSERT(FALSE);
+    return FALSE;
+  }
 
-	for (int i = 0; i < sizeof(m_aryMagicAttrib) / sizeof(m_aryMagicAttrib[0]); i++)
-	{
-		const KMACP* pSrc;
-		KItemNormalAttrib* pDst;
-		pSrc = &(pMA[i]);
-		pDst = &(m_aryRequireAttrib[i]);
+  for (int i = 0; i < sizeof(m_aryMagicAttrib) / sizeof(m_aryMagicAttrib[0]);
+       i++) {
+    const KMACP *pSrc;
+    KItemNormalAttrib *pDst;
+    pSrc = &(pMA[i]);
+    pDst = &(m_aryRequireAttrib[i]);
 
-		pDst->nAttribType = pSrc->nPropKind;
-		pDst->nValue[0] =  ::GetRandomNumber(pSrc->aryRange[0].nMin, pSrc->aryRange[0].nMax);
-		pDst->nValue[1] =  ::GetRandomNumber(pSrc->aryRange[1].nMin, pSrc->aryRange[1].nMax);
-		pDst->nValue[2] =  ::GetRandomNumber(pSrc->aryRange[2].nMin, pSrc->aryRange[2].nMax);
-	}
-	return TRUE;
+    pDst->nAttribType = pSrc->nPropKind;
+    pDst->nValue[0] =
+        ::GetRandomNumber(pSrc->aryRange[0].nMin, pSrc->aryRange[0].nMax);
+    pDst->nValue[1] =
+        ::GetRandomNumber(pSrc->aryRange[1].nMin, pSrc->aryRange[1].nMax);
+    pDst->nValue[2] =
+        ::GetRandomNumber(pSrc->aryRange[2].nMin, pSrc->aryRange[2].nMax);
+  }
+  return TRUE;
 }
 
-void KItem::operator = (const KBASICPROP_EQUIPMENT& sData)
-{
-	KItemCommonAttrib* pCA = &m_CommonAttrib;
-	pCA->nItemGenre		 = sData.m_nItemGenre;
-	pCA->nDetailType	 = sData.m_nDetailType;
-	pCA->nParticularType = sData.m_nParticularType;
-	pCA->nObjIdx		 = sData.m_nObjIdx;
-	pCA->bStack			 = sData.m_bStack;
-	pCA->nWidth			 = sData.m_nWidth;
-	pCA->nHeight		 = sData.m_nHeight;
-	pCA->nPrice			 = sData.m_nPrice;
-	pCA->nLevel			 = sData.m_nLevel;
-	pCA->nSeries		 = sData.m_nSeries;
-	
-	::strcpy(pCA->szItemName,  sData.m_szName);
-	
-	//Time Item
-	pCA->LimitTime.bYear = 0;
-	pCA->LimitTime.bMonth = 0;
-	pCA->LimitTime.bDay = 0;
-	pCA->LimitTime.bHour = 0;
-	// End
-	pCA->nFiFongArmor = 0;
-	pCA->nBind = 0;
+void KItem::operator=(const KBASICPROP_EQUIPMENT &sData) {
+  KItemCommonAttrib *pCA = &m_CommonAttrib;
+  pCA->nItemGenre = sData.m_nItemGenre;
+  pCA->nDetailType = sData.m_nDetailType;
+  pCA->nParticularType = sData.m_nParticularType;
+  pCA->nObjIdx = sData.m_nObjIdx;
+  pCA->bStack = sData.m_bStack;
+  pCA->nWidth = sData.m_nWidth;
+  pCA->nHeight = sData.m_nHeight;
+  pCA->nPrice = sData.m_nPrice;
+  pCA->nLevel = sData.m_nLevel;
+  pCA->nSeries = sData.m_nSeries;
 
-	m_nPriceShop = 0;
+  ::strcpy(pCA->szItemName, sData.m_szName);
 
-    m_nPriceGold = 0;
+  // Time Item
+  pCA->LimitTime.bYear = 0;
+  pCA->LimitTime.bMonth = 0;
+  pCA->LimitTime.bDay = 0;
+  pCA->LimitTime.bHour = 0;
+  // End
+  pCA->nFiFongArmor = 0;
+  pCA->nBind = 0;
 
-	m_nPriceTL = 0;
-    m_nPriceVD = 0;
+  m_nPriceShop = 0;
 
-	m_nPoitAbrate = 0;
-	m_nPoitAbrate = 0;
+  m_nPriceGold = 0;
 
+  m_nPriceTL = 0;
+  m_nPriceVD = 0;
+
+  m_nPoitAbrate = 0;
+  m_nPoitAbrate = 0;
 
 #ifndef _SERVER
-	::strcpy(pCA->szImageName, sData.m_szImageName);
-	::strcpy(pCA->szIntro,	   sData.m_szIntro);
+  ::strcpy(pCA->szImageName, sData.m_szImageName);
+  ::strcpy(pCA->szIntro, sData.m_szIntro);
 
-	m_Image.Color.Color_b.a = 255;
-	m_Image.nFrame = 0;
-	m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
-	m_Image.nType = ISI_T_SPR;
-	::strcpy(m_Image.szImage, pCA->szImageName);
-	m_Image.uImage = 0;
+  m_Image.Color.Color_b.a = 255;
+  m_Image.nFrame = 0;
+  m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
+  m_Image.nType = ISI_T_SPR;
+  ::strcpy(m_Image.szImage, pCA->szImageName);
+  m_Image.uImage = 0;
 #endif
 }
 
-void KItem::operator = (const KBASICPROP_MEDMATERIAL& sData)
-{
-	// ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
-	KItemCommonAttrib* pCA = &(m_CommonAttrib);
-	pCA->nItemGenre		 = sData.m_nItemGenre;
-	pCA->nDetailType	 = sData.m_nDetailType;
-	pCA->nParticularType = sData.m_nParticularType;
-	pCA->nObjIdx		 = sData.m_nObjIdx;
-	pCA->bStack			 = sData.m_bStack;
-	pCA->nWidth			 = sData.m_nWidth;
-	pCA->nHeight		 = sData.m_nHeight;
-	pCA->nPrice			 = sData.m_nPrice;
-	pCA->nLevel			 = sData.m_nLevel;
-	pCA->nSeries		 = sData.m_nSeries;
-	::strcpy(pCA->szItemName,  sData.m_szName);
-	
-	//Time Item
-	pCA->LimitTime.bYear = 0;
-	pCA->LimitTime.bMonth = 0;
-	pCA->LimitTime.bDay = 0;
-	pCA->LimitTime.bHour = 0;
-	// End
-	pCA->nFiFongArmor = 0;
-	pCA->nBind = 0;
-	
-	m_nPriceShop = 0;
+void KItem::operator=(const KBASICPROP_MEDMATERIAL &sData) {
+  // ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
+  KItemCommonAttrib *pCA = &(m_CommonAttrib);
+  pCA->nItemGenre = sData.m_nItemGenre;
+  pCA->nDetailType = sData.m_nDetailType;
+  pCA->nParticularType = sData.m_nParticularType;
+  pCA->nObjIdx = sData.m_nObjIdx;
+  pCA->bStack = sData.m_bStack;
+  pCA->nWidth = sData.m_nWidth;
+  pCA->nHeight = sData.m_nHeight;
+  pCA->nPrice = sData.m_nPrice;
+  pCA->nLevel = sData.m_nLevel;
+  pCA->nSeries = sData.m_nSeries;
+  ::strcpy(pCA->szItemName, sData.m_szName);
 
-    m_nPriceGold = 0;
+  // Time Item
+  pCA->LimitTime.bYear = 0;
+  pCA->LimitTime.bMonth = 0;
+  pCA->LimitTime.bDay = 0;
+  pCA->LimitTime.bHour = 0;
+  // End
+  pCA->nFiFongArmor = 0;
+  pCA->nBind = 0;
 
-	m_nPriceTL = 0;
-    m_nPriceVD = 0;
+  m_nPriceShop = 0;
 
-	m_nPoitAbrate = 0;
+  m_nPriceGold = 0;
+
+  m_nPriceTL = 0;
+  m_nPriceVD = 0;
+
+  m_nPoitAbrate = 0;
 
 #ifndef _SERVER
-	::strcpy(pCA->szImageName, sData.m_szImageName);
-	::strcpy(pCA->szIntro,	   sData.m_szIntro);
+  ::strcpy(pCA->szImageName, sData.m_szImageName);
+  ::strcpy(pCA->szIntro, sData.m_szIntro);
 #endif
-	// ËµãÂÄº: Âü∫Êú¨Â±ûÊÄßÈÉ®ÂàÜ
-	KItemNormalAttrib* pBA = m_aryBaseAttrib;
-	pBA[0].nAttribType = sData.m_nAttrib1_Type;
-	pBA[0].nValue[0]   = sData.m_nAttrib1_Para;
-	pBA[1].nAttribType = sData.m_nAttrib2_Type;
-	pBA[1].nValue[0]   = sData.m_nAttrib2_Para;
-	pBA[2].nAttribType = sData.m_nAttrib3_Type;
-	pBA[2].nValue[0]   = sData.m_nAttrib3_Para;
-	
-	// ËµãÂÄº: ÈúÄÊ±ÇÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
-	// ËµãÂÄº: È≠îÊ≥ïÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
+  // ËµãÂÄº: Âü∫Êú¨Â±ûÊÄßÈÉ®ÂàÜ
+  KItemNormalAttrib *pBA = m_aryBaseAttrib;
+  pBA[0].nAttribType = sData.m_nAttrib1_Type;
+  pBA[0].nValue[0] = sData.m_nAttrib1_Para;
+  pBA[1].nAttribType = sData.m_nAttrib2_Type;
+  pBA[1].nValue[0] = sData.m_nAttrib2_Para;
+  pBA[2].nAttribType = sData.m_nAttrib3_Type;
+  pBA[2].nValue[0] = sData.m_nAttrib3_Para;
+
+  // ËµãÂÄº: ÈúÄÊ±ÇÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
+  // ËµãÂÄº: È≠îÊ≥ïÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
 #ifndef _SERVER
-	m_Image.Color.Color_b.a = 255;
-	m_Image.nFrame = 0;
-	m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
-	m_Image.nType = ISI_T_SPR;
-	::strcpy(m_Image.szImage, pCA->szImageName);
-	m_Image.uImage = 0;
-#endif
-}
-
-void KItem::operator = (const KBASICPROP_MINE& sData)
-{
-	// ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
-	KItemCommonAttrib* pCA = &m_CommonAttrib;
-	pCA->nItemGenre		 = sData.m_nItemGenre;
-	pCA->nDetailType	 = sData.m_nDetailType;
-	pCA->nParticularType = sData.m_nParticularType;
-	pCA->nObjIdx		 = sData.m_nObjIdx;
-	pCA->bStack			 = sData.m_bStack;
-	pCA->nWidth			 = sData.m_nWidth;
-	pCA->nHeight		 = sData.m_nHeight;
-	pCA->nPrice			 = sData.m_nPrice;
-	pCA->nLevel			 = sData.m_nLevel;
-	::strcpy(pCA->szItemName,  sData.m_szName);
-	// Time Item
-	pCA->LimitTime.bYear = 0;
-		pCA->LimitTime.bMonth = 0;
-		pCA->LimitTime.bDay = 0;
-		pCA->LimitTime.bHour = 0;
-	// End
-	pCA->nFiFongArmor = 0;
-	pCA->nBind = 0;
-	
-	m_nPriceShop = 0;
-
-    m_nPriceGold = 0;
-
-	m_nPriceTL = 0;
-    m_nPriceVD = 0;
-
-	m_nPoitAbrate = 0;
-
-
-#ifndef _SERVER
-	::strcpy(pCA->szImageName, sData.m_szImageName);
-	::strcpy(pCA->szIntro,	   sData.m_szIntro);
-#endif
-	// ËµãÂÄº: ÈúÄÊ±ÇÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
-	// ËµãÂÄº: È≠îÊ≥ïÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
-#ifndef _SERVER
-	m_Image.Color.Color_b.a = 255;
-	m_Image.nFrame = 0;
-	m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
-	m_Image.nType = ISI_T_SPR;
-	::strcpy(m_Image.szImage, pCA->szImageName);
-	m_Image.uImage = 0;
+  m_Image.Color.Color_b.a = 255;
+  m_Image.nFrame = 0;
+  m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
+  m_Image.nType = ISI_T_SPR;
+  ::strcpy(m_Image.szImage, pCA->szImageName);
+  m_Image.uImage = 0;
 #endif
 }
 
-void KItem::operator = (const KBASICPROP_QUEST& sData)
-{
-	// ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
-	KItemCommonAttrib* pCA = &m_CommonAttrib;
-	pCA->nItemGenre		 = sData.m_nItemGenre;
-	pCA->nDetailType	 = sData.m_nDetailType;
-	pCA->nParticularType = 0;
-	pCA->nObjIdx		 = sData.m_nObjIdx;
-	pCA->bStack			 = sData.m_bStack;
-	pCA->nWidth			 = sData.m_nWidth;
-	pCA->nHeight		 = sData.m_nHeight;
-	pCA->nPrice			 = sData.m_nPrice;
-	pCA->nLevel			 = sData.m_nLevel;
-	pCA->nSeries		 = -1;
-	pCA->nIsThrow		 = sData.m_nIsThrowItem;
-	
-	::strcpy(pCA->szItemName,  sData.m_szName);
-	// Time Item
-	pCA->LimitTime.bYear = 0;
-	pCA->LimitTime.bMonth = 0;
-	pCA->LimitTime.bDay = 0;
-	pCA->LimitTime.bHour = 0;
-	//End
-	pCA->nFiFongArmor = 0;
-	pCA->nBind = 0;
-	
-	m_nPriceShop = 0;
+void KItem::operator=(const KBASICPROP_MINE &sData) {
+  // ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
+  KItemCommonAttrib *pCA = &m_CommonAttrib;
+  pCA->nItemGenre = sData.m_nItemGenre;
+  pCA->nDetailType = sData.m_nDetailType;
+  pCA->nParticularType = sData.m_nParticularType;
+  pCA->nObjIdx = sData.m_nObjIdx;
+  pCA->bStack = sData.m_bStack;
+  pCA->nWidth = sData.m_nWidth;
+  pCA->nHeight = sData.m_nHeight;
+  pCA->nPrice = sData.m_nPrice;
+  pCA->nLevel = sData.m_nLevel;
+  ::strcpy(pCA->szItemName, sData.m_szName);
+  // Time Item
+  pCA->LimitTime.bYear = 0;
+  pCA->LimitTime.bMonth = 0;
+  pCA->LimitTime.bDay = 0;
+  pCA->LimitTime.bHour = 0;
+  // End
+  pCA->nFiFongArmor = 0;
+  pCA->nBind = 0;
 
-    m_nPriceGold = 0;
+  m_nPriceShop = 0;
 
-	m_nPriceTL = 0;
-    m_nPriceVD = 0;
+  m_nPriceGold = 0;
 
-	m_nPoitAbrate = 0;
+  m_nPriceTL = 0;
+  m_nPriceVD = 0;
 
-
+  m_nPoitAbrate = 0;
 
 #ifndef _SERVER
-	::strcpy(pCA->szImageName, sData.m_szImageName);
-	::strcpy(pCA->szIntro,	   sData.m_szIntro);
+  ::strcpy(pCA->szImageName, sData.m_szImageName);
+  ::strcpy(pCA->szIntro, sData.m_szIntro);
 #endif
-	ZeroMemory(m_aryBaseAttrib, sizeof(m_aryBaseAttrib));
-	// ËµãÂÄº: ÈúÄÊ±ÇÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
-	ZeroMemory(m_aryRequireAttrib, sizeof(m_aryRequireAttrib));
-	// ËµãÂÄº: È≠îÊ≥ïÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
-	ZeroMemory(m_aryMagicAttrib, sizeof(m_aryMagicAttrib));
+  // ËµãÂÄº: ÈúÄÊ±ÇÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
+  // ËµãÂÄº: È≠îÊ≥ïÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
 #ifndef _SERVER
-	m_Image.Color.Color_b.a = 255;
-	m_Image.nFrame = 0;
-	m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
-	m_Image.nType = ISI_T_SPR;
-	::strcpy(m_Image.szImage, pCA->szImageName);
-	m_Image.uImage = 0;
+  m_Image.Color.Color_b.a = 255;
+  m_Image.nFrame = 0;
+  m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
+  m_Image.nType = ISI_T_SPR;
+  ::strcpy(m_Image.szImage, pCA->szImageName);
+  m_Image.uImage = 0;
 #endif
 }
 
-void KItem::operator = (const KBASICPROP_TOWNPORTAL& sData)
-{
-	// ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
-	KItemCommonAttrib* pCA = &m_CommonAttrib;
-	pCA->nItemGenre		 = sData.m_nItemGenre;
-	pCA->nDetailType	 = 0;
-	pCA->nParticularType = 0;
-	pCA->nObjIdx		 = sData.m_nObjIdx;
-	pCA->bStack			 = 0;
-	pCA->nWidth			 = sData.m_nWidth;
-	pCA->nHeight		 = sData.m_nHeight;
-	pCA->nPrice			 = sData.m_nPrice;
-	pCA->nLevel			 = 1;
-	pCA->nSeries		 = -1;
-	::strcpy(pCA->szItemName,  sData.m_szName);
-	//Time Item
-	pCA->LimitTime.bYear = 0;
-	pCA->LimitTime.bMonth = 0;
-	pCA->LimitTime.bDay = 0;
-	pCA->LimitTime.bHour = 0;
-	// End
-	pCA->nFiFongArmor = 0;
-	pCA->nBind = 0;
-	
-	
+void KItem::operator=(const KBASICPROP_QUEST &sData) {
+  // ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
+  KItemCommonAttrib *pCA = &m_CommonAttrib;
+  pCA->nItemGenre = sData.m_nItemGenre;
+  pCA->nDetailType = sData.m_nDetailType;
+  pCA->nParticularType = 0;
+  pCA->nObjIdx = sData.m_nObjIdx;
+  pCA->bStack = sData.m_bStack;
+  pCA->nWidth = sData.m_nWidth;
+  pCA->nHeight = sData.m_nHeight;
+  pCA->nPrice = sData.m_nPrice;
+  pCA->nLevel = sData.m_nLevel;
+  pCA->nSeries = -1;
+  pCA->nIsThrow = sData.m_nIsThrowItem;
+
+  ::strcpy(pCA->szItemName, sData.m_szName);
+  // Time Item
+  pCA->LimitTime.bYear = 0;
+  pCA->LimitTime.bMonth = 0;
+  pCA->LimitTime.bDay = 0;
+  pCA->LimitTime.bHour = 0;
+  // End
+  pCA->nFiFongArmor = 0;
+  pCA->nBind = 0;
+
+  m_nPriceShop = 0;
+
+  m_nPriceGold = 0;
+
+  m_nPriceTL = 0;
+  m_nPriceVD = 0;
+
+  m_nPoitAbrate = 0;
+
 #ifndef _SERVER
-	::strcpy(pCA->szImageName, sData.m_szImageName);
-	::strcpy(pCA->szIntro,	   sData.m_szIntro);
+  ::strcpy(pCA->szImageName, sData.m_szImageName);
+  ::strcpy(pCA->szIntro, sData.m_szIntro);
 #endif
-	ZeroMemory(m_aryBaseAttrib, sizeof(m_aryBaseAttrib));
-	// ËµãÂÄº: ÈúÄÊ±ÇÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
-	ZeroMemory(m_aryRequireAttrib, sizeof(m_aryRequireAttrib));
-	// ËµãÂÄº: È≠îÊ≥ïÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
-	ZeroMemory(m_aryMagicAttrib, sizeof(m_aryMagicAttrib));
+  ZeroMemory(m_aryBaseAttrib, sizeof(m_aryBaseAttrib));
+  // ËµãÂÄº: ÈúÄÊ±ÇÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
+  ZeroMemory(m_aryRequireAttrib, sizeof(m_aryRequireAttrib));
+  // ËµãÂÄº: È≠îÊ≥ïÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
+  ZeroMemory(m_aryMagicAttrib, sizeof(m_aryMagicAttrib));
 #ifndef _SERVER
-	m_Image.Color.Color_b.a = 255;
-	m_Image.nFrame = 0;
-	m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
-	m_Image.nType = ISI_T_SPR;
-	::strcpy(m_Image.szImage, pCA->szImageName);
-	m_Image.uImage = 0;
-#endif
-}
-
-void KItem::operator = (const KBASICPROP_MEDICINE& sData)
-{
-	// ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
-	KItemCommonAttrib* pCA = &m_CommonAttrib;
-	pCA->nItemGenre		 = sData.m_nItemGenre;
-	pCA->nDetailType	 = sData.m_nDetailType;
-	pCA->nParticularType = sData.m_nParticularType;
-	pCA->nObjIdx		 = sData.m_nObjIdx;
-	pCA->bStack			 = sData.m_bStack;
-	pCA->nWidth			 = sData.m_nWidth;
-	pCA->nHeight		 = sData.m_nHeight;
-	pCA->nPrice			 = sData.m_nPrice;
-	pCA->nLevel			 = sData.m_nLevel;
-	pCA->nSeries		 = sData.m_nSeries;
-	::strcpy(pCA->szItemName,  sData.m_szName);
-	//Time Item
-	pCA->LimitTime.bYear = 0;
-	pCA->LimitTime.bMonth = 0;
-	pCA->LimitTime.bDay = 0;
-	pCA->LimitTime.bHour = 0;
-	// End
-	pCA->nFiFongArmor = 0;
-	pCA->nBind = 0;
-
-	m_nPriceShop = 0;
-
-    m_nPriceGold = 0;
-
-	m_nPriceTL = 0;
-    m_nPriceVD = 0;
-
-	m_nPoitAbrate = 0;
-
-#ifndef _SERVER
-	::strcpy(pCA->szImageName, sData.m_szImageName);
-	::strcpy(pCA->szIntro,	   sData.m_szIntro);
-#endif
-	// ËµãÂÄº: Âü∫Êú¨Â±ûÊÄßÈÉ®ÂàÜ
-	ZeroMemory(m_aryBaseAttrib, sizeof(m_aryBaseAttrib));
-	KItemNormalAttrib* pBA = m_aryBaseAttrib;
-	pBA[0].nAttribType = sData.m_aryAttrib[0].nAttrib;
-	pBA[0].nValue[0]   = sData.m_aryAttrib[0].nValue;
-	pBA[0].nValue[1]   = sData.m_aryAttrib[0].nTime;
-	pBA[1].nAttribType = sData.m_aryAttrib[1].nAttrib;
-	pBA[1].nValue[0]   = sData.m_aryAttrib[1].nValue;
-	pBA[1].nValue[1]   = sData.m_aryAttrib[1].nTime;
-	
-	ZeroMemory(m_aryRequireAttrib, sizeof(m_aryRequireAttrib));
-	ZeroMemory(m_aryMagicAttrib, sizeof(m_aryMagicAttrib));
-
-#ifndef _SERVER
-	m_Image.Color.Color_b.a = 255;
-	m_Image.nFrame = 0;
-	m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
-	m_Image.nType = ISI_T_SPR;
-	::strcpy(m_Image.szImage, pCA->szImageName);
-	m_Image.uImage = 0;
-#endif
-
-}
-
-void KItem::operator = (const KBASICPROP_EQUIPMENT_UNIQUE& sData)
-{
-	// ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
-	KItemCommonAttrib* pCA = &m_CommonAttrib;
-	pCA->nItemGenre		 = sData.m_nItemGenre;
-	pCA->nDetailType	 = sData.m_nDetailType;
-	pCA->nParticularType = sData.m_nParticularType;
-	pCA->nObjIdx		 = sData.m_nObjIdx;
-	pCA->nPrice			 = sData.m_nPrice;
-	pCA->nLevel			 = sData.m_nLevel;
-	pCA->nSeries		 = sData.m_nSeries;
-	::strcpy(pCA->szItemName,  sData.m_szName);
-	//Time Item
-	pCA->LimitTime.bYear = 0;
-	pCA->LimitTime.bMonth = 0;
-	pCA->LimitTime.bDay = 0;
-	pCA->LimitTime.bHour = 0;
-	// End	
-	pCA->nFiFongArmor = 0;
-	pCA->nBind = 0;
-	
-
-	m_nPriceShop = 0;
-
-    m_nPriceGold = 0;
-
-	m_nPriceTL = 0;
-    m_nPriceVD = 0;
-
-	m_nPoitAbrate = 0;
-
-#ifndef _SERVER
-	::strcpy(pCA->szImageName, sData.m_szImageName);
-	::strcpy(pCA->szIntro,	   sData.m_szIntro);
-
-	m_Image.Color.Color_b.a = 255;
-	m_Image.nFrame = 0;
-	m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
-	m_Image.nType = ISI_T_SPR;
-	::strcpy(m_Image.szImage, pCA->szImageName);
-	m_Image.uImage = 0;
+  m_Image.Color.Color_b.a = 255;
+  m_Image.nFrame = 0;
+  m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
+  m_Image.nType = ISI_T_SPR;
+  ::strcpy(m_Image.szImage, pCA->szImageName);
+  m_Image.uImage = 0;
 #endif
 }
 
-//flying add this overloaded operator to generate a gold item.
-void KItem::operator = (const KBASICPROP_EQUIPMENT_GOLD& sData)
-{
-	KItemCommonAttrib* pCA = &m_CommonAttrib;	
-	pCA->nItemGenre		 = sData.m_nItemGenre;
-	pCA->nDetailType	 = sData.m_nDetailType;
-	pCA->nParticularType = sData.m_nParticularType;
-	pCA->nObjIdx		 = sData.m_nObjIdx;
-	pCA->nPrice			 = sData.m_nPrice;
-	pCA->nLevel			 = sData.m_nLevel;
-	pCA->nSeries		 = sData.m_nSeries;
-	pCA->nWidth			 = sData.m_nWidth;
-	pCA->nHeight		 = sData.m_nHeight;
-	::strcpy(pCA->szItemName,  sData.m_szName);
-	//Time Item
-	pCA->LimitTime.bYear = 0;
-	pCA->LimitTime.bMonth = 0;
-	pCA->LimitTime.bDay = 0;
-	pCA->LimitTime.bHour = 0;
-	// End
-	pCA->nFiFongArmor = 0;
-	pCA->nBind = 0;
-	
-
-	m_nPriceShop = 0;
-
-    m_nPriceGold = 0;
-
-
-	m_nPriceTL = 0;
-    m_nPriceVD = 0;
-
-	m_nPoitAbrate = 0;
+void KItem::operator=(const KBASICPROP_TOWNPORTAL &sData) {
+  // ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
+  KItemCommonAttrib *pCA = &m_CommonAttrib;
+  pCA->nItemGenre = sData.m_nItemGenre;
+  pCA->nDetailType = 0;
+  pCA->nParticularType = 0;
+  pCA->nObjIdx = sData.m_nObjIdx;
+  pCA->bStack = 0;
+  pCA->nWidth = sData.m_nWidth;
+  pCA->nHeight = sData.m_nHeight;
+  pCA->nPrice = sData.m_nPrice;
+  pCA->nLevel = 1;
+  pCA->nSeries = -1;
+  ::strcpy(pCA->szItemName, sData.m_szName);
+  // Time Item
+  pCA->LimitTime.bYear = 0;
+  pCA->LimitTime.bMonth = 0;
+  pCA->LimitTime.bDay = 0;
+  pCA->LimitTime.bHour = 0;
+  // End
+  pCA->nFiFongArmor = 0;
+  pCA->nBind = 0;
 
 #ifndef _SERVER
-	::strcpy(pCA->szImageName, sData.m_szImageName);
-	::strcpy(pCA->szIntro,	   sData.m_szIntro);
-	m_Image.Color.Color_b.a = 255;
-	m_Image.nFrame = 0;
-	m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
-	m_Image.nType = ISI_T_SPR;
-	::strcpy(m_Image.szImage, pCA->szImageName);
-	m_Image.uImage = 0;
+  ::strcpy(pCA->szImageName, sData.m_szImageName);
+  ::strcpy(pCA->szIntro, sData.m_szIntro);
+#endif
+  ZeroMemory(m_aryBaseAttrib, sizeof(m_aryBaseAttrib));
+  // ËµãÂÄº: ÈúÄÊ±ÇÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
+  ZeroMemory(m_aryRequireAttrib, sizeof(m_aryRequireAttrib));
+  // ËµãÂÄº: È≠îÊ≥ïÂ±ûÊÄßÈÉ®ÂàÜ: Êó†
+  ZeroMemory(m_aryMagicAttrib, sizeof(m_aryMagicAttrib));
+#ifndef _SERVER
+  m_Image.Color.Color_b.a = 255;
+  m_Image.nFrame = 0;
+  m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
+  m_Image.nType = ISI_T_SPR;
+  ::strcpy(m_Image.szImage, pCA->szImageName);
+  m_Image.uImage = 0;
 #endif
 }
 
-BOOL KItem::Gen_Equipment_Unique(const KBASICPROP_EQUIPMENT* pEqu,
-								 const KBASICPROP_EQUIPMENT_UNIQUE* pUni)
-{
-	_ASSERT(this != NULL);
-	_ASSERT(pEqu != NULL);
-	_ASSERT(pUni != NULL);
+void KItem::operator=(const KBASICPROP_MEDICINE &sData) {
+  // ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
+  KItemCommonAttrib *pCA = &m_CommonAttrib;
+  pCA->nItemGenre = sData.m_nItemGenre;
+  pCA->nDetailType = sData.m_nDetailType;
+  pCA->nParticularType = sData.m_nParticularType;
+  pCA->nObjIdx = sData.m_nObjIdx;
+  pCA->bStack = sData.m_bStack;
+  pCA->nWidth = sData.m_nWidth;
+  pCA->nHeight = sData.m_nHeight;
+  pCA->nPrice = sData.m_nPrice;
+  pCA->nLevel = sData.m_nLevel;
+  pCA->nSeries = sData.m_nSeries;
+  ::strcpy(pCA->szItemName, sData.m_szName);
+  // Time Item
+  pCA->LimitTime.bYear = 0;
+  pCA->LimitTime.bMonth = 0;
+  pCA->LimitTime.bDay = 0;
+  pCA->LimitTime.bHour = 0;
+  // End
+  pCA->nFiFongArmor = 0;
+  pCA->nBind = 0;
 
-	if (NULL == pEqu || NULL == pUni)
-		{ _ASSERT(FALSE); return FALSE; }
+  m_nPriceShop = 0;
 
-	// ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
-	*this = *pUni;		// ËøêÁÆóÁ¨¶ÈáçËΩΩ
-	KItemCommonAttrib* pCA = &m_CommonAttrib;
-	pCA->bStack  = pEqu->m_bStack;
-	pCA->nWidth  = pEqu->m_nWidth;
-	pCA->nHeight = pEqu->m_nHeight;
+  m_nPriceGold = 0;
 
-	SetAttrib_Base(pEqu->m_aryPropBasic);		// ËµãÂÄº: Âü∫Êú¨Â±ûÊÄßÈÉ®ÂàÜ
-	SetAttrib_Req(pUni->m_aryPropReq);			// ËµãÂÄº: ÈúÄÊ±ÇÂ±ûÊÄßÈÉ®ÂàÜ
-	SetAttrib_MA(pUni->m_aryMagicAttribs);		// ËµãÂÄº: È≠îÊ≥ïÂ±ûÊÄßÈÉ®ÂàÜ
+  m_nPriceTL = 0;
+  m_nPriceVD = 0;
 
-	return TRUE;
-}
+  m_nPoitAbrate = 0;
 
-void KItem::Remove()
-{
 #ifndef _SERVER
-m_Place = -1;
+  ::strcpy(pCA->szImageName, sData.m_szImageName);
+  ::strcpy(pCA->szIntro, sData.m_szIntro);
 #endif
-	m_bShow = FALSE;
+  // ËµãÂÄº: Âü∫Êú¨Â±ûÊÄßÈÉ®ÂàÜ
+  ZeroMemory(m_aryBaseAttrib, sizeof(m_aryBaseAttrib));
+  KItemNormalAttrib *pBA = m_aryBaseAttrib;
+  pBA[0].nAttribType = sData.m_aryAttrib[0].nAttrib;
+  pBA[0].nValue[0] = sData.m_aryAttrib[0].nValue;
+  pBA[0].nValue[1] = sData.m_aryAttrib[0].nTime;
+  pBA[1].nAttribType = sData.m_aryAttrib[1].nAttrib;
+  pBA[1].nValue[0] = sData.m_aryAttrib[1].nValue;
+  pBA[1].nValue[1] = sData.m_aryAttrib[1].nTime;
+
+  ZeroMemory(m_aryRequireAttrib, sizeof(m_aryRequireAttrib));
+  ZeroMemory(m_aryMagicAttrib, sizeof(m_aryMagicAttrib));
+
+#ifndef _SERVER
+  m_Image.Color.Color_b.a = 255;
+  m_Image.nFrame = 0;
+  m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
+  m_Image.nType = ISI_T_SPR;
+  ::strcpy(m_Image.szImage, pCA->szImageName);
+  m_Image.uImage = 0;
+#endif
 }
 
-void KItem::Add()
-{
-	m_bShow = TRUE;
+void KItem::operator=(const KBASICPROP_EQUIPMENT_UNIQUE &sData) {
+  // ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
+  KItemCommonAttrib *pCA = &m_CommonAttrib;
+  pCA->nItemGenre = sData.m_nItemGenre;
+  pCA->nDetailType = sData.m_nDetailType;
+  pCA->nParticularType = sData.m_nParticularType;
+  pCA->nObjIdx = sData.m_nObjIdx;
+  pCA->nPrice = sData.m_nPrice;
+  pCA->nLevel = sData.m_nLevel;
+  pCA->nSeries = sData.m_nSeries;
+  ::strcpy(pCA->szItemName, sData.m_szName);
+  // Time Item
+  pCA->LimitTime.bYear = 0;
+  pCA->LimitTime.bMonth = 0;
+  pCA->LimitTime.bDay = 0;
+  pCA->LimitTime.bHour = 0;
+  // End
+  pCA->nFiFongArmor = 0;
+  pCA->nBind = 0;
+
+  m_nPriceShop = 0;
+
+  m_nPriceGold = 0;
+
+  m_nPriceTL = 0;
+  m_nPriceVD = 0;
+
+  m_nPoitAbrate = 0;
+
+#ifndef _SERVER
+  ::strcpy(pCA->szImageName, sData.m_szImageName);
+  ::strcpy(pCA->szIntro, sData.m_szIntro);
+
+  m_Image.Color.Color_b.a = 255;
+  m_Image.nFrame = 0;
+  m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
+  m_Image.nType = ISI_T_SPR;
+  ::strcpy(m_Image.szImage, pCA->szImageName);
+  m_Image.uImage = 0;
+#endif
 }
 
+// flying add this overloaded operator to generate a gold item.
+void KItem::operator=(const KBASICPROP_EQUIPMENT_GOLD &sData) {
+  KItemCommonAttrib *pCA = &m_CommonAttrib;
+  pCA->nItemGenre = sData.m_nItemGenre;
+  pCA->nDetailType = sData.m_nDetailType;
+  pCA->nParticularType = sData.m_nParticularType;
+  pCA->nObjIdx = sData.m_nObjIdx;
+  pCA->nPrice = sData.m_nPrice;
+  pCA->nLevel = sData.m_nLevel;
+  pCA->nSeries = sData.m_nSeries;
+  pCA->nWidth = sData.m_nWidth;
+  pCA->nHeight = sData.m_nHeight;
+  ::strcpy(pCA->szItemName, sData.m_szName);
+  // Time Item
+  pCA->LimitTime.bYear = 0;
+  pCA->LimitTime.bMonth = 0;
+  pCA->LimitTime.bDay = 0;
+  pCA->LimitTime.bHour = 0;
+  // End
+  pCA->nFiFongArmor = 0;
+  pCA->nBind = 0;
 
+  m_nPriceShop = 0;
 
+  m_nPriceGold = 0;
 
-int  KItem::CheckMagicItem(int nMagicId,int nMagicNumber1,int nMagicNumber2)
-{
+  m_nPriceTL = 0;
+  m_nPriceVD = 0;
 
-	if (!m_aryMagicAttrib)
-		return 0;
+  m_nPoitAbrate = 0;
 
-	for (int i = 0; i < sizeof(m_aryMagicAttrib) / sizeof(m_aryMagicAttrib[0]); i++)
-	{
-		if (m_aryMagicAttrib[i].nAttribType == nMagicId && m_aryMagicAttrib[i].nValue[0] >= nMagicNumber1 && m_aryMagicAttrib[i].nValue[0] <= nMagicNumber2)
-			return 1;
-	}
-
-	return 0;
-
+#ifndef _SERVER
+  ::strcpy(pCA->szImageName, sData.m_szImageName);
+  ::strcpy(pCA->szIntro, sData.m_szIntro);
+  m_Image.Color.Color_b.a = 255;
+  m_Image.nFrame = 0;
+  m_Image.nISPosition = IMAGE_IS_POSITION_INIT;
+  m_Image.nType = ISI_T_SPR;
+  ::strcpy(m_Image.szImage, pCA->szImageName);
+  m_Image.uImage = 0;
+#endif
 }
 
+BOOL KItem::Gen_Equipment_Unique(const KBASICPROP_EQUIPMENT *pEqu,
+                                 const KBASICPROP_EQUIPMENT_UNIQUE *pUni) {
+  _ASSERT(this != NULL);
+  _ASSERT(pEqu != NULL);
+  _ASSERT(pUni != NULL);
 
+  if (NULL == pEqu || NULL == pUni) {
+    _ASSERT(FALSE);
+    return FALSE;
+  }
 
-BOOL KItem::SetBaseAttrib(IN const KItemNormalAttrib* pAttrib)
-{
-	if (!pAttrib)
-		return FALSE;
+  // ËµãÂÄº: ÂÖ±ÂêåÂ±ûÊÄßÈÉ®ÂàÜ
+  *this = *pUni; // ËøêÁÆóÁ¨¶ÈáçËΩΩ
+  KItemCommonAttrib *pCA = &m_CommonAttrib;
+  pCA->bStack = pEqu->m_bStack;
+  pCA->nWidth = pEqu->m_nWidth;
+  pCA->nHeight = pEqu->m_nHeight;
 
-	for (int i = 0; i < sizeof(m_aryBaseAttrib) / sizeof(m_aryBaseAttrib[0]); i++)
-	{
-		m_aryBaseAttrib[i] = pAttrib[i];
-	}
-	return TRUE;
+  SetAttrib_Base(pEqu->m_aryPropBasic);  // ËµãÂÄº: Âü∫Êú¨Â±ûÊÄßÈÉ®ÂàÜ
+  SetAttrib_Req(pUni->m_aryPropReq);     // ËµãÂÄº: ÈúÄÊ±ÇÂ±ûÊÄßÈÉ®ÂàÜ
+  SetAttrib_MA(pUni->m_aryMagicAttribs); // ËµãÂÄº: È≠îÊ≥ïÂ±ûÊÄßÈÉ®ÂàÜ
+
+  return TRUE;
 }
 
-BOOL KItem::SetRequireAttrib(IN const KItemNormalAttrib* pAttrib)
-{
-	if (!pAttrib)
-		return FALSE;
-
-	for (int i = 0; i < sizeof(m_aryRequireAttrib) / sizeof(m_aryRequireAttrib[0]); i++)
-	{
-		m_aryRequireAttrib[i] = pAttrib[i];
-	}
-	return TRUE;
+void KItem::Remove() {
+#ifndef _SERVER
+  m_Place = -1;
+#endif
+  m_bShow = FALSE;
 }
 
-BOOL KItem::SetMagicAttrib(IN const KItemNormalAttrib* pAttrib)
-{
-	return SetAttrib_MA(pAttrib);
+void KItem::Add() { m_bShow = TRUE; }
+
+int KItem::CheckMagicItem(int nMagicId, int nMagicNumber1, int nMagicNumber2) {
+
+  if (!m_aryMagicAttrib)
+    return 0;
+
+  for (int i = 0; i < sizeof(m_aryMagicAttrib) / sizeof(m_aryMagicAttrib[0]);
+       i++) {
+    if (m_aryMagicAttrib[i].nAttribType == nMagicId &&
+        m_aryMagicAttrib[i].nValue[0] >= nMagicNumber1 &&
+        m_aryMagicAttrib[i].nValue[0] <= nMagicNumber2)
+      return 1;
+  }
+
+  return 0;
+}
+
+BOOL KItem::SetBaseAttrib(IN const KItemNormalAttrib *pAttrib) {
+  if (!pAttrib)
+    return FALSE;
+
+  for (int i = 0; i < sizeof(m_aryBaseAttrib) / sizeof(m_aryBaseAttrib[0]);
+       i++) {
+    m_aryBaseAttrib[i] = pAttrib[i];
+  }
+  return TRUE;
+}
+
+BOOL KItem::SetRequireAttrib(IN const KItemNormalAttrib *pAttrib) {
+  if (!pAttrib)
+    return FALSE;
+
+  for (int i = 0;
+       i < sizeof(m_aryRequireAttrib) / sizeof(m_aryRequireAttrib[0]); i++) {
+    m_aryRequireAttrib[i] = pAttrib[i];
+  }
+  return TRUE;
+}
+
+BOOL KItem::SetMagicAttrib(IN const KItemNormalAttrib *pAttrib) {
+  return SetAttrib_MA(pAttrib);
 }
 
 //------------------------------------------------------------------
 //	Á£®ÊçüÔºåËøîÂõûÂÄºË°®Á§∫Ââ©‰ΩôËÄê‰πÖÂ∫¶
 //------------------------------------------------------------------
-int KItem::Abrade(IN const int nRandRange)
-{
-	if (m_nCurrentDur == -1 || nRandRange == 0)	// Ê∞∏‰∏çÁ£®Êçü
-		return -1;
+int KItem::Abrade(IN const int nRandRange) {
+  if (m_nCurrentDur == -1 || nRandRange == 0) // Ê∞∏‰∏çÁ£®Êçü
+    return -1;
 
-	if (g_Random(nRandRange) == 0)	// nRandRangeÂàÜ‰πã‰∏ÄÁöÑÊ¶ÇÁéá
-	{
-		m_nCurrentDur--;
-		if (m_nCurrentDur == 0)
-		{
-			return 0;
-		}
-	}
-	return m_nCurrentDur;
+  if (g_Random(nRandRange) == 0) // nRandRangeÂàÜ‰πã‰∏ÄÁöÑÊ¶ÇÁéá
+  {
+    m_nCurrentDur--;
+    if (m_nCurrentDur == 0) {
+      return 0;
+    }
+  }
+  return m_nCurrentDur;
 }
 
 #ifndef _SERVER
-void KItem::Paint(int nX, int nY)
-{
-	m_Image.oPosition.nX = nX;
-	m_Image.oPosition.nY = nY;
-	m_Image.bRenderStyle = IMAGE_RENDER_STYLE_ALPHA;
-	g_pRepresent->DrawPrimitives(1, &m_Image, RU_T_IMAGE, TRUE);
+void KItem::Paint(int nX, int nY) {
+  m_Image.oPosition.nX = nX;
+  m_Image.oPosition.nY = nY;
+  m_Image.bRenderStyle = IMAGE_RENDER_STYLE_ALPHA;
+  g_pRepresent->DrawPrimitives(1, &m_Image, RU_T_IMAGE, TRUE);
 }
 
-void KItem::GetDesc(char* pszMsg, bool bShowPrice, int nPriceScale, int nActiveAttrib, bool bActiveDes)
-{
-	char	szColor[item_number][32] = 
-	{
-		"",
-		"<color=White>",
-		"",
-		"",
-		"<color=Yellow>",
-	};
-
-	if (m_CommonAttrib.nItemGenre == item_equip && GetDetailType() != equip_mask)
-	{
-		if (m_SpecialParam.uItemType == 1)	// ÈªÑÈáëË£ÖÂ§á
-		{
-			strcpy(szColor[item_equip], "<color=Yellow>");
-		}
-		else if (m_SpecialParam.uItemType == 2)	// ÈªÑÈáëË£ÖÂ§á
-		{
-			strcpy(szColor[item_equip], "<color=Blue>");
-		}
-		else if (IsItemMagic())	// È≠îÊ≥ïË£ÖÂ§á
-		{
-			strcpy(szColor[item_equip], "<color=Blue>");
-		}
-		else
-		{
-			strcpy(szColor[item_equip], "<color=White>");
-		}
-	}
-	strcpy(pszMsg, szColor[m_CommonAttrib.nItemGenre]);
-	strcat(pszMsg, " ");
-	strcat(pszMsg, m_CommonAttrib.szItemName);
-
-
-	if (m_CommonAttrib.nItemGenre == item_equip && GetDetailType() != equip_mask)
-	{
-	char item_level[32];
-	
-    if (m_SpecialParam.uItemType == 1)
-	{
-	sprintf(item_level," [C p %d]",m_ItemLevel);
-	}
-	else if (m_SpecialParam.uItemType == 2)
-	{
-	sprintf(item_level," [C p %d]",(m_CommonAttrib.nLevel - 1)%10 + 1);
-	}
-	else
-	{
-    sprintf(item_level," [C p %d]",m_CommonAttrib.nLevel);
-	}
-	strcat(pszMsg, item_level);
-	}
-
-	strcat(pszMsg, " ");
-
-	strcat(pszMsg, "\n");
-
-
-
-
-
-if (m_CommonAttrib.nItemGenre == item_equip && GetDetailType() != equip_mask)
-{
-
-if (m_GeneratorParam.nVersion == 2)
-{
-strcat(pszMsg," <color=Green>Trang bﬁ nµy Æ∑ Æ≠Óc kh„a b∂o hi”m <color=White>");
-strcat(pszMsg, "\n");
-}
-else if (m_GeneratorParam.nVersion == 550324)
-{
-strcat(pszMsg," <color=Pink>Trang bﬁ trong trπng th∏i kh„a v‹nh vi‘n <color=White>");
-strcat(pszMsg, "\n");
-}
-else if (m_GeneratorParam.nVersion > 2)
-{
-
-
-    int DayMonth[12] = {31,28,31,30,31,30,31,31,30,31,30,31};
-
-    int TimeNowMinute = m_GeneratorParam.nVersion - 3;
-
-	int Month,Day,Hour,Minute;
-
-	Month = 1;
-
-	for (int t = 0; t < 12; t++)
-	{
-		if (TimeNowMinute >= DayMonth[t] * 24 * 60)
-		{
-		TimeNowMinute -= DayMonth[t] * 24 * 60;
-		Month++;
-		}
-		else
-		{
-		break;
-		}
-	}
-
-	Day = TimeNowMinute/(24 * 60);
-	TimeNowMinute -= Day * (24 * 60);
-	Hour = TimeNowMinute/60;
-	TimeNowMinute -= Hour * 60;
-	Minute = TimeNowMinute;
-	
-sprintf(pszMsg,"%s <color=Red>ßang mÎ kh„a: %d:%d %d-%d <color=White>",pszMsg,Hour,Minute,Day,Month);
-strcat(pszMsg, "\n");
-	
-
-
-}
-
-}
-// nay test
-if (m_CommonAttrib.nItemGenre == item_task)
-{
-	if (GetBindItem() == 1)
-	{
-		strcat(pszMsg," <color=Green>VÀt ph»m Æang trong trπng th∏i kh„a.<color=White>");
-		strcat(pszMsg, "\n");
-	}
-}
-
-if (m_CommonAttrib.iShopCost > 0)
-{
-	PLAYER_SHOP_PRICE_COMMAND PlayerPrice;
-	PlayerPrice.ProtocolType = c2s_playershopprice;
-	PlayerPrice.m_ID = m_dwID;
-	PlayerPrice.m_Price = m_CommonAttrib.iShopCost;
-	if (g_pClient)
-		g_pClient->SendPackToServer((BYTE*)&PlayerPrice, sizeof(PLAYER_SHOP_PRICE_COMMAND));
-}
-
-
-	if (bShowPrice)
-	{
-
-		if (this->m_nPriceGold > 0)
-		{
-
-
-
-		char szPrice1[32];
-
-		
-		sprintf(szPrice1, "<color=Yellow>Gi∏ trﬁ: %d vµng", m_nPriceGold);
-
-
-		strcat(pszMsg, " ");
-		strcat(pszMsg, szPrice1);
-		strcat(pszMsg, " ");
-		strcat(pszMsg, "\n");
-
-
-
-		}
-
-
-
-
-
-		else if (this->m_nPriceTL > 0)
-		{
-
-
-
-		char szPrice1[32];
-
-		
-		sprintf(szPrice1, "<color=Green>Gi∏ trﬁ: %d t›ch lÚy", m_nPriceTL);
-
-
-		strcat(pszMsg, " ");
-		strcat(pszMsg, szPrice1);
-		strcat(pszMsg, " ");
-		strcat(pszMsg, "\n");
-
-
-
-		}
-
-
-		else if (this->m_nPriceVD > 0)
-		{
-
-
-
-		char szPrice1[32];
-
-		
-		sprintf(szPrice1, "<color=Green>Gi∏ trﬁ: %d vinh d˘", m_nPriceVD);
-
-
-		strcat(pszMsg, " ");
-		strcat(pszMsg, szPrice1);
-		strcat(pszMsg, " ");
-		strcat(pszMsg, "\n");
-
-
-
-		}
-
-
-
-
-
-
-
-		else if (nPriceScale > 0)
-		{
-		int nvan1 = (m_CommonAttrib.nPrice / nPriceScale) /10000;
-		int nluong1 = (m_CommonAttrib.nPrice / nPriceScale) %10000;
-
-		char szPrice1[32];
-
-		if (nvan1 > 0)
-		sprintf(szPrice1, "Gi∏ trﬁ: %d vπn %d l≠Óng", nvan1,nluong1);
-		else
-		sprintf(szPrice1, "Gi∏ trﬁ: %d l≠Óng", nluong1);
-
-
-		strcat(pszMsg, " ");
-		strcat(pszMsg, szPrice1);
-		strcat(pszMsg, " ");
-		strcat(pszMsg, "\n");
-
-		}
-	}
-
-
-	if (m_nPriceShop > 0)
-	{
-		int nvan2 = m_nPriceShop/10000;
-		int nluong2 = m_nPriceShop%10000;
-
-        char szPrice2[32];
-
-		if (nvan2 > 0)
-		sprintf(szPrice2, "<color=Yellow>Gi∏ b∏n Æ“ xu t: %d vπn %d l≠Óng", nvan2,nluong2);
-		else
-		sprintf(szPrice2, "<color=Yellow>Gi∏ b∏n Æ“ xu t: %d l≠Óng",nluong2);
-
-
-		strcat(pszMsg, " ");
-		strcat(pszMsg, szPrice2);
-		strcat(pszMsg, " ");
-		strcat(pszMsg, "\n");
-
-	}
-
-
-	if (m_CommonAttrib.nItemGenre == item_equip && GetDetailType() != equip_mask)
-	{
-		switch(m_CommonAttrib.nSeries)
-		{
-		case series_metal:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Metal>Kim ");
-			strcat(pszMsg, " ");
-			break;
-		case series_wood:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Wood>MÈc ");
-			strcat(pszMsg, " ");
-			break;
-		case series_water:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Water>Thu˚ ");
-			strcat(pszMsg, " ");
-			break;
-		case series_fire:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Fire>Ho∂ ");
-			strcat(pszMsg, " ");
-			break;
-		case series_earth:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Earth>ThÊ ");
-			strcat(pszMsg, " ");
-			break;
-		}
-	strcat(pszMsg, "\n");
-	}
-	strcat(pszMsg, "<color=White>");
-	strcat(pszMsg, m_CommonAttrib.szIntro);
-	strcat(pszMsg, "\n");
-
-
-
-
-
-
-
-	if (m_CommonAttrib.nItemGenre == item_task && m_CommonAttrib.nLevel == 2)
-	{
-		switch(m_CommonAttrib.nSeries)
-		{
-		case series_metal:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Metal>Kim ");
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-			break;
-		case series_wood:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Wood>MÈc ");
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-			break;
-		case series_water:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Water>Thu˚ ");
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-			break;
-		case series_fire:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Fire>Ho∂ ");
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-			break;
-		case series_earth:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Earth>ThÊ ");
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-			break;
-		}
-
-		
-		
-
-
-		if (m_GeneratorParam.nGeneratorLevel[0])
-		{
-
-		char *pszMagicId;
-		pszMagicId = (char *)g_MagicDesc.GetDesc2(m_GeneratorParam.nGeneratorLevel[0]);
-
-		if (pszMagicId )
-		{
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=HBlue>ThuÈc t›nh: <color=Metal>");
-			strcat(pszMsg, pszMagicId);
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-		}
-
-		
-		if (m_GeneratorParam.nGeneratorLevel[1] > 0 && m_GeneratorParam.nGeneratorLevel[1] <= 10)
-		{	
-	
-			char pszMagicLevel[64];
-			sprintf(pszMagicLevel, "<color=HBlue>C p ÆÈ c≠Íng h„a:<color=Metal>%d",m_GeneratorParam.nGeneratorLevel[1]);
-			strcat(pszMsg, " ");
-			strcat(pszMsg, pszMagicLevel);
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-		}
-
-
-
-		switch(m_GeneratorParam.nGeneratorLevel[2])
-		{
-		case 1:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:VÚ Kh›");
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-			break;
-		case 2:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:Y PhÙc");
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-			break;
-		case 3:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:Giµy");
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-			break;
-		case 4:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:ßai L≠ng");
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-			break;
-		case 5:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:MÚ");
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-			break;
-
-		case 6:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:Bao Tay");
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-			break;
-		case 7:
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:T t c∂ c∏c trang bﬁ");
-			strcat(pszMsg, " ");
-			strcat(pszMsg, "\n");
-			break;
-		
-		}
-
-
-
-
-
-
-
-
-
-
-		}
-
-		
-
-	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-	for (int i = 0; i < 7; i++)
-	{
-		if (!m_aryBaseAttrib[i].nAttribType)
-		{
-			continue;
-		}
-		if (m_aryBaseAttrib[i].nAttribType == magic_durability_v)
-		{
-			char	szDurInfo[32];
-			if (m_nCurrentDur == -1)
-				sprintf(szDurInfo, "<color=Yellow>Kh´ng th” bﬁ ph∏ hu˚ <color=White>");
-			else if (m_nCurrentDur == 0)
-				sprintf(szDurInfo, "<color=red>Trang bﬁ Æ∑ h·ng, kh´ng th” sˆ dÙng<color=White>");
-			else
-			{
-			//	if (GetDetailType() == equip_mask)
-			//		sprintf(szDurInfo, "<color=Yellow>VÀt ph»m chÿ sˆ dÙng duy nh t 1 l«n");
-		//		else
-					sprintf(szDurInfo, "ßÈ b“n sˆ dÙng: %3d /%3d", GetDurability(), GetMaxDurability());
-			}		
-			strcat(pszMsg, " ");
-			strcat(pszMsg, szDurInfo);
-			strcat(pszMsg, " ");
-		}
-		else
-		{
-			char* pszInfo = (char *)g_MagicDesc.GetDesc(&m_aryBaseAttrib[i]);
-			if (!pszInfo || !pszInfo[0])
-				continue;
-			strcat(pszMsg, " ");
-			strcat(pszMsg, pszInfo);
-			strcat(pszMsg, " ");
-		}
-		strcat(pszMsg, "\n");
-	}
-	
-	
-	for (i = 0; i < 6; i++)
-	{
-		if (!m_aryRequireAttrib[i].nAttribType)
-		{
-			continue;
-		}
-		char* pszInfo = (char *)g_MagicDesc.GetDesc(&m_aryRequireAttrib[i]);
-		if (!pszInfo || !pszInfo[0])
-			continue;
-		if (Player[CLIENT_PLAYER_INDEX].m_ItemList.EnoughAttrib(&m_aryRequireAttrib[i]))
-		{
-			strcat(pszMsg, "<color=White>");
-		}
-		else
-		{
-			strcat(pszMsg, "<color=Red>");
-		}
-		strcat(pszMsg, pszInfo);
-		strcat(pszMsg, "\n");
-	}
-
-
-
-
-
-
-
-	for (i = 0; i < 6; i++)
-	{
-		if (!m_aryMagicAttrib[i].nAttribType)
-		{
-			continue;
-		}
-
-		char  pszInfoT[64]="";
-
-		char* pszInfo;
-
-		if (m_aryBaseAttrib[i].nAttribType == magic_indestructible_b)
-		{
-			
-			if (m_nCurrentDur == -1)
-				sprintf(pszInfo, "Kh´ng th” bﬁ ph∏ hu˚ ");
-		}
-		else if (m_aryMagicAttrib[i].nAttribType == magic_addallskillslevel_v)
-		{
-		sprintf(pszInfoT,"K¸ n®ng vËn c„: +%d C p",m_aryMagicAttrib[i].nValue[0]);
-		pszInfo = pszInfoT;
-		}
-
-		else if (m_aryMagicAttrib[i].nAttribType == magic_itempinknomagic)
-		{
-		sprintf(pszInfoT,"<color=Yellow>Ch≠a kh∂m nπm");
-		pszInfo = pszInfoT;
-		}
-
-		else if (m_aryMagicAttrib[i].nAttribType == magic_addskilllevel_v)
-		{
-
-		KSkill * pSkillAdd = (KSkill *) g_SkillManager.GetSkill(m_aryMagicAttrib[i].nValue[2],1);
-		if (pSkillAdd)
-		{
-		sprintf(pszInfoT,"K¸ n®ng [ %s ]: +%d C p",pSkillAdd->GetSkillName(),m_aryMagicAttrib[i].nValue[0]);
-		pszInfo = pszInfoT;
-		}
-
-		}
-		else
-		{
-		
-			int PhanTichDiem = GetNgoaiTrang();
-			int cuonghoa = PhanTichDiem / 1000000;
-		
-			int d1 = (PhanTichDiem%1000000) / 100000;
-			int d2 = (PhanTichDiem%100000) / 10000;
-			int d3 = (PhanTichDiem%10000) / 1000;
-			int d4 = (PhanTichDiem%1000) / 100;
-			int d5 = (PhanTichDiem%100) / 10;
-			int d6 = PhanTichDiem%10;		
-		
-			if (((d1 == 1 && i == 0) || (d2 == 1 && i == 1)  || (d3 == 1 && i == 2) || (d4 == 1 && i == 3) || (d5 == 1 && i == 4) || (d6 == 1 && i == 5)) && m_SpecialParam.uItemType != 2 &&  m_SpecialParam.uItemType != 1)
-			{
-				sprintf(pszInfoT,"%s <color=yellow>[+%d]",(char *)g_MagicDesc.GetDesc(&m_aryMagicAttrib[i]), (int)(m_aryMagicAttrib[i].nValue[0] * cuonghoa * 2.5 / 100));
-				pszInfo = pszInfoT;
-			}
-			else
-			pszInfo = (char *)g_MagicDesc.GetDesc(&m_aryMagicAttrib[i]);
-			
-		}
-
-		if (!pszInfo || !pszInfo[0])
-			continue;
-
-		if (m_SpecialParam.uItemType == 1)
-		{
-
-
-	   if ((i & 1) == 0)
-		{
-			strcat(pszMsg, "<color=HYellow>");
-		}
-		else
-		{
-			if ((i>>1) < nActiveAttrib)
-			{
-				strcat(pszMsg, "<color=HYellow>");
-			}
-			else
-			{
-				strcat(pszMsg, "<color=DYellow>");
-			}
-		}
-
-
-
-		}
-
-
-		else 	if (m_SpecialParam.uItemType == 2)
-		{
-
-
-	   if ((i & 1) == 0)
-		{
-			strcat(pszMsg, "<color=HBlue>"); 
-		//strcat(pszMsg, "<color=HPink>"); 
-		}
-		else
-		{
-			if ((i>>1) < nActiveAttrib)
-			{
-				strcat(pszMsg, "<color=HBlue>");
-			//strcat(pszMsg, "<color=HPink>");
-			}
-			else
-			{
-				strcat(pszMsg, "<color=DBlue>");
-				//strcat(pszMsg, "<color=DPink>");
-			}
-		}
-
-
-
-		}
-
-
-		else
-		{
-
-		if ((i & 1) == 0)
-		{
-			strcat(pszMsg, "<color=HBlue>");
-		}
-		else
-		{
-			if ((i>>1) < nActiveAttrib)
-			{
-				strcat(pszMsg, "<color=HBlue>");
-			}
-			else
-			{
-				strcat(pszMsg, "<color=DBlue>");
-			}
-		}
-
-		}
-
-strcat(pszMsg, " ");
-		strcat(pszMsg, pszInfo);
-strcat(pszMsg, " ");
-		strcat(pszMsg, "\n");
-
-
-
-	}
-
-
-	
-// Time Item	
-if (m_CommonAttrib.LimitTime.bYear && CheckItemTime())
-	{
-		time_t rawtime;
-		struct tm * timeinfo;
-		
-		time ( &rawtime );
-		timeinfo = localtime ( &rawtime );
-		
-		char sTmp[64];
-		strcat(pszMsg, "\n");
-
-		if (m_CommonAttrib.LimitTime.bDay < 10 && m_CommonAttrib.LimitTime.bMonth < 10)
-		{
-			sprintf(sTmp,"<color=Green>Hπn Sˆ DÙng: %d:00 0%d/0%d/%d",m_CommonAttrib.LimitTime.bHour,m_CommonAttrib.LimitTime.bDay,m_CommonAttrib.LimitTime.bMonth,m_CommonAttrib.LimitTime.bYear);
-		}
-		else if (m_CommonAttrib.LimitTime.bDay < 10)
-		{
-			sprintf(sTmp,"<color=Green>Hπn Sˆ DÙng: %d:00 0%d/%d/%d",m_CommonAttrib.LimitTime.bHour,m_CommonAttrib.LimitTime.bDay,m_CommonAttrib.LimitTime.bMonth,m_CommonAttrib.LimitTime.bYear);
-		}
-		else if (m_CommonAttrib.LimitTime.bMonth < 10)
-		{
-			sprintf(sTmp,"<color=Green>Hπn Sˆ DÙng: %d:00 %d/0%d/%d",m_CommonAttrib.LimitTime.bHour,m_CommonAttrib.LimitTime.bDay,m_CommonAttrib.LimitTime.bMonth,m_CommonAttrib.LimitTime.bYear);
-		
-		}
-		else
-		{
-		sprintf(sTmp,"<color=Green>Hπn Sˆ DÙng: %d:00 %d/%d/%d",m_CommonAttrib.LimitTime.bHour,m_CommonAttrib.LimitTime.bDay,m_CommonAttrib.LimitTime.bMonth,m_CommonAttrib.LimitTime.bYear);
-		}
-		
-		
-		strcat(pszMsg,sTmp);
-		strcat(pszMsg, "\n");
-	}
-	else if (!CheckItemTime())
-	{
-		time_t rawtime;
-		struct tm * timeinfo;
-		
-		time ( &rawtime );
-		timeinfo = localtime ( &rawtime );
-		
-		strcat(pszMsg, "\n");
-		strcat(pszMsg, "<color=red>VÀt ph»m Æ∑ h’t hπn sˆ dÙng");
-		strcat(pszMsg, "\n");
-	}
-// End
-
-if (m_CommonAttrib.nItemGenre == item_equip && GetDetailType() != equip_mask)
-{
-if (m_SpecialParam.uItemType == 1)
-{
-for (int i=0; i<m_SpecialParam.uItemGroupCount;i++)
-{
-strcat(pszMsg, "\n");
-break;
-}
-}
-}
-
-
-
-
-
-
-if (m_CommonAttrib.nItemGenre == item_equip && GetDetailType() != equip_mask)
-{
-if (m_SpecialParam.uItemType == 1)
-{
-for (int i=0; i<m_SpecialParam.uItemGroupCount;i++)
-{
-if (m_GroupItemNameInfo[i][0] == 1)
-{
-strcat(pszMsg, "<color=HGreen>");
-strcat(pszMsg," ");
-strcat(pszMsg,m_GroupItemName[i]);
-strcat(pszMsg," ");
-strcat(pszMsg, "\n");
-}
-else
-{
-strcat(pszMsg, "<color=DGreen>");
-strcat(pszMsg," ");
-strcat(pszMsg,m_GroupItemName[i]);
-strcat(pszMsg," ");
-strcat(pszMsg, "\n");
-}
-}
-}
-}
-
-strcat(pszMsg, "\n");
- 
- if (m_CommonAttrib.nItemGenre == item_equip && m_aryMagicAttrib[0].nAttribType && bActiveDes )
+void KItem::GetDesc(char *pszMsg, bool bShowPrice, int nPriceScale,
+                    int nActiveAttrib, bool bActiveDes) {
+  char szColor[item_number][32] = {
+      "", "<color=White>", "", "", "<color=Yellow>",
+  };
+
+  if (m_CommonAttrib.nItemGenre == item_equip &&
+      GetDetailType() != equip_mask) {
+    if (m_SpecialParam.uItemType == 1) // ÈªÑÈáëË£ÖÂ§á
     {
-        strcat(pszMsg, "<color=Yellow>");
-	char szReturn[32];
-	char Guide[100];
-	if (m_Place == itempart_weapon || m_Place == itempart_head)
-	{
-	ReturnSupportSeries(m_CommonAttrib.nSeries,szReturn);
-	sprintf(Guide,"\nC«n h÷ %s cÒa D©y chuy“n vµ Trang phÙc Æ” k›ch hoπt thuÈc t›nh ©m", szReturn);
-	strcat(pszMsg, Guide);
-	}
-	else if(m_Place == itempart_foot || m_Place == itempart_ring1)
-	{
-	ReturnSupportSeries(m_CommonAttrib.nSeries,szReturn);
-	sprintf(Guide,"\nC«n h÷ %s cÒa VÚ kh› vµ N„n Æ” k›ch hoπt thuÈc t›nh ©m", szReturn);
-	strcat(pszMsg, Guide);
-	}
-	else if(m_Place == itempart_pendant || m_Place == itempart_cuff)
-	{
-	ReturnSupportSeries(m_CommonAttrib.nSeries,szReturn);
-	sprintf(Guide,"\nC«n h÷ %s cÒa Giµy vµ Nh…n tr™n Æ” k›ch hoπt thuÈc t›nh ©m", szReturn);
-	strcat(pszMsg, Guide);
-	}
-	else if(m_Place == itempart_belt || m_Place == itempart_ring2)
-	{
-	ReturnSupportSeries(m_CommonAttrib.nSeries,szReturn);
-	sprintf(Guide,"\nC«n h÷ %s cÒa Ng‰c bÈi vµ Bao tay Æ” k›ch hoπt thuÈc t›nh ©m", szReturn);
-	strcat(pszMsg, Guide);
-	}
-	else if(m_Place == itempart_body || m_Place == itempart_amulet)
-	{
-	ReturnSupportSeries(m_CommonAttrib.nSeries,szReturn);
-	sprintf(Guide,"\nC«n h÷ %s cÒa Thæt l≠ng vµ Nh…n d≠Ìi Æ” k›ch hoπt thuÈc t›nh ©m", szReturn);
-	strcat(pszMsg, Guide);
-	}
+      strcpy(szColor[item_equip], "<color=Yellow>");
+    } else if (m_SpecialParam.uItemType == 2) // ÈªÑÈáëË£ÖÂ§á
+    {
+      strcpy(szColor[item_equip], "<color=Blue>");
+    } else if (IsItemMagic()) // È≠îÊ≥ïË£ÖÂ§á
+    {
+      strcpy(szColor[item_equip], "<color=Blue>");
+    } else {
+      strcpy(szColor[item_equip], "<color=White>");
+    }
+  }
+  strcpy(pszMsg, szColor[m_CommonAttrib.nItemGenre]);
+  strcat(pszMsg, " ");
+  strcat(pszMsg, m_CommonAttrib.szItemName);
+
+  if (m_CommonAttrib.nItemGenre == item_equip &&
+      GetDetailType() != equip_mask) {
+    char item_level[32];
+
+    if (m_SpecialParam.uItemType == 1) {
+      sprintf(item_level, " [C p %d]", m_ItemLevel);
+    } else if (m_SpecialParam.uItemType == 2) {
+      sprintf(item_level, " [C p %d]", (m_CommonAttrib.nLevel - 1) % 10 + 1);
+    } else {
+      sprintf(item_level, " [C p %d]", m_CommonAttrib.nLevel);
+    }
+    strcat(pszMsg, item_level);
+  }
+
+  strcat(pszMsg, " ");
+
+  strcat(pszMsg, "\n");
+
+  if (m_CommonAttrib.nItemGenre == item_equip &&
+      GetDetailType() != equip_mask) {
+
+    if (m_GeneratorParam.nVersion == 2) {
+      strcat(pszMsg,
+             " <color=Green>Trang bﬁ nµy Æ∑ Æ≠Óc kh„a b∂o hi”m <color=White>");
+      strcat(pszMsg, "\n");
+    } else if (m_GeneratorParam.nVersion == 550324) {
+      strcat(pszMsg, " <color=Pink>Trang bﬁ trong trπng th∏i kh„a v‹nh vi‘n "
+                     "<color=White>");
+      strcat(pszMsg, "\n");
+    } else if (m_GeneratorParam.nVersion > 2) {
+
+      int DayMonth[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+      int TimeNowMinute = m_GeneratorParam.nVersion - 3;
+
+      int Month, Day, Hour, Minute;
+
+      Month = 1;
+
+      for (int t = 0; t < 12; t++) {
+        if (TimeNowMinute >= DayMonth[t] * 24 * 60) {
+          TimeNowMinute -= DayMonth[t] * 24 * 60;
+          Month++;
+        } else {
+          break;
+        }
+      }
+
+      Day = TimeNowMinute / (24 * 60);
+      TimeNowMinute -= Day * (24 * 60);
+      Hour = TimeNowMinute / 60;
+      TimeNowMinute -= Hour * 60;
+      Minute = TimeNowMinute;
+
+      sprintf(pszMsg, "%s <color=Red>ßang mÎ kh„a: %d:%d %d-%d <color=White>",
+              pszMsg, Hour, Minute, Day, Month);
+      strcat(pszMsg, "\n");
+    }
+  }
+  // nay test
+  if (m_CommonAttrib.nItemGenre == item_task) {
+    if (GetBindItem() == 1) {
+      strcat(pszMsg,
+             " <color=Green>VÀt ph»m Æang trong trπng th∏i kh„a.<color=White>");
+      strcat(pszMsg, "\n");
+    }
+  }
+
+  if (m_CommonAttrib.iShopCost > 0) {
+    PLAYER_SHOP_PRICE_COMMAND PlayerPrice;
+    PlayerPrice.ProtocolType = c2s_playershopprice;
+    PlayerPrice.m_ID = m_dwID;
+    PlayerPrice.m_Price = m_CommonAttrib.iShopCost;
+    if (g_pClient)
+      g_pClient->SendPackToServer((BYTE *)&PlayerPrice,
+                                  sizeof(PLAYER_SHOP_PRICE_COMMAND));
+  }
+
+  if (bShowPrice) {
+
+    if (this->m_nPriceGold > 0) {
+
+      char szPrice1[32];
+
+      sprintf(szPrice1, "<color=Yellow>Gi∏ trﬁ: %d vµng", m_nPriceGold);
+
+      strcat(pszMsg, " ");
+      strcat(pszMsg, szPrice1);
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "\n");
+
     }
 
+    else if (this->m_nPriceTL > 0) {
 
-if (m_SpecialParam.uItemType != 2 &&  m_SpecialParam.uItemType != 1)
-{
-	int PhanTichDiem = GetNgoaiTrang();
-	int cuonghoa = PhanTichDiem / 1000000;
-	int d1 = (PhanTichDiem%1000000) / 100000;
-	int d2 = (PhanTichDiem%100000) / 10000;
-	int d3 = (PhanTichDiem%10000) / 1000;
-	int d4 = (PhanTichDiem%1000) / 100;
-	int d5 = (PhanTichDiem%100) / 10;
-	int d6 = PhanTichDiem%10; 
-	
-	if (cuonghoa != 0)
-	{
-		char sTmp[64];
-		sprintf(sTmp,"\n<color=HPink>Trang bﬁ c≠Íng h„a: %d / 10",  cuonghoa);
-		strcat(pszMsg,sTmp);
-	}
-}	
-	
-	
+      char szPrice1[32];
 
+      sprintf(szPrice1, "<color=Green>Gi∏ trﬁ: %d t›ch lÚy", m_nPriceTL);
+
+      strcat(pszMsg, " ");
+      strcat(pszMsg, szPrice1);
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "\n");
+
+    }
+
+    else if (this->m_nPriceVD > 0) {
+
+      char szPrice1[32];
+
+      sprintf(szPrice1, "<color=Green>Gi∏ trﬁ: %d vinh d˘", m_nPriceVD);
+
+      strcat(pszMsg, " ");
+      strcat(pszMsg, szPrice1);
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "\n");
+
+    }
+
+    else if (nPriceScale > 0) {
+      int nvan1 = (m_CommonAttrib.nPrice / nPriceScale) / 10000;
+      int nluong1 = (m_CommonAttrib.nPrice / nPriceScale) % 10000;
+
+      char szPrice1[32];
+
+      if (nvan1 > 0)
+        sprintf(szPrice1, "Gi∏ trﬁ: %d vπn %d l≠Óng", nvan1, nluong1);
+      else
+        sprintf(szPrice1, "Gi∏ trﬁ: %d l≠Óng", nluong1);
+
+      strcat(pszMsg, " ");
+      strcat(pszMsg, szPrice1);
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "\n");
+    }
+  }
+
+  if (m_nPriceShop > 0) {
+    int nvan2 = m_nPriceShop / 10000;
+    int nluong2 = m_nPriceShop % 10000;
+
+    char szPrice2[32];
+
+    if (nvan2 > 0)
+      sprintf(szPrice2, "<color=Yellow>Gi∏ b∏n Æ“ xu t: %d vπn %d l≠Óng", nvan2,
+              nluong2);
+    else
+      sprintf(szPrice2, "<color=Yellow>Gi∏ b∏n Æ“ xu t: %d l≠Óng", nluong2);
+
+    strcat(pszMsg, " ");
+    strcat(pszMsg, szPrice2);
+    strcat(pszMsg, " ");
+    strcat(pszMsg, "\n");
+  }
+
+  if (m_CommonAttrib.nItemGenre == item_equip &&
+      GetDetailType() != equip_mask) {
+    switch (m_CommonAttrib.nSeries) {
+    case series_metal:
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Metal>Kim ");
+      strcat(pszMsg, " ");
+      break;
+    case series_wood:
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Wood>MÈc ");
+      strcat(pszMsg, " ");
+      break;
+    case series_water:
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Water>Thu˚ ");
+      strcat(pszMsg, " ");
+      break;
+    case series_fire:
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Fire>Ho∂ ");
+      strcat(pszMsg, " ");
+      break;
+    case series_earth:
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Earth>ThÊ ");
+      strcat(pszMsg, " ");
+      break;
+    }
+    strcat(pszMsg, "\n");
+  }
+  strcat(pszMsg, "<color=White>");
+  strcat(pszMsg, m_CommonAttrib.szIntro);
+  strcat(pszMsg, "\n");
+
+  if (m_CommonAttrib.nItemGenre == item_task && m_CommonAttrib.nLevel == 2) {
+    switch (m_CommonAttrib.nSeries) {
+    case series_metal:
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Metal>Kim ");
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "\n");
+      break;
+    case series_wood:
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Wood>MÈc ");
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "\n");
+      break;
+    case series_water:
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Water>Thu˚ ");
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "\n");
+      break;
+    case series_fire:
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Fire>Ho∂ ");
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "\n");
+      break;
+    case series_earth:
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "<color=White>ThuÈc t›nh ngÚ hµnh: <color=Earth>ThÊ ");
+      strcat(pszMsg, " ");
+      strcat(pszMsg, "\n");
+      break;
+    }
+
+    if (m_GeneratorParam.nGeneratorLevel[0]) {
+
+      char *pszMagicId;
+      pszMagicId =
+          (char *)g_MagicDesc.GetDesc2(m_GeneratorParam.nGeneratorLevel[0]);
+
+      if (pszMagicId) {
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "<color=HBlue>ThuÈc t›nh: <color=Metal>");
+        strcat(pszMsg, pszMagicId);
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "\n");
+      }
+
+      if (m_GeneratorParam.nGeneratorLevel[1] > 0 &&
+          m_GeneratorParam.nGeneratorLevel[1] <= 10) {
+
+        char pszMagicLevel[64];
+        sprintf(pszMagicLevel, "<color=HBlue>C p ÆÈ c≠Íng h„a:<color=Metal>%d",
+                m_GeneratorParam.nGeneratorLevel[1]);
+        strcat(pszMsg, " ");
+        strcat(pszMsg, pszMagicLevel);
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "\n");
+      }
+
+      switch (m_GeneratorParam.nGeneratorLevel[2]) {
+      case 1:
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:VÚ Kh›");
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "\n");
+        break;
+      case 2:
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:Y PhÙc");
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "\n");
+        break;
+      case 3:
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:Giµy");
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "\n");
+        break;
+      case 4:
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:ßai L≠ng");
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "\n");
+        break;
+      case 5:
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:MÚ");
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "\n");
+        break;
+
+      case 6:
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:Bao Tay");
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "\n");
+        break;
+      case 7:
+        strcat(pszMsg, " ");
+        strcat(
+            pszMsg,
+            "<color=Green>Loπi trang bﬁ c„ th” kh∂m nπm:T t c∂ c∏c trang bﬁ");
+        strcat(pszMsg, " ");
+        strcat(pszMsg, "\n");
+        break;
+      }
+    }
+  }
+
+  for (int i = 0; i < 7; i++) {
+    if (!m_aryBaseAttrib[i].nAttribType) {
+      continue;
+    }
+    if (m_aryBaseAttrib[i].nAttribType == magic_durability_v) {
+      char szDurInfo[32];
+      if (m_nCurrentDur == -1)
+        sprintf(szDurInfo, "<color=Yellow>Kh´ng th” bﬁ ph∏ hu˚ <color=White>");
+      else if (m_nCurrentDur == 0)
+        sprintf(szDurInfo,
+                "<color=red>Trang bﬁ Æ∑ h·ng, kh´ng th” sˆ dÙng<color=White>");
+      else {
+        //	if (GetDetailType() == equip_mask)
+        //		sprintf(szDurInfo, "<color=Yellow>VÀt ph»m chÿ sˆ dÙng
+        // duy nh t 1 l«n");
+        //		else
+        sprintf(szDurInfo, "ßÈ b“n sˆ dÙng: %3d /%3d", GetDurability(),
+                GetMaxDurability());
+      }
+      strcat(pszMsg, " ");
+      strcat(pszMsg, szDurInfo);
+      strcat(pszMsg, " ");
+    } else {
+      char *pszInfo = (char *)g_MagicDesc.GetDesc(&m_aryBaseAttrib[i]);
+      if (!pszInfo || !pszInfo[0])
+        continue;
+      strcat(pszMsg, " ");
+      strcat(pszMsg, pszInfo);
+      strcat(pszMsg, " ");
+    }
+    strcat(pszMsg, "\n");
+  }
+
+  for (i = 0; i < 6; i++) {
+    if (!m_aryRequireAttrib[i].nAttribType) {
+      continue;
+    }
+    char *pszInfo = (char *)g_MagicDesc.GetDesc(&m_aryRequireAttrib[i]);
+    if (!pszInfo || !pszInfo[0])
+      continue;
+    if (Player[CLIENT_PLAYER_INDEX].m_ItemList.EnoughAttrib(
+            &m_aryRequireAttrib[i])) {
+      strcat(pszMsg, "<color=White>");
+    } else {
+      strcat(pszMsg, "<color=Red>");
+    }
+    strcat(pszMsg, pszInfo);
+    strcat(pszMsg, "\n");
+  }
+
+  for (i = 0; i < 6; i++) {
+    if (!m_aryMagicAttrib[i].nAttribType) {
+      continue;
+    }
+
+    char pszInfoT[64] = "";
+
+    char *pszInfo;
+
+    if (m_aryBaseAttrib[i].nAttribType == magic_indestructible_b) {
+
+      if (m_nCurrentDur == -1)
+        sprintf(pszInfo, "Kh´ng th” bﬁ ph∏ hu˚ ");
+    } else if (m_aryMagicAttrib[i].nAttribType == magic_addallskillslevel_v) {
+      sprintf(pszInfoT, "K¸ n®ng vËn c„: +%d C p",
+              m_aryMagicAttrib[i].nValue[0]);
+      pszInfo = pszInfoT;
+    }
+
+    else if (m_aryMagicAttrib[i].nAttribType == magic_itempinknomagic) {
+      sprintf(pszInfoT, "<color=Yellow>Ch≠a kh∂m nπm");
+      pszInfo = pszInfoT;
+    }
+
+    else if (m_aryMagicAttrib[i].nAttribType == magic_addskilllevel_v) {
+
+      KSkill *pSkillAdd =
+          (KSkill *)g_SkillManager.GetSkill(m_aryMagicAttrib[i].nValue[2], 1);
+      if (pSkillAdd) {
+        sprintf(pszInfoT, "K¸ n®ng [ %s ]: +%d C p", pSkillAdd->GetSkillName(),
+                m_aryMagicAttrib[i].nValue[0]);
+        pszInfo = pszInfoT;
+      }
+
+    } else {
+
+      int PhanTichDiem = GetNgoaiTrang();
+      int cuonghoa = PhanTichDiem / 1000000;
+
+      int d1 = (PhanTichDiem % 1000000) / 100000;
+      int d2 = (PhanTichDiem % 100000) / 10000;
+      int d3 = (PhanTichDiem % 10000) / 1000;
+      int d4 = (PhanTichDiem % 1000) / 100;
+      int d5 = (PhanTichDiem % 100) / 10;
+      int d6 = PhanTichDiem % 10;
+
+      if (((d1 == 1 && i == 0) || (d2 == 1 && i == 1) || (d3 == 1 && i == 2) ||
+           (d4 == 1 && i == 3) || (d5 == 1 && i == 4) || (d6 == 1 && i == 5)) &&
+          m_SpecialParam.uItemType != 2 && m_SpecialParam.uItemType != 1) {
+        sprintf(pszInfoT, "%s <color=yellow>[+%d]",
+                (char *)g_MagicDesc.GetDesc(&m_aryMagicAttrib[i]),
+                (int)(m_aryMagicAttrib[i].nValue[0] * cuonghoa * 2.5 / 100));
+        pszInfo = pszInfoT;
+      } else
+        pszInfo = (char *)g_MagicDesc.GetDesc(&m_aryMagicAttrib[i]);
+    }
+
+    if (!pszInfo || !pszInfo[0])
+      continue;
+
+    if (m_SpecialParam.uItemType == 1) {
+
+      if ((i & 1) == 0) {
+        strcat(pszMsg, "<color=HYellow>");
+      } else {
+        if ((i >> 1) < nActiveAttrib) {
+          strcat(pszMsg, "<color=HYellow>");
+        } else {
+          strcat(pszMsg, "<color=DYellow>");
+        }
+      }
+
+    }
+
+    else if (m_SpecialParam.uItemType == 2) {
+
+      if ((i & 1) == 0) {
+        strcat(pszMsg, "<color=HBlue>");
+        // strcat(pszMsg, "<color=HPink>");
+      } else {
+        if ((i >> 1) < nActiveAttrib) {
+          strcat(pszMsg, "<color=HBlue>");
+          // strcat(pszMsg, "<color=HPink>");
+        } else {
+          strcat(pszMsg, "<color=DBlue>");
+          // strcat(pszMsg, "<color=DPink>");
+        }
+      }
+
+    }
+
+    else {
+
+      if ((i & 1) == 0) {
+        strcat(pszMsg, "<color=HBlue>");
+      } else {
+        if ((i >> 1) < nActiveAttrib) {
+          strcat(pszMsg, "<color=HBlue>");
+        } else {
+          strcat(pszMsg, "<color=DBlue>");
+        }
+      }
+    }
+
+    strcat(pszMsg, " ");
+    strcat(pszMsg, pszInfo);
+    strcat(pszMsg, " ");
+    strcat(pszMsg, "\n");
+  }
+
+  // Time Item
+  if (m_CommonAttrib.LimitTime.bYear && CheckItemTime()) {
+    time_t rawtime;
+    struct tm *timeinfo;
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    char sTmp[64];
+    strcat(pszMsg, "\n");
+
+    if (m_CommonAttrib.LimitTime.bDay < 10 &&
+        m_CommonAttrib.LimitTime.bMonth < 10) {
+      sprintf(sTmp, "<color=Green>Hπn Sˆ DÙng: %d:00 0%d/0%d/%d",
+              m_CommonAttrib.LimitTime.bHour, m_CommonAttrib.LimitTime.bDay,
+              m_CommonAttrib.LimitTime.bMonth, m_CommonAttrib.LimitTime.bYear);
+    } else if (m_CommonAttrib.LimitTime.bDay < 10) {
+      sprintf(sTmp, "<color=Green>Hπn Sˆ DÙng: %d:00 0%d/%d/%d",
+              m_CommonAttrib.LimitTime.bHour, m_CommonAttrib.LimitTime.bDay,
+              m_CommonAttrib.LimitTime.bMonth, m_CommonAttrib.LimitTime.bYear);
+    } else if (m_CommonAttrib.LimitTime.bMonth < 10) {
+      sprintf(sTmp, "<color=Green>Hπn Sˆ DÙng: %d:00 %d/0%d/%d",
+              m_CommonAttrib.LimitTime.bHour, m_CommonAttrib.LimitTime.bDay,
+              m_CommonAttrib.LimitTime.bMonth, m_CommonAttrib.LimitTime.bYear);
+
+    } else {
+      sprintf(sTmp, "<color=Green>Hπn Sˆ DÙng: %d:00 %d/%d/%d",
+              m_CommonAttrib.LimitTime.bHour, m_CommonAttrib.LimitTime.bDay,
+              m_CommonAttrib.LimitTime.bMonth, m_CommonAttrib.LimitTime.bYear);
+    }
+
+    strcat(pszMsg, sTmp);
+    strcat(pszMsg, "\n");
+  } else if (!CheckItemTime()) {
+    time_t rawtime;
+    struct tm *timeinfo;
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    strcat(pszMsg, "\n");
+    strcat(pszMsg, "<color=red>VÀt ph»m Æ∑ h’t hπn sˆ dÙng");
+    strcat(pszMsg, "\n");
+  }
+  // End
+
+  if (m_CommonAttrib.nItemGenre == item_equip &&
+      GetDetailType() != equip_mask) {
+    if (m_SpecialParam.uItemType == 1) {
+      for (int i = 0; i < m_SpecialParam.uItemGroupCount; i++) {
+        strcat(pszMsg, "\n");
+        break;
+      }
+    }
+  }
+
+  if (m_CommonAttrib.nItemGenre == item_equip &&
+      GetDetailType() != equip_mask) {
+    if (m_SpecialParam.uItemType == 1) {
+      for (int i = 0; i < m_SpecialParam.uItemGroupCount; i++) {
+        if (m_GroupItemNameInfo[i][0] == 1) {
+          strcat(pszMsg, "<color=HGreen>");
+          strcat(pszMsg, " ");
+          strcat(pszMsg, m_GroupItemName[i]);
+          strcat(pszMsg, " ");
+          strcat(pszMsg, "\n");
+        } else {
+          strcat(pszMsg, "<color=DGreen>");
+          strcat(pszMsg, " ");
+          strcat(pszMsg, m_GroupItemName[i]);
+          strcat(pszMsg, " ");
+          strcat(pszMsg, "\n");
+        }
+      }
+    }
+  }
+
+  strcat(pszMsg, "\n");
+
+  if (m_CommonAttrib.nItemGenre == item_equip &&
+      m_aryMagicAttrib[0].nAttribType && bActiveDes) {
+    strcat(pszMsg, "<color=Yellow>");
+    char szReturn[32];
+    char Guide[100];
+    if (m_Place == itempart_weapon || m_Place == itempart_head) {
+      ReturnSupportSeries(m_CommonAttrib.nSeries, szReturn);
+      sprintf(
+          Guide,
+          "\nC«n h÷ %s cÒa D©y chuy“n vµ Trang phÙc Æ” k›ch hoπt thuÈc t›nh ©m",
+          szReturn);
+      strcat(pszMsg, Guide);
+    } else if (m_Place == itempart_foot || m_Place == itempart_ring1) {
+      ReturnSupportSeries(m_CommonAttrib.nSeries, szReturn);
+      sprintf(Guide, "\nC«n h÷ %s cÒa VÚ kh› vµ N„n Æ” k›ch hoπt thuÈc t›nh ©m",
+              szReturn);
+      strcat(pszMsg, Guide);
+    } else if (m_Place == itempart_pendant || m_Place == itempart_cuff) {
+      ReturnSupportSeries(m_CommonAttrib.nSeries, szReturn);
+      sprintf(Guide,
+              "\nC«n h÷ %s cÒa Giµy vµ Nh…n tr™n Æ” k›ch hoπt thuÈc t›nh ©m",
+              szReturn);
+      strcat(pszMsg, Guide);
+    } else if (m_Place == itempart_belt || m_Place == itempart_ring2) {
+      ReturnSupportSeries(m_CommonAttrib.nSeries, szReturn);
+      sprintf(Guide,
+              "\nC«n h÷ %s cÒa Ng‰c bÈi vµ Bao tay Æ” k›ch hoπt thuÈc t›nh ©m",
+              szReturn);
+      strcat(pszMsg, Guide);
+    } else if (m_Place == itempart_body || m_Place == itempart_amulet) {
+      ReturnSupportSeries(m_CommonAttrib.nSeries, szReturn);
+      sprintf(
+          Guide,
+          "\nC«n h÷ %s cÒa Thæt l≠ng vµ Nh…n d≠Ìi Æ” k›ch hoπt thuÈc t›nh ©m",
+          szReturn);
+      strcat(pszMsg, Guide);
+    }
+  }
+
+  if (m_SpecialParam.uItemType != 2 && m_SpecialParam.uItemType != 1) {
+    int PhanTichDiem = GetNgoaiTrang();
+    int cuonghoa = PhanTichDiem / 1000000;
+    int d1 = (PhanTichDiem % 1000000) / 100000;
+    int d2 = (PhanTichDiem % 100000) / 10000;
+    int d3 = (PhanTichDiem % 10000) / 1000;
+    int d4 = (PhanTichDiem % 1000) / 100;
+    int d5 = (PhanTichDiem % 100) / 10;
+    int d6 = PhanTichDiem % 10;
+
+    if (cuonghoa != 0) {
+      char sTmp[64];
+      sprintf(sTmp, "\n<color=HPink>Trang bﬁ c≠Íng h„a: %d / 10", cuonghoa);
+      strcat(pszMsg, sTmp);
+    }
+  }
 }
 // Tra lai ngu hanh tuong sinh
-void KItem::ReturnSupportSeries(int nSeries, LPSTR lpRString)
-{
-	ZeroMemory(lpRString,sizeof(lpRString));
-	if(nSeries == 0)
-	strcpy(lpRString,"<color=Earth>ThÊ <color=Yellow>");
-	else if (nSeries == 1)
-	strcpy(lpRString,"<color=Water>ThÒy<color=Yellow>");
-	else if (nSeries == 2)
-	strcpy(lpRString,"<color=Metal>Kim<color=Yellow>");
-	else if (nSeries == 3)
-	strcpy(lpRString,"<color=Wood>MÈc<color=Yellow>");
-	else if (nSeries == 4)
-	strcpy(lpRString,"<color=Fire>H·a<color=Yellow>");
+void KItem::ReturnSupportSeries(int nSeries, LPSTR lpRString) {
+  ZeroMemory(lpRString, sizeof(lpRString));
+  if (nSeries == 0)
+    strcpy(lpRString, "<color=Earth>ThÊ <color=Yellow>");
+  else if (nSeries == 1)
+    strcpy(lpRString, "<color=Water>ThÒy<color=Yellow>");
+  else if (nSeries == 2)
+    strcpy(lpRString, "<color=Metal>Kim<color=Yellow>");
+  else if (nSeries == 3)
+    strcpy(lpRString, "<color=Wood>MÈc<color=Yellow>");
+  else if (nSeries == 4)
+    strcpy(lpRString, "<color=Fire>H·a<color=Yellow>");
 }
 #endif
 
-int KItem::GetMaxDurability()
-{
-	for (int i = 0; i < 7; i++)
-	{
-		if (m_aryBaseAttrib[i].nAttribType == magic_durability_v)
-		{
-			return m_aryBaseAttrib[i].nValue[0];
-		}
-	}
-	return -1;
+int KItem::GetMaxDurability() {
+  for (int i = 0; i < 7; i++) {
+    if (m_aryBaseAttrib[i].nAttribType == magic_durability_v) {
+      return m_aryBaseAttrib[i].nValue[0];
+    }
+  }
+  return -1;
 }
 
-int KItem::GetTotalMagicLevel()
-{
-	int nRet = 0;
-	for (int i = 0; i < 6; i++)
-	{
-		if (m_SpecialParam.uItemType == 2)
-		{
-		nRet += (m_GeneratorParam.nGeneratorLevel[i]%100)/10 + 1;
-		}
-		else
-		{
-		nRet += m_GeneratorParam.nGeneratorLevel[i];
-		}
-	}
-	return nRet;
-
-
+int KItem::GetTotalMagicLevel() {
+  int nRet = 0;
+  for (int i = 0; i < 6; i++) {
+    if (m_SpecialParam.uItemType == 2) {
+      nRet += (m_GeneratorParam.nGeneratorLevel[i] % 100) / 10 + 1;
+    } else {
+      nRet += m_GeneratorParam.nGeneratorLevel[i];
+    }
+  }
+  return nRet;
 }
 
-int KItem::GetRepairPrice()
-{
-	if (ItemSet.m_sRepairParam.nMagicScale == 0)
-		return 0;
+int KItem::GetRepairPrice() {
+  if (ItemSet.m_sRepairParam.nMagicScale == 0)
+    return 0;
 
-	if (GetGenre() != item_equip)
-		return 0;
+  if (GetGenre() != item_equip)
+    return 0;
 
-	if (m_nCurrentDur == -1)
-		return 0;
+  if (m_nCurrentDur == -1)
+    return 0;
 
-	int nMaxDur = GetMaxDurability();
-	int nSumMagic = GetTotalMagicLevel();
+  int nMaxDur = GetMaxDurability();
+  int nSumMagic = GetTotalMagicLevel();
 
-	if (nMaxDur <= 0)
-		return 0;
+  if (nMaxDur <= 0)
+    return 0;
 
-	int nHsXPrice = 1;
-	if (m_SpecialParam.uItemType == 2)
-	nHsXPrice = 5;
+  int nHsXPrice = 1;
+  if (m_SpecialParam.uItemType == 2)
+    nHsXPrice = 5;
 
-	return nHsXPrice * m_CommonAttrib.nPrice * ItemSet.m_sRepairParam.nPriceScale / 100 * (nMaxDur - m_nCurrentDur) / nMaxDur * (ItemSet.m_sRepairParam.nMagicScale + nSumMagic) / ItemSet.m_sRepairParam.nMagicScale;
+  return nHsXPrice * m_CommonAttrib.nPrice *
+         ItemSet.m_sRepairParam.nPriceScale / 100 * (nMaxDur - m_nCurrentDur) /
+         nMaxDur * (ItemSet.m_sRepairParam.nMagicScale + nSumMagic) /
+         ItemSet.m_sRepairParam.nMagicScale;
 }
 
-BOOL KItem::CanBeRepaired()
-{
-	if (GetGenre() != item_equip)
-		return FALSE;
+BOOL KItem::CanBeRepaired() {
+  if (GetGenre() != item_equip)
+    return FALSE;
 
-	if (m_nCurrentDur == -1)
-		return FALSE;
+  if (m_nCurrentDur == -1)
+    return FALSE;
 
-	int nMaxDur = GetMaxDurability();
-	if (m_nCurrentDur == nMaxDur)
-		return FALSE;
+  int nMaxDur = GetMaxDurability();
+  if (m_nCurrentDur == nMaxDur)
+    return FALSE;
 
-	return TRUE;
+  return TRUE;
 }
 
 // Time Item
-void KItem::SetTime( int bYear,BYTE bMonth,BYTE bDay,BYTE bHour )
-{
-	if (bYear)
-	{
-		if (bHour > 24)
-		{
-			bDay++;
-			bHour -= 24;
-		}
-		if (bMonth == 2 && bDay > 28)
-		{
-			bMonth++;
-			bDay = 1;
-		}
-		if ((bMonth == 1 || bMonth == 3 || bMonth == 5 || bMonth == 7 || bMonth == 8 || bMonth == 10 || bMonth == 12) && (bDay > 31)) 
-		{
-			bMonth++;
-			bDay = 1;
-		}
-		if ((bMonth == 4 || bMonth == 6 || bMonth == 9 || bMonth == 11) && (bDay > 30))
-		{
-			bMonth++;
-			bDay = 1;
-		}
-		if (bMonth > 12)
-		{
-			bYear++;
-			bMonth -= 12;
-		}
-		m_CommonAttrib.LimitTime.bYear = bYear;
-		m_CommonAttrib.LimitTime.bMonth = bMonth;
-		m_CommonAttrib.LimitTime.bDay = bDay;
-		m_CommonAttrib.LimitTime.bHour = bHour;
-	}
+void KItem::SetTime(int bYear, BYTE bMonth, BYTE bDay, BYTE bHour) {
+  if (bYear) {
+    if (bHour > 24) {
+      bDay++;
+      bHour -= 24;
+    }
+    if (bMonth == 2 && bDay > 28) {
+      bMonth++;
+      bDay = 1;
+    }
+    if ((bMonth == 1 || bMonth == 3 || bMonth == 5 || bMonth == 7 ||
+         bMonth == 8 || bMonth == 10 || bMonth == 12) &&
+        (bDay > 31)) {
+      bMonth++;
+      bDay = 1;
+    }
+    if ((bMonth == 4 || bMonth == 6 || bMonth == 9 || bMonth == 11) &&
+        (bDay > 30)) {
+      bMonth++;
+      bDay = 1;
+    }
+    if (bMonth > 12) {
+      bYear++;
+      bMonth -= 12;
+    }
+    m_CommonAttrib.LimitTime.bYear = bYear;
+    m_CommonAttrib.LimitTime.bMonth = bMonth;
+    m_CommonAttrib.LimitTime.bDay = bDay;
+    m_CommonAttrib.LimitTime.bHour = bHour;
+  }
 }
-int KItem::GetTimeItem(int iNum)
-{
-	if (iNum == 0)
-		{return m_CommonAttrib.LimitTime.bYear;}
-	else if (iNum == 1)
-		{return m_CommonAttrib.LimitTime.bMonth;}
-	else if (iNum == 2)
-		{return m_CommonAttrib.LimitTime.bDay;}
-	else if (iNum == 3)
-		{return m_CommonAttrib.LimitTime.bHour;}
-return 0;
+int KItem::GetTimeItem(int iNum) {
+  if (iNum == 0) {
+    return m_CommonAttrib.LimitTime.bYear;
+  } else if (iNum == 1) {
+    return m_CommonAttrib.LimitTime.bMonth;
+  } else if (iNum == 2) {
+    return m_CommonAttrib.LimitTime.bDay;
+  } else if (iNum == 3) {
+    return m_CommonAttrib.LimitTime.bHour;
+  }
+  return 0;
 }
 
+BOOL KItem::CheckItemTime() {
+  BOOL bRet = TRUE;
+  time_t rawtime;
+  struct tm *timeinfo;
 
-BOOL KItem::CheckItemTime()
-{
-	BOOL bRet = TRUE;
-	time_t rawtime;
-	struct tm * timeinfo;
-	
-	time ( &rawtime );
-	timeinfo = localtime ( &rawtime );
-	
-	if (GetTime()->bYear)
-	{
-		if (GetTime()->bYear - 1900 < timeinfo->tm_year)
-		{
-			bRet = FALSE;
-		}
-		else if (GetTime()->bYear - 1900 == timeinfo->tm_year)
-		{
-			if (GetTime()->bMonth < timeinfo->tm_mon + 1)
-			{
-				bRet = FALSE;
-			}
-			else if (GetTime()->bMonth == timeinfo->tm_mon + 1)
-			{
-				if (GetTime()->bDay < timeinfo->tm_mday)
-				{
-					bRet = FALSE;
-				}
-				else if (GetTime()->bDay == timeinfo->tm_mday)
-				{
-					if (GetTime()->bHour <= timeinfo->tm_hour)
-					{
-						bRet = FALSE;
-					}
-				}
-			}
-		}
-	}
-	return bRet;
+  time(&rawtime);
+  timeinfo = localtime(&rawtime);
+
+  if (GetTime()->bYear) {
+    if (GetTime()->bYear - 1900 < timeinfo->tm_year) {
+      bRet = FALSE;
+    } else if (GetTime()->bYear - 1900 == timeinfo->tm_year) {
+      if (GetTime()->bMonth < timeinfo->tm_mon + 1) {
+        bRet = FALSE;
+      } else if (GetTime()->bMonth == timeinfo->tm_mon + 1) {
+        if (GetTime()->bDay < timeinfo->tm_mday) {
+          bRet = FALSE;
+        } else if (GetTime()->bDay == timeinfo->tm_mday) {
+          if (GetTime()->bHour <= timeinfo->tm_hour) {
+            bRet = FALSE;
+          }
+        }
+      }
+    }
+  }
+  return bRet;
 }
-//End
+// End

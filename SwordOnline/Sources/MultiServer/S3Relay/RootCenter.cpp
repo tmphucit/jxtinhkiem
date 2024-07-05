@@ -2,43 +2,34 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
 #include "RootCenter.h"
-#include "S3Relay.h"
 #include "Global.h"
+#include "S3Relay.h"
+#include "stdafx.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-CRootCenter::CRootCenter()
-{
+CRootCenter::CRootCenter() {}
 
-}
+CRootCenter::~CRootCenter() {}
 
-CRootCenter::~CRootCenter()
-{
+BOOL CRootCenter::TraceInfo() {
+  std::_tstring info("message: [RootCenter] ");
+  char buffer[_MAX_PATH];
 
-}
+  BOOL ready = g_RootClient.IsReady();
 
+  sprintf(buffer, "<total: %d> : ", ready ? 1 : 0);
+  info.append(buffer);
 
-BOOL CRootCenter::TraceInfo()
-{
-	std::_tstring info("message: [RootCenter] ");
-	char buffer[_MAX_PATH];
+  if (ready) {
+    sprintf(buffer, "%08X", g_RootClient.GetSvrIP());
+    info.append(buffer);
+  }
 
-	BOOL ready = g_RootClient.IsReady();
+  rTRACE(info.c_str());
 
-	sprintf(buffer, "<total: %d> : ", ready ? 1 : 0);
-	info.append(buffer);
-
-	if (ready)
-	{
-		sprintf(buffer, "%08X", g_RootClient.GetSvrIP());
-		info.append(buffer);
-	}
-
-	rTRACE(info.c_str());
-
-	return TRUE;
+  return TRUE;
 }

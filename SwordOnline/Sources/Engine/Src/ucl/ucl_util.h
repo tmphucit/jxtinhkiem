@@ -24,24 +24,21 @@
    <markus@oberhumer.com>
  */
 
-
 /* WARNING: this file should *not* be used by applications. It is
    part of the implementation of the library and is subject
    to change.
  */
 
-
 #ifndef __UCL_UTIL_H
 #define __UCL_UTIL_H
 
 #ifndef __UCL_CONF_H
-#  include "ucl_conf.h"
+#include "ucl_conf.h"
 #endif
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 
 /***********************************************************************
 // fast memcpy that copies multiples of 8 byte chunks.
@@ -53,50 +50,51 @@ extern "C" {
 #if 1 && defined(HAVE_MEMCPY)
 #if !defined(__UCL_DOS16) && !defined(__UCL_WIN16)
 
-#define MEMCPY8_DS(dest,src,len) \
-    memcpy(dest,src,len); \
-    dest += len; \
-    src += len
+#define MEMCPY8_DS(dest, src, len)                                             \
+  memcpy(dest, src, len);                                                      \
+  dest += len;                                                                 \
+  src += len
 
 #endif
 #endif
-
 
 #if 0 && !defined(MEMCPY8_DS)
 
-#define MEMCPY8_DS(dest,src,len) \
-    { do { \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-        len -= 8; \
-    } while (len > 0); }
+#define MEMCPY8_DS(dest, src, len)                                             \
+  {                                                                            \
+    do {                                                                       \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+      len -= 8;                                                                \
+    } while (len > 0);                                                         \
+  }
 
 #endif
-
 
 #if !defined(MEMCPY8_DS)
 
-#define MEMCPY8_DS(dest,src,len) \
-    { register ucl_uint __l = (len) / 8; \
-    do { \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-        *dest++ = *src++; \
-    } while (--__l > 0); }
+#define MEMCPY8_DS(dest, src, len)                                             \
+  {                                                                            \
+    register ucl_uint __l = (len) / 8;                                         \
+    do {                                                                       \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+      *dest++ = *src++;                                                        \
+    } while (--__l > 0);                                                       \
+  }
 
 #endif
-
 
 /***********************************************************************
 // memcpy and pseudo-memmove
@@ -105,14 +103,15 @@ extern "C" {
 //       dest and src advance, len is undefined afterwards
 ************************************************************************/
 
-#define MEMCPY_DS(dest,src,len) \
-    do *dest++ = *src++; \
-    while (--len > 0)
+#define MEMCPY_DS(dest, src, len)                                              \
+  do                                                                           \
+    *dest++ = *src++;                                                          \
+  while (--len > 0)
 
-#define MEMMOVE_DS(dest,src,len) \
-    do *dest++ = *src++; \
-    while (--len > 0)
-
+#define MEMMOVE_DS(dest, src, len)                                             \
+  do                                                                           \
+    *dest++ = *src++;                                                          \
+  while (--len > 0)
 
 /***********************************************************************
 // fast bzero that clears multiples of 8 pointers
@@ -124,18 +123,16 @@ extern "C" {
 #if (UCL_UINT_MAX <= SIZE_T_MAX) && defined(HAVE_MEMSET)
 
 #if 1
-#define BZERO8_PTR(s,l,n)   memset((s),0,(ucl_uint)(l)*(n))
+#define BZERO8_PTR(s, l, n) memset((s), 0, (ucl_uint)(l) * (n))
 #else
-#define BZERO8_PTR(s,l,n)   memset((ucl_voidp)(s),0,(ucl_uint)(l)*(n))
+#define BZERO8_PTR(s, l, n) memset((ucl_voidp)(s), 0, (ucl_uint)(l) * (n))
 #endif
 
 #else
 
-#define BZERO8_PTR(s,l,n) \
-    ucl_memset((ucl_voidp)(s),0,(ucl_uint)(l)*(n))
+#define BZERO8_PTR(s, l, n) ucl_memset((ucl_voidp)(s), 0, (ucl_uint)(l) * (n))
 
 #endif
-
 
 /***********************************************************************
 // rotate (not used at the moment)
@@ -166,8 +163,6 @@ extern __inline__ unsigned short ucl_rotr16(unsigned short value, int shift)
 
 #endif
 #endif
-
-
 
 #ifdef __cplusplus
 } /* extern "C" */

@@ -15,5 +15,4 @@ extern "C" unsigned CRC32(unsigned CRC, const void *pvBuf, unsigned uLen);
 extern "C" inline unsigned CRC32_16BYTES(unsigned CRC, const void *pvBuf);
 extern "C" inline unsigned CRC32_48BYTES(unsigned CRC, const void *pvBuf);
 
-
-#endif  // CRC32_H
+#endif // CRC32_H

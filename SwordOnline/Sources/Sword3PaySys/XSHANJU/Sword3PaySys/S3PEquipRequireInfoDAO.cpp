@@ -14,22 +14,14 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PEquipRequireInfoDAO::S3PEquipRequireInfoDAO(S3PDBConnection *pConn)
-{
-	m_pConn=pConn;
+S3PEquipRequireInfoDAO::S3PEquipRequireInfoDAO(S3PDBConnection *pConn) {
+  m_pConn = pConn;
 }
 
-S3PEquipRequireInfoDAO::~S3PEquipRequireInfoDAO()
-{
+S3PEquipRequireInfoDAO::~S3PEquipRequireInfoDAO() {}
 
-}
+S3PDBConnection *S3PEquipRequireInfoDAO::GetConnection() { return m_pConn; }
 
-S3PDBConnection * S3PEquipRequireInfoDAO::GetConnection()
-{
-	return m_pConn;
-}
-
-std::string S3PEquipRequireInfoDAO::GetTableName()
-{
-	return "EquipRequireInfo";
+std::string S3PEquipRequireInfoDAO::GetTableName() {
+  return "EquipRequireInfo";
 }

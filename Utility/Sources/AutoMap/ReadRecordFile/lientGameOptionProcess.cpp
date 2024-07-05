@@ -1,20 +1,15 @@
-// lientGameOptionProcess.cpp: implementation of the ClientGameOptionProcess class.
+// lientGameOptionProcess.cpp: implementation of the ClientGameOptionProcess
+// class.
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
 #include "lientGameOptionProcess.h"
+#include "stdafx.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-ClientGameOptionProcess::ClientGameOptionProcess()
-{
+ClientGameOptionProcess::ClientGameOptionProcess() {}
 
-}
-
-ClientGameOptionProcess::~ClientGameOptionProcess()
-{
-
-}
+ClientGameOptionProcess::~ClientGameOptionProcess() {}

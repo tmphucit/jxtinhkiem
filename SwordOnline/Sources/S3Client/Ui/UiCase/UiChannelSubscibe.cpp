@@ -5,14 +5,9 @@
 //	CreateTime:	2003-4-24
 *****************************************************************************************/
 
-#include "KWin32.h"
 #include "uichannelsubscibe.h"
+#include "KWin32.h"
 
-KUiChannelSubscibe::KUiChannelSubscibe()
-{
-}
+KUiChannelSubscibe::KUiChannelSubscibe() {}
 
-KUiChannelSubscibe::~KUiChannelSubscibe()
-{
-}
-
+KUiChannelSubscibe::~KUiChannelSubscibe() {}

@@ -6,8 +6,8 @@
 // Code:	WangWei(Daphnis)
 // Desc:	Random Number Generate Functions
 //---------------------------------------------------------------------------
-#include "KWin32.h"
 #include "KRandom.h"
+#include "KWin32.h"
 //---------------------------------------------------------------------------
 #define IM 139968
 #define IA 3877
@@ -20,34 +20,24 @@ static UINT nRandomSeed = 42;
 // 参数:	nRandomSeed	:	随机数种子
 // 返回:	void
 //---------------------------------------------------------------------------
-void g_RandomSeed(UINT nSeed)
-{
-	nRandomSeed = nSeed;
-}
+void g_RandomSeed(UINT nSeed) { nRandomSeed = nSeed; }
 //---------------------------------------------------------------------------
 // 函数:	Random
 // 功能:	返回一个小于nMax的随机整数
 // 参数:	nMax	:	最大值
 // 返回:	一个小于nMax的随机数
 //---------------------------------------------------------------------------
-UINT g_Random(UINT nMax)
-{
-	if (nMax)
-	{
-		nRandomSeed = nRandomSeed * IA + IC;
-		return nRandomSeed % nMax;
-	}
-	else
-	{
-		return 0;
-	}
+UINT g_Random(UINT nMax) {
+  if (nMax) {
+    nRandomSeed = nRandomSeed * IA + IC;
+    return nRandomSeed % nMax;
+  } else {
+    return 0;
+  }
 }
 //---------------------------------------------------------------------------
 // 函数:	GetRandomSeed
 // 功能:	取得当时的伪随机种子
 // 返回:	返回当前的伪随机种子
 //---------------------------------------------------------------------------
-UINT g_GetRandomSeed()
-{
-	return nRandomSeed;
-}
+UINT g_GetRandomSeed() { return nRandomSeed; }

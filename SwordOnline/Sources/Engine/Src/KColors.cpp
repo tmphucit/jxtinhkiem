@@ -6,9 +6,9 @@
 // Code:	Daniel Wang
 // Desc:	Colors Functions
 //---------------------------------------------------------------------------
-#include "KWin32.h"
-#include "KDDraw.h"
 #include "KColors.h"
+#include "KDDraw.h"
+#include "KWin32.h"
 //---------------------------------------------------------------------------
 ENGINE_API WORD (*g_RGB)(int nRed, int nGreen, int nBlue) = g_RGB565;
 //---------------------------------------------------------------------------
@@ -17,16 +17,15 @@ ENGINE_API WORD (*g_RGB)(int nRed, int nGreen, int nBlue) = g_RGB565;
 // 参数:	wColor	色彩值
 // 返回:	红色分量
 //---------------------------------------------------------------------------
-ENGINE_API BYTE g_Red(WORD wColor)
-{
-	BYTE Red;
-	__asm
-	{
+ENGINE_API BYTE g_Red(WORD wColor) {
+  BYTE Red;
+  __asm
+  {
 		mov		ax, wColor
 		and		ax, 0x0031
 		mov		Red, al
-	}
-	return Red;
+  }
+  return Red;
 }
 //---------------------------------------------------------------------------
 // 函数:	Red
@@ -34,12 +33,11 @@ ENGINE_API BYTE g_Red(WORD wColor)
 // 参数:	wColor	色彩值
 // 返回:	绿色分量
 //---------------------------------------------------------------------------
-ENGINE_API BYTE g_Green(WORD wColor)
-{
-	long Mask16 = g_pDirectDraw->GetRGBBitMask16();
-	BYTE Green;
-	__asm
-	{
+ENGINE_API BYTE g_Green(WORD wColor) {
+  long Mask16 = g_pDirectDraw->GetRGBBitMask16();
+  BYTE Green;
+  __asm
+  {
 		mov		ax, wColor
 		shr		ax, 5
 		mov		edx, Mask16
@@ -51,8 +49,8 @@ loc_Green_0001:
 
 		and		ax, 0x0071
 		mov		Green, al
-	}
-	return Green;
+  }
+  return Green;
 }
 //---------------------------------------------------------------------------
 // 函数:	Red
@@ -60,12 +58,11 @@ loc_Green_0001:
 // 参数:	wColor	色彩值
 // 返回:	兰色分量
 //---------------------------------------------------------------------------
-ENGINE_API BYTE g_Blue(WORD wColor)
-{
-	long Mask16 = g_pDirectDraw->GetRGBBitMask16();
-	BYTE Blue;
-	__asm
-	{
+ENGINE_API BYTE g_Blue(WORD wColor) {
+  long Mask16 = g_pDirectDraw->GetRGBBitMask16();
+  BYTE Blue;
+  __asm
+  {
 		mov		ax, wColor
 		shr		ax, 10
 		mov		edx, Mask16
@@ -77,8 +74,8 @@ loc_Blue_0001:
 
 		and		ax, 0x0031
 		mov		Blue, al
-	}
-	return Blue;
+  }
+  return Blue;
 }
 //---------------------------------------------------------------------------
 // 函数:	RGB
@@ -88,11 +85,10 @@ loc_Blue_0001:
 //			blue	蓝色分量
 // 返回:	色彩值
 //---------------------------------------------------------------------------
-ENGINE_API WORD g_RGB555(int nRed, int nGreen, int nBlue)
-{
-	WORD wColor;
-	__asm
-	{
+ENGINE_API WORD g_RGB555(int nRed, int nGreen, int nBlue) {
+  WORD wColor;
+  __asm
+  {
 		xor		ecx, ecx
 		mov		ebx, 0xff
 		mov		eax, nRed
@@ -110,8 +106,8 @@ ENGINE_API WORD g_RGB555(int nRed, int nGreen, int nBlue)
 		shr		eax, 3
 		or		ecx, eax
 		mov		wColor, cx
-	}
-	return wColor;
+  }
+  return wColor;
 }
 //---------------------------------------------------------------------------
 // 函数:	RGB
@@ -121,11 +117,10 @@ ENGINE_API WORD g_RGB555(int nRed, int nGreen, int nBlue)
 //			blue	蓝色分量
 // 返回:	色彩值
 //---------------------------------------------------------------------------
-ENGINE_API WORD g_RGB565(int nRed, int nGreen, int nBlue)
-{
-	WORD wColor;
-	__asm
-	{
+ENGINE_API WORD g_RGB565(int nRed, int nGreen, int nBlue) {
+  WORD wColor;
+  __asm
+  {
 		xor		ecx, ecx
 		mov		ebx, 0xff
 		mov		eax, nRed
@@ -143,8 +138,8 @@ ENGINE_API WORD g_RGB565(int nRed, int nGreen, int nBlue)
 		shr		eax, 3
 		or		ecx, eax
 		mov		wColor, cx
-	}
-	return wColor;
+  }
+  return wColor;
 }
 //---------------------------------------------------------------------------
 // 函数:	555 To 565
@@ -154,10 +149,9 @@ ENGINE_API WORD g_RGB565(int nRed, int nGreen, int nBlue)
 //			lpBitmap	位图
 // 返回:	void
 //---------------------------------------------------------------------------
-void g_555To565(int nWidth, int nHeight, void* lpBitmap)
-{
-	__asm
-	{
+void g_555To565(int nWidth, int nHeight, void *lpBitmap) {
+  __asm
+  {
 		mov		esi, lpBitmap
 		mov		edx, nHeight
 
@@ -177,7 +171,7 @@ loc_555to565_loop2:
 		jnz		loc_555to565_loop2
 		dec		edx
 		jnz		loc_555to565_loop1
-	}
+  }
 }
 //---------------------------------------------------------------------------
 // 函数:	565 To 555
@@ -187,10 +181,9 @@ loc_555to565_loop2:
 //			lpBitmap	位图
 // 返回:	void
 //---------------------------------------------------------------------------
-void g_565To555(int nWidth, int nHeight, void* lpBitmap)
-{
-	__asm
-	{
+void g_565To555(int nWidth, int nHeight, void *lpBitmap) {
+  __asm
+  {
 		mov		esi, lpBitmap
 		mov		edx, nHeight
 
@@ -210,7 +203,6 @@ loc_565to555_loop2:
 		jnz		loc_565to555_loop2
 		dec		edx
 		jnz		loc_565to555_loop1
-	}
+  }
 }
 //---------------------------------------------------------------------------
-

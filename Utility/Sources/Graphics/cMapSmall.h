@@ -12,59 +12,59 @@
 #include "cScreenObj.h"
 class iImage;
 
-class cMapSmall  : public cScreenObj
-{
+class cMapSmall : public cScreenObj {
 public:
-	cMapSmall(cGraphics* p);
-	virtual ~cMapSmall();
-	void Init(bool bCreateBuffer);
-	void InitVB();
+  cMapSmall(cGraphics *p);
+  virtual ~cMapSmall();
+  void Init(bool bCreateBuffer);
+  void InitVB();
 
-//if click on the small map, should give camera a offset!
-	BOOL						IsShow();
-	HRESULT						Draw();
-	HRESULT						DrawTexture();
-	CString						m_strMap;
-	LPDIRECT3DTEXTURE8			m_pTexture;
+  // if click on the small map, should give camera a offset!
+  BOOL IsShow();
+  HRESULT Draw();
+  HRESULT DrawTexture();
+  CString m_strMap;
+  LPDIRECT3DTEXTURE8 m_pTexture;
 
-	stVertexScreen				m_aV[4];
-	void						RenderTexture();
-	BOOL						VerifyTexture(BOOL bForceUpdate = FALSE);
+  stVertexScreen m_aV[4];
+  void RenderTexture();
+  BOOL VerifyTexture(BOOL bForceUpdate = FALSE);
 
-	iImage*						m_pImage;
-	HRESULT						LoadBmp();
-	BOOL						m_bUpdate;
+  iImage *m_pImage;
+  HRESULT LoadBmp();
+  BOOL m_bUpdate;
 
-	CRect						m_rcRegion;			//get 'rect' from the txt
+  CRect m_rcRegion; // get 'rect' from the txt
 
-	CRect						m_rcMap;			//rc of the map!
-	CRect						m_rcImage;			//the rcMap to whole image
-	
-	CPoint						m_ptTexture;		//the rcMap to texture
+  CRect m_rcMap;   // rc of the map!
+  CRect m_rcImage; // the rcMap to whole image
 
-	CPoint						m_ptLoad;			//and load size is always 512*512! and ptLoad always = 32 * n
+  CPoint m_ptTexture; // the rcMap to texture
 
-	void						ScreenToGround(CPoint ptScreen, cPoint& ptGround);
-	void						ScreenToGround(int x,int y, long & nx,long & ny);
-	void						GroundToScreen(int x,int y, long & nx,long & ny);
-	
-//param	
-	stMapSmallParam*			GetMapParam(){return (stMapSmallParam*) GetObjParam();};
-	HRESULT						setParam(stObjParam& param) ;
-	HRESULT						OnCommand(long Command,stObjParam& param);
-	BOOL						IsFull(){return GetMapParam()->bFull;}
+  CPoint m_ptLoad; // and load size is always 512*512! and ptLoad always = 32 *
+                   // n
 
-//large map
-//	LPDIRECT3DTEXTURE8			m_pTextureLarge;	//also 512 * 512 
-//	void						ScreenToGroundLarge(CPoint ptScreen, cPoint& ptGround);
-//	BOOL						VerifyTextureLarge();
+  void ScreenToGround(CPoint ptScreen, cPoint &ptGround);
+  void ScreenToGround(int x, int y, long &nx, long &ny);
+  void GroundToScreen(int x, int y, long &nx, long &ny);
 
-//notify
-	HRESULT						OnFileOpen(LPCSTR szMap);
-	HRESULT						OnCameraUpdate();
+  // param
+  stMapSmallParam *GetMapParam() { return (stMapSmallParam *)GetObjParam(); };
+  HRESULT setParam(stObjParam &param);
+  HRESULT OnCommand(long Command, stObjParam &param);
+  BOOL IsFull() { return GetMapParam()->bFull; }
 
-	HRESULT						FinalCleanup();
+  // large map
+  //	LPDIRECT3DTEXTURE8			m_pTextureLarge;	//also
+  // 512 * 512 	void
+  // ScreenToGroundLarge(CPoint ptScreen, cPoint& ptGround); 	BOOL
+  // VerifyTextureLarge();
 
+  // notify
+  HRESULT OnFileOpen(LPCSTR szMap);
+  HRESULT OnCameraUpdate();
+
+  HRESULT FinalCleanup();
 };
 
 #endif // !defined(AFX_CMAPSMALL_H__868A2275_16CC_4017_B8EF_C5BDAB630198__INCLUDED_)

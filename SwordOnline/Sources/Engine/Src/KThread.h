@@ -9,7 +9,7 @@
 #ifndef KThread_H
 #define KThread_H
 //---------------------------------------------------------------------------
-typedef void (* TThreadFunc)(void* arg);
+typedef void (*TThreadFunc)(void *arg);
 
 #ifndef WIN32
 #include <pthread.h>
@@ -23,26 +23,27 @@ class KThread
 {
 private:
 #ifdef WIN32
-	HANDLE			m_ThreadHandle;
-	DWORD			m_ThreadId;
+  HANDLE m_ThreadHandle;
+  DWORD m_ThreadId;
 #else
-     pthread_t  p_thread;
+  pthread_t p_thread;
 #endif
-	TThreadFunc 	m_ThreadFunc;
-	LPVOID			m_ThreadParam;
+  TThreadFunc m_ThreadFunc;
+  LPVOID m_ThreadParam;
+
 public:
-	KThread();
-	~KThread();
-	BOOL			Create(TThreadFunc lpFunc, void* lpParam);
-	void			Destroy();
-	void			Suspend();
-	void			Resume();
-	BOOL			IsRunning();
-	void			WaitForExit();
-	int				GetPriority();
-	BOOL			SetPriority(int priority);
-//private:
-	DWORD			ThreadFunction();
+  KThread();
+  ~KThread();
+  BOOL Create(TThreadFunc lpFunc, void *lpParam);
+  void Destroy();
+  void Suspend();
+  void Resume();
+  BOOL IsRunning();
+  void WaitForExit();
+  int GetPriority();
+  BOOL SetPriority(int priority);
+  // private:
+  DWORD ThreadFunction();
 #ifdef WIN32
 //	static			DWORD __stdcall ThreadProc(LPVOID lpParam);
 #else

@@ -11,14 +11,13 @@
 //---------------------------------------------------------------------------
 #include "KCache.h"
 //---------------------------------------------------------------------------
-class ENGINE_API KSoundCache : public KCache
-{
+class ENGINE_API KSoundCache : public KCache {
 public:
-    KSoundCache();
-    ~KSoundCache();
+  KSoundCache();
+  ~KSoundCache();
 
-	virtual BOOL LoadNode(KCacheNode* lpNode);
-	virtual void FreeNode(KCacheNode* lpNode);
+  virtual BOOL LoadNode(KCacheNode *lpNode);
+  virtual void FreeNode(KCacheNode *lpNode);
 };
 //---------------------------------------------------------------------------
 #endif

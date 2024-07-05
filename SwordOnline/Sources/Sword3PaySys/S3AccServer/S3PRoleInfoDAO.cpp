@@ -14,22 +14,10 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PRoleInfoDAO::S3PRoleInfoDAO(S3PDBConnection * pConn)
-{
-	m_pConn = pConn;
-}
+S3PRoleInfoDAO::S3PRoleInfoDAO(S3PDBConnection *pConn) { m_pConn = pConn; }
 
-S3PRoleInfoDAO::~S3PRoleInfoDAO()
-{
+S3PRoleInfoDAO::~S3PRoleInfoDAO() {}
 
-}
+std::string S3PRoleInfoDAO::GetTableName() { return "Role_Info"; }
 
-std::string S3PRoleInfoDAO::GetTableName()
-{
-	return "Role_Info";
-}
-
-S3PDBConnection * S3PRoleInfoDAO::GetConnection()
-{
-	return m_pConn;
-}
+S3PDBConnection *S3PRoleInfoDAO::GetConnection() { return m_pConn; }

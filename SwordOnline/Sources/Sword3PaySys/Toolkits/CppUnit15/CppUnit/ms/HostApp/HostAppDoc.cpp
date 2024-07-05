@@ -1,12 +1,12 @@
 // HostAppDoc.cpp : implementation of the CHostAppDoc class
 //
 
-#include "stdafx.h"
 #include "HostApp.h"
+#include "stdafx.h"
 
+#include "ExampleTestCase.h"
 #include "HostAppDoc.h"
 #include "TestRunnerDlg.h"
-#include "ExampleTestCase.h"
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -20,68 +20,49 @@ static char THIS_FILE[] = __FILE__;
 IMPLEMENT_DYNCREATE(CHostAppDoc, CDocument)
 
 BEGIN_MESSAGE_MAP(CHostAppDoc, CDocument)
-    //{{AFX_MSG_MAP(CHostAppDoc)
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CHostAppDoc)
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CHostAppDoc construction/destruction
 
-CHostAppDoc::CHostAppDoc()
-{
-    // TODO: add one-time construction code here
-
+CHostAppDoc::CHostAppDoc() {
+  // TODO: add one-time construction code here
 }
 
-CHostAppDoc::~CHostAppDoc()
-{
+CHostAppDoc::~CHostAppDoc() {}
+
+BOOL CHostAppDoc::OnNewDocument() {
+  if (!CDocument::OnNewDocument())
+    return FALSE;
+
+  TestRunner runner;
+  runner.addTest(ExampleTestCase::suite());
+
+  runner.run();
+
+  return TRUE;
 }
-
-
-
-BOOL CHostAppDoc::OnNewDocument()
-{
-    if (!CDocument::OnNewDocument())
-        return FALSE;
-
-    TestRunner  runner;
-    runner.addTest (ExampleTestCase::suite ());
-
-    runner.run ();    
-
-    return TRUE;
-}
-
-
 
 /////////////////////////////////////////////////////////////////////////////
 // CHostAppDoc serialization
 
-void CHostAppDoc::Serialize(CArchive& ar)
-{
-    if (ar.IsStoring())
-    {
-        // TODO: add storing code here
-    }
-    else
-    {
-        // TODO: add loading code here
-    }
+void CHostAppDoc::Serialize(CArchive &ar) {
+  if (ar.IsStoring()) {
+    // TODO: add storing code here
+  } else {
+    // TODO: add loading code here
+  }
 }
 
 /////////////////////////////////////////////////////////////////////////////
 // CHostAppDoc diagnostics
 
 #ifdef _DEBUG
-void CHostAppDoc::AssertValid() const
-{
-    CDocument::AssertValid();
-}
+void CHostAppDoc::AssertValid() const { CDocument::AssertValid(); }
 
-void CHostAppDoc::Dump(CDumpContext& dc) const
-{
-    CDocument::Dump(dc);
-}
+void CHostAppDoc::Dump(CDumpContext &dc) const { CDocument::Dump(dc); }
 #endif //_DEBUG
 
 /////////////////////////////////////////////////////////////////////////////

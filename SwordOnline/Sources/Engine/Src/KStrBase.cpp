@@ -6,18 +6,17 @@
 // Code:	WangWei(Daphnis)
 // Desc:	String Utility Functions
 //---------------------------------------------------------------------------
-#include "KWin32.h"
+#include "KStrBase.h"
 #include "KDebug.h"
 #include "KMemBase.h"
-#include "KStrBase.h"
+#include "KWin32.h"
 #include <string.h>
-ENGINE_API int g_StrLen(LPCSTR lpStr)
-{
+ENGINE_API int g_StrLen(LPCSTR lpStr) {
 #ifdef WIN32
-	register int nLen;
+  register int nLen;
 
-	__asm
-	{
+  __asm
+  {
 		mov		edi, lpStr
 		mov		ecx, 0xffffffff
 		xor		al, al
@@ -25,10 +24,10 @@ ENGINE_API int g_StrLen(LPCSTR lpStr)
 		not		ecx
 		dec		ecx
 		mov		nLen, ecx
-	}
-	return nLen;
+  }
+  return nLen;
 #else
-     return strlen(lpStr);
+  return strlen(lpStr);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -37,23 +36,22 @@ ENGINE_API int g_StrLen(LPCSTR lpStr)
 // 参数:	lpStr	:	字符串开头的指针
 // 返回:	lpEnd	:	字符串末尾的指针
 //---------------------------------------------------------------------------
-ENGINE_API LPSTR g_StrEnd(LPCSTR lpStr)
-{
+ENGINE_API LPSTR g_StrEnd(LPCSTR lpStr) {
 #ifdef WIN32
-	register LPSTR lpEnd;
+  register LPSTR lpEnd;
 
-	__asm
-	{
+  __asm
+  {
 		mov		edi, lpStr
 		mov		ecx, 0xffffffff
 		xor		al, al
 		repne	scasb
 		lea		eax, [edi - 1]
 		mov		lpEnd, eax
-	}
-	return lpEnd;
+  }
+  return lpEnd;
 #else
-     return (char *)lpStr + strlen(lpStr);
+  return (char *)lpStr + strlen(lpStr);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -63,11 +61,10 @@ ENGINE_API LPSTR g_StrEnd(LPCSTR lpStr)
 //			lpSrc	:	源字符串
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_StrCpy(LPSTR lpDest, LPCSTR lpSrc)
-{
+ENGINE_API void g_StrCpy(LPSTR lpDest, LPCSTR lpSrc) {
 #ifdef WIN32
-	__asm
-	{
+  __asm
+      {
 		mov		edi, lpSrc
 		mov		ecx, 0xffffffff
 		xor		al, al
@@ -81,9 +78,10 @@ ENGINE_API void g_StrCpy(LPSTR lpDest, LPCSTR lpSrc)
 		mov		ecx, edx
 		and		ecx, 3
 		rep		movsb
-	};
+      }
+  ;
 #else
-    strcpy(lpDest, lpSrc);
+  strcpy(lpDest, lpSrc);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -94,11 +92,10 @@ ENGINE_API void g_StrCpy(LPSTR lpDest, LPCSTR lpSrc)
 //			nMaxLen	:	最大长度
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_StrCpyLen(LPSTR lpDest, LPCSTR lpSrc, int nMaxLen)
-{
+ENGINE_API void g_StrCpyLen(LPSTR lpDest, LPCSTR lpSrc, int nMaxLen) {
 #ifdef WIN32
-	__asm
-	{
+  __asm
+      {
 		xor		al, al
 		mov		edx, nMaxLen
 		dec		edx
@@ -132,9 +129,10 @@ loc_little_equal:
 		stosb
 		
 finished:
-	};
+      }
+  ;
 #else
-    strncpy(lpDest, lpSrc, nMaxLen);
+  strncpy(lpDest, lpSrc, nMaxLen);
 #endif
 }
 //---------------------------------------------------------------------------
@@ -144,12 +142,11 @@ finished:
 //			lpSrc	:	源字符串
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_StrCat(LPSTR lpDest, LPCSTR lpSrc)
-{
-	register LPSTR lpEnd;
+ENGINE_API void g_StrCat(LPSTR lpDest, LPCSTR lpSrc) {
+  register LPSTR lpEnd;
 
-	lpEnd = g_StrEnd(lpDest);
-	g_StrCpy(lpEnd, lpSrc);
+  lpEnd = g_StrEnd(lpDest);
+  g_StrCpy(lpEnd, lpSrc);
 }
 //---------------------------------------------------------------------------
 // 函数:	StrCatLen
@@ -159,51 +156,48 @@ ENGINE_API void g_StrCat(LPSTR lpDest, LPCSTR lpSrc)
 //			nMaxLen	:	最大长度
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_StrCatLen(LPSTR lpDest, LPCSTR lpSrc, int nMaxLen)
-{
-	register LPSTR lpEnd;
+ENGINE_API void g_StrCatLen(LPSTR lpDest, LPCSTR lpSrc, int nMaxLen) {
+  register LPSTR lpEnd;
 
-	lpEnd = g_StrEnd(lpDest);
-	g_StrCpyLen(lpEnd, lpSrc, nMaxLen);
+  lpEnd = g_StrEnd(lpDest);
+  g_StrCpyLen(lpEnd, lpSrc, nMaxLen);
 }
 //---------------------------------------------------------------------------
 // 函数:	StrCmp
 // 功能:	字符串比较
-// 参数:	lpDest	:	字符串1	
+// 参数:	lpDest	:	字符串1
 //			lpSrc	:	字符串2
 // 返回:	TRUE	:	相同
 //			FALSE	:	不同
 //---------------------------------------------------------------------------
-ENGINE_API BOOL g_StrCmp(LPCSTR lpDest, LPCSTR lpSrc)
-{
-	register int nLen1, nLen2;
+ENGINE_API BOOL g_StrCmp(LPCSTR lpDest, LPCSTR lpSrc) {
+  register int nLen1, nLen2;
 
-	nLen1 = g_StrLen(lpDest);
-	nLen2 = g_StrLen(lpSrc);
-	if (nLen1 != nLen2)
-		return FALSE;
-	return g_MemComp((void*)lpDest, (void*)lpSrc, nLen1);
+  nLen1 = g_StrLen(lpDest);
+  nLen2 = g_StrLen(lpSrc);
+  if (nLen1 != nLen2)
+    return FALSE;
+  return g_MemComp((void *)lpDest, (void *)lpSrc, nLen1);
 }
 //---------------------------------------------------------------------------
 // 函数:	StrCmpLen
 // 功能:	字符串比较,限定长度
-// 参数:	lpDest	:	字符串1	
+// 参数:	lpDest	:	字符串1
 //			lpSrc	:	字符串2
 //			nLen	:	长度
 // 返回:	TRUE	:	相同
 //			FALSE	:	不同
 //---------------------------------------------------------------------------
-ENGINE_API BOOL g_StrCmpLen(LPCSTR lpDest, LPCSTR lpSrc, int nMaxLen)
-{
-	register int nLen1, nLen2;
+ENGINE_API BOOL g_StrCmpLen(LPCSTR lpDest, LPCSTR lpSrc, int nMaxLen) {
+  register int nLen1, nLen2;
 
-	nLen1 = g_StrLen(lpDest);
-	nLen2 = g_StrLen(lpSrc);
-	if (nMaxLen > nLen1)
-		nMaxLen = nLen1;
-	if (nMaxLen > nLen2)
-		nMaxLen = nLen2;
-	return g_MemComp((void*)lpDest, (void*)lpSrc, nMaxLen);
+  nLen1 = g_StrLen(lpDest);
+  nLen2 = g_StrLen(lpSrc);
+  if (nMaxLen > nLen1)
+    nMaxLen = nLen1;
+  if (nMaxLen > nLen2)
+    nMaxLen = nLen2;
+  return g_MemComp((void *)lpDest, (void *)lpSrc, nMaxLen);
 }
 //---------------------------------------------------------------------------
 // 函数:	StrUpper
@@ -211,11 +205,10 @@ ENGINE_API BOOL g_StrCmpLen(LPCSTR lpDest, LPCSTR lpSrc, int nMaxLen)
 // 参数:	lpDest	:	字符串
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_StrUpper(LPSTR lpDest)
-{
+ENGINE_API void g_StrUpper(LPSTR lpDest) {
 #ifdef WIN32
-	__asm
-	{
+  __asm
+  {
 		mov		esi, lpDest
 loc_lodsb:
 		lodsb
@@ -229,14 +222,15 @@ loc_lodsb:
 		mov		[esi - 1], al
 		jmp		loc_lodsb
 loc_exit:
-	}
+  }
 #else
-     char *ptr = lpDest;
-     while(*ptr) {
-         if(*ptr >= 'a' && *ptr <= 'z') *ptr += 'A' - 'a';
-//          *ptr = toupper(*ptr);
-          ptr++;
-     }
+  char *ptr = lpDest;
+  while (*ptr) {
+    if (*ptr >= 'a' && *ptr <= 'z')
+      *ptr += 'A' - 'a';
+    //          *ptr = toupper(*ptr);
+    ptr++;
+  }
 #endif
 }
 //---------------------------------------------------------------------------
@@ -245,11 +239,10 @@ loc_exit:
 // 参数:	lpDest	:	字符串
 // 返回:	void
 //---------------------------------------------------------------------------
-ENGINE_API void g_StrLower(LPSTR lpDest)
-{
+ENGINE_API void g_StrLower(LPSTR lpDest) {
 #ifdef WIN32
-	__asm
-	{
+  __asm
+  {
 		mov		esi, lpDest
 loc_lodsb:
 		lodsb
@@ -263,49 +256,44 @@ loc_lodsb:
 		mov		[esi - 1], al
 		jmp		loc_lodsb
 loc_exit:
-	}
+  }
 #else
-     char *ptr = lpDest;
-     while(*ptr) {
-         if(*ptr >= 'A' && *ptr <= 'Z') *ptr += 'a' - 'A';
-//          *ptr = tolower(*ptr);
-          ptr++;
-     }
+  char *ptr = lpDest;
+  while (*ptr) {
+    if (*ptr >= 'A' && *ptr <= 'Z')
+      *ptr += 'a' - 'A';
+    //          *ptr = tolower(*ptr);
+    ptr++;
+  }
 #endif
 }
 //---------------------------------------------------------------------------
-ENGINE_API void g_StrRep(LPSTR lpDest, LPSTR lpSrc, LPSTR lpRep)
-{
-	int		nSrcLen = g_StrLen(lpSrc);
-	int		nDestLen = g_StrLen(lpDest);
-	int		nMaxLen = nDestLen - nSrcLen + g_StrLen(lpRep) + 1;
-	char	*pStart = NULL;
-        int i;
-	for (i = 0; i < nDestLen - nSrcLen; i++)
-	{
-		if (g_StrCmpLen(&lpDest[i], lpSrc, nSrcLen))
-			break;
-	}
-	if (i == nDestLen - nSrcLen)
-		return;
+ENGINE_API void g_StrRep(LPSTR lpDest, LPSTR lpSrc, LPSTR lpRep) {
+  int nSrcLen = g_StrLen(lpSrc);
+  int nDestLen = g_StrLen(lpDest);
+  int nMaxLen = nDestLen - nSrcLen + g_StrLen(lpRep) + 1;
+  char *pStart = NULL;
+  int i;
+  for (i = 0; i < nDestLen - nSrcLen; i++) {
+    if (g_StrCmpLen(&lpDest[i], lpSrc, nSrcLen))
+      break;
+  }
+  if (i == nDestLen - nSrcLen)
+    return;
 
-	pStart = new char[nMaxLen];
+  pStart = new char[nMaxLen];
 
-	if (i != 0)
-	{
-		g_StrCpyLen(pStart, lpDest, i);
-		g_StrCat(pStart, lpRep);
-		g_StrCat(pStart, &lpDest[i + nSrcLen]);
-	}
-	else
-	{
-		g_StrCpy(pStart, lpRep);
-		g_StrCat(pStart, &lpDest[nSrcLen]);
-	}
-	g_StrCpy(lpDest, pStart);
-	if (pStart)
-	{
-		delete [] pStart;
-		pStart = NULL;
-	}
+  if (i != 0) {
+    g_StrCpyLen(pStart, lpDest, i);
+    g_StrCat(pStart, lpRep);
+    g_StrCat(pStart, &lpDest[i + nSrcLen]);
+  } else {
+    g_StrCpy(pStart, lpRep);
+    g_StrCat(pStart, &lpDest[nSrcLen]);
+  }
+  g_StrCpy(lpDest, pStart);
+  if (pStart) {
+    delete[] pStart;
+    pStart = NULL;
+  }
 }

@@ -15,31 +15,37 @@
 typedef struct tagSystemExchangeData EXCHANGEDATA_SYS;
 typedef struct tagGameWorldExchangeData EXCHANGEDATA_GW;
 
-class KSystemEventHandler : public ISystemEvent
-{
+class KSystemEventHandler : public ISystemEvent {
 public:
-	KSystemEventHandler(EXCHANGEDATA_SYS*);
-	virtual ~KSystemEventHandler();
-protected:
-	EXCHANGEDATA_SYS* m_pExgSys;
-public:
-	void STDMETHODCALLTYPE GWLogin(char* szGWName, DWORD nIP);
-	void STDMETHODCALLTYPE GWLogout(char* szGWName, DWORD nIP);
-	void STDMETHODCALLTYPE GWSubLogout(DWORD nGWIP, DWORD nSubIP);
-	void STDMETHODCALLTYPE OnlinePlayerCount(char* szGWName, DWORD nCount);
-	void STDMETHODCALLTYPE RegisterUserCount(DWORD nCount);
-	void STDMETHODCALLTYPE PlayerAccountAtGW(char* szAccount, DWORD nIP,
-											 int nX, int nY, int nSubWorld,
-											 char* szCurRole);
-	void STDMETHODCALLTYPE GameWorldRelayID(char* szGWName, DWORD nRelayID);
-	void STDMETHODCALLTYPE PlayerAccountAtGWID(char* szAccount, DWORD nRelayID);
-	void STDMETHODCALLTYPE Ping(DWORD nTick);
-	void STDMETHODCALLTYPE ConnectClosed();
+  KSystemEventHandler(EXCHANGEDATA_SYS *);
+  virtual ~KSystemEventHandler();
 
-	void STDMETHODCALLTYPE PlayerTrackingData(char* szAccount,void* pData, size_t dataLength);
-	void STDMETHODCALLTYPE PlayerInfo(char* szAccount, WORD ninfo, void* pData, size_t dataLength);
-	void STDMETHODCALLTYPE PlayerRoleList(char* szAccount, WORD wRoleCount, void* pRoleList);
-	void STDMETHODCALLTYPE PlayerMessage(char* szAccountFrom, char* szRole, char* szMessage, int nMsgLen, DWORD dwGWIP);
+protected:
+  EXCHANGEDATA_SYS *m_pExgSys;
+
+public:
+  void STDMETHODCALLTYPE GWLogin(char *szGWName, DWORD nIP);
+  void STDMETHODCALLTYPE GWLogout(char *szGWName, DWORD nIP);
+  void STDMETHODCALLTYPE GWSubLogout(DWORD nGWIP, DWORD nSubIP);
+  void STDMETHODCALLTYPE OnlinePlayerCount(char *szGWName, DWORD nCount);
+  void STDMETHODCALLTYPE RegisterUserCount(DWORD nCount);
+  void STDMETHODCALLTYPE PlayerAccountAtGW(char *szAccount, DWORD nIP, int nX,
+                                           int nY, int nSubWorld,
+                                           char *szCurRole);
+  void STDMETHODCALLTYPE GameWorldRelayID(char *szGWName, DWORD nRelayID);
+  void STDMETHODCALLTYPE PlayerAccountAtGWID(char *szAccount, DWORD nRelayID);
+  void STDMETHODCALLTYPE Ping(DWORD nTick);
+  void STDMETHODCALLTYPE ConnectClosed();
+
+  void STDMETHODCALLTYPE PlayerTrackingData(char *szAccount, void *pData,
+                                            size_t dataLength);
+  void STDMETHODCALLTYPE PlayerInfo(char *szAccount, WORD ninfo, void *pData,
+                                    size_t dataLength);
+  void STDMETHODCALLTYPE PlayerRoleList(char *szAccount, WORD wRoleCount,
+                                        void *pRoleList);
+  void STDMETHODCALLTYPE PlayerMessage(char *szAccountFrom, char *szRole,
+                                       char *szMessage, int nMsgLen,
+                                       DWORD dwGWIP);
 };
 
 #endif //__EVENTHANDLER_H__

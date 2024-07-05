@@ -12,19 +12,19 @@
 #include "KMemClass.h"
 #include "KStrList.h"
 //---------------------------------------------------------------------------
-#define TABLE_SIZE	256
+#define TABLE_SIZE 256
 //---------------------------------------------------------------------------
-unsigned long g_Hash(char* pStr);
+unsigned long g_Hash(char *pStr);
 //---------------------------------------------------------------------------
-class ENGINE_API KHashTable
-{
+class ENGINE_API KHashTable {
 private:
-	KMemClass	m_Mem;
-	KStrList	m_Table[TABLE_SIZE];
+  KMemClass m_Mem;
+  KStrList m_Table[TABLE_SIZE];
+
 public:
-	void		Add(KStrNode* pNode);
-	void		Delete(char* pStr);
-	KStrNode*	Find(char* pStr);
+  void Add(KStrNode *pNode);
+  void Delete(char *pStr);
+  KStrNode *Find(char *pStr);
 };
 //---------------------------------------------------------------------------
 #endif

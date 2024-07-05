@@ -13,20 +13,20 @@
 #include "KMp4Video.h"
 //---------------------------------------------------------------------------
 
-class DLL_API KMp4Movie
-{
+class DLL_API KMp4Movie {
 private:
-	KMp4Audio		m_Audio;
-	KMp4Video		m_Video;
+  KMp4Audio m_Audio;
+  KMp4Video m_Video;
+
 public:
-	BOOL			Open(LPSTR FileName);
-	void			Close();
-	void			Play(BOOL bZoom);
-	void			Stop();
-	void			Seek(int nPercent);
-	void			Rewind();
-	void			SetPos(int nX, int nY);
-	void			WaitForEnd();
+  BOOL Open(LPSTR FileName);
+  void Close();
+  void Play(BOOL bZoom);
+  void Stop();
+  void Seek(int nPercent);
+  void Rewind();
+  void SetPos(int nX, int nY);
+  void WaitForEnd();
 };
 //---------------------------------------------------------------------------
 #endif

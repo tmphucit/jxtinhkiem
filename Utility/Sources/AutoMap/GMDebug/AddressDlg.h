@@ -10,38 +10,36 @@
 /////////////////////////////////////////////////////////////////////////////
 // CAddressDlg dialog
 
-class CAddressDlg : public CDialog
-{
-// Construction
+class CAddressDlg : public CDialog {
+  // Construction
 public:
-	CAddressDlg(CWnd* pParent = NULL);   // standard constructor
+  CAddressDlg(CWnd *pParent = NULL); // standard constructor
 
-// Dialog Data
-	//{{AFX_DATA(CAddressDlg)
-	enum { IDD = IDD_DIALOG_ADDRESS };
-	CString	m_strAddress;
-	CString	m_strPort;
-	//}}AFX_DATA
+  // Dialog Data
+  //{{AFX_DATA(CAddressDlg)
+  enum { IDD = IDD_DIALOG_ADDRESS };
+  CString m_strAddress;
+  CString m_strPort;
+  //}}AFX_DATA
 
-
-// Overrides
-	// ClassWizard generated virtual function overrides
-	//{{AFX_VIRTUAL(CAddressDlg)
-	protected:
-	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV support
-	//}}AFX_VIRTUAL
-
-// Implementation
+  // Overrides
+  // ClassWizard generated virtual function overrides
+  //{{AFX_VIRTUAL(CAddressDlg)
 protected:
+  virtual void DoDataExchange(CDataExchange *pDX); // DDX/DDV support
+                                                   //}}AFX_VIRTUAL
 
-	// Generated message map functions
-	//{{AFX_MSG(CAddressDlg)
-	virtual void OnOK();
-	//}}AFX_MSG
-	DECLARE_MESSAGE_MAP()
+  // Implementation
+protected:
+  // Generated message map functions
+  //{{AFX_MSG(CAddressDlg)
+  virtual void OnOK();
+  //}}AFX_MSG
+  DECLARE_MESSAGE_MAP()
 };
 
 //{{AFX_INSERT_LOCATION}}
-// Microsoft Visual C++ will insert additional declarations immediately before the previous line.
+// Microsoft Visual C++ will insert additional declarations immediately before
+// the previous line.
 
 #endif // !defined(AFX_ADDRESSDLG_H__B9DD18E8_C1EC_461E_9E68_A608A472CBF8__INCLUDED_)

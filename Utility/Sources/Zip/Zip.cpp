@@ -1,8 +1,8 @@
 // Zip.cpp : Defines the initialization routines for the DLL.
 //
 
-#include "stdafx.h"
 #include "Zip.h"
+#include "stdafx.h"
 
 #include "cZipExtract.h"
 #include "cZipRead.h"
@@ -33,7 +33,7 @@ static char THIS_FILE[] = __FILE__;
 //
 //		It is very important that this macro appear in each
 //		function, prior to any calls into MFC.  This means that
-//		it must appear as the first statement within the 
+//		it must appear as the first statement within the
 //		function, even before any object variable declarations
 //		as their constructors may generate calls into the MFC
 //		DLL.
@@ -46,19 +46,18 @@ static char THIS_FILE[] = __FILE__;
 // CZipApp
 
 BEGIN_MESSAGE_MAP(CZipApp, CWinApp)
-	//{{AFX_MSG_MAP(CZipApp)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CZipApp)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//    DO NOT EDIT what you see in these blocks of generated code!
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CZipApp construction
 
-CZipApp::CZipApp()
-{
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
+CZipApp::CZipApp() {
+  // TODO: add construction code here,
+  // Place all significant initialization in InitInstance
 }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -66,34 +65,28 @@ CZipApp::CZipApp()
 
 CZipApp theApp;
 
-_declspec(dllexport) iZipExtract* Zip_CreateZipExtract(ZipEnum e)
-{
-	switch (e)
-	{
-	case zip_normal:
-		return new cZipExtract;
-	}
-	return NULL;
+_declspec(dllexport) iZipExtract *Zip_CreateZipExtract(ZipEnum e) {
+  switch (e) {
+  case zip_normal:
+    return new cZipExtract;
+  }
+  return NULL;
 }
 
-_declspec(dllexport) iZipRead* Zip_CreateZipRead(ZipEnum e)
-{
-	switch (e)
-	{
-	case zip_normal:
-		return new cZipRead;
-	case zip_default:
-		return new cZipReadDefault;
-	}
-	return NULL;
+_declspec(dllexport) iZipRead *Zip_CreateZipRead(ZipEnum e) {
+  switch (e) {
+  case zip_normal:
+    return new cZipRead;
+  case zip_default:
+    return new cZipReadDefault;
+  }
+  return NULL;
 }
 
-_declspec(dllexport) iZipWrite* Zip_CreateZipWrite(ZipEnum e)
-{
-	switch (e)
-	{
-	case zip_normal:
-		return new cZipWrite;
-	}
-	return NULL;
+_declspec(dllexport) iZipWrite *Zip_CreateZipWrite(ZipEnum e) {
+  switch (e) {
+  case zip_normal:
+    return new cZipWrite;
+  }
+  return NULL;
 }

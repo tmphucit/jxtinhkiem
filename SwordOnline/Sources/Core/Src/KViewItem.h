@@ -12,27 +12,26 @@
 
 #ifndef _SERVER
 
-class KViewItem
-{
+class KViewItem {
 private:
-	DWORD		m_dwNpcID;				// 对方玩家的 npc 的 id
-	int			m_nLevel;				// 对方玩家的等级
-	char		m_szName[32];			// 对方玩家的名字
+  DWORD m_dwNpcID;   // 对方玩家的 npc 的 id
+  int m_nLevel;      // 对方玩家的等级
+  char m_szName[32]; // 对方玩家的名字
 
 public:
-	PlayerItem	m_sItem[itempart_num];	// 对方玩家穿在身上的装备在客户端 Item 数组中的位置信息
+  PlayerItem m_sItem[itempart_num]; // 对方玩家穿在身上的装备在客户端 Item
+                                    // 数组中的位置信息
 
 public:
-	KViewItem();						// 构造
-	void		Init();					// 初始化
-	void		ApplyViewEquip(DWORD dwNpcID);
-	void		DeleteAll();
-	void		GetData(BYTE* pMsg);
+  KViewItem(); // 构造
+  void Init(); // 初始化
+  void ApplyViewEquip(DWORD dwNpcID);
+  void DeleteAll();
+  void GetData(BYTE *pMsg);
 };
 
-extern	KViewItem	g_cViewItem;
+extern KViewItem g_cViewItem;
 
 #endif
-
 
 #endif

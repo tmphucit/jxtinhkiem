@@ -18,13 +18,13 @@
  *      safe passage            - copy construction
  *
  * If operations for each of these are not declared
- * the template will not instantiate.  If it does 
+ * the template will not instantiate.  If it does
  * instantiate, tests are performed to make sure
  * that the operations have correct semantics.
- *      
- * Adding an orthodox test to a suite is very 
- * easy: 
- * 
+ *
+ * Adding an orthodox test to a suite is very
+ * easy:
+ *
  * public: Test *suite ()  {
  *     TestSuite *suiteOfTests = new TestSuite;
  *     suiteOfTests->addTest (new ComplexNumberTest ("testAdd");
@@ -38,56 +38,46 @@
  * see TestSuite
  */
 
-
-template <class ClassUnderTest> class Orthodox : public TestCase
-{
+template <class ClassUnderTest> class Orthodox : public TestCase {
 public:
-                    Orthodox () : TestCase ("Orthodox") {}
+  Orthodox() : TestCase("Orthodox") {}
 
 protected:
-    ClassUnderTest  call (ClassUnderTest object);
-    void            runTest ();
-
-
+  ClassUnderTest call(ClassUnderTest object);
+  void runTest();
 };
 
-
 // Run an orthodoxy test
-template <class ClassUnderTest> void Orthodox<ClassUnderTest>::runTest ()
-{
-    // make sure we have a default constructor
-    ClassUnderTest   a, b, c;
+template <class ClassUnderTest> void Orthodox<ClassUnderTest>::runTest() {
+  // make sure we have a default constructor
+  ClassUnderTest a, b, c;
 
-    // make sure we have an equality operator
-    assert (a == b);
+  // make sure we have an equality operator
+  assert(a == b);
 
-    // check the inverse
-    b.operator= (a.operator! ());
-    assert (a != b);
+  // check the inverse
+  b.operator=(a.operator!());
+  assert(a != b);
 
-    // double inversion
-    b = !!a;
-    assert (a == b);
+  // double inversion
+  b = !!a;
+  assert(a == b);
 
-    // invert again
-    b = !a;
+  // invert again
+  b = !a;
 
-    // check calls
-    c = a;
-    assert (c == call (a));
+  // check calls
+  c = a;
+  assert(c == call(a));
 
-    c = b;
-    assert (c == call (b));
-
+  c = b;
+  assert(c == call(b));
 }
-
 
 // Exercise a call
-template <class ClassUnderTest> ClassUnderTest Orthodox<ClassUnderTest>::call (ClassUnderTest object)
-{
-    return object;
+template <class ClassUnderTest>
+ClassUnderTest Orthodox<ClassUnderTest>::call(ClassUnderTest object) {
+  return object;
 }
-
-
 
 #endif

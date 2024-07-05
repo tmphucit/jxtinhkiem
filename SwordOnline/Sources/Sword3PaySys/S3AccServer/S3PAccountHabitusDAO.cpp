@@ -12,22 +12,12 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PAccountHabitusDAO::S3PAccountHabitusDAO( S3PDBConnection* pConn )
-{
-	m_pConn = pConn;
+S3PAccountHabitusDAO::S3PAccountHabitusDAO(S3PDBConnection *pConn) {
+  m_pConn = pConn;
 }
 
-S3PAccountHabitusDAO::~S3PAccountHabitusDAO()
-{
+S3PAccountHabitusDAO::~S3PAccountHabitusDAO() {}
 
-}
+std::string S3PAccountHabitusDAO::GetTableName() { return "Account_Habitus"; }
 
-std::string S3PAccountHabitusDAO::GetTableName()
-{
-	return "Account_Habitus";
-}
-
-S3PDBConnection* S3PAccountHabitusDAO::GetConnection()
-{
-	return m_pConn;
-}
+S3PDBConnection *S3PAccountHabitusDAO::GetConnection() { return m_pConn; }

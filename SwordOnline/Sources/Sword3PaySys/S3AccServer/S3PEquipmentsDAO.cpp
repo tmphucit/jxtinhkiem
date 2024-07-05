@@ -13,22 +13,10 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PEquipmentsDAO::S3PEquipmentsDAO(S3PDBConnection *pConn)
-{
-	m_pConn=pConn;
-}
+S3PEquipmentsDAO::S3PEquipmentsDAO(S3PDBConnection *pConn) { m_pConn = pConn; }
 
-S3PEquipmentsDAO::~S3PEquipmentsDAO()
-{
+S3PEquipmentsDAO::~S3PEquipmentsDAO() {}
 
-}
+S3PDBConnection *S3PEquipmentsDAO::GetConnection() { return m_pConn; }
 
-S3PDBConnection * S3PEquipmentsDAO::GetConnection()
-{
-	return m_pConn;
-}
-
-std::string S3PEquipmentsDAO::GetTableName()
-{
-	return "Equipments";
-}
+std::string S3PEquipmentsDAO::GetTableName() { return "Equipments"; }

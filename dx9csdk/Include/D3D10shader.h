@@ -18,8 +18,8 @@
 // Version token used to create a procedural texture filler in effects
 // Used by D3D10Fill[]TX functions
 //---------------------------------------------------------------------------
-#define D3D10_TX_VERSION(_Major,_Minor) (('T' << 24) | ('X' << 16) | ((_Major) << 8) | (_Minor))
-
+#define D3D10_TX_VERSION(_Major, _Minor)                                       \
+  (('T' << 24) | ('X' << 16) | ((_Major) << 8) | (_Minor))
 
 //----------------------------------------------------------------------------
 // D3D10SHADER flags:
@@ -33,9 +33,9 @@
 //   you KNOW will work.  (ie. have compiled before without this option.)
 //   Shaders are always validated by D3D before they are set to the device.
 //
-// D3D10_SHADER_SKIP_OPTIMIZATION 
+// D3D10_SHADER_SKIP_OPTIMIZATION
 //   Instructs the compiler to skip optimization steps during code generation.
-//   Unless you are trying to isolate a problem in your code using this option 
+//   Unless you are trying to isolate a problem in your code using this option
 //   is not recommended.
 //
 // D3D10_SHADER_PACK_MATRIX_ROW_MAJOR
@@ -43,8 +43,8 @@
 //   on input and output from the shader.
 //
 // D3D10_SHADER_PACK_MATRIX_COLUMN_MAJOR
-//   Unless explicitly specified, matrices will be packed in column-major 
-//   order on input and output from the shader.  This is generally more 
+//   Unless explicitly specified, matrices will be packed in column-major
+//   order on input and output from the shader.  This is generally more
 //   efficient, since it allows vector-matrix multiplication to be performed
 //   using a series of dot-products.
 //
@@ -54,16 +54,16 @@
 //
 // D3D10_SHADER_FORCE_VS_SOFTWARE_NO_OPT
 //   Force compiler to compile against the next highest available software
-//   target for vertex shaders.  This flag also turns optimizations off, 
-//   and debugging on.  
+//   target for vertex shaders.  This flag also turns optimizations off,
+//   and debugging on.
 //
 // D3D10_SHADER_FORCE_PS_SOFTWARE_NO_OPT
 //   Force compiler to compile against the next highest available software
-//   target for pixel shaders.  This flag also turns optimizations off, 
+//   target for pixel shaders.  This flag also turns optimizations off,
 //   and debugging on.
 //
 // D3D10_SHADER_NO_PRESHADER
-//   Disables Preshaders. Using this flag will cause the compiler to not 
+//   Disables Preshaders. Using this flag will cause the compiler to not
 //   pull out static expression for evaluation on the host cpu
 //
 // D3D10_SHADER_AVOID_FLOW_CONTROL
@@ -83,30 +83,26 @@
 //
 //----------------------------------------------------------------------------
 
-#define D3D10_SHADER_DEBUG                          (1 << 0)
-#define D3D10_SHADER_SKIP_VALIDATION                (1 << 1)
-#define D3D10_SHADER_SKIP_OPTIMIZATION              (1 << 2)
-#define D3D10_SHADER_PACK_MATRIX_ROW_MAJOR          (1 << 3)
-#define D3D10_SHADER_PACK_MATRIX_COLUMN_MAJOR       (1 << 4)
-#define D3D10_SHADER_PARTIAL_PRECISION              (1 << 5)
-#define D3D10_SHADER_FORCE_VS_SOFTWARE_NO_OPT       (1 << 6)
-#define D3D10_SHADER_FORCE_PS_SOFTWARE_NO_OPT       (1 << 7)
-#define D3D10_SHADER_NO_PRESHADER                   (1 << 8)
-#define D3D10_SHADER_AVOID_FLOW_CONTROL             (1 << 9)
-#define D3D10_SHADER_PREFER_FLOW_CONTROL            (1 << 10)
-#define D3D10_SHADER_ENABLE_STRICTNESS              (1 << 11)
+#define D3D10_SHADER_DEBUG (1 << 0)
+#define D3D10_SHADER_SKIP_VALIDATION (1 << 1)
+#define D3D10_SHADER_SKIP_OPTIMIZATION (1 << 2)
+#define D3D10_SHADER_PACK_MATRIX_ROW_MAJOR (1 << 3)
+#define D3D10_SHADER_PACK_MATRIX_COLUMN_MAJOR (1 << 4)
+#define D3D10_SHADER_PARTIAL_PRECISION (1 << 5)
+#define D3D10_SHADER_FORCE_VS_SOFTWARE_NO_OPT (1 << 6)
+#define D3D10_SHADER_FORCE_PS_SOFTWARE_NO_OPT (1 << 7)
+#define D3D10_SHADER_NO_PRESHADER (1 << 8)
+#define D3D10_SHADER_AVOID_FLOW_CONTROL (1 << 9)
+#define D3D10_SHADER_PREFER_FLOW_CONTROL (1 << 10)
+#define D3D10_SHADER_ENABLE_STRICTNESS (1 << 11)
 #define D3D10_SHADER_ENABLE_BACKWARDS_COMPATIBILITY (1 << 12)
-#define D3D10_SHADER_IEEE_STRICTNESS                (1 << 13)
-
+#define D3D10_SHADER_IEEE_STRICTNESS (1 << 13)
 
 // optimization level flags
-#define D3D10_SHADER_OPTIMIZATION_LEVEL0            (1 << 14)
-#define D3D10_SHADER_OPTIMIZATION_LEVEL1            0
-#define D3D10_SHADER_OPTIMIZATION_LEVEL2            ((1 << 14) | (1 << 15))
-#define D3D10_SHADER_OPTIMIZATION_LEVEL3            (1 << 15)
-
-
-
+#define D3D10_SHADER_OPTIMIZATION_LEVEL0 (1 << 14)
+#define D3D10_SHADER_OPTIMIZATION_LEVEL1 0
+#define D3D10_SHADER_OPTIMIZATION_LEVEL2 ((1 << 14) | (1 << 15))
+#define D3D10_SHADER_OPTIMIZATION_LEVEL3 (1 << 15)
 
 //----------------------------------------------------------------------------
 // D3D10_SHADER_MACRO:
@@ -116,169 +112,162 @@
 // to #define tokens at runtime, before the file is parsed.
 //----------------------------------------------------------------------------
 
-typedef struct _D3D10_SHADER_MACRO
-{
-    LPCSTR Name;
-    LPCSTR Definition;
+typedef struct _D3D10_SHADER_MACRO {
+  LPCSTR Name;
+  LPCSTR Definition;
 
 } D3D10_SHADER_MACRO, *LPD3D10_SHADER_MACRO;
-
 
 //----------------------------------------------------------------------------
 // D3D10_SHADER_VARIABLE_CLASS:
 //----------------------------------------------------------------------------
 
-typedef enum _D3D10_SHADER_VARIABLE_CLASS
-{
-    D3D10_SVC_SCALAR,
-    D3D10_SVC_VECTOR,
-    D3D10_SVC_MATRIX_ROWS,
-    D3D10_SVC_MATRIX_COLUMNS,
-    D3D10_SVC_OBJECT,
-    D3D10_SVC_STRUCT,
+typedef enum _D3D10_SHADER_VARIABLE_CLASS {
+  D3D10_SVC_SCALAR,
+  D3D10_SVC_VECTOR,
+  D3D10_SVC_MATRIX_ROWS,
+  D3D10_SVC_MATRIX_COLUMNS,
+  D3D10_SVC_OBJECT,
+  D3D10_SVC_STRUCT,
 
-    // force 32-bit size enum
-    D3D10_SVC_FORCE_DWORD = 0x7fffffff
+  // force 32-bit size enum
+  D3D10_SVC_FORCE_DWORD = 0x7fffffff
 
-} D3D10_SHADER_VARIABLE_CLASS, *LPD3D10_SHADER_VARIABLE_CLASS;
+} D3D10_SHADER_VARIABLE_CLASS,
+    *LPD3D10_SHADER_VARIABLE_CLASS;
 
-typedef enum _D3D10_SHADER_VARIABLE_FLAGS
-{
-    D3D10_SVF_USERPACKED = 1,
-    D3D10_SVF_USED       = 2,
+typedef enum _D3D10_SHADER_VARIABLE_FLAGS {
+  D3D10_SVF_USERPACKED = 1,
+  D3D10_SVF_USED = 2,
 
-    // force 32-bit size enum
-    D3D10_SVF_FORCE_DWORD = 0x7fffffff
+  // force 32-bit size enum
+  D3D10_SVF_FORCE_DWORD = 0x7fffffff
 
-} D3D10_SHADER_VARIABLE_FLAGS, *LPD3D10_SHADER_VARIABLE_FLAGS;
+} D3D10_SHADER_VARIABLE_FLAGS,
+    *LPD3D10_SHADER_VARIABLE_FLAGS;
 
 //----------------------------------------------------------------------------
 // D3D10_SHADER_VARIABLE_TYPE:
 //----------------------------------------------------------------------------
-typedef enum _D3D10_SHADER_VARIABLE_TYPE
-{
-    D3D10_SVT_VOID = 0,
-    D3D10_SVT_BOOL = 1,
-    D3D10_SVT_INT = 2,
-    D3D10_SVT_FLOAT = 3,
-    D3D10_SVT_STRING = 4,
-    D3D10_SVT_TEXTURE = 5,
-    D3D10_SVT_TEXTURE1D = 6,
-    D3D10_SVT_TEXTURE2D = 7,
-    D3D10_SVT_TEXTURE3D = 8,
-    D3D10_SVT_TEXTURECUBE = 9,
-    D3D10_SVT_SAMPLER = 10,
-    D3D10_SVT_PIXELSHADER = 15,
-    D3D10_SVT_VERTEXSHADER = 16,
-    D3D10_SVT_UINT = 19,
-    D3D10_SVT_UINT8 = 20,
-    D3D10_SVT_GEOMETRYSHADER = 21,
-    D3D10_SVT_RASTERIZER = 22,
-    D3D10_SVT_DEPTHSTENCIL = 23,
-    D3D10_SVT_BLEND = 24,
-    D3D10_SVT_BUFFER = 25,
-    D3D10_SVT_CBUFFER = 26,
-    D3D10_SVT_TBUFFER = 27,
-    D3D10_SVT_TEXTURE1DARRAY = 28,
-    D3D10_SVT_TEXTURE2DARRAY = 29,
-    D3D10_SVT_RENDERTARGETVIEW = 30,
-    D3D10_SVT_DEPTHSTENCILVIEW = 31,
+typedef enum _D3D10_SHADER_VARIABLE_TYPE {
+  D3D10_SVT_VOID = 0,
+  D3D10_SVT_BOOL = 1,
+  D3D10_SVT_INT = 2,
+  D3D10_SVT_FLOAT = 3,
+  D3D10_SVT_STRING = 4,
+  D3D10_SVT_TEXTURE = 5,
+  D3D10_SVT_TEXTURE1D = 6,
+  D3D10_SVT_TEXTURE2D = 7,
+  D3D10_SVT_TEXTURE3D = 8,
+  D3D10_SVT_TEXTURECUBE = 9,
+  D3D10_SVT_SAMPLER = 10,
+  D3D10_SVT_PIXELSHADER = 15,
+  D3D10_SVT_VERTEXSHADER = 16,
+  D3D10_SVT_UINT = 19,
+  D3D10_SVT_UINT8 = 20,
+  D3D10_SVT_GEOMETRYSHADER = 21,
+  D3D10_SVT_RASTERIZER = 22,
+  D3D10_SVT_DEPTHSTENCIL = 23,
+  D3D10_SVT_BLEND = 24,
+  D3D10_SVT_BUFFER = 25,
+  D3D10_SVT_CBUFFER = 26,
+  D3D10_SVT_TBUFFER = 27,
+  D3D10_SVT_TEXTURE1DARRAY = 28,
+  D3D10_SVT_TEXTURE2DARRAY = 29,
+  D3D10_SVT_RENDERTARGETVIEW = 30,
+  D3D10_SVT_DEPTHSTENCILVIEW = 31,
 
-    D3D10_SVT_TEXTURE2DMS = 32,
-    D3D10_SVT_TEXTURE2DMSARRAY = 33,
+  D3D10_SVT_TEXTURE2DMS = 32,
+  D3D10_SVT_TEXTURE2DMSARRAY = 33,
 
-    // force 32-bit size enum
-    D3D10_SVT_FORCE_DWORD = 0x7fffffff
+  // force 32-bit size enum
+  D3D10_SVT_FORCE_DWORD = 0x7fffffff
 
-} D3D10_SHADER_VARIABLE_TYPE, *LPD3D10_SHADER_VARIABLE_TYPE;
+} D3D10_SHADER_VARIABLE_TYPE,
+    *LPD3D10_SHADER_VARIABLE_TYPE;
 
-typedef enum _D3D10_SHADER_INPUT_FLAGS
-{
-    D3D10_SIF_USERPACKED = 1,
-    D3D10_SIF_COMPARISON_SAMPLER = 2,  // is this a comparison sampler?
+typedef enum _D3D10_SHADER_INPUT_FLAGS {
+  D3D10_SIF_USERPACKED = 1,
+  D3D10_SIF_COMPARISON_SAMPLER = 2, // is this a comparison sampler?
 
-    // force 32-bit size enum
-    D3D10_SIF_FORCE_DWORD = 0x7fffffff
-} D3D10_SHADER_INPUT_FLAGS, *LPD3D10_SHADER_INPUT_FLAGS;
+  // force 32-bit size enum
+  D3D10_SIF_FORCE_DWORD = 0x7fffffff
+} D3D10_SHADER_INPUT_FLAGS,
+    *LPD3D10_SHADER_INPUT_FLAGS;
 
 //----------------------------------------------------------------------------
 // D3D10_SHADER_INPUT_TYPE
 //----------------------------------------------------------------------------
-typedef enum _D3D10_SHADER_INPUT_TYPE
-{
-    D3D10_SIT_CBUFFER,
-    D3D10_SIT_TBUFFER,
-    D3D10_SIT_TEXTURE,
-    D3D10_SIT_SAMPLER,
-} D3D10_SHADER_INPUT_TYPE, *LPD3D10_SHADER_INPUT_TYPE;
+typedef enum _D3D10_SHADER_INPUT_TYPE {
+  D3D10_SIT_CBUFFER,
+  D3D10_SIT_TBUFFER,
+  D3D10_SIT_TEXTURE,
+  D3D10_SIT_SAMPLER,
+} D3D10_SHADER_INPUT_TYPE,
+    *LPD3D10_SHADER_INPUT_TYPE;
 
-typedef enum _D3D10_SHADER_CBUFFER_FLAGS
-{
-    D3D10_CBF_USERPACKED = 1,
+typedef enum _D3D10_SHADER_CBUFFER_FLAGS {
+  D3D10_CBF_USERPACKED = 1,
 
-    // force 32-bit size enum
-    D3D10_CBF_FORCE_DWORD = 0x7fffffff
-} D3D10_SHADER_CBUFFER_FLAGS, *LPD3D10_SHADER_CBUFFER_FLAGS;
+  // force 32-bit size enum
+  D3D10_CBF_FORCE_DWORD = 0x7fffffff
+} D3D10_SHADER_CBUFFER_FLAGS,
+    *LPD3D10_SHADER_CBUFFER_FLAGS;
 
-typedef enum _D3D10_CBUFFER_TYPE
-{
-    D3D10_CT_CBUFFER,
-    D3D10_CT_TBUFFER,
-}  D3D10_CBUFFER_TYPE, *LPD3D10_CBUFFER_TYPE;
+typedef enum _D3D10_CBUFFER_TYPE {
+  D3D10_CT_CBUFFER,
+  D3D10_CT_TBUFFER,
+} D3D10_CBUFFER_TYPE,
+    *LPD3D10_CBUFFER_TYPE;
 
-typedef enum D3D10_NAME
-{
-    D3D10_NAME_UNDEFINED = 0,
+typedef enum D3D10_NAME {
+  D3D10_NAME_UNDEFINED = 0,
 
-    // Names meaningful to both HLSL and hardware
-    D3D10_NAME_POSITION = 1,
-    D3D10_NAME_CLIP_DISTANCE = 2,
-    D3D10_NAME_CULL_DISTANCE = 3,
-    D3D10_NAME_RENDER_TARGET_ARRAY_INDEX = 4,
-    D3D10_NAME_VIEWPORT_ARRAY_INDEX = 5,
-    D3D10_NAME_VERTEX_ID = 6,
-    D3D10_NAME_PRIMITIVE_ID = 7,
-    D3D10_NAME_INSTANCE_ID = 8,
-    D3D10_NAME_IS_FRONT_FACE = 9,
+  // Names meaningful to both HLSL and hardware
+  D3D10_NAME_POSITION = 1,
+  D3D10_NAME_CLIP_DISTANCE = 2,
+  D3D10_NAME_CULL_DISTANCE = 3,
+  D3D10_NAME_RENDER_TARGET_ARRAY_INDEX = 4,
+  D3D10_NAME_VIEWPORT_ARRAY_INDEX = 5,
+  D3D10_NAME_VERTEX_ID = 6,
+  D3D10_NAME_PRIMITIVE_ID = 7,
+  D3D10_NAME_INSTANCE_ID = 8,
+  D3D10_NAME_IS_FRONT_FACE = 9,
 
-    // Names meaningful to HLSL only
-    D3D10_NAME_TARGET = 64,
-    D3D10_NAME_DEPTH = 65,
+  // Names meaningful to HLSL only
+  D3D10_NAME_TARGET = 64,
+  D3D10_NAME_DEPTH = 65,
 } D3D10_NAME;
 
-typedef enum D3D10_RESOURCE_RETURN_TYPE
-{
-    D3D10_RETURN_TYPE_UNORM = 1,
-    D3D10_RETURN_TYPE_SNORM = 2,
-    D3D10_RETURN_TYPE_SINT = 3,
-    D3D10_RETURN_TYPE_UINT = 4,
-    D3D10_RETURN_TYPE_FLOAT = 5,
-    D3D10_RETURN_TYPE_MIXED = 6,
+typedef enum D3D10_RESOURCE_RETURN_TYPE {
+  D3D10_RETURN_TYPE_UNORM = 1,
+  D3D10_RETURN_TYPE_SNORM = 2,
+  D3D10_RETURN_TYPE_SINT = 3,
+  D3D10_RETURN_TYPE_UINT = 4,
+  D3D10_RETURN_TYPE_FLOAT = 5,
+  D3D10_RETURN_TYPE_MIXED = 6,
 } D3D10_RESOURCE_RETURN_TYPE;
 
-typedef enum D3D10_REGISTER_COMPONENT_TYPE
-{
-    D3D10_REGISTER_COMPONENT_UNKNOWN = 0,
-    D3D10_REGISTER_COMPONENT_UINT32 = 1,
-    D3D10_REGISTER_COMPONENT_SINT32 = 2,
-    D3D10_REGISTER_COMPONENT_FLOAT32 = 3
+typedef enum D3D10_REGISTER_COMPONENT_TYPE {
+  D3D10_REGISTER_COMPONENT_UNKNOWN = 0,
+  D3D10_REGISTER_COMPONENT_UINT32 = 1,
+  D3D10_REGISTER_COMPONENT_SINT32 = 2,
+  D3D10_REGISTER_COMPONENT_FLOAT32 = 3
 } D3D10_REGISTER_COMPONENT_TYPE;
-
 
 //----------------------------------------------------------------------------
 // D3D10_INCLUDE_TYPE:
 //----------------------------------------------------------------------------
 
-typedef enum _D3D10_INCLUDE_TYPE
-{
-    D3D10_INCLUDE_LOCAL,
-    D3D10_INCLUDE_SYSTEM,
+typedef enum _D3D10_INCLUDE_TYPE {
+  D3D10_INCLUDE_LOCAL,
+  D3D10_INCLUDE_SYSTEM,
 
-    // force 32-bit size enum
-    D3D10_INCLUDE_FORCE_DWORD = 0x7fffffff
+  // force 32-bit size enum
+  D3D10_INCLUDE_FORCE_DWORD = 0x7fffffff
 
-} D3D10_INCLUDE_TYPE, *LPD3D10_INCLUDE_TYPE;
-
+} D3D10_INCLUDE_TYPE,
+    *LPD3D10_INCLUDE_TYPE;
 
 //----------------------------------------------------------------------------
 // ID3D10Include:
@@ -302,12 +291,12 @@ typedef interface ID3D10Include *LPD3D10INCLUDE;
 #undef INTERFACE
 #define INTERFACE ID3D10Include
 
-DECLARE_INTERFACE(ID3D10Include)
-{
-    STDMETHOD(Open)(THIS_ D3D10_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData, LPCVOID *ppData, UINT *pBytes) PURE;
-    STDMETHOD(Close)(THIS_ LPCVOID pData) PURE;
+DECLARE_INTERFACE(ID3D10Include) {
+  STDMETHOD(Open)
+  (THIS_ D3D10_INCLUDE_TYPE IncludeType, LPCSTR pFileName, LPCVOID pParentData,
+   LPCVOID * ppData, UINT * pBytes) PURE;
+  STDMETHOD(Close)(THIS_ LPCVOID pData) PURE;
 };
-
 
 //----------------------------------------------------------------------------
 // ID3D10ShaderReflection:
@@ -317,96 +306,102 @@ DECLARE_INTERFACE(ID3D10Include)
 // Structure definitions
 //
 
-typedef struct _D3D10_SHADER_DESC
-{
-    UINT                    Version;            // Shader version
-    LPCSTR                  Creator;            // Creator string
-    UINT                    Flags;              // Shader compilation/parse flags
-    
-    UINT                    ConstantBuffers;    // Number of constant buffers
-    UINT                    BoundResources;     // Number of bound resources
-    UINT                    InputParameters;    // Number of parameters in the input signature
-    UINT                    OutputParameters;   // Number of parameters in the output signature
+typedef struct _D3D10_SHADER_DESC {
+  UINT Version;   // Shader version
+  LPCSTR Creator; // Creator string
+  UINT Flags;     // Shader compilation/parse flags
 
-    UINT                    InstructionCount;            // Number of emitted instructions
-    UINT                    TempRegisterCount;           // Number of temporary registers used 
-    UINT                    TempArrayCount;              // Number of temporary arrays used
-    UINT                    DefCount;                    // Number of constant defines 
-    UINT                    DclCount;                    // Number of declarations (input + output)
-    UINT                    TextureNormalInstructions;   // Number of non-categorized texture instructions
-    UINT                    TextureLoadInstructions;     // Number of texture load instructions
-    UINT                    TextureCompInstructions;     // Number of texture comparison instructions
-    UINT                    TextureBiasInstructions;     // Number of texture bias instructions
-    UINT                    TextureGradientInstructions; // Number of texture gradient instructions
-    UINT                    FloatInstructionCount;       // Number of floating point arithmetic instructions used
-    UINT                    IntInstructionCount;         // Number of signed integer arithmetic instructions used
-    UINT                    UintInstructionCount;        // Number of unsigned integer arithmetic instructions used
-    UINT                    StaticFlowControlCount;      // Number of static flow control instructions used
-    UINT                    DynamicFlowControlCount;     // Number of dynamic flow control instructions used
-    UINT                    MacroInstructionCount;       // Number of macro instructions used
-    UINT                    ArrayInstructionCount;       // Number of array instructions used
-    UINT                    CutInstructionCount;         // Number of cut instructions used
-    UINT                    EmitInstructionCount;        // Number of emit instructions used
+  UINT ConstantBuffers;  // Number of constant buffers
+  UINT BoundResources;   // Number of bound resources
+  UINT InputParameters;  // Number of parameters in the input signature
+  UINT OutputParameters; // Number of parameters in the output signature
+
+  UINT InstructionCount;            // Number of emitted instructions
+  UINT TempRegisterCount;           // Number of temporary registers used
+  UINT TempArrayCount;              // Number of temporary arrays used
+  UINT DefCount;                    // Number of constant defines
+  UINT DclCount;                    // Number of declarations (input + output)
+  UINT TextureNormalInstructions;   // Number of non-categorized texture
+                                    // instructions
+  UINT TextureLoadInstructions;     // Number of texture load instructions
+  UINT TextureCompInstructions;     // Number of texture comparison instructions
+  UINT TextureBiasInstructions;     // Number of texture bias instructions
+  UINT TextureGradientInstructions; // Number of texture gradient instructions
+  UINT FloatInstructionCount;       // Number of floating point arithmetic
+                                    // instructions used
+  UINT IntInstructionCount;  // Number of signed integer arithmetic instructions
+                             // used
+  UINT UintInstructionCount; // Number of unsigned integer arithmetic
+                             // instructions used
+  UINT
+      StaticFlowControlCount; // Number of static flow control instructions used
+  UINT DynamicFlowControlCount; // Number of dynamic flow control instructions
+                                // used
+  UINT MacroInstructionCount;   // Number of macro instructions used
+  UINT ArrayInstructionCount;   // Number of array instructions used
+  UINT CutInstructionCount;     // Number of cut instructions used
+  UINT EmitInstructionCount;    // Number of emit instructions used
 } D3D10_SHADER_DESC;
 
-typedef struct _D3D10_SHADER_BUFFER_DESC
-{
-    LPCSTR                  Name;           // Name of the constant buffer
-    D3D10_CBUFFER_TYPE      Type;           // Indicates that this is a CBuffer or TBuffer
-    UINT                    Variables;      // Number of member variables
-    UINT                    Size;           // Size of CB (in bytes)
-    UINT                    uFlags;         // Buffer description flags
+typedef struct _D3D10_SHADER_BUFFER_DESC {
+  LPCSTR Name;             // Name of the constant buffer
+  D3D10_CBUFFER_TYPE Type; // Indicates that this is a CBuffer or TBuffer
+  UINT Variables;          // Number of member variables
+  UINT Size;               // Size of CB (in bytes)
+  UINT uFlags;             // Buffer description flags
 } D3D10_SHADER_BUFFER_DESC;
 
-typedef struct _D3D10_SHADER_VARIABLE_DESC
-{
-    LPCSTR                  Name;           // Name of the variable
-    UINT                    StartOffset;    // Offset in constant buffer's backing store
-    UINT                    Size;           // Size of variable (in bytes)
-    UINT                    uFlags;         // Variable flags
-    LPVOID                  DefaultValue;   // Raw pointer to default value
+typedef struct _D3D10_SHADER_VARIABLE_DESC {
+  LPCSTR Name;         // Name of the variable
+  UINT StartOffset;    // Offset in constant buffer's backing store
+  UINT Size;           // Size of variable (in bytes)
+  UINT uFlags;         // Variable flags
+  LPVOID DefaultValue; // Raw pointer to default value
 } D3D10_SHADER_VARIABLE_DESC;
 
-typedef struct _D3D10_SHADER_TYPE_DESC
-{
-    D3D10_SHADER_VARIABLE_CLASS Class;          // Variable class (e.g. object, matrix, etc.)
-    D3D10_SHADER_VARIABLE_TYPE  Type;           // Variable type (e.g. float, sampler, etc.)
-    UINT                        Rows;           // Number of rows (for matrices, 1 for other numeric, 0 if not applicable)
-    UINT                        Columns;        // Number of columns (for vectors & matrices, 1 for other numeric, 0 if not applicable)
-    UINT                        Elements;       // Number of elements (0 if not an array)
-    UINT                        Members;        // Number of members (0 if not a structure)
-    UINT                        Offset;         // Offset from the start of structure (0 if not a structure member) 
+typedef struct _D3D10_SHADER_TYPE_DESC {
+  D3D10_SHADER_VARIABLE_CLASS
+  Class;                           // Variable class (e.g. object, matrix, etc.)
+  D3D10_SHADER_VARIABLE_TYPE Type; // Variable type (e.g. float, sampler, etc.)
+  UINT Rows;     // Number of rows (for matrices, 1 for other numeric, 0 if not
+                 // applicable)
+  UINT Columns;  // Number of columns (for vectors & matrices, 1 for other
+                 // numeric, 0 if not applicable)
+  UINT Elements; // Number of elements (0 if not an array)
+  UINT Members;  // Number of members (0 if not a structure)
+  UINT Offset;   // Offset from the start of structure (0 if not a structure
+                 // member)
 } D3D10_SHADER_TYPE_DESC;
 
-typedef struct _D3D10_SHADER_INPUT_BIND_DESC
-{
-    LPCSTR                      Name;           // Name of the resource
-    D3D10_SHADER_INPUT_TYPE     Type;           // Type of resource (e.g. texture, cbuffer, etc.)
-    UINT                        BindPoint;      // Starting bind point
-    UINT                        BindCount;      // Number of contiguous bind points (for arrays)
-    
-    UINT                        uFlags;         // Input binding flags
-    D3D10_RESOURCE_RETURN_TYPE  ReturnType;     // Return type (if texture)
-    D3D10_SRV_DIMENSION         Dimension;      // Dimension (if texture)
-    UINT                        NumSamples;     // Number of samples (0 if not MS texture)
+typedef struct _D3D10_SHADER_INPUT_BIND_DESC {
+  LPCSTR Name; // Name of the resource
+  D3D10_SHADER_INPUT_TYPE
+  Type;           // Type of resource (e.g. texture, cbuffer, etc.)
+  UINT BindPoint; // Starting bind point
+  UINT BindCount; // Number of contiguous bind points (for arrays)
+
+  UINT uFlags;                           // Input binding flags
+  D3D10_RESOURCE_RETURN_TYPE ReturnType; // Return type (if texture)
+  D3D10_SRV_DIMENSION Dimension;         // Dimension (if texture)
+  UINT NumSamples; // Number of samples (0 if not MS texture)
 } D3D10_SHADER_INPUT_BIND_DESC;
 
-typedef struct _D3D10_SIGNATURE_PARAMETER_DESC
-{
-    LPCSTR                      SemanticName;   // Name of the semantic
-    UINT                        SemanticIndex;  // Index of the semantic
-    UINT                        Register;       // Number of member variables
-    D3D10_NAME                  SystemValueType;// A predefined system value, or D3D10_NAME_UNDEFINED if not applicable
-    D3D10_REGISTER_COMPONENT_TYPE ComponentType;// Scalar type (e.g. uint, float, etc.)
-    BYTE                        Mask;           // Mask to indicate which components of the register
-                                                // are used (combination of D3D10_COMPONENT_MASK values)
-    BYTE                        ReadWriteMask;  // Mask to indicate whether a given component is 
-                                                // never written (if this is an output signature) or
-                                                // always read (if this is an input signature).
-                                                // (combination of D3D10_COMPONENT_MASK values)
-    
-} D3D10_SIGNATURE_PARAMETER_DESC;
+typedef struct _D3D10_SIGNATURE_PARAMETER_DESC {
+  LPCSTR SemanticName;        // Name of the semantic
+  UINT SemanticIndex;         // Index of the semantic
+  UINT Register;              // Number of member variables
+  D3D10_NAME SystemValueType; // A predefined system value, or
+                              // D3D10_NAME_UNDEFINED if not applicable
+  D3D10_REGISTER_COMPONENT_TYPE
+  ComponentType;      // Scalar type (e.g. uint, float, etc.)
+  BYTE Mask;          // Mask to indicate which components of the register
+                      // are used (combination of D3D10_COMPONENT_MASK values)
+  BYTE ReadWriteMask; // Mask to indicate whether a given component is
+                      // never written (if this is an output signature) or
+                      // always read (if this is an input signature).
+                      // (combination of D3D10_COMPONENT_MASK values)
 
+} D3D10_SIGNATURE_PARAMETER_DESC;
 
 //
 // Interface definitions
@@ -416,82 +411,89 @@ typedef interface ID3D10ShaderReflectionType ID3D10ShaderReflectionType;
 typedef interface ID3D10ShaderReflectionType *LPD3D10SHADERREFLECTIONTYPE;
 
 // {C530AD7D-9B16-4395-A979-BA2ECFF83ADD}
-DEFINE_GUID(IID_ID3D10ShaderReflectionType, 
-0xc530ad7d, 0x9b16, 0x4395, 0xa9, 0x79, 0xba, 0x2e, 0xcf, 0xf8, 0x3a, 0xdd);
+DEFINE_GUID(IID_ID3D10ShaderReflectionType, 0xc530ad7d, 0x9b16, 0x4395, 0xa9,
+            0x79, 0xba, 0x2e, 0xcf, 0xf8, 0x3a, 0xdd);
 
 #undef INTERFACE
 #define INTERFACE ID3D10ShaderReflectionType
 
-DECLARE_INTERFACE(ID3D10ShaderReflectionType)
-{
-    STDMETHOD(GetDesc)(THIS_ D3D10_SHADER_TYPE_DESC *pDesc) PURE;
-    
-    STDMETHOD_(ID3D10ShaderReflectionType*, GetMemberTypeByIndex)(THIS_ UINT Index) PURE;
-    STDMETHOD_(ID3D10ShaderReflectionType*, GetMemberTypeByName)(THIS_ LPCSTR Name) PURE;
-    STDMETHOD_(LPCSTR, GetMemberTypeName)(THIS_ UINT Index) PURE;
+DECLARE_INTERFACE(ID3D10ShaderReflectionType) {
+  STDMETHOD(GetDesc)(THIS_ D3D10_SHADER_TYPE_DESC * pDesc) PURE;
+
+  STDMETHOD_(ID3D10ShaderReflectionType *, GetMemberTypeByIndex)
+  (THIS_ UINT Index) PURE;
+  STDMETHOD_(ID3D10ShaderReflectionType *, GetMemberTypeByName)
+  (THIS_ LPCSTR Name) PURE;
+  STDMETHOD_(LPCSTR, GetMemberTypeName)(THIS_ UINT Index) PURE;
 };
 
 typedef interface ID3D10ShaderReflectionVariable ID3D10ShaderReflectionVariable;
-typedef interface ID3D10ShaderReflectionVariable *LPD3D10SHADERREFLECTIONVARIABLE;
+typedef interface ID3D10ShaderReflectionVariable
+    *LPD3D10SHADERREFLECTIONVARIABLE;
 
 // {1BF63C95-2650-405d-99C1-3636BD1DA0A1}
-DEFINE_GUID(IID_ID3D10ShaderReflectionVariable, 
-0x1bf63c95, 0x2650, 0x405d, 0x99, 0xc1, 0x36, 0x36, 0xbd, 0x1d, 0xa0, 0xa1);
+DEFINE_GUID(IID_ID3D10ShaderReflectionVariable, 0x1bf63c95, 0x2650, 0x405d,
+            0x99, 0xc1, 0x36, 0x36, 0xbd, 0x1d, 0xa0, 0xa1);
 
 #undef INTERFACE
 #define INTERFACE ID3D10ShaderReflectionVariable
 
-DECLARE_INTERFACE(ID3D10ShaderReflectionVariable)
-{
-    STDMETHOD(GetDesc)(THIS_ D3D10_SHADER_VARIABLE_DESC *pDesc) PURE;
-    
-    STDMETHOD_(ID3D10ShaderReflectionType*, GetType)(THIS) PURE;
+DECLARE_INTERFACE(ID3D10ShaderReflectionVariable) {
+  STDMETHOD(GetDesc)(THIS_ D3D10_SHADER_VARIABLE_DESC * pDesc) PURE;
+
+  STDMETHOD_(ID3D10ShaderReflectionType *, GetType)(THIS) PURE;
 };
 
-typedef interface ID3D10ShaderReflectionConstantBuffer ID3D10ShaderReflectionConstantBuffer;
-typedef interface ID3D10ShaderReflectionConstantBuffer *LPD3D10SHADERREFLECTIONCONSTANTBUFFER;
+typedef interface ID3D10ShaderReflectionConstantBuffer
+    ID3D10ShaderReflectionConstantBuffer;
+typedef interface ID3D10ShaderReflectionConstantBuffer
+    *LPD3D10SHADERREFLECTIONCONSTANTBUFFER;
 
 // {66C66A94-DDDD-4b62-A66A-F0DA33C2B4D0}
-DEFINE_GUID(IID_ID3D10ShaderReflectionConstantBuffer, 
-0x66c66a94, 0xdddd, 0x4b62, 0xa6, 0x6a, 0xf0, 0xda, 0x33, 0xc2, 0xb4, 0xd0);
+DEFINE_GUID(IID_ID3D10ShaderReflectionConstantBuffer, 0x66c66a94, 0xdddd,
+            0x4b62, 0xa6, 0x6a, 0xf0, 0xda, 0x33, 0xc2, 0xb4, 0xd0);
 
 #undef INTERFACE
 #define INTERFACE ID3D10ShaderReflectionConstantBuffer
 
-DECLARE_INTERFACE(ID3D10ShaderReflectionConstantBuffer)
-{
-    STDMETHOD(GetDesc)(THIS_ D3D10_SHADER_BUFFER_DESC *pDesc) PURE;
-    
-    STDMETHOD_(ID3D10ShaderReflectionVariable*, GetVariableByIndex)(THIS_ UINT Index) PURE;
-    STDMETHOD_(ID3D10ShaderReflectionVariable*, GetVariableByName)(THIS_ LPCSTR Name) PURE;
+DECLARE_INTERFACE(ID3D10ShaderReflectionConstantBuffer) {
+  STDMETHOD(GetDesc)(THIS_ D3D10_SHADER_BUFFER_DESC * pDesc) PURE;
+
+  STDMETHOD_(ID3D10ShaderReflectionVariable *, GetVariableByIndex)
+  (THIS_ UINT Index) PURE;
+  STDMETHOD_(ID3D10ShaderReflectionVariable *, GetVariableByName)
+  (THIS_ LPCSTR Name) PURE;
 };
 
 typedef interface ID3D10ShaderReflection ID3D10ShaderReflection;
 typedef interface ID3D10ShaderReflection *LPD3D10SHADERREFLECTION;
 
 // {D40E20B6-F8F7-42ad-AB20-4BAF8F15DFAA}
-DEFINE_GUID(IID_ID3D10ShaderReflection, 
-0xd40e20b6, 0xf8f7, 0x42ad, 0xab, 0x20, 0x4b, 0xaf, 0x8f, 0x15, 0xdf, 0xaa);
+DEFINE_GUID(IID_ID3D10ShaderReflection, 0xd40e20b6, 0xf8f7, 0x42ad, 0xab, 0x20,
+            0x4b, 0xaf, 0x8f, 0x15, 0xdf, 0xaa);
 
 #undef INTERFACE
 #define INTERFACE ID3D10ShaderReflection
 
-DECLARE_INTERFACE_(ID3D10ShaderReflection, IUnknown)
-{
-    STDMETHOD(QueryInterface)(THIS_ REFIID iid, LPVOID *ppv) PURE;
-    STDMETHOD_(ULONG, AddRef)(THIS) PURE;
-    STDMETHOD_(ULONG, Release)(THIS) PURE;
+DECLARE_INTERFACE_(ID3D10ShaderReflection, IUnknown) {
+  STDMETHOD(QueryInterface)(THIS_ REFIID iid, LPVOID * ppv) PURE;
+  STDMETHOD_(ULONG, AddRef)(THIS) PURE;
+  STDMETHOD_(ULONG, Release)(THIS) PURE;
 
-    STDMETHOD(GetDesc)(THIS_ D3D10_SHADER_DESC *pDesc) PURE;
-    
-    STDMETHOD_(ID3D10ShaderReflectionConstantBuffer*, GetConstantBufferByIndex)(THIS_ UINT Index) PURE;
-    STDMETHOD_(ID3D10ShaderReflectionConstantBuffer*, GetConstantBufferByName)(THIS_ LPCSTR Name) PURE;
-    
-    STDMETHOD(GetResourceBindingDesc)(THIS_ UINT ResourceIndex, D3D10_SHADER_INPUT_BIND_DESC *pDesc) PURE;
-    
-    STDMETHOD(GetInputParameterDesc)(THIS_ UINT ParameterIndex, D3D10_SIGNATURE_PARAMETER_DESC *pDesc) PURE;
-    STDMETHOD(GetOutputParameterDesc)(THIS_ UINT ParameterIndex, D3D10_SIGNATURE_PARAMETER_DESC *pDesc) PURE;
-    
+  STDMETHOD(GetDesc)(THIS_ D3D10_SHADER_DESC * pDesc) PURE;
+
+  STDMETHOD_(ID3D10ShaderReflectionConstantBuffer *, GetConstantBufferByIndex)
+  (THIS_ UINT Index) PURE;
+  STDMETHOD_(ID3D10ShaderReflectionConstantBuffer *, GetConstantBufferByName)
+  (THIS_ LPCSTR Name) PURE;
+
+  STDMETHOD(GetResourceBindingDesc)
+  (THIS_ UINT ResourceIndex, D3D10_SHADER_INPUT_BIND_DESC * pDesc) PURE;
+
+  STDMETHOD(GetInputParameterDesc)
+  (THIS_ UINT ParameterIndex, D3D10_SIGNATURE_PARAMETER_DESC * pDesc) PURE;
+  STDMETHOD(GetOutputParameterDesc)
+  (THIS_ UINT ParameterIndex, D3D10_SIGNATURE_PARAMETER_DESC * pDesc) PURE;
 };
 
 //////////////////////////////////////////////////////////////////////////////
@@ -501,7 +503,6 @@ DECLARE_INTERFACE_(ID3D10ShaderReflection, IUnknown)
 #ifdef __cplusplus
 extern "C" {
 #endif //__cplusplus
-
 
 //----------------------------------------------------------------------------
 // D3D10CompileShader:
@@ -542,8 +543,13 @@ extern "C" {
 //      these are the same messages you will see in your debug output.
 //----------------------------------------------------------------------------
 
-HRESULT WINAPI D3D10CompileShader(LPCSTR pSrcData, SIZE_T SrcDataLen, LPCSTR pFileName, CONST D3D10_SHADER_MACRO* pDefines, LPD3D10INCLUDE pInclude, 
-    LPCSTR pFunctionName, LPCSTR pProfile, UINT Flags, ID3D10Blob** ppShader, ID3D10Blob** ppErrorMsgs);
+HRESULT WINAPI D3D10CompileShader(LPCSTR pSrcData, SIZE_T SrcDataLen,
+                                  LPCSTR pFileName,
+                                  CONST D3D10_SHADER_MACRO *pDefines,
+                                  LPD3D10INCLUDE pInclude, LPCSTR pFunctionName,
+                                  LPCSTR pProfile, UINT Flags,
+                                  ID3D10Blob **ppShader,
+                                  ID3D10Blob **ppErrorMsgs);
 
 //----------------------------------------------------------------------------
 // D3D10DisassembleShader:
@@ -563,8 +569,9 @@ HRESULT WINAPI D3D10CompileShader(LPCSTR pSrcData, SIZE_T SrcDataLen, LPCSTR pFi
 //      Returns a buffer containing the disassembled shader.
 //----------------------------------------------------------------------------
 
-HRESULT WINAPI D3D10DisassembleShader(CONST UINT *pShader, SIZE_T Size, BOOL EnableColorCode, LPCSTR pComments, ID3D10Blob** ppDisassembly);
-
+HRESULT WINAPI D3D10DisassembleShader(CONST UINT *pShader, SIZE_T Size,
+                                      BOOL EnableColorCode, LPCSTR pComments,
+                                      ID3D10Blob **ppDisassembly);
 
 //----------------------------------------------------------------------------
 // D3D10GetPixelShaderProfile/D3D10GetVertexShaderProfile/D3D10GetGeometryShaderProfile:
@@ -595,12 +602,14 @@ LPCSTR WINAPI D3D10GetGeometryShaderProfile(ID3D10Device *pDevice);
 //  BytecodeLength
 //      Length of the shader bytecode buffer
 //  ppReflector
-//      [out] Returns a ID3D10ShaderReflection object that can be used to 
+//      [out] Returns a ID3D10ShaderReflection object that can be used to
 //      retrieve shader resource and constant buffer information
 //
 //----------------------------------------------------------------------------
 
-HRESULT WINAPI D3D10ReflectShader(CONST void *pShaderBytecode, SIZE_T BytecodeLength, ID3D10ShaderReflection **ppReflector);
+HRESULT WINAPI D3D10ReflectShader(CONST void *pShaderBytecode,
+                                  SIZE_T BytecodeLength,
+                                  ID3D10ShaderReflection **ppReflector);
 
 //----------------------------------------------------------------------------
 // D3D10PreprocessShader
@@ -630,8 +639,12 @@ HRESULT WINAPI D3D10ReflectShader(CONST void *pShaderBytecode, SIZE_T BytecodeLe
 //      these are the same messages you will see in your debug output.
 //----------------------------------------------------------------------------
 
-HRESULT WINAPI D3D10PreprocessShader(LPCSTR pSrcData, SIZE_T SrcDataSize, LPCSTR pFileName, CONST D3D10_SHADER_MACRO* pDefines, 
-    LPD3D10INCLUDE pInclude, ID3D10Blob** ppShaderText, ID3D10Blob** ppErrorMsgs);
+HRESULT WINAPI D3D10PreprocessShader(LPCSTR pSrcData, SIZE_T SrcDataSize,
+                                     LPCSTR pFileName,
+                                     CONST D3D10_SHADER_MACRO *pDefines,
+                                     LPD3D10INCLUDE pInclude,
+                                     ID3D10Blob **ppShaderText,
+                                     ID3D10Blob **ppErrorMsgs);
 
 //////////////////////////////////////////////////////////////////////////
 //
@@ -639,14 +652,14 @@ HRESULT WINAPI D3D10PreprocessShader(LPCSTR pSrcData, SIZE_T SrcDataSize, LPCSTR
 // ---------------------------------
 //
 // void *pShaderBytecode - a buffer containing the result of an HLSL
-//  compilation.  Typically this opaque buffer contains several 
+//  compilation.  Typically this opaque buffer contains several
 //  discrete sections including the shader executable code, the input
-//  signature, and the output signature.  This can typically be retrieved 
+//  signature, and the output signature.  This can typically be retrieved
 //  by calling ID3D10Blob::GetBufferPointer() on the returned blob
 //  from HLSL's compile APIs.
 //
-// UINT BytecodeLength - the length of pShaderBytecode.  This can 
-//  typically be retrieved by calling ID3D10Blob::GetBufferSize() 
+// UINT BytecodeLength - the length of pShaderBytecode.  This can
+//  typically be retrieved by calling ID3D10Blob::GetBufferSize()
 //  on the returned blob from HLSL's compile APIs.
 //
 // ID3D10Blob **ppSignatureBlob(s) - a newly created buffer that
@@ -662,13 +675,18 @@ HRESULT WINAPI D3D10PreprocessShader(LPCSTR pSrcData, SIZE_T SrcDataSize, LPCSTR
 //
 //////////////////////////////////////////////////////////////////////////
 
-HRESULT WINAPI D3D10GetInputSignatureBlob(CONST void *pShaderBytecode, SIZE_T BytecodeLength, ID3D10Blob **ppSignatureBlob);
-HRESULT WINAPI D3D10GetOutputSignatureBlob(CONST void *pShaderBytecode, SIZE_T BytecodeLength, ID3D10Blob **ppSignatureBlob);
-HRESULT WINAPI D3D10GetInputAndOutputSignatureBlob(CONST void *pShaderBytecode, SIZE_T BytecodeLength, ID3D10Blob **ppSignatureBlob);
+HRESULT WINAPI D3D10GetInputSignatureBlob(CONST void *pShaderBytecode,
+                                          SIZE_T BytecodeLength,
+                                          ID3D10Blob **ppSignatureBlob);
+HRESULT WINAPI D3D10GetOutputSignatureBlob(CONST void *pShaderBytecode,
+                                           SIZE_T BytecodeLength,
+                                           ID3D10Blob **ppSignatureBlob);
+HRESULT WINAPI D3D10GetInputAndOutputSignatureBlob(
+    CONST void *pShaderBytecode, SIZE_T BytecodeLength,
+    ID3D10Blob **ppSignatureBlob);
 
 #ifdef __cplusplus
 }
 #endif //__cplusplus
-    
-#endif //__D3D10SHADER_H__
 
+#endif //__D3D10SHADER_H__

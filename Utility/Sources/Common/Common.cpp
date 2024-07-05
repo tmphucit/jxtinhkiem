@@ -1,11 +1,11 @@
 // Common.cpp : Defines the initialization routines for the DLL.
 //
 
-#include "stdafx.h"
 #include "Common.h"
-//#include "winsock2.h"
-#include "iItem.h"
+#include "stdafx.h"
+// #include "winsock2.h"
 #include "cItemCache.h"
+#include "iItem.h"
 
 #include "afxsock.h"
 
@@ -33,7 +33,7 @@ static char THIS_FILE[] = __FILE__;
 //
 //		It is very important that this macro appear in each
 //		function, prior to any calls into MFC.  This means that
-//		it must appear as the first statement within the 
+//		it must appear as the first statement within the
 //		function, even before any object variable declarations
 //		as their constructors may generate calls into the MFC
 //		DLL.
@@ -46,50 +46,39 @@ static char THIS_FILE[] = __FILE__;
 // CCommonApp
 
 BEGIN_MESSAGE_MAP(CCommonApp, CWinApp)
-	//{{AFX_MSG_MAP(CCommonApp)
-		// NOTE - the ClassWizard will add and remove mapping macros here.
-		//    DO NOT EDIT what you see in these blocks of generated code!
-	//}}AFX_MSG_MAP
+//{{AFX_MSG_MAP(CCommonApp)
+// NOTE - the ClassWizard will add and remove mapping macros here.
+//    DO NOT EDIT what you see in these blocks of generated code!
+//}}AFX_MSG_MAP
 END_MESSAGE_MAP()
 
 /////////////////////////////////////////////////////////////////////////////
 // CCommonApp construction
 
-CCommonApp::CCommonApp()
-{
-	AfxSocketInit();
-	m_pCache = NULL;
-	// TODO: add construction code here,
-	// Place all significant initialization in InitInstance
+CCommonApp::CCommonApp() {
+  AfxSocketInit();
+  m_pCache = NULL;
+  // TODO: add construction code here,
+  // Place all significant initialization in InitInstance
 }
 
-CCommonApp::~CCommonApp()
-{
-	delete m_pCache;
-}
+CCommonApp::~CCommonApp() { delete m_pCache; }
 
 /////////////////////////////////////////////////////////////////////////////
 // The one and only CCommonApp object
 
 CCommonApp theApp;
-CCommonApp* GetTheApp()
-{
-	return& theApp;
-}
-
+CCommonApp *GetTheApp() { return &theApp; }
 
 ///////////////////////////////////////////////////////////////////////////////////////
-//name to id
+// name to id
 ///////////////////////////////////////////////////////////////////////////////////////
-_declspec(dllexport) int NameToID(CString aStr[], const CString& s)
-{
-	int i = 0;
-	while (!aStr[i].IsEmpty())
-	{
-		if (aStr[i].CollateNoCase(s) == 0)
-			return i;
-		i++;
-	}
-	return -1;
+_declspec(dllexport) int NameToID(CString aStr[], const CString &s) {
+  int i = 0;
+  while (!aStr[i].IsEmpty()) {
+    if (aStr[i].CollateNoCase(s) == 0)
+      return i;
+    i++;
+  }
+  return -1;
 }
-

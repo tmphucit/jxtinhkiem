@@ -14,8 +14,5 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 #ifdef def_MYSQL_DB
-S3P_mySQL_Result::~S3P_mySQL_Result()
-{
-
-}
+S3P_mySQL_Result::~S3P_mySQL_Result() {}
 #endif

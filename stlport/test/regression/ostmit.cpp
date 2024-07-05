@@ -5,19 +5,18 @@
 #include <iostream>
 #include <iterator>
 
-#ifdef MAIN 
+#ifdef MAIN
 #define ostmit_test main
 #endif
 
-#if !defined (STLPORT) || defined(__STL_USE_NAMESPACES)
+#if !defined(STLPORT) || defined(__STL_USE_NAMESPACES)
 using namespace std;
 #endif
-int ostmit_test(int, char**)
-{
-  cout<<"Results of ostmit_test:"<<endl;
-int array [] = { 1, 5, 2, 4 };
+int ostmit_test(int, char **) {
+  cout << "Results of ostmit_test:" << endl;
+  int array[] = {1, 5, 2, 4};
 
-  char* string = "hello";
+  char *string = "hello";
   ostream_iterator<char> it1(cout);
   copy(string, string + 5, it1);
   cout << endl;

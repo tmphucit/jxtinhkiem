@@ -2,7 +2,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#if !defined(AFX_CCMDSAVEDOCUMENT_H__8551460D_76FF_4C6A_B25E_526F233E45B3__INCLUDED_)
+#if !defined(                                                                  \
+    AFX_CCMDSAVEDOCUMENT_H__8551460D_76FF_4C6A_B25E_526F233E45B3__INCLUDED_)
 #define AFX_CCMDSAVEDOCUMENT_H__8551460D_76FF_4C6A_B25E_526F233E45B3__INCLUDED_
 
 #if _MSC_VER > 1000
@@ -11,15 +12,14 @@
 
 #include "cCommand.h"
 
-class cCmdSaveDocument : public cCommand  
-{
+class cCmdSaveDocument : public cCommand {
 public:
-	cCmdSaveDocument(iCommandMachine* p);
-	virtual ~cCmdSaveDocument();
+  cCmdSaveDocument(iCommandMachine *p);
+  virtual ~cCmdSaveDocument();
 
-	stCommand_Document& GetParam();
+  stCommand_Document &GetParam();
 
-	eDoType Do() ;
+  eDoType Do();
 };
 
 #endif // !defined(AFX_CCMDSAVEDOCUMENT_H__8551460D_76FF_4C6A_B25E_526F233E45B3__INCLUDED_)

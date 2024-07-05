@@ -13,13 +13,13 @@
  */
 
 #ifndef _STLP_NUMERIC_H
-# define _STLP_NUMERIC_H
+#define _STLP_NUMERIC_H
 
 #ifndef __MWERKS__
-# error This file should be removed from installations not using the Metrowerks Standard Library
+#error This file should be removed from installations not using the Metrowerks Standard Library
 #else
-# include <numeric>
-//# include <algo.h>
+#include <numeric>
+// # include <algo.h>
 #endif
 
-# endif // _STLP_NUMERIC_H
+#endif // _STLP_NUMERIC_H

@@ -3,536 +3,432 @@
 #include "KSG_EncodeDecode.h"
 #include <time.h>
 
-#include "Utils.h"
 #include "Exception.h"
+#include "Utils.h"
 
 using OnlineGameLib::Win32::CIOBuffer;
 
-using OnlineGameLib::Win32::CException;
-using OnlineGameLib::Win32::Output;
 using OnlineGameLib::Win32::CCriticalSection;
+using OnlineGameLib::Win32::CException;
 using OnlineGameLib::Win32::CWin32Exception;
+using OnlineGameLib::Win32::Output;
 
 /*
  * Get client factory interface
  */
-STDAPI CreateInterface( REFIID	riid, void	**ppv )
-{
-	HRESULT hr = E_NOINTERFACE;
+STDAPI CreateInterface(REFIID riid, void **ppv) {
+  HRESULT hr = E_NOINTERFACE;
 
-	if ( IID_IClientFactory == riid )
-	{
-		CClientFactory *pObject = new CClientFactory;
+  if (IID_IClientFactory == riid) {
+    CClientFactory *pObject = new CClientFactory;
 
-		*ppv = reinterpret_cast< void * > ( dynamic_cast< IClientFactory * >( pObject ) );
+    *ppv = reinterpret_cast<void *>(dynamic_cast<IClientFactory *>(pObject));
 
-		if ( *ppv )
-		{
-			reinterpret_cast< IUnknown * >( *ppv )->AddRef();
+    if (*ppv) {
+      reinterpret_cast<IUnknown *>(*ppv)->AddRef();
 
-			hr = S_OK;
-		}
-	}
+      hr = S_OK;
+    }
+  }
 
-	if ( FAILED( hr ) )
-	{
-		*ppv = NULL;
-	}
+  if (FAILED(hr)) {
+    *ppv = NULL;
+  }
 
-	return ( HRESULT )( hr );
+  return (HRESULT)(hr);
 }
 
 static unsigned gs_holdrand = time(NULL);
 
-static inline unsigned _Rand()
-{
-    gs_holdrand = gs_holdrand * 214013L + 2531011L;
-     
-    return gs_holdrand;
+static inline unsigned _Rand() {
+  gs_holdrand = gs_holdrand * 214013L + 2531011L;
+
+  return gs_holdrand;
 }
 
-static inline void RandMemSet(int nSize, unsigned char *pbyBuffer)
-{
-    _ASSERT(nSize);
-    _ASSERT(pbyBuffer);
+static inline void RandMemSet(int nSize, unsigned char *pbyBuffer) {
+  _ASSERT(nSize);
+  _ASSERT(pbyBuffer);
 
-    while (nSize--)
-    {
-        *pbyBuffer++ = (unsigned char)_Rand();
-    }
+  while (nSize--) {
+    *pbyBuffer++ = (unsigned char)_Rand();
+  }
 }
 
 /*
  * class CGameClient
  */
-CGameClient::CGameClient( size_t maxFreeBuffers, 
-		size_t maxFreeBuffers_Cache,
-		size_t bufferSize_Cache /*= 8192*/,
-		size_t bufferSize /*= 1024*/ )
-		: OnlineGameLib::Win32::CSocketClient( maxFreeBuffers, bufferSize )
-		, m_theCacheAllocator( bufferSize_Cache, maxFreeBuffers_Cache )
-		, m_lRefCount( 0 )
-		, m_pfnCallbackClientEvent( NULL )
-{
-	m_pReadBuffer = m_theCacheAllocator.Allocate();
-	m_pRecvBuffer = m_theCacheAllocator.Allocate();
+CGameClient::CGameClient(size_t maxFreeBuffers, size_t maxFreeBuffers_Cache,
+                         size_t bufferSize_Cache /*= 8192*/,
+                         size_t bufferSize /*= 1024*/)
+    : OnlineGameLib::Win32::CSocketClient(maxFreeBuffers, bufferSize),
+      m_theCacheAllocator(bufferSize_Cache, maxFreeBuffers_Cache),
+      m_lRefCount(0), m_pfnCallbackClientEvent(NULL) {
+  m_pReadBuffer = m_theCacheAllocator.Allocate();
+  m_pRecvBuffer = m_theCacheAllocator.Allocate();
 }
 
-CGameClient::~CGameClient()
-{
-	m_pReadBuffer->Release();
-	m_pRecvBuffer->Release();
+CGameClient::~CGameClient() {
+  m_pReadBuffer->Release();
+  m_pRecvBuffer->Release();
 }
 
-STDMETHODIMP CGameClient::Startup()
-{
-	HRESULT hr = E_FAIL;
+STDMETHODIMP CGameClient::Startup() {
+  HRESULT hr = E_FAIL;
 
-	try
-	{
-		Start();
+  try {
+    Start();
 
-		hr = S_OK;
-	}
-	catch( const CException &e )
-	{
-		Output( _T("CGameClient::Startup Exception: ") + e.GetWhere() + _T(" - ") + e.GetMessage() );
-	}
-	catch(...)
-	{
-		Output( _T("CGameClient::Startup - Unexpected exception") );
-	}
-	
-	return hr;	
+    hr = S_OK;
+  } catch (const CException &e) {
+    Output(_T("CGameClient::Startup Exception: ") + e.GetWhere() + _T(" - ") +
+           e.GetMessage());
+  } catch (...) {
+    Output(_T("CGameClient::Startup - Unexpected exception"));
+  }
+
+  return hr;
 }
 
-STDMETHODIMP CGameClient::Cleanup()
-{
-	HRESULT hr = E_FAIL;
+STDMETHODIMP CGameClient::Cleanup() {
+  HRESULT hr = E_FAIL;
 
-	try
-	{
-		StopConnections();
-		
-		WaitForShutdownToComplete();
+  try {
+    StopConnections();
 
-		hr = S_OK;
-	}
-	catch( const CException &e )
-	{
-		Output( _T("CConnectManager::Cleanup Exception: ") + e.GetWhere() + _T(" - ") + e.GetMessage() );
-	}
-	catch(...)
-	{
-		Output( _T("CConnectManager::Cleanup Unexpected exception") );
-	}
+    WaitForShutdownToComplete();
 
-	return hr;
+    hr = S_OK;
+  } catch (const CException &e) {
+    Output(_T("CConnectManager::Cleanup Exception: ") + e.GetWhere() +
+           _T(" - ") + e.GetMessage());
+  } catch (...) {
+    Output(_T("CConnectManager::Cleanup Unexpected exception"));
+  }
+
+  return hr;
 }
 
-STDMETHODIMP CGameClient::ConnectTo(
-				const char * const &pAddressToConnectServer, 
-				unsigned short usPortToConnectServer )
-{
-	
-	HRESULT hr = E_FAIL;
+STDMETHODIMP CGameClient::ConnectTo(const char *const &pAddressToConnectServer,
+                                    unsigned short usPortToConnectServer) {
 
-	try
-	{
-		Connect( pAddressToConnectServer, usPortToConnectServer );
-		
-		if ( StartConnections() )
-		{
-			hr = S_OK;
-		}
-	}
-	catch( const CException &e )
-	{
-		Output( _T("Exception: ") + e.GetWhere() + _T(" - ") + e.GetMessage() );
-	}
-	catch(...)
-	{
-		Output( _T("Unexpected exception") );
-	}
-	
-	return hr;
+  HRESULT hr = E_FAIL;
+
+  try {
+    Connect(pAddressToConnectServer, usPortToConnectServer);
+
+    if (StartConnections()) {
+      hr = S_OK;
+    }
+  } catch (const CException &e) {
+    Output(_T("Exception: ") + e.GetWhere() + _T(" - ") + e.GetMessage());
+  } catch (...) {
+    Output(_T("Unexpected exception"));
+  }
+
+  return hr;
 }
 
-STDMETHODIMP CGameClient::RegisterMsgFilter( 
-				LPVOID lpParam, 
-				CALLBACK_CLIENT_EVENT pfnEventNotify )
-{
-	m_lpCallBackParam = lpParam;
-	m_pfnCallbackClientEvent = pfnEventNotify;
+STDMETHODIMP
+CGameClient::RegisterMsgFilter(LPVOID lpParam,
+                               CALLBACK_CLIENT_EVENT pfnEventNotify) {
+  m_lpCallBackParam = lpParam;
+  m_pfnCallbackClientEvent = pfnEventNotify;
 
-	return S_OK;
+  return S_OK;
 }
 
-STDMETHODIMP CGameClient::SendPackToServer(
-				const void * const pData,
-				const size_t &datalength )
-{
-	static const size_t s_len_protocol = sizeof( WORD );
-	
-	if ( !pData || 0 == datalength )
-	{
-		return E_FAIL;
-	}
+STDMETHODIMP CGameClient::SendPackToServer(const void *const pData,
+                                           const size_t &datalength) {
+  static const size_t s_len_protocol = sizeof(WORD);
 
-	CIOBuffer *pBuffer = Allocate();
+  if (!pData || 0 == datalength) {
+    return E_FAIL;
+  }
 
-	/*
-	 * Add package header
-	 */
-	const size_t headlength = s_len_protocol + datalength + 4;
-	pBuffer->AddData( reinterpret_cast< const char * >( &headlength ), s_len_protocol );	
+  CIOBuffer *pBuffer = Allocate();
 
-	unsigned uOldKey = m_uClientKey;
+  /*
+   * Add package header
+   */
+  const size_t headlength = s_len_protocol + datalength + 4;
+  pBuffer->AddData(reinterpret_cast<const char *>(&headlength), s_len_protocol);
 
+  unsigned uOldKey = m_uClientKey;
 
+  unsigned int uNewKey = _Rand();
+  pBuffer->AddData(reinterpret_cast<const char *>(&uNewKey), 4);
 
+  pBuffer->AddData(reinterpret_cast<const char *const>(pData), datalength);
 
-	unsigned int uNewKey = _Rand();
-	pBuffer->AddData( reinterpret_cast< const char * >( &uNewKey ), 4 );
+  _ASSERT(m_uKeyMode == 0);
+  KSG_EncodeBuf(datalength,
+                (unsigned char *)(pBuffer->GetBuffer() + s_len_protocol + 4),
+                &m_uClientKey);
 
+  Write(pBuffer);
 
+  pBuffer->Release();
 
+  m_uClientKey = uNewKey;
 
-
-
-
-	pBuffer->AddData( reinterpret_cast< const char* const >( pData ), datalength );
-
-	_ASSERT(m_uKeyMode == 0);
-	KSG_EncodeBuf(
-		datalength,
-		(unsigned char *)(pBuffer->GetBuffer() + s_len_protocol + 4),
-        &m_uClientKey
-	);
-
-	Write( pBuffer );
-
-	pBuffer->Release();
-
-
-
-	m_uClientKey = uNewKey;
-
-
-
-	return S_OK;
+  return S_OK;
 }
 
-STDMETHODIMP_( const void * ) CGameClient::GetPackFromServer( size_t &datalength )
-{
-	CCriticalSection::Owner locker( m_csReadAction );
+STDMETHODIMP_(const void *) CGameClient::GetPackFromServer(size_t &datalength) {
+  CCriticalSection::Owner locker(m_csReadAction);
 
-	m_pReadBuffer->Empty();
+  m_pReadBuffer->Empty();
 
-	m_pRecvBuffer = ProcessDataStream( m_pRecvBuffer );
+  m_pRecvBuffer = ProcessDataStream(m_pRecvBuffer);
 
-	const BYTE *pPackData = m_pReadBuffer->GetBuffer();
-	datalength = m_pReadBuffer->GetUsed();	
-	
-	return reinterpret_cast<const char*>( pPackData );
+  const BYTE *pPackData = m_pReadBuffer->GetBuffer();
+  datalength = m_pReadBuffer->GetUsed();
+
+  return reinterpret_cast<const char *>(pPackData);
 }
 
-STDMETHODIMP CGameClient::Shutdown()
-{
-	StopConnections();
+STDMETHODIMP CGameClient::Shutdown() {
+  StopConnections();
 
-	return S_OK;
+  return S_OK;
 }
 
-STDMETHODIMP CGameClient::QueryInterface( REFIID riid, void** ppv )
-{
-	/*
-	 * By definition all COM objects support the IUnknown interface
-	 */
-	if( riid == IID_IUnknown )
-	{
-		AddRef();
+STDMETHODIMP CGameClient::QueryInterface(REFIID riid, void **ppv) {
+  /*
+   * By definition all COM objects support the IUnknown interface
+   */
+  if (riid == IID_IUnknown) {
+    AddRef();
 
-		*ppv = dynamic_cast< IUnknown * >( this );
-	}
-	else if ( riid == IID_IESClient )
-	{
-		AddRef();
+    *ppv = dynamic_cast<IUnknown *>(this);
+  } else if (riid == IID_IESClient) {
+    AddRef();
 
-		*ppv = dynamic_cast< IClient * >( this );	
-	}
-	else
-	{
-		*ppv = NULL;
+    *ppv = dynamic_cast<IClient *>(this);
+  } else {
+    *ppv = NULL;
 
-		return E_NOINTERFACE;
-	}
+    return E_NOINTERFACE;
+  }
 
-	return S_OK;
-}
-    
-STDMETHODIMP_(ULONG) CGameClient::AddRef()
-{
-	return InterlockedIncrement( &m_lRefCount );
+  return S_OK;
 }
 
-STDMETHODIMP_(ULONG) CGameClient::Release()
-{
-	if ( InterlockedDecrement( &m_lRefCount ) > 0 )
-	{
-		return m_lRefCount;
-	}
-
-	delete this;
-	return 0L;
+STDMETHODIMP_(ULONG) CGameClient::AddRef() {
+  return InterlockedIncrement(&m_lRefCount);
 }
 
-void CGameClient::ProcessCommand( const OnlineGameLib::Win32::CIOBuffer *pBuffer)
-{
-	static const size_t s_len_protocol = sizeof( WORD );
+STDMETHODIMP_(ULONG) CGameClient::Release() {
+  if (InterlockedDecrement(&m_lRefCount) > 0) {
+    return m_lRefCount;
+  }
 
-	const BYTE *pPackData = pBuffer->GetBuffer();
-	const size_t used = pBuffer->GetUsed();
-
-	if ( used <= s_len_protocol )
-	{
-        return;
-	}
-	
-	_ASSERT(m_uKeyMode == 0);
-	KSG_DecodeBuf(
-		used - s_len_protocol, 
-		(unsigned char *)( pPackData + s_len_protocol ), 
-		&m_uServerKey
-	);
-
-    m_pReadBuffer->AddData( ( const BYTE * )( pPackData + s_len_protocol ), used - s_len_protocol );
+  delete this;
+  return 0L;
 }
 
-size_t CGameClient::GetMinimumMessageSize() const
-{
-	static size_t length = sizeof( WORD ) + sizeof( BYTE );
+void CGameClient::ProcessCommand(
+    const OnlineGameLib::Win32::CIOBuffer *pBuffer) {
+  static const size_t s_len_protocol = sizeof(WORD);
 
-	/*
-     * The smallest possible command we accept is a byte onlye package
-	 */
-	return length;
+  const BYTE *pPackData = pBuffer->GetBuffer();
+  const size_t used = pBuffer->GetUsed();
+
+  if (used <= s_len_protocol) {
+    return;
+  }
+
+  _ASSERT(m_uKeyMode == 0);
+  KSG_DecodeBuf(used - s_len_protocol,
+                (unsigned char *)(pPackData + s_len_protocol), &m_uServerKey);
+
+  m_pReadBuffer->AddData((const BYTE *)(pPackData + s_len_protocol),
+                         used - s_len_protocol);
 }
 
-size_t CGameClient::GetMessageSize( 
-			const OnlineGameLib::Win32::CIOBuffer *pBuffer ) const
-{
-	const BYTE *pData = pBuffer->GetBuffer();   
-	const size_t used = pBuffer->GetUsed();
+size_t CGameClient::GetMinimumMessageSize() const {
+  static size_t length = sizeof(WORD) + sizeof(BYTE);
 
-	WORD wHeadLen = ( WORD )( *( WORD * )( pData ) );
-
-	return ( size_t )( wHeadLen );
+  /*
+   * The smallest possible command we accept is a byte onlye package
+   */
+  return length;
 }
 
-OnlineGameLib::Win32::CIOBuffer *CGameClient::ProcessDataStream( 
-						OnlineGameLib::Win32::CIOBuffer *pBuffer)
-{
-	const size_t used = pBuffer->GetUsed();
-	
-	if ( used >= GetMinimumMessageSize() )
-	{
-		const size_t messageSize = GetMessageSize( pBuffer );
-		
-		if ( messageSize == 0 )
-		{
-			/*
-			 * havent got a complete message yet.
-			
-			 * we null terminate our messages in the buffer, so we need to reserve
-			 * a byte of the buffer for this purpose...
-			 */
-			
-			if ( used == ( pBuffer->GetSize() - 1 ) )
-			{
-				Output( _T("Too much data!") );
-				
-				/*
-				 * Write this message and then shutdown the sending side of the socket.
-				 */
-				Output( "found error and close this connection!" );
-	
-				Shutdown();
-				
-				/*
-				 * throw the rubbish away
-				 */
-				pBuffer->Empty();					
-			}
-		}
-		else if ( used == messageSize )
-		{
-			Output( _T("Got a complete message and begin to process it") );
-			/*
-			 * we have a whole, distinct, message
-			 */
-			
-			ProcessCommand( pBuffer );
-			
-			pBuffer->Empty();
-		}
-		else if (used > messageSize)
-		{
-			Output(_T("Got message plus extra data"));
-			/*
-			 * we have a message, plus some more data
-			 * 
-			 * allocate a new buffer, copy the extra data into it and try again...
-			 */
-			
-			OnlineGameLib::Win32::CIOBuffer *pMessage = pBuffer->SplitBuffer( messageSize );
-			
-			ProcessCommand( pMessage );
-			
-			pMessage->Release();
-			
-		}
-	}
-	
-	/*
-	 * Reissue a read into the same buffer to collect more data
-	 */
-	return pBuffer;
+size_t CGameClient::GetMessageSize(
+    const OnlineGameLib::Win32::CIOBuffer *pBuffer) const {
+  const BYTE *pData = pBuffer->GetBuffer();
+  const size_t used = pBuffer->GetUsed();
+
+  WORD wHeadLen = (WORD)(*(WORD *)(pData));
+
+  return (size_t)(wHeadLen);
 }
 
-void CGameClient::OnStartConnections()
-{
-	if ( m_pfnCallbackClientEvent )
-	{
-		m_pfnCallbackClientEvent( m_lpCallBackParam, enumServerConnectCreate );
-	}
+OnlineGameLib::Win32::CIOBuffer *
+CGameClient::ProcessDataStream(OnlineGameLib::Win32::CIOBuffer *pBuffer) {
+  const size_t used = pBuffer->GetUsed();
+
+  if (used >= GetMinimumMessageSize()) {
+    const size_t messageSize = GetMessageSize(pBuffer);
+
+    if (messageSize == 0) {
+      /*
+       * havent got a complete message yet.
+
+       * we null terminate our messages in the buffer, so we need to reserve
+       * a byte of the buffer for this purpose...
+       */
+
+      if (used == (pBuffer->GetSize() - 1)) {
+        Output(_T("Too much data!"));
+
+        /*
+         * Write this message and then shutdown the sending side of the socket.
+         */
+        Output("found error and close this connection!");
+
+        Shutdown();
+
+        /*
+         * throw the rubbish away
+         */
+        pBuffer->Empty();
+      }
+    } else if (used == messageSize) {
+      Output(_T("Got a complete message and begin to process it"));
+      /*
+       * we have a whole, distinct, message
+       */
+
+      ProcessCommand(pBuffer);
+
+      pBuffer->Empty();
+    } else if (used > messageSize) {
+      Output(_T("Got message plus extra data"));
+      /*
+       * we have a message, plus some more data
+       *
+       * allocate a new buffer, copy the extra data into it and try again...
+       */
+
+      OnlineGameLib::Win32::CIOBuffer *pMessage =
+          pBuffer->SplitBuffer(messageSize);
+
+      ProcessCommand(pMessage);
+
+      pMessage->Release();
+    }
+  }
+
+  /*
+   * Reissue a read into the same buffer to collect more data
+   */
+  return pBuffer;
 }
 
-void CGameClient::OnStopConnections()
-{
-	if ( m_pfnCallbackClientEvent )
-	{
-		m_pfnCallbackClientEvent( m_lpCallBackParam, enumServerConnectClose );
-	}
+void CGameClient::OnStartConnections() {
+  if (m_pfnCallbackClientEvent) {
+    m_pfnCallbackClientEvent(m_lpCallBackParam, enumServerConnectCreate);
+  }
 }
 
-void CGameClient::ReadCompleted( OnlineGameLib::Win32::CIOBuffer *pBuffer )
-{
-	try
-	{	
-		const BYTE *pPackData = pBuffer->GetBuffer();
-		size_t used = pBuffer->GetUsed();
-
-		if (used > 0)
-		{
-			
-			CCriticalSection::Owner locker( m_csReadAction );
-			
-			m_pRecvBuffer->AddData( reinterpret_cast< const char * >( pPackData ), used );
-		}
-		
-		pBuffer->Empty();
-	}
-	catch(const CException &e)
-	{
-		Output( _T("ReadCompleted - Exception - ") + e.GetWhere() + _T(" - ") + e.GetMessage() );
-
-		StopConnections();
-	}
-	catch(...)
-	{
-		Output( _T("ReadCompleted - Unexpected exception") );
-		
-		StopConnections();
-	}
+void CGameClient::OnStopConnections() {
+  if (m_pfnCallbackClientEvent) {
+    m_pfnCallbackClientEvent(m_lpCallBackParam, enumServerConnectClose);
+  }
 }
 
-CClientFactory::CClientFactory()
-		: m_lRefCount( 0 ),
-		m_bufferSize( 0 )
-{
+void CGameClient::ReadCompleted(OnlineGameLib::Win32::CIOBuffer *pBuffer) {
+  try {
+    const BYTE *pPackData = pBuffer->GetBuffer();
+    size_t used = pBuffer->GetUsed();
 
+    if (used > 0) {
+
+      CCriticalSection::Owner locker(m_csReadAction);
+
+      m_pRecvBuffer->AddData(reinterpret_cast<const char *>(pPackData), used);
+    }
+
+    pBuffer->Empty();
+  } catch (const CException &e) {
+    Output(_T("ReadCompleted - Exception - ") + e.GetWhere() + _T(" - ") +
+           e.GetMessage());
+
+    StopConnections();
+  } catch (...) {
+    Output(_T("ReadCompleted - Unexpected exception"));
+
+    StopConnections();
+  }
 }
 
-CClientFactory::~CClientFactory()
-{
+CClientFactory::CClientFactory() : m_lRefCount(0), m_bufferSize(0) {}
 
+CClientFactory::~CClientFactory() {}
+
+STDMETHODIMP CClientFactory::SetEnvironment(const size_t &bufferSize) {
+  m_bufferSize = bufferSize;
+
+  return S_OK;
 }
 
-STDMETHODIMP CClientFactory::SetEnvironment( const size_t &bufferSize )
-{
-	m_bufferSize = bufferSize;
+STDMETHODIMP CClientFactory::CreateClientInterface(REFIID riid, void **ppv) {
+  HRESULT hr = E_NOINTERFACE;
 
-	return S_OK;
+  if (IID_IESClient == riid) {
+    const size_t bufferSize = (m_bufferSize > 0) ? m_bufferSize : (1024 * 4);
+
+    CGameClient *pObject = new CGameClient(2, 2, bufferSize, 1024);
+
+    *ppv = reinterpret_cast<void *>(dynamic_cast<IClient *>(pObject));
+
+    if (*ppv) {
+      reinterpret_cast<IUnknown *>(*ppv)->AddRef();
+
+      hr = S_OK;
+    }
+  }
+
+  if (FAILED(hr)) {
+    *ppv = NULL;
+  }
+
+  return (HRESULT)(hr);
 }
 
-STDMETHODIMP CClientFactory::CreateClientInterface( REFIID riid, void** ppv )
-{
-	HRESULT hr = E_NOINTERFACE;
+STDMETHODIMP CClientFactory::QueryInterface(REFIID riid, void **ppv) {
+  /*
+   * By definition all COM objects support the IUnknown interface
+   */
+  if (riid == IID_IUnknown) {
+    AddRef();
 
-	if ( IID_IESClient == riid )
-	{		
-		const size_t bufferSize = ( m_bufferSize > 0 ) ? m_bufferSize : ( 1024 * 4 );
+    *ppv = dynamic_cast<IUnknown *>(this);
+  } else if (riid == IID_IClientFactory) {
+    AddRef();
 
-		CGameClient *pObject = new CGameClient( 2, 2, bufferSize, 1024 );
+    *ppv = dynamic_cast<IClientFactory *>(this);
+  } else {
+    *ppv = NULL;
 
-		*ppv = reinterpret_cast< void * > ( dynamic_cast< IClient * >( pObject ) );
+    return E_NOINTERFACE;
+  }
 
-		if ( *ppv )
-		{
-			reinterpret_cast< IUnknown * >( *ppv )->AddRef();
-
-			hr = S_OK;
-		}
-	}
-
-	if ( FAILED( hr ) )
-	{
-		*ppv = NULL;
-	}
-
-	return ( HRESULT )( hr );
+  return S_OK;
 }
 
-STDMETHODIMP CClientFactory::QueryInterface( REFIID riid, void** ppv )
-{
-	/*
-	 * By definition all COM objects support the IUnknown interface
-	 */
-	if( riid == IID_IUnknown )
-	{
-		AddRef();
-
-		*ppv = dynamic_cast< IUnknown * >( this );
-	}
-	else if ( riid == IID_IClientFactory )
-	{
-		AddRef();
-
-		*ppv = dynamic_cast< IClientFactory * >( this );	
-	}
-	else
-	{
-		*ppv = NULL;
-
-		return E_NOINTERFACE;
-	}
-
-	return S_OK;
-}
-    
-STDMETHODIMP_(ULONG) CClientFactory::AddRef()
-{
-	return ::InterlockedIncrement( &m_lRefCount );
+STDMETHODIMP_(ULONG) CClientFactory::AddRef() {
+  return ::InterlockedIncrement(&m_lRefCount);
 }
 
-STDMETHODIMP_(ULONG) CClientFactory::Release()
-{
-	if ( ::InterlockedDecrement( &m_lRefCount ) > 0 )
-	{
-		return m_lRefCount;
-	}
+STDMETHODIMP_(ULONG) CClientFactory::Release() {
+  if (::InterlockedDecrement(&m_lRefCount) > 0) {
+    return m_lRefCount;
+  }
 
-	delete this;
-	return 0L;
+  delete this;
+  return 0L;
 }

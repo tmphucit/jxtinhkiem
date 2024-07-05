@@ -2,25 +2,23 @@
  * Copyright (c) 1999
  * Silicon Graphics Computer Systems, Inc.
  *
- * Copyright (c) 1999 
+ * Copyright (c) 1999
  * Boris Fomitchev
  *
  * This material is provided "as is", with absolutely no warranty expressed
  * or implied. Any use is at your own risk.
  *
- * Permission to use or copy this software for any purpose is hereby granted 
+ * Permission to use or copy this software for any purpose is hereby granted
  * without fee, provided the above notices are retained on all copies.
  * Permission to modify the code and to distribute modified code is granted,
  * provided the above notices are retained, and a notice that the code was
  * modified is included with the above copyright notice.
  *
- */ 
-# include "stlport_prefix.h"
+ */
+#include "stlport_prefix.h"
 
-
-// Trigonometric and hyperbolic functions for complex<float>, 
+// Trigonometric and hyperbolic functions for complex<float>,
 // complex<double>, and complex<long double>
-
 
 #include "complex_impl.h"
 
@@ -29,49 +27,57 @@
 
 _STLP_BEGIN_NAMESPACE
 
-
 //----------------------------------------------------------------------
 // helpers
 
 #ifdef __sgi
-  static const union { unsigned int i; float f; } float_ulimit = { 0x42b2d4fc };
-  static const float float_limit = float_ulimit.f;
-  static union {
-    struct { unsigned int h; unsigned int l; } w;
-    double d;
-  } double_ulimit = { 0x408633ce, 0x8fb9f87d };
-  static const double double_limit = double_ulimit.d;
-  static union {
-    struct { unsigned int h[2]; unsigned int l[2]; } w;
-    long double ld;
-  } ldouble_ulimit = {0x408633ce, 0x8fb9f87e, 0xbd23b659, 0x4e9bd8b1};
-# ifndef _STLP_NO_LONG_DOUBLE
-  static const long double ldouble_limit = ldouble_ulimit.ld;
-# endif
-#else
-  static const float float_limit = _STLP_LOGF(FLT_MAX);
-  static const double double_limit = _STLP_DO_LOG(double)(DBL_MAX);
-# ifndef _STLP_NO_LONG_DOUBLE
-  static const long double ldouble_limit = _STLP_LOGL(LDBL_MAX);
-# endif
+static const union {
+  unsigned int i;
+  float f;
+} float_ulimit = {0x42b2d4fc};
+static const float float_limit = float_ulimit.f;
+static union {
+  struct {
+    unsigned int h;
+    unsigned int l;
+  } w;
+  double d;
+} double_ulimit = {0x408633ce, 0x8fb9f87d};
+static const double double_limit = double_ulimit.d;
+static union {
+  struct {
+    unsigned int h[2];
+    unsigned int l[2];
+  } w;
+  long double ld;
+} ldouble_ulimit = {0x408633ce, 0x8fb9f87e, 0xbd23b659, 0x4e9bd8b1};
+#ifndef _STLP_NO_LONG_DOUBLE
+static const long double ldouble_limit = ldouble_ulimit.ld;
 #endif
-
+#else
+static const float float_limit = _STLP_LOGF(FLT_MAX);
+static const double double_limit = _STLP_DO_LOG(double)(DBL_MAX);
+#ifndef _STLP_NO_LONG_DOUBLE
+static const long double ldouble_limit = _STLP_LOGL(LDBL_MAX);
+#endif
+#endif
 
 //----------------------------------------------------------------------
 // sin
 
-_STLP_DECLSPEC complex<float>  _STLP_CALL sin(const complex<float>& z) {
+_STLP_DECLSPEC complex<float> _STLP_CALL sin(const complex<float> &z) {
   return complex<float>(_STLP_SINF(z._M_re) * _STLP_COSHF(z._M_im),
                         _STLP_COSF(z._M_re) * _STLP_SINHF(z._M_im));
 }
 
-_STLP_DECLSPEC complex<double> _STLP_CALL sin(const complex<double>& z) {
+_STLP_DECLSPEC complex<double> _STLP_CALL sin(const complex<double> &z) {
   return complex<double>(_STLP_SIN(z._M_re) * _STLP_COSH(z._M_im),
                          _STLP_COS(z._M_re) * _STLP_SINH(z._M_im));
 }
 
 #ifndef _STLP_NO_LONG_DOUBLE
-_STLP_DECLSPEC complex<long double> _STLP_CALL sin(const complex<long double>& z) {
+_STLP_DECLSPEC complex<long double>
+    _STLP_CALL sin(const complex<long double> &z) {
   return complex<long double>(_STLP_SINL(z._M_re) * _STLP_COSHL(z._M_im),
                               _STLP_COSL(z._M_re) * _STLP_SINHL(z._M_im));
 }
@@ -80,27 +86,28 @@ _STLP_DECLSPEC complex<long double> _STLP_CALL sin(const complex<long double>& z
 //----------------------------------------------------------------------
 // cos
 
-_STLP_DECLSPEC complex<float> _STLP_CALL cos(const complex<float>& z) {
+_STLP_DECLSPEC complex<float> _STLP_CALL cos(const complex<float> &z) {
   return complex<float>(_STLP_COSF(z._M_re) * _STLP_COSHF(z._M_im),
                         -_STLP_SINF(z._M_re) * _STLP_SINHF(z._M_im));
 }
 
-_STLP_DECLSPEC complex<double> _STLP_CALL cos(const complex<double>& z) {
+_STLP_DECLSPEC complex<double> _STLP_CALL cos(const complex<double> &z) {
   return complex<double>(_STLP_COS(z._M_re) * _STLP_COSH(z._M_im),
-                        -_STLP_SIN(z._M_re) * _STLP_SINH(z._M_im));
+                         -_STLP_SIN(z._M_re) * _STLP_SINH(z._M_im));
 }
 
 #ifndef _STLP_NO_LONG_DOUBLE
-_STLP_DECLSPEC complex<long double> _STLP_CALL cos(const complex<long double>& z) {
+_STLP_DECLSPEC complex<long double>
+    _STLP_CALL cos(const complex<long double> &z) {
   return complex<long double>(_STLP_COSL(z._M_re) * _STLP_COSHL(z._M_im),
                               -_STLP_SINL(z._M_re) * _STLP_SINHL(z._M_im));
 }
-# endif
+#endif
 
 //----------------------------------------------------------------------
 // tan
 
-_STLP_DECLSPEC complex<float> _STLP_CALL tan(const complex<float>& z) {
+_STLP_DECLSPEC complex<float> _STLP_CALL tan(const complex<float> &z) {
   float re2 = 2.f * z._M_re;
   float im2 = 2.f * z._M_im;
 
@@ -112,7 +119,7 @@ _STLP_DECLSPEC complex<float> _STLP_CALL tan(const complex<float>& z) {
   }
 }
 
-_STLP_DECLSPEC complex<double> _STLP_CALL tan(const complex<double>& z) {
+_STLP_DECLSPEC complex<double> _STLP_CALL tan(const complex<double> &z) {
   double re2 = 2. * z._M_re;
   double im2 = 2. * z._M_im;
 
@@ -125,7 +132,8 @@ _STLP_DECLSPEC complex<double> _STLP_CALL tan(const complex<double>& z) {
 }
 
 #ifndef _STLP_NO_LONG_DOUBLE
-_STLP_DECLSPEC complex<long double> _STLP_CALL tan(const complex<long double>& z) {
+_STLP_DECLSPEC complex<long double>
+    _STLP_CALL tan(const complex<long double> &z) {
   long double re2 = 2.l * z._M_re;
   long double im2 = 2.l * z._M_im;
   if (_STLP_ABSL(im2) > ldouble_limit)
@@ -136,23 +144,24 @@ _STLP_DECLSPEC complex<long double> _STLP_CALL tan(const complex<long double>& z
   }
 }
 
-# endif
+#endif
 
 //----------------------------------------------------------------------
 // sinh
 
-_STLP_DECLSPEC complex<float> _STLP_CALL sinh(const complex<float>& z) {
+_STLP_DECLSPEC complex<float> _STLP_CALL sinh(const complex<float> &z) {
   return complex<float>(_STLP_SINHF(z._M_re) * _STLP_COSF(z._M_im),
                         _STLP_COSHF(z._M_re) * _STLP_SINF(z._M_im));
 }
 
-_STLP_DECLSPEC complex<double> _STLP_CALL sinh(const complex<double>& z) {
+_STLP_DECLSPEC complex<double> _STLP_CALL sinh(const complex<double> &z) {
   return complex<double>(_STLP_SINH(z._M_re) * _STLP_COS(z._M_im),
                          _STLP_COSH(z._M_re) * _STLP_SIN(z._M_im));
 }
 
 #ifndef _STLP_NO_LONG_DOUBLE
-_STLP_DECLSPEC complex<long double> _STLP_CALL sinh(const complex<long double>& z) {
+_STLP_DECLSPEC complex<long double>
+    _STLP_CALL sinh(const complex<long double> &z) {
   return complex<long double>(_STLP_SINHL(z._M_re) * _STLP_COSL(z._M_im),
                               _STLP_COSHL(z._M_re) * _STLP_SINL(z._M_im));
 }
@@ -161,18 +170,19 @@ _STLP_DECLSPEC complex<long double> _STLP_CALL sinh(const complex<long double>& 
 //----------------------------------------------------------------------
 // cosh
 
-_STLP_DECLSPEC complex<float> _STLP_CALL cosh(const complex<float>& z) {
+_STLP_DECLSPEC complex<float> _STLP_CALL cosh(const complex<float> &z) {
   return complex<float>(_STLP_COSHF(z._M_re) * _STLP_COSF(z._M_im),
                         _STLP_SINHF(z._M_re) * _STLP_SINF(z._M_im));
 }
 
-_STLP_DECLSPEC complex<double> _STLP_CALL cosh(const complex<double>& z) {
+_STLP_DECLSPEC complex<double> _STLP_CALL cosh(const complex<double> &z) {
   return complex<double>(_STLP_COSH(z._M_re) * _STLP_COS(z._M_im),
                          _STLP_SINH(z._M_re) * _STLP_SIN(z._M_im));
 }
 
 #ifndef _STLP_NO_LONG_DOUBLE
-_STLP_DECLSPEC complex<long double> _STLP_CALL cosh(const complex<long double>& z) {
+_STLP_DECLSPEC complex<long double>
+    _STLP_CALL cosh(const complex<long double> &z) {
   return complex<long double>(_STLP_COSHL(z._M_re) * _STLP_COSL(z._M_im),
                               _STLP_SINHL(z._M_re) * _STLP_SINL(z._M_im));
 }
@@ -181,7 +191,7 @@ _STLP_DECLSPEC complex<long double> _STLP_CALL cosh(const complex<long double>& 
 //----------------------------------------------------------------------
 // tanh
 
-_STLP_DECLSPEC complex<float> _STLP_CALL tanh(const complex<float>& z) {
+_STLP_DECLSPEC complex<float> _STLP_CALL tanh(const complex<float> &z) {
   float re2 = 2.f * z._M_re;
   float im2 = 2.f * z._M_im;
   if (_STLP_ABSF(re2) > float_limit)
@@ -192,9 +202,9 @@ _STLP_DECLSPEC complex<float> _STLP_CALL tanh(const complex<float>& z) {
   }
 }
 
-_STLP_DECLSPEC complex<double> _STLP_CALL tanh(const complex<double>& z) {
+_STLP_DECLSPEC complex<double> _STLP_CALL tanh(const complex<double> &z) {
   double re2 = 2. * z._M_re;
-  double im2 = 2. * z._M_im;  
+  double im2 = 2. * z._M_im;
   if (fabs(float(re2)) > double_limit)
     return complex<double>((re2 > 0 ? 1. : -1.), 0.);
   else {
@@ -204,7 +214,8 @@ _STLP_DECLSPEC complex<double> _STLP_CALL tanh(const complex<double>& z) {
 }
 
 #ifndef _STLP_NO_LONG_DOUBLE
-_STLP_DECLSPEC complex<long double> _STLP_CALL tanh(const complex<long double>& z) {
+_STLP_DECLSPEC complex<long double>
+    _STLP_CALL tanh(const complex<long double> &z) {
   long double re2 = 2.l * z._M_re;
   long double im2 = 2.l * z._M_im;
   if (_STLP_ABSL(re2) > ldouble_limit)

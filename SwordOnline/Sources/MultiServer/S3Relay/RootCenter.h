@@ -11,14 +11,13 @@
 
 #include "NetCenter.h"
 
-class CRootCenter : public CNetCenter  
-{
+class CRootCenter : public CNetCenter {
 public:
-	CRootCenter();
-	virtual ~CRootCenter();
+  CRootCenter();
+  virtual ~CRootCenter();
 
 public:
-	BOOL TraceInfo();
+  BOOL TraceInfo();
 };
 
 #endif // !defined(AFX_ROOTCENTER_H__36B8EBBF_6ECB_4A6C_9B43_8D6A5AA1C31D__INCLUDED_)

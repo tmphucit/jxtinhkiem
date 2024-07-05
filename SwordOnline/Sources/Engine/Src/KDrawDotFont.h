@@ -9,6 +9,6 @@
 #ifndef KDrawDotFont_H
 #define KDrawDotFont_H
 //---------------------------------------------------------------------------
-void	g_DrawDotFont(void* node, void* canvas);
+void g_DrawDotFont(void *node, void *canvas);
 //---------------------------------------------------------------------------
 #endif

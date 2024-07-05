@@ -1,7 +1,7 @@
-# include <iostream>
-# include <string>
+#include <iostream>
+#include <string>
 
-# if 0
+#if 0
 namespace N1 {
      template <class T>
      struct X {};
@@ -46,13 +46,13 @@ main()
   return 0;
 }
 
-# endif
+#endif
 
-# include <iostream>
+#include <iostream>
 
 using namespace std;
 
-# if 0
+#if 0
 class mystream : public std::istream 
 {
 public:
@@ -80,19 +80,16 @@ mystream& aaa ( mystream& m, char& c)
     m>>c;
     return m;
 }
-# endif
+#endif
 
+main() {
+  string sss = "Hello World";
+  string ss2 = "aaa";
 
-main()
-{
-    string sss = "Hello World";
-    string ss2 = "aaa";
-    
-    if (ss2 >= 'c' + sss)
-        cout<<(sss+ss2);
-    
-//    mystream mm(std::cin);
-//    char cc;
-//    aaa(mm, cc);
-    
+  if (ss2 >= 'c' + sss)
+    cout << (sss + ss2);
+
+  //    mystream mm(std::cin);
+  //    char cc;
+  //    aaa(mm, cc);
 }

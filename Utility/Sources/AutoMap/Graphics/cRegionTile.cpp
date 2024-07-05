@@ -2,8 +2,8 @@
 //
 //////////////////////////////////////////////////////////////////////
 
-#include "stdafx.h"
 #include "cRegionTile.h"
+#include "stdafx.h"
 
 #include "cBtree.h"
 #include "cPlaneVer.h"
@@ -12,11 +12,6 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-cRegionTile::cRegionTile()
-{
-}
+cRegionTile::cRegionTile() {}
 
-cRegionTile::~cRegionTile()
-{
-}
-
+cRegionTile::~cRegionTile() {}

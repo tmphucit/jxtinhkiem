@@ -1,28 +1,26 @@
 // STLport regression testsuite component.
 // To compile as a separate example, please #define MAIN.
 
+#include <algorithm>
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
-#ifdef MAIN 
+#ifdef MAIN
 #define vec2_test main
 #endif
 
-#if !defined (STLPORT) || defined(__STL_USE_NAMESPACES)
+#if !defined(STLPORT) || defined(__STL_USE_NAMESPACES)
 using namespace std;
 #endif
 
-static void print(vector<double>& vector_)
-{
-  for(int i = 0; i < vector_.size(); i++)
+static void print(vector<double> &vector_) {
+  for (int i = 0; i < vector_.size(); i++)
     cout << vector_[i] << " ";
   cout << endl;
 }
 
-int vec2_test(int, char**)
-{
-  cout<<"Results of vec2_test:"<<endl;
+int vec2_test(int, char **) {
+  cout << "Results of vec2_test:" << endl;
 
   vector<double> v1; // Empty vector of doubles.
   v1.push_back(32.1);

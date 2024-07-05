@@ -1,21 +1,20 @@
 // STLport regression testsuite component.
 // To compile as a separate example, please #define MAIN.
 
-#include <iostream>
 #include <algorithm>
+#include <iostream>
 #include <set>
 
-#ifdef MAIN 
+#ifdef MAIN
 #define set1_test main
 #endif
 
-#if !defined (STLPORT) || defined(__STL_USE_NAMESPACES)
+#if !defined(STLPORT) || defined(__STL_USE_NAMESPACES)
 using namespace std;
 #endif
-int set1_test(int, char**)
-{
-  cout<<"Results of set1_test:"<<endl;
-  set<int, less<int> > s;
+int set1_test(int, char **) {
+  cout << "Results of set1_test:" << endl;
+  set<int, less<int>> s;
   cout << "count(42) = " << s.count(42) << endl;
   s.insert(42);
   cout << "count(42) = " << s.count(42) << endl;

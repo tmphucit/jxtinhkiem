@@ -4,17 +4,16 @@
 #include <algorithm>
 #include <iostream>
 
-#ifdef MAIN 
+#ifdef MAIN
 #define count0_test main
 #endif
 
-#if !defined (STLPORT) || defined(__STL_USE_NAMESPACES)
+#if !defined(STLPORT) || defined(__STL_USE_NAMESPACES)
 using namespace std;
 #endif
-int count0_test(int, char**)
-{
-  cout<<"Results of count0_test:"<<endl;
-int numbers[10] = { 1, 2, 4, 1, 2, 4, 1, 2, 4, 1 };
+int count0_test(int, char **) {
+  cout << "Results of count0_test:" << endl;
+  int numbers[10] = {1, 2, 4, 1, 2, 4, 1, 2, 4, 1};
 
   int result = 0;
   count(numbers, numbers + 10, 1, result);

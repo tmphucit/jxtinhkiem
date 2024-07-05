@@ -7,17 +7,13 @@
 //-----------------------------------------//
 
 #include "S3PDBConVBC.h"
-#include "KStdAfx.h"
 #include "GlobalFun.h"
+#include "KStdAfx.h"
 
 //////////////////////////////////////////////////////////////////////
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PDBConVBC::S3PDBConVBC()
-{
-}
+S3PDBConVBC::S3PDBConVBC() {}
 
-S3PDBConVBC::~S3PDBConVBC()
-{
-}
+S3PDBConVBC::~S3PDBConVBC() {}

@@ -1,26 +1,24 @@
 // STLport regression testsuite component.
 // To compile as a separate example, please #define MAIN.
 
-#include <vector>
-#include <numeric>
 #include <iostream>
 #include <iterator>
+#include <numeric>
 #include <string>
+#include <vector>
 
-#ifdef MAIN 
+#ifdef MAIN
 #define inrprod1_test main
 #endif
 
-#if !defined (STLPORT) || defined(__STL_USE_NAMESPACES)
+#if !defined(STLPORT) || defined(__STL_USE_NAMESPACES)
 using namespace std;
 #endif
-int inrprod1_test(int, char**)
-{
-  cout<<"Results of inrprod1_test:"<<endl;
-  vector <int> v1(3);
-  vector <int> v2(v1.size());
-  for(int i = 0; i < v1.size(); i++)
-  {
+int inrprod1_test(int, char **) {
+  cout << "Results of inrprod1_test:" << endl;
+  vector<int> v1(3);
+  vector<int> v2(v1.size());
+  for (int i = 0; i < v1.size(); i++) {
     v1[i] = i + 1;
     v2[i] = v1.size() - i;
   }

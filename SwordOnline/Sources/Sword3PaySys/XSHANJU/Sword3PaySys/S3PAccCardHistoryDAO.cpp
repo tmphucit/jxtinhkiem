@@ -11,22 +11,12 @@
 // Construction/Destruction
 //////////////////////////////////////////////////////////////////////
 
-S3PAccCardHistoryDAO::S3PAccCardHistoryDAO( S3PDBConnection* pConn )
-{
-	m_pConn = pConn;
+S3PAccCardHistoryDAO::S3PAccCardHistoryDAO(S3PDBConnection *pConn) {
+  m_pConn = pConn;
 }
 
-S3PAccCardHistoryDAO::~S3PAccCardHistoryDAO()
-{
+S3PAccCardHistoryDAO::~S3PAccCardHistoryDAO() {}
 
-}
+std::string S3PAccCardHistoryDAO::GetTableName() { return "AccCard_History"; }
 
-std::string S3PAccCardHistoryDAO::GetTableName()
-{
-	return "AccCard_History";
-}
-
-S3PDBConnection* S3PAccCardHistoryDAO::GetConnection()
-{
-	return m_pConn;
-}
+S3PDBConnection *S3PAccCardHistoryDAO::GetConnection() { return m_pConn; }

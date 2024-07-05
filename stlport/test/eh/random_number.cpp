@@ -1,6 +1,6 @@
 /***********************************************************************************
-	random_number.cpp
-	
+        random_number.cpp
+
  * Copyright (c) 1997
  * Mark of the Unicorn, Inc.
  *
@@ -15,23 +15,24 @@
 ***********************************************************************************/
 #include "random_number.h"
 #include "Prefix.h"
-#if defined (EH_NEW_HEADERS)
-# include <functional>
-# include <cstdlib>
+#if defined(EH_NEW_HEADERS)
+#include <cstdlib>
+#include <functional>
 #else
-# include <function.h>
-# include <stdlib.h>
+#include <function.h>
+#include <stdlib.h>
 #endif
 
-unsigned random_number( unsigned range )
-{
-#if !defined( __SGI_STL )
-	if (range == 0) return 0;
-	return (unsigned)(EH_STD::rand() + EH_STD::rand()) % range;
+unsigned random_number(unsigned range) {
+#if !defined(__SGI_STL)
+  if (range == 0)
+    return 0;
+  return (unsigned)(EH_STD::rand() + EH_STD::rand()) % range;
 #else
-	static EH_STD::subtractive_rng rnd;
-        if (range==0) return 0;
-        return rnd(range);
+  static EH_STD::subtractive_rng rnd;
+  if (range == 0)
+    return 0;
+  return rnd(range);
 #endif
 }
 

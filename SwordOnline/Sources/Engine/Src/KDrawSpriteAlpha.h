@@ -9,8 +9,8 @@
 #ifndef KDrawSpriteAlpha_H
 #define KDrawSpriteAlpha_H
 //---------------------------------------------------------------------------
-void g_DrawSpriteAlpha(void* node, void* canvas);
-void g_DrawSpriteAlpha(void* node, void* canvas, int nExAlpha);
-void g_DrawSprite3LevelAlpha(void* node, void* canvas);	//三级alpha绘制
+void g_DrawSpriteAlpha(void *node, void *canvas);
+void g_DrawSpriteAlpha(void *node, void *canvas, int nExAlpha);
+void g_DrawSprite3LevelAlpha(void *node, void *canvas); // 三级alpha绘制
 //---------------------------------------------------------------------------
 #endif

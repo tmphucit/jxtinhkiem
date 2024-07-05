@@ -9,21 +9,20 @@
 #pragma once
 #endif // _MSC_VER > 1000
 
-class CMemory  
-{
+class CMemory {
 public:
-	CMemory();
-	virtual ~CMemory();
+  CMemory();
+  virtual ~CMemory();
 
 public:
-	BOOL Initialize();
-	BOOL Uninitialize();
+  BOOL Initialize();
+  BOOL Uninitialize();
 
 public:
-	void* Alloc(unsigned len);
-	void Reuse(void* p);
-	void Free(void* p);
-	unsigned Size(void* p);
+  void *Alloc(unsigned len);
+  void Reuse(void *p);
+  void Free(void *p);
+  unsigned Size(void *p);
 };
 
 #endif // !defined(AFX_MEMORY_H__0907B6C3_6BEC_4108_BDD7_283C7779A3B8__INCLUDED_)
