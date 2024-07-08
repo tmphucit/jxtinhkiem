@@ -371,11 +371,11 @@ void PopUpContextPeopleMenu(const KUiPlayerItem &SelectPlayer, int x, int y) {
     if ((i == ACTION_JOINTEAM && SelectPlayer.nIndex != -1 &&
          SelectPlayer.nData ==
              PLAYER_MENU_STATE_TEAMOPEN) || //"申请入队",
-                                            //对方未打开队伍时不能加入
+                                            // 对方未打开队伍时不能加入
         (i == ACTION_TRADE && SelectPlayer.nIndex != -1 &&
          SelectPlayer.nData ==
              PLAYER_MENU_STATE_TRADEOPEN) || //"交易物品",
-                                             //对方未打开交易时不能加入
+                                             // 对方未打开交易时不能加入
         (i == ACTION_MAKEFRIEND &&
          !KUiChatCentre::IsMyFriend(
              (char *)SelectPlayer

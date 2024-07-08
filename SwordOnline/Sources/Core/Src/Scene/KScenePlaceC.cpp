@@ -741,10 +741,10 @@ void KScenePlaceC::LoadProcess() {
         pRegion->Load(m_szPlaceRootPath);
         LeaveCriticalSection(&m_LoadCritical);
         //				g_DebugLog("[Scene]Enter
-        //ARegionLoaded");
+        // ARegionLoaded");
         ARegionLoaded(pRegion);
         //				g_DebugLog("[Scene]Leave
-        //ARegionLoaded");
+        // ARegionLoaded");
       }
     } else if (dwRetCode == WAIT_TIMEOUT) {
       if (m_nSceneId == SPWP_NO_SCENE)

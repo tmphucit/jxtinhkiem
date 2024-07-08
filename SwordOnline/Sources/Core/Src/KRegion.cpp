@@ -14,7 +14,7 @@
 // #include "../MultiServer/Heaven/Interface/iServer.h"
 #endif
 #include "KRegion.h"
-#include "MyAssert.h"
+#include "MyAssert.H"
 #include "Scene/ObstacleDef.h"
 #include "Scene/SceneDataDef.h"
 
@@ -149,9 +149,9 @@ BOOL KRegion::LoadObject(int nSubWorld, int nX, int nY) {
 
     // 载入npc数据
     //		cData.Seek(dwHeadSize +
-    //sElemFile[REGION_NPC_FILE_INDEX].uOffset, FILE_BEGIN);
+    // sElemFile[REGION_NPC_FILE_INDEX].uOffset, FILE_BEGIN);
     //		LoadServerNpc(nSubWorld, &cData,
-    //sElemFile[REGION_NPC_FILE_INDEX].uLength);
+    // sElemFile[REGION_NPC_FILE_INDEX].uLength);
 
     // 载入obj数据
     cData.Seek(dwHeadSize + sElemFile[REGION_OBJ_FILE_INDEX].uOffset,
@@ -577,7 +577,7 @@ void KRegion::Activate() {
       // 发送同步信号
 
       //	if (Npc[nNpcIdx].m_nCurConutTimeSyn > 1 ||
-      //Npc[nNpcIdx].m_nCurConutTimeSyn < 0)
+      // Npc[nNpcIdx].m_nCurConutTimeSyn < 0)
       //	{
       //		Npc[nNpcIdx].m_nCurConutTimeSyn = 0;
       Npc[nNpcIdx].NormalSync();
@@ -606,7 +606,7 @@ void KRegion::Activate() {
     if ((nCounter == m_nObjSyncCounter / 2) && (m_nObjSyncCounter & 1)) {
 
       //	if (Object[pNode->m_nIndex].m_nCurConutTimeSyn > 1 ||
-      //Object[pNode->m_nIndex].m_nCurConutTimeSyn < 0)
+      // Object[pNode->m_nIndex].m_nCurConutTimeSyn < 0)
       //	{
       //		Object[pNode->m_nIndex].m_nCurConutTimeSyn = 0;
       Object[pNode->m_nIndex].SyncState();
@@ -630,7 +630,7 @@ void KRegion::Activate() {
   while (pNode) {
     pTmpNode = (KIndexNode *)pNode->GetNext();
     //		g_DebugLog("[Missle]Missle%d,Activate,in R%d", pNode->m_nIndex,
-    //this->m_nIndex);
+    // this->m_nIndex);
     Missle[pNode->m_nIndex].Activate();
     pNode = pTmpNode;
   }

@@ -381,7 +381,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
           break;
         }
         //[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18] // doc tu tu se hieu
-        //thoi, cai nay de, phan gia tri nhat thi chi co cho nay
+        // thoi, cai nay de, phan gia tri nhat thi chi co cho nay
         if (*pszCheck2 == ',')
           nCount++;
         pszCheck2++;
@@ -612,7 +612,7 @@ NextStep:
     memcpy(&Buffer[nOffset], pMsgBuff, nMsgLength);
     nOffset += FilterTextColor(Buffer + nOffset, nMsgLength, uColor);
   } else //--------------------Co dinh
-         //Item------------------------------------------
+         // Item------------------------------------------
   {
     int nW = m_ChatRoom.GetMessageListBox()->GetMaxLineWidth();
     int nMaxLineL = 0;
@@ -1020,7 +1020,7 @@ NextStep:
     memcpy(&Buffer[nOffset], pMsgBuff, nMsgLength);
     nOffset += FilterTextColor(Buffer + nOffset, nMsgLength, uColor);
   } else //--------------------Co dinh
-         //Item------------------------------------------
+         // Item------------------------------------------
   {
     int nW = m_ChatRoom.GetMessageListBox()->GetMaxLineWidth();
     int nMaxLineL = 0;
@@ -1101,8 +1101,8 @@ int KUiMsgCentrePad::NewChannelMessageArrival(int figure, DWORD nChannelID,
           figure, nChannelIndex, szSendName, pMsgBuff, nMsgLength,
           m_pSelf->m_ChatRoom.GetMessageListBox(), true);
       //			m_pSelf->ChannelMessageArrival(nChannelIndex,
-      //szSendName, pMsgBuff, nMsgLength,
-      //m_pSelf->m_ChatRoom.GetMessageListBox(), true);
+      // szSendName, pMsgBuff, nMsgLength,
+      // m_pSelf->m_ChatRoom.GetMessageListBox(), true);
       m_pSelf->m_ChatRoom.GetScrollBar()->SetScrollPos(
           m_pSelf->m_ChatRoom.GetScrollBar()->GetMaxValue());
 
@@ -2373,7 +2373,7 @@ int KUiMsgCentrePad::WndProc(unsigned int uMsg, unsigned int uParam,
   switch (uMsg) {
   // case WND_M_POPUPMENU:
   //	if (uParam == (unsigned
-  //int)(KWndWindow*)(m_ChatRoom.GetMessageListBox()))
+  // int)(KWndWindow*)(m_ChatRoom.GetMessageListBox()))
   //		PopupChannelMenu(LOWORD(nParam), HIWORD(nParam));
   //	break;
   case WND_M_MENUITEM_SELECTED:

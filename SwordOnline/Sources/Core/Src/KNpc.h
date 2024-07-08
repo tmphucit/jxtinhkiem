@@ -748,29 +748,29 @@ public:
   void AddBaseManaMax(int nMana); // 增加基本最大内力点
   void AddCurManaMax(int nMana);
   //	void				ResetLifeReplenish();		//
-  //重新计算生命回复速度 	void				CalcCurLifeMax();
-  //// 计算当前最大生命点 	void				CalcCurStaminaMax();
-  //// 计算当前最大体力点 	void				CalcCurManaMax();
-  //// 计算当前最大内力点
+  // 重新计算生命回复速度 	void CalcCurLifeMax();
+  //// 计算当前最大生命点 	void
+  ///CalcCurStaminaMax(); / 计算当前最大体力点 	void
+  ///CalcCurManaMax(); / 计算当前最大内力点
   void CalcCurLifeReplenish(); // 计算当前生命回复速度
   void SetSeries(int nSeries); // 设定此 npc 的五行属性（内容还没完成）
   void SetSex(int nSex);
 
   //	int
-  //GetNpcLevelDataFromScript(KLuaScript * pScript, char * szDataName, int
-  //nLevel, char * szParam); 	int
-  //SkillString2Id(char * szSkillString);
+  // GetNpcLevelDataFromScript(KLuaScript * pScript, char * szDataName, int
+  // nLevel, char * szParam); 	int
+  // SkillString2Id(char * szSkillString);
   void GetNpcCopyFromTemplate(int nNpcTemplateId, int nLevel);
   //	void				InitNpcLevelData(KTabFile * pTabFile,
-  //int nNpcTemplateId, KLuaScript * pLevelScript, int nLevel); 	void
-  //InitNpcBaseData(int nNpcTemplateId);
+  // int nNpcTemplateId, KLuaScript * pLevelScript, int nLevel); 	void
+  // InitNpcBaseData(int nNpcTemplateId);
   void SetPhysicsDamage(int nMinDamage,
                         int nMaxDamage);       // 设定物理攻击的最大最小值
   void SetBaseAttackRating(int nAttackRating); // 设定攻击命中率
   void SetBaseDefence(int nDefence);           // 设定防御力
   //	void				SetBaseWalkSpeed(int nSpeed);
   //// 设定行走速度 	void				SetBaseRunSpeed(int
-  //nSpeed);							// 设定跑步速度
+  // nSpeed);							// 设定跑步速度
   int GetCurActiveWeaponSkill();
   void LoadDataFromTemplate(int nNpcTemplateId, int nLevel);
   // MASK

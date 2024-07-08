@@ -3,7 +3,7 @@
 #include "KItemSet.h"
 #include "KNpc.h"
 #include "KTabFile.h"
-#include "MyAssert.h"
+#include "MyAssert.H"
 #include <time.h>
 
 #ifndef _STANDALONE
@@ -1092,7 +1092,6 @@ void KItem::GetDesc(char *pszMsg, bool bShowPrice, int nPriceScale,
       char *pszMagicId;
       pszMagicId =
           (char *)g_MagicDesc.GetDesc2(m_GeneratorParam.nGeneratorLevel[0]);
-
       if (pszMagicId) {
         strcat(pszMsg, " ");
         strcat(pszMsg, "<color=HBlue>Thuéc tÝnh: <color=Metal>");
@@ -1178,7 +1177,7 @@ void KItem::GetDesc(char *pszMsg, bool bShowPrice, int nPriceScale,
       else {
         //	if (GetDetailType() == equip_mask)
         //		sprintf(szDurInfo, "<color=Yellow>VËt phÈm chØ sö dông
-        //duy nhÊt 1 lÇn");
+        // duy nhÊt 1 lÇn");
         //		else
         sprintf(szDurInfo, "§é bÒn sö dông: %3d /%3d", GetDurability(),
                 GetMaxDurability());
@@ -1255,6 +1254,24 @@ void KItem::GetDesc(char *pszMsg, bool bShowPrice, int nPriceScale,
 
     if (!pszInfo || !pszInfo[0])
       continue;
+//
+// tim min max magicattrib boi vantoi
+#ifndef _SERVER
+    char szDescMinMax[64];
+    int nMin, nMax;
+    this->FindMagic(m_aryMagicAttrib[i].nAttribType, &nMin, &nMax);
+    if (nMax > 1) {
+      if (m_aryMagicAttrib[i].nValue[0] >= nMax)
+        strcpy(szDescMinMax, " <color=Fire>[MAX]<color>");
+      else
+        // sprintf(szDescMinMax, " <color=0,255,255>[%d -
+        // %d]<color=255,255,255>", nMin, nMax);
+        sprintf(szDescMinMax, " <color=Water>[%d]<color>", nMax);
+    }
+    sprintf(pszInfo, "%s %s", pszInfo, szDescMinMax);
+#endif
+
+    // end van toi
 
     if (m_SpecialParam.uItemType == 1) {
 
@@ -1573,4 +1590,31 @@ BOOL KItem::CheckItemTime() {
   }
   return bRet;
 }
+
+// tim min max magicattrib boi Vincent Hoang
+#ifndef _SERVER
+extern KTabFile g_MagicAttribFile;
+void KItem::FindMagic(int nPropKind, int *nMin, int *nMax) {
+  int nRow, nMagic;
+  char szTmp[8];
+  sprintf(szTmp, "%d", nPropKind);
+  nRow = g_MagicAttribFile.FindRow(szTmp, 4);
+  int nTempMin = 0, nTempMax = 0;
+  g_MagicAttribFile.GetInteger(nRow, 6, 0, &nTempMin);
+  g_MagicAttribFile.GetInteger(nRow, 7, 0, &nTempMax);
+  for (int i = nRow; i < g_MagicAttribFile.GetHeight(); i++) {
+    g_MagicAttribFile.GetInteger(i, 5, 0, &nMagic);
+    if (nMagic == nPropKind) {
+      int nSearchMax;
+      g_MagicAttribFile.GetInteger(i, 7, 0, &nSearchMax);
+      if (nSearchMax > nTempMax)
+        nTempMax = nSearchMax;
+    }
+  }
+  *nMin = nTempMin;
+  *nMax = nTempMax;
+  return;
+}
+#endif
+
 // End

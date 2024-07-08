@@ -191,7 +191,7 @@ private:
   char m_szFollowName[32];
   int m_CurrentSelMagic[defMAX_ARRAY_STATESKILL];
   //	int
-  //m_MoveMpsList[defMAX_AUTO_MOVEMPSL][3];
+  // m_MoveMpsList[defMAX_AUTO_MOVEMPSL][3];
   int m_MoveMpsList[defMAX_AUTO_MOVEMPSL][3];
 
 public:

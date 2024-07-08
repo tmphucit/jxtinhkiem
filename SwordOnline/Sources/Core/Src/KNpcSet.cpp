@@ -754,7 +754,8 @@ int KNpcSet::GetAroundPlayer(KUiPlayerItem *pList, int nCount) {
       continue;
     }
     //		if
-    //(Player[CLIENT_PLAYER_INDEX].m_cChat.CheckExist(Npc[nIdx].Name)) 			continue;
+    //(Player[CLIENT_PLAYER_INDEX].m_cChat.CheckExist(Npc[nIdx].Name))
+    //continue;
     pList[nNum].nIndex = nIdx;
     pList[nNum].uId = Npc[nIdx].m_dwID;
     strcpy(pList[nNum].Name, Npc[nIdx].Name);
@@ -770,7 +771,7 @@ int KNpcSet::GetAroundPlayer(KUiPlayerItem *pList, int nCount) {
 //-------------------------------------------------------------------------
 //	功能：设定是否全部显示玩家的名字
 //			bFlag ==	TRUE 显示，bFlag == FALSE 不显示 zroc
-//add
+// add
 //-------------------------------------------------------------------------
 void KNpcSet::SetShowNameFlag(BOOL bFlag) {
   if (bFlag)
@@ -791,7 +792,7 @@ BOOL KNpcSet::CheckShowName() { return m_nShowPateFlag & PATE_NAME; }
 //-------------------------------------------------------------------------
 //	功能：设定是否全部显示玩家的血
 //			bFlag ==	TRUE 显示，bFlag == FALSE 不显示 zroc
-//add
+// add
 //-------------------------------------------------------------------------
 void KNpcSet::SetShowLifeFlag(BOOL bFlag) {
   if (bFlag)
@@ -812,7 +813,7 @@ BOOL KNpcSet::CheckShowLife() { return m_nShowPateFlag & PATE_LIFE; }
 //-------------------------------------------------------------------------
 //	功能：设定是否全部显示玩家的聊天
 //			bFlag ==	TRUE 显示，bFlag == FALSE 不显示 zroc
-//add
+// add
 //-------------------------------------------------------------------------
 void KNpcSet::SetShowChatFlag(BOOL bFlag) {
   if (bFlag)
@@ -833,7 +834,7 @@ BOOL KNpcSet::CheckShowChat() { return m_nShowPateFlag & PATE_CHAT; }
 //-------------------------------------------------------------------------
 //	功能：设定是否全部显示玩家的内力
 //			bFlag ==	TRUE 显示，bFlag == FALSE 不显示 zroc
-//add
+// add
 //-------------------------------------------------------------------------
 void KNpcSet::SetShowManaFlag(BOOL bFlag) {
   if (bFlag)
@@ -1139,7 +1140,7 @@ NPC_RELATION KNpcSet::GetRelation(int nId1, int nId2) {
          (Player[CLIENT_PLAYER_INDEX].m_cPK.GetNormalPKState() == 1 &&
           Npc[nId2].m_nPKFlag == 0) ||
          //(Npc[nId1].m_PKValue == MAX_DEATH_PUNISH_PK_VALUE &&
-         //Npc[nId2].m_PKValue != MAX_DEATH_PUNISH_PK_VALUE) ||
+         // Npc[nId2].m_PKValue != MAX_DEATH_PUNISH_PK_VALUE) ||
          !Npc[nId1].m_FightMode || !Npc[nId2].m_FightMode)) {
       return relation_none;
     }
@@ -1203,7 +1204,7 @@ NPC_RELATION KNpcSet::GetRelation(int nId1, int nId2) {
         (Npc[nId1].m_nPKFlag == 0 ||
          (Npc[nId1].m_nPKFlag == 1 && Npc[nId2].m_nPKFlag == 0) ||
          //(Npc[nId1].m_PKValue == MAX_DEATH_PUNISH_PK_VALUE &&
-         //Npc[nId2].m_PKValue != MAX_DEATH_PUNISH_PK_VALUE) ||
+         // Npc[nId2].m_PKValue != MAX_DEATH_PUNISH_PK_VALUE) ||
          !Npc[nId1].m_FightMode || !Npc[nId2].m_FightMode))
       return relation_none;
 

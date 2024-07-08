@@ -593,9 +593,9 @@ std::string DescHotKey(DWORD hk) {
       "Shift", "Ctrl", "Alt", "Ext", "", "", "", ""};
   static const char *vkeydesc_table[] = {
       //	0			1			2
-      //3			4			5 6 7
+      // 3			4			5 6 7
       //	8			9			A
-      //B			C			D E F
+      // B			C			D E F
       "",           "LButton", "RButton",    "Cancel",   "MButton",
       "",           "",        "", // 0
       "BackSpace",  "Tab",     "",           "",         "Clear",
@@ -2182,8 +2182,8 @@ TLua_Funcs GameScriptFuns[] = {
     {"Say", LuaSay},   //	char * strPlayerName,	char * strMessage
     {"Chat", LuaChat}, //	char * strChannelName,	char * strMessage
     {"RegisterFunctionAlias",
-     LuaRegisterFunctionAlias}, // char * strFunAlias, char * strFun, [int
-                                // nParam], [Paramlist...]
+     LuaRegisterFunctionAlias},  // char * strFunAlias, char * strFun, [int
+                                 // nParam], [Paramlist...]
     {"SayPhrase", LuaSayPhrase}, // int nIndex
     {"SetPhrase", LuaSetPhrase}, // int nIndex, char * strPhrase
     {"SayEmote",

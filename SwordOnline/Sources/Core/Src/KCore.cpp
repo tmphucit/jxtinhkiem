@@ -49,12 +49,16 @@
 #include "S3DBInterface.h"
 #endif
 #endif
+#ifndef _SERVER
+#define MAGICATTRIB_TABFILE "\\settings\\item\\magicattrib.txt"
+KTabFile g_MagicAttribFile;
+#endif
 
 #ifdef _SERVER
 extern int g_WayPointPriceUnit; // WayPoint表格中价格的单位量，WayPoint价格 =
                                 // 单位量 * 表格数值
-extern int g_StationPriceUnit; // Station表格中价格的单位量，Station价格 =
-                               // 单位量 * 表格数值
+extern int g_StationPriceUnit;  // Station表格中价格的单位量，Station价格 =
+                                // 单位量 * 表格数值
 extern int g_DockPriceUnit;
 #endif
 
@@ -459,6 +463,12 @@ BOOL InitMissleSetting() {
 
 extern int g_LoadSkillInfo();
 BOOL InitSkillSetting() {
+#ifndef _SERVER
+  // them min max magicattrib boi Vincent Hoang
+  if (!g_MagicAttribFile.Load(MAGICATTRIB_TABFILE)) {
+    g_DebugLog("Can Not Load g_MagicAttribFile: %s", MAGICATTRIB_TABFILE);
+  }
+#endif
 
   if (!g_SkillManager.Init()) {
     _ASSERT(0);
@@ -472,6 +482,8 @@ BOOL InitSkillSetting() {
 
   return TRUE;
 }
+// vantoi
+
 #ifdef _SERVER
 BOOL LoadNpcSettingFromBinFile(LPSTR BinFile = NPC_TEMPLATE_BINFILE) {
   return FALSE;

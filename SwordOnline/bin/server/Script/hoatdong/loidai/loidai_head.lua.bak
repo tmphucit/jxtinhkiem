@@ -1,0 +1,48 @@
+CS_RevId = 80;
+CS_RevData = 36;
+
+--会场葩的位址
+BW_COMPETEMAP = {209, 210, 211};
+
+--加入双方阵营时的位址
+CS_CampPos = {	{209, 1620, 3218},	--紫色
+				{209, 1644, 3194}, 	--⑻色
+				{209, 1605, 3216}   --观战者的位址白色
+			 }; 
+CS_CamperPos = {
+				{1599, 3202, "张三"},
+				{1608, 3211, "殿四"},
+}
+FRAME2TIME = 18;
+--游戏的最大人数
+MAX_MEMBER_COUNT = 100;
+--存储萱家的位址的任务变缚
+
+MS_STATE = 1;
+MS_MAXMEMBERCOUNT = 2;
+CITYID = 6; --城市ID
+BW_KEY = 7; -- 0-100000000的随机数
+MS_NEWSVALUE = 9; --任务中存放孝闻变缚的地方
+MS_TEAMKEY = {10, 11};
+
+MSS_CAPTAIN = {1, 2};
+BW_SMALLTIME_ID = 10; --定时触发器
+BW_TOTALTIME_ID = 11;
+TIMER_1 = 20 * FRAME2TIME; -- 20冯公布一息战况
+TIMER_2 = 12 * 3 * TIMER_1 ; --交战总时间为10+2分钟
+
+GO_TIME = 1;
+BW_MISSIONID = 4;
+
+function LeaveGame()
+	camp = GetCamp();
+	SetCurCamp(GetCamp());
+	SetFightState(0);
+	SetLogoutRV(0);
+	SetPunish(0)
+	SetPKState(0)
+	BlockPKState(0)
+	SetCreateTeam(1);
+	SetRevPos(78,29)
+	SetDeathScript("");
+end;

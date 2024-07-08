@@ -4,7 +4,7 @@
 #include "DBBackup.h"
 #include "CRC32.h"
 #include "DBDumpLoad.h"
-#include "DBTABLE.h"
+#include "DBTABLE.H"
 #include "Macro.h"
 #include "stdafx.h"
 #include <FSTREAM>
@@ -925,7 +925,7 @@ void CDBBackup::SaveStatInfo() { // 把游戏世界等级排名写到指定玩家角色中
     ZCursor *cursor = RunTable->search(aStatData.LevelStat[i].Name,
                                        strlen(aStatData.LevelStat[i].Name) + 1);
     //		char* aBuffer = RunTable->search(aStatData.LevelStat[i].Name,
-    //strlen(aStatData.LevelStat[i].Name) +1,size);
+    // strlen(aStatData.LevelStat[i].Name) +1,size);
     if (!cursor) {
       continue;
     }
@@ -953,8 +953,8 @@ void CDBBackup::SaveStatInfo() { // 把游戏世界等级排名写到指定玩家角色中
           RunTable->search(aStatData.LevelStatBySect[i][j].Name,
                            strlen(aStatData.LevelStatBySect[i][j].Name) + 1);
       //			char* aBuffer =
-      //RunTable->search(aStatData.LevelStatBySect[i][j].Name,
-      //strlen(aStatData.LevelStatBySect[i][j].Name) +1,size);
+      // RunTable->search(aStatData.LevelStatBySect[i][j].Name,
+      // strlen(aStatData.LevelStatBySect[i][j].Name) +1,size);
       if (!cursor) {
         continue;
       }

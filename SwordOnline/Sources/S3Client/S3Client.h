@@ -35,8 +35,9 @@ struct KClientCallback : public IClientCallback {
                          bool bSucc);
   void NotifyChannelID(char *ChannelName, DWORD channelid, BYTE cost);
   void FriendInvite(char *roleName);
-  void AddFriend(char *roleName, BYTE answer);   // 添加好友到好友组
-  void FriendStatus(char *roleName, BYTE state); // 有关系人的状态,找到第一个为止
+  void AddFriend(char *roleName, BYTE answer); // 添加好友到好友组
+  void FriendStatus(char *roleName,
+                    BYTE state); // 有关系人的状态,找到第一个为止
   void FriendInfo(char *roleName, char *unitName, char *groupName,
                   BYTE state);                    // 同步关系人数据
   void AddPeople(char *unitName, char *roleName); // 添加关系人到指定组

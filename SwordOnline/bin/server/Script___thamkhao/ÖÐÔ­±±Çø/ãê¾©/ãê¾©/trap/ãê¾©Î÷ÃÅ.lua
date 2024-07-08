@@ -1,0 +1,18 @@
+--两湖区 巴陵县南门 战斗状态切换Trap
+Include("\\script\\Global\\doimaump.lua")
+Include("\\script\\checkloinhanvat.lua")
+function main(sel)
+if check() == 0 then
+checkruapk()
+if ( GetFightState() == 0 ) then	-- 玩家处于非战斗状态，即在城内
+	SetFightState(1)
+	Msg2Player("Trap 21")
+else			       		-- 玩家处于战斗状态，即在城外
+	SetFightState(0)		-- 转换为非战斗状态
+	Msg2Player("Trap 22")
+end;
+doimaump()	
+else
+xuly()
+end
+end;

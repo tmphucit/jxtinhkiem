@@ -167,12 +167,12 @@ int LuaModifyRepute(Lua_State *L) {
     char szMsg[100];
     sprintf(szMsg, "您的声望减少了%d点!", -nValue);
     //		KPlayerChat::SendSystemInfo(1, nPlayerIndex,
-    //MESSAGE_SYSTEM_ANNOUCE_HEAD, (char *) szMsg, strlen(szMsg) );
+    // MESSAGE_SYSTEM_ANNOUCE_HEAD, (char *) szMsg, strlen(szMsg) );
   } else {
     char szMsg[100];
     sprintf(szMsg, "您的声望增加了%d点!", nValue);
     //		KPlayerChat::SendSystemInfo(1, nPlayerIndex,
-    //MESSAGE_SYSTEM_ANNOUCE_HEAD, (char *) szMsg, strlen(szMsg) );
+    // MESSAGE_SYSTEM_ANNOUCE_HEAD, (char *) szMsg, strlen(szMsg) );
   }
 
   return 0;
@@ -2770,7 +2770,7 @@ int LuaAddItem(Lua_State *L) {
   }
 
   //	printf("Test: %d - %d \n", Item[nIndex].GetDurability(),
-  //Item[nIndex].GetMaxDurability());
+  // Item[nIndex].GetMaxDurability());
   int x, y;
   if (Player[nPlayerIndex].m_ItemList.CheckCanPlaceInEquipment(
           Item[nIndex].GetWidth(), Item[nIndex].GetHeight(), &x, &y)) {
@@ -9416,14 +9416,12 @@ TLua_Funcs GameScriptFuns[] = {
     {"GetRepute", LuaGetRepute},
     {"GetNpcIdx", LuaGetCurNpcIndex},
 
-    {"SetTimer",
-     LuaSetTimer}, // SetTimer(时间量,
-                   // 时间TaskId):给玩家打开计时器,时间到时将自动调用OnTimer函数
-    {"StopTimer", LuaStopTimer},     // StopTimer()：关闭当前玩家的计时器
-    {"GetRestTime", LuaGetRestTime}, // GetRestTime:获得计时器将触发的剩于时间
-    {"GetTimerId",
-     LuaGetCurTimerId}, // CurTimerId =
-                        // GetTimerId():获得当前执行的计时器的id,如果没有则返回0
+    {"SetTimer", LuaSetTimer}, // SetTimer(时间量,
+    // 时间TaskId):给玩家打开计时器,时间到时将自动调用OnTimer函数
+    {"StopTimer", LuaStopTimer},      // StopTimer()：关闭当前玩家的计时器
+    {"GetRestTime", LuaGetRestTime},  // GetRestTime:获得计时器将触发的剩于时间
+    {"GetTimerId", LuaGetCurTimerId}, // CurTimerId =
+    // GetTimerId():获得当前执行的计时器的id,如果没有则返回0
     {"GetTask", LuaGetTaskValue}, // GetTask(任务号):获得当前玩家该任务号的值
     {"SetTask", LuaSetTaskValue}, // SetTask(任务号,值):设置任务值
     {"RandomNew", LuaRandomNew},  // SetTask(任务号,值):设置任务值
@@ -9505,8 +9503,8 @@ TLua_Funcs GameScriptFuns[] = {
      LuaSetPlayerRevivalPos}, // SetRevPos(点位置X，点位置Y)设置玩家的当前世界的等入点位置
     {"SetTempRevPos", LuaSetDeathRevivalPos}, // SetTempRevPos(subworldid, x, y
                                               // ) or SetTempRevPos(id);
-    {"GetCurCamp", LuaGetPlayerCurrentCamp}, // GetCurCamp()获得玩家的当前阵营
-    {"GetCamp", LuaGetPlayerCamp},           // GetCamp()获得玩家阵营
+    {"GetCurCamp", LuaGetPlayerCurrentCamp},  // GetCurCamp()获得玩家的当前阵营
+    {"GetCamp", LuaGetPlayerCamp},            // GetCamp()获得玩家阵营
     {"SetCurCamp",
      LuaSetPlayerCurrentCamp},       // SetCurCamp(阵营号):设置玩家当前阵营
     {"SetTeamCamp", LuaSetTeamCamp}, // SetCurCamp(阵营号):设置玩家当前阵营
@@ -9664,19 +9662,17 @@ TLua_Funcs GameScriptFuns[] = {
     {"SetLogoutRV", LuaSetPlayerRevivalOptionWhenLogout},
     {"SetCreateTeam", LuaSetCreateTeamOption},
     {"GetPK", LuaGetPlayerPKValue}, // pkValue = GetPK()
-    {"SetPK",
-     LuaSetPlayerPKValue}, // SetPK(pkValue)
-                           //------------------------------------------------
-                           // 排名相关函数
+    {"SetPK", LuaSetPlayerPKValue}, // SetPK(pkValue)
+    //------------------------------------------------
+    // 排名相关函数
     {"ShowLadder",
      LuaShowLadder}, // ShowLadder(LadderCount, LadderId1,LadderId2,...);
                      //------------------------------------------------
 
-    {"OpenTong", LuaOpenTong}, // OpenTong()通知玩家打开帮会界面
-    {"SetPunish",
-     LuaSetDeathPunish}, // SetPunish(0/1) 0表示不受任何惩罚
-                         //-------------------------------------------------
-                         // 结拜
+    {"OpenTong", LuaOpenTong},        // OpenTong()通知玩家打开帮会界面
+    {"SetPunish", LuaSetDeathPunish}, // SetPunish(0/1) 0表示不受任何惩罚
+    //-------------------------------------------------
+    // 结拜
     {"SwearBrother", LuaSwearBrother}, // ret = SwearBrother(TeamId);
     {"MakeEnemy", LuaMakeEnemy},       // 结仇 MakeEnemy(enemyname)
     {"RollbackSkill", LuaRollBackSkills},
@@ -9922,24 +9918,24 @@ TLua_Funcs WorldScriptFuns[] = // 非指对玩家的脚本指令集
         //	{"RunMission", LuaRunMission},
         //	{"CloseMission", LuaCloseMission},//CloseMission(missionid)
         //	{"StartMissionTimer",
-        //LuaStartMissionTimer},////StartMissionTimer(missionid, timerid, time)
+        // LuaStartMissionTimer},////StartMissionTimer(missionid, timerid, time)
         //	{"StopMissionTimer", LuaStopMissionTimer},
         //	{"GetMSRestTime", LuaGetMissionRestTime},
         ////GetMSRestTime(missionid, timerid)
         //	{"GetMSIdxGroup",LuaGetPlayerMissionGroup},//GetPlayerGroup(missionid,
-        //playerid);
+        // playerid);
         //
         //	{"AddMSPlayer", LuaAddMissionPlayer},
         //	{"DelMSPlayer", LuaRemoveMissionPlayer},
         //	{"GetNextPlayer", LuaGetNextPlayer},
         //	{"PIdx2MSDIdx", LuaGetMissionPlayer_DataIndex},//(missionid,
-        //pidx)
+        // pidx)
         //	{"MSDIdx2PIdx", LuaGetMissionPlayer_PlayerIndex},//(missionid,
-        //dataidx)
+        // dataidx)
         //	{"NpcIdx2PIdx", LuaNpcIndexToPlayerIndex},
 
         //{"GetMSPlayerCount",
-        //LuaMissionPlayerCount},//GetMSPlayerCount(missionid, group = 0)
+        // LuaMissionPlayerCount},//GetMSPlayerCount(missionid, group = 0)
 
         //	{"RevivalAllNpc",	LuaRevivalAllNpc},
 

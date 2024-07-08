@@ -172,7 +172,7 @@ void KRepresentShell2::DrawPrimitives(int nPrimitiveCount,
         //****to be modify end****
 
         //						Check Current Draw
-        //Device??;
+        // Device??;
         if ((pTemp->bRenderFlag & RUIMAGE_RENDER_FLAG_FRAME_DRAW) == 0) {
           nX += pFrame->OffsetX;
           nY += pFrame->OffsetY;
@@ -333,7 +333,7 @@ void KRepresentShell2::DrawPrimitives(int nPrimitiveCount,
           nY -= pSprHeader->CenterY;
         }
         //						Check Current Draw
-        //Device??;
+        // Device??;
 
         // Clipper
         if ((pTemp->bRenderFlag & RUIMAGE_RENDER_FLAG_FRAME_DRAW) == 0) {

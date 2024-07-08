@@ -58,8 +58,8 @@ int g_nProtocolSize[MAX_PROTOCOL_NUM] = {
     sizeof(PLAYER_FACTION_DATA),             // s2c_playerfactiondata,
     sizeof(PLAYER_LEAVE_FACTION),            // s2c_playerleavefaction,
     sizeof(PLAYER_FACTION_SKILL_LEVEL),      // s2c_playerfactionskilllevel,
-    -1, // sizeof(PLAYER_SEND_CHAT_SYNC),			//
-        // s2c_playersendchat,
+    -1,                                 // sizeof(PLAYER_SEND_CHAT_SYNC),			//
+                                        // s2c_playersendchat,
     sizeof(PLAYER_LEAD_EXP_SYNC),       // s2c_playersyncleadexp
     sizeof(PLAYER_LEVEL_UP_SYNC),       // s2c_playerlevelup
     sizeof(PLAYER_TEAMMATE_LEVEL_SYNC), // s2c_teammatelevel
@@ -117,24 +117,15 @@ int g_nProtocolSize[MAX_PROTOCOL_NUM] = {
     sizeof(ITEM_DURABILITY_CHANGE), // s2c_itemdurabilitychange
     sizeof(MASK_SYNC),              // MASK
     sizeof(PLAYER_BLOCK_ITEM_RETURN_COMMAND),
-    sizeof(PLAYER_UNBLOCK_ITEM_RETURN_COMMAND),
-    sizeof(CURPLAYER_HEIGHT_SYNC),
-    sizeof(PLAYER_UNBLOCK_ITEM_NOW_COMMAND),
-    sizeof(PLAYER_ITEM_UPDATE_VERSION),
-    sizeof(NPC_UPDATE_TONG),
-    sizeof(PLAYER_OPEN_STRING_BOX),
-    sizeof(PLAYER_OPEN_CHECK_ITEM_BOX),
-    sizeof(PLAYER_OPEN_SLECT_CHECK_BOX),
-    sizeof(PLAYER_OPEN_PG_BOX_ITEM),
-    sizeof(PLAYER_SHOP_PRICE_RETURN_COMMAND),
+    sizeof(PLAYER_UNBLOCK_ITEM_RETURN_COMMAND), sizeof(CURPLAYER_HEIGHT_SYNC),
+    sizeof(PLAYER_UNBLOCK_ITEM_NOW_COMMAND), sizeof(PLAYER_ITEM_UPDATE_VERSION),
+    sizeof(NPC_UPDATE_TONG), sizeof(PLAYER_OPEN_STRING_BOX),
+    sizeof(PLAYER_OPEN_CHECK_ITEM_BOX), sizeof(PLAYER_OPEN_SLECT_CHECK_BOX),
+    sizeof(PLAYER_OPEN_PG_BOX_ITEM), sizeof(PLAYER_SHOP_PRICE_RETURN_COMMAND),
     sizeof(PLAYER_UPDATE_SHOP_PRICE_COMMAND),
-    sizeof(PLAYER_SHOP_OPEN_RETURN_COMMAND),
-    sizeof(NPC_UPDATE_SHOP),
-    sizeof(BOX_BUY_SHOP_SYNC),
-    sizeof(ITEM_BUY_SHOP_SYNC),
-    sizeof(NPC_POS_SYNC),
-    sizeof(PLAYER_BLOCK_BOX),
-    sizeof(PLAYER_OPEN_NEW_PW_BOX_ITEM),
+    sizeof(PLAYER_SHOP_OPEN_RETURN_COMMAND), sizeof(NPC_UPDATE_SHOP),
+    sizeof(BOX_BUY_SHOP_SYNC), sizeof(ITEM_BUY_SHOP_SYNC), sizeof(NPC_POS_SYNC),
+    sizeof(PLAYER_BLOCK_BOX), sizeof(PLAYER_OPEN_NEW_PW_BOX_ITEM),
     sizeof(PLAYER_SEND_TOP_TK_NEW),
     sizeof(PLAYER_TONGKIM_SYNC),      // s2c_playertongkimsync
     sizeof(S2C_SYNC_ITEM_PARAM),      // s2c_sync_item_param
@@ -223,24 +214,15 @@ int g_nProtocolSize[MAX_PROTOCOL_NUM] = {
     sizeof(SET_IMAGE),                     // c2s_cpsetimage
     sizeof(PLAYER_BLOCK_ITEM_COMMAND),     // c2s_lockitem
     sizeof(PLAYER_UNBLOCK_ITEM_COMMAND),   // c2s_unlockitem
-    sizeof(PLAYER_STASK_ITEM_COMMAND),
-    sizeof(PLAYER_STRING_BOX),
-    sizeof(PLAYER_CHECK_ITEM_BOX),
-    sizeof(PLAYER_SLECT_CHECK_BOX),
-    sizeof(PLAYER_BUTTON_PG_BOX),
-    sizeof(PLAYER_SHOP_NAME),
-    sizeof(PLAYER_SHOP_PRICE_COMMAND),
-    sizeof(PLAYER_SHOP_OPEN_COMMAND),
-    sizeof(PLAYER_OPEN_BUY_SHOP),
-    sizeof(PLAYER_SHOP_BUY_ITEM_COMMAND),
-    sizeof(PLAYER_CLOSE_BUY_SHOP),
-    sizeof(OPEN_SHOP_GOLD),
-    sizeof(PLAYER_LOGIN_PW_STORE_BOX),
-    sizeof(PLAYER_PW_STORE_BOX),
-    sizeof(PLAYER_BLOCK_STORE_BOX),
-    sizeof(PLAYER_UNBLOCK_STORE_BOX),
-    sizeof(PLAYER_NEW_PW_STORE_BOX),
-    sizeof(OPEN_TOP_TK_NEW),
+    sizeof(PLAYER_STASK_ITEM_COMMAND), sizeof(PLAYER_STRING_BOX),
+    sizeof(PLAYER_CHECK_ITEM_BOX), sizeof(PLAYER_SLECT_CHECK_BOX),
+    sizeof(PLAYER_BUTTON_PG_BOX), sizeof(PLAYER_SHOP_NAME),
+    sizeof(PLAYER_SHOP_PRICE_COMMAND), sizeof(PLAYER_SHOP_OPEN_COMMAND),
+    sizeof(PLAYER_OPEN_BUY_SHOP), sizeof(PLAYER_SHOP_BUY_ITEM_COMMAND),
+    sizeof(PLAYER_CLOSE_BUY_SHOP), sizeof(OPEN_SHOP_GOLD),
+    sizeof(PLAYER_LOGIN_PW_STORE_BOX), sizeof(PLAYER_PW_STORE_BOX),
+    sizeof(PLAYER_BLOCK_STORE_BOX), sizeof(PLAYER_UNBLOCK_STORE_BOX),
+    sizeof(PLAYER_NEW_PW_STORE_BOX), sizeof(OPEN_TOP_TK_NEW),
     sizeof(TONG_DISMISS_SYNC),        // c2s_playerLiXian
     sizeof(PLAYER_REQUEST_AUTO),      // c2s_autoplay
     sizeof(PLAYER_COMMAND),           // c2s_playercommand
@@ -600,7 +582,7 @@ BOOL SendClientCmdBuy(int nBuyIdx, int nPlace, int nX, int nY) {
 //	if (g_pClient && g_bPingReply)
 //	{
 //		g_pClient->SendPackToServer((BYTE*)&PingCmd,
-//sizeof(PING_COMMAND)); 		g_bPingReply = FALSE;
+// sizeof(PING_COMMAND)); 		g_bPingReply = FALSE;
 //	}
 // }
 
@@ -660,7 +642,7 @@ void SendClientCmdStoreMoney(int nDir, int nMoney) {
 //	ReviveCmd.ReviveType = nReviveType;
 //	if (g_pClient)
 //		g_pClient->SendPackToServer((BYTE *)&ReviveCmd,
-//sizeof(NPC_REVIVE_COMMAND));
+// sizeof(NPC_REVIVE_COMMAND));
 // }
 
 void SendClientCmdRevive() {

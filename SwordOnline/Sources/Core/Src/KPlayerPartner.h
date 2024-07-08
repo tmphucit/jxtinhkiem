@@ -35,10 +35,11 @@ enum ePartnerType {
 };
 
 typedef struct {
-  unsigned long m_ulTimeOutVanish; // 是否有存活时间，如果时间到了就消亡.0表示没有，
-                                   // 大于0表示存活时间
-  BOOL m_bDeathVanish; // 是否死亡之后就消亡.
-  BOOL m_bDeathRevive; // 是否死亡后能重生
+  unsigned long
+      m_ulTimeOutVanish; // 是否有存活时间，如果时间到了就消亡.0表示没有，
+                         // 大于0表示存活时间
+  BOOL m_bDeathVanish;   // 是否死亡之后就消亡.
+  BOOL m_bDeathRevive;   // 是否死亡后能重生
   unsigned long m_ulOwnerNpcIndex;
 } tPartnerProp;
 

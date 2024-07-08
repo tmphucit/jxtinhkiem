@@ -1,0 +1,457 @@
+
+*
+***** Sword3PaySys Start (@ 2024/04/30 11:35:05.044) >>>>>
+*
+
+[2024/04/30 11:35:09] 1 >> DB Connect 0 is busy !
+[2024/04/30 11:35:09] 2 >> Add Gateway(192.168.11.13 : 55657) Client 0 ! -- At 0
+[2024/04/30 11:35:09] 3 >> [Debug] SQL Query CMD NOT [155]
+[2024/04/30 11:35:09] 4 >> Gateway vantoi(192.168.11.13)B42E-992C-2E81: Verify OK !
+[2024/04/30 11:35:09] 5 >> [Debug] SQL CMD [update Account_info set iClientID = 0, dLogoutDate = getdate() where (iClientID = 20)]
+[2024/04/30 11:35:09] 6 >> Gateway unlock OK!
+[2024/04/30 11:35:09] 7 >> Gateway Connect OK!
+[2024/04/30 11:35:10] 8 >> DB Connect 0 is free !
+[2024/04/30 11:35:20] 9 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:35:30] 10 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:35:31] 11 >> DB Connect 0 is busy !
+[2024/04/30 11:35:31] 12 >> [Debug] SQL Query CMD NOT [142]
+[2024/04/30 11:35:31] 13 >> [Debug] SQL Query CMD NOT [131]
+[2024/04/30 11:35:31] 14 >> [Debug] SQL CMD [update Account_info set iClientID = 20, dLoginDate = null where (cAccName = 'quycan1')]
+[2024/04/30 11:35:31] 15 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:35:31] 16 >> Gateway vantoi(192.168.11.13): User quycan1 Login Success ! (Ext:0)
+[2024/04/30 11:35:32] 17 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:35:32] 18 >> [Debug] SQL CMD [update Account_info set dLoginDate = getdate() where (cAccName = 'quycan1') and (iClientID = 20) and (dLoginDate is null)]
+[2024/04/30 11:35:32] 19 >> [Debug] SQL CMD [update View_AccountMoney set iNumLogin = 0 where (cAccName = 'quycan1')]
+[2024/04/30 11:35:32] 20 >> Gateway vantoi(192.168.11.13): User quycan1 Enter Game Success !
+[2024/04/30 11:35:33] 21 >> DB Connect 0 is free !
+[2024/04/30 11:35:39] 22 >> DB Connect 0 is busy !
+[2024/04/30 11:35:39] 23 >> [Debug] SQL CMD NOT [149]
+[2024/04/30 11:35:39] 24 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/04/30 11:35:39] 25 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:35:39] 26 >> [Debug] SQL Query CMD NOT [131]
+[2024/04/30 11:35:39] 27 >> [Debug] SQL CMD [update Account_info set iClientID = 0, dLogoutDate = getdate() where (cAccName = 'quycan1') and (iClientID = 20)]
+[2024/04/30 11:35:39] 28 >> [Debug] SQL CMD [update View_AccountMoney set nExtPoint = iNumLogin, iNumLogin = 0 where (cAccName = 'quycan1') and (iNumLogin > 0)]
+[2024/04/30 11:35:39] 29 >> Gateway vantoi(192.168.11.13): User quycan1 Logout Success ! (Ext:0)
+[2024/04/30 11:35:40] 30 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:35:41] 31 >> DB Connect 0 is free !
+[2024/04/30 11:35:50] 32 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:36:00] 33 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:36:10] 34 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:36:20] 35 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:36:30] 36 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:36:40] 37 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:36:50] 38 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:37:00] 39 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:37:10] 40 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:37:20] 41 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:37:30] 42 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:37:40] 43 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:37:50] 44 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:38:00] 45 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:38:10] 46 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:38:20] 47 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:38:30] 48 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:38:40] 49 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:38:50] 50 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:39:00] 51 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:39:10] 52 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:39:20] 53 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:39:30] 54 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:39:40] 55 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:39:50] 56 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:40:00] 57 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:40:10] 58 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:40:20] 59 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:40:30] 60 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:40:40] 61 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:40:50] 62 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:41:00] 63 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:41:10] 64 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:41:20] 65 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:41:30] 66 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:41:40] 67 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:41:50] 68 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:42:00] 69 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:42:10] 70 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:42:20] 71 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:42:30] 72 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:42:40] 73 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:42:50] 74 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:43:00] 75 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:43:10] 76 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:43:17] 77 >> DB Connect 0 is busy !
+[2024/04/30 11:43:17] 78 >> [Debug] SQL Query CMD NOT [142]
+[2024/04/30 11:43:17] 79 >> [Debug] SQL Query CMD NOT [131]
+[2024/04/30 11:43:17] 80 >> [Debug] SQL CMD [update Account_info set iClientID = 20, dLoginDate = null where (cAccName = 'quycan1')]
+[2024/04/30 11:43:17] 81 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:43:17] 82 >> Gateway vantoi(192.168.11.13): User quycan1 Login Success ! (Ext:0)
+[2024/04/30 11:43:18] 83 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:43:18] 84 >> [Debug] SQL CMD [update Account_info set dLoginDate = getdate() where (cAccName = 'quycan1') and (iClientID = 20) and (dLoginDate is null)]
+[2024/04/30 11:43:18] 85 >> [Debug] SQL CMD [update View_AccountMoney set iNumLogin = 0 where (cAccName = 'quycan1')]
+[2024/04/30 11:43:18] 86 >> Gateway vantoi(192.168.11.13): User quycan1 Enter Game Success !
+[2024/04/30 11:43:19] 87 >> DB Connect 0 is free !
+[2024/04/30 11:43:20] 88 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:43:24] 89 >> DB Connect 0 is busy !
+[2024/04/30 11:43:24] 90 >> [Debug] SQL CMD NOT [149]
+[2024/04/30 11:43:24] 91 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/04/30 11:43:24] 92 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:43:24] 93 >> [Debug] SQL Query CMD NOT [131]
+[2024/04/30 11:43:24] 94 >> [Debug] SQL CMD [update Account_info set iClientID = 0, dLogoutDate = getdate() where (cAccName = 'quycan1') and (iClientID = 20)]
+[2024/04/30 11:43:24] 95 >> [Debug] SQL CMD [update View_AccountMoney set nExtPoint = iNumLogin, iNumLogin = 0 where (cAccName = 'quycan1') and (iNumLogin > 0)]
+[2024/04/30 11:43:24] 96 >> Gateway vantoi(192.168.11.13): User quycan1 Logout Success ! (Ext:0)
+[2024/04/30 11:43:25] 97 >> DB Connect 0 is free !
+[2024/04/30 11:43:30] 98 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:43:40] 99 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:43:50] 100 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:43:56] 101 >> DB Connect 0 is busy !
+[2024/04/30 11:43:56] 102 >> [Debug] SQL Query CMD NOT [142]
+[2024/04/30 11:43:56] 103 >> [Debug] SQL Query CMD NOT [131]
+[2024/04/30 11:43:56] 104 >> [Debug] SQL CMD [update Account_info set iClientID = 20, dLoginDate = null where (cAccName = 'quycan1')]
+[2024/04/30 11:43:56] 105 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:43:56] 106 >> Gateway vantoi(192.168.11.13): User quycan1 Login Success ! (Ext:0)
+[2024/04/30 11:43:57] 107 >> DB Connect 0 is free !
+[2024/04/30 11:43:58] 108 >> DB Connect 0 is busy !
+[2024/04/30 11:43:58] 109 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:43:58] 110 >> [Debug] SQL Query CMD NOT [144]
+[2024/04/30 11:43:58] 111 >> Gateway vantoi(192.168.11.13): User quycan1 SecondPassword Failed ! --- Name, Password
+[2024/04/30 11:43:59] 112 >> DB Connect 0 is free !
+[2024/04/30 11:43:59] 113 >> DB Connect 0 is busy !
+[2024/04/30 11:43:59] 114 >> [Debug] SQL CMD NOT [149]
+[2024/04/30 11:43:59] 115 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/04/30 11:43:59] 116 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:43:59] 117 >> [Debug] SQL Query CMD NOT [131]
+[2024/04/30 11:43:59] 118 >> [Debug] SQL CMD [update Account_info set iClientID = 0, dLogoutDate = getdate() where (cAccName = 'quycan1') and (iClientID = 20)]
+[2024/04/30 11:43:59] 119 >> [Debug] SQL CMD [update View_AccountMoney set nExtPoint = iNumLogin, iNumLogin = 0 where (cAccName = 'quycan1') and (iNumLogin > 0)]
+[2024/04/30 11:43:59] 120 >> Gateway vantoi(192.168.11.13): User quycan1 Logout Success ! (Ext:0)
+[2024/04/30 11:44:00] 121 >> DB Connect 0 is free !
+[2024/04/30 11:44:00] 122 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:44:04] 123 >> DB Connect 0 is busy !
+[2024/04/30 11:44:04] 124 >> [Debug] SQL Query CMD NOT [142]
+[2024/04/30 11:44:04] 125 >> [Debug] SQL Query CMD NOT [131]
+[2024/04/30 11:44:04] 126 >> [Debug] SQL CMD [update Account_info set iClientID = 20, dLoginDate = null where (cAccName = 'quycan1')]
+[2024/04/30 11:44:04] 127 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:44:04] 128 >> Gateway vantoi(192.168.11.13): User quycan1 Login Success ! (Ext:0)
+[2024/04/30 11:44:05] 129 >> DB Connect 0 is free !
+[2024/04/30 11:44:05] 130 >> DB Connect 0 is busy !
+[2024/04/30 11:44:05] 131 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:44:05] 132 >> [Debug] SQL CMD [update Account_info set dLoginDate = getdate() where (cAccName = 'quycan1') and (iClientID = 20) and (dLoginDate is null)]
+[2024/04/30 11:44:05] 133 >> [Debug] SQL CMD [update View_AccountMoney set iNumLogin = 0 where (cAccName = 'quycan1')]
+[2024/04/30 11:44:05] 134 >> Gateway vantoi(192.168.11.13): User quycan1 Enter Game Success !
+[2024/04/30 11:44:06] 135 >> DB Connect 0 is free !
+[2024/04/30 11:44:10] 136 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:44:20] 137 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:44:30] 138 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:44:41] 139 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:44:51] 140 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:45:01] 141 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:45:03] 142 >> DB Connect 0 is busy !
+[2024/04/30 11:45:03] 143 >> [Debug] SQL CMD NOT [149]
+[2024/04/30 11:45:03] 144 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/04/30 11:45:03] 145 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:45:03] 146 >> [Debug] SQL Query CMD NOT [131]
+[2024/04/30 11:45:03] 147 >> [Debug] SQL CMD [update Account_info set iClientID = 0, dLogoutDate = getdate() where (cAccName = 'quycan1') and (iClientID = 20)]
+[2024/04/30 11:45:03] 148 >> [Debug] SQL CMD [update View_AccountMoney set nExtPoint = iNumLogin, iNumLogin = 0 where (cAccName = 'quycan1') and (iNumLogin > 0)]
+[2024/04/30 11:45:03] 149 >> Gateway vantoi(192.168.11.13): User quycan1 Logout Success ! (Ext:0)
+[2024/04/30 11:45:04] 150 >> DB Connect 0 is free !
+[2024/04/30 11:45:11] 151 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:45:21] 152 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:45:31] 153 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:45:41] 154 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:45:51] 155 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:46:01] 156 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:46:11] 157 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:46:21] 158 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:46:31] 159 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:46:41] 160 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:46:51] 161 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:47:01] 162 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:47:11] 163 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:47:21] 164 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:47:31] 165 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:47:41] 166 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:47:51] 167 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:48:01] 168 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:48:11] 169 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:48:21] 170 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:48:31] 171 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:48:41] 172 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:48:51] 173 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:49:01] 174 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:49:11] 175 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:49:21] 176 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:49:31] 177 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:49:41] 178 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:49:51] 179 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:50:01] 180 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:50:11] 181 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:50:20] 182 >> DB Connect 0 is busy !
+[2024/04/30 11:50:20] 183 >> [Debug] SQL Query CMD NOT [142]
+[2024/04/30 11:50:20] 184 >> [Debug] SQL Query CMD NOT [131]
+[2024/04/30 11:50:20] 185 >> [Debug] SQL CMD [update Account_info set iClientID = 20, dLoginDate = null where (cAccName = 'quycan1')]
+[2024/04/30 11:50:20] 186 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:50:20] 187 >> Gateway vantoi(192.168.11.13): User quycan1 Login Success ! (Ext:0)
+[2024/04/30 11:50:20] 188 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 11:50:20] 189 >> [Debug] SQL CMD [update Account_info set dLoginDate = getdate() where (cAccName = 'quycan1') and (iClientID = 20) and (dLoginDate is null)]
+[2024/04/30 11:50:20] 190 >> [Debug] SQL CMD [update View_AccountMoney set iNumLogin = 0 where (cAccName = 'quycan1')]
+[2024/04/30 11:50:20] 191 >> Gateway vantoi(192.168.11.13): User quycan1 Enter Game Success !
+[2024/04/30 11:50:21] 192 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:50:22] 193 >> DB Connect 0 is free !
+[2024/04/30 11:50:31] 194 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:50:41] 195 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:50:51] 196 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:51:01] 197 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:51:11] 198 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:51:21] 199 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:51:31] 200 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:51:41] 201 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:51:51] 202 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:52:01] 203 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:52:11] 204 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:52:21] 205 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:52:31] 206 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:52:41] 207 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:52:51] 208 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:53:01] 209 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:53:11] 210 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:53:21] 211 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:53:31] 212 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:53:41] 213 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:53:51] 214 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:54:01] 215 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:54:11] 216 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:54:21] 217 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:54:31] 218 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:54:41] 219 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:54:51] 220 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:55:01] 221 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:55:12] 222 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:55:22] 223 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:55:32] 224 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:55:42] 225 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:55:52] 226 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:56:02] 227 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:56:12] 228 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:56:22] 229 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:56:32] 230 >> Gateway vantoi(192.168.11.13): Ping 9(s)
+[2024/04/30 11:56:42] 231 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:56:52] 232 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:57:02] 233 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:57:12] 234 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:57:22] 235 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:57:32] 236 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:57:42] 237 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:57:52] 238 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:58:02] 239 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:58:12] 240 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:58:22] 241 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:58:32] 242 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:58:42] 243 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:58:52] 244 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:59:02] 245 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:59:12] 246 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:59:22] 247 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:59:32] 248 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:59:42] 249 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 11:59:52] 250 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:00:02] 251 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:00:12] 252 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:00:22] 253 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:00:32] 254 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:00:42] 255 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:00:52] 256 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:01:02] 257 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:01:12] 258 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:01:22] 259 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:01:32] 260 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:01:42] 261 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:01:52] 262 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:02:02] 263 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:02:12] 264 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:02:22] 265 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:02:32] 266 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:02:42] 267 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:02:52] 268 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:03:02] 269 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:03:12] 270 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:03:22] 271 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:03:32] 272 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:03:42] 273 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:03:52] 274 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:04:02] 275 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:04:12] 276 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:04:22] 277 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:04:32] 278 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:04:42] 279 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:04:52] 280 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:05:02] 281 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:05:12] 282 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:05:22] 283 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:05:32] 284 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:05:42] 285 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:05:53] 286 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:06:03] 287 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:06:13] 288 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:06:23] 289 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:06:33] 290 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:06:43] 291 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:06:53] 292 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:07:03] 293 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:07:13] 294 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:07:23] 295 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:07:33] 296 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:07:43] 297 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:07:53] 298 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:08:03] 299 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:08:13] 300 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:08:23] 301 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:08:33] 302 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:08:43] 303 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:08:53] 304 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:09:03] 305 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:09:13] 306 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:09:23] 307 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:09:33] 308 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:09:43] 309 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:09:53] 310 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:10:03] 311 >> Gateway vantoi(192.168.11.13): Ping 9(s)
+[2024/04/30 12:10:13] 312 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:10:23] 313 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:10:33] 314 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:10:43] 315 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:10:53] 316 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:11:03] 317 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:11:13] 318 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:11:23] 319 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:11:33] 320 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:11:43] 321 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:11:53] 322 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:12:03] 323 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:12:13] 324 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:12:23] 325 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:12:33] 326 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:12:43] 327 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:12:53] 328 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:13:03] 329 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:13:13] 330 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:13:23] 331 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:13:33] 332 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:13:43] 333 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:13:53] 334 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:14:03] 335 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:14:13] 336 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:14:23] 337 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:14:33] 338 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:14:43] 339 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:14:53] 340 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:15:03] 341 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:15:13] 342 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:15:23] 343 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:15:33] 344 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:15:43] 345 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:15:53] 346 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:16:03] 347 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:16:13] 348 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:16:24] 349 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:16:34] 350 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:16:44] 351 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:16:54] 352 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:17:04] 353 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:17:14] 354 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:17:24] 355 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:17:24] 356 >> DB Connect 0 is busy !
+[2024/04/30 12:17:24] 357 >> [Debug] SQL CMD NOT [149]
+[2024/04/30 12:17:24] 358 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/04/30 12:17:24] 359 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/30 12:17:24] 360 >> [Debug] SQL Query CMD NOT [131]
+[2024/04/30 12:17:24] 361 >> [Debug] SQL CMD [update Account_info set iClientID = 0, dLogoutDate = getdate() where (cAccName = 'quycan1') and (iClientID = 20)]
+[2024/04/30 12:17:24] 362 >> [Debug] SQL CMD [update View_AccountMoney set nExtPoint = iNumLogin, iNumLogin = 0 where (cAccName = 'quycan1') and (iNumLogin > 0)]
+[2024/04/30 12:17:24] 363 >> Gateway vantoi(192.168.11.13): User quycan1 Logout Success ! (Ext:0)
+[2024/04/30 12:17:25] 364 >> DB Connect 0 is free !
+[2024/04/30 12:17:34] 365 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:17:44] 366 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:17:54] 367 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:18:04] 368 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:18:14] 369 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:18:24] 370 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:18:34] 371 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:18:44] 372 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:18:54] 373 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:19:04] 374 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:19:14] 375 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:19:24] 376 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:19:34] 377 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:19:44] 378 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:19:54] 379 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:20:04] 380 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:20:14] 381 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:20:24] 382 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:20:34] 383 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:20:44] 384 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:20:54] 385 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:21:04] 386 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:21:14] 387 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:21:24] 388 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:21:34] 389 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:21:44] 390 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:21:54] 391 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:22:04] 392 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:22:14] 393 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:22:24] 394 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:22:34] 395 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:22:44] 396 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:22:54] 397 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:23:04] 398 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:23:14] 399 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:23:24] 400 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:23:34] 401 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:23:44] 402 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:23:54] 403 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:24:04] 404 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:24:14] 405 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:24:24] 406 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:24:34] 407 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:24:44] 408 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:24:54] 409 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:25:04] 410 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:25:14] 411 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:25:24] 412 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:25:34] 413 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:25:44] 414 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:25:54] 415 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:26:04] 416 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:26:14] 417 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:26:24] 418 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:26:34] 419 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:26:44] 420 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:26:55] 421 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:27:05] 422 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:27:15] 423 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:27:25] 424 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:27:35] 425 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:27:45] 426 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:27:55] 427 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:28:05] 428 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:28:15] 429 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:28:25] 430 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:28:35] 431 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:28:45] 432 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:28:55] 433 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:29:05] 434 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:29:15] 435 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:29:25] 436 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:29:35] 437 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:29:45] 438 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:29:55] 439 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:30:05] 440 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:30:15] 441 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:30:25] 442 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:30:35] 443 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:30:45] 444 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:30:55] 445 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:31:05] 446 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:31:15] 447 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:31:25] 448 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:31:35] 449 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:31:45] 450 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:31:55] 451 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 12:32:05] 452 >> Gateway vantoi(192.168.11.13): Ping 10(s)

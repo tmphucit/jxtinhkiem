@@ -5,9 +5,9 @@
 
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Sat Mar 02 21:36:23 2024
+/* at Sat Jun 22 13:13:40 2024
  */
-/* Compiler settings for D:\SOURCE_TINHDUYEN\SwordOnline\SwordOnline\Sources\KLVIDEO\KLVideo\KLVideo.idl:
+/* Compiler settings for F:\00tinhduyen\jxwintinhduyen\SwordOnline\Sources\KLVIDEO\KLVideo\KLVideo.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
     error checks: allocation ref bounds_check enum stub_data 
 */

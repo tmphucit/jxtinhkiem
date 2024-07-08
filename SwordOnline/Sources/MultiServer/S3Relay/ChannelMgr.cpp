@@ -808,7 +808,7 @@ BOOL CChannelMgr::SomeoneChat(DWORD srcIP, const tagPlusSrcInfo &SrcInfo,
   }
 
   //	dTRACE("Chat Someone: sentence %u Bs from [%s] to [%s]",
-  //pSomeoneChatCmd->sentlen, srcrole.c_str(), pSomeoneChatCmd->someone);
+  // pSomeoneChatCmd->sentlen, srcrole.c_str(), pSomeoneChatCmd->someone);
 
   return TRUE;
 }
@@ -1012,11 +1012,11 @@ BOOL CChannelMgr::ChannelChat(DWORD srcIP, const tagPlusSrcInfo &SrcInfo,
 
   //	{{
   //	size_t _exsize = sizeof(DWORD) + sizeof(BYTE) +
-  //pChannelChatCmd->sentlen;	////X 	size_t feedbacksize =
-  //sizeof(CHAT_FEEDBACK) + _exsize; 	CHAT_FEEDBACK* pCfb =
-  //(CHAT_FEEDBACK*)_alloca(feedbacksize); 	pCfb->ProtocolType = chat_feedback;
-  //	pCfb->packageID = pChannelChatCmd->packageID;
-  //	pCfb->code = sent ? codeSucc : codeFail;
+  // pChannelChatCmd->sentlen;	////X 	size_t feedbacksize =
+  // sizeof(CHAT_FEEDBACK) + _exsize; 	CHAT_FEEDBACK* pCfb =
+  //(CHAT_FEEDBACK*)_alloca(feedbacksize); 	pCfb->ProtocolType =
+  //chat_feedback; 	pCfb->packageID = pChannelChatCmd->packageID; 	pCfb->code =
+  //sent ? codeSucc : codeFail;
   //
   //	////X
   //	DWORD* pChannelid = (DWORD*)(pCfb + 1);
@@ -1031,7 +1031,7 @@ BOOL CChannelMgr::ChannelChat(DWORD srcIP, const tagPlusSrcInfo &SrcInfo,
   //	}}
 
   //	dTRACE("Chat Channel: sentence %u Bs from [%s] on <%08X>",
-  //pChannelChatCmd->sentlen, srcrole.c_str(), pChannelChatCmd->channelid);
+  // pChannelChatCmd->sentlen, srcrole.c_str(), pChannelChatCmd->channelid);
 
   return TRUE;
 }

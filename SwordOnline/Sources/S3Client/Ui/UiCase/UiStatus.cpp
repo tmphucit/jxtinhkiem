@@ -14,14 +14,19 @@
 #include "../ShortcutKey.h"
 #include "../UiBase.h"
 #include "../UiSoundSetting.h"
+#include "../elem/popupmenu.h"
 #include "../elem/wnds.h"
+#include "KDebug.h"
 #include "KIniFile.h"
 #include "KWin32.h"
 #include "UiChooseFace.h"
 #include "UiGetString3.h"
 #include "UiItem.h"
 #include "UiLoginPWStoreBox.h"
+#include "UiParadeItem.h"
 #include "UiPlayerBar.h"
+#include "UiShop.h"
+#include "UiShopGold.h"
 #include "UiSysMsgCentre.h"
 #include "UiTradeConfirmWnd.h"
 
@@ -50,7 +55,9 @@ static struct UE_CTRL_MAP {
                               {UIEP_FOOT, "Shoes"},          // 装备-鞋子
                               {UIEP_HORSE, "Horse"},         // 装备-马
                               {UIEP_MASK, "Mask"},           // 装备-马
-                              {UIEP_PHIPHONG, "FiFong"}};
+                              {UIEP_PHIPHONG, "FiFong"},
+                              {UIEP_SIGNET, "Signet"},
+                              {UIEP_SHIPIN, "Shipin"}};
 
 //--------------------------------------------------------------------------
 //	功能：如果窗口正被显示，则返回实例指针
@@ -152,6 +159,7 @@ void KUiStatus::Initialize() {
   AddChild(&m_ClickHere1);
   AddChild(&m_ClickHere);
   AddChild(&m_Avatar);
+
   for (int i = 0; i < _ITEM_COUNT; i++) {
     m_EquipBox[i].SetObjectGenre(CGOG_ITEM);
     AddChild(&m_EquipBox[i]);

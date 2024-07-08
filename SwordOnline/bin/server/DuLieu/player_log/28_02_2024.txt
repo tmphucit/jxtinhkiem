@@ -1,0 +1,8 @@
+14:57:54	 Tµi kho¶n: tranphuc	 Nh©n vËt: 99999999	 DWORD ID: -2080683692	 CÊp: 1	 IP: 192.168.11.13 : 57038	 Xu: 0	 Tæng tiÒn v¹n: 0
+14:58:32	 Tµi kho¶n: tranphuc	 Nh©n vËt: 99999999	 DWORD ID: -2080683692	 CÊp: 1	 IP: 192.168.11.13 : 57083	 Xu: 0	 Tæng tiÒn v¹n: 0
+15:02:03	 Tµi kho¶n: tranphuc	 Nh©n vËt: 99999999	 DWORD ID: -2080683692	 CÊp: 1	 IP: 192.168.11.13 : 57302	 Xu: 0	 Tæng tiÒn v¹n: 0
+15:17:32	 Tµi kho¶n: tranphuc	 Nh©n vËt: Ngudocconuong	 DWORD ID: 1784163487	 CÊp: 1	 IP: 192.168.11.13 : 58181	 Xu: 1000	 Tæng tiÒn v¹n: 0
+15:24:47	 Tµi kho¶n: tranphuc	 Nh©n vËt: Ngudocconuong	 DWORD ID: 1784163487	 CÊp: 120	 IP: 192.168.11.13 : 58598	 Xu: 990	 Tæng tiÒn v¹n: 2000
+15:49:05	 Tµi kho¶n: tranphuc	 Nh©n vËt: Ngudocconuong	 DWORD ID: 1784163487	 CÊp: 122	 IP: 192.168.11.13 : 59964	 Xu: 990	 Tæng tiÒn v¹n: 2197
+18:00:36	 Tµi kho¶n: tranphuc	 Nh©n vËt: Ngudocconuong	 DWORD ID: 1784163487	 CÊp: 122	 IP: 192.168.11.13 : 50867	 Xu: 960	 Tæng tiÒn v¹n: 2197
+19:31:36	 Tµi kho¶n: tranphuc	 Nh©n vËt: Ngudocconuong	 DWORD ID: 1784163487	 CÊp: 122	 IP: 192.168.11.13 : 56235	 Xu: 530	 Tæng tiÒn v¹n: 0

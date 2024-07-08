@@ -506,7 +506,7 @@ void KPlayerChat::ServerSendChat(int nPlayerIdx, BYTE *pProtocol) {
                         sChat.m_btChatPrefixLen + sChat.m_wSentenceLen;
       // QQ聊天不传名字
       //				memcpy(&sChat.m_szSentence[0],
-      //Npc[Player[nPlayerIdx].m_nIndex].Name, sChat.m_btNameLen);
+      // Npc[Player[nPlayerIdx].m_nIndex].Name, sChat.m_btNameLen);
       memcpy(&sChat.m_szSentence[sChat.m_btNameLen], &pChat->m_szSentence[0],
              sChat.m_btChatPrefixLen);
       memcpy(&sChat.m_szSentence[sChat.m_btNameLen + sChat.m_btChatPrefixLen],
@@ -1193,7 +1193,7 @@ BOOL KPlayerChat::CheckIsFriend(int nPlayerIdx) {
 //---------------------------------------------------------------------------
 //	功能：玩家登陆的时候从数据库获得数据时专用
 //	参数：nSelfIdx	本玩家自己在Player中的位置	dwID  好友ID  lpszName
-//好友名字
+// 好友名字
 //---------------------------------------------------------------------------
 void KPlayerChat::DataBaseAddOne(int nSelfIdx, DWORD dwID, char *lpszName) {
   this->m_cFriendTeam[0].DataBaseAddOne(nSelfIdx, dwID, lpszName);

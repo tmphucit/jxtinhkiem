@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Document Version="2">
+    <Protection InputFileName="CoreServer.dll" Options="989128">
+        <Messages />
+        <Folders />
+        <Procedures>
+            <Procedure MapAddress="KPlayer::Active(void)" Options="0" />
+            <Procedure MapAddress="KNpc::LoseSingleItem(int)" Options="0" />
+        </Procedures>
+        <Objects />
+    </Protection>
+    <DLLBox>
+        <Folders />
+    </DLLBox>
+    <Script />
+    <LicenseManager />
+</Document>

@@ -419,8 +419,8 @@ void KWndMessageListBox::UpdateData() {
   for (int i = 0; i < m_nNumMessage; i++) {
 
     //		if (m_nType == 0 || ((m_pMessages[i]->nType == 7 ||
-    //m_pMessages[i]->nType == 4) && m_nType == 4) || (m_pMessages[i]->nType ==
-    //3 && m_nType == 2) || (m_pMessages[i]->nType == 6 && m_nType == 3) ||
+    // m_pMessages[i]->nType == 4) && m_nType == 4) || (m_pMessages[i]->nType ==
+    // 3 && m_nType == 2) || (m_pMessages[i]->nType == 6 && m_nType == 3) ||
     //(m_pMessages[i]->nType == 0 && m_nType == 1))
     //		{
 
@@ -520,7 +520,7 @@ void KWndMessageListBox::PaintWindow() {
 
   int nCurMsg = m_nStartShowMsg;
   //-------------------------------An~ Item chat phia' tren
-  //khung------------------------------------------
+  // khung------------------------------------------
   if (nCurMsg && m_bItemActived)
     for (int i = nCurMsg - 1; i >= 0; i--) {
       if (m_pMessages[i])
@@ -607,7 +607,7 @@ void KWndMessageListBox::PaintWindow() {
                                         pCurMsg->Msg + nOffset,
                                         pCurMsg->nLen - nOffset, m_Width);
       //-----------------------------Ve~ button cho item chat-Ken
-      //Nguyen---------------------------------------------------------------
+      // Nguyen---------------------------------------------------------------
       if (m_bItemActived) {
         if ((m_pMessages[nCurMsg]->nLinePos) > Param.nSkipLine && bPaintItem)
           KUiPlayerBar::SetItemBtnPos(
@@ -632,7 +632,7 @@ void KWndMessageListBox::PaintWindow() {
     nCurMsg++;
   }
   //--------------------------An~ button phia duoi
-  //khung-----------------------------------------------
+  // khung-----------------------------------------------
   if (nViewLines == 0 && nCurMsg < m_nNumMessage && m_bItemActived)
     for (int i = nCurMsg; i < m_nNumMessage; i++) {
       if (m_pMessages[i])

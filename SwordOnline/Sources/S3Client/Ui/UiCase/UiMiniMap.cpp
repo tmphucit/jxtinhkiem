@@ -493,7 +493,7 @@ void KUiMiniMap::UpdateSceneTimeInfo(KUiSceneTimeInfo *pInfo) {
     //		ms_pSelf->m_AutoMove.SetLabel("Di ChuyÓn");
 
     //	ms_pSelf->m_ScenePos.Set2IntText(pInfo->nScenePos0 / 8,
-    //pInfo->nScenePos1 / 8, '/');
+    // pInfo->nScenePos1 / 8, '/');
   }
 }
 

@@ -24,7 +24,7 @@ public:
   //		int		m_nID;
   //// 本系（五行）某个门派 id 		int		m_nOpenLevel;
   //// 本系某个门派技能开放到第几级 	}
-  //m_sSkillOpen[FACTIONS_PRR_SERIES];	// 本系某个门派的技能开放度
+  // m_sSkillOpen[FACTIONS_PRR_SERIES];	// 本系某个门派的技能开放度
 public:
   KPlayerFaction(); // 构造函数
   void Release();

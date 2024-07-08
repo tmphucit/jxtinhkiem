@@ -48,9 +48,10 @@ extern "C" {
 #define DSETUP_DSOUNDDRV 0x00000010 /* install DirectSound Drivers          */
 #define DSETUP_DXCORE 0x00010000    /* install DirectX runtime              */
 #define DSETUP_DIRECTX (DSETUP_DXCORE | DSETUP_DDRAWDRV | DSETUP_DSOUNDDRV)
-#define DSETUP_MANAGEDDX 0x00004000   /* OBSOLETE. install managed DirectX    */
-#define DSETUP_TESTINSTALL 0x00020000 /* just test install, don't do anything  \
-                                       */
+#define DSETUP_MANAGEDDX 0x00004000 /* OBSOLETE. install managed DirectX    */
+#define DSETUP_TESTINSTALL                                                     \
+  0x00020000 /* just test install, don't do anything                           \
+              */
 
 // These OBSOLETE flags are here for compatibility with pre-DX5 apps only.
 // They are present to allow DX3 apps to be recompiled with DX5 and still work.

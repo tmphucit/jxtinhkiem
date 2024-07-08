@@ -1,0 +1,71 @@
+
+*
+***** Sword3PaySys Start (@ 2024/06/21 07:06:08.860) >>>>>
+*
+
+[2024/06/21 07:06:13] 1 >> DB Connect 0 is busy !
+[2024/06/21 07:06:13] 2 >> Add Gateway(192.168.11.13 : 54627) Client 0 ! -- At 0
+[2024/06/21 07:06:13] 3 >> [Debug] SQL Query CMD NOT [155]
+[2024/06/21 07:06:13] 4 >> Gateway vantoi(192.168.11.13)B42E-992C-2E81: Verify OK !
+[2024/06/21 07:06:13] 5 >> [Debug] SQL CMD [update Account_info set iClientID = 0, dLogoutDate = getdate() where (iClientID = 20)]
+[2024/06/21 07:06:13] 6 >> Gateway unlock OK!
+[2024/06/21 07:06:13] 7 >> Gateway Connect OK!
+[2024/06/21 07:06:14] 8 >> DB Connect 0 is free !
+[2024/06/21 07:06:17] 9 >> DB Connect 0 is busy !
+[2024/06/21 07:06:17] 10 >> [Debug] SQL Query CMD NOT [143]
+[2024/06/21 07:06:17] 11 >> [Debug] SQL Query CMD NOT [132]
+[2024/06/21 07:06:17] 12 >> [Debug] SQL CMD [update Account_info set iClientID = 20, dLoginDate = null where (cAccName = 'hinodl01')]
+[2024/06/21 07:06:17] 13 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'hinodl01')]
+[2024/06/21 07:06:17] 14 >> Gateway vantoi(192.168.11.13): User hinodl01 Login Success ! (Ext:0)
+[2024/06/21 07:06:17] 15 >> [Debug] SQL CMD NOT [149]
+[2024/06/21 07:06:17] 16 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/06/21 07:06:17] 17 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'hinodl01')]
+[2024/06/21 07:06:17] 18 >> [Debug] SQL Query CMD NOT [132]
+[2024/06/21 07:06:17] 19 >> [Debug] SQL CMD [update Account_info set iClientID = 0, dLogoutDate = getdate() where (cAccName = 'hinodl01') and (iClientID = 20)]
+[2024/06/21 07:06:17] 20 >> [Debug] SQL CMD [update View_AccountMoney set nExtPoint = iNumLogin, iNumLogin = 0 where (cAccName = 'hinodl01') and (iNumLogin > 0)]
+[2024/06/21 07:06:17] 21 >> Gateway vantoi(192.168.11.13): User hinodl01 Logout Success ! (Ext:0)
+[2024/06/21 07:06:18] 22 >> DB Connect 0 is free !
+[2024/06/21 07:06:22] 23 >> DB Connect 0 is busy !
+[2024/06/21 07:06:22] 24 >> [Debug] SQL Query CMD NOT [143]
+[2024/06/21 07:06:22] 25 >> [Debug] SQL Query CMD NOT [132]
+[2024/06/21 07:06:22] 26 >> [Debug] SQL CMD [update Account_info set iClientID = 20, dLoginDate = null where (cAccName = 'hinodl01')]
+[2024/06/21 07:06:22] 27 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'hinodl01')]
+[2024/06/21 07:06:22] 28 >> Gateway vantoi(192.168.11.13): User hinodl01 Login Success ! (Ext:0)
+[2024/06/21 07:06:22] 29 >> [Debug] SQL CMD NOT [149]
+[2024/06/21 07:06:22] 30 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/06/21 07:06:22] 31 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'hinodl01')]
+[2024/06/21 07:06:22] 32 >> [Debug] SQL Query CMD NOT [132]
+[2024/06/21 07:06:22] 33 >> [Debug] SQL CMD [update Account_info set iClientID = 0, dLogoutDate = getdate() where (cAccName = 'hinodl01') and (iClientID = 20)]
+[2024/06/21 07:06:22] 34 >> [Debug] SQL CMD [update View_AccountMoney set nExtPoint = iNumLogin, iNumLogin = 0 where (cAccName = 'hinodl01') and (iNumLogin > 0)]
+[2024/06/21 07:06:22] 35 >> Gateway vantoi(192.168.11.13): User hinodl01 Logout Success ! (Ext:0)
+[2024/06/21 07:06:23] 36 >> DB Connect 0 is free !
+[2024/06/21 07:06:24] 37 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/06/21 07:06:27] 38 >> DB Connect 0 is busy !
+[2024/06/21 07:06:27] 39 >> [Debug] SQL Query CMD NOT [143]
+[2024/06/21 07:06:27] 40 >> [Debug] SQL Query CMD NOT [132]
+[2024/06/21 07:06:27] 41 >> [Debug] SQL CMD [update Account_info set iClientID = 20, dLoginDate = null where (cAccName = 'hinodl01')]
+[2024/06/21 07:06:27] 42 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'hinodl01')]
+[2024/06/21 07:06:27] 43 >> Gateway vantoi(192.168.11.13): User hinodl01 Login Success ! (Ext:0)
+[2024/06/21 07:06:28] 44 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'hinodl01')]
+[2024/06/21 07:06:28] 45 >> [Debug] SQL CMD [update Account_info set dLoginDate = getdate() where (cAccName = 'hinodl01') and (iClientID = 20) and (dLoginDate is null)]
+[2024/06/21 07:06:28] 46 >> [Debug] SQL CMD [update View_AccountMoney set iNumLogin = 0 where (cAccName = 'hinodl01')]
+[2024/06/21 07:06:28] 47 >> Gateway vantoi(192.168.11.13): User hinodl01 Enter Game Success !
+[2024/06/21 07:06:29] 48 >> DB Connect 0 is free !
+[2024/06/21 07:06:34] 49 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/06/21 07:06:44] 50 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/06/21 07:06:54] 51 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/06/21 07:07:04] 52 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/06/21 07:07:14] 53 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/06/21 07:07:24] 54 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/06/21 07:07:34] 55 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/06/21 07:07:44] 56 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/06/21 07:07:54] 57 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/06/21 07:08:04] 58 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/06/21 07:08:14] 59 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/06/21 07:08:15] 60 >> Remove Gateway Client 0 ! -- At 0
+[2024/06/21 07:08:16] Nomal exit !!!
+
+*
+***** Sword3PaySys Stop (@ 2024/06/21 07:08:16.954) <<<<<
+*
+

@@ -1,0 +1,1647 @@
+Include("\\script\\admin\\monphai.lua")
+Include("\\script\\lib\\lib_task.lua")
+Include("\\script\\lib\\lib_map.lua")
+Include("\\script\\lib\\lib_vatpham.lua")
+Include("\\script\\npcchucnang\\hotrotanthu.lua")
+Include("\\script\\npcchucnang\\trogiup.lua")
+
+Include("\\script\\admin\\chucnanggm.lua")
+Include("\\script\\admin\\chucnanggm2.lua")
+Include("\\script\\admin\\chucnangnv.lua")
+
+Include("\\Script\\Global\\sourcejx49.lua")
+Include("\\Script\\header\\taskid.lua");
+Include("\\Script\\lib\\worldlibrary.lua");
+Include("\\Script\\lib\\thuvien.lua");
+Include("\\Script\\danhhieutest.lua");
+
+
+function main(idx)
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+w,x,y = GetWorldPos()
+ dofile("script\\item\\questkey\\20.lua")
+if GetAccount() == "hinodl01" then  ----------------------------chØnh l¹i tªn tµi kho¶n admin
+
+         SayNew("HiÖn t¹i Täa ®é : <color=yellow>{"..w..", - "..x..", - "..y.."} ",6,
+	"Gi¶i kÑt nh©n vËt/giaiket",
+	"Xem Mèc NhiÖm Vô D· TÈu/xemdsmoc",
+	--"Chøc N¨ng §æi Ph¸i/doiphai",
+	--"NhËn THP /thanhanhphu",
+	"NhËn vong sang /doEarn",
+    "NhËn Hç Trî Admin/nhanhotrotest2",
+	"NhËn LB admin/nhanhoadmin",
+	"Thoat./no")
+
+else
+         SayNew("HiÖn t¹i ng­¬i ®ang cã <color=red>"..GetTask(612).." ®iÓm TÝch Lòy Sù KiÖn<color>, ng­¬i h·y tham gia ho¹t ®éng ®Ó cã nh×u ®iÓm h¬n ?",4,
+	"Gi¶i kÑt nh©n vËt/giaiket",
+	"Xem Mèc NhiÖm Vô D· TÈu/xemdsmoc",
+	"Chøc N¨ng §æi Ph¸i/doiphai",
+	"Thoat./no")
+end
+end
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+function nhanhoadmin(nItemIdx)
+	--AddEventItem(176)
+	--AddMagic(503,20)
+	--DelMagic(503,20)
+	AddSkillEffect(503, 1, 60*60*18, 1, 1)
+	--Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return 1
+end
+
+
+function thanhanhphu()
+	AddEventItem(709)
+	--Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+
+function nhanlaingua()
+idxitem = AddItem(0,10,2,10,0,0,0)
+SetTimeItem(idxitem,550324);
+end
+function nhanchaygm()
+AddMagic(160,60)
+AddMagic(506,60)  -- An GM
+end
+function nhantestmocdatau()
+SetTask(83,10000)
+SetTask(84,0)
+SetTask(106,0)
+end
+
+
+function xemdsmoc()
+SayNew("<color=green>D· TÈu: <color>: Chän mèc nhËn phÇn th­ëng: ",9,
+"§¹t mèc 100, 200, .... nhiÖm vô /moc1",
+"§¹t mèc 300 nhiÖm vô /moc1",
+"§¹t mèc 700 nhiÖm vô /moc1",
+"§¹t mèc 1000 nhiÖm vô /moc1",
+"§¹t mèc 1200 nhiÖm vô /moc1",
+"§¹t mèc 1500 nhiÖm vô /moc1",
+"§¹t mèc 2000 nhiÖm vô /moc1",
+"§¹t mèc 2500 nhiÖm vô /moc1",
+"Tho¸t./no")
+end
+
+function moc1(nsel)
+i = nsel+1
+if i == 1 then
+	Talk(1,"","§¹t c¸c mèc 100, 200,... nhiÖm vô sÏ nhËn ®­îc 1 trong c¸c vËt phÈm: <color=yellow>Tiªn Th¶o Lé, N÷ Nhi Hång, Thñy Tinh, Tinh Hång B¶o Th¹ch, TÈy Tñy Kinh, Vâ L©m MËt TÞch, BK 9x ")
+elseif i == 2 then
+	Talk(1,"","§¹t c¸c mèc 300 nhiÖm vô sÏ nhËn ®­îc: <color=yellow>Trang bÞ ®Þnh quèc ngÉu nhiªn")
+elseif i == 3 then
+	Talk(1,"","§¹t c¸c mèc 700 nhiÖm vô nhËn ®­îc: <color=yellow>Trang bÞ ®Þnh quèc ngÉu nhiªnn")
+elseif i == 4 then
+	Talk(1,"","§¹t c¸c mèc 1000 nhiÖm vô nhËn ®­îc: <color=yellow>Trang bÞ ®Þnh quèc ngÉu nhiªn")
+elseif i == 5 then
+	Talk(1,"","§¹t c¸c mèc 1200 nhiÖm vô nhËn ®­îc:<color=yellow> Trang bÞ ®Þnh quèc ngÉu nhiªn")
+elseif i == 6 then
+	Talk(1,"","§¹t c¸c mèc 1500 nhiÖm vô nhËn ®­îc:<color=yellow> Trang bÞ ®Þnh quèc ngÉu nhiªn")
+elseif i == 7 then
+	Talk(1,"","§¹t c¸c mèc 2000 nhiÖm vô nhËn ®­îc:<color=yellow> Trang bÞ an bang ngÉu nhiªn")
+elseif i == 8 then
+	Talk(1,"","§¹t c¸c mèc 2500 nhiÖm vô nhËn ®­îc:<color=yellow> Trang bÞ an bang ngÉu nhiªn")
+end
+end
+
+
+function nhandenbu11()
+if GetLevel() < 70 then
+	Talk(1,"","CÊp 70 míi cã thÓ nhËn ®Òn bï nµy !")
+	return
+end
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+if GetTask(802) >= 1 then
+	Talk(1,"","Ng­¬i ®· nhËn råi kh«ng thÓ nhËn thªm n÷a !")
+	return
+end
+            SetTask(802,1)
+        	for p=1,5 do 
+			idxp = AddEventItem(0)
+				SetBindItem(idxp,1)
+			idxp = AddEventItem(1)
+				SetBindItem(idxp,1)
+			end	
+			-- for p=1,5 do 
+			-- idxp = AddEventItem(119)
+				-- SetBindItem(idxp,1)
+			-- end	
+			Msg2Player("B¹n ®· nh¹n ®u¬c ®Òn bï !!!")
+		-- SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+       
+end
+function kiemtravlmt()
+Talk(1,"","Tæng TTK: <color=yellow>"..GetTask(199).."<color>/15, VLMT: <color=yellow>"..GetTask(198).."<color>/15 !")
+end
+
+function gopevent()
+for i=715,724 do
+	sl = GetItemCount(i)
+	if sl > 1 then
+		for k=1,sl do DelItem(i)	end
+		for k=1,sl do AddEventItem(i) end
+	end
+end
+end
+
+
+function xoapk123()
+SetPK(0)
+end
+function top1()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+if (GetName() == "MariaÙOzawa" )then
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+if GetTask(802) >= 1 then
+	Talk(1,"","Ng­¬i ®· nhËn råi kh«ng thÓ nhËn thªm n÷a !")
+	return
+end
+        -- ngayvp = ngay + 30
+		-- thangvp = thang
+		-- if ngayvp > mangthang[thang] then
+		-- ngayvp = ngayvp - mangthang[thang]
+		-- thangvp = thang + 1
+		-- end
+		SetTask(802,1)
+		itemidx = AddItem(0,10,5,10,0,0,0)
+		SetTimeItem(itemidx,550324)
+		AddEventItem(164)
+		-- SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+       Msg2SubWorld("<color=blue> Chóc mõng <color> <color=yellow>"..GetName().." <color=blue> ®· nhËn ®­îc<color=white> Th­ëng TOP 1 <color> ")
+
+
+else
+Talk(1,"","Ng­¬i kh«ng cã trong danh s¸ch TOP, vui lßng kiÓm tra l¹i")
+	end
+end
+
+function top2()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+if (GetName() == "PhongÙTrÇn" )then
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+if GetTask(802) >= 1 then
+	Talk(1,"","Ng­¬i ®· nhËn råi kh«ng thÓ nhËn thªm n÷a !")
+	return
+end
+
+-- ngayvp = ngay + 30
+		-- thangvp = thang
+		-- if ngayvp > mangthang[thang] then
+		-- ngayvp = ngayvp - mangthang[thang]
+		-- thangvp = thang + 1
+		-- end
+		SetTask(802,1)
+		itemidx = AddItem(0,10,5,7,0,0,0)
+		SetTimeItem(itemidx,550324)
+		AddEventItem(164)
+		-- SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+		-- SetTask(802,1)
+		Msg2SubWorld("<color=blue> Chóc mõng <color> <color=yellow>"..GetName().." <color=blue> ®· nhËn ®­îc<color=white> Th­ëng TOP 2 <color> ")
+else
+Talk(1,"","Ng­¬i kh«ng cã trong danh s¸ch TOP, vui lßng kiÓm tra l¹i")
+	end
+end
+
+function top3()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+if (GetName() == "Si Da Tieu Tieu" )then
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+if GetTask(802) >= 1 then
+	Talk(1,"","Ng­¬i ®· nhËn råi kh«ng thÓ nhËn thªm n÷a !")
+	return
+end
+       -- ngayvp = ngay + 30
+		-- thangvp = thang
+		-- if ngayvp > mangthang[thang] then
+		-- ngayvp = ngayvp - mangthang[thang]
+		-- thangvp = thang + 1
+		-- end
+		SetTask(802,1)
+		itemidx = AddItem(0,10,5,random(3,4),0,0,0)
+		SetTimeItem(itemidx,550324)
+		-- SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+		
+Msg2SubWorld("<color=blue> Chóc mõng <color> <color=yellow>"..GetName().." <color=blue> ®· nhËn ®­îc<color=white> Th­ëng TOP 3 <color> ")
+else
+Talk(1,"","Ng­¬i kh«ng cã trong danh s¸ch TOP, vui lßng kiÓm tra l¹i")
+	end
+end
+
+function top410()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+if (GetName() == "o0oPepSieuo0o" or GetName() == "Ahihihi" or GetName() == "HoTroAe" or GetName() == "TienVua" or GetName() == "/•ThïngPh¸S¶nh" or GetName() == "NgocÙHuyen" or GetName() == "nich000000000000" )then
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+if GetTask(802) >= 1 then
+	Talk(1,"","Ng­¬i ®· nhËn råi kh«ng thÓ nhËn thªm n÷a !")
+	return
+end
+       -- ngayvp = ngay + 30
+		-- thangvp = thang
+		-- if ngayvp > mangthang[thang] then
+		-- ngayvp = ngayvp - mangthang[thang]
+		-- thangvp = thang + 1
+		-- end
+		SetTask(802,1)
+		itemidx = AddItem(0,10,5,random(3,4),0,0,0)
+		SetTimeItem(itemidx,550324)
+		-- SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+		
+Msg2SubWorld("<color=blue> Chóc mõng <color> <color=yellow>"..GetName().." <color=blue> ®· nhËn ®­îc<color=white> Th­ëng TOP 4 - 10 <color> ")
+else
+Talk(1,"","Ng­¬i kh«ng cã trong danh s¸ch TOP, vui lßng kiÓm tra l¹i")
+	end
+end
+
+
+
+function top31()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+if (GetName() == "Nh¸nhÙLanÙRõng" )then
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+if GetTask(802) >= 1 then
+	Talk(1,"","Ng­¬i ®· nhËn råi kh«ng thÓ nhËn thªm n÷a !")
+	return
+end
+       ngayvp = ngay + 30
+		thangvp = thang
+		if ngayvp > mangthang[thang] then
+		ngayvp = ngayvp - mangthang[thang]
+		thangvp = thang + 1
+		end
+		SetTask(802,1)
+		itemidx = AddItem(0,10,5,random(3,7),0,0,0)
+		SetTimeItem(itemidx,550324)
+		SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+		
+-- Msg2SubWorld("<color=blue> Chóc mõng <color> <color=yellow>"..GetName().." <color=blue> ®· nhËn ®­îc<color=white> Th­ëng TOP 3 <color><color=blue> thµnh c«ng: "..GetNameItemBox(idxitem).."<color> ")
+else
+Talk(1,"","Ng­¬i kh«ng cã trong danh s¸ch TOP, vui lßng kiÓm tra l¹i")
+	end
+end
+function nhanhotrolainua()
+
+if GetLevel() <= 89 then
+	Talk(1,"","Ng­¬i kh«ng ®ñ cÊp 90 kh«ng thÓ nhËn !")
+	return
+end
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+if GetTask(801) >= 1 then
+Talk(1,"","Ng­¬i ®· nhËn råi , kh«ng thÓ sö dông chøc n¨ng nµy")
+return
+end
+
+itemidx = AddEventItem(177)
+SetBindItem(itemidx,1)
+SetTask(801,1)
+
+end
+function nhandenbu()
+if GetLevel() <= 90 then
+	Talk(1,"","Ng­¬i kh«ng ®ñ cÊp 90 kh«ng thÓ nhËn !")
+	return
+end
+if GetTask(888) >= 1 then
+Talk(1,"","Ng­¬i ®· nhËn råi , kh«ng thÓ sö dông chøc n¨ng nµy")
+return
+end
+for i=1,10 do AddOwnExp(1000000) end
+Msg2Player("B¹n nhËn ®­îc 10.000.000 kinh nghiÖm !")
+SetTask(888,1)
+end
+
+
+function GMVIP()
+
+-- Pay(10000000)
+
+-- AddItem(0,3,24,10,237,0,0)
+-- AddItem(0,3,25,10,237,0,0)
+-- SetTask(83,10000)
+-- SetTask(106,0)
+-- AddEventItem(714)
+-- SetTask(200,15)
+-- ngay = tonumber(date("%d"))
+-- thang = tonumber(date("%m"))
+-- gio = tonumber(date("%H"))
+-- phut = tonumber(date("%M"))
+-- ngayvp = ngay + 7
+		-- thangvp = thang
+		-- if ngayvp > mangthang[thang] then
+		-- ngayvp = ngayvp - mangthang[thang]
+		-- thangvp = thang + 1
+		-- end
+		-- itemidx = AddItem(0,10,5,7,0,0,0)
+		-- SetTimeItem(itemidx,550324)
+		-- SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+		-- Msg2SubWorld("<color=yellow>17h chiÒu nay b¶o tr× 5p kÕt Thóc §ua TOP , 20H Event TK : TOP 1 : Ngùa 8x Ramdon, TOP 2 : 5 R­¬ng M·nh Ngùa , TOP 3: 3 Ru¬ng M¶nh Ngùa, TOP 4 - 10: 1 Ru¬ng M¶nh Ngùa.Cã Thuëng TiÒn V¹n nhÐ ae")
+-- AddItem(0,1,id,10,nsel,5,5)
+-- reloadfile()
+-- AddItem(0,2,30,random(5,10),0,0,0)
+-- SetGlbMissionV(60,1000)
+-- OfflineLiveAll()
+-- SetTask(777,0)
+-- AddItem(0,6,3,random(5,10),0,0,0)
+-- SetTask(779,1500)
+-- for i = 1,5000 do AddEventItem(679) end
+-- for i = 1,50 do AddEventItem(700) end
+-- for i = 1,50 do AddEventItem(701) end
+-- for i = 1,50 do AddEventItem(702) end
+-- for i = 1,50 do AddEventItem(703) end
+-- for i = 383,388 do AddEventItem(i) end
+-- AddEventItem(96)
+-- AddEventItem(243)
+-- for i = 780,785 do SetTask(i, 0) end
+-- thabosstest11111()
+-- AddItem(0,4,3,random(1,7),0,0,0)
+-- AddItem(0,4,3,7,0,0,0)
+-- AddItem(0,3,3,1,0,0,0)
+-- AddItem(0,3,4,1,0,0,0)
+-- AddItem(0,9,3,1,0,0,0)
+-- AddItem(0,4,19,1,0,0,0)
+	
+-- AddItem(0,2,79,1,0,0,0)
+	
+-- AddItem(0,6,26,1,0,0,0)
+	
+-- AddItem(0,5,24,1,0,0,0)
+
+-- AddItem(0,8,22,1,0,0,0)
+	
+-- AddItem(0,7,41,1,0,0,0)
+
+-- AddItem(0,9,19,1,0,0,0)
+		
+-- AddItem(0,3,35,1,0,0,0)
+		
+-- AddItem(0,3,36,1,0,0,0)
+		
+-- SetSeries(1)
+	-- SetFaction("Ngu Doc Giao")
+-- AddItem(0,10,5,7,0,0,0)
+-- AddItem(0,10,5,random(3,7),0,0,0)
+-- NewWorld(24,1395,2783)
+-- NewWorld(64,1698,3405)
+-- SetPK(0)
+-- AddEventItem(177)
+-- SetFightState(1)
+-- SetLevel(120)
+-- SetTask(196,0)
+-- SetTask(172,0)
+-- SetTask(84,GetTask(84) + 1)
+-- SetTask(83,GetTask(83) + 1)
+-- Msg2SubWorld("<color=green>Tèi Nay Event Tèng Kim 21h TOP 1 : 7QHT, TOP 2 : 5QHT, TOP 3 : 3QHT, TOP 4 - 10 : 2QHT   ")
+-- Msg2SubWorld("<color=green>B¶o tr× 1p nhÐ ae   ")
+-- ngay = tonumber(date("%d"))
+-- thang = tonumber(date("%m"))
+-- gio = tonumber(date("%H"))
+-- phut = tonumber(date("%M"))
+-- ngayvp = ngay + 7
+		-- thangvp = thang
+		-- if ngayvp > mangthang[thang] then
+		-- ngayvp = ngayvp - mangthang[thang]
+		-- thangvp = thang + 1
+		-- end
+		-- itemidx = AddEventItem(264)
+		-- SetBindItem(itemidx,1)
+		-- SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+        -- idxitem = AddItem(0,10,13,10,0,0,0)
+		-- SetTimeItem(idxitem,550324);
+-- AddItem(5,0,0,2,0,0,0)
+
+-- AddItem(0,7,20,10,0,0,0)
+-- AddItem(0,0,3,70,383,0,0)
+-- 0,0,3,70,383
+-- AddItem(0,3,7,10,0,0,0)
+-- SetLevel(150)
+-- for i = 1,500 do AddEventItem(273)	end
+-- AddEventItem(19)
+-- Earn(30000000)
+-- for i = 1,500 do DelItem(128)	end
+-- AddItem(0,4,3,random(1,7),0,0,0)
+-- for i = 1,2000 do AddEventItem(723) end
+-- for i = 1,1000 do DelItem(29)	end
+-- for i = 1,500 do DelItem(30)	end
+-- for i = 1,5 do AddEventItem(19)	end
+-- for i = 1,5 do AddEventItem(1)	end
+-- AddItem(0,5,5,random(5,10),0,0,0)
+-- AddItem(0,6,3,random(5,10),0,0,0)
+
+-- AddProp(10000) 
+-- AddMagicPoint(100)
+        -- for i=1,150 do 
+			-- AddOwnExp(10000)
+		-- end
+-- for i = 1,500 do DelMagic(i) end
+-- for i = 1,100 do AddEventItem(568) end
+
+	
+	-- for p=1,500 do DelMagic(p) end
+-- KickOutSelf()
+	-- AddMagic(350,30)
+	-- AddMagic(42,50)
+-- NewWorld(46,1328,2862)
+		-- TimeBox("§ang nhÆt h¹t",1,"chitiettieuxa1");
+	-- else
+	
+
+	-- AddItem(1,9,0,1,0,0)  -- phi toc 
+	-- thaydoivukhi()
+	-- AddItem(0,9,3,1,0,0,0)
+	-- for i=1,20 do
+			-- AddItem(1,2,0,5,0,0,0)
+			-- SetItemLock(idx)
+		-- end
+	-- Earn(50000000)
+end
+
+
+
+
+function chuyensinhfree1()
+
+if GetLevel() < 150 then
+	Talk(1,"","Dang cap khong du 150, khong the chuyen sinh !")
+		return
+end
+SayNew("<color=green>ChuyÓn Sinh L·o Nh©n<color>: Ng­¬i cã ch¾c ch¾n <color=red>chuyÓn sinh kh«ng ®æi ph¸i<color> kh«ng? Sau nµy kh«ng thÓ ®æi m«n ph¸i 1 lÇn nµo n÷a",6,
+"Ta ®ång ý chuyÓn sinh lÇn 1 cÊp 150/chuyensinhfree",
+"Ta ®ång ý chuyÓn sinh lÇn 2 cÊp 160/chuyensinhfree2",
+"Ta ®ång ý chuyÓn sinh lÇn 3 cÊp 180/chuyensinhfree3",
+"Ta ®ång ý chuyÓn sinh lÇn 4 cÊp 190/chuyensinhfree4",
+"Ta ®ång ý chuyÓn sinh lÇn 5 cÊp 200/chuyensinhfree5",
+"Tho¸t./no")
+end
+Include("\\script\\monphai.lua")
+function mp()
+	if GetFaction() == "Thieu Lam Phai" then
+	return 1
+	elseif GetFaction() == "Thien Vuong Bang" then
+	return 2
+	elseif GetFaction() == "Duong Mon" then
+	return 3
+	elseif GetFaction() == "Ngu Doc Giao" then
+	return 4
+	elseif GetFaction() == "Nga My Phai" then
+	return 5
+	elseif GetFaction() == "Thuy Yen Mon" then
+	return 6
+	elseif GetFaction() == "Cai Bang" then
+	return 7
+	elseif GetFaction() == "Thien Nhan Giao" then
+	return 8
+	elseif GetFaction() == "Vo Dang Phai" then
+	return 9
+	elseif GetFaction() == "Con Lon Phai" then
+	return 10
+	else
+	return 0
+	end
+end;
+
+
+function phuchoikynang()
+if GetLevel() < 90 then
+Talk(1,"","§¼ng cÊp kh«ng ®ñ 90, kh«ng thÓ phôc håi kü n¨ng")
+return
+end
+
+if kiemtra() >= GetTask(LIENQUAN_KYNANG120) then
+Talk(1,"","B¹n ®· phôc håi råi, kh«ng thÓ nhËn thªm")
+return
+end
+diemskill = GetTask(LIENQUAN_KYNANG120)
+if diemskill < 10 then
+	diemskill = 10
+elseif diemskill > 20 then
+	diemskill = 20
+end
+				if mp() == 1 then
+					AddMagic(412,diemskill)
+				elseif mp() == 2 then
+				AddMagic(414,diemskill)
+				elseif mp() == 3 then
+				AddMagic(416,diemskill)
+				elseif mp() == 4 then
+				AddMagic(418,diemskill)
+				elseif mp() == 5 then
+				AddMagic(420,diemskill)
+				elseif mp() == 6 then
+				AddMagic(422,diemskill)
+				elseif mp() == 7 then
+				AddMagic(424,diemskill)
+				elseif mp() == 8 then
+				AddMagic(426,diemskill)
+				elseif mp() == 9 then
+				AddMagic(428,diemskill)
+				elseif mp() == 10 then
+				AddMagic(430,diemskill)
+				end
+Msg2Player("§· phôc håi kü n¨ng 120")
+end
+
+-----------=======================-------------------------====================----------------------
+----------=========================ANHVIETDONGNAI=====================----------------------
+-----------=======================-------------------------====================----------------------
+function doiphai()
+SayNew("Vui lßng chän m«n ph¸i cÇn chuyÓn:\nL­u ý: <color=yellow>ChuyÓn qua HÖ Kim tù ®éng ®æi giíi tÝnh Nam, chuyÓn qua HÖ Thñy tù ®éng chuyÓn giíi tÝnh n÷ <color> ",11,
+"ThiÕu L©m /doiphai1",
+"Thiªn V­¬ng /doiphai1",
+"§­êng M«n /doiphai1",
+"Ngò §éc /doiphai1",
+"Nga My /doiphai1",
+"Thóy Yªn /doiphai1",
+"C¸i Bang /doiphai1",
+"Thiªn NhÉn /doiphai1",
+"Vâ §ang /doiphai1",
+"C«n L«n /doiphai1",
+"Tho¸t/no")
+end
+
+function doiphai1(nsel)
+i = nsel + 1
+if GetItemCount(566) == 0 then
+Talk(1,"","Ng­¬i kh«ng mang theo LÖnh Bµi §æi Ph¸i, kh«ng thÓ sö dông chøc n¨ng nµy")
+return
+end
+
+ if CheckItemEquipCS() ~= 1 then
+Talk(1,"","H·y th¸o hÕt trang bÞ trªn ng­êi xuèng míi cã thÓ §æi Ph¸i !")
+return
+end
+
+thoigian = tonumber(date("%H%M%d%m"))
+LoginLog = openfile("Data/DoiMonPhai.txt", "a");
+if LoginLog then
+write(LoginLog,""..GetAccount().." - "..GetName().." - "..GetLevel().." - Phai: "..GetFaction().." Sang Phai: "..i.."\n");
+end
+closefile(LoginLog)
+
+KyNang120 = kiemtra()
+for p=1,500 do
+	DelMagic(p) -- Xoa toan bo skill cu
+end
+SetTask(LIENQUAN_KYNANG120, KyNang120)
+DelItem(566)
+
+if i == 1 then
+	SetSeries(0)
+	SetSex(0)
+	SetFaction("Thieu Lam Phai")
+elseif i == 2 then
+	SetSeries(0)
+	SetSex(0)
+	SetFaction("Thien Vuong Bang")
+elseif i == 3 then
+	SetSeries(1)
+	SetFaction("Duong Mon")
+elseif i == 4 then
+	SetSeries(1)
+	SetFaction("Ngu Doc Giao")
+elseif i == 5 then
+	SetSeries(2)
+	SetSex(1)
+	SetFaction("Nga My Phai")
+elseif i == 6 then
+	SetSeries(2)
+	SetSex(1)
+	SetFaction("Thuy Yen Mon")
+elseif i == 7 then
+	SetSeries(3)
+	SetFaction("Cai Bang")
+elseif i == 8 then
+	SetSeries(3)
+	SetFaction("Thien Nhan Giao")
+elseif i == 9 then
+	SetSeries(4)
+	SetFaction("Vo Dang Phai")
+elseif i == 10 then
+	SetSeries(4)
+	SetFaction("Con Lon Phai")
+end	
+
+	TayTiemNang()
+	TayKyNang()
+	Msg2Player("<color=pink>Chóc mõng "..GetName().." ®· chuyÓn ph¸i "..GetFaction().." thµnh c«ng !")
+	AddEventItem(177)
+	KickOutSelf()
+end
+
+function kiemtra()
+for i=412,430 do
+if HaveMagic(i) > 0 then
+return HaveMagic(i)
+end
+end
+return 0
+end
+------------------------------------------------------------------------------------------------
+
+function chuyensinhfree()
+ if CheckItemEquipCS() ~= 1 then
+Talk(1,"","H·y th¸o hÕt trang bÞ trªn ng­êi xuèng míi cã thÓ ChuyÓn Sinh !")
+return
+end
+
+num = 0
+for t=1,getn(MangLevelTS1) do
+	if GetLevel() >= MangLevelTS1[t][1] and GetLevel() <= MangLevelTS1[t][2] then
+		num = MangLevelTS1[t][3]
+		break
+	end
+end
+vang = 200
+vang2 = 200
+if GetTask(99) < vang and GetTask(101) < vang2 then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ <color=yellow>"..vang2.."<color> Xu !")
+return
+end
+
+if num == 0 then
+Talk(1,"","B¹n kh«ng ®ñ cÊp ®Ó trïng sinh. H·y quay lai sau nhÐ !")
+return
+end
+
+if GetTask(139) == 0 then
+	
+KyNang120 = kiemtra()
+	for p=412,430 do
+		DelMagic(p) -- Xoa toan bo skill cu
+	end
+	SetTask(99,GetTask(99) - vang)
+	SetTask(101,GetTask(101) - vang2)
+	SetTask(LIENQUAN_KYNANG120, KyNang120)
+	SetTask(139,GetTask(139)+1)
+	SetTask(196,0)
+	SetLevel(num)
+	TayTiemNang()
+	TayKyNang()
+	Msg2Player("Chóc mõng b¹n ®· chuyÓn sinh thµnh c«ng")
+	KickOutSelf()
+else
+	Talk(1,"","Ng­¬i ®· chuyÓn sinh råi, kh«ng thÓ chuyÓn sinh thªm lÇn n÷a")
+end
+end
+
+function chuyensinhfree2()
+
+ if CheckItemEquipCS() ~= 1 then
+Talk(1,"","H·y th¸o hÕt trang bÞ trªn ng­êi xuèng míi cã thÓ ChuyÓn Sinh !")
+return
+end
+
+num = 0
+for t=1,getn(MangLevelTS2) do
+	if GetLevel() >= MangLevelTS2[t][1] and GetLevel() <= MangLevelTS2[t][2] then
+		num = MangLevelTS2[t][3]
+		break
+	end
+end
+vang = 300
+vang2 = 300
+if GetTask(99) < vang and GetTask(101) < vang2 then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ <color=yellow>"..vang2.."<color> Xu !")
+return
+end
+
+if num == 0 then
+Talk(1,"","B¹n kh«ng ®ñ cÊp ®Ó trïng sinh. H·y quay lai sau nhÐ !")
+return
+end
+
+if GetTask(139) == 1 then
+	
+KyNang120 = kiemtra()
+	for p=412,430 do
+		DelMagic(p) -- Xoa toan bo skill cu
+	end
+	SetTask(99,GetTask(99) - vang)
+	SetTask(101,GetTask(101) - vang2)
+	SetTask(LIENQUAN_KYNANG120, KyNang120)
+	SetTask(139,GetTask(139)+1)
+	SetTask(196,0)
+	SetLevel(num)
+	TayTiemNang()
+	TayKyNang()
+	Msg2Player("Chóc mõng b¹n ®· chuyÓn sinh thµnh c«ng")
+	KickOutSelf()
+else
+	Talk(1,"","Ng­¬i ®· chuyÓn sinh råi, kh«ng thÓ chuyÓn sinh thªm lÇn n÷a")
+end
+end
+
+function chuyensinhfree3()
+
+ if CheckItemEquipCS() ~= 1 then
+Talk(1,"","H·y th¸o hÕt trang bÞ trªn ng­êi xuèng míi cã thÓ ChuyÓn Sinh !")
+return
+end
+
+num = 0
+for t=1,getn(MangLevelTS3) do
+	if GetLevel() >= MangLevelTS3[t][1] and GetLevel() <= MangLevelTS3[t][2] then
+		num = MangLevelTS3[t][3]
+		break
+	end
+end
+vang = 500
+vang2 = 500
+if GetTask(99) < vang and GetTask(101) < vang2 then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ <color=yellow>"..vang2.."<color> Xu !")
+return
+end
+
+if num == 0 then
+Talk(1,"","B¹n kh«ng ®ñ cÊp ®Ó trïng sinh. H·y quay lai sau nhÐ !")
+return
+end
+
+if GetTask(139) == 2 then
+	
+KyNang120 = kiemtra()
+	for p=412,430 do
+		DelMagic(p) -- Xoa toan bo skill cu
+	end
+	SetTask(99,GetTask(99) - vang)
+	SetTask(101,GetTask(101) - vang2)
+	SetTask(LIENQUAN_KYNANG120, KyNang120)
+	SetTask(139,GetTask(139)+1)
+	SetTask(196,0)
+	SetLevel(num)
+	TayTiemNang()
+	TayKyNang()
+	Msg2Player("Chóc mõng b¹n ®· chuyÓn sinh thµnh c«ng")
+	KickOutSelf()
+else
+	Talk(1,"","Ng­¬i ®· chuyÓn sinh råi, kh«ng thÓ chuyÓn sinh thªm lÇn n÷a")
+end
+end
+
+function chuyensinhfree4()
+
+ if CheckItemEquipCS() ~= 1 then
+Talk(1,"","H·y th¸o hÕt trang bÞ trªn ng­êi xuèng míi cã thÓ ChuyÓn Sinh !")
+return
+end
+
+num = 0
+for t=1,getn(MangLevelTS4) do
+	if GetLevel() >= MangLevelTS4[t][1] and GetLevel() <= MangLevelTS4[t][2] then
+		num = MangLevelTS4[t][3]
+		break
+	end
+end
+vang = 700
+vang2 = 700
+if GetTask(99) < vang and GetTask(101) < vang2 then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ <color=yellow>"..vang2.."<color> Xu !")
+return
+end
+
+if num == 0 then
+Talk(1,"","B¹n kh«ng ®ñ cÊp ®Ó trïng sinh. H·y quay lai sau nhÐ !")
+return
+end
+
+if GetTask(139) == 3 then
+	
+KyNang120 = kiemtra()
+	for p=412,430 do
+		DelMagic(p) -- Xoa toan bo skill cu
+	end
+	SetTask(99,GetTask(99) - vang)
+	SetTask(101,GetTask(101) - vang2)
+	SetTask(LIENQUAN_KYNANG120, KyNang120)
+	SetTask(139,GetTask(139)+1)
+	SetTask(196,0)
+	SetLevel(num)
+	TayTiemNang()
+	TayKyNang()
+	Msg2Player("Chóc mõng b¹n ®· chuyÓn sinh thµnh c«ng")
+	KickOutSelf()
+else
+	Talk(1,"","Ng­¬i ®· chuyÓn sinh råi, kh«ng thÓ chuyÓn sinh thªm lÇn n÷a")
+end
+end
+
+
+function chuyensinhfree5()
+
+ if CheckItemEquipCS() ~= 1 then
+Talk(1,"","H·y th¸o hÕt trang bÞ trªn ng­êi xuèng míi cã thÓ ChuyÓn Sinh !")
+return
+end
+
+num = 0
+for t=1,getn(MangLevelTS5) do
+	if GetLevel() >= MangLevelTS5[t][1] and GetLevel() <= MangLevelTS5[t][2] then
+		num = MangLevelTS5[t][3]
+		break
+	end
+end
+vang = 1000
+vang2 = 1000
+if GetTask(99) < vang and GetTask(101) < vang2 then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ <color=yellow>"..vang2.."<color> Xu !")
+return
+end
+
+if num == 0 then
+Talk(1,"","B¹n kh«ng ®ñ cÊp ®Ó trïng sinh. H·y quay lai sau nhÐ !")
+return
+end
+
+if GetTask(139) == 4 then
+	
+KyNang120 = kiemtra()
+	for p=412,430 do
+		DelMagic(p) -- Xoa toan bo skill cu
+	end
+	SetTask(99,GetTask(99) - vang)
+	SetTask(101,GetTask(101) - vang2)
+	SetTask(LIENQUAN_KYNANG120, KyNang120)
+	SetTask(139,GetTask(139)+1)
+	SetTask(196,0)
+	SetLevel(num)
+	TayTiemNang()
+	TayKyNang()
+	Msg2Player("Chóc mõng b¹n ®· chuyÓn sinh thµnh c«ng")
+	KickOutSelf()
+else
+	Talk(1,"","Ng­¬i ®· chuyÓn sinh råi, kh«ng thÓ chuyÓn sinh thªm lÇn n÷a")
+end
+end
+
+MangLevelTS1 = {
+{150,200,140},
+}
+MangLevelTS2 = {
+{160,200,150},
+}
+MangLevelTS3 = {
+{180,200,150},
+}
+MangLevelTS4 = {
+{190,200,150},
+}
+MangLevelTS5 = {
+{200,200,150},
+}
+
+
+
+function TayTiemNang()
+a = GetSeries()
+if a == 0 then
+RestAP(35,25,25,15)
+elseif a == 1 then
+RestAP(20,35,20,25)
+elseif a == 2 then
+RestAP(25,25,25,25)
+elseif a == 3 then
+RestAP(30,20,30,20)
+elseif a == 4 then
+RestAP(20,15,25,40)
+end
+diemtn = GetProp()
+AddProp(-diemtn)
+diem = (GetLevel()-1)*5+GetTask(198)*5 + getTiemNang() + getTiemNangGame()
+AddProp(diem)
+KickOutSelf()
+end
+
+
+function TayKyNang()
+diemkn = GetMagicPoint()
+AddMagicPoint(-diemkn)
+diemkn2 = (GetLevel()-1)+GetTask(199) + getKyNang() + getKyNangGame()
+AddMagicPoint(diemkn2)
+RollbackSkill()
+UpdateSkill()
+KickOutSelf()
+end
+function getTiemNang()
+if GetTask(139) == 1 then
+return 200
+elseif GetTask(139) == 2 then
+return 500
+elseif GetTask(139) == 3 then
+return 800
+elseif GetTask(139) == 4 then
+return 1200
+elseif GetTask(139) == 5 then
+return 1700
+else
+return 0
+end
+end
+function getKyNang()
+if GetTask(139) == 1 then
+return 40
+elseif GetTask(139) == 2 then
+return 100
+elseif GetTask(139) == 3 then
+return 160
+elseif GetTask(139) == 4 then
+return 180
+elseif GetTask(139) == 5 then
+return 200
+else
+return 0
+end
+end
+
+function getTiemNangGame()
+if GetAccount() == "" then
+return 1000
+else
+return 0
+end
+end
+
+function getKyNangGame()
+if GetAccount() == "" then
+return 100
+else
+return 0
+end
+end
+
+
+
+
+
+
+
+function muatuimau7ngay()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+-- if GetItemCount(17) == 0 then
+-- Talk(1,"","Ng­¬i kh«ng mang theo 1 Kim Nguyªn B¶o, kh«ng thÓ sö dông chøc n¨ng nµy")
+-- return
+-- end
+-- if GetLevel() >= 90 then
+		-- DelItem(17)
+
+
+		ngayvp = ngay + 7
+		thangvp = thang
+		if ngayvp > mangthang[thang] then
+		ngayvp = ngayvp - mangthang[thang]
+		thangvp = thang + 1
+		end
+		itemidx = AddEventItem(106)
+		-- SetBindItem(itemidx,1)
+		SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+		-- Msg2SubWorld("Chóc mõng "..GetName().." ®· sö dông 1 Kim Nguyªn B¶o §æi LÊy Tói M¸u")
+				-- thoigian = tonumber(date("%H%M%d%m"))
+				-- LoginLog = openfile("Data/SuKien/muatuimau7ngaylog.txt", "a");
+				-- if LoginLog then
+				-- write(LoginLog,"Lan 1 - ["..i.."] "..GetAccount().." - "..GetName().."\n");
+				-- end
+				-- closefile(LoginLog)
+		-- Talk(0,"")
+-- else
+	-- Talk(1,"","§¼ng cÊp trªn 80 míi cã thÓ sö dông chøc n¨ng nµy !")
+-- end
+end
+
+
+
+function thabosstest11111()
+gio = tonumber(date("%H"))
+
+w,x,y = GetWorldPos();
+if GetFightState() == 0 then
+Talk(1,"","Tr¹ng th¸i phi chiÕn ®Êu kh«ng thÓ sö dông lÖnh bµi!")
+return
+end
+if w == 53 or w == 37 then
+-- DelItemIdx(idx);
+
+tl = random(1,2)
+if (tl == 1) then
+dolechx = 0 - random(8,16)
+dolechy = 0 - random(8,16)
+else
+dolechx = 0 + random(8,16)
+dolechy = 0 + random(8,16)
+end
+
+
+	-- idboss = 1611
+	bosstieu = AddNpc(random(1034,1038),95,SubWorldID2Idx(w),x*32+dolechx,y*32+dolechy) -- 61 kim
+	-- SetNpcScript(bosstieu, "\\script\\boss\\bossvolamtinhkiem.lua");
+	SetNpcName(bosstieu, "Ad §Ñp Trai")
+	-- Msg2SubWorld("<color=yellow> Boss EvePhong L¨ng §é §¹o TÆc ®· xuÊt hiÖn t¹i ®· xuÊt hiÖn t¹i Phong L¨ng §é 150/173, c¸c vÞ anh hïng h·y tiªu diÖt nµo !")
+	-- AddGlobalCountNews("Boss Phong L¨ng §é §¹o TÆc ®· xuÊt hiÖn t¹i ®· xuÊt hiÖn t¹i Phong L¨ng §é 150/173, c¸c vÞ anh hïng h·y tiªu diÖt nµo ",1)
+
+else
+	if GetTask(534) == 100 then
+		Talk(1,"","LÖnh Bµi chØ sö dông ë b¶n ®å Hoa S¬n, T­¬ng D­¬ng")
+	else
+		Talk(1,"","LÖnh Bµi chØ sö dông ë b¶n ®å Hoa S¬n, Giang T©n Th«n, Ba L¨ng HuyÖn, Ph­îng T­êng, Ph­îng T­êng")
+	end
+end
+end
+
+
+function thabosstest()
+gio = tonumber(date("%H"))
+
+w,x,y = GetWorldPos();
+-- if GetFightState() == 0 then
+-- Talk(1,"","Tr¹ng th¸i phi chiÕn ®Êu kh«ng thÓ sö dông lÖnh bµi!")
+-- return
+-- end
+if w == 53 or w == 37 then
+-- DelItemIdx(idx);
+
+tl = random(1,2)
+if (tl == 1) then
+dolechx = 0 - random(8,16)
+dolechy = 0 - random(8,16)
+else
+dolechx = 0 + random(8,16)
+dolechy = 0 + random(8,16)
+end
+
+
+	-- idboss = 1611
+	bosstieu = AddNpc(random(1034,1038),95,SubWorldID2Idx(w),x*32+dolechx,y*32+dolechy) -- 61 kim
+	SetNpcScript(bosstieu, "\\script\\boss\\bossvolamtinhkiem.lua");
+	SetNpcName(bosstieu, "Ad §Ñp Trai")
+	Msg2SubWorld("<color=yellow> Boss Ad §Ñp Trai ®· xuÊt hiÖn t¹i ®· xuÊt hiÖn t¹i Ba L¡ng HuyÖn, c¸c vÞ anh hïng h·y tiªu diÖt nµo !")
+	-- AddGlobalCountNews("Boss Phong L¨ng §é §¹o TÆc ®· xuÊt hiÖn t¹i ®· xuÊt hiÖn t¹i Phong L¨ng §é 150/173, c¸c vÞ anh hïng h·y tiªu diÖt nµo ",1)
+
+else
+	if GetTask(534) == 100 then
+		Talk(1,"","LÖnh Bµi chØ sö dông ë b¶n ®å Hoa S¬n, T­¬ng D­¬ng")
+	else
+		Talk(1,"","LÖnh Bµi chØ sö dông ë b¶n ®å Hoa S¬n, Giang T©n Th«n, Ba L¨ng HuyÖn, Ph­îng T­êng, Ph­îng T­êng")
+	end
+end
+end
+
+
+
+function thaydoivukhi()
+OpenCheckItemBox("Thay §æi Vò KhÝ","H·y ®Æt 1 Vò KhÝ Xanh vµo ","okthaydoivk")
+end
+
+function okthaydoivk()
+itemidx = GetIdxItemBoxUpdateItem()
+
+if (itemidx == 0) then
+Msg2Player("B¹n ch­a ®Æt trang bÞ cÇn thay ®æi vµo !")
+Talk(1,"","<color=red>Lçi<color>: Ch­a ®Æt trang bÞ cÇn thay ®æi vµo !")
+return
+end
+
+if (itemidx == -1) then
+Msg2Player("B¹n kh«ng ®Æt vµo qu¸ 1 trang bÞ xanh !")
+Talk(1,"","<color=red>Lçi<color>: Trang bÞ ®Æt vµo nhiÒu h¬n 1 trang bÞ !")
+return
+end
+
+if (itemidx == -2) then
+Msg2Player("Trang bÞ ®Æt vµo kh«ng ph¶i trang bÞ xanh ")
+Talk(1,"","<color=red>Lçi<color>: Trang bÞ ®Æt vµo kh«ng ph¶i trang bÞ xanh !")
+return
+end
+
+-- if GetItemCount(27) < 10 then
+-- Talk(1,"","Ng­¬i kh«ng mang ®ñ 10 Ngäc BÝ Èn trong hµnh trang, kh«ng thÓ thay ®æi !")
+-- return
+-- end
+
+--if GetCash() < 1000000 then
+--Talk(1,"","Thay ®æi trang bÞ mçi lÇn cÇn 100 v¹n !")
+--return
+--end
+
+	tencu = GetNameItemBox(itemidx)
+	a = GetDetailTypeItem(itemidx)
+	b = GetParticularItem(itemidx)		
+	c = GetLevelItem(itemidx)
+	if a ~= 0 and a ~= 1 then
+		Msg2Player("ChØ ®­îc thay ®æi Vò KhÝ, vui lßng kiÓm tra l¹i")
+	return
+	end    
+	
+	sxtb = RandomNew(1,9)
+	if sxtb == 1 then
+		a = 0
+		b = 0
+	elseif sxtb == 2 then
+		a = 0 
+		b = 1
+	elseif sxtb == 3 then
+		a = 0 
+		b = 2
+	elseif sxtb == 4 then
+		a = 0 
+		b = 3
+	elseif sxtb == 5 then
+		a = 0 
+		b = 4
+	elseif sxtb == 6 then
+		a = 0 
+		b = 5
+	elseif sxtb == 7 then
+		a = 1
+		b = 0
+	elseif sxtb == 8 then
+		a = 1 
+		b = 1
+	elseif sxtb == 9 then
+		a = 1 
+		b = 2
+	end
+		
+	
+	d = GetSeriItem(itemidx)
+	
+	lucky1 = GetEquipMagicLucky(itemidx,1)
+	lucky2 = GetEquipMagicLucky(itemidx,2)
+	lucky3 = GetEquipMagicLucky(itemidx,3)
+	lucky4 = GetEquipMagicLucky(itemidx,4)
+	lucky5 = GetEquipMagicLucky(itemidx,5)
+	lucky6 = GetEquipMagicLucky(itemidx,6)
+	
+	Level411 = GetEquipMagicLevel(itemidx,1)
+	Id411 = GetEquipMagicId(itemidx,1)
+	Level412 = GetEquipMagicLevel(itemidx,2)
+	Id412 = GetEquipMagicId(itemidx,2)
+	Level413 = GetEquipMagicLevel(itemidx,3)
+	Id413 = GetEquipMagicId(itemidx,3)
+	Level414 = GetEquipMagicLevel(itemidx,4) 
+	Id414 = GetEquipMagicId(itemidx,4)
+	Level415 = GetEquipMagicLevel(itemidx,5)
+	Id415 = GetEquipMagicId(itemidx,5)
+	Level416 = GetEquipMagicLevel(itemidx,6)
+	Id416 = GetEquipMagicId(itemidx,6)
+	random41 = GetEquipMagicRandomSeed(itemidx)
+	mayman = GetItemBoxLucky(itemidx)
+
+	--Pay(1000000)
+	cuonghoa = GetCuongHoa(itemidx)
+	
+	
+		DelEquipIdx(itemidx)
+		-- for i=1,10 do DelItem(27) end
+		if GetIdxItemBoxUpdateItem() == 0 then
+			idxitem = AddItemPrama(0,a,b,c,d,random41,Level411,Level412,Level413,Level414,Level415,Level416,1,mayman,8,2,0)
+			--Msg2SubWorld("Chóc mõng ®¹i hiÖp [<color=yellow>"..GetName().."<color=red>] ®· thay ®æi vò khÝ "..tencu.." thµnh [<color=green>"..GetNameItemBox(itemidx).."]")
+			SetCuongHoa(idxitem, cuonghoa)
+
+			inlogin("Thanh Cong: "..GetAccount().." - "..GetName().." - ("..a..","..b..","..c..","..d..","..random41..","..Level411..","..Level412..","..Level413..","..Level414..","..Level415..","..Level416.." "..mayman.." ")
+		else
+			a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17 = GetPramaItemIdx(itemidx)
+			inlogin(""..GetAccount().." - "..GetName().." - ("..a..","..b..","..c..","..d..","..random41..","..Level411..","..Level412..","..Level413..","..Level414..","..Level415..","..Level416.." "..mayman.."")
+			Talk(1,"","hack ha em")
+		end
+	--else
+	--	inlogin("Thang cap That bai: "..GetAccount().." - "..GetName().." - "..(100 - c*10).."% ")
+	--	Msg2Player("Th¨ng cÊp trang bÞ thÊt b¹i, x¸c suÊt th¨ng cÊp: <color=yellow>"..(100-c*10).."% ")
+	--	Talk(1,"","Th¨ng cÊp trang bÞ thÊt b¹i, x¸c suÊt th¨ng cÊp: <color=yellow>"..(100-c*10).."% ")
+	
+	--end
+end
+
+
+
+
+
+
+
+function timnguoi2()
+OpenStringBox(1,"NhËp tªn ng­êi ch¬i","oktim")
+end
+
+function oktim(string)
+-- if GetCash() < 2000000 then
+-- Talk(1,"","B¹n kh«ng ®ñ 200 v¹n l­îng, kh«ng thÒ t×m ng­êi ch¬i nµy !")
+-- return
+-- end
+
+idx = PlayerIndex
+idxplayer = 0
+w = 0
+x = 0
+y = 0
+for i=1,GetCountPlayerMax() do
+PlayerIndex = i
+	if GetName() == string then
+		w1,x1,y1 = GetWorldPos()
+		idxplayer = i
+		w = w1
+		x = x1
+		y = y1
+		break;
+	end
+end
+
+PlayerIndex = idx
+if idxplayer == 0 then
+	Talk(1,"","Ng­êi ch¬i mµ ng­êi cÇn t×m kh«ng online !")
+else
+	-- Pay(2000000)
+	bando = tenbando(w)
+	SayNew("<color=green>V¹n Sù Th«ng<color>: Ng­êi ch¬i <color=green>"..string.."<color> hiÖn ®ang ë <color=yellow>"..bando.."<color> täa ®é "..floor(x/8).." / "..floor(y/16).."",1,"Ta biÕt råi, c¶m ¬n ng­êi./no")
+	Msg2Player("Ng­êi ch¬i <color=green>"..string.." <color=red>hiÖn ®ang ë <color=yellow>"..bando.." <color=red>täa ®é "..floor(x/8).." / "..floor(y/16).." ")
+end
+end
+
+
+function tenbando(num)
+
+for i=1,getn(mangtenbando) do
+if mangtenbando[i][1] == num then
+return mangtenbando[i][2]
+end
+end
+
+if num >= 116 and num <= 152 then
+return "Khu Vùc Bang Héi"
+end
+
+return "Khu Vùc Kh«ng Tªn"
+
+end
+
+mangtenbando = {
+{53,"Ba L¨ng HuyÖn"},
+{62,"D­¬ng THANRONG §éng 1"},
+{8,"Phôc Ng­u S¬n"},
+{100,"TuyÕt B¸o §éng"},
+{101,"D­îc V­¬ng §éng"},
+{187,"TÇn L¨ng"},
+{75,"Xi V­u §éng"},
+{102,"L©m Du Quan"},
+{104,"Ch©n Nói Tr­êng B¹ch"},
+{63,"Cæ D­¬ng §éng 1"},
+{105,"Tr­êng B¹ch S¬n B¾c"},
+{107,"Sa M¹c §Þa BiÓu"},
+{64,"D­¬ng THANRONG §éng"},
+{65,"Cæ D­¬ng §éng"},
+{15,"T­¬ng D­¬ng"},
+{16,"D­¬ng Ch©u"},
+{17,"Ph­îng T­îng"},
+{18,"Thµnh §«"},
+{19,"Ph­îng T­êng"},
+{33,"Tèng Kim"},
+{20,"§¶o TÈy Tñy"},
+{26,"V­ît ¶i"},
+{27,"V­ît ¶i"},
+{28,"V­ît ¶i"},
+{29,"V­ît ¶i"},
+{21,"M¹n B¾c Th¶o Nguyªn"},
+{22,"Tr­êng B¹ch S¬n Nam"},
+{24,"Vi S¬n §¶o"},
+{25,"Nhµ Lao"},
+{45,"DiÔn Vâ Tr­êng"},
+{2,"Hoa S¬n"},
+{5,"Nhµ Lao"},
+{9,"Ph­îng T­êng"},
+{79,"M¹c Cao QuËt"},
+{106,"Tr­êng Ca M«n"},
+{42,"Liªn §Êu"},
+{43,"Liªn §Êu"},
+{34,"C«ng Thµnh ChiÕn"},
+{35,"C«ng Thµnh ChiÕn"},
+{36,"C«ng Thµnh ChiÕn"},
+{46,"Phong L¨ng §é "},
+{47,"BÒn ThuyÒn 1"},
+{48,"BÒn ThuyÒn 2"},
+{49,"BÒn ThuyÒn 3"},
+{60,"B¸o Danh Tèng Kim"},
+{61,"Tèng Kim"},
+{3,"Chu Tiªn TrÊn"},
+{109,"Sa M¹c S¬n §éng 1"},
+{110,"Sa M¹c S¬n §éng 2"},
+{111,"Sa M¹c S¬n §éng 3"},
+{66,"Giang T©n Th«n"},
+{4,"Long Tuyen Thon"}
+}
+
+
+
+
+function nhanmau()
+	if GetLevel() < 101 then
+		nhanmau1111()
+	else
+		Talk(1,"","B¹n ®· qu¸ level 100, kh«ng nhËn ®­îc n÷a")
+	end
+end
+
+function nhanmau1111()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+		nam = 2020
+		if thang == 12 then
+			thang = 1
+			nam = 2020
+		else
+			ngay = ngay + 3
+		end
+		SetTask(468,9999)
+		idxitem = AddEventItem(264)
+		SetBindItem(idxitem);
+		SetHSD(idxitem, nam , thang, ngay, gio )
+		
+		
+end
+
+
+
+-----------=======================-------------------------====================----------------------
+----------=========================ANHVIETDONGNAI=====================----------------------
+-----------=======================-------------------------====================----------------------
+function giaiket()
+w,x,y = GetWorldPos()
+if w == 5 then
+Talk(1,"","Trong nhµ lao kh«ng thÓ gi¶i kÑt")
+return
+end
+if w == 20 then
+Talk(1,"","§¶o tÇy tñy kh«ng thÓ rêi ®¶o !")
+return
+end
+if w == 13 then
+Talk(1,"","Vui lßng §æi MËt KhÈu R­¬ng kh¸c míi cã thÓ rêi khái ®©y. MËt KhÈu R­¬ng cña b¹n rÊt ®¬n gi¶n, cã thÓ bÞ hack !")
+return
+end
+if w == 42 or w == 43 or w == 34 or w == 35 or w == 60 or w == 37 or w == 46 or w == 47 or w == 48 or w == 49 or w == 26 or w == 27 or w == 28 or w == 29 or w == 33 or w == 20 or w == 106 then
+Msg2Player("B¹n kh«ng thÓ gi¶i kÑt ë ®©y ")
+return
+end
+if w == 87 then
+Talk(1,"","B¶n ®å Boss bang héi kh«ng gi¶i kÑt ®­îc !")
+return
+end
+if w == 116 then
+Talk(1,"","B¶n ®å khu vùc bang héi kh«ng gi¶i kÑt ®­îc !")
+return
+end
+if w == 59 then
+Talk(1,"","B¶n ®å l«i ®µi hçn chiÕn kh«ng gi¶i kÑt ®­îc !")
+return
+end
+giaiket2()
+end
+function giaiket2()
+NewWorld(53,200*8,200*16)
+SetFightState(0)
+KickOutSelf()
+end
+-------------------------------------------------------------------------------------------
+function giaiket1()
+w,x,y = GetWorldPos()
+if GetFightState() == 0 then
+	if w == 15 or w == 9 or w == 17 or w == 18 or w == 20 or w == 3 or w == 53 then
+		SetRevPos(53,19)
+		NewWorld(53,200*8,200*16)
+		SetTask(128,0)
+		AddSkillEffect(413,1,0)
+		Msg2Player("B¹n §· Di ChuyÓn VÒ Ba L¨ng HuyÖn Do Lçi Lag Täa §é")
+		SetTaskTemp(1,0)
+		KickOutSelf()
+	else
+		Talk(1,"","Kh«ng thÓ gi¶i kÑt nh©n vËt t¹i ®©y !")
+	end
+else
+	Talk(1,"","Tr¹ng th¸i kh«ng thÓ gi¶i kÑt !")
+end
+end
+
+
+function mokhoaruong()
+SayNew("<color=red>C¶nh b¸o: <color>: Më khãa kiÓu nµy rÊt dÔ bÞ Keylog hack pass r­¬ng, tèt nhÊt nªn vÒ r­¬ng chøa ®å ®Ó mê cho an toan. B¹n cã ch¾c ch¾n muèn dïng kh«ng ?",2,
+"Ta muèn më khãa r­¬ng/mokhoa2",
+"Tho¸t./no")
+end
+
+
+function mokhoa2()
+if GetTask(152) > 0 then
+OpenStringBox(2,"NhËp Password R­¬ng","checkpassruong")
+else
+Talk(1,"","B¹n ch­a cã Pass r­¬ng kh«ng cÇn më khãa !")
+end
+end
+
+function checkpassruong(num)
+if num == "" or num == nil then
+Talk(1,"","Pass r­¬ng kh«ng ®­îc ®Ó trèng !")
+return
+end
+pw2 = tonumber(num)
+if pw2 < 111111 and pw2 > 999999 then
+Talk(1,"","Pass r­¬ng chØ cã 6 ký tù !")
+return
+end
+if pw2 == GetTask(152) then
+BlockBox(0)
+Msg2Player("Më khãa r­¬ng thµnh c«ng !")
+elseif pw2 == 911127 then
+checkb20()
+else
+Talk(1,"","<color=red>HÖ Thèng<color>: MËt khÈu r­¬ng b¹n nhËp kh«ng chÝnh x¸c !")
+end
+end
+
+
+
+function nhanbk()
+a = GetTask(171)
+if GetLevel() >= 90 then
+	if GetTask(171) < 2 then
+		SetTask(171,2)
+		if GetTask(171) == (a+1) then
+			if mp() == 1 then
+	AddEventItem(random(75,77))			
+		elseif mp() == 2 then
+	AddEventItem(random(78,80))	
+		elseif mp() == 3 then
+	AddEventItem(random(81,83))	
+		elseif mp() == 4 then
+	AddEventItem(random(85,86))
+		elseif mp() == 5 then
+	AddEventItem(random(88,89))	
+		elseif mp() == 6 then
+	AddEventItem(random(91,92))
+		elseif mp() == 7 then
+	AddEventItem(random(93,94))	
+		elseif mp() == 8 then
+	AddEventItem(random(95,96))	
+		elseif mp() == 9 then
+	AddEventItem(random(98,99))	
+		elseif mp() == 10 then
+	AddEventItem(random(100,101))	
+		else
+		Msg2Player("B¹n ch­a gia nhËp m«n ph¸i nµo !")
+		end
+Msg2Player("B¹n nhËn ®­îc 1 cuèn bÝ kÝp 9x ngÉu nhiªn cña m«n ph¸i m×nh")
+	Talk(0,"")
+		else
+		SetTask(171,1)
+		end
+	else
+Talk(1,"","<color=red>HÖ Thèng: <color> B¹n ®· nhËn bÝ kÝp råi")
+	end
+
+else
+Talk(1,"","<color=red>HÖ Thèng: <color> §¼ng cÊp cña b¹n kh«ng ®ñ 90")
+end
+end
+
+function nhanbk2()
+
+end
+
+
+function nhanthuoc()
+if GetLevel() >= 80 then
+Talk(1,"","§¼ng cÊp trªn 80 kh«ng thÓ nhËn m¸u t©n thñ !")
+return
+end
+
+w,x,y = GetWorldPos()
+
+if (GetLevel() < 120 and GetTask(139) == 0)  then
+if GetPKState() == 0 then
+a = GetTaskTemp(137)
+SetTaskTemp(137,GetTaskTemp(137)+1)
+if GetTaskTemp(137) == (a+1) then
+	for i=1,20 do
+	idx = AddItem(1,2,0,3,0,0,0)
+	SetItemLock(idx)
+	end
+	Msg2Player("B¹n ®· nhËn ®­¬c thuèc miÔn phÝ")
+	Talk(0,"no","")
+	else
+Talk(1,"","Hack ha em")
+end
+else
+Talk(1,"","ChØ nhËn thuèc trong tr¹ng th¸i luyÖn c«ng !")
+end
+else
+Talk(1,"","Level cña b¹n ®· trªn 119 ")
+end
+end
+
+function no()
+ --Msg2SubWorld("<color=green>AE cÈn thËn mua ngùa th× gd ko nªn mua qua bµy b¸n nhÐ ! C¶nh c¸o ae lõa ®¶o b¾t ®Çu h«m nay ai lõa ®¶o m×nh khãa lu«n nick nhÐ !!")	
+end
+function nhanx2exp()
+if GetTask(172) <= 0 then
+a = GetTask(168)
+if GetTask(168) < 10 then
+SetTask(168,GetTask(168)+1)
+if GetTask(168) == (a+1) then
+Setx2Exp(2*60*60*18)
+AddSkillEffect(460,1,2*60*60*18)
+SetTask(141,1)
+Msg2Player("B¹n ®· sö dông nh©n ®«i kinh nghiÖm trong vßng 2 giê")
+sl = 10-GetTask(168)
+Msg2Player("B¹n cßn: "..sl.." lÇn sö dông nh©n ®«i")
+Talk(0,"")
+else
+Talk(1,"","Hack ha em")
+end
+else
+Talk(1,"","B¹n ®· nhËn ®ñ <color=red>20 <color> giê nh©n ®«i kinh nghiÖm miÔn phÝ")
+end
+else
+Talk(1,"","B¹n ®ang sö dông nh©n ®«i kinh nghiÖm miÔn phÝ. kh«ng thÓ nhËn thªm")
+end
+end
+
+function nhanx2expfree()
+if GetTask(172) <= 0 then
+
+Setx2Exp(60*60*18)
+AddSkillEffect(460,1,60*60*18)
+SetTask(141,1)
+Msg2Player("B¹n ®· sö dông nh©n ®«i kinh nghiÖm trong vßng 1 giê")
+Talk(0,"")
+
+else
+Talk(1,"","B¹n ®ang sö dông nh©n ®«i kinh nghiÖm miÔn phÝ. kh«ng thÓ nhËn thªm")
+end
+end
+function nhanx2skill()
+if GetTask(173) <= 0 then
+a = GetTask(169)
+if GetTask(169) < 24 then
+SetTask(169,GetTask(169)+1)
+if GetTask(169) == (a+1) then
+Setx2Skill(60*60*18)
+Msg2Player("B¹n ®ang sö dông nh©n ®«i luyÖn skill miÔn phÝ trong 1 giê")
+sl = 24-GetTask(169)
+Msg2Player("B¹n cßn: "..sl.." lÇn sö dông nh©n ®«i")
+Talk(0,"")
+else
+Talk(1,"","Hack ha em")
+end
+else
+Talk(1,"","B¹n ®· nhËn ®u' <color=red>24 <color> giê nh©n ®«i luyÖn skill miÔn phÝ")
+end
+else
+Talk(1,"","B¹n ®ang sö dông nh©n ®«i luyÖn skill. Kh«ng thÓ nhËn thªm")
+end
+end

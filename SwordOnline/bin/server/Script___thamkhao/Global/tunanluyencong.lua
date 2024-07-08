@@ -1,0 +1,3 @@
+function OnDeath()
+LeaveTeam()
+end

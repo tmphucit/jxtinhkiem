@@ -1058,7 +1058,8 @@ void KUiFight::SaveFightSetting() {
     //		{
     //			sprintf(szKeyName, "%d", nCount);
     //			pConfigFile->WriteInteger3("MoveMpsList", szKeyName,
-    //m_nMpsList[i][0], m_nMpsList[i][1], m_nMpsList[i][2]); 			nCount++;
+    // m_nMpsList[i][0], m_nMpsList[i][1], m_nMpsList[i][2]);
+    // nCount++;
     //		}
     //	}
 
@@ -1090,7 +1091,7 @@ void KUiFight::SaveFightSetting() {
     pConfigFile->WriteInteger("Fighting", "FollowRadius",
                               m_FollowRadiusEdit.GetIntNumber()); // theo sau
     //	pConfigFile->WriteInteger("Fighting", "MoveCK",
-    //m_MoveMpsCK.IsButtonChecked());
+    // m_MoveMpsCK.IsButtonChecked());
 
     for (i = 0; i < defMAX_AUTO_MOVEMPSL; i++) {
       sprintf(szKeyName, "MapID%d", i);
@@ -2360,7 +2361,7 @@ void KUiPick::LoadPickSetting() {
     g_pCoreShell->PAIOperation(GPI_TP_NOT_EQUIPMENT, nValue > 0, NULL, NULL);
     //	m_TPNotEquipmentChecker.CheckButton(nValue > 0);
     //	g_pCoreShell->OperationRequest(GOI_AUTO_PLAY,55,  nValue > 0); // them
-    //tinh nang full ruong
+    // tinh nang full ruong
 
     pConfigFile->GetInteger("Pick", "TPRoomNEV", 0, &nValue);
     SetPortalRoomNE(nValue);

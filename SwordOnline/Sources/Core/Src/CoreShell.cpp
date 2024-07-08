@@ -80,7 +80,7 @@ public:
 
   // 与地图相关的操作,uOper的取值来自 GAME_SCENE_MAP_OPERATION_INDEX
   //	virtual int SceneMapOperation(unsigned int uOper, unsigned int uParam,
-  //int nParam) = 0;
+  // int nParam) = 0;
   int SceneMapOperation(unsigned int uOper, unsigned int uParam, int nParam);
   // 与帮会相关的操作, uOper的取值来自 GAME_TONG_OPERATION_INDEX
   int TongOperation(unsigned int uOper, unsigned int uParam, int nParam);
@@ -165,8 +165,8 @@ int KCoreShell::SetCallDataChangedNofify(IClientCallback *pNotifyFunc) {
 //--------------------------------------------------------------------------
 //	功能：从游戏世界获取数据
 //	参数：unsigned int uDataId -->
-//表示获取游戏数据的数据项内容索引，其值为梅举类型 							GAMEDATA_INDEX的取值之一。
-//		  unsigned int uParam  --> 依据uDataId的取值情况而定
+// 表示获取游戏数据的数据项内容索引，其值为梅举类型
+// GAMEDATA_INDEX的取值之一。 		  unsigned int uParam  --> 依据uDataId的取值情况而定
 //		  int nParam --> 依据uDataId的取值情况而定
 //	返回：依据uDataId的取值情况而定。
 //--------------------------------------------------------------------------
@@ -508,9 +508,9 @@ int KCoreShell::GetGameData(unsigned int uDataId, unsigned int uParam,
           case SKILL_SS_Missles: //	子弹类		本技能用于发送子弹类
           case SKILL_SS_Melee:
           case SKILL_SS_InitiativeNpcState: //	主动类
-                                            //本技能用于改变当前Npc的主动状态
+                                            // 本技能用于改变当前Npc的主动状态
           case SKILL_SS_PassivityNpcState:  //	被动类
-                                            //本技能用于改变Npc的被动状态
+                                            // 本技能用于改变Npc的被动状态
           {
             KSkill::GetDesc(pObj->Obj.uId, nLevel, nCurrentLevel, pszDescript,
                             Player[CLIENT_PLAYER_INDEX].m_nIndex,
@@ -840,7 +840,7 @@ int KCoreShell::GetGameData(unsigned int uDataId, unsigned int uParam,
   //			KUiObjAtRegion结构用于存储装备的数据和放置位置信息。
   //			KUiObjAtRegion::Region::h 表示属于第几套装备
   //			KUiObjAtRegion::Region::v
-  //表示属于哪个位置的装备,其值为梅举类型
+  // 表示属于哪个位置的装备,其值为梅举类型
   //			UI_EQUIPMENT_POSITION的取值之一。请参看UI_EQUIPMENT_POSITION的注释。
   // nParam =	要获取的是第几套装备信息
   // Return =
@@ -857,6 +857,8 @@ int KCoreShell::GetGameData(unsigned int uDataId, unsigned int uParam,
           UIEP_FOOT,     UIEP_FINESSE,     UIEP_NECK,  UIEP_FINGER1,
           UIEP_FINGER2,  UIEP_WAIST_DECOR, UIEP_HORSE, UIEP_MASK, // mat na
           UIEP_PHIPHONG,
+          UIEP_SIGNET, // them an -- Vincent Hoang
+          UIEP_SHIPIN, // them trang suc -- Vincent Hoang
       };
 
       int nCount = 0;
@@ -922,6 +924,8 @@ int KCoreShell::GetGameData(unsigned int uDataId, unsigned int uParam,
           UIEP_FOOT,     UIEP_FINESSE,     UIEP_NECK,  UIEP_FINGER1,
           UIEP_FINGER2,  UIEP_WAIST_DECOR, UIEP_HORSE, UIEP_MASK, // mat na
           UIEP_PHIPHONG,
+          UIEP_SIGNET, // them an -- Vincent Hoang
+          UIEP_SHIPIN, // them trang suc -- Vincent Hoang
       };
 
       int nCount = 0;
@@ -1242,7 +1246,7 @@ int KCoreShell::GetGameData(unsigned int uDataId, unsigned int uParam,
   // 聊天一个好友分组中好友的信息
   // uParam = (KUiPlayerItem*)pList -> 人员信息列表
   //			KUiPlayerItem::nData = (CHAT_STATUS)eFriendStatus
-  //好友的当前状态 nParam = 要获取列表的好友分组的索引 Return =
+  // 好友的当前状态 nParam = 要获取列表的好友分组的索引 Return =
   // 其值表示pList数组中的前多少个KUiPlayerItem结构被填充了有效的数据.
   case GDI_CHAT_FRIENDS_IN_AGROUP:
     nRet = Player[CLIENT_PLAYER_INDEX].m_cChat.IGetTeamFriendInfo(
@@ -1408,7 +1412,7 @@ int KCoreShell::GetGameData(unsigned int uDataId, unsigned int uParam,
     // Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_bIsHidePlayer =
     // pInfo->bHidePlayer;
     //		Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_bIsHidePlayer =
-    //true;
+    // true;
     Player[CLIENT_PLAYER_INDEX].m_HideRes = pInfo->bHidePlayer;
     Player[CLIENT_PLAYER_INDEX].m_HideMissle = pInfo->bHideMissle;
     Player[CLIENT_PLAYER_INDEX].CheckRideHouse(pInfo->bHorse);
@@ -1418,9 +1422,9 @@ int KCoreShell::GetGameData(unsigned int uDataId, unsigned int uParam,
     Player[CLIENT_PLAYER_INDEX].m_TuVe = pInfo->bTuVe;
 
     //		Player[CLIENT_PLAYER_INDEX].m_cTeam.m_InviteAuto =
-    //pInfo->bInviteAuto; 		Player[CLIENT_PLAYER_INDEX].m_cTeam.m_AcceptAuto =
-    //pInfo->bAcceptAuto; 		Player[CLIENT_PLAYER_INDEX].m_cTeam.m_CancelAuto =
-    //pInfo->bCancelAuto;
+    // pInfo->bInviteAuto;
+    // Player[CLIENT_PLAYER_INDEX].m_cTeam.m_AcceptAuto = pInfo->bAcceptAuto;
+    // Player[CLIENT_PLAYER_INDEX].m_cTeam.m_CancelAuto = pInfo->bCancelAuto;
 
     Player[CLIENT_PLAYER_INDEX].m_bUseTDP = pInfo->bUseTDP;
 
@@ -1712,7 +1716,7 @@ int KCoreShell::OperationRequest(unsigned int uOper, unsigned int uParam,
     case 4:
       //	strcpy(Player[CLIENT_PLAYER_INDEX].m_FollowPeopleName,(char*)nParam);
       //	Player[CLIENT_PLAYER_INDEX].m_FollowPeopleIdx =
-      //NpcSet.SearchName(Player[CLIENT_PLAYER_INDEX].m_FollowPeopleName);
+      // NpcSet.SearchName(Player[CLIENT_PLAYER_INDEX].m_FollowPeopleName);
       break;
     case 5:
       Player[CLIENT_PLAYER_INDEX].m_AutoAttack = nParam;
@@ -1887,7 +1891,7 @@ int KCoreShell::OperationRequest(unsigned int uOper, unsigned int uParam,
     }
       //  case 55:
       //	        Player[CLIENT_PLAYER_INDEX].m_bActiveAuto =
-      //!Player[CLIENT_PLAYER_INDEX].m_bActiveAuto;
+      //! Player[CLIENT_PLAYER_INDEX].m_bActiveAuto;
       //     	break;
       /*   case 56:
                          Player[CLIENT_PLAYER_INDEX].m_nTPNotEquipment = uParam;
@@ -2291,9 +2295,11 @@ int KCoreShell::OperationRequest(unsigned int uOper, unsigned int uParam,
     }
   } break;
   case GOI_SWITCH_OBJECT:
+
     // uParam = (KUiObjAtContRegion*)pObject1 -> 拿起的物品操作前的信息
     // nParam = (KUiObjAtContRegion*)pObject2 -> 放下的物品操作后的信息
     {
+      g_DebugLog("bat dau click");
       ItemPos P1, P2;
       int PartConvert[itempart_num] = {
           itempart_head,   itempart_weapon, itempart_amulet,
@@ -2480,6 +2486,7 @@ int KCoreShell::OperationRequest(unsigned int uOper, unsigned int uParam,
         memcpy(&P2, &P1, sizeof(P1));
       }
       Player[CLIENT_PLAYER_INDEX].MoveItem(P1, P2);
+      g_DebugLog("sau click xong");
     }
     break;
 
@@ -2535,7 +2542,7 @@ int KCoreShell::OperationRequest(unsigned int uOper, unsigned int uParam,
   // uParam = (KUiObjAtRegion*)pInfo -> 装备的数据和放置位置信息
   //			KUiObjAtRegion::Region::h 表示属于第几套装备
   //			KUiObjAtRegion::Region::v
-  //表示属于哪个位置的装备,其值为梅举类型
+  // 表示属于哪个位置的装备,其值为梅举类型
   //			UI_EQUIPMENT_POSITION的取值之一。请参看UI_EQUIPMENT_POSITION的注释。
   case GOI_WEAR_EQUIP:
     // to do: waiting for...
@@ -2977,7 +2984,7 @@ int KCoreShell::OperationRequest(unsigned int uOper, unsigned int uParam,
     //				sMsg.byPriority = 0;
     //				sMsg.byParamSize = 0;
     //				CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (unsigned
-    //int)&sMsg, 0);
+    // int)&sMsg, 0);
     //			}
   } break;
   case GOI_VIEW_PLAYERITEM_END:

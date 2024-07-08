@@ -204,7 +204,7 @@ private:
   int m_nPartNum;
   char m_szResPath[80]; // 图形文件(spr)存放的路径
   CRESINFO
-      m_cResInfo[MAX_PART]; // 某部件的所有资源文件信息（包括所有资源文件名）
+  m_cResInfo[MAX_PART]; // 某部件的所有资源文件信息（包括所有资源文件名）
   CEquipStyleTable m_NoHorseTable;
   CEquipStyleTable m_OnHorseTable;
   char m_szSoundName[MAX_ACTION][80];

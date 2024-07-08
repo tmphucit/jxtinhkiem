@@ -67,8 +67,9 @@ extern iCoreShell *g_pCoreShell;
 #define UI_PUBLIC_FONT_SETTINGS "vn\\fontsetting.ini"
 #define UI_GAME_SETTING_FILE "\\Settings\\GameOption.ini"
 
-#define UI_USER_DATA_FOLDER "\\UserData"            // 玩家数据的存盘目录位置
-#define UI_USER_DATA_TEMP_FOLDER "\\UserData\\Temp" // 玩家数据的临时存盘目录位置
+#define UI_USER_DATA_FOLDER "\\UserData" // 玩家数据的存盘目录位置
+#define UI_USER_DATA_TEMP_FOLDER                                               \
+  "\\UserData\\Temp" // 玩家数据的临时存盘目录位置
 #define UI_COMMON_SETTING_FILE                                                 \
   "\\UserData\\UiCommon.ini"                   // 界面公共设置的文件的名称
 #define UI_PRIVATE_SETTING_FILE "UiConfig.ini" // 界面个人数据的存储文件
@@ -463,7 +464,8 @@ int KUiBase::SchemeCount() {
 //--------------------------------------------------------------------------
 //	功能：获得某个界面方案的名称与路径
 //	参数：pName -->
-//用于获取方案的名称，为指向一个长度不小于的32的缓冲区的指针，或者空指针。 		  pPath
+// 用于获取方案的名称，为指向一个长度不小于的32的缓冲区的指针，或者空指针。
+// pPath
 //--> 用于获取方案的路径，为指向一个长度不小于的32的缓冲区的指针，或者空指针。
 //--------------------------------------------------------------------------
 int KUiBase::GetScheme(int nIndex, char *pName, char *pPath) {

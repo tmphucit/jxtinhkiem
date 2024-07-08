@@ -456,7 +456,7 @@ void KNpcAttribModify::FreezeTimeReduceP(KNpc *pNpc, void *pData) {
   //		pNpc->m_FreezeState.nTime = 0;
   //	}
   //	g_DebugLog("[数值]%s冰冻时间减少百分之%d", pNpc->Name,
-  //pMagic->nValue[0]); 	装备TODO
+  // pMagic->nValue[0]); 	装备TODO
   KMagicAttrib *pMagic = (KMagicAttrib *)pData;
   pNpc->m_CurrentFreezeTimeReducePercent += pMagic->nValue[0];
   g_DebugLog("[数值]%s冰冻时间减少百分之%d", pNpc->Name, pMagic->nValue[0]);
@@ -771,7 +771,7 @@ void KNpcAttribModify::PoisonTimeReduceP(KNpc *pNpc, void *pData) {
   //		pNpc->m_PoisonState.nTime = 0;
   //	}
   //	g_DebugLog("[数值]%s中毒时间减少百分之%d", pNpc->Name,
-  //pMagic->nValue[0]);
+  // pMagic->nValue[0]);
   KMagicAttrib *pMagic = (KMagicAttrib *)pData;
 
   pNpc->m_CurrentPoisonTimeReducePercent += pMagic->nValue[0];

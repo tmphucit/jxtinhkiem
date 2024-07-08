@@ -517,7 +517,7 @@ void KLogin::ProcessDeleteRoleResponse(tagNewDelRoleResponse *pResponse) {
   //_ASSERT(m_Status == LL_S_DELETING_ROLE && pResponse != NULL);
   if (pResponse->cProtocol == s2c_rolenewdelresponse) {
     //		if (strcmp(pResponse->szRoleName,
-    //m_Choices.szProcessingRoleName) == 0)	//to be check/* ¡ı≈Ùµ˜ ‘∞Ê */
+    // m_Choices.szProcessingRoleName) == 0)	//to be check/* ¡ı≈Ùµ˜ ‘∞Ê */
     {
       g_NetConnectAgent.UpdateClientRequestTime(true);
       m_Status = LL_S_ROLE_LIST_READY;

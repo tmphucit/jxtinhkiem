@@ -109,8 +109,8 @@ public:
                                       char *szSendName, const char *pMsgBuff,
                                       unsigned short nMsgLength);
   //	static int				NewChannelMessageArrival(DWORD
-  //nChannelID, char* szSendName, const char* pMsgBuff, unsigned short
-  //nMsgLength);
+  // nChannelID, char* szSendName, const char* pMsgBuff, unsigned short
+  // nMsgLength);
   static void NewMSNMessageArrival(char *szSourceName, char *szSendName,
                                    const char *pMsgBuff,
                                    unsigned short nMsgLength);

@@ -28,7 +28,7 @@ private:
   void Initialize(); // ≥ı ºªØ
   void Breathe();
   //	int		WndProc(unsigned int uMsg, unsigned int uParam, int
-  //nParam);
+  // nParam);
   void SwitchPKProcess(int nAction);
 
 private:

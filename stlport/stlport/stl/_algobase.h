@@ -442,12 +442,13 @@ template <class _InputIter1, class _InputIter2>
 _STLP_INLINE_LOOP bool equal(_InputIter1 __first1, _InputIter1 __last1,
                              _InputIter2 __first2) {
   _STLP_FIX_LITERAL_BUG(__first1)
-  _STLP_FIX_LITERAL_BUG(__last1) _STLP_FIX_LITERAL_BUG(__first2)
-      _STLP_DEBUG_CHECK(__check_range(
-          __first1, __last1)) for (; __first1 != __last1;
-                                   ++__first1,
-                                   ++__first2) if (!(*__first1 ==
-                                                     *__first2)) return false;
+  _STLP_FIX_LITERAL_BUG(__last1)
+  _STLP_FIX_LITERAL_BUG(__first2)
+  _STLP_DEBUG_CHECK(__check_range(
+      __first1,
+      __last1)) for (; __first1 != __last1;
+                     ++__first1,
+                     ++__first2) if (!(*__first1 == *__first2)) return false;
   return true;
 }
 

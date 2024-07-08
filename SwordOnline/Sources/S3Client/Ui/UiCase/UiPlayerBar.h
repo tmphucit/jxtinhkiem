@@ -103,9 +103,9 @@ public:
 
   static void SetCurrentChannel(int nIndex);
   static void SwitchChannel(
-      BOOL bUp = FALSE); // 切换到下一个频道，到底了就切换到第一个，循环
-                         // bUp是true就上升，否则下降
-                         // e...下标是0是最顶部的概念
+      BOOL bUp = FALSE);      // 切换到下一个频道，到底了就切换到第一个，循环
+                              // bUp是true就上升，否则下降
+                              // e...下标是0是最顶部的概念
   static int GetCurChannel(); // 得到PlayerBar里当前的频道
   static void Clear();
 

@@ -21,7 +21,7 @@ public:
   static void CloseWindow();            // 关闭窗口
   static void LoadScheme(const char *pScheme); // 载入界面方案
   //	static void			  UpdateNearbyTeams(KUiTeamItem* pList,
-  //int nCount); //更新周围队伍的列表
+  // int nCount); //更新周围队伍的列表
   void UpdateData(KUiPlayerTeam *pInfo);
 
 private:
@@ -52,12 +52,13 @@ private:
   KWndScrollBar m_NearbyScroll; // 申请加入列表滚动条
 
   //	KWndButton		m_NearbyPlayerTab;		//
-  //列出周围玩家的按钮 	KWndButton		m_NearbyTeamTab;
+  // 列出周围玩家的按钮 	KWndButton		m_NearbyTeamTab;
   //// 列出周围玩家的按钮
 
   KWndButton m_btnInvite; // 邀请
-  KWndButton m_btnKick;   // 踢出
-                          //	KWndButton		m_btnApplyJoin;			// 申请加入
+  KWndButton
+      m_btnKick; // 踢出
+                 //	KWndButton		m_btnApplyJoin; // 申请加入
 
   KWndButton m_btnAppoint;             // 任命
   KWndButton m_btnLeave, m_btnDismiss; // 离队、解散

@@ -1,0 +1,36 @@
+
+*
+***** S3Relay Start (@ 2024/04/15 10:01:41.118) >>>>>
+*
+
+[2024/04/15 10:01:43] 1 -- Initializing ...
+[2024/04/15 10:01:43] 2 -- Create Channel: [Stock, GM] <00000000> GM
+[2024/04/15 10:01:43] 3 -- Create Channel: [Stock] <00000001>  ¿ΩÁ
+[2024/04/15 10:01:43] 4 -- friend timing update db: start
+[2024/04/15 10:01:43] 5 -- relay server startup
+[2024/04/15 10:01:43] 6 -- root client create: 192.168.11.13
+[2024/04/15 10:01:43] 7 -- root client close: 192.168.11.13
+[2024/04/15 10:01:43] 8 -- FAIL: DBRole client - 192.168.11.13
+[2024/04/15 10:01:43] 9 -- enable reclient: db
+[2024/04/15 10:01:43] 10 -- gateway client create: 192.168.11.13
+[2024/04/15 10:01:43] 11 -- host server startup
+[2024/04/15 10:01:43] 12 -- tong server startup
+[2024/04/15 10:01:43] 13 -- chat server startup
+[2024/04/15 10:01:43] 14 -- SockThread start success
+[2024/04/15 10:01:43] 15 -- tong database open ok!
+[2024/04/15 10:01:43] 16 -- tongset init ok !
+[2024/04/15 10:01:43] 17 -- Initialize OK
+[2024/04/15 10:01:57] 18 -- host connect create: 192.168.11.13
+[2024/04/15 10:01:57] 19 -- chat connect create: 192.168.11.13
+[2024/04/15 10:01:57] 20 -- tong connect create: 192.168.11.13
+[2024/04/15 10:01:59] 21 -- try reclient: db - 192.168.11.13
+[2024/04/15 10:01:59] 22 -- FAIL: reclient db - 192.168.11.13
+[2024/04/15 10:02:11] 23 -- try reclient: db - 192.168.11.13
+[2024/04/15 10:02:11] 24 -- FAIL: reclient db - 192.168.11.13
+[2024/04/15 10:02:23] 25 -- try reclient: db - 192.168.11.13
+[2024/04/15 10:02:23] 26 -- FAIL: reclient db - 192.168.11.13
+[2024/04/15 10:02:35] 27 -- try reclient: db - 192.168.11.13
+[2024/04/15 10:02:35] 28 -- FAIL: reclient db - 192.168.11.13
+[2024/04/15 10:02:41] 29 -- player logout: baochau99
+[2024/04/15 10:02:47] 30 -- try reclient: db - 192.168.11.13
+[2024/04/15 10:02:47] 31 -- FAIL: reclient db - 192.168.11.13

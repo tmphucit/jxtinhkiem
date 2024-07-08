@@ -6,7 +6,7 @@
 #include "KMath.h"
 #include "KNpc.h"
 #include "KPlayer.h"
-#include "MyAssert.h"
+#include "MyAssert.H"
 #include <time.h>
 #ifdef _SERVER
 // #include	"../../Headers/IServer.h"
@@ -37,6 +37,8 @@ int KItemList::ms_ActiveEquip[itempart_num][MAX_ITEM_ACTIVE] = {
     {itempart_horse, itempart_horse},   //	itempart_horse,
     {itempart_mask, itempart_mask},     //	itempart_mask,
     {itempart_fifong, itempart_fifong}, //	itempart_fifong,
+    {itempart_signet, itempart_signet}, //    itempart_signet,
+    {itempart_shipin, itempart_shipin}, //    itempart_shipin,
 };
 
 int KItemList::ms_ActivedEquip[itempart_num][MAX_ITEM_ACTIVE] = {
@@ -53,6 +55,8 @@ int KItemList::ms_ActivedEquip[itempart_num][MAX_ITEM_ACTIVE] = {
     {itempart_horse, itempart_horse},   //	itempart_horse,
     {itempart_mask, itempart_mask},     //	itempart_mask,
     {itempart_fifong, itempart_fifong}, //	itempart_fifong,
+    {itempart_signet, itempart_signet}, //    itempart_signet,
+    {itempart_shipin, itempart_shipin}, //    itempart_shipin,
 };
 
 KItemList::KItemList() {
@@ -307,6 +311,8 @@ int KItemList::Add(int nIdx, int nPlace, int nX, int nY) {
       UIEP_FINGER2,  UIEP_WAIST_DECOR, UIEP_HORSE,
       UIEP_MASK, // MASK
       UIEP_PHIPHONG,
+      UIEP_SIGNET, // them an -- Vincent Hoang
+      UIEP_SHIPIN, // them trang suc -- Vincent Hoang
   };
 
   pInfo.Obj.uGenre = CGOG_ITEM; // 源装备
@@ -526,6 +532,8 @@ BOOL KItemList::Remove(int nGameIdx, BOOL bcheck) {
       UIEP_FINGER2,  UIEP_WAIST_DECOR, UIEP_HORSE,
       UIEP_MASK, // MASK
       UIEP_PHIPHONG,
+      UIEP_SIGNET, // them an -- Vincent Hoang
+      UIEP_SHIPIN, // them trang suc -- Vincent Hoang
   };
 
   pInfo.Obj.uGenre = CGOG_ITEM;
@@ -1512,6 +1520,12 @@ int KItemList::GetEquipPlace(int nType) {
   case equip_fifong:
     nRet = itempart_fifong;
     break;
+  case equip_signet:
+    nRet = itempart_signet;
+    break;
+  case equip_shipin:
+    nRet = itempart_shipin;
+    break;
   default:
     break;
   }
@@ -1578,6 +1592,14 @@ BOOL KItemList::Fit(int nIdx, int nPlace) {
     break;
   case equip_fifong: // MASK
     if (nPlace == itempart_fifong)
+      bRet = TRUE;
+    break;
+  case equip_signet: // an
+    if (nPlace == itempart_signet)
+      bRet = TRUE;
+    break;
+  case equip_shipin: // trang suc
+    if (nPlace == itempart_shipin)
       bRet = TRUE;
     break;
   }
@@ -1920,6 +1942,8 @@ int KItemList::ChangeItemInPlayer(int nIdx) {
   case itempart_pendant:
     break;
   case itempart_mask:
+    break;
+  case itempart_fifong:
     break;
   case itempart_num:
     break;
@@ -2404,8 +2428,8 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
       else if (SrcPos->nX == 5) {
 
         //	if (Item[m_Hand].GetGenre() != item_task ||
-        //Item[m_Hand].GetDetailType() < 167 || Item[m_Hand].GetDetailType() >
-        //172 || Item[m_Hand].m_GeneratorParam.nGeneratorLevel[0])
+        // Item[m_Hand].GetDetailType() < 167 || Item[m_Hand].GetDetailType() >
+        // 172 || Item[m_Hand].m_GeneratorParam.nGeneratorLevel[0])
         if (Item[m_Hand].GetGenre() != item_task ||
             Item[m_Hand].GetDetailType() != 30) {
 
@@ -2501,8 +2525,8 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
       else if (SrcPos->nX == 17) {
 
         //	if (Item[m_Hand].GetGenre() != item_task ||
-        //Item[m_Hand].GetDetailType() < 44 || Item[m_Hand].GetDetailType() >
-        //53)
+        // Item[m_Hand].GetDetailType() < 44 || Item[m_Hand].GetDetailType() >
+        // 53)
         if (Item[m_Hand].GetGenre() != item_task ||
             Item[m_Hand].GetDetailType() != 415) {
 
@@ -2518,8 +2542,8 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
       else if (SrcPos->nX == 18) {
 
         //	if (Item[m_Hand].GetGenre() != item_task ||
-        //Item[m_Hand].GetDetailType() < 167 || Item[m_Hand].GetDetailType() >
-        //172 || !Item[m_Hand].m_GeneratorParam.nGeneratorLevel[0])
+        // Item[m_Hand].GetDetailType() < 167 || Item[m_Hand].GetDetailType() >
+        // 172 || !Item[m_Hand].m_GeneratorParam.nGeneratorLevel[0])
         if (Item[m_Hand].GetGenre() != item_task ||
             Item[m_Hand].GetDetailType() != 175) {
 
@@ -2768,10 +2792,10 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
     //				Item[m_Hand].GetDetailType() >= 0 &&
     //				Item[nEquipIdx1].GetDetailType() >= 0 &&
     //				Item[m_Hand].GetDetailType() ==
-    //Item[nEquipIdx1].GetDetailType() && 				Item[m_Hand].GetVersion() > 0 &&
-    //				Item[nEquipIdx1].GetVersion() > 0&&
+    // Item[nEquipIdx1].GetDetailType() &&
+    // Item[m_Hand].GetVersion() > 0 && 				Item[nEquipIdx1].GetVersion() > 0&&
     //				Item[m_Hand].GetVersion() +
-    //Item[nEquipIdx1].GetVersion() <= MAX_ITEM_STACK
+    // Item[nEquipIdx1].GetVersion() <= MAX_ITEM_STACK
     //				)
     //			{
     //
@@ -3104,10 +3128,10 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
     //				Item[m_Hand].GetDetailType() >= 0 &&
     //				Item[nEquipIdx1].GetDetailType() >= 0 &&
     //				Item[m_Hand].GetDetailType() ==
-    //Item[nEquipIdx1].GetDetailType() && 				Item[m_Hand].GetVersion() > 0 &&
-    //				Item[nEquipIdx1].GetVersion() > 0 &&
+    // Item[nEquipIdx1].GetDetailType() &&
+    // Item[m_Hand].GetVersion() > 0 && 				Item[nEquipIdx1].GetVersion() > 0 &&
     //				Item[m_Hand].GetVersion() +
-    //Item[nEquipIdx1].GetVersion() <= MAX_ITEM_STACK
+    // Item[nEquipIdx1].GetVersion() <= MAX_ITEM_STACK
     //				)
     //			{
 
@@ -3396,6 +3420,8 @@ void KItemList::ExchangeItem(ItemPos *SrcPos, ItemPos *DesPos) {
         UIEP_HEAD,    UIEP_BODY, UIEP_WAIST,    UIEP_HAND,    UIEP_FOOT,
         UIEP_FINESSE, UIEP_NECK, UIEP_FINGER1,  UIEP_FINGER2, UIEP_WAIST_DECOR,
         UIEP_HORSE,   UIEP_MASK, UIEP_PHIPHONG,
+        UIEP_SIGNET, // them an -- Vincent Hoang
+        UIEP_SHIPIN, // them trang suc -- Vincent Hoang
     };
 
     switch (SrcPos->nPlace) {
@@ -4635,14 +4661,14 @@ void KItemList::SetBindAllItem() {
 #ifdef _SERVER
 //--------------------------------------------------------------------------
 //	功能：交易中把 trade room 中的 item 的 idx width height 信息写入 itemset
-//中的 m_psItemInfo 中去
+// 中的 m_psItemInfo 中去
 //--------------------------------------------------------------------------
 void KItemList::GetTradeRoomItemInfo() {
   _ASSERT(ItemSet.m_psItemInfo);
   //	if (!ItemSet.m_psItemInfo)
   //	{
   //		ItemSet.m_psItemInfo = new TRADE_ITEM_INFO[TRADE_ROOM_WIDTH *
-  //TRADE_ROOM_HEIGHT];
+  // TRADE_ROOM_HEIGHT];
   //	}
   memset(ItemSet.m_psItemInfo, 0,
          sizeof(TRADE_ITEM_INFO) * TRADE_ROOM_WIDTH * TRADE_ROOM_HEIGHT);

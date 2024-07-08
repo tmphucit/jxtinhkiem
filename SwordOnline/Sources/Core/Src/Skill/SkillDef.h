@@ -48,10 +48,10 @@ enum eEffectType {
   ET_CHGNPC_DEFEND,              // 防御力
   ET_CHGNPC_VISION,              // 视野范围
   ET_CHGNPC_ATTACKRATE,          // 改变Npc的命中率
-                        //	ET_CHGNPC_LIFERESTORESPEED
-                        //,		// 生命回复速度
-  ET_CHGNPC_ATTACKSPEED, // 攻击速度
-  ET_CHGNPC_HITRECOVER,  // 快速打击系数
+                                 //	ET_CHGNPC_LIFERESTORESPEED
+                                 //,		// 生命回复速度
+  ET_CHGNPC_ATTACKSPEED,         // 攻击速度
+  ET_CHGNPC_HITRECOVER,          // 快速打击系数
   ET_CHGNPC_END = 2999,
 
   // 改变Npc的当前状态属性			(主动辅助)
@@ -180,9 +180,9 @@ enum eSKillStyle {
   SKILL_SS_Missles = 0, //	子弹类		本技能用于发送子弹类
   SKILL_SS_Melee,
   SKILL_SS_InitiativeNpcState, //	主动类
-                               //本技能用于改变当前Npc的主动状态
+                               // 本技能用于改变当前Npc的主动状态
   SKILL_SS_PassivityNpcState,  //	被动类
-                               //本技能用于改变Npc的被动状态
+                               // 本技能用于改变Npc的被动状态
   SKILL_SS_CreateNpc,          //	产生Npc类	本技能用于生成一个新的Npc
   SKILL_SS_BuildPoison,        //	炼毒类		本技能用于炼毒
   SKILL_SS_AddPoison,          //	加毒类		本技能用于给武器加毒性

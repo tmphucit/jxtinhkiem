@@ -889,7 +889,8 @@ BOOL KNpc::ProcessState() {
         m_CurrentMana = m_CurrentManaMax;
 
       //			if (m_CurrentLife >= m_CurrentLifeMax &&
-      //m_CurrentMana >= m_CurrentManaMax) 				this->SendCommand(do_stand);
+      // m_CurrentMana >= m_CurrentManaMax)
+      // this->SendCommand(do_stand);
     }
     // 生命自然回复
 
@@ -4440,7 +4441,7 @@ void KNpc::GetMpsPos(int *pPosX, int *pPosY) {
   SubWorld[m_SubWorldIndex].Map2Mps(m_RegionIndex, m_MapX, m_MapY, m_OffX,
                                     m_OffY, pPosX, pPosY);
 //	KSubWorld::Map2Mps(C_REGION_X(m_RegionIndex), C_REGION_Y(m_RegionIndex),
-//m_MapX, m_MapY, m_OffX, m_OffY, pPosX, pPosY);
+// m_MapX, m_MapY, m_OffX, m_OffY, pPosX, pPosY);
 #endif
 }
 
@@ -4878,7 +4879,7 @@ void KNpc::NormalSync() {
     sSync.ProtocolType = s2c_syncnpcminplayer;
     sSync.m_dwNpcID = m_dwID;
     //		sSync.m_nRegionID =
-    //SubWorld[m_SubWorldIndex].m_Region[m_RegionIndex].m_RegionID;
+    // SubWorld[m_SubWorldIndex].m_Region[m_RegionIndex].m_RegionID;
     sSync.m_btCamp = (BYTE)m_CurrentCamp;
     sSync.m_dwMapX = nMpsX;
     sSync.m_dwMapY = nMpsY;
@@ -6520,7 +6521,8 @@ void KNpc::OnGoAttack() {
     if (!pSkill)
       return;
 
-    int nCurPhySkillId = pSkill->GetChildSkillId(); // GetCurActiveWeaponSkill();
+    int nCurPhySkillId =
+        pSkill->GetChildSkillId(); // GetCurActiveWeaponSkill();
     if (nCurPhySkillId > 0) {
       KSkill *pOrdinSkill = (KSkill *)g_SkillManager.GetSkill(
           nCurPhySkillId, pSkill->m_ulLevel, SKILL_SS_Missles);
@@ -6578,7 +6580,8 @@ void KNpc::OnRunAttack() {
     if (!pSkill)
       return;
 
-    int nCurPhySkillId = pSkill->GetChildSkillId(); // GetCurActiveWeaponSkill();
+    int nCurPhySkillId =
+        pSkill->GetChildSkillId(); // GetCurActiveWeaponSkill();
     if (nCurPhySkillId > 0) {
       KSkill *pOrdinSkill = (KSkill *)g_SkillManager.GetSkill(
           nCurPhySkillId, pSkill->m_ulLevel, SKILL_SS_Missles);
@@ -8076,7 +8079,7 @@ void KNpc::DrawBlood() {
   //	Blood.oPosition.nY = nY;
   //	Blood.oPosition.nZ = 0;
   //	Blood.oEndPos.nX = Blood.oPosition.nX + nLength * m_CurrentLife /
-  //m_CurrentLifeMax; 	Blood.oEndPos.nY = nY + 16;
+  // m_CurrentLifeMax; 	Blood.oEndPos.nY = nY + 16;
   //
   //	g_pRepresent->DrawPrimitives(1, &Blood, RU_T_SHADOW, TRUE);
   //
@@ -8087,7 +8090,7 @@ void KNpc::DrawBlood() {
   //	g_pRepresent->DrawPrimitives(1, &Blood, RU_T_SHADOW, TRUE);
   //
   //	g_pRepresent->OutputText(nFontSize, szString, KRF_ZERO_END, nX, nY + 2,
-  //0xffffffff);
+  // 0xffffffff);
 
   int nHeightOff = GetNpcPate();
   // if (NpcSet.CheckShowLife())

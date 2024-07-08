@@ -97,7 +97,7 @@ enum GAMEDATA_INDEX {
   //				KUiObjAtRegion结构用于存储装备的数据和放置位置信息。
   //			KUiObjAtRegion::Region::h = 0
   //			KUiObjAtRegion::Region::v
-  //表示属于哪个位置的装备,其值为梅举类型
+  // 表示属于哪个位置的装备,其值为梅举类型
   //			UI_EQUIPMENT_POSITION的取值之一。请参看UI_EQUIPMENT_POSITION的注释。
   // Return =
   // 其值表示pInfo数组中的前多少个KUiObjAtRegion结构被填充了有效的数据。
@@ -206,7 +206,7 @@ enum GAMEDATA_INDEX {
   GDI_CHAT_FRIENDS_IN_AGROUP, // 聊天一个好友分组中好友的信息
   // uParam = (KUiPlayerItem*)pList -> 人员信息列表
   //			KUiPlayerItem::nData = (CHAT_STATUS)eFriendStatus
-  //好友的当前状态 nParam = 要获取列表的好友分组的索引 Return =
+  // 好友的当前状态 nParam = 要获取列表的好友分组的索引 Return =
   // 其值表示pList数组中的前多少个KUiPlayerItem结构被填充了有效的数据.
 
   GDI_PK_SETTING, // 获取pk设置
@@ -264,15 +264,15 @@ enum GAMEDATA_CHANGED_NOTIFY_INDEX {
   // uParam = (KUiGameObject*)pObject ->
   // 对象信息，如果取值为0，表示放弃手上拿的东西
 
-  GDCNI_PLAYER_BASE_INFO, // 主角的一些不易变的数据, see also
-                          // GDI_PLAYER_BASE_INFO
-  GDCNI_PLAYER_RT_ATTRIBUTE, // 主角的一些易变的属性数据, see also
-                             // GDI_PLAYER_RT_ATTRIBUTE
+  GDCNI_PLAYER_BASE_INFO,       // 主角的一些不易变的数据, see also
+                                // GDI_PLAYER_BASE_INFO
+  GDCNI_PLAYER_RT_ATTRIBUTE,    // 主角的一些易变的属性数据, see also
+                                // GDI_PLAYER_RT_ATTRIBUTE
   GDCNI_PLAYER_IMMED_ITEMSKILL, // 主角的立即使用物品与武功
   // uParam = (KUiGameObject*)pInfo 物品或者武功的数据
   // nParam = 哪个位置的物品或者武功 当nParam >=0 时候
   // nParam表示第nParam个立即物品 			当nParam = -1
-  //时，表示为左手武功，-2时为右手武功
+  // 时，表示为左手武功，-2时为右手武功
 
   GDCNI_PLAYER_BRIEF_PROP, // 主角身份地位等一些关键属性项的变化
   // uParam = (PLAYER_BRIEF_PROP)eProp
@@ -284,7 +284,7 @@ enum GAMEDATA_CHANGED_NOTIFY_INDEX {
   //           当pInfo->eContainer == UOC_EQUIPTMENT时
   //				KUiObjAtRegion::Region::h 表示属于第几套装备
   //				KUiObjAtRegion::Region::v
-  //表示属于哪个位置的装备,其值为枚举类型
+  // 表示属于哪个位置的装备,其值为枚举类型
   //				UI_EQUIPMENT_POSITION的取值之一。请参看UI_EQUIPMENT_POSITION的注释。
   // nParam = bAdd -> 0值表示减少这个物品，非0值表示增加这个物品
 
@@ -359,7 +359,7 @@ enum GAMEDATA_CHANGED_NOTIFY_INDEX {
   GDCNI_CHAT_FRIEND_STATUS, // 聊天好友状态发生变化
   // uParam = (KUiPlayerItem*)pFriend 发生状态变化的好友
   //			KUiPlayerItem::nData = (CHAT_STATUS)eFriendStatus
-  //好友的当前状态 nParam = nGroupIndex 好友所属于的组的索引
+  // 好友的当前状态 nParam = nGroupIndex 好友所属于的组的索引
 
   GDCNI_CHAT_MESSAGE, // 好有发来的讯息
   // uParam = (KUiChatMessage*)pMessage 消息数据
@@ -517,7 +517,7 @@ enum GAMEOPERATION_INDEX {
   // uParam = (KUiObjAtRegion*)pInfo -> 装备的数据和放置位置信息
   //			KUiObjAtRegion::Region::h 表示属于第几套装备
   //			KUiObjAtRegion::Region::v
-  //表示属于哪个位置的装备,其值为梅举类型
+  // 表示属于哪个位置的装备,其值为梅举类型
   //			UI_EQUIPMENT_POSITION的取值之一。请参看UI_EQUIPMENT_POSITION的注释。
 
   GOI_USE_SKILL, // 施展武功/技能
@@ -835,16 +835,16 @@ enum GAME_TEAM_OPERATION_INDEX {
                    // uParam = (KUiPlayerTeam*)pTeam -> 队伍信息
                    // Return = bInTeam,
                    // 如果为非0值表示主角在队伍中，pTeam结构是否被填充信息。
-                   //					如果为0值表示主角不在队伍中，pTeam结构未被填充有效信息。
+  //					如果为0值表示主角不在队伍中，pTeam结构未被填充有效信息。
 
   TEAM_OI_GD_MEMBER_LIST, // 获取主角所在队伍成员列表
                           // uParam = (KUiPlayerItem*)pList -> 人员信息列表
                           //			KUiPlayerItem::nData =
                           //(int)(bool)bCaptain 是否是队长 nParam =
                           // pList数组中包含KUiPlayerItem结构的数目 Return =
-                          // 如果返回值小于等于传入参数nParam，其值表示pList数组中的前多少个KUiPlayerItem
-                          //			结构被填充了有效的数据；否则表示需要传入包含多少个KUiPlayerItem结构的数组
-                          //			才够存储全部的成员信息。
+  // 如果返回值小于等于传入参数nParam，其值表示pList数组中的前多少个KUiPlayerItem
+  //			结构被填充了有效的数据；否则表示需要传入包含多少个KUiPlayerItem结构的数组
+  //			才够存储全部的成员信息。
 
   TEAM_OI_GD_REFUSE_INVITE_STATUS, // 获取拒绝邀请的状态
                                    // Return = (int)(bool)bEnableRefuse
@@ -883,8 +883,8 @@ enum GAME_TEAM_OPERATION_INDEX {
 
   TEAM_OI_APPLY_RESPONSE, // 是否批准他人加入队伍，只有队长调用才有效果
                           // uParam = (KUiPlayerItem*)pPlayer ->
-                          // 要欲批准的人信息 			KUiPlayerItem::nData = 0 nParam =
-                          // (int)(bool)bApprove -> 是否批准了
+  // 要欲批准的人信息 			KUiPlayerItem::nData = 0 nParam =
+  // (int)(bool)bApprove -> 是否批准了
 
   TEAM_OI_INVITE_RESPONSE, // 对组队邀请的回复
                            // uParam = (KUiPlayerItem*)pTeamLeader

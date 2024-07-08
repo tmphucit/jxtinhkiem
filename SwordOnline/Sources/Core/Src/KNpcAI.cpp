@@ -727,8 +727,7 @@ void KNpcAI::FollowObject(int nIdx) // loi rot item tu quai ra xa
 BOOL KNpcAI::CheckNpc(int nIndex) {
   if (nIndex < 0 || /*Npc[nIndex].m_SubWorldIndex !=
                        Npc[m_nIndex].m_SubWorldIndex || */
-      Npc[nIndex].m_RegionIndex < 0 ||
-      Npc[nIndex].m_CurrentLifeMax <= 0 ||
+      Npc[nIndex].m_RegionIndex < 0 || Npc[nIndex].m_CurrentLifeMax <= 0 ||
       Npc[nIndex].m_InvisibilityState.nTime > 0 || !Npc[nIndex].IsAlive()) {
     return TRUE;
   }
@@ -1237,7 +1236,7 @@ void KNpcAI::Flee(int nIdx) {
 //	功能：普通主动类1
 //	m_AiParam[0] 无敌人时候的巡逻概率
 //	m_AiParam[1、2、3、4] 四种技能的使用概率，分别对应SkillList里的技能1 2 3
-//4 	m_AiParam[5、6] 看见敌人但比较远时，待机、巡逻的概率
+// 4 	m_AiParam[5、6] 看见敌人但比较远时，待机、巡逻的概率
 //------------------------------------------------------------------------------
 void KNpcAI::ProcessAIType01() {
   int *pAIParam = Npc[m_nIndex].m_AiParam;
@@ -1314,10 +1313,10 @@ void KNpcAI::ProcessAIType01() {
 //	m_AiParam[1] 剩余生命低于这个百分比的时候执行相应处理
 //	m_AiParam[2] 在m_AiParam[1]的情况出现的时候是否执行相应处理的概率
 //	m_AiParam[3]
-//在m_AiParam[1]的情况出现并决定要执行相应处理，使用回复技能的概率
-//对应SkillList里面的技能 1 	m_AiParam[4、5、6]
-//三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
-//看见敌人但比较远时，待机、巡逻的概率
+// 在m_AiParam[1]的情况出现并决定要执行相应处理，使用回复技能的概率
+// 对应SkillList里面的技能 1 	m_AiParam[4、5、6]
+// 三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
+// 看见敌人但比较远时，待机、巡逻的概率
 //------------------------------------------------------------------------------
 void KNpcAI::ProcessAIType02() {
   int *pAIParam = Npc[m_nIndex].m_AiParam;
@@ -1409,10 +1408,10 @@ void KNpcAI::ProcessAIType02() {
 //	m_AiParam[1] 剩余生命低于这个百分比的时候执行相应处理
 //	m_AiParam[2] 在m_AiParam[1]的情况出现的时候是否执行相应处理的概率
 //	m_AiParam[3]
-//在m_AiParam[1]的情况出现并决定要执行相应处理，使用攻击技能的概率
-//对应SkillList里面的技能 1 	m_AiParam[4、5、6]
-//三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
-//看见敌人但比较远时，待机、巡逻的概率
+// 在m_AiParam[1]的情况出现并决定要执行相应处理，使用攻击技能的概率
+// 对应SkillList里面的技能 1 	m_AiParam[4、5、6]
+// 三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
+// 看见敌人但比较远时，待机、巡逻的概率
 //------------------------------------------------------------------------------
 void KNpcAI::ProcessAIType03() {
   int *pAIParam = Npc[m_nIndex].m_AiParam;
@@ -1499,7 +1498,7 @@ void KNpcAI::ProcessAIType03() {
 //	功能：普通被动类1
 //	m_AiParam[0] 无敌人时候的巡逻概率
 //	m_AiParam[1、2、3、4] 四种攻击技能的使用概率，分别对应SkillList里的技能
-//1 2 3 4 	m_AiParam[5、6] 看见敌人但比较远时，待机、巡逻的概率
+// 1 2 3 4 	m_AiParam[5、6] 看见敌人但比较远时，待机、巡逻的概率
 //------------------------------------------------------------------------------
 void KNpcAI::ProcessAIType04() {
   int *pAIParam = Npc[m_nIndex].m_AiParam;
@@ -1570,10 +1569,10 @@ void KNpcAI::ProcessAIType04() {
 //	m_AiParam[1] 剩余生命低于这个百分比的时候执行相应处理
 //	m_AiParam[2] 在m_AiParam[1]的情况出现的时候是否执行相应处理的概率
 //	m_AiParam[3]
-//在m_AiParam[1]的情况出现并决定要执行相应处理，使用回复技能的概率
-//对应SkillList里面的技能 1 	m_AiParam[4、5、6]
-//三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
-//看见敌人但比较远时，待机、巡逻的概率
+// 在m_AiParam[1]的情况出现并决定要执行相应处理，使用回复技能的概率
+// 对应SkillList里面的技能 1 	m_AiParam[4、5、6]
+// 三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
+// 看见敌人但比较远时，待机、巡逻的概率
 //------------------------------------------------------------------------------
 void KNpcAI::ProcessAIType05() {
   int *pAIParam = Npc[m_nIndex].m_AiParam;
@@ -1660,10 +1659,10 @@ void KNpcAI::ProcessAIType05() {
 //	m_AiParam[1] 剩余生命低于这个百分比的时候执行相应处理
 //	m_AiParam[2] 在m_AiParam[1]的情况出现的时候是否执行相应处理的概率
 //	m_AiParam[3]
-//在m_AiParam[1]的情况出现并决定要执行相应处理，使用攻击技能的概率
-//对应SkillList里面的技能 1 	m_AiParam[4、5、6]
-//三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
-//看见敌人但比较远时，待机、巡逻的概率
+// 在m_AiParam[1]的情况出现并决定要执行相应处理，使用攻击技能的概率
+// 对应SkillList里面的技能 1 	m_AiParam[4、5、6]
+// 三种攻击技能的使用概率，分别对应SkillList里的技能 2 3 4 	m_AiParam[7、8]
+// 看见敌人但比较远时，待机、巡逻的概率
 //------------------------------------------------------------------------------
 void KNpcAI::ProcessAIType06() {
   int *pAIParam = Npc[m_nIndex].m_AiParam;

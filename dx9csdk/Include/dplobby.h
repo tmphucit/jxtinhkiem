@@ -499,7 +499,7 @@ typedef struct _DPLMSG_SYSTEMMESSAGE {
 typedef struct _DPLMSG_SETPROPERTY {
   DWORD dwType; // Message type
   DWORD
-      dwRequestID; // Request ID (DPL_NOCONFIRMATION if no confirmation desired)
+  dwRequestID;     // Request ID (DPL_NOCONFIRMATION if no confirmation desired)
   GUID guidPlayer; // Player GUID
   GUID guidPropertyTag;    // Property GUID
   DWORD dwDataSize;        // Size of data

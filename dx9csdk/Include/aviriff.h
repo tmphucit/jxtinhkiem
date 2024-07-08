@@ -323,7 +323,7 @@ typedef struct _avitimedindex_entry {
   DWORD dwSize;   // 31 bit size of data (does not include size of riff header)
                   // (high bit is deltaframe bit)
   DWORD
-      dwDuration; // how much time the chunk should be played (in stream ticks)
+  dwDuration; // how much time the chunk should be played (in stream ticks)
 } AVITIMEDINDEX_ENTRY;
 
 typedef struct _avitimedindex {

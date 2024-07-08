@@ -656,7 +656,7 @@ _DrawPartLineSection_LineLocal_Alpha_Part_: {
           128 dec Clipper.height jg
               _DrawPartLineSection_LineSkip_ // 如果想要确切的原ebx(alpha)值可以在前头push
                                              // ebx，此处pop获得
-                                                 jmp _EXIT_WAY_
+                  jmp _EXIT_WAY_
   }
 }
 }
@@ -807,7 +807,7 @@ _DrawPartLineSection_SkipRight_LineLocal_Alpha_Part_: {
           128 dec Clipper.height jg
               _DrawPartLineSection_SkipRight_LineSkip_ // 如果想要确切的原ebx(alpha)值可以在前头push
                                                        // ebx，此处pop获得
-                                                           jmp _EXIT_WAY_
+                  jmp _EXIT_WAY_
   }
 }
 }

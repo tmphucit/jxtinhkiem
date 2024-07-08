@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Document Version="2">
+    <Protection InputFileName="GameServer.exe" Options="1021896" VMCodeSectionName=".hinodl">
+        <Messages />
+        <Folders />
+        <Procedures>
+            <Procedure MapAddress="KSwordOnLineSever::Init(void)" Options="0" CompilationType="2" />
+        </Procedures>
+        <Objects />
+    </Protection>
+    <DLLBox>
+        <Folders />
+    </DLLBox>
+    <Script />
+    <LicenseManager ProductCode="l80uLTmsgp8=" Algorithm="RSA" Bits="2048" PublicExp="AAEAAQ==" PrivateExp="bLAU6k6m1B2gFTT2S1+0eMtE/qwvISV12SLil0MWS4aROY/D6yQYThQlufSvubK7VDtcXqGsJdeXXL6RPj8betfuUziOXSxrl1ToGp63pMqFQSl6b7XsIzLmH8BjiGoH3uTn/CIVowcLeySXe0Q0QlUWyMx9DBkhLkQGs/iVYTKTR+2X5bjzHcqVScZit7XprEYHn+sDdbTrvfKKJVg8z4SQ2W/+EuIUxPTlKOAtYUJ/VZ3gb9E/XSwMV4kJav4G9vsNdmCQYx8CzOmcpI5GQFe4D5zVzaIZv9Y56YgTThXJt6QKJP6nuZM4DB46sZbSteh0M8v8NAC0/kfvgmQRfQ==" Modulus="ufxjSliS6VmhYiNvwZUeK1owa5j3uiPjP5Qq+w7lbyh6Zx4pm9tQKlPi0Tg+7ZaEHSlK6Qo2SUVe2FQZ4whmeByrfEJmBsvjVhb6Bx4WamoQ4d2ZpTeJ1Hqmw1EwU2czM2nq85nnPFEHpC+Hd/ygwn5u7leQB4cTv3cIalrf671g1T1TvXGl1or+JJ9I5gSsz8jtR87x+UkY9ikjLs9zNvnqIH2uyFq0+6bZHlD0HJegtMJXMfPIlEwR+Sq7khOcsyFlMoMhlQTZNQ5TzV4FzouR5X0ozaQ40r5yNQXF+XC/Dg+nmsqMNZniBvurrAw5drcZlrBdsoJfvXchvm7xUQ==" />
+</Document>

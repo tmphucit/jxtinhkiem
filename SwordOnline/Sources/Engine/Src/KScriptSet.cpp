@@ -554,7 +554,7 @@ BOOL KScriptSet::RunFunction(DWORD nKey, char *szFuncName, char *szFormat,
 // 功能:	查找是否存在指定的关键字的二叉树结点，如果存在则*pResult =
 // 1,返回相应指针；
 //			否则的话*pResult =
-//0,返回最接近的指针（该指针对今后插入有用）
+// 0,返回最接近的指针（该指针对今后插入有用）
 // 参数:	TScript * pParentTScript 为递归调用传入父结点
 // 参数:	TScript * pTScript
 // 参数:	char * szKey	关键点

@@ -47,7 +47,7 @@
 #endif
 
 #if defined(__SC__) //*ty 12/07/2001 - since "comp" is a built-in type and
-                    //reserved under SCpp
+                    // reserved under SCpp
 #define comp _Comp
 #endif
 

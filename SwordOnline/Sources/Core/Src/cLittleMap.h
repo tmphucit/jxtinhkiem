@@ -31,7 +31,7 @@ struct stLittemap {
   ////window pos,	0,0
   cPoint ptOffset;
   //	unsigned int width,height;					//window
-  //size,	200*160, but maxsize is 512*512
+  // size,	200*160, but maxsize is 512*512
   int wScreen, hScreen;
   unsigned int cx, cy;                   // region size,	32*32 or 64*64
   unsigned int left, top, right, bottom; // map size,		100,189,200,330
@@ -109,7 +109,7 @@ public:
 protected:
   //	CPoint						m_ptFocus;
   ////camera focus 	CPoint
-  //GetFocus(){return m_ptFocus;}
+  // GetFocus(){return m_ptFocus;}
   CRect m_rcRegion;   // get 'rect' from the txt
   CRect m_rcMap;      // rc of the map!
   CPoint m_ptTexture; // the rcMap to texture

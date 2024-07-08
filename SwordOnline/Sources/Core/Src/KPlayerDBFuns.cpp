@@ -19,7 +19,7 @@
 #include "KNpcSet.h"
 #include "KPlayerSet.h"
 #include <time.h>
-// #include "MyAssert.h"
+// #include "MyAssert.H"
 #include "KTaskFuns.h"
 
 // 是否将数据库存取档的数据保存下来以供调试

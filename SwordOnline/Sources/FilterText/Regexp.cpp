@@ -1537,7 +1537,7 @@ void regexp::ignoreCase(const TCHAR *in, TCHAR *out) {
 
 // GetReplaceString	- Converts a replace expression to a string
 //					- perform substitutions after a regexp
-//match
+// match
 // Returns			- The resultant string
 CString regexp::GetReplaceString(const TCHAR *sReplaceExp) const {
   CString szEmpty(_T( "" ));

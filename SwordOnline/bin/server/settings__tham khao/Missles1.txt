@@ -1,0 +1,198 @@
+MissleId	MissleName	MoveKind	FollowKind	ColFollowTarget	MissleHeight	CollidRange	IsRangeDmg	DmgRange	DmgInterval	LifeTime	Speed	Zspeed	Zacc	LoopPlay	SubLoop	SubStart	SubStop	ResponseSkill	CanDestroy	ColVanish	CanSlow	CanColFriend	AutoExplode	Param1	Param2	Param3	MultiShow	AnimFile1	AnimFileInfo1	SndFile1	AnimFile2	AnimFileInfo2	SndFile2	AnimFile3	AnimFileInfo3	SndFile3	AnimFile4	AnimFileInfo4	SndFile4	AnimFileB1	AnimFileInfoB1	SndFileB1	AnimFileB2	AnimFileInfoB2	SndFileB2	AnimFileB3	AnimFileInfoB3	SndFileB3	AnimFileB4	AnimFileInfoB4	SndFileB4	RedLum	GreenLum	BlueLum	LightRadius
+1	四象同归	1	0	1	18	1	1	1	0	15	12	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0				\spr\skill\峨嵋\mag_em_02_四象同归.spr	64,16,1	\sound\skill\sound_k029.wav				\spr\skill\峨嵋\mag_bz_bin2_爆炸效果.spr	6,1,2	\sound\skill\冰爆.wav													156	211	255	90
+2	一叶知秋	1	0	1	10	1	0	1	0	12	20	0	0	1	0	0	0	0	1	1	1	0	0	0	1	0	0				\spr\skill\峨嵋\mag_em_03_一叶知秋.spr	64,16,1	\sound\skill\sound_k029.wav				\spr\skill\峨嵋\mag_bz_bin1_爆炸效果.spr	14,1,1	\sound\skill\sound_k041.wav													156	211	255	90
+3	不灭不绝	1	0	1	10	1	0	1	0	16	31	0	0	1	0	0	0	0	1	1	0	0	0	1	1	0	0				\spr\skill\峨嵋\mag_em_04_不灭不绝.spr	64,16,1	\sound\skill\不灭不绝.wav				\spr\skill\峨嵋\mag_em_bin4_爆炸效果.spr	6,1,1	\sound\skill\刀剑刺中声.wav													156	211	255	90
+4	佛光普照	0	0	1	10	1	1	7	13	12	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\峨嵋\mag_em_05_佛光普照.spr	8,1,2					\spr\skill\峨嵋\mag_bz_bin1_爆炸效果.spr	7,1,2	\sound\skill\sound_k045.wav													156	211	255	90
+5	慈航普渡	0	0	0	10	5	1	5	20	19	10	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\峨嵋\mag_em_12_慈航普渡.spr	20,1,1					\spr\skill\峨嵋\mag_bz_bin5_爆炸效果.spr	18,1,2	\sound\skill\sound_k041.wav													156	166	247	90
+6	风云突起	1	0	1	10	1	0	1	0	20	18	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\翠烟\mag_cy_01_风云突起.spr	48,16,1	\sound\skill\风花雪月.wav				\spr\skill\峨嵋\mag_bz_bin2_爆炸效果.spr	6,1,2	\sound\skill\冰爆.wav													156	211	255	90
+7	风卷残雪	1	0	0	5	1	1	1	0	24	31	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	1				\spr\skill\翠烟\mag_cy_02_风卷残雪_a.spr	7,1,1	\sound\skill\风卷残雪.wav										\spr\skill\翠烟\mag_cy_02_风卷残雪_b.spr	7,1,1								156	211	255	90
+8	雨打梨花	1	0	1	450	1	1	3	0	30	0	0	1024	1	0	0	0	0	0	1	0	0	1	0	0	0	0				\spr\skill\翠烟\mag_cy_03_雨打梨花.spr	5,1,1			16,1,2		\spr\skill\峨嵋\mag_bz_bin3_爆炸效果.spr	19,1,2	\sound\skill\sound_k041.wav													156	211	255	90
+9	牧野流星a	1	0	0	320	2	1	3	0	24	0	-40960	40960	1	0	0	0	0	1	1	0	0	1	0	0	0	0				\spr\skill\翠烟\mag_cy_04_牧野流星.spr	5,1,1		\spr\skill\峨嵋\mag_bz_bin5_爆炸效果.spr	18,1,2		\spr\skill\峨嵋\mag_bz_bin5_爆炸效果.spr	18,1,2	\sound\skill\sound_k041.wav													156	211	255	90
+10	毒刺骨	0	0	1	15	2	1	2	13	1080	0	0	0	1	1	1	30	0	0	1	0	0	0	0	0	0	0				\spr\skill\唐门\tm_08_陷井.spr	1080,1,1																				255	255	231	90
+11	碧海潮生b	1	0	0	10	1	0	1	0	30	24	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\翠烟\mag_cy_05_碧海潮生_b.spr	48,16,1					\spr\skill\峨嵋\mag_bz_bin1_爆炸效果.spr	14,1,1														156	211	255	90
+12	浮云散雪	0	0	1	15	1	1	7	15	15	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\翠烟\mag_cy_10_观音散雪.spr	16,1,1	\sound\skill\浮云散雪.wav																			156	166	247	90
+13	治疗术	0	0	1	10	1	0	1	10	16	1	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0				\spr\skill\翠烟\mag_cy_11_补血术.spr	20,1,1	\sound\skill\治疗术.wav																			189	134	82	90
+14	疾风咒	1	1	1	10	1	0	1	0	15	20	0	0	1	0	0	0	0	1	1	0	0	0	0	0	0	0				\spr\skill\昆仑\kl_01_呼风法.spr	15,1,1	\sound\skill\疾风咒.wav				\spr\skill\昆仑\Bz_dian3_爆炸.spr	8,1,1														255	219	214	90
+15	迅雷咒	1	0	1	10	1	0	1	0	12	30	0	0	1	0	0	0	0	1	1	0	0	0	0	0	0	1				\spr\skill\昆仑\kl_02_疾电法a.spr	160,16,1	\sound\skill\迅雷咒.wav				\spr\skill\昆仑\Bz_dian3_爆炸.spr	8,1,1	\sound\skill\sound_k040.wav				\spr\skill\昆仑\kl_02_疾电法b.spr	160,16,1								255	255	239	90
+16	狂风骤电	1	0	1	10	1	1	1	0	40	31	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\昆仑\kl_03_狂风骤电.spr	20,1,1	\sound\skill\狂风骤电.wav				\spr\skill\昆仑\Bz_dian3_爆炸.spr	8,1,1														255	255	239	90
+17	狂雷震地	0	0	1	15	1	1	3	4	4	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\昆仑\KL_04_狂雷震地.spr	5,1,2					\spr\skill\昆仑\Bz_dian3_爆炸.spr	8,1,1														255	255	239	90
+18	五雷正法	0	0	1	18	2	1	2	0	4	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0				\spr\skill\昆仑\kl_05_五雷正法.spr	5,1,2					\spr\skill\昆仑\Bz_dian3_爆炸.spr	8,1,1														255	255	239	90
+19	清风符	0	0	0	18	1	1	1	0	2	1	0	0	0	0	0	0	0	0	1	0	1	1	0	0	0	0										\spr\skill\昆仑\kl_11_清风符.spr	40,1,1														255	219	99	90
+20	ttdm1	0	0	1	15	2	1	3	13	540	0	0	0	1	1	1	30	0	0	1	0	0	0	0	0	0	0				\spr\skillkt\dmb_9x_1_c.spr	540,1,1						60,1,1														255	255	231	90
+21	一气三清符	0	0	0	18	1	1	5	0	2	0	0	0	0	0	0	0	0	0	1	0	1	1	0	0	0	0										\spr\skill\昆仑\kl_13_大力金刚符.spr	20,1,1														255	219	99	90
+22	ttdm2	1	0	1	10	1	0	1	0	54	12	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\others\137.spr	60,1,54					\spr\skill\五毒教\bz_du1_爆炸.spr	13,1,1	\sound\skill\刀剑刺中声.wav													239	231	189	90
+23	岁月无情符	0	0	0	18	1	1	7	0	2	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0										\spr\skill\昆仑\kl_15_岁月无情符.spr	20,1,1														255	219	99	90
+24	怒雷指	1	0	1	10	1	0	1	0	20	20	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\武当\wd_01_怒雷指.spr	160,16,1	\sound\skill\怒雷指.wav				\spr\skill\武当\Bz_dian1_爆炸.spr	8,1,1	\sound\skill\sound_k040.wav													239	231	189	90
+25	沧海明月	1	0	1	10	1	0	1	0	24	20	0	0	1	0	0	0	0	0	0	1	0	0	0	0	0	0				\spr\skill\武当\wd_02_沧海明月.spr	8,1,1	\sound\skill\沧海明月.wav				\spr\skill\武当\Bz_dian1_爆炸.spr	8,1,1														189	239	239	90
+26	天际惊雷	0	0	1	10	1	1	5	17	16	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\武当\wd_03_天际惊雷.spr	17,1,1	\sound\skill\剑飞惊天.wav				\spr\skill\昆仑\Bz_dian3_爆炸.spr	8,1,1														255	255	231	90
+27	玄一无象	0	0	1	15	4	0	1	11	10	0	0	0	0	0	0	0	0	1	1	0	0	1	0	0	0	0										\spr\skill\武当\wd_04_玄一无象.spr	8,1,1	\sound\skill\玄一无象.wav													255	255	231	90
+28	剥及而复	0	0	1	15	7	1	4	13	12	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\武当\wd_05_剥及而复.spr	12,1,1	\sound\skill\剥极而复.wav																			255	255	231	90
+29	无我无剑	1	0	1	10	1	0	1	0	18	20	0	0	1	0	0	0	0	1	1	0	0	0	0	0	0	0				\spr\skill\武当\wd_10_无我无剑.spr	96,16,1																				255	255	231	90
+30	Doc sa chuong	1	0	1	10	1	0	1	0	16	32	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\wu\玄冥吸星.spr	128,16,1	\sound\skill\幽冥骷髅.wav				\spr\skill\五毒教\bz_du2_爆炸.spr	6,1,1	\sound\skill\普通爆炸.wav													140	207	156	90
+31	血手毒杀	1	0	1	10	1	0	1	0	30	31	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\五毒教\wdu_02_大手印.spr	10,1,1	\sound\skill\血手毒杀.wav				\spr\skill\五毒教\bz_du1_爆炸.spr	13,1,1														140	207	156	90
+32	骷髅炸弹	1	0	1	10	1	1	1	0	30	31	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\五毒教\wdu_03_骷髅炸弹.spr	80,16,1	\sound\skill\幽冥骷髅.wav				\spr\skill\五毒教\bz_du2_爆炸.spr	6,1,1	\sound\skill\普通爆炸.wav													140	207	156	90
+33	九阴白骨抓	0	0	0	20	1	0	5	6	6	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\五毒教\wdu_04_九阴白骨抓.spr	8,1,1		\spr\skill\五毒教\wdu_04_九阴白骨抓消亡.spr	13,1,4																	140	207	156	90
+34	蛤蟆功	1	0	1	10	1	1	1	0	30	31	0	0	1	0	0	0	0	0	1	1	0	0	0	0	0	0				\spr\skill\五毒教\wdu_05_蛤蟆功.spr	160,16,1	\sound\skill\朱蛤青冥.wav				\spr\skill\五毒教\bz_du2_爆炸.spr	6,1,1														140	207	156	90
+35	霹雳弹	7	0	1	10	1	1	1	0	60	16	10240	5120	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\唐门\tm_03_霹雳弹.spr	10,1,1	\sound\skill\霹雳弹.wav				\spr\skill\天忍\mag_bz_huo1_爆炸效果.spr	6,1,2														132	125	107	90
+36	天罗地网碰撞小子弹	5	0	1	10	1	0	1	0	25	18	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\唐门\tm_驭飞刀.spr	128,16,1	\sound\skill\夺魂镖.wav																			255	251	214	90
+37	追心箭	1	0	1	10	1	0	1	0	20	30	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\唐门\tm_05_多向箭.spr	160,16,1	\sound\skill\追心箭.wav																			148	219	255	90
+38	漫天花雨	0	0	1	20	1	1	7	40	39	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\唐门\tm_06_漫天花雨.spr	40,1,3																				255	219	214	90
+39	穿心刺爆炸	0	0	0	20	2	1	2	12	27	0	0	0	0	1	1	60	0	0	0	0	0	0	0	0	0	0				\spr\skill\tm\穿心刺.spr	27,1,1	\sound\skill\霹雳弹.wav	\spr\skill\tm\穿心刺.spr	27,1,1	\sound\skill\霹雳弹.wav			\sound\skill\sound_k038.wav				\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1	\sound\skill\霹雳弹.wav	\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1					239	146	82	90
+40	百毒穿心	3	0	1	10	3	1	3	1	24	20	0	0	1	0	0	0	0	1	0	1	0	0	0	3	64	0				\spr\skill\五毒教\wdu_02_大手印.spr	10,1,1	\sound\skill\幽冥骷髅.wav				\spr\skill\五毒教\bz_du2_爆炸.spr	6,1,1	\sound\skill\普通爆炸.wav													140	207	156	90
+41	推窗望月	1	0	1	10	1	0	1	0	16	32	0	0	1	0	0	0	0	1	1	0	0	0	1	1	0	0				\spr\skill\em\em_风霜碎影_平飞.spr	96,16,1	\sound\skill\不灭不绝.wav				\spr\skill\峨嵋\mag_em_bin4_爆炸效果.spr	6,1,1	\sound\skill\刀剑刺中声.wav													156	211	255	90
+42	风卷残雪动画	1	0	0	5	1	0	1	0	20	26	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0	1				\spr\skill\翠烟\mag_cy_02_风卷残雪_a.spr	7,1,1	\sound\skill\风卷残雪.wav										\spr\skill\翠烟\mag_cy_02_风卷残雪_b.spr	7,1,1								156	211	255	90
+43	迅雷咒动画	1	0	1	10	1	0	1	0	16	30	0	0	1	0	0	0	0	1	1	0	0	0	0	0	0	1				\spr\skill\昆仑\kl_02_疾电法a.spr	160,16,1	\sound\skill\迅雷咒.wav				\spr\skill\昆仑\Bz_dian3_爆炸.spr	8,1,1	\sound\skill\sound_k040.wav				\spr\skill\昆仑\kl_02_疾电法b.spr	160,16,1								255	255	239	90
+44	投石问路	7	0	1	10	1	1	1	0	40	14	10240	2048	1	0	0	0	0	1	1	1	0	1	0	0	0	0				\spr\skill\丐帮\mag_gb_01_投石问路.spr	1,1,1	\sound\skill\投石问路.wav	\spr\skill\丐帮\mag_bz_tu1_爆炸效果.spr	16,1,2		\spr\skill\丐帮\mag_bz_tu1.spr	16,1,2	\sound\skill\sound_k044.wav													123	113	107	90
+45	沿门托钵	1	0	1	10	1	0	1	0	15	31	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\丐帮\mag_gb_02_沿门托钵.spr	64,16,1	\sound\skill\沿门托钵.wav				\spr\skill\天忍\mag_tr_bz1_爆炸效果.spr	8,1,2														255	174	60	90
+46	见人伸手	1	0	1	10	1	0	1	0	15	31	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\丐帮\mag_gb_03_见人伸手.spr	64,16,1	\sound\skill\见人伸手.wav				\spr\skill\天忍\mag_tr_bz1_爆炸效果.spr	8,1,2														255	174	60	90
+47	天下无狗	5	0	1	10	1	0	1	0	32	24	0	0	1	0	0	0	0	1	1	1	0	7	8	8	0	0				\spr\skill\丐帮\mag_gb_04_天下无狗.spr	64,16,1	\sound\skill\天下无狗.wav				\spr\skill\天忍\mag_bz_huo3_爆炸效果.spr	18,1,2														255	174	60	90
+48	亢龙有悔	1	0	1	10	1	1	1	0	36	10	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\丐帮\mag_gb_05_亢龙有悔.spr	80,16,1	\sound\skill\亢龙无悔.wav				\spr\skill\丐帮\mag_gb_bz5_爆炸效果.spr	6,1,2	\sound\skill\sound_k037.wav													255	174	60	90
+49	孤木遁雷	0	0	0	20	1	0	1	0	12	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0				\spr\skill\丐帮\mag_gb_06_孤木遁雷.spr	13,1,2																				255	255	214	90
+50	奔流到海	0	0	0	20	1	0	1	0	14	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0				\spr\skill\丐帮\mag_gb_09_奔流到海.spr	15,1,2																				165	170	255	90
+51	奎木星照	0	0	0	20	1	0	1	0	14	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0				\spr\skill\丐帮\mag_gb_08_奎木星照.spr	15,1,2																				123	255	189	90
+52	金乌映雪	0	0	0	10	1	0	1	0	19	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0				\spr\skill\丐帮\mag_gb_07_金乌映雪.spr	20,1,2																				247	154	41	90
+53	化险为夷	0	0	0	20	1	0	1	0	14	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0				\spr\skill\丐帮\mag_gb_10_化险为夷.spr	15,1,2																				247	154	41	90
+54	残阳如血	1	0	0	10	1	0	1	0	18	15	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\天忍\mag_tr_01_残阳如雪.spr	48,16,1	\sound\skill\sound_k028.wav				\spr\skill\天忍\mag_bz_huo1_爆炸效果.spr	18,1,2	\sound\skill\sound_k037.wav													239	146	82	90
+55	推山填海	0	0	0	20	2	1	2	12	120	0	0	0	1	1	20	30	0	0	0	0	0	0	0	0	0	1				\spr\skill\天忍\mag_tr_02_推山填海_a1.spr	31,1,2	\sound\skill\推山填海.wav	\spr\skill\天忍\mag_tr_02_推山填海_a2.spr	10,1,2				\sound\skill\sound_k038.wav				\spr\skill\天忍\mag_tr_02_推山填海_b1.spr	31,1,2	\sound\skill\sound_k036.wav	\spr\skill\天忍\mag_tr_02_推山填海_b2.spr	10,1,2					239	146	82	90
+56	烈火情天	1	0	1	10	1	0	1	0	28	18	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\天忍\mag_tr_01_残阳如雪.spr	48,16,1	\sound\skill\烈火情天.wav				\spr\skill\天忍\mag_bz_huo1_爆炸效果.spr	18,1,2	\sound\skill\sound_k037.wav													239	146	82	90
+57	弹指烈焰	1	0	1	10	1	1	1	0	12	25	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\天忍\mag_tr_04_弹指烈焰.spr	48,16,1	\sound\skill\sound_k028.wav				\spr\skill\天忍\mag_bz_huo3_爆炸效果.spr	18,1,2	\sound\skill\sound_k037.wav													239	146	82	90
+58	七伤神拳	0	0	1	10	4	1	4	5	1	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0																									255	255	255	90
+59	金波	1	0	0	10	1	0	1	0	30	20	0	0	1	0	0	0	0	1	0	0	1	0	0	0	0	0				\spr\skill\少林\bz_bo1_金波.spr	320,32,1																				231	227	107	90
+60	tttld2	1	1	1	10	1	1	1	0	20	32	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skillkt\tld_9x_1_c.spr	90,16,1					\spr\skillkt\tnd_9x_1_p.spr	36,1,1														239	231	189	90
+61	摩诃无量	1	0	0	10	1	0	1	0	10	31	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\少林\sl_01_摩诃无量.spr	80,16,1																				231	227	107	90
+62	狮子吼	1	0	1	10	1	0	1	0	10	16	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0				\spr\skill\少林\bz_bo2_红波.spr	320,32,1																				222	101	74	90
+63	短兵物理攻击	1	0	1	10	1	1	1	0	4	30	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0										\spr\skill\补充\刀剑爆炸.spr	4,1,1	\sound\skill\刀剑刺中声.wav										\spr\skill\补充\刀剑爆炸.spr	4,1,1		181	203	255	0
+64	长兵物理攻击	1	0	1	10	1	0	1	0	6	20	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0										\spr\skill\补充\刀剑爆炸.spr	4,1,1	\sound\skill\枪刺中声.wav													181	203	255	0
+65	远程物理攻击	1	0	1	10	1	0	1	0	20	16	0	0	0	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\补充\远程攻击.spr	16,16,5					\spr\skill\补充\刀剑爆炸.spr	4,1,1	\sound\skill\sound_k032.wav													231	227	107	10
+66	行龙不雨	0	0	1	5	4	1	4	10	15	20	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\少林\sl_03_行龙不雨.spr	15,1,1	\sound\skill\行龙不雨.wav																			231	227	107	90
+67	tttnd1	0	0	0	320	1	0	1	19	17	0	-81920	1024	1	0	0	0	0	1	1	0	0	1	0	0	0	0				\spr\skillkt\tnd_9x_1_c.spr	36,1,1			36,1,1		\spr\skillkt\tnd_9x_1_c.spr	36,1,1														156	211	255	90
+68	飘雪穿云	1	0	1	10	1	0	1	0	12	24	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\峨嵋\mag_em_01_飘雪穿云.spr	64,16,1	\sound\skill\飘雪穿云.wav				\spr\skill\峨嵋\mag_bz_bin1_爆炸效果.spr	14,1,1														115	219	255	90
+69	偷天换日	1	0	1	10	1	0	1	0	3	24	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0										\spr\skill\天忍\mag_tr_07_偷天换日.spr	15,1,2	\sound\skill\sound_k032.wav													255	113	114	90
+70	借力打力	1	0	1	10	1	0	1	0	3	24	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0										\spr\skill\天忍\mag_tr_09_借力打力.spr	15,1,2	\sound\skill\sound_k032.wav													255	255	123	90
+71	吸星大法	1	0	1	10	1	0	1	0	3	24	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0										\spr\skill\天忍\mag_tr_08_吸星大法.spr	15,1,2	\sound\skill\sound_k032.wav													115	166	255	90
+72	地焰火	0	0	1	15	2	1	2	13	540	0	0	0	1	1	1	30	0	0	1	0	0	0	0	0	0	0				\spr\skill\tm\xj_地焰火.01.spr	1080,1,1																				255	255	231	90
+73	ttndd2	0	0	1	15	2	1	4	2	18	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					18,1,1					\spr\skillkt\ndd_9x_2_c.spr	18,1,1														255	255	231	90
+74	ttdmtt1	0	0	1	15	1	1	3	7	15	0	0	0	1	1	1	16	0	0	0	0	0	1	0	0	0	0				\spr\skillkt\dmtt_9x_1_c.spr	36,1,1					\spr\skill\五毒教\bz_du1_爆炸.spr	13,1,1														255	255	231	90
+75	寒冰刺爆炸	0	0	0	20	2	1	2	12	27	0	0	0	0	1	1	60	0	0	0	0	0	0	0	0	0	0				\spr\skill\tm\bz_寒冰刺.spr	27,1,1	\sound\skill\霹雳弹.wav	\spr\skill\tm\bz_寒冰刺.spr	27,1,1	\sound\skill\霹雳弹.wav			\sound\skill\sound_k038.wav				\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1	\sound\skill\霹雳弹.wav	\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1					239	146	82	90
+76	BuffMe	0	0	0	2	16	1	16	0	2	0	0	0	0	0	0	0	0	0	0	0	1	1	0	0	0	0																									255	255	255	0
+77	BuffYou	0	0	0	2	6	1	6	0	2	0	0	0	0	0	0	0	0	0	0	0	1	1	0	0	0	0																									255	255	255	0
+78	TL	1	0	1	10	1	1	1	0	20	20	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\npcres\boss\boss020\enemy216_st.spr	160,16,1					\spr\skill\sl\金龙探爪.spr	6,1,1	\sound\skill\sound_k040.wav													239	231	189	90
+79	vu da le hoa 2	1	0	0	2	1	1	3	0	20	0	0	0	1	0	0	0	0	1	1	1	1	0	0	0	0	0				\spr\skill\峨嵋\mag_bz_bin4_爆炸效果.spr	16,1,2																				222	101	74	90
+80	天罗地网碰撞小子弹	1	0	1	10	1	0	1	0	9	18	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\唐门\tm_驭飞刀.spr	128,16,1	\sound\skill\夺魂镖.wav																			255	251	214	90
+81	ttcbr2	0	0	1	10	3	1	3	13	12	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skillkt\cbr_9x_2_c.spr	36,1,1						36,1,1														239	146	82	90
+82	七伤神拳伤害	1	0	1	10	1	0	1	0	24	2	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0				\spr\skill\天忍\mag_bz_huo4_爆炸效果.spr	16,1,2					\spr\skill\天忍\mag_bz_huo3_爆炸效果.spr	6,1,2														239	146	82	90
+83	雷击术	0	0	1	15	2	1	2	13	540	0	0	0	1	1	1	30	0	0	1	0	0	0	0	0	0	0				\spr\skill\tm\xj_雷击术.spr	1080,1,1																				255	255	231	90
+84	雷击术爆炸	0	0	0	20	2	1	2	12	27	0	0	0	0	1	1	60	0	0	0	0	0	0	0	0	0	0				\spr\skill\tm\雷击术.spr	27,1,1	\sound\skill\霹雳弹.wav	\spr\skill\tm\雷击术.spr	27,1,1	\sound\skill\霹雳弹.wav			\sound\skill\sound_k038.wav				\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1	\sound\skill\霹雳弹.wav	\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1					239	146	82	90
+85	ttndc1	0	0	0	20	3	1	6	18	20	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					20,1,1					\spr\skillkt\ndc_9x_1_c.spr	36,1,1														140	207	156	90
+86	横扫六合	0	0	0	2	1	1	5	0	1	0	0	0	0	0	0	0	0	1	1	1	0	1	0	0	0	0										\spr\skill\补充\棍棒爆炸.spr	4,1,1														255	255	255	0
+87	KTP	0	0	1	15	6	1	6	0	2	1	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					20,1,1					\spr\skill\昆仑\kl_14_弃心符.spr	20,1,1														255	255	231	90
+88	tttysd2	0	0	1	10	1	1	1	0	22	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					36,1,1					\spr\skillkt\tydd_9x_2_c.spr	36,1,2														156	211	255	90
+89	一撮毛	1	0	1	10	1	0	1	0	20	30	0	0	0	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\NPC\mag_npc_尖毛.spr	64,16,20																				214	231	132	90
+90	tttnk1	1	0	1	10	1	1	1	0	9	32	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skillkt\tnk_9x_1_c.spr	90,16,1					\spr\skillkt\tnk_9x_1_p.spr	36,1,1														239	146	82	90
+91	ttdmpd1	1	0	1	10	1	0	1	0	18	32	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skillkt\dmpd_9x_1_c.spr	70,16,1																				148	219	255	90
+92	友好光环传递子弹	0	0	0	2	1	1	16	0	2	0	0	0	0	0	0	0	0	0	0	0	1	1	0	0	0	0																									255	255	255	0
+93	ttdmpd2	0	0	1	20	3	1	4	8	16	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					36,1,1					\spr\skillkt\dmpd_9x_2_c.spr	36,1,2														255	219	214	90
+94	伤害类短光环传递子弹	0	0	0	2	4	0	4	0	2	0	0	0	0	0	0	0	0	0	1	0	0	1	0	0	0	0										\spr\skill\五毒教\bz_du1_爆炸.spr	6,1,1														255	255	255	0
+95	Ma ha vo luong	1	0	1	10	1	0	1	0	20	30	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\少林\sl_01_摩诃无量.spr	80,16,1						20,1,1														239	231	189	90
+96	暴雨梨花	0	0	1	15	1	0	1	18	90	0	0	0	1	1	1	16	0	0	0	0	0	1	0	0	0	0				\spr\skill\唐门\tm_07_小李飞刀.spr	90,1,1	\sound\skill\剥极而复.wav																			255	255	231	90
+97	棍棒攻击	1	0	1	10	1	0	1	0	3	30	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0										\spr\skill\补充\棍棒爆炸.spr	4,1,2	\sound\skill\刀剑刺中声.wav										\spr\skill\补充\刀剑爆炸.spr	4,1,1		181	203	255	0
+98	双锤攻击	1	0	1	10	1	0	1	0	3	30	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0										\spr\skill\补充\BZ_棰1.spr	6,1,1	\sound\skill\刀剑刺中声.wav										\spr\skill\补充\刀剑爆炸.spr	4,1,1		181	203	255	0
+99	空手攻击	1	0	1	10	1	0	1	0	3	30	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0										\spr\skill\补充\刀剑爆炸.spr	4,1,1	\sound\skill\刀剑刺中声.wav										\spr\skill\补充\刀剑爆炸.spr	4,1,1		181	203	255	0
+100	diem mon thap bat	1	0	1	10	1	0	1	0	15	31	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\丐帮\mag_gb_02_沿门托钵.spr	64,16,1	\sound\skill\沿门托钵.wav				\spr\skill\天忍\mag_tr_bz1_爆炸效果.spr	8,1,2														255	174	60	90
+101	四象同归中心	0	0	1	18	1	1	2	5	1	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0										\spr\skill\峨嵋\mag_bz_bin5_爆炸效果.spr	18,1,2														156	211	255	90
+102	云龙击	1	0	1	10	1	1	1	0	12	30	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0					160,16,1						6,1,1														239	146	82	90
+103	霹雳弹	7	0	1	10	1	1	1	0	60	20	10240	5120	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\npc\投石火.spr	20,1,1					\spr\skill\npc\投石火爆炸.spr	27,1,1														132	125	107	90
+104	ttcld3	0	0	1	15	2	1	5	10	24	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					36,1,1					\spr\skillkt\cld_9x_2_c.spr	36,1,1														255	255	231	90
+105	ttvdq1	0	0	1	15	4	1	5	5	20	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skillkt\vdq_9x_1_c.spr	18,1,1					\spr\skillkt\vdq_9x_1_p.spr	36,1,1														255	255	231	90
+106	小李飞刀	0	0	1	10	2	0	3	2	1	0	0	0	0	0	0	0	0	1	1	1	0	0	0	0	0	0										\spr\skill\补充\飞标爆炸.spr	4,1,1														227	247	198	90
+107	ttdmpt1	100	0	1	10	1	0	1	0	32	32	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skillkt\dmpt_9x_1_c.spr	60,1,54					\spr\skillkt\dmpt_9x_1_c.spr	36,1,1														239	231	189	90
+108	ttdmpt2	100	0	1	10	1	0	1	0	18	32	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skillkt\dmpt_9x_1_c.spr	60,1,54					\spr\skillkt\dmpt_9x_1_c.spr	36,1,1														239	231	189	90
+109	tttvd1	1	0	1	10	1	0	1	0	3	32	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0					90,15,1					\spr\skillkt\tnd_9x_1_p.spr	36,1,1											\spr\skill\补充\刀剑爆炸.spr	4,1,1		181	203	255	0
+110	三环套月子弹	1	0	1	10	1	0	1	0	3	30	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0							\spr\skill\武当\wd_04_玄一无象.spr	8,1,1		\spr\skill\武当\wd_04_玄一无象.spr	8,1,1	\sound\skill\刀剑刺中声.wav										\spr\skill\武当\wd_04_玄一无象.spr	8,1,1		181	203	255	0
+111	冰心倩影	0	0	1	10	1	0	1	0	16	1	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0				\spr\skill\翠烟\mag_cy_11_补血术.spr	20,1,1	\sound\skill\治疗术.wav																			189	134	82	90
+112	ttclk1	0	0	1	15	7	1	32	4	3	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					64,1,1					\spr\skillkt\clk_9x_1_c.spr	36,1,1														255	255	231	90
+113	龙爪虎抓子弹	1	0	1	10	1	0	1	0	3	30	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0							\spr\skill\补充\BZ_棰.spr	6,1,1		\spr\skill\补充\BZ_棰.spr	6,1,1	\sound\skill\刀剑刺中声.wav										\spr\skill\武当\wd_04_玄一无象.spr	8,1,1		181	203	255	0
+114	滑不留手子弹	0	0	0	18	1	1	5	0	2	1	0	0	0	0	0	0	0	0	1	0	1	1	0	0	0	0							\spr\skill\丐帮\mag_gb_07_金乌映雪.spr	20,1,1																	255	219	99	90
+115	ttnmc1	0	0	1	10	3	1	24	4	3	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					36,1,1					\spr\skillkt\nmc_9x_1_c.spr	36,1,1														156	211	255	90
+116	夺魂镖	1	0	1	10	1	0	1	0	25	18	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\唐门\tm_07_小李飞刀.spr	16,1,1	\sound\skill\夺魂镖.wav																			255	251	214	90
+117	ttvdk1	0	0	1	10	3	1	12	4	3	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					36,1,1					\spr\skillkt\vdq_9x_1_p.spr	36,1,1														156	211	255	90
+118	tttydd2	0	0	1	10	3	1	3	8	22	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					36,1,1					\spr\skillkt\tydd_9x_2_c.spr	36,1,1														156	211	255	90
+119	tttydd1	1	0	1	10	1	0	1	0	24	32	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skillkt\tydd_9x_1_c.spr	130,16,1						36,1,1	\sound\skill\冰爆.wav													156	211	255	90
+120	chuadungden	1	0	1	450	1	1	3	0	30	0	0	1024	1	0	0	0	0	0	1	0	0	1	0	0	0	1				\spr\skill\补充\玫瑰02.spr	50,1,1											\spr\skill\补充\玫瑰04.spr	50,1,1								156	211	255	90
+121	chuadungden	1	0	1	450	1	1	3	0	30	0	0	1024	1	0	0	0	0	0	1	0	0	1	0	0	0	1				\spr\skill\补充\玫瑰05.spr	50,1,1											\spr\skill\补充\玫瑰03.spr	50,1,1								156	211	255	90
+122	Tu nguyen cong	0	0	0	2	1	0	24	0	2	0	0	0	0	0	0	0	0	0	1	0	0	1	0	0	0	0											6,1,1														156	211	255	90
+123	ttndc2	0	0	0	20	3	1	6	10	10	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					8,1,1					\spr\skillkt\ndc_9x_2_c.spr	36,1,1														140	207	156	90
+124	chuadungden	0	0	1	15	0	0	0	0	32	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	1				\spr\skill\补充\玫瑰地面03.spr	16,1,1											\spr\skill\补充\玫瑰地面01.spr	1,1,1								255	255	231	90
+125	小范围友好光环子弹	0	0	0	2	1	1	24	0	2	0	0	0	0	0	0	0	0	0	0	0	1	1	0	0	0	0																									255	255	255	0
+126	暴雨梨花子弹	1	0	1	10	1	0	1	0	16	31	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\补充\远程攻击.spr	16,16,1	\sound\skill\sound_k031.wav				\spr\skill\五毒教\bz_du1_爆炸.spr	13,1,1	\sound\skill\刀剑刺中声.wav													239	231	189	90
+127	毒刺骨	0	0	1	15	2	1	2	13	1080	0	0	0	1	1	1	30	0	0	1	0	0	0	0	0	0	0				\spr\skill\唐门\tm_08_陷井.spr	1080,1,1																				255	255	231	90
+128	毒刺骨爆炸	0	0	0	20	2	1	2	6	16	0	0	0	0	1	1	60	0	0	0	0	0	0	0	0	0	1				\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1	\sound\skill\霹雳弹.wav	\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1				\sound\skill\sound_k038.wav				\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1	\sound\skill\霹雳弹.wav	\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1					239	146	82	90
+129	冰封万里子弹	1	0	0	1	1	1	1	0	15	30	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\magic\ice-08.spr	64,16,1					\spr\skill\bomb\icebomb-01.spr	15,1,1														156	211	255	90
+130	玄女补天子弹	1	0	0	10	1	0	1	0	200	2	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0			\sound\五岳朝宗.wav	\spr\skill\magic\earth-04.spr	10,1,1																				255	255	231	90
+131	倾城一击子弹	0	0	0	10	6	1	6	12	15	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0			\sound\甲士1.wav	\spr\skill\bomb\phybomb-04.spr	15,1,1																				181	203	255	0
+132	倾城一击	0	0	0	10	10	1	10	12	15	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0			\sound\甲士1.wav																						181	203	255	0
+133	五岳朝宗	0	0	1	15	10	1	10	10	13	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0			\sound\玄女补天.wav	\spr\skill\magic\earth-06.spr	13,1,1																				255	255	231	90
+134	金佛出击	1	0	1	10	1	0	1	0	4	32	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\少林\sl_01_达摩渡江.spr	160,16,1					\spr\skill\sl\金龙探爪.spr	6,1,1	\sound\skill\sound_k040.wav													239	231	189	90
+135	横扫千军	0	0	1	10	6	1	6	6	5	0	0	0	1	0	0	0	0	1	0	1	0	1	0	0	0	0				\spr\skill\sl\bz_横扫千军.spr	8,1,1					\spr\skill\sl\金龙探爪.spr	6,1,1	\sound\skill\sound_k017.wav				\spr\skill\sl\bz_横扫千军.spr	8,1,1	\sound\skill\sound_k017.wav						\sound\skill\sound_k014.wav	239	231	189	90
+136	无相斩	1	0	1	10	2	1	2	0	16	32	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\sl\无向斩.spr	128,16,1					\spr\skill\少林\sl_04_慧眼咒.spr	20,1,1	\sound\skill\刀剑刺中声.wav													239	231	189	90
+137	十方烈火	1	0	0	450	5	1	5	0	36	0	-40960	10240	1	0	0	0	0	0	1	0	0	1	0	0	0	0			\sound\风林火山.wav	\spr\skill\magic\fire-02.spr	5,1,1		\spr\skill\bomb\firebomb-03.spr	13,1,1																	239	146	82	90
+138	破天斩	1	0	1	10	1	0	1	0	3	24	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0										\spr\skill\tw\追风决.spr	8,1,1	\sound\skill\刀剑刺中声.wav										\spr\skill\补充\刀剑爆炸.spr	4,1,1		181	203	255	0
+139	追星逐月	1	0	1	10	1	0	1	0	3	24	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0				\spr\skill\补充\mag_npc_短毛.spr	64,16,1					\spr\skill\sl\金龙探爪.spr	4,1,1	\sound\skill\刀剑刺中声.wav				\spr\skill\补充\mag_npc_短毛.spr	64,16,1					\spr\skill\补充\刀剑爆炸.spr	4,1,1		181	203	255	0
+140	乘龙诀	1	0	1	10	1	0	1	0	3	32	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0				\spr\skill\少林\bz_bo1_金波.spr	320,32,1					\spr\skill\补充\BZ_棰1.spr	6,1,1	\sound\skill\刀剑刺中声.wav				\spr\skill\少林\bz_bo1_金波.spr	320,32,1					\spr\skill\补充\刀剑爆炸.spr	4,1,1		181	203	255	0
+141	追风诀	1	0	1	10	1	0	1	0	3	24	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0				\spr\skill\少林\bz_bo1_金波.spr	320,32,1					\spr\skill\补充\BZ_棰1.spr	6,1,1	\sound\skill\刀剑刺中声.wav				\spr\skill\少林\bz_bo1_金波.spr	320,32,1					\spr\skill\补充\刀剑爆炸.spr	4,1,1		181	203	255	0
+142	三峨霁雪飞剑	1	0	1	10	1	1	1	0	20	32	0	0	1	0	0	0	0	1	0	0	0	0	1	1	0	0				\spr\skill\峨嵋\mag_em_04_不灭不绝.spr	64,16,1	\sound\skill\不灭不绝.wav				\spr\skill\峨嵋\mag_em_bin4_爆炸效果.spr	6,1,1	\sound\skill\刀剑刺中声.wav													156	211	255	90
+143	三峨霁雪本身	0	0	1	10	3	1	7	13	12	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\峨嵋\mag_em_05_佛光普照.spr	8,1,2					\spr\skill\峨嵋\mag_bz_bin1_爆炸效果.spr	7,1,2	\sound\skill\sound_k045.wav													156	211	255	90
+144	金顶佛光	5	0	1	10	1	0	1	0	35	20	0	0	1	0	0	0	0	1	1	1	0	0	15	0	0	0				\spr\skill\峨嵋\mag_em_01_飘雪穿云.spr	64,16,1	\sound\skill\飘雪穿云.wav				\spr\skill\峨嵋\mag_bz_bin1_爆炸效果.spr	14,1,1														115	219	255	90
+145	千佛千叶	1	0	1	10	1	0	1	0	16	24	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\补充\mag_spe_bo_蓝.spr	320,32,1	\sound\skill\飘雪穿云.wav				\spr\skill\峨嵋\mag_bz_bin1_爆炸效果.spr	14,1,1														115	219	255	90
+146	冰踪无影	1	0	1	10	1	0	1	0	30	32	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\翠烟\mag_cy_01_风云突起.spr	48,16,1	\sound\skill\风花雪月.wav				\spr\skill\峨嵋\mag_bz_bin2_爆炸效果.spr	6,1,2	\sound\skill\冰爆.wav													156	211	255	90
+147	冰心仙子	1	0	1	10	2	1	2	0	25	30	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\cy\风雪冰天.spr	128,16,1	\sound\skill\飘雪穿云.wav				\spr\skill\峨嵋\mag_bz_bin1_爆炸效果.spr	14,1,1														115	219	255	90
+148	风雪冰天	0	0	1	15	3	1	3	4	16	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\cy\xx_风雪冰天.spr	40,1,1	\sound\skill\浮云散雪.wav																			156	166	247	90
+149	慑魂月影	1	0	1	10	1	0	1	0	18	32	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\tm\银刀射月_02.spr	18,1,1	\sound\skill\追心箭.wav																			148	219	255	90
+150	银刀射月	0	0	1	20	3	1	3	8	16	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					16,1,1					\spr\skill\tm\bz_银刀射月.spr	16,1,1														255	219	214	90
+151	散花镖	100	0	1	10	1	0	1	0	32	30	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\tm\忍者镖.spr	15,1,1	\sound\skill\sound_k040.wav				\spr\skill\tm\忍者镖.spr	15,1,1	\sound\skill\sound_k040.wav													239	231	189	90
+152	九宫飞星	100	0	1	10	1	0	1	0	32	32	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\tm\九宫飞星.spr	8,1,1	\sound\skill\sound_k040.wav				\spr\skill\tm\九宫飞星.spr	8,1,1	\sound\skill\sound_k040.wav													239	231	189	90
+153	ttdm3	1	0	1	10	1	0	1	0	4	30	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\others\227.spr	60,1,4	\sound\skill\sound_k031.wav				\spr\skill\五毒教\bz_du1_爆炸.spr	13,1,1	\sound\skill\刀剑刺中声.wav													239	231	189	90
+154	tttlc1	0	0	1	10	6	1	7	12	10	0	0	0	1	0	0	0	0	1	0	1	0	1	0	0	0	0				\spr\skillkt\tlb_9x_1_c.spr	36,1,1					\spr\skillkt\tlb_9x_1_p.spr	36,1,1						36,1,1								239	231	189	90
+155	tttvc1	1	0	1	10	1	1	1	0	3	32	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0					90,16,1					\spr\skillkt\tvc_9x_1_p.spr	36,1,1						320,32,1					\spr\skill\补充\刀剑爆炸.spr	4,1,1		181	203	255	0
+156	HTNPCK	0	0	1	15	7	0	3	4	3	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					64,1,1					\spr\skill\sl\金龙探爪.spr	4,1,1														255	255	231	90
+157	HTNPCM	0	0	1	15	7	0	3	4	3	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					10,1,1					\spr\skill\峨嵋\mag_bz_bin2_爆炸效果.spr	14,1,1														255	255	231	90
+158	HTNPCT	0	0	1	15	7	0	3	4	3	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					64,1,1					\spr\skill\五毒教\bz_du2_爆炸.spr	6,1,1														255	255	231	90
+159	HTNPCH	0	0	1	15	7	0	3	4	3	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					64,1,1					\spr\skill\天忍\mag_bz_huo1_爆炸效果.spr	18,1,2														255	255	231	90
+160	HTNPCT	0	0	1	15	7	0	3	4	3	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0					64,1,1					\spr\skill\武当\Bz_dian1_爆炸.spr	8,1,1														255	255	231	90
+161	乱环击	0	0	1	15	2	1	2	13	1080	0	0	0	1	1	1	30	0	0	1	0	0	0	0	0	0	0				\spr\skill\tm\xj_紫色陷阱.spr	1080,1,1																				255	255	231	90
+162	乱环击爆炸	0	0	0	20	3	1	3	12	27	0	0	0	0	1	1	60	0	0	0	0	0	0	0	0	0	0				\spr\skill\tm\bz_紫色陷阱.spr	27,1,1	\sound\skill\霹雳弹.wav	\spr\skill\tm\bz_紫色陷阱.spr	27,1,1				\sound\skill\sound_k038.wav													239	146	82	90
+163	阴风蚀骨	0	0	0	20	3	1	3	18	20	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\wu\阴风蚀骨.spr	20,1,1																				140	207	156	90
+164	天罡毒手	0	0	0	20	3	1	3	6	6	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\五毒教\wdu_04_九阴白骨抓.spr	8,1,1		\spr\skill\五毒教\wdu_04_九阴白骨抓消亡.spr	13,1,4																	140	207	156	90
+165	玄阴斩	1	0	1	10	1	0	1	0	15	30	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\wu\玄冥吸星.spr	128,16,1	\sound\skill\幽冥骷髅.wav				\spr\skill\五毒教\bz_du2_爆炸.spr	6,1,1	\sound\skill\普通爆炸.wav													140	207	156	90
+166	飞龙在天	5	0	1	10	1	0	1	0	24	24	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\丐帮\mag_gb_05_亢龙有悔.spr	80,16,1	\sound\skill\亢龙无悔.wav				\spr\skill\丐帮\mag_gb_bz5_爆炸效果.spr	6,1,2	\sound\skill\sound_k037.wav													255	174	60	90
+167	龙战于野	0	0	1	10	3	1	3	0	15	0	0	0	1	0	0	0	0	0	1	0	0	1	0	0	0	0				\spr\skill\天忍\mag_bz_huo3_爆炸效果.spr	6,1,1	\sound\skill\sound_k044.wav																			239	146	82	90
+168	天下无狗	1	1	1	10	1	0	1	0	30	32	0	0	1	0	0	0	0	1	1	1	0	0	0	0	0	0				\spr\skill\丐帮\mag_gb_04_天下无狗.spr	64,16,1	\sound\skill\天下无狗.wav				\spr\skill\天忍\mag_bz_huo3_爆炸效果.spr	18,1,2														255	174	60	90
+169	云龙击	1	0	1	10	1	1	1	0	5	32	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\昆仑\kl_02_疾电法a.spr	160,16,1	\sound\skill\烈火情天.wav				\spr\skill\tr\云龙击.spr	6,1,1	\sound\skill\sound_k037.wav													239	146	82	90
+170	业火焚城	1	0	1	10	5	1	5	6	54	2	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0				\spr\skill\tr\业火焚城.spr	35,1,1																				239	146	82	90
+171	天外流星	0	0	0	320	1	0	1	10	14	0	-40960	1024	1	0	0	0	0	1	1	0	0	1	0	0	0	0				\spr\skill\tr\zd_业火焚城.spr	18,1,1		\spr\skill\天忍\mag_bz_huo3_爆炸效果.spr	6,1,1		\spr\skill\天忍\mag_bz_huo3_爆炸效果.spr	6,1,1	\sound\skill\sound_k037.wav													156	211	255	90
+172	tttlq1	1	0	1	10	1	1	1	0	9	32	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skillkt\tlq_9x_1_c.spr	180,16,1					\spr\skillkt\tlq_9x_1_p.spr	36,1,1														239	231	189	90
+173	天地无极本身	0	0	1	15	4	1	4	5	20	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\wd\天地无极.spr	20,1,1	\sound\skill\剥极而复.wav																			255	255	231	90
+174	chuadungden	0	0	1	15	4	1	4	12	12	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\武当\wd_05_剥及而复.spr	12,1,1	\sound\skill\剥极而复.wav																			255	255	231	90
+175	人剑合一	1	0	1	10	1	0	1	0	4	32	0	0	1	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\唐门\tm_11_电地雷.spr	160,16,1	\sound\skill\沧海明月.wav																			239	231	189	90
+176	太极剑意	0	0	0	2	2	1	6	9	9	0	0	0	0	0	0	0	0	1	0	0	0	1	0	0	0	0				\spr\skill\武当\wd_09_人剑合一剑.spr	11,1,1					\spr\skill\武当\Bz_dian1_爆炸.spr	8,1,1	\sound\skill\sound_k040.wav													255	255	255	90
+177	人剑合一落剑	1	0	0	2	1	0	1	0	11	0	0	0	0	0	0	0	0	1	0	1	0	0	0	0	0	0				\spr\skill\武当\wd_03_天际惊雷.spr	17,1,1	\sound\skill\剑飞惊天.wav																			255	255	255	90
+178	傲雪啸风	1	0	1	10	1	1	1	0	16	31	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\昆仑\kl_03_狂风骤电.spr	20,1,1	\sound\skill\狂风骤电.wav				\spr\skill\昆仑\Bz_dian3_爆炸.spr	8,1,1														255	255	239	90
+179	啸风三连击	0	0	1	15	2	1	2	10	24	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\kl\傲雪萧风.spr	54,1,1	\sound\skill\剥极而复.wav					54,1,1														255	255	231	90
+180	chuadungden	1	0	1	10	1	1	1	0	0	2	0	0	1	0	0	0	0	0	0	0	0	0	0	0	0	0					35,1,1																				239	146	82	90
+181	雷动九天	0	0	1	18	2	1	2	0	12	1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0				\spr\skill\kl\雷动九天.spr	6,1,2					\spr\skill\昆仑\Bz_dian3_爆炸.spr	8,1,1														255	255	239	90
+182	chuadungden	0	0	0	10	4	1	4	16	15	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0				\spr\skill\magic\thunder-06.spr	16,1,1	\sound\雷动九天.wav																			255	255	239	90
+183	chuadungden	1	0	1	10	1	0	1	0	3	20	0	0	1	0	0	0	0	0	0	1	0	0	0	0	0	0				\spr\skill\武当\wd_02_沧海明月.spr	8,1,1	\sound\skill\沧海明月.wav				\spr\skill\武当\Bz_dian1_爆炸.spr	8,1,1														189	239	239	90
+184	chuadungden	0	0	0	10	13	1	13	12	20	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0			\sound\五岳朝宗.wav	\spr\skill\magic\earth-04.spr	10,1,1																				255	255	231	90
+185	chuadungden	1	0	0	20	7	1	7	13	12	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0			\sound\冰封万里.wav	\spr\skill\magic\ice-06.spr	11,1,1							\sound\skill\冰爆.wav													156	211	255	90
+186	风霜碎影	0	0	1	10	3	1	4	13	12	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\em\em_冰心梵音.spr	40,1,1					\spr\skill\峨嵋\mag_bz_bin1_爆炸效果.spr	7,1,2	\sound\skill\sound_k045.wav													156	211	255	90
+187	冰心玉凌子弹	0	0	1	10	2	1	2	8	12	0	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0				\spr\skill\cy\冰心雪莲01.spr	20,1,1					\spr\skill\峨嵋\mag_bz_bin1_爆炸效果.spr	7,1,2	\sound\skill\sound_k045.wav													156	211	255	90
+188	冰心雪莲	0	0	1	10	3	1	3	10	22	0	0	0	0	0	0	0	0	0	0	0	0	1	0	0	0	0				\spr\skill\cy\冰心雪莲爆炸.spr	22,1,1					\spr\skill\峨嵋\mag_bz_bin1_爆炸效果.spr	7,1,2	\sound\skill\sound_k045.wav													156	211	255	90
+189	chuadungden	0	0	1	10	15	1	15	8	41	0	0	0	1	0	0	0	0	0	0	0	0	1	0	0	0	0			\sound\三味真火.wav	\spr\skill\magic\fire-05.spr	14,1,1																				123	255	189	90
+190	寒冰刺	0	0	1	15	2	1	2	13	540	0	0	0	1	1	1	30	0	0	1	0	0	0	0	0	0	0				\spr\skill\tm\xj_寒冰刺.spr	1080,1,1																				255	255	231	90
+191	穿心刺	0	0	1	15	2	1	2	13	540	0	0	0	1	1	1	30	0	0	1	0	0	0	0	0	0	0				\spr\skill\tm\xj_穿心刺.spr	1080,1,1																				255	255	231	90
+192	地焰火爆炸	0	0	0	20	2	1	2	12	27	0	0	0	0	1	1	60	0	0	0	0	0	0	0	0	0	0				\spr\skill\tm\地焰火.spr	27,1,1	\sound\skill\霹雳弹.wav	\spr\skill\tm\地焰火.spr	27,1,1	\sound\skill\霹雳弹.wav			\sound\skill\sound_k038.wav				\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1	\sound\skill\霹雳弹.wav	\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1					239	146	82	90
+193	平地撼雷	0	0	1	18	3	1	3	0	12	1	0	0	0	0	0	0	0	0	1	0	0	0	0	0	0	0				\spr\skill\tm\雷击术.spr	27,1,1					\spr\skill\昆仑\Bz_dian3_爆炸.spr	8,1,1														255	255	239	90
+194	亢龙有悔	5	0	1	10	1	1	1	0	32	24	0	0	1	0	0	0	0	1	1	1	0	0	12	12	0	0				\spr\skill\丐帮\mag_gb_05_亢龙有悔.spr	80,16,1	\sound\skill\亢龙无悔.wav				\spr\skill\丐帮\mag_gb_bz5_爆炸效果.spr	6,1,2	\sound\skill\sound_k037.wav													255	174	60	90
+195	毒刺骨爆炸	0	0	0	20	2	1	2	17	16	0	0	0	0	1	1	60	0	0	0	0	0	0	0	0	0	1				\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1	\sound\skill\霹雳弹.wav	\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1				\sound\skill\sound_k038.wav				\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1	\sound\skill\霹雳弹.wav	\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1					239	146	82	90
+196	hut	0	0	0	2	1	1	24	3	2	0	0	0	0	0	0	0	0	0	0	0	1	1	0	0	0	0										\spr\skill\tw\追风决.spr	8,1,1														255	255	255	0
+197	毒刺骨爆炸	0	0	0	20	2	1	3	18	16	0	0	0	0	1	1	60	0	0	0	0	0	0	0	0	0	1				\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1	\sound\skill\霹雳弹.wav	\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1				\sound\skill\sound_k038.wav				\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1	\sound\skill\霹雳弹.wav	\spr\skill\唐门\bz_du3_爆炸.spr	16,1,1					239	146	82	90

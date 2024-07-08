@@ -359,7 +359,7 @@ DWORD WINAPI CBishopApp::ServerLoginRoutine(HWND hwndDlg) {
   */
   if (!g_theSmartClient.Valid()) {
     //		::PostMessage( hwndDlg, WM_SERVER_LOGIN_FAILED,
-    //enumConnectFailed, 0L );
+    // enumConnectFailed, 0L );
 
     return 1L;
   }

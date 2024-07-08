@@ -128,11 +128,11 @@ protected:
 
 #ifdef _STLP_USE_TEMPLATE_EXPORT
 _STLP_EXPORT_TEMPLATE_CLASS
-    num_put<char, ostreambuf_iterator<char, char_traits<char>>>;
+num_put<char, ostreambuf_iterator<char, char_traits<char>>>;
 // _STLP_EXPORT_TEMPLATE_CLASS num_put<char, char*>;
 #ifndef _STLP_NO_WCHAR_T
 _STLP_EXPORT_TEMPLATE_CLASS
-    num_put<wchar_t, ostreambuf_iterator<wchar_t, char_traits<wchar_t>>>;
+num_put<wchar_t, ostreambuf_iterator<wchar_t, char_traits<wchar_t>>>;
 // _STLP_EXPORT_TEMPLATE_CLASS num_put<wchar_t, wchar_t*>;
 #endif /* _STLP_NO_WCHAR_T */
 #endif

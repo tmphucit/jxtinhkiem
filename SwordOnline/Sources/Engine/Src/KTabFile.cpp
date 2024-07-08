@@ -140,7 +140,7 @@ void KTabFile::CreateTabOffset() {
       TabBuffer++;
       if (*(Buffer - 1) == 0x0a ||
           *(Buffer - 1) == 0x0d) //	本行已经结束了，虽然可能没到nWidth //for
-                                 //linux modified [wxb 2003-7-29]
+                                 // linux modified [wxb 2003-7-29]
       {
         for (int k = j + 1; k < nWidth; k++) {
           TabBuffer->dwOffset = nOffset;
@@ -437,6 +437,17 @@ int KTabFile::FindRow(LPSTR szRow) {
   }
   return -1;
 }
+// chinh sua boi Vincent Hoang -- them tuy chon cot
+int KTabFile::FindRow(LPSTR szRow, int nCol) {
+  char szTemp[128];
+  for (int i = 0; i < m_Height; i++) {
+    GetValue(i, nCol, szTemp, g_StrLen(szRow));
+    if (g_StrCmp(szTemp, szRow))
+      return i + 1;
+  }
+  return -1;
+}
+
 //---------------------------------------------------------------------------
 // 函数:	FindColumn
 // 功能:	查找列关键字

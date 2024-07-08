@@ -1,0 +1,121 @@
+
+*
+***** Sword3PaySys Start (@ 2024/05/25 10:47:01.945) >>>>>
+*
+
+[2024/05/25 10:47:08] 1 >> DB Connect 0 is busy !
+[2024/05/25 10:47:08] 2 >> Add Gateway(192.168.11.13 : 52814) Client 0 ! -- At 0
+[2024/05/25 10:47:08] 3 >> [Debug] SQL Query CMD NOT [155]
+[2024/05/25 10:47:08] 4 >> Gateway vantoi(192.168.11.13)B42E-992C-2E81: Verify OK !
+[2024/05/25 10:47:08] 5 >> [Debug] SQL CMD [update Account_info set iClientID = 0, dLogoutDate = getdate() where (iClientID = 4)]
+[2024/05/25 10:47:08] 6 >> Gateway unlock OK!
+[2024/05/25 10:47:08] 7 >> Gateway Connect OK!
+[2024/05/25 10:47:09] 8 >> DB Connect 0 is free !
+[2024/05/25 10:47:18] 9 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:47:28] 10 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:47:38] 11 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:47:44] 12 >> DB Connect 0 is busy !
+[2024/05/25 10:47:44] 13 >> [Debug] SQL Query CMD NOT [141]
+[2024/05/25 10:47:44] 14 >> [Debug] SQL Query CMD NOT [130]
+[2024/05/25 10:47:44] 15 >> [S3PDB_MSSQLServer_Connection::DoSql COM error: IDispatch error #3092
+[2024/05/25 10:47:44] 16 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'vantoi')]
+[2024/05/25 10:47:44] 17 >> Gateway vantoi(192.168.11.13): User vantoi Login Failed ! --- No Money
+[2024/05/25 10:47:44] 18 >> [Debug] SQL CMD NOT [149]
+[2024/05/25 10:47:44] 19 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/05/25 10:47:44] 20 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'vantoi')]
+[2024/05/25 10:47:44] 21 >> [Debug] SQL Query CMD NOT [130]
+[2024/05/25 10:47:44] 22 >> [S3PDB_MSSQLServer_Connection::DoSql COM error: IDispatch error #3092
+[2024/05/25 10:47:44] 23 >> [Debug] SQL CMD NOT [149]
+[2024/05/25 10:47:44] 24 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/05/25 10:47:44] 25 >> Gateway vantoi(192.168.11.13): User vantoi Logout Failed !
+[2024/05/25 10:47:45] 26 >> DB Connect 0 is free !
+[2024/05/25 10:47:48] 27 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:47:58] 28 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:48:08] 29 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:48:18] 30 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:48:28] 31 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:48:38] 32 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:48:47] 33 >> DB Connect 0 is busy !
+[2024/05/25 10:48:47] 34 >> [Debug] SQL Query CMD NOT [141]
+[2024/05/25 10:48:47] 35 >> [Debug] SQL Query CMD NOT [130]
+[2024/05/25 10:48:47] 36 >> [S3PDB_MSSQLServer_Connection::DoSql COM error: IDispatch error #3092
+[2024/05/25 10:48:47] 37 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'vantoi')]
+[2024/05/25 10:48:47] 38 >> Gateway vantoi(192.168.11.13): User vantoi Login Failed ! --- No Money
+[2024/05/25 10:48:47] 39 >> [Debug] SQL CMD NOT [149]
+[2024/05/25 10:48:47] 40 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/05/25 10:48:47] 41 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'vantoi')]
+[2024/05/25 10:48:47] 42 >> [Debug] SQL Query CMD NOT [130]
+[2024/05/25 10:48:47] 43 >> [S3PDB_MSSQLServer_Connection::DoSql COM error: IDispatch error #3092
+[2024/05/25 10:48:47] 44 >> [Debug] SQL CMD NOT [149]
+[2024/05/25 10:48:47] 45 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/05/25 10:48:47] 46 >> Gateway vantoi(192.168.11.13): User vantoi Logout Failed !
+[2024/05/25 10:48:48] 47 >> DB Connect 0 is free !
+[2024/05/25 10:48:48] 48 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:48:58] 49 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:49:08] 50 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:49:18] 51 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:49:28] 52 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:49:34] 53 >> DB Connect 0 is busy !
+[2024/05/25 10:49:34] 54 >> [Debug] SQL Query CMD NOT [141]
+[2024/05/25 10:49:34] 55 >> [Debug] SQL Query CMD NOT [130]
+[2024/05/25 10:49:34] 56 >> [S3PDB_MSSQLServer_Connection::DoSql COM error: IDispatch error #3092
+[2024/05/25 10:49:34] 57 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'vantoi')]
+[2024/05/25 10:49:34] 58 >> Gateway vantoi(192.168.11.13): User vantoi Login Failed ! --- No Money
+[2024/05/25 10:49:34] 59 >> [Debug] SQL CMD NOT [149]
+[2024/05/25 10:49:34] 60 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/05/25 10:49:34] 61 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'vantoi')]
+[2024/05/25 10:49:34] 62 >> [Debug] SQL Query CMD NOT [130]
+[2024/05/25 10:49:34] 63 >> [S3PDB_MSSQLServer_Connection::DoSql COM error: IDispatch error #3092
+[2024/05/25 10:49:34] 64 >> [Debug] SQL CMD NOT [149]
+[2024/05/25 10:49:34] 65 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/05/25 10:49:34] 66 >> Gateway vantoi(192.168.11.13): User vantoi Logout Failed !
+[2024/05/25 10:49:35] 67 >> DB Connect 0 is free !
+[2024/05/25 10:49:38] 68 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:49:39] 69 >> DB Connect 0 is busy !
+[2024/05/25 10:49:39] 70 >> [Debug] SQL Query CMD NOT [141]
+[2024/05/25 10:49:39] 71 >> [Debug] SQL Query CMD NOT [130]
+[2024/05/25 10:49:39] 72 >> [S3PDB_MSSQLServer_Connection::DoSql COM error: IDispatch error #3092
+[2024/05/25 10:49:39] 73 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'vantoi')]
+[2024/05/25 10:49:39] 74 >> Gateway vantoi(192.168.11.13): User vantoi Login Failed ! --- No Money
+[2024/05/25 10:49:39] 75 >> [Debug] SQL CMD NOT [149]
+[2024/05/25 10:49:39] 76 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/05/25 10:49:39] 77 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'vantoi')]
+[2024/05/25 10:49:39] 78 >> [Debug] SQL Query CMD NOT [130]
+[2024/05/25 10:49:39] 79 >> [S3PDB_MSSQLServer_Connection::DoSql COM error: IDispatch error #3092
+[2024/05/25 10:49:39] 80 >> [Debug] SQL CMD NOT [149]
+[2024/05/25 10:49:39] 81 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/05/25 10:49:39] 82 >> Gateway vantoi(192.168.11.13): User vantoi Logout Failed !
+[2024/05/25 10:49:40] 83 >> DB Connect 0 is free !
+[2024/05/25 10:49:48] 84 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:49:58] 85 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:50:08] 86 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:50:18] 87 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:50:28] 88 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:50:38] 89 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:50:48] 90 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:50:58] 91 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:51:08] 92 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:51:18] 93 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:51:28] 94 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:51:39] 95 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:51:49] 96 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:51:59] 97 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:52:09] 98 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:52:19] 99 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:52:29] 100 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:52:39] 101 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:52:49] 102 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:52:59] 103 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:53:09] 104 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:53:19] 105 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:53:29] 106 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:53:39] 107 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:53:49] 108 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:53:59] 109 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/05/25 10:54:02] 110 >> Remove Gateway Client 0 ! -- At 0
+[2024/05/25 10:54:03] Nomal exit !!!
+
+*
+***** Sword3PaySys Stop (@ 2024/05/25 10:54:03.782) <<<<<
+*
+

@@ -118,6 +118,8 @@ enum ITEM_PART {
   itempart_horse,
   itempart_mask,   // MASK
   itempart_fifong, // phiphong
+  itempart_signet, // an
+  itempart_shipin, // trang suc
   itempart_num,
 };
 
@@ -608,20 +610,20 @@ enum SYS_MESSAGE_CONFIRM_TYPE {
   SMCT_UI_ATTRIBUTE_SKILLS, // 打开属性页面技能页面
   SMCT_UI_TEAM_INVITE,      // 答应或拒绝加入队伍的邀请,
   //						pParamBuf
-  //指向一个KUiPlayerItem结构的数据，表示邀情人(队长)
+  // 指向一个KUiPlayerItem结构的数据，表示邀情人(队长)
   SMCT_UI_TEAM_APPLY, // 答应或拒绝加入队伍的申请,
   //						pParamBuf
-  //指向一个KUiPlayerItem结构的数据，表示申请人
+  // 指向一个KUiPlayerItem结构的数据，表示申请人
   SMCT_UI_TEAM,      // 打开队伍管理面板
   SMCT_UI_INTERVIEW, // 打开聊天对话界面,
   //						pParamBuf
-  //指向一个KUiPlayerItem结构的数据，表示发来消息的好友
+  // 指向一个KUiPlayerItem结构的数据，表示发来消息的好友
   SMCT_UI_FRIEND_INVITE, // 批准或拒绝别人加自己为好友
   //						pParamBuf
-  //指向一个KUiPlayerItem结构的数据，表示发出好友邀请的人
+  // 指向一个KUiPlayerItem结构的数据，表示发出好友邀请的人
   SMCT_UI_TRADE, // 答应或拒绝交易的请求,
   //						pParamBuf
-  //指向一个KUiPlayerItem结构的数据，表示发出交易邀请的人
+  // 指向一个KUiPlayerItem结构的数据，表示发出交易邀请的人
   SMCT_DISCONNECT,         // 断线
   SMCT_UI_TONG_JOIN_APPLY, // 答应或拒绝加入帮会的申请
 };
@@ -784,6 +786,8 @@ enum UI_EQUIPMENT_POSITION {
   UIEP_HORSE = 10,      // 马匹
   UIEP_MASK = 11,       // MASK
   UIEP_PHIPHONG = 12,   // phiphong
+  UIEP_SIGNET = 13,     // them an -- Vincent Hoang
+  UIEP_SHIPIN = 14,     // them trang suc -- Vincent Hoang
 };
 
 //==================================
@@ -1034,8 +1038,8 @@ enum PLAYER_BRIEF_PROP {
 
 // 新闻消息的类型定义
 enum NEWS_MESSAGE_TYPE {
-  NEWSMESSAGE_NORMAL, // 一般消息，显示（一次）就消息消亡了
-                      // 无时间参数
+  NEWSMESSAGE_NORMAL,   // 一般消息，显示（一次）就消息消亡了
+                        // 无时间参数
   NEWSMESSAGE_COUNTING, // 倒计（秒）数消息，计数到0时，就消息就消亡了。
                         // 时间参数中的数据结构中仅秒数据有效，倒计数以秒为单位。
   NEWSMESSAGE_TIMEEND, // 定时消息，定时到时，消息就消完了，否则每半分钟显示一次。
@@ -1091,7 +1095,7 @@ struct KMissionRecord {
 
 //---------------------------- 帮会相关 ------------------------
 
-#define defTONG_MAX_DIRECTOR 3
+#define defTONG_MAX_DIRECTOR 7
 #define defTONG_MAX_MANAGER 50
 #define defTONG_MAX_MEMBER 100
 

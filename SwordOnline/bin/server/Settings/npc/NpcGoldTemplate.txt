@@ -1,0 +1,13 @@
+类型	Exp	Life	LifeReplenish	AttackRating	Defense	MinDamage	MaxDamage	Treasure	WalkSpeed	RunSpeed	AttackSpeed	CastSpeed	SkillName	SkillLevel	FireResist	FireResistMax	ColdResist	ColdResistMax	LightingResist	LightingResistMax	PoisonResist	PoisonResistMax	PhycicsResist	PhycicsResistMax
+有钱的	3	5	10	2	2	2	2	5	0	0	0	0			50	75	50	75	50	75	50	75	50	75
+顽强的	10	10	10	2	2	2	2	3	0	0	0	0			50	75	50	75	50	75	50	75	50	75
+九头鸟的	6	10	10	2	2	2	2	5	0	0	0	0			50	75	50	75	50	75	50	75	50	75
+快速的	5	3	10	4	2	5	5	4	4	4	2	2			50	75	50	75	50	75	50	75	50	75
+凶残的	3	3	10	2	2	2	2	3	0	0	0	0			50	75	50	75	50	75	50	75	50	75
+轻灵的	3	3	10	2	2	2	2	3	2	2	0	0			50	75	50	75	50	75	50	75	50	75
+金的	3	3	10	2	2	2	2	3	0	0	0	0			50	75	50	75	50	75	100	100	50	75
+木的	3	3	10	2	2	2	2	3	0	0	0	0			50	75	50	75	100	100	50	75	50	75
+火的	3	3	10	2	2	2	2	3	0	0	0	0			50	75	50	75	50	75	50	75	100	100
+水的	3	3	10	2	2	2	2	3	0	0	0	0			100	100	50	75	50	75	50	75	50	75
+土的	3	3	10	2	2	2	2	3	0	0	0	0			50	75	100	100	50	75	50	75	50	75
+领袖的	3	3	10	2	2	2	2	3	0	0	0	0	五行阵	10	50	75	50	75	50	75	50	75	50	75

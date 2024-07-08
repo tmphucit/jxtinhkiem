@@ -110,7 +110,7 @@ int S3PAccount::Login(S3PDBConVBC *pConn, const char *strAccName,
       iRet = E_ACCOUNT_OR_PASSWORD;
       //	char strSQL3[MAX_PATH];
       //	sprintf(strSQL3, "DELETE FROM Account_Info	WHERE (iid NOT
-      //IN (SELECT MIN(iid) FROM Account_Info GROUP BY cAccName))");
+      // IN (SELECT MIN(iid) FROM Account_Info GROUP BY cAccName))");
       //	pConn->Do(strSQL3);
     }
   }

@@ -54,7 +54,7 @@ bool ZDBTable::open() {
   int index;
   if (!db_create(&primary_db, dbenv, 0)) {
     //		if(!primary_db->open(primary_db, NULL, table_name, NULL,
-    //DB_BTREE, DB_CREATE|DB_AUTO_COMMIT, 0664)) {	//打开主数据库
+    // DB_BTREE, DB_CREATE|DB_AUTO_COMMIT, 0664)) {	//打开主数据库
     if (!primary_db->open(primary_db, NULL, table_name, NULL, DB_BTREE,
                           DB_CREATE, 0664)) { // 打开主数据库
       for (index = 0; index < index_number; index++) {
@@ -66,8 +66,8 @@ bool ZDBTable::open() {
               break;
           }
           //					if(index_db[index]->open(index_db[index],
-          //NULL, index_table_name, NULL, DB_BTREE, DB_CREATE|DB_AUTO_COMMIT,
-          //0664)) break;
+          // NULL, index_table_name, NULL, DB_BTREE, DB_CREATE|DB_AUTO_COMMIT,
+          // 0664)) break;
           if (index_db[index]->open(index_db[index], NULL, index_table_name,
                                     NULL, DB_BTREE, DB_CREATE, 0664))
             break;
@@ -83,7 +83,8 @@ bool ZDBTable::open() {
         return true; // 成功了
       else
         while (--index)
-          (index_db[index])->close(index_db[index], 0); // 出错，关闭前面的索引表
+          (index_db[index])
+              ->close(index_db[index], 0); // 出错，关闭前面的索引表
       primary_db->close(primary_db, 0);
     }
   }

@@ -164,9 +164,9 @@ int KUiTeamManage::WndProc(unsigned int uMsg, unsigned int uParam, int nParam) {
     else if (uParam == (unsigned int)(KWndWindow *)&m_btnRefresh)
       OnRefresh();
     //		else if (uParam == (unsigned
-    //int)(KWndWindow*)&m_NearbyPlayerTab) 			SwitchNearbyMode(true); 		else if
-    //(uParam == (unsigned int)(KWndWindow*)&m_NearbyTeamTab)
-    //			SwitchNearbyMode(false);
+    // int)(KWndWindow*)&m_NearbyPlayerTab)
+    // SwitchNearbyMode(true); 		else if (uParam == (unsigned
+    //int)(KWndWindow*)&m_NearbyTeamTab) 			SwitchNearbyMode(false);
     else if (uParam == (unsigned int)(KWndWindow *)&m_btnCloseTeam)
       g_pCoreShell->TeamOperation(TEAM_OI_CLOSE, 0, nParam);
     else if (uParam == (unsigned int)(KWndWindow *)&m_btnCancel)
@@ -425,7 +425,7 @@ void KUiTeamManage::OnRefresh() {
   //	else
   //	{
   //		g_pCoreShell->OperationRequest(GOI_TEAM_COLLECT_NEARBY_LIST, 0,
-  //0);
+  // 0);
   //	}
 }
 

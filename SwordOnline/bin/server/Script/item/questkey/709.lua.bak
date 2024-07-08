@@ -1,0 +1,1222 @@
+Include("\\script\\addnpccacmap\\daotaytuy.lua");
+Include("\\script\\addnpccacmap\\trap\\mangtrap.lua")
+Include("\\script\\checkloinhanvat.lua")
+Include("\\script\\lib\\thuvien.lua")
+Include("\\script\\cacnhiemvu\\datau\\diadochi\\head_datau.lua")
+
+
+TRAIN_ARRAY1= {
+[1] = {
+	"Hoa S¬n [10]/selluyen1",
+	"Vò L¨ng S¬n [20]/selluyen1",
+	"B¹ch V©n §éng [20]/selluyen1",
+	"Miªu LÜnh [30]/selluyen1",
+	"Phôc L­u §éng [30]/selluyen1",
+	"Phôc Ng­u T©y [40]/selluyen1",
+	"KiÕm C¸c T©y B¾c [40]/selluyen1",
+	"Trang kÕ/luyencong2",
+	"Ta kh«ng muèn ®i/no"
+	},
+[2] = {
+	{10,2,2607,3558},
+	{20,70,1608,3230},
+	{20,68,1759,3365},
+	{30,74,2030,3242},
+	{30,73,1599,2803},
+	{40,41,2078,2805},
+	{40,13,1159,3715},
+	}
+};
+TRAIN_ARRAY2= {
+[1] = {
+	"Kª Qu¸n §éng [50]/selluyen2",
+	"Kim Quang §éng [50]/selluyen2",
+	"Thiªn T©m §éng [60]/selluyen2",
+	"Kinh Hoµng §éng [60]/selluyen2",
+	"L©m Du Quan [70]/selluyen2",
+	"Ch©n Nói Tr­êng B¹ch[80]/selluyen2",
+	"Sa M¹c §¹i BiÓu [80]/selluyen2",
+	"Cæ D­¬ng Déng [80]/selluyen2",
+	"Trang kÕ/luyencong3",
+	"Ta kh«ng muèn ®i/no"
+	},
+[2] = {
+	{50,91,1598,3208},
+	{50,14,1596,3282},
+	{60,50,1585,3215},
+	{60,62,1822,3473},
+	{70,102,1622,3598},
+	{80,104,1144,3116},
+	{80,107,1616,3211},
+	{80,65,1610,3170},
+
+	}
+};
+TRAIN_ARRAY3= {
+[1] = {
+	"D­¬ng Trung §éng [80]/selluyen3",
+	"Sa M¹c 1 [90]/samac1haha",
+	"Sa M¹c 2 [90]/selluyen3",
+	"Sa M¹c 3 [90]/selluyen3",
+	"C¸n Viªn §éng [90]/selluyen3",
+	"TiÕn Cóc §éng [90]/selluyen3",
+	"D­îc V­¬ng §éng [90]/selluyen3",
+	"TuyÕt B¸o §éng [90]/selluyen3",
+	"M¹c Cao QuËt [90]/selluyen3",
+	"Tr­êng B¹ch S¬n Nam [90]/selluyen3",
+	"Tr­êng B¹ch S¬n B¾c [90]/selluyen3",
+	"Ta kh«ng muèn ®i/no"
+	},
+[2] = {
+	{80,64,1698,3405},
+	{90,109,1473,3270},
+	{90,110,1818,3414},
+	{90,111,1592,3240},
+	{90,94,1673,3420},
+	{90,93,1526,3170},
+	{90,99,1591,3105},
+	{90,100,1561,3244},
+	{90,79,1861, 3447},
+	{90,22,1570, 3133}, --Map : TBSN
+	{90,105,2022, 4098}, --Map : TBSB
+	
+	}
+};
+
+function samac1haha()
+SayNew("§Ó tr¸nh viÖc chÆn cæng, b¹n cã thÓ chän cæng ®Ó vµo Sa M¹c 1",6,
+"Cæng 1 /samac11",
+"Cæng 2 /samac11",
+"Cæng 3 /samac11",
+"Cæng 4 /samac11",
+"Cæng 5 /samac11",
+"Tho¸t./no")
+end
+function samac11(nsel)
+i = nsel + 1
+if GetCash() < 10000 then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ 1 v¹n l­îng, kh«ng thÓ lªn b¶n ®å nµy")
+return
+end
+if GetLevel() < 90 then
+Talk(1,"","Ng­¬i kh«ng ®ñ cÊp 90, kh«ng thÓ lªn b¶n ®å nµy")
+return
+end
+		Msg2Player("Ngåi yªn, chóng ta ®i Sa M¹c S¬n §éng 1..........");
+		Pay(10000)
+		SetFightState(1);
+		SetPunish(0)
+		SetLogoutRV(0)
+		
+		-- AddSkillEffect(504,1,5*18)
+		if i == 1 then
+		NewWorld(109,1580,3189)
+		elseif i == 2 then
+		NewWorld(109,1680,3285)
+		elseif i == 3 then
+		NewWorld(109,1475,3275)
+		elseif i == 4 then
+		NewWorld(109,1424,3105)	
+		elseif i == 5 then
+		NewWorld(109,1261,3242)
+		end
+		
+end;
+
+function main()
+-- dofile("script\\item\\questkey\\709.lua")
+if GetLevel() < 5 then
+Talk(1,"","PhÝa tr­íc nguy hiÓm, h·y quay l¹i tu luyÖn thªm ®i !")
+return
+end
+w,X,Y = GetWorldPos()	
+if w == 42 or w == 43 or w == 34 or w == 35 or w == 37 or w == 46 or w == 60 or w == 47 or w == 48 or w == 258 or w == 49 or w == 26 or w == 27 or w == 28 or w == 29 or w == 33 or w == 20 or w == 106 then
+Msg2Player("B¹n kh«ng thÓ sö dông ThÇn Hµnh Phï ë ®©y")
+return
+end
+if w == 5 or w == 59 or w == 24 then
+Msg2Player("B¹n kh«ng thÓ sö dông ThÇn Hµnh Phï ë ®©y")
+return
+end
+if w >= 116 and w <= 134 then
+Msg2Player("Kh«ng thÓ sö dông ThÇn Hµnh Phï trong L·nh §Þa Bang Héi !")
+return
+end
+				SayNew("<color=blue>ThÇn Hµnh Phï:<color> C¸c h¹ muèn di chuyÓn ®Õn n¬i nµo?",6,
+				"§i Phong L¨ng §é /pld",
+				"Khu vùc thµnh thÞ/thanhthi",
+				"Khu vùc luyÖn c«ng/luyencong1",
+				"§i Hoa S¬n C¶nh Kü Tr­êng /hoasoncanhky",
+				"§i ®Õn n¬i lµm nhiÖm vô D· TÈu/dichuyendatau",
+				"Tho¸t./no");
+				
+end;
+
+
+function luyencong1()
+	SayNew("<color=blue>ThÇn Hµnh Phï:<color>",getn(TRAIN_ARRAY1[1]),
+	TRAIN_ARRAY1[1])
+end;
+function luyencong2()
+	SayNew("<color=blue>Xa Phu:<color>",getn(TRAIN_ARRAY2[1]),
+	TRAIN_ARRAY2[1])
+end;
+
+function luyencong3()
+	SayNew("<color=blue>Xa Phu:<color>",getn(TRAIN_ARRAY3[1]),
+	TRAIN_ARRAY3[1])
+end;
+
+function selluyen1(sel)
+	local nSel = sel + 1;
+	if(GetLevel() < TRAIN_ARRAY1[2][nSel][1]) then
+	Talk(1,"",15645)--phia truoc nguy hiem
+	return end
+	if(NewWorld(TRAIN_ARRAY1[2][nSel][2],TRAIN_ARRAY1[2][nSel][3],
+	TRAIN_ARRAY1[2][nSel][4]) == 1) then
+		SetFightState(1)
+	end
+end;
+
+function selluyen2(sel)
+	local nSel = sel + 1;
+	if(GetLevel() < TRAIN_ARRAY2[2][nSel][1]) then
+	Talk(1,"",15645)--phia truoc nguy hiem
+	return end
+	if(NewWorld(TRAIN_ARRAY2[2][nSel][2],TRAIN_ARRAY2[2][nSel][3],
+	TRAIN_ARRAY2[2][nSel][4]) == 1) then
+		SetFightState(1)
+	end
+end;
+
+function selluyen3(sel)
+	local nSel = sel + 1;
+	if(GetLevel() < TRAIN_ARRAY3[2][nSel][1]) then
+	Talk(1,"",15645)--phia truoc nguy hiem
+	return end
+	if(NewWorld(TRAIN_ARRAY3[2][nSel][2],TRAIN_ARRAY3[2][nSel][3],
+	TRAIN_ARRAY3[2][nSel][4]) == 1) then
+		SetFightState(1)
+	end
+end;
+
+
+
+function dilongtuyenthon()
+if GetLevel() < 115 then
+NewWorld(4,203*8,200*16)
+SetFightState(1)
+Msg2Player("B¹n ®ang di chuyÓn Long TuyÒn Th«n")
+else
+Talk(1,"","§¼ng cÊp 115 trë lªn, kh«ng thÓ tham gia b¶n ®å nµy !")
+end
+end
+function top_blh()
+	NewWorld(53,200*8,200*16)	
+end
+
+function top_manbac()
+if GetLevel() >= 115 then
+Talk(1,"","§¼ng cÊp 115 trë lªn kh«ng thÓ tham gia b¶n ®å nµy")
+return
+end
+
+		Msg2Player("Ngåi yªn! Chóng ta ®i M¹n B¾c Th¶o Nguyªn..........");
+		
+		SetRevPos(41)
+		SetFightState(1);
+		SetPunish(0)
+		SetLogoutRV(0)
+		NewWorld(21,1237, 3183);
+
+end
+
+
+
+
+
+
+
+
+function divisondao()
+Talk(1,"","Chøc n¨ng ®ang test giai ®o¹n cuèi ®Ó cËp nhËt. Sè l­îng mËt ®å thÇn bÝ cña b¹n lµ: <color=yellow>"..GetTask(494).."")
+end
+function dichuyenphuongtuong()
+SetFightState(0)
+i = random(1,4)
+if i == 1 then
+NewWorld(17,1647,3278);
+elseif i == 2 then
+NewWorld(17,1536,3242);
+elseif i == 3 then
+NewWorld(17,1558,3112);
+elseif i == 4 then
+NewWorld(17,1651,3170);
+end
+Msg2Player("Ngåi yªn, chóng ta di chuyÓn qua Ph­îng T­êng !")
+end
+
+
+function dichuyentest1(nsel)
+
+	i = nsel + 1
+	vt = 0
+	gold = 0
+	lv = 10
+	if i == 2 then
+	vt = 10
+	gold = 0
+	lv = 20
+	elseif i == 3 then
+	vt = 13
+	gold = 0
+	lv = 30
+	elseif i == 4 then
+	vt = 17
+	gold = 0
+	lv = 40
+	elseif i == 5 then
+	vt = 19
+	gold = 0
+	lv = 50
+	elseif i == 6 then
+	vt = 22
+	gold = 0
+	lv = 60
+	else
+	vt = 26
+	gold = 0
+	lv = 70
+	end
+	if GetLevel() < lv then
+	Talk(1,"","§¼ng cÊp cña b¹n kh«ng ®ñ "..lv..", kh«ng thÓ lªn b¶n ®å nµy")
+	return
+	end
+	if GetCash() < gold then
+		Talk(1,"","Ng­¬i kh«ng mang ®ñ <color=yellow>"..gold.." l­îng<color>, kh«ng thÓ di chuyÓn")
+	return
+	end
+	Pay(gold)
+	dichuyenchung(vt)
+end
+
+function dichuyentest2(nsel)
+	i = nsel + 1
+	vt = 0
+	gold = 0
+	lv = 80
+	if i == 1 then
+	vt = 28
+	gold = 5000
+	lv = 80
+	elseif i == 4 then
+	vt = 32
+	gold = 5000
+	lv = 90
+	elseif i == 5 then
+	vt = 31
+	gold = 5000
+	lv = 90
+	elseif i == 6 then
+	vt = 33
+	gold = 5000
+	end
+	if GetLevel() < lv then
+	Talk(1,"","§¼ng cÊp cña b¹n kh«ng ®ñ "..lv..", kh«ng thÓ lªn b¶n ®å nµy")
+	return
+	end
+	if GetCash() < gold then
+		Talk(1,"","Ng­¬i kh«ng mang ®ñ <color=yellow>"..gold.." l­îng<color>, kh«ng thÓ di chuyÓn")
+	return
+	end
+	Pay(gold)
+	dichuyenchung(vt)
+end
+
+function dichuyenblh(nsel)
+i = nsel + 1
+vt = 0
+gold = 0
+if i == 1 then
+vt = 4
+gold = 200
+elseif i == 2 then
+vt = 10
+gold = 400
+elseif i == 3 then
+vt = 13
+gold = 800
+elseif i == 4 then
+vt = 34
+gold = 5000
+end
+if GetCash() < gold then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ <color=yellow>"..gold.." l­îng<color>, kh«ng thÓ di chuyÓn")
+return
+end
+Pay(gold)
+dichuyenchung(vt)
+end
+function dichuyengtt(nsel)
+i = nsel + 1
+vt = 0
+gold = 0
+if i == 1 then
+vt = 9
+gold = 200
+elseif i == 2 then
+vt = 12
+gold = 400
+elseif i == 3 then
+vt = 15
+gold = 800
+elseif i == 4 then
+vt = 34
+gold = 5000
+end
+if GetCash() < gold then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ <color=yellow>"..gold.." l­îng<color>, kh«ng thÓ di chuyÓn")
+return
+end
+Pay(gold)
+dichuyenchung(vt)
+end
+function dichuyenctt(nsel)
+i = nsel + 1
+vt = 0
+gold = 0
+if i == 1 then
+vt = 8
+gold = 200
+elseif i == 2 then
+vt = 11
+gold = 400
+elseif i == 3 then
+vt = 14
+gold = 800
+elseif i == 4 then
+vt = 34
+gold = 5000
+end
+if GetCash() < gold then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ <color=yellow>"..gold.." l­îng<color>, kh«ng thÓ di chuyÓn")
+return
+end
+Pay(gold)
+dichuyenchung(vt)
+end
+function dichuyenpt(nsel)
+i = nsel + 1
+vt = 0
+lv = 0
+gold = 0
+if i == 1 then
+vt = 18
+lv = 20
+gold = 1000
+elseif i == 2 then
+vt = 21
+lv = 30
+gold = 1500
+elseif i == 3 then
+vt = 24
+lv = 40
+gold = 2000
+elseif i == 4 then
+vt = 27
+lv = 50
+gold = 2500
+elseif i == 5 then
+vt = 30
+lv = 60
+gold = 3000
+elseif i == 6 then
+vt = 33
+lv = 70
+gold = 5000
+end
+if GetLevel() < lv then
+	Talk(1,"","§¼ng cÊp cña b¹n kh«ng ®ñ "..lv..", kh«ng thÓ lªn b¶n ®å nµy")
+	return
+end
+if GetCash() < gold then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ <color=yellow>"..gold.." l­îng<color>, kh«ng thÓ di chuyÓn")
+return
+end
+Pay(gold)
+dichuyenchung(vt)
+end
+function dichuyentd(nsel)
+i = nsel + 1
+vt = 0
+lv = 0
+gold = 0
+if i == 1 then
+vt = 16
+lv = 20
+gold = 1000
+elseif i == 2 then
+vt = 19
+lv = 30
+gold = 1500
+elseif i == 3 then
+vt = 22
+lv = 40
+gold = 2000
+elseif i == 4 then
+vt = 25
+lv = 50
+gold  = 2500
+elseif i == 5 then
+vt = 29
+lv = 60
+gold = 3000
+elseif i == 6 then
+vt = 32
+lv = 70
+gold = 5000
+end
+if GetLevel() < lv then
+	Talk(1,"","§¼ng cÊp cña b¹n kh«ng ®ñ "..lv..", kh«ng thÓ lªn b¶n ®å nµy")
+	return
+end
+if GetCash() < gold then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ <color=yellow>"..gold.." l­îng<color>, kh«ng thÓ di chuyÓn")
+return
+end
+Pay(gold)
+dichuyenchung(vt)
+end
+function dichuyenbk(nsel)
+i = nsel + 1
+vt = 0
+lv = 0
+gold = 0
+if i == 1 then
+vt = 17
+lv = 20
+gold = 1000
+elseif i == 2 then
+vt = 20
+lv = 30
+gold = 1500
+elseif i == 3 then
+vt = 23
+lv = 40
+gold = 2000
+elseif i == 4 then
+vt = 26
+lv = 50
+gold = 2500
+elseif i == 5 then
+vt = 28
+lv = 60
+gold = 3000
+elseif i == 6 then
+vt = 31
+lv = 70
+gold = 5000
+end
+if GetLevel() < lv then
+	Talk(1,"","§¼ng cÊp cña b¹n kh«ng ®ñ "..lv..", kh«ng thÓ lªn b¶n ®å nµy")
+	return
+end
+if GetCash() < gold then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ <color=yellow>"..gold.." l­îng<color>, kh«ng thÓ di chuyÓn")
+return
+end
+Pay(gold)
+dichuyenchung(vt)
+end
+
+function dichuyenchung(vt)
+if vt ~= 0 then
+		NewWorld(DoChi_Map[vt][1],DoChi_Map[vt][3],DoChi_Map[vt][4])
+		SetFightState(1)
+		Msg2Player("Ngåi yªn, chóng ta ®Õn <color=yellow>"..DoChi_Map[vt][2].."")
+else
+	Talk(1,"","Lçi qu¸ ph¹m vi b¶n ®å, liªn hÖ Admin ®Ó gi¶i quyÕt !") 
+end
+end
+
+function tanthu()
+		NewWorld(76,1593,3188)
+		SetFightState(1)
+		Msg2Player("Ngåi yªn, chóng ta ®i §µo Hoa Nguyªn ....")
+end
+
+function dichuyendatau()
+if GetTask(85) == 1 or GetTask(85) == 2 then
+	if GetTask(88) > 0 and GetTask(88) <= getn(DoChi_Map) then
+		NewWorld(DoChi_Map[GetTask(88)][1],DoChi_Map[GetTask(88)][3],DoChi_Map[GetTask(88)][4])
+		SetFightState(1)
+		SetPunish(0)
+		SetLogoutRV(0)
+		Msg2Player("Ngåi yªn, chóng ta ®Õn <color=yellow>"..DoChi_Map[GetTask(88)][2].."")
+	else
+		Talk(1,"","Lçi täa ®é, liªn hÖ Admin ®Ó gi¶i quyÕt !")
+	end
+end
+end
+
+function namnhactran()
+NewWorld(54,1584,3101)
+Msg2Player("Ngåi yªn, chóng ta ®i Nam Nh¹c TrÊn ")
+end
+
+function DaDiQua()
+if GetTask(325) > getn(MANG_TRAP) then
+SetTask(325,0)
+end
+if GetTask(323) ~= 0 and GetTask(324) == 0 and GetTask(325) == 0 then
+	SayNew("<color=blue>Xa Phu:<color> Vui lßng chän ®Þa ®iÓm ®· ®i qua ",2,
+	""..CheckDiaDiem(GetTask(323)).." /DaDiQua1",
+	"Tho¸t./no")
+elseif GetTask(323) ~= 0 and GetTask(324) ~= 0 and GetTask(325) == 0 then
+	SayNew("<color=blue>Xa Phu:<color> Vui lßng chän ®Þa ®iÓm ®· ®i qua ",3,
+	""..CheckDiaDiem(GetTask(323)).." /DaDiQua1",
+	""..CheckDiaDiem(GetTask(324)).." /DaDiQua1",
+	"Tho¸t./no")
+elseif GetTask(323) ~= 0 and GetTask(324) ~= 0 and GetTask(325) ~= 0 then
+	SayNew("<color=blue>Xa Phu:<color> Vui lßng chän ®Þa ®iÓm ®· ®i qua ",4,
+	""..CheckDiaDiem(GetTask(323)).." /DaDiQua1",
+	""..CheckDiaDiem(GetTask(324)).." /DaDiQua1",
+	""..CheckDiaDiem(GetTask(325)).." /DaDiQua1",
+	"Tho¸t./no")
+else
+	Talk(1,"","Ng­¬i ch­a tõng ®i qua b¶n ®å nµo, ta kh«ng thÓ gióp nhµ ng­¬i ®­îc !")
+end
+end
+
+
+function DaDiQua1(nsel)
+if GetLevel() >= 50 and GetCash() < 1000 then
+Talk(1,"","Ng­¬i kh«ng ®ñ 1000 l­îng, kh«ng thÓ di chuyÓn !")
+return
+end
+if GetLevel() >= 50 then
+Pay(1000)
+end
+
+task = GetTask(323+nsel)
+if task > 0 and task <= getn(MANG_TRAP) then
+	NewWorld(MANG_TRAP[task][1],MANG_TRAP[task][2],MANG_TRAP[task][3])
+	SetFightState(1)
+	SetLogoutRV(0)
+	SetPunish(0)
+	Msg2Player("Ngåi yªn, chóng ta ®i <color=yellow>"..CheckDiaDiem(task).."....")
+else
+Msg2Player("Lçi d÷ liÖu, liªn hÖ Admin ®Ó söa")
+end
+end
+
+function roibando()
+if GetFaction() == "" then
+Talk(1,"","B¹n ch­a gia nhËp ph¸i, kh«ng thÓ rêi khái b¶n ®å !")
+return
+end
+	if GetTask(131) == 10000 then
+		SetTask(115,10000)
+	end
+	Msg2Player("B¹n ®· rêi khái Long TuyÒn Th«n vµ tham gia b¶n ®å Ba L¨ng HuyÖn ")
+	SetRevPos(53,19)
+	NewWorld(53,200*8,200*16)
+end
+
+function vsdao()
+if GetLevel() < 90 then
+Talk(1,"","§¼ng cÊp d­íi 90 kh«ng thÓ vµo Vi S¬n §¶o")
+return
+end
+if GetCurCamp() == 0 or GetCamp() == 0 then
+Talk(1,"","B¹n ch­a gia nhËp m«n ph¸i, kh«ng thÓ lªn Vi S¬n §¶o")
+return
+end
+
+ngay = tonumber(date("%d"))
+
+SayNew("<color=green>Xa Phu<color> B¹n sÏ mÊt <color=yellow>20 tÊm MËt §å ThÇn BÝ<color> hoÆc <color=yellow>100 ®iÓm MËt §å ThÇn BÝ <color> b¹n cã ch¾c ch¾n muèn vµo kh«ng ?",3,
+"Dïng 20 TÊm MËt §å /vsdao1",
+"Dïng 100 ®iÓm MËt §å /vsdao1",
+"§Ó ta suy nghÜ l¹i /no")
+end
+function vsdaoxxx()
+SayNew("<color=green>Xa Phu<color> Vui lßng chän Cæng cÇn vµo. LÖ phÝ di chuyÓn: 20 MËt §å ThÇn BÝ ",3,
+"Tr¹ng th¸i b¶o hé [kh«ng team] /vsdao11",
+"Tr¹ng th¸i chiÕn ®Êu /vsdao22",
+"Tho¸t/no")
+end
+function vsdao22xxx()
+SayNew("<color=green>Xa Phu<color> Vui lßng chän Cæng cÇn vµo. LÖ phÝ di chuyÓn: 20 MËt §å ThÇn BÝ ",4,
+"Vi S¬n §¶o 1 /vsdao1",
+"Vi S¬n §¶o 2/vsdao1",
+"Vi S¬n §¶o 3/vsdao1",
+"Tho¸t./no")
+end
+
+function vsdao1(nsel)
+gio = tonumber(date("%H"))
+--if (gio < 11 or gio > 22) and GetAccount() ~= "hinodl" then
+--Talk(1,"","ChØ ®­îc lªn Vi S¬n §¶o tõ 11h - 23h mçi ngµy")
+--return
+--end
+
+numtb = 20
+i = nsel + 1
+if i == 1 then
+	if GetItemCount(253) < numtb then
+	Talk(1,"","B¹n kh«ng mang theo "..numtb.." tÊm mËt ®å thÇn bÝ, kh«ng thÓ lªn ®¶o !")
+	return
+	end
+	for i=1,numtb do DelItem(253) end
+else
+	if GetTask(494) < 100 then
+	Talk(1,"","B¹n kh«ng ®ñ 100 ®iÓm MËt §å ThÇn BÝ, kh«ng thÓ lªn ®¶o !")
+	return
+	end
+	SetTask(494, GetTask(494) - 100)
+	Msg2Player("<color=green>Ng­¬i cßn: "..GetTask(494).." ®iÓm MËt §å ThÇn BÝ ")
+end
+SetPKState(1)
+BlockPKState(1)
+SetTempRevPos(24,1395*32,2783*32)
+Msg2Player("§· di chuyÓn ®Õn b¶n ®å Vi S¬n §¶o !")
+Msg2SubWorld("§¹i hiÖp [<color=green>"..GetName().."<color>] ®· vµo Vi S¬n §¶o !")
+--Msg2Player("<color=yellow>Tho¸t game t¹i Vi S¬n §¶o trong thêi gian 17h00 - 17h59 sÏ gi÷ nguyªn vÞ trÝ. Cßn l¹i sÏ ®­îc ®­a vÒ Ba Lang HuyÖn")
+SetDeathScript("\\script\\visondao\\playerdie.lua");
+
+SetFightState(0)
+NewWorld(24,1395,2783)
+
+end
+
+function vsdaofree1()
+if GetLevel() < 96 then
+Talk(1,"","Ng­¬i kh«ng ®ñ level 96, kh«ng thÓ lªn ®©y !")
+return
+end
+
+SetPKState(1)
+BlockPKState(1)
+SetTempRevPos(24,1395*32,2783*32)
+Msg2Player("§· di chuyÓn ®Õn b¶n ®å Vi S¬n §¶o !")
+Msg2SubWorld("§¹i hiÖp [<color=green>"..GetName().."<color>] ®· vµo Vi S¬n §¶o !")
+--Msg2Player("<color=yellow>Tho¸t game t¹i Vi S¬n §¶o trong thêi gian 17h00 - 17h59 sÏ gi÷ nguyªn vÞ trÝ. Cßn l¹i sÏ ®­îc ®­a vÒ Ba Lang HuyÖn")
+SetDeathScript("\\script\\visondao\\playerdie.lua");
+SetFightState(0)
+NewWorld(24,1395,2783)
+end
+
+function vsdao11()
+SayNew("<color=green>Xa Phu<color> Vui lßng chän Cæng cÇn vµo. LÖ phÝ di chuyÓn: 20 MËt §å ThÇn BÝ ",4,
+"Vi S¬n §¶o 1 /vsdao2",
+"Vi S¬n §¶o 2/vsdao2",
+"Vi S¬n §¶o 3/vsdao2",
+"Tho¸t./no")
+end
+
+function vsdao2(nsel)
+if GetItemCount(253) < 20 then
+Talk(1,"","B¹n kh«ng mang theo 20 tÊm mËt ®å thÇn bÝ, kh«ng thÓ lªn ®¶o !")
+return
+end
+for i=1,20 do DelItem(253) end
+SetPKState(0)
+SetCreateTeam(0);
+BlockPKState(1)
+SetTempRevPos(24,1395*32,2783*32)
+Msg2Player("§· di chuyÓn ®Õn b¶n ®å Vi S¬n §¶o !")
+Msg2SubWorld("§¹i hiÖp [<color=green>"..GetName().."<color>] ®· vµo Vi S¬n §¶o !")
+SetDeathScript("\\script\\visondao\\playerdie.lua");
+
+i = nsel+1
+if i == 1 then
+	SetFightState(0)
+	NewWorld(24,1395,2783)
+elseif i == 2 then
+	SetFightState(1)
+	NewWorld(24,1179,2418)
+else
+	SetFightState(1)
+	NewWorld(24,1383,2536)
+end
+end
+
+function minhnguyet()
+	SetFightState(0)
+	Msg2Player("§ang di chuyÓn sang b¶n ®å Minh NguyÖt TrÊn ")
+	NewWorld(13,1597,3277)
+end
+
+function bao()
+Talk(1,"","§Ó vµo b¶n ®å nµy c¸c b¹n qua <color=yellow>Chu TiÕn TrÊn<color> ®Ó di chuyÓn")
+end
+
+
+
+
+
+
+
+function LastReturn()
+	ReturnFromPortal()
+	SetPunish(0)
+end
+
+-- function LastReturn()
+-- if (ReturnFromPortal() <= 0) then
+		-- Talk(1,"","B¹n kh«ng cã ®iÓm l­u täa ®é ®Ó quay l¹i");
+	-- end
+	-- SetPunish(0)
+-- end
+
+
+
+
+function dtt()
+	if GetTask(196) == 0 then
+	SayNew("<color=green>Xa Phu<color>: B¹n cã ch¾c ch¾n muèn lªn §¶o TÈy tuû kh«ng ?: ",2,
+	"Ta muèn tÈy tuû miÔn phÝ/ditt",
+	"Tho¸t./no")
+	elseif GetTask(196) >= 1 then
+		SayEx({"<color=green>Xa Phu<color> : Ng­¬i muèn ®Ó ®¶o tÈy tuû lµm g× ?",
+"Ta ®Õn ®Ó TÈy ®iÓm Kü n¨ng./comeTT",
+"Ta ®Õn ®Ó TÈy ®iÓm TiÒm n¨ng/comeTT",
+"TÈy ®iÓm TiÒm n¨ng vµ Kü N¨ng./comeTT",
+"Quay l¹i./main","Tho¸t./Exit"})
+end
+end
+function comeTT(sel)
+DenDao(sel + 1)
+end;
+
+function ditt()
+		SetTask(196,2)
+		--MoveNPC(20,200,200,9,8,0,0);
+		NewWorld(20,1613,3197)
+		SetPunish(0)
+		SetFightState(0)
+		Msg2Player("Ngåi yªn! §ang ®i ®Õn §¶o TÈy tuû...")
+		SetRevPos(20);
+		thoigian = tonumber(date("%H%M%d%m"))
+		LoginLog = openfile("Data/DaoTayTuy.txt", "a");
+		if LoginLog then
+		write(LoginLog,""..GetAccount().." - "..GetName().." "..GetExp().." - "..GetLevel().." - Time: "..thoigian.."\n");
+		end
+		closefile(LoginLog)
+		
+end
+function DenDao(id)
+	if id == 1 then
+		if GetItemCount(28) >= 1 and GetItemCount(29) >= 1 and GetItemCount(30) >= 1 then
+		DelItem(28)
+DelItem(29)
+DelItem(30)
+			SetTask(196,3)
+			MoveNPC(20,200,200,9,8,0,0);
+			SetRevPos(14);
+			SetPunish(0)
+		else
+		Talk(1,"","<color=green>Xa Phu<color> : Muèn ®Ó ®­îc ®¶o tÈy tuû cÇn cã : 1 <color=pink>Tö thuû tinh<color>,1 <color=green>Lôc thuû tinh<color>,1 <color=blue>Lam thuû tinh<color>.")
+		end
+	elseif id == 2 then
+		if GetItemCount(31) >= 6 then
+for k=1,6 do DelItem(31) end
+			SetTask(196,4)
+			MoveNPC(20,200,200,9,8,0,0);
+			SetPunish(0)
+			Msg2Player("Ngåi yªn! §ang ®i ®Õn §¶o TÈy tuû...")
+		SetRevPos(14);
+		else
+		Talk(1,"","<color=green>Xa Phu<color> : Muèn ®Ó ®¶o tÈy tuû cÇn cã : 6 <color=green>T×nh hång B¶o th¹ch<color>.")
+		end
+	elseif id == 3 then
+		if GetItemCount(28) >= 1 and GetItemCount(29) >= 1 and GetItemCount(30) >= 1 and GetItemCount(31) >= 6 then
+			DelItem(28)
+DelItem(29)
+DelItem(30)	
+for k=1,6 do DelItem(31) end
+		
+			SetTask(196,5)
+			MoveNPC(20,198,198,9,8,0,0);
+			SetPunish(0)
+			Msg2Player("Ngåi yªn! §ang ®i ®Õn §¶o TÈy tuû...")
+SetRevPos(14);
+		else
+		Talk(1,"","<color=green>Xa Phu<color> : Muèn ®Õn §¶o TÈy tuû cÇn cã : 1 <color=pink>Tö thuû tinh<color>,1 <color=green>Lôc thuû tinh<color>,1 <color=blue>Lam thuû tinh<color>, 6 <color=green>T×nh hång B¶o th¹ch<color>")
+		end
+	end
+end;
+
+
+
+
+
+
+function thanhthi()
+w,x,y = GetWorldPos()
+if w == 53 then
+	SayNew("Chän Thµnh ThÞ muèn ®Õn : ",6,
+	"T­¬ng D­¬ng/tuongduong",
+	"Ph­îng T­êng /phuongtuong",
+	"Ph­îng T­êng/bienkinh",
+	"Thµnh §« /thanhdo",
+	-- "Chu Tiªn TrÊn/chutientran",
+	"Giang T©n Th«n/giangtan",
+	"Tho¸t./no")
+elseif w == 15 then
+	SayNew("Chän Thµnh ThÞ muèn ®Õn : ",7,
+	"T­¬ng D­¬ng/tuongduong",
+	"Ph­îng T­êng /phuongtuong",
+	"Ph­îng T­êng /bienkinh",
+	"Thµnh §« /thanhdo",
+	"Ba L¨ng HuyÖn/balanghuyen",
+	-- "Chu Tiªn TrÊn/chutientran",
+	"Giang T©n Th«n/giangtan",
+	"Tho¸t./no")
+elseif w == 3 then
+	SayNew("Chän Thµnh ThÞ muèn ®Õn : ",7,
+	"T­¬ng D­¬ng/tuongduong",
+	"Ph­îng T­êng /phuongtuong",
+	"Ph­îng T­êng /bienkinh",
+	"Thµnh §« /thanhdo",
+	"Ba L¨ng HuyÖn/balanghuyen",
+	-- "Chu Tiªn TrÊn/chutientran",
+	"Giang T©n Th«n/giangtan",
+	"Tho¸t./no")
+elseif w == 9 then
+	SayNew("Chän Thµnh ThÞ muèn ®Õn : ",7,
+	"T­¬ng D­¬ng/tuongduong",
+	"Ph­îng T­êng /phuongtuong",
+	"Ph­îng T­êng /bienkinh",
+	"Thµnh §« /thanhdo",
+	"Ba L¨ng HuyÖn/balanghuyen",
+	-- "Chu Tiªn TrÊn/chutientran",
+	"Giang T©n Th«n/giangtan",
+	"Tho¸t./no")
+elseif w == 66 then
+	SayNew("Chän Thµnh ThÞ muèn ®Õn : ",7,
+	"T­¬ng D­¬ng/tuongduong",
+	"Ph­îng T­êng /phuongtuong",
+	"Ph­îng T­êng /bienkinh",
+	"Thµnh §« /thanhdo",
+	"Ba L¨ng HuyÖn/balanghuyen",
+	-- "Chu Tiªn TrÊn/chutientran",
+	"Giang T©n Th«n/giangtan",
+	"Tho¸t./no")
+elseif w == 17 then
+	SayNew("Chän Thµnh ThÞ muèn ®Õn : ",7,
+	"T­¬ng D­¬ng/tuongduong",
+	"Ph­îng T­êng /phuongtuong",
+	"Ph­îng T­êng /bienkinh",
+	"Thµnh §« /thanhdo",
+	"Ba L¨ng HuyÖn/balanghuyen",
+	-- "Chu Tiªn TrÊn/chutientran",
+	"Giang T©n Th«n/giangtan",
+	"Tho¸t./no")
+
+else
+	SayNew("Chän Thµnh ThÞ muèn ®Õn : ",7,
+	"T­¬ng D­¬ng/tuongduong",
+	"Ph­îng T­êng /phuongtuong",
+	"Ph­îng T­êng /bienkinh",
+	"Thµnh §« /thanhdo",
+	"Ba L¨ng HuyÖn/balanghuyen",
+	-- "Chu Tiªn TrÊn/chutientran",
+	"Giang T©n Th«n/giangtan",
+	"Tho¸t./no")
+end;
+end
+
+function balanghuyen()
+SetFightState(0)
+NewWorld(53,197*8,202*16);
+Msg2Player("Ngåi yªn, chóng ta di chuyÓn vÒ Ba L¨ng HuyÖn ")
+end
+
+function giangtan()
+
+SetFightState(0)
+NewWorld(66,432 * 8, 382*16)
+Msg2Player("Ngåi yªn, chóng ta di chuyÓn vÒ Giang T©n Th«n ")
+
+end
+
+function longtuyen()
+if GetFaction() == "" then
+Talk(1,"","Ch­a cã m«n ph¸i kh«ng ®­îc vµo Giang T©n Th«n !")
+return
+end
+if GetTask(115) ~= 10000 then
+Talk(1,"","ChØ cã nh©n vËt §ua Top míi ®­îc vµo !")
+return
+end
+SetFightState(0)
+NewWorld(4,1615, 3212)
+end
+
+function chutientran()
+SetFightState(0)
+i = random(1,4)
+if i == 1 then
+NewWorld(3,1682,3106)	-- Map : Tran Chu Tien
+elseif i == 3 then
+NewWorld(3,1612,3101)	-- Map : Tran Chu Tien
+elseif i == 2 then
+NewWorld(3,1599,3188)	-- Map : Tran Chu Tien
+elseif i == 4 then
+NewWorld(3,1720,3235)	-- Map : Tran Chu Tien
+end
+
+end
+function tuongduong()
+SetFightState(0)
+
+i = random(1,4)
+if i == 1 then
+NewWorld(15,1509,3143);
+elseif i == 3 then
+NewWorld(15,1700,3238);
+elseif i == 2 then
+NewWorld(15,197*8,210*16);
+elseif i == 4 then
+NewWorld(15,1440,3218);
+end
+
+end
+
+function phuongtuong()
+
+SetFightState(0)
+
+i = random(1,4)
+if i == 1 then
+NewWorld(17,1647,3278);
+elseif i == 2 then
+NewWorld(17,1536,3242);
+elseif i == 3 then
+NewWorld(17,1558,3112);
+elseif i == 4 then
+NewWorld(17,1651,3170);
+end
+
+end
+function bienkinh()
+
+SetFightState(0)
+
+i = random(1,4)
+if i == 1 then
+NewWorld(9,1598,2998);
+elseif i == 2 then
+NewWorld(9,1870,2920);
+elseif i == 3 then
+NewWorld(9,1640,3178);
+elseif i == 4 then
+NewWorld(9,1704,3216);
+end
+
+end
+
+
+function daily()
+if GetCash() < 0 then
+Talk(1,"","B¹n kh«ng ®ñ 200 l­îng kh«ng thÓ di chuyÓn §¹i Lý !")
+return
+end
+Pay(200)
+SetFightState(0)
+
+i = random(1,3)
+if i == 1 then
+NewWorld(11,1471,3275);
+elseif i == 2 then
+NewWorld(11,1695,3280);
+elseif i == 3 then
+NewWorld(11,1667,3131);
+end
+end
+
+function thanhdo()
+if GetCash() < 0 then
+Talk(1,"","B¹n kh«ng ®ñ 200 l­îng kh«ng thÓ di chuyÓn Thµnh §« !")
+return
+end
+Pay(200)
+SetFightState(0)
+
+i = random(1,4)
+if i == 1 then
+NewWorld(18,3269,5005);
+elseif i == 4 then
+NewWorld(18,3184,5184);
+elseif i == 3 then
+NewWorld(18,3014,5097);
+elseif i == 2 then
+NewWorld(18,378*8,310*16);
+end
+
+end
+
+
+function duongchau()
+if GetCash() < 0 then
+Talk(1,"","B¹n kh«ng ®ñ 200 l­îng kh«ng thÓ di chuyÓn Thµnh §« !")
+return
+end
+Pay(200)
+SetFightState(0)
+
+i = random(1,4)
+if i == 1 then
+NewWorld(16,1593,3201);
+elseif i == 4 then
+NewWorld(16,1719,3209);
+elseif i == 3 then
+NewWorld(16,1677,3002);
+elseif i == 2 then
+NewWorld(16,1830,3066);
+end
+
+end
+
+
+function daottdi()
+if (GetItemCount(28) >= 1) and (GetItemCount(29) >= 1) and (GetItemCount(30) >= 1) and (GetItemCount(31) >= 6) then
+DelItem(28)
+DelItem(29)
+DelItem(30)
+DelItem(31)
+DelItem(31)
+DelItem(31)
+DelItem(31)
+DelItem(31)
+DelItem(31)
+toadox = 1590 - 8 + random(0,16)
+toadoy = 3180 - 16 + random(0,32)
+Msg2Player("B¹n ®· ®Õn §µo Hoa Nguyªn !");
+SetFightState(0);
+SetRevPos(0);
+SetLogoutRV(0)
+NewWorld(4, toadox, toadoy);
+else
+Talk(1,"no","C¸c h¹ kh«ng mang ®ñ <color=red>3 Thuû tinh kh¸c nhau vµ 6 T×nh hång B¶o th¹ch<color>, kh«ng thÓ di chuyÓn")
+end 
+end;
+
+function hoasoncanhky()
+if GetLevel() < 10 then
+	Talk(1,"","Ng­¬i kh«ng ®ñ cÊp 10, kh«ng thÓ ®i qua")
+	return
+	end
+Gold = 0
+	if (GetCash() >= Gold) then
+			Pay(Gold)
+			toadox = 325*8
+			toadoy = 222*16
+			Msg2Player("Ngåi yªn! Chóng ta ®i Hoa s¬n c¶nh kü tr­êng..........");
+			SetFightState(1);
+			SetLogoutRV(0)
+			SetPunish(0)
+			NewWorld(2, toadox, toadoy);     
+	else
+Talk(1,"no","C¸c h¹ kh«ng mang ®ñ <color=red>"..Gold.." l­îng<color>, kh«ng thÓ di chuyÓn")
+	end
+end;
+
+
+
+
+
+xivuu = {
+{91,1771,3023},
+{91,1760,3049},
+{91,1743,3066},
+{91,1729,3078},
+{91,1719,3088},
+{91,1701,3075},
+{91,1749,3119},
+{91,1761,3102},
+{91,1773,3090},
+{91,1788,3077},
+{91,1809,3060},
+{91,1822,3076},
+{91,1832,3086},
+{91,1841,3097},
+{91,1856,3112},
+{91,1871,3132},
+{91,1883,3143},
+{91,1827,3119},
+{91,1821,3140},
+{91,1830,3154},
+{91,1841,3166},
+{91,1834,3183},
+{91,1823,3201},
+{91,1815,3202},
+{91,1801,3188},
+{91,1785,3172},
+{91,1771,3176},
+{91,1754,3186},
+{91,1745,3195},
+{91,1756,3213},
+{91,1770,3228},
+{91,1784,3244},
+{91,1727,3210},
+{91,1716,3241},
+{91,1734,3267},
+{91,1747,3280},
+{91,1700,3248},
+{91,1682,3264},
+{91,1688,3288},
+{91,1709,3311},
+{91,1661,3285},
+{91,1646,3296},
+{91,1644,3312},
+{91,1653,3326},
+{91,1664,3336},
+{91,1711,3189},
+{91,1716,3160},
+{91,1704,3137},
+{91,1709,3116},
+{91,1667,3136},
+{91,1651,3154},
+{91,1672,3184},
+{91,1680,3206},
+{91,1650,3228},
+{91,1619,3195},
+{91,1595,3213},
+{91,1584,3224},
+{91,1638,3248},
+{91,1610,3268},
+{91,1668,3215},
+
+}
+
+
+
+function pld()
+if GetLevel() < 80 then
+Talk(1,"","§¼ng cÊp d­íi 80 kh«ng thÓ tham gia Phong L¨ng §é ")
+return
+end
+--if GetItemCount(135) == 0 then
+--Talk(1,"","B¹n kh«ng mang theo <color=red>LÖnh Bµi Phong L¨ng §é <color>,kh«ng thÓ di chuyÓn")
+--Msg2Player("H·y ®Õn ThÇn BÝ Th­¬ng Nh©n ®Ó mua LÖnh Bµi !")
+--return
+--end
+
+if (GetCash() >= 5000) then
+		Pay(5000)
+		Msg2Player("Ngåi yªn! Chóng ta ®i Phong L¨ng §é ..........");
+		SetFightState(1);
+		SetLogoutRV(1)
+		SetPunish(0)
+		NewWorld(46,1125,3189)	-- Map : Phong Lang d
+		SetTask(117,5*18) -- bat dau bat tu
+	else
+Talk(1,"no","C¸c h¹ kh«ng mang ®ñ <color=red>5000 luong<color>, kh«ng thÓ di chuyÓn")
+	end
+end
+
+function no()
+end

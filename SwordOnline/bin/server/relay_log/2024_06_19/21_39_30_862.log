@@ -1,0 +1,22 @@
+
+*
+***** S3Relay Start (@ 2024/06/19 21:39:30.862) >>>>>
+*
+
+[2024/06/19 21:39:33] 1 -- Initializing ...
+[2024/06/19 21:39:33] 2 -- Create Channel: [Stock, GM] <00000000> GM
+[2024/06/19 21:39:33] 3 -- Create Channel: [Stock] <00000001>  ¿ΩÁ
+[2024/06/19 21:39:33] 4 -- friend timing update db: start
+[2024/06/19 21:39:33] 5 -- relay server startup
+[2024/06/19 21:39:33] 6 -- root client create: 192.168.11.13
+[2024/06/19 21:39:33] 7 -- root client close: 192.168.11.13
+[2024/06/19 21:39:33] 8 -- FAIL: DBRole client - 192.168.11.13
+[2024/06/19 21:39:33] 9 -- enable reclient: db
+[2024/06/19 21:39:33] 10 -- gateway client create: 192.168.11.13
+[2024/06/19 21:39:33] 11 -- host server startup
+[2024/06/19 21:39:33] 12 -- tong server startup
+[2024/06/19 21:39:33] 13 -- chat server startup
+[2024/06/19 21:39:33] 14 -- SockThread start success
+[2024/06/19 21:39:33] 15 -- tong database open ok!
+[2024/06/19 21:39:33] 16 -- tongset init ok !
+[2024/06/19 21:39:33] 17 -- Initialize OK

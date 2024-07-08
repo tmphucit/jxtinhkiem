@@ -189,7 +189,8 @@ void KFont2::DrawCharacter(int x, int y, unsigned char cFirst,
     if (pCharacterData) {
       //			if (m_nDrawBorderWithDeffColor == false)
       //				((KCanvas*)m_pDevice)->DrawFont(x, y,
-      //m_nFontWidth, m_nFontHeight, nColor, 31, pCharacterData); 			else
+      // m_nFontWidth, m_nFontHeight, nColor, 31, pCharacterData);
+      // else
       ((KCanvas *)m_pDevice)
           ->DrawFontWithBorder(x, y, m_nFontWidth, m_nFontHeight, nColor, 31,
                                pCharacterData, m_nBorderColor);

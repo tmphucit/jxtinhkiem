@@ -518,7 +518,8 @@ bool KScenePlaceRegionC::LoadAboveGroundObjects(KPakFile *pDataFile,
         m_BiosData.pBios[i].nAniSpeed = 1;
       //			if(!isLoading()) {
       //				getSPR(m_BiosData.pBios[i].szImage,
-      //m_BiosData.pBios[i].nImgNumFrames, false); 				releaseSPR();
+      // m_BiosData.pBios[i].nImgNumFrames, false);
+      // releaseSPR();
       //			}
     }
   }

@@ -472,17 +472,17 @@ typedef struct _DPN_CAPS_EX {
   DWORD dwConnectRetries;        // # of times to attempt the connection
   DWORD dwTimeoutUntilKeepAlive; // ms of inactivity before a keep alive is sent
   DWORD
-      dwMaxRecvMsgSize; // maximum size in bytes of message that can be received
+  dwMaxRecvMsgSize; // maximum size in bytes of message that can be received
   DWORD dwNumSendRetries;       // maximum number of send retries before link is
                                 // considered dead
   DWORD dwMaxSendRetryInterval; // maximum period in msec between send retries
   DWORD dwDropThresholdRate; // percentage of dropped packets before throttling
   DWORD
-      dwThrottleRate; // percentage amount to reduce send window when throttling
+  dwThrottleRate; // percentage amount to reduce send window when throttling
   DWORD dwNumHardDisconnectSends; // number of hard disconnect frames to send
                                   // when close immediate flag is specified
   DWORD
-      dwMaxHardDisconnectPeriod; // maximum period between hard disconnect sends
+  dwMaxHardDisconnectPeriod; // maximum period between hard disconnect sends
 } DPN_CAPS_EX, *PDPN_CAPS_EX;
 
 //

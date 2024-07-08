@@ -25,14 +25,14 @@ typedef struct _tag_AMVAUncompBufferInfo {
   DWORD dwMinNumSurfaces; // IN   min number of surfaces to be allocated
   DWORD dwMaxNumSurfaces; // IN   max number of surfaces to be allocated
   DDPIXELFORMAT
-      ddUncompPixelFormat; // IN   pixel format of surfaces to be allocated
+  ddUncompPixelFormat; // IN   pixel format of surfaces to be allocated
 } AMVAUncompBufferInfo, *LPAMVAUncompBufferInfo;
 
 typedef struct _tag_AMVAUncompDataInfo {
   DWORD dwUncompWidth;  // [in]     width of uncompressed data
   DWORD dwUncompHeight; // [in]     height of uncompressed data
   DDPIXELFORMAT
-      ddUncompPixelFormat; // [in]     pixel-format of uncompressed data
+  ddUncompPixelFormat; // [in]     pixel-format of uncompressed data
 } AMVAUncompDataInfo, *LPAMVAUncompDataInfo;
 
 typedef struct _tag_AMVAInternalMemInfo {
@@ -45,9 +45,9 @@ typedef struct _tag_AMVACompBufferInfo {
   DWORD dwWidthToCreate;  // [out]    Width of surface to create
   DWORD dwHeightToCreate; // [out]    Height of surface to create
   DWORD
-      dwBytesToAllocate; // [out]    Total number of bytes used by each surface
+  dwBytesToAllocate; // [out]    Total number of bytes used by each surface
   DDSCAPS2
-      ddCompCaps; // [out]    caps to create surfaces to store compressed data
+  ddCompCaps; // [out]    caps to create surfaces to store compressed data
   DDPIXELFORMAT ddPixelFormat; // [out]    fourcc to create surfaces to store
                                // compressed data
 } AMVACompBufferInfo, *LPAMVACompBufferInfo;

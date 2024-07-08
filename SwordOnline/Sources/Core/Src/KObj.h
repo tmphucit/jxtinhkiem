@@ -176,7 +176,8 @@ public:
   OBJ_SKILL m_cSkill; // 物件所带魔法技能（用于obj trap，暂时无用）
 
   char m_szName[32];  // 物件名称
-                      //	char		m_szScriptName[80];		// 所带脚本文件名
+                      //	char		m_szScriptName[80];		//
+                      //所带脚本文件名
   DWORD m_dwScriptID; // 所带脚本文件ID
   int m_nColorID;     // 物件名字显示时的颜色id，客户端通过查表找到相应颜色
 
@@ -243,7 +244,7 @@ public:
   void Activate();
   //	void		Save(KIniFile *IniFile, LPSTR Section);
   //	void		Load(int nObjIndex, int nSubWorldID, KIniFile *IniFile,
-  //LPSTR Section);
+  // LPSTR Section);
 
   void ExecScript(int nPlayerIdx);
   void CastSkill(int nDir);
