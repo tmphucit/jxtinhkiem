@@ -424,7 +424,7 @@ public:
 #endif
 #if defined(__MRC__) ||                                                        \
     defined(__SC__) //*ty 03/24/2001 - MPW compilers get confused on these
-                    // operator definitions
+                    //operator definitions
   template <class _T2> bool operator==(const allocator<_T2> &) const {
     return true;
   }
@@ -436,7 +436,7 @@ public:
 
 #if !(defined(__MRC__) ||                                                      \
       defined(__SC__)) //*ty 03/24/2001 - MPW compilers get confused on these
-                       // operator definitions
+                       //operator definitions
 template <class _T1, class _T2>
 inline bool _STLP_CALL operator==(const allocator<_T1> &,
                                   const allocator<_T2> &) {
@@ -581,7 +581,7 @@ public:
 _STLP_EXPORT_TEMPLATE_CLASS _STLP_alloc_proxy<char *, char, allocator<char>>;
 #if defined(_STLP_HAS_WCHAR_T)
 _STLP_EXPORT_TEMPLATE_CLASS
-_STLP_alloc_proxy<wchar_t *, wchar_t, allocator<wchar_t>>;
+    _STLP_alloc_proxy<wchar_t *, wchar_t, allocator<wchar_t>>;
 #endif
 #endif /* _STLP_USE_TEMPLATE_EXPORT */
 

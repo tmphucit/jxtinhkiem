@@ -95,6 +95,9 @@ public:
   int GetSkillPosition(int nSkillId);
   int GetLeftSkillSortList(KUiSkillData *);  // 获得角色当前左键技能排序列表
   int GetRightSkillSortList(KUiSkillData *); // 获得角色当前右键技能排序列表
+  int GetSkillState(int nIndex);
+  int GetSkillFight(int nIndex);
+  int FindSkillAura(int nIndex);
 #endif
   BOOL IncreaseLevel(int nIdx, int nLvl);
   void UpdateAddDameSkillLevel();

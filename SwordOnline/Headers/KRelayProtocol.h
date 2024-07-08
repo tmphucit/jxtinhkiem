@@ -36,7 +36,7 @@ enum ROUTESERVER_METHOD // 用于relay之间转换之用
   rm_map_id, // 根据地图映射为相应标识(通过网关来取得路由数据)
   rm_role_id, // 根据角色映射为相应标识(tagEnterGame2,
               // tagLeaveGame2同步路由数据)
-  rm_gm,      // 直接发给GM的东东
+  rm_gm, // 直接发给GM的东东
 };
 
 // 协议id：relay_c2c_data  （变长协议）
@@ -45,7 +45,7 @@ struct RELAY_DATA : EXTEND_HEADER {
   DWORD nToIP;      // 255.255.255.255是广播, 0.0.0.0是目的地已经到达
   DWORD nToRelayID; // 0是网内广播, -1是网外广播
   DWORD
-  nFromIP; // 0.0.0.0时表明刚进入Relay体系，Relay会填写nFromIP和nFromRelayID
+      nFromIP; // 0.0.0.0时表明刚进入Relay体系，Relay会填写nFromIP和nFromRelayID
   DWORD nFromRelayID;
   WORD routeDateLength; // 要转发数据长度，数据从结构结尾处开始
   // 对应要转发的协议包数据
@@ -55,7 +55,7 @@ struct RELAY_DATA : EXTEND_HEADER {
 
 struct RELAY_ASKWAY_DATA : EXTEND_HEADER {
   DWORD
-  nFromIP; // 0.0.0.0时表明刚进入Relay体系，Relay会填写nFromIP和nFromRelayID
+      nFromIP; // 0.0.0.0时表明刚进入Relay体系，Relay会填写nFromIP和nFromRelayID
   DWORD nFromRelayID;
   DWORD seekRelayCount;   // 查找经历的Relay的个数，到-1时为不可达
   WORD seekMethod;        // 指定查找方法

@@ -7,8 +7,10 @@
 // Desc:	Obj Class
 //---------------------------------------------------------------------------
 #include "KCore.h"
+#include "KItem.h"
 #include "KItemSet.h"
 #include "KNpc.h"
+#include "KObjSet.h"
 #include "KPlayer.h"
 #include "KSortScript.h"
 #include "KSubWorld.h"
@@ -81,6 +83,9 @@ void KObj::Release() {
   m_szName[0] = 0;
   m_dwScriptID = 0;
   this->m_nColorID = 0;
+  m_nGenre = 0;
+  m_nDetailType = 0;
+  m_dwNpcId = 0;
 
 #ifdef _SERVER
   m_nBelong = -1;
@@ -110,170 +115,6 @@ void KObj::Release() {
   m_pWave = NULL;
 #endif
 }
-
-/*
-//-------------------------------------------------------------------------
-//	功能：	保存物件信息到 ini 文件
-//-------------------------------------------------------------------------
-void KObj::Save(KIniFile *IniFile, LPSTR Section)
-{
-        IniFile->WriteString(Section, "ObjName", m_szName);
-
-        IniFile->WriteInteger(Section, "DataID", m_nDataID);
-        IniFile->WriteInteger(Section, "Kind", m_nKind);
-        IniFile->WriteInteger(Section, "Dir", m_nDir);
-        IniFile->WriteInteger(Section, "State", m_nState);
-        IniFile->WriteInteger(Section, "LifeTime", m_nLifeTime);
-        IniFile->WriteInteger(Section, "BornTime", m_nBornTime);
-        IniFile->WriteInteger(Section, "WaitTime", m_nWaitTime);
-        IniFile->WriteInteger(Section, "SkillKind", m_cSkill.m_nKind);
-        IniFile->WriteInteger(Section, "SkillCamp", m_cSkill.m_nCamp);
-        IniFile->WriteInteger(Section, "SkillRange", m_cSkill.m_nRange);
-        IniFile->WriteInteger(Section, "SkillCastTime", m_cSkill.m_nCastTime);
-        IniFile->WriteInteger(Section, "SkillID", m_cSkill.m_nID);
-        IniFile->WriteInteger(Section, "SkillLevel", m_cSkill.m_nLevel);
-        IniFile->WriteString(Section, "ScriptFile", m_szScriptName);
-
-        IniFile->WriteInteger(Section, "ItemDataID", m_nItemDataID);
-        IniFile->WriteInteger(Section, "ItemWidth", m_nItemWidth);
-        IniFile->WriteInteger(Section, "ItemHeight", m_nItemHeight);
-        IniFile->WriteInteger(Section, "Money", m_nMoneyNum);
-
-#ifndef _SERVER
-        IniFile->WriteInteger(Section, "Layer", m_nLayer);
-        IniFile->WriteInteger(Section, "Height", m_nHeight);
-
-        IniFile->WriteInteger(Section, "LightRadius", m_sObjLight.m_nRadius);
-        IniFile->WriteInteger(Section, "Red", m_sObjLight.m_nRed);
-        IniFile->WriteInteger(Section, "Green", m_sObjLight.m_nGreen);
-        IniFile->WriteInteger(Section, "Blue", m_sObjLight.m_nBlue);
-        IniFile->WriteInteger(Section, "Alpha", m_sObjLight.m_nAlpha);
-        IniFile->WriteInteger(Section, "Reflect", m_sObjLight.m_nReflectType);
-#endif
-
-#ifdef _SERVER
-        IniFile->WriteInteger(Section, "TotalFrmae", m_cImage.m_nTotalFrame);
-        IniFile->WriteInteger(Section, "CurFrmae", m_cImage.m_nCurFrame);
-        IniFile->WriteInteger(Section, "TotalDir", m_cImage.m_nTotalDir);
-        IniFile->WriteInteger(Section, "CurDir", m_cImage.m_nCurDir);
-        IniFile->WriteInteger(Section, "Interval", m_cImage.m_dwInterval);
-#endif
-
-#ifndef _SERVER
-        IniFile->WriteString(Section, "ImageFile", m_szImageName);
-        IniFile->WriteString(Section, "SoundFile", m_szSoundName);
-        IniFile->WriteInteger(Section, "TotalFrmae", m_cImage.m_nTotalFrame);
-        IniFile->WriteInteger(Section, "CurFrmae", m_cImage.m_nCurFrame);
-        IniFile->WriteInteger(Section, "TotalDir", m_cImage.m_nTotalDir);
-        IniFile->WriteInteger(Section, "CurDir", m_cImage.m_nCurDir);
-        IniFile->WriteInteger(Section, "Interval", (int)m_cImage.m_dwInterval);
-        IniFile->WriteInteger(Section, "CenterX", m_cImage.m_nCgXpos);
-        IniFile->WriteInteger(Section, "CenterY", m_cImage.m_nCgYpos);
-#endif
-
-        int		x, y;
-        SubWorld[m_nSubWorldID].Map2Mps(m_nRegionIdx, m_nMapX, m_nMapY, m_nOffX,
-m_nOffY, &x, &y); IniFile->WriteInteger(Section, "PosX", x);
-        IniFile->WriteInteger(Section, "PosY", y);
-
-        IniFile->WriteStruct(Section, "ObjBar", m_btBar, sizeof(m_btBar));
-        IniFile->WriteStruct(Section, "Polygon", Polygon.GetPolygonPtr(),
-sizeof(TPolygon));
-}
-
-//-------------------------------------------------------------------------
-//	功能：	从 ini 文件中读取物件信息
-//-------------------------------------------------------------------------
-void KObj::Load(int nObjIndex, int nSubWorldID, KIniFile *IniFile, LPSTR
-Section)
-{
-        IniFile->GetString(Section, "ObjName", "", m_szName, sizeof(m_szName));
-
-        IniFile->GetInteger(Section, "DataID", 0, &m_nDataID);
-        IniFile->GetInteger(Section, "Kind", Obj_Kind_MapObj, &m_nKind);
-        IniFile->GetInteger(Section, "Dir", 0, &m_nDir);
-        IniFile->GetInteger(Section, "State", 0, &m_nState);
-        IniFile->GetInteger(Section, "LifeTime", 0, &m_nLifeTime);
-        IniFile->GetInteger(Section, "BornTime", 0, &m_nBornTime);
-        IniFile->GetInteger(Section, "WaitTime", 0, &m_nWaitTime);
-        IniFile->GetInteger(Section, "SkillKind", 0, &m_cSkill.m_nKind);
-        IniFile->GetInteger(Section, "SkillCamp", camp_animal,
-&m_cSkill.m_nCamp); IniFile->GetInteger(Section, "SkillRange", 0,
-&m_cSkill.m_nRange); IniFile->GetInteger(Section, "SkillCastTime", 0,
-&m_cSkill.m_nCastTime); IniFile->GetInteger(Section, "SkillID", 0,
-&m_cSkill.m_nID); IniFile->GetInteger(Section, "SkillLevel", 0,
-&m_cSkill.m_nLevel); IniFile->GetString(Section, "ScriptFile", "",
-m_szScriptName, sizeof(m_szScriptName));
-
-        IniFile->GetInteger(Section, "ItemDataID", 0, &m_nItemDataID);
-        IniFile->GetInteger(Section, "ItemWidth", 0, &m_nItemWidth);
-        IniFile->GetInteger(Section, "ItemHeight", 0, &m_nItemHeight);
-        IniFile->GetInteger(Section, "Money", 0, &m_nMoneyNum);
-
-#ifndef _SERVER
-        IniFile->GetInteger(Section, "Layer", 1, &m_nLayer);
-        IniFile->GetInteger(Section, "Height", 0, &m_nHeight);
-
-        IniFile->GetInteger(Section, "LightRadius", 0, &m_sObjLight.m_nRadius);
-        IniFile->GetInteger(Section, "Red", 0, &m_sObjLight.m_nRed);
-        IniFile->GetInteger(Section, "Green", 0, &m_sObjLight.m_nGreen);
-        IniFile->GetInteger(Section, "Blue", 0, &m_sObjLight.m_nBlue);
-        IniFile->GetInteger(Section, "Alpha", 0, &m_sObjLight.m_nAlpha);
-        IniFile->GetInteger(Section, "Reflect", 0, &m_sObjLight.m_nReflectType);
-#endif
-
-#ifdef _SERVER
-        int		nTotalFrame, nTotalDir, nInterval, nCurFrame, nCurDir;
-        IniFile->GetInteger(Section, "TotalFrmae", 1, &nTotalFrame);
-        IniFile->GetInteger(Section, "CurFrmae", 0, &nCurFrame);
-        IniFile->GetInteger(Section, "TotalDir", 1, &nTotalDir);
-        IniFile->GetInteger(Section, "CurDir", 0, &nCurDir);
-        IniFile->GetInteger(Section, "Interval", 1, &nInterval);
-
-        m_cImage.SetTotalFrame(nTotalFrame);
-        m_cImage.SetTotalDir(nTotalDir);
-        m_cImage.SetCurFrame(nCurFrame);
-        m_cImage.SetCurDir(nCurDir);
-        m_cImage.SetInterVal(nInterval);
-#endif
-
-#ifndef _SERVER
-        int		nCgX, nCgY, nTotalFrame, nTotalDir, nInterval,
-nCurFrame, nCurDir; IniFile->GetString(Section, "ImageFile", "", m_szImageName,
-sizeof(m_szImageName)); IniFile->GetString(Section, "SoundFile", "",
-m_szSoundName, sizeof(m_szSoundName)); IniFile->GetInteger(Section,
-"TotalFrmae", 1, &nTotalFrame); IniFile->GetInteger(Section, "CurFrmae", 0,
-&nCurFrame); IniFile->GetInteger(Section, "TotalDir", 1, &nTotalDir);
-        IniFile->GetInteger(Section, "CurDir", 0, &nCurDir);
-        IniFile->GetInteger(Section, "Interval", 1, &nInterval);
-        IniFile->GetInteger(Section, "CenterX", 0, &nCgX);
-        IniFile->GetInteger(Section, "CenterY", 0, &nCgY);
-
-        m_cImage.SetFileName(m_szImageName);
-        m_cImage.SetTotalFrame(nTotalFrame);
-        m_cImage.SetTotalDir(nTotalDir);
-        m_cImage.SetCurFrame(nCurFrame);
-        m_cImage.SetCurDir(nCurDir);
-        m_cImage.SetInterVal((DWORD)nInterval);
-        m_cImage.SetCenterPos(nCgX, nCgY);
-#endif
-
-        int		x, y;
-        IniFile->GetInteger(Section, "PosX", 0, &x);
-        IniFile->GetInteger(Section, "PosY", 0, &y);
-        m_nSubWorldID = nSubWorldID;
-        SubWorld[m_nSubWorldID].Mps2Map(x, y, &m_nRegionIdx, &m_nMapX,
-&m_nMapY,&m_nOffX, &m_nOffY);
-
-        IniFile->GetStruct(Section, "ObjBar", m_btBar, sizeof(m_btBar));
-        IniFile->GetStruct(Section, "Polygon", Polygon.GetPolygonPtr(),
-sizeof(TPolygon));
-
-        SetIndex(nObjIndex);
-        SetDir(m_nDir);
-        SetState(m_nState);
-}
-*/
 
 //-------------------------------------------------------------------------
 //	功能：	设定物件的索引值
@@ -720,335 +561,6 @@ void KObj::Activate() {
       Remove(FALSE);
 #endif
     break;
-    /*
-            case Obj_Kind_Trap:
-                    switch (m_cSkill.m_nKind)
-                    {
-                    case ObjTrap_Kind_Cycle_Image_Static:
-                            if (m_nState == OBJ_TRAP_STATE_STOP)
-                            {
-                                    if (m_nWaitTime > 0)
-                                    {
-                                            m_nWaitTime--;
-                                            if (m_nWaitTime <= 0)
-                                            {
-                                                    m_nWaitTime = 0;
-                                                    SetState(OBJ_TRAP_STATE_ACTIVE);
-                                            }
-                                    }
-    #ifdef _SERVER
-                                    m_cImage.SetDirStart();
-    #else
-                                    m_cImage.SetDirStart();
-    #endif
-                            }
-                            else// if (m_nState == OBJ_TRAP_STATE_ACTIVE)
-                            {
-    #ifdef _SERVER
-                                    // 朝自身位置发射技能
-    //				if (m_cImage.GetCurDirFrameNo() ==
-    m_cSkill.m_nCastTime)
-    //					Skill[][].cast()
-                                    m_cImage.GetNextFrame();
-    #else
-                                    // 朝自身位置发射技能
-    //				if (m_cImage.GetCurDirFrameNo() ==
-    m_cSkill.m_nCastTime)
-    //					Skill[][].cast()
-                                    m_cImage.GetNextFrame();
-    #endif
-                            }
-                            break;
-                    case ObjTrap_Kind_Cycle_Image_Dir:
-                            if (m_nState == OBJ_TRAP_STATE_STOP)
-                            {
-                                    if (m_nWaitTime > 0)
-                                    {
-                                            m_nWaitTime--;
-                                            if (m_nWaitTime <= 0)
-                                            {
-                                                    m_nWaitTime = 0;
-                                                    SetState(OBJ_TRAP_STATE_ACTIVE);
-                                            }
-                                    }
-    #ifdef _SERVER
-                                    m_cImage.SetDirStart();
-    #else
-                                    m_cImage.SetDirStart();
-    #endif
-                            }
-                            else// if (m_nState == OBJ_TRAP_STATE_ACTIVE)
-                            {
-    #ifdef _SERVER
-                                    // 朝固定方向发射技能
-    //				if (m_cImage.GetCurDirFrameNo() ==
-    m_cSkill.m_nCastTime)
-    //					Skill[][].cast()
-                                    m_cImage.GetNextFrame();
-    #else
-                                    // 朝固定方向发射技能
-    //				if (m_cImage.GetCurDirFrameNo() ==
-    m_cSkill.m_nCastTime)
-    //					Skill[][].cast()
-                                    m_cImage.GetNextFrame();
-    #endif
-                            }
-                            break;
-                    case ObjTrap_Kind_Auto_Image_Static:
-                            if (m_nState == OBJ_TRAP_STATE_STOP)
-                                    break;
-    #ifdef _SERVER
-                            if (m_nState == OBJ_TRAP_STATE_ACTIVE)
-                            {
-                                    nEnemyIndex = FindEnemy();
-                                    if (nEnemyIndex > 0)
-                                    {
-                                            Npc[nEnemyIndex].GetMpsPos(&x, &y);
-                                            m_cSkill.m_nTarX = x;
-                                            m_cSkill.m_nTarY = y;
-                                            m_nState = OBJ_TRAP_STATE_ACTING;
-                                            m_cImage.SetDirStart();
-                                            // 通知客户端
-                                            TrapAct();
-                                    }
-                            }
-                            else if (m_nState == OBJ_TRAP_STATE_ACTING)
-                            {
-                                    // 朝固定位置发射技能
-    //				if (m_cImage.m_nCurFrame ==
-    m_cSkill.m_nCastTime)
-    //					Skill[][].cast
-                                    m_cImage.GetNextFrame(FALSE);
-                                    if (m_cImage.CheckEnd())
-                                    {
-                                            m_nState = OBJ_TRAP_STATE_ACTIVE;
-                                            m_cImage.SetDirStart();
-                                    }
-                            }
-    #else
-                            if (m_nState == OBJ_TRAP_STATE_ACTING)
-                            {
-                                    // 朝自身位置发射技能
-    //				if (m_cImage.GetCurDirFrameNo() ==
-    m_cSkill.m_nCastTime)
-    //					Skill[][].cast()
-                                    m_cImage.GetNextFrame(FALSE);
-                                    if (m_cImage.CheckEnd())
-                                    {
-                                            m_nState = OBJ_TRAP_STATE_ACTIVE;
-                                            m_cImage.SetDirStart();
-                                    }
-                            }
-    #endif
-                            break;
-                    case ObjTrap_Kind_Auto_Image_Dir:
-                            if (m_nState == OBJ_TRAP_STATE_STOP)
-                                    break;
-    #ifdef _SERVER
-                            if (m_nState == OBJ_TRAP_STATE_ACTIVE)
-                            {
-                                    nEnemyIndex = FindEnemy();
-                                    if (nEnemyIndex > 0)
-                                    {
-                                            Npc[nEnemyIndex].GetMpsPos(&x, &y);
-                                            m_cSkill.m_nTarX = x;
-                                            m_cSkill.m_nTarY = y;
-                                            m_nState = OBJ_TRAP_STATE_ACTING;
-                                            m_cImage.SetDirStart();
-                                            // 通知客户端
-                                            TrapAct();
-                                    }
-                            }
-                            else if (m_nState == OBJ_TRAP_STATE_ACTING)
-                            {
-                                    // 朝固定方向发射技能
-    //				if (m_cImage.m_nCurFrame ==
-    m_cSkill.m_nCastTime)
-    //					Skill[][].cast
-                                    m_cImage.GetNextFrame(FALSE);
-                                    if (m_cImage.CheckEnd())
-                                    {
-                                            m_nState = OBJ_TRAP_STATE_ACTIVE;
-                                            m_cImage.SetDirStart();
-                                    }
-                            }
-    #else
-                            if (m_nState == OBJ_TRAP_STATE_ACTING)
-                            {
-                                    // 朝固定方向发射技能
-    //				if (m_cImage.GetCurDirFrameNo() ==
-    m_cSkill.m_nCastTime)
-    //					Skill[][].cast()
-                                    m_cImage.GetNextFrame(FALSE);
-                                    if (m_cImage.CheckEnd())
-                                    {
-                                            m_nState = OBJ_TRAP_STATE_ACTIVE;
-                                            m_cImage.SetDirStart();
-                                    }
-                            }
-    #endif
-                            break;
-                    case ObjTrap_Kind_Auto_Image_Target:
-                            if (m_nState == OBJ_TRAP_STATE_STOP)
-                                    break;
-    #ifdef _SERVER
-                            if (m_nState == OBJ_TRAP_STATE_ACTIVE)
-                            {
-                                    nEnemyIndex = FindEnemy();
-                                    if (nEnemyIndex > 0)
-                                    {
-                                            Npc[nEnemyIndex].GetMpsPos(&x, &y);
-                                            m_cSkill.m_nTarX = x;
-                                            m_cSkill.m_nTarY = y;
-                                            m_nState = OBJ_TRAP_STATE_ACTING;
-                                            m_cImage.SetDirStart();
-                                            // 通知客户端
-                                            TrapAct();
-                                    }
-                            }
-                            else if (m_nState == OBJ_TRAP_STATE_ACTING)
-                            {
-                                    // 朝目标点发射技能
-    //				if (m_cImage.m_nCurFrame ==
-    m_cSkill.m_nCastTime)
-    //					Skill[][].cast
-                                    m_cImage.GetNextFrame(FALSE);
-                                    if (m_cImage.CheckEnd())
-                                    {
-                                            m_nState = OBJ_TRAP_STATE_ACTIVE;
-                                            m_cImage.SetDirStart();
-                                    }
-                            }
-    #else
-                            if (m_nState == OBJ_TRAP_STATE_ACTING)
-                            {
-                                    // 朝目标点发射技能
-    //				if (m_cImage.GetCurDirFrameNo() ==
-    m_cSkill.m_nCastTime)
-    //					Skill[][].cast()
-                                    m_cImage.GetNextFrame(FALSE);
-                                    if (m_cImage.CheckEnd())
-                                    {
-                                            m_nState = OBJ_TRAP_STATE_ACTIVE;
-                                            m_cImage.SetDirStart();
-                                    }
-                            }
-    #endif
-                            break;
-                    case ObjTrap_Kind_Auto_Delay_Static:
-                            if (m_nState == OBJ_TRAP_STATE_STOP)
-                                    break;
-    #ifdef _SERVER
-                            if (m_nState == OBJ_TRAP_STATE_ACTIVE)
-                            {
-                                    if (m_nWaitTime > 0)
-                                    {
-                                            m_nWaitTime--;
-                                    }
-                                    else
-                                    {
-                                            nEnemyIndex = FindEnemy();
-                                            if (nEnemyIndex > 0)
-                                            {
-                                                    Npc[nEnemyIndex].GetMpsPos(&x,
-    &y); m_cSkill.m_nTarX = x; m_cSkill.m_nTarY = y; m_nState =
-    OBJ_TRAP_STATE_ACTING;
-                                                    // 通知客户端
-                                                    TrapAct();
-                                                    // 朝自身位置发射技能
-                                                    //Skill[][].cast();
-                                                    m_nState =
-    OBJ_TRAP_STATE_ACTIVE; m_nWaitTime = m_cSkill.m_nCastTime;
-                                            }
-                                    }
-                            }
-    #else
-                            if (m_nState == OBJ_TRAP_STATE_ACTING)
-                            {
-                                    // 朝自身位置发射技能
-    //				Skill[][].cast()
-                                    m_nState = OBJ_TRAP_STATE_ACTIVE;
-                            }
-                            m_cImage.GetNextFrame();
-    #endif
-                            break;
-                    case ObjTrap_Kind_Auto_Delay_Dir:
-                            if (m_nState == OBJ_TRAP_STATE_STOP)
-                                    break;
-    #ifdef _SERVER
-                            if (m_nState == OBJ_TRAP_STATE_ACTIVE)
-                            {
-                                    if (m_nWaitTime > 0)
-                                    {
-                                            m_nWaitTime--;
-                                    }
-                                    else
-                                    {
-                                            nEnemyIndex = FindEnemy();
-                                            if (nEnemyIndex > 0)
-                                            {
-                                                    Npc[nEnemyIndex].GetMpsPos(&x,
-    &y); m_cSkill.m_nTarX = x; m_cSkill.m_nTarY = y; m_nState =
-    OBJ_TRAP_STATE_ACTING;
-                                                    // 通知客户端
-                                                    TrapAct();
-                                                    // 朝固定方向发射技能
-                                                    //Skill[][].cast();
-                                                    m_nState =
-    OBJ_TRAP_STATE_ACTIVE; m_nWaitTime = m_cSkill.m_nCastTime;
-                                            }
-                                    }
-                            }
-    #else
-                            if (m_nState == OBJ_TRAP_STATE_ACTING)
-                            {
-                                    // 朝固定方向发射技能
-    //				Skill[][].cast()
-                                    m_nState = OBJ_TRAP_STATE_ACTIVE;
-                            }
-                            m_cImage.GetNextFrame();
-    #endif
-                            break;
-                    case ObjTrap_Kind_Auto_Delay_Target:
-                            if (m_nState == OBJ_TRAP_STATE_STOP)
-                                    break;
-    #ifdef _SERVER
-                            if (m_nState == OBJ_TRAP_STATE_ACTIVE)
-                            {
-                                    if (m_nWaitTime > 0)
-                                    {
-                                            m_nWaitTime--;
-                                    }
-                                    else
-                                    {
-                                            nEnemyIndex = FindEnemy();
-                                            if (nEnemyIndex > 0)
-                                            {
-                                                    Npc[nEnemyIndex].GetMpsPos(&x,
-    &y); m_cSkill.m_nTarX = x; m_cSkill.m_nTarY = y; m_nState =
-    OBJ_TRAP_STATE_ACTING;
-                                                    // 通知客户端
-                                                    TrapAct();
-                                                    // 朝目标点发射技能
-                                                    //Skill[][].cast();
-                                                    m_nState =
-    OBJ_TRAP_STATE_ACTIVE; m_nWaitTime = m_cSkill.m_nCastTime;
-                                            }
-                                    }
-                            }
-    #else
-                            if (m_nState == OBJ_TRAP_STATE_ACTING)
-                            {
-                                    // 朝目标点发射技能
-    //				Skill[][].cast()
-                                    m_nState = OBJ_TRAP_STATE_ACTIVE;
-                            }
-                            m_cImage.GetNextFrame();
-    #endif
-                            break;
-                    }
-                    break;
-    */
   }
 #ifndef _SERVER
   int nMpsX, nMpsY;
@@ -1137,7 +649,7 @@ int KObj::GetSoundVolume() {
           Option.GetSndVolume() / 100) -
          10000;
   //	return -((abs(nObjX - nNpcX) + abs(nObjY - nNpcY) * 2) *
-  // Option.GetSndVolume() / 100);
+  //Option.GetSndVolume() / 100);
 }
 
 //-------------------------------------------------------------------------
@@ -1236,6 +748,7 @@ BOOL KObj::SyncAdd(int nClient) {
   cObjAdd.m_btItemWidth = m_nItemWidth;
   cObjAdd.m_btItemHeight = m_nItemHeight;
   cObjAdd.m_btColorID = this->m_nColorID;
+  cObjAdd.m_dwNpcId = this->m_dwNpcId;
   cObjAdd.m_btFlag = 0;
   strcpy(cObjAdd.m_szName, this->m_szName);
   cObjAdd.m_wLength = sizeof(OBJ_ADD_SYNC) - 1 - sizeof(cObjAdd.m_szName) +
@@ -1377,7 +890,7 @@ void KObj::SetItemBelong(int nPlayerIdx) {
 void KObj::SetEntireBelong(int nPlayerIdx) {
   m_nBelong = nPlayerIdx;
   if (m_nBelong >= 0)
-    this->m_nBelongTime = this->m_nLifeTime * 2;
+    this->m_nBelongTime = OBJ_BELONG_TIME; // this->m_nLifeTime * 2;
   else
     this->m_nBelongTime = 0;
 }
@@ -1634,16 +1147,49 @@ void KObj::GetMpsPos(int *pX, int *pY) {
 void KObj::DrawBorder() {
   if (m_bDrawFlag)
     return;
-  m_Image.bRenderStyle = IMAGE_RENDER_STYLE_BORDER;
+
+  m_Image.bRenderStyle = IMAGE_RENDER_STYLE_BORDER_RECT;
   switch (m_nKind) {
   case Obj_Kind_MapObj:
     g_pRepresent->DrawPrimitives(1, &m_Image, RU_T_IMAGE, 0);
     break;
+  case Obj_Kind_Prop:
+    if (m_nState == OBJ_PROP_STATE_DISPLAY)
+      g_pRepresent->DrawPrimitives(1, &m_Image, RU_T_IMAGE, 0);
+    break;
   default:
-    // m_cImage.DrawAlpha(x, y);
     g_pRepresent->DrawPrimitives(1, &m_Image, RU_T_IMAGE, 0);
     break;
   }
   m_Image.bRenderStyle = IMAGE_RENDER_STYLE_ALPHA;
 }
 #endif
+
+int KObj::GetDistanceSquare(int nNpcIndex) {
+  int nRet = 0;
+  if (m_nSubWorldID != Npc[nNpcIndex].m_SubWorldIndex)
+    return -1;
+
+  int XOff = 0;
+  int YOff = 0;
+
+  if (m_nRegionIdx == Npc[nNpcIndex].m_RegionIndex) {
+    XOff = (m_nMapX - Npc[nNpcIndex].GetMapX()) * REGION_CELL_SIZE_X;
+    XOff += (m_nOffX - Npc[nNpcIndex].GetOffX()) >> 10;
+
+    YOff = (m_nMapY - Npc[nNpcIndex].GetMapY()) * REGION_CELL_SIZE_Y;
+    YOff += (m_nOffY - Npc[nNpcIndex].GetOffY()) >> 10;
+  } else {
+    int X1, Y1;
+    int X2, Y2;
+    GetMpsPos(&X1, &Y1);
+    Npc[nNpcIndex].GetMpsPos(&X2, &Y2);
+
+    XOff = (X2 - X1);
+    YOff = (Y2 - Y1);
+  }
+
+  nRet = (int)(XOff * XOff + YOff * YOff);
+
+  return nRet;
+}

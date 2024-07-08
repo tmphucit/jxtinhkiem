@@ -56,9 +56,9 @@ class KSkill;
 #define SPRVIP9 "\\Spr\\danhhieu\\vip9.spr"
 #define SPRVIP10 "\\Spr\\danhhieu\\vip10.spr"
 
-#define SPRSHOPRIGHT "\\Spr\\Ui3\\UiSeller\\shop_right.spr"
-#define SPRSHOPCENTER "\\Spr\\Ui3\\UiSeller\\shop_center.spr"
-#define SPRSHOPLEFT "\\Spr\\Ui3\\UiSeller\\shop_left.spr"
+#define SPRSHOPRIGHT "\\Spr\\ui3\\banhang\\shop_right.spr"
+#define SPRSHOPCENTER "\\Spr\\ui3\\banhang\\shop_center.spr"
+#define SPRSHOPLEFT "\\Spr\\ui3\\banhang\\shop_left.spr"
 
 #endif
 
@@ -177,9 +177,9 @@ struct KSyncPos {
 
 class KStateNode : public KNode {
 public:
-  int m_SkillID;                         // 技能ID
-  int m_Level;                           // 技能等级
-  int m_LeftTime;                        // 剩余时间
+  int m_SkillID; // 技能ID
+  int m_Level;   // 技能等级
+  int m_LeftTime;
   KMagicAttrib m_State[MAX_SKILL_STATE]; // 修改属性列表
   int m_StateGraphics;                   // 状态动画索引
 };
@@ -237,7 +237,12 @@ public:
   int m_Height;      // Npc的高度(跳跃的时候非零)
   BYTE m_btRankId;
   BYTE m_ImagePlayer; // chan dung
-  int m_nStature;     // Tall
+  int m_nNpcParam[MAX_NPCPARAM];
+  BOOL m_bNpcFollowFindPath;
+  DWORD m_uFindPathTime;
+  DWORD m_uFindPathMaxTime;
+  DWORD m_uLastFindPathTime;
+  int m_nStature; // Tall
 
 #ifdef _SERVER
   int m_nAutoSkillId;
@@ -262,7 +267,7 @@ public:
   KState m_ManaState;    // 补MANA状态
   KState m_MenuState;    // 菜单
   KState m_DrunkState;   // 醉酒状态
-
+  KState m_HideState;
   KState m_InvisibilityState;
   KState m_NstatusState;
   KState m_MadnessState;
@@ -423,12 +428,14 @@ public:
   BOOL FinishSkill;
   // MASK
   int m_MaskType;
+  int m_MaskType_Temp;
   int m_MaskMark;
   // END
   int m_FifongType;
   BOOL m_bFifongState;
-  char Name[32];          // Npc的名称
-  int m_nSex;             // Npc的性别0为男，1为女
+  char Name[32]; // Npc的名称
+  int m_nSex;    // Npc的性别0为男，1为女
+  char Owner[32];
   int m_NpcSettingIdx;    // Npc的设定文件索引
   int m_CorpseSettingIdx; // Npc的尸体定义索引
   char ActionScript[80];  // Npc的行为脚本
@@ -489,6 +496,8 @@ public:
   int m_FightMode; // 客户端处理动作用。
   int m_OldFightMode;
   BOOL m_bExchangeServer;
+  BYTE m_ValueEx; // van tieu
+  void RunWalkStopCmd();
 #ifdef _SERVER
   int m_nNpcX;
   int m_nNpcY;
@@ -739,29 +748,29 @@ public:
   void AddBaseManaMax(int nMana); // 增加基本最大内力点
   void AddCurManaMax(int nMana);
   //	void				ResetLifeReplenish();		//
-  // 重新计算生命回复速度 	void CalcCurLifeMax();
-  //// 计算当前最大生命点 	void
-  ///CalcCurStaminaMax(); / 计算当前最大体力点 	void
-  ///CalcCurManaMax(); / 计算当前最大内力点
+  //重新计算生命回复速度 	void				CalcCurLifeMax();
+  //// 计算当前最大生命点 	void				CalcCurStaminaMax();
+  //// 计算当前最大体力点 	void				CalcCurManaMax();
+  //// 计算当前最大内力点
   void CalcCurLifeReplenish(); // 计算当前生命回复速度
   void SetSeries(int nSeries); // 设定此 npc 的五行属性（内容还没完成）
   void SetSex(int nSex);
 
   //	int
-  // GetNpcLevelDataFromScript(KLuaScript * pScript, char * szDataName, int
-  // nLevel, char * szParam); 	int
-  // SkillString2Id(char * szSkillString);
+  //GetNpcLevelDataFromScript(KLuaScript * pScript, char * szDataName, int
+  //nLevel, char * szParam); 	int
+  //SkillString2Id(char * szSkillString);
   void GetNpcCopyFromTemplate(int nNpcTemplateId, int nLevel);
   //	void				InitNpcLevelData(KTabFile * pTabFile,
-  // int nNpcTemplateId, KLuaScript * pLevelScript, int nLevel); 	void
-  // InitNpcBaseData(int nNpcTemplateId);
+  //int nNpcTemplateId, KLuaScript * pLevelScript, int nLevel); 	void
+  //InitNpcBaseData(int nNpcTemplateId);
   void SetPhysicsDamage(int nMinDamage,
                         int nMaxDamage);       // 设定物理攻击的最大最小值
   void SetBaseAttackRating(int nAttackRating); // 设定攻击命中率
   void SetBaseDefence(int nDefence);           // 设定防御力
   //	void				SetBaseWalkSpeed(int nSpeed);
   //// 设定行走速度 	void				SetBaseRunSpeed(int
-  // nSpeed);							// 设定跑步速度
+  //nSpeed);							// 设定跑步速度
   int GetCurActiveWeaponSkill();
   void LoadDataFromTemplate(int nNpcTemplateId, int nLevel);
   // MASK
@@ -769,12 +778,18 @@ public:
   void GetFrameCopyFromTemplate(int nNpcTemplateId, int nLevel);
   void LoadFrameFromTemplate(int nNpcTemplateId, int nLevel);
   void MoveNpc(int nRegion, int nMapX, int nMapY, int nOffX, int nOffY);
-
+  inline bool IsAlive() const {
+    return (m_Doing != do_death && m_Doing != do_revive);
+  }
   // END
   void OnMadnessState();
   void Madnessto(int nMpsX, int nMpsY);
   int CheckPath(int x0, int y0, int s);
   int SetPos(int nX, int nY);
+  int GetMapX(void) const { return m_MapX; };
+  int GetMapY(void) const { return m_MapY; };
+  int GetOffX(void) const { return m_OffX; };
+  int GetOffY(void) const { return m_OffY; };
 
 #ifdef _SERVER
   void AddSkillEffect(int nSkillID, int nLevel, int nTime);
@@ -811,7 +826,8 @@ public:
   void RestoreStamina() { m_CurrentStamina = m_CurrentStaminaMax; };
   void SendDataToNearRegion(void *pBuffer, DWORD dwSize); // 向周围九屏广播
   int DeathCalcPKValue(int nKiller);                      // 死亡时候计算PK值
-
+  int FindAroundPlayer(
+      const char *Name); // 查找周围9个Region中是否有指定的 player
   BOOL
   CheckPlayerAround(int nPlayerIdx); // 查找周围9个Region中是否有指定的 player
 #endif
@@ -832,6 +848,7 @@ public:
                   unsigned short nMsgLength);
   int PaintLife(int nHeightOffset, bool bSelect);
   int PaintEffect();
+  int PaintTopTongKim(int pk1, int pk2, int pk3, int pk4, int xh);
   int MangEffect[10][2];
   int HanSuDung;
   int PaintMana(int nHeightOffset);
@@ -855,6 +872,7 @@ public:
   void ClearBlood(int nid);
   void SetBlood(int nNo);
   int PaintBlood(int nHeightOffset); // 绘制冒血
+  BOOL FindStateSkill(int nID);
 #endif
 };
 #ifndef TOOLVERSION

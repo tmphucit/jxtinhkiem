@@ -1,6 +1,0 @@
-[MAIN]
-help=T
-icon=setting
-title=设置垂直自动拼接
-type=doodad_simple
-want=bool

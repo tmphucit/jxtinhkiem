@@ -59,8 +59,9 @@ public:
 
 private:
   void OnLBtnDown(bool bDoubleClick); // 响应鼠标左键在此按下
-  void OnLBtnUp();                    // 响应鼠标左键在此放开
-  void OnLBtnDownMove();              // 响应鼠标左键按下时的移动
+  void OnRButtonDown();
+  void OnLBtnUp();       // 响应鼠标左键在此放开
+  void OnLBtnDownMove(); // 响应鼠标左键按下时的移动
 private:
   static unsigned int ms_uBtnTipTextColor; // 按钮提示名称文字的颜色
   static int ms_nDisableBtnTip;            // 是否禁止按钮的提示文字
@@ -85,4 +86,5 @@ public:
   void Set2IntValue(int nNumber1, int nNumber2);
   void SetText(const char *pText, int nLen = -1); // 设置文本文字
   int GetText(char *pBuffer, int nSize);          // 获取字符串内容
+  void SetWorldText(int nNumber, char Separator); // set chu cho button xep hang
 };

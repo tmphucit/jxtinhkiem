@@ -25,7 +25,7 @@ void KLinkArray::Remove(int nIdx) {
 
   if ((pNode[nIdx].nNext == 0 && pNode[0].nPrev != nIdx) ||
       (pNode[nIdx].nPrev == 0 && pNode[0].nNext != nIdx)) {
-    g_DebugLog("[error]Node:%d Remove twice", nIdx);
+    //		g_DebugLog("[error]Node:%d Remove twice", nIdx);
     return;
   }
 
@@ -41,7 +41,7 @@ void KLinkArray::Insert(int nIdx) {
     return;
 
   if (pNode[nIdx].nNext != 0 || pNode[nIdx].nPrev != 0) {
-    g_DebugLog("[error]Node:%d Insert twice", nIdx);
+    //		g_DebugLog("[error]Node:%d Insert twice", nIdx);
     return;
   }
 

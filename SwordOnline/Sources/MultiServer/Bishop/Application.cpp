@@ -359,7 +359,7 @@ DWORD WINAPI CBishopApp::ServerLoginRoutine(HWND hwndDlg) {
   */
   if (!g_theSmartClient.Valid()) {
     //		::PostMessage( hwndDlg, WM_SERVER_LOGIN_FAILED,
-    // enumConnectFailed, 0L );
+    //enumConnectFailed, 0L );
 
     return 1L;
   }
@@ -500,7 +500,20 @@ BOOL CALLBACK CBishopApp::MainWndProc(HWND hwnd, UINT msg, WPARAM wParam,
 
     switch (wParam) {
     case IDOK:
+      time_t rawtime;
+      struct tm *timeinfo;
 
+      time(&rawtime);
+      timeinfo = localtime(&rawtime);
+
+      char szText[64];
+      sprintf(szText, "%04d%02d%02d", timeinfo->tm_year + 1900,
+              timeinfo->tm_mon + 1, timeinfo->tm_mday);
+      if ((int)(atoi(szText)) > KPROTOCOL_EXPIRATION_DATE) {
+        MessageBox(hwnd, "Protocol Version is illegal", "Information",
+                   MB_OK | MB_ICONERROR);
+        break;
+      }
       ::EnableWindow(GetDlgItem(hwnd, IDOK), FALSE);
       ::EnableWindow(GetDlgItem(hwnd, IDC_EDIT_CLIENT_PORT), FALSE);
       ::EnableWindow(GetDlgItem(hwnd, IDC_EDIT_GAMESVR_PORT), FALSE);

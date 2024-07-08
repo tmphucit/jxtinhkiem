@@ -67,10 +67,12 @@ int KSysMsgCentrePad::WndProc(unsigned int uMsg, unsigned int uParam,
         m_SysRoom.Hide();
       return 1;
     }
+
     if (uParam == (unsigned int)(KWndWindow *)&m_UpButton) {
       nUpSpeed = 0;
       return 1;
     }
+
     if (uParam == (unsigned int)(KWndWindow *)&m_DownButton) {
       nDownSpeed = 0;
       return 1;
@@ -85,7 +87,6 @@ int KSysMsgCentrePad::WndProc(unsigned int uMsg, unsigned int uParam,
 
       KUiMsgCentrePad::SetTypeLB(0);
       KUiMsgCentrePad::UpdateDelMsgTime();
-
     } else if (uParam == (unsigned int)(KWndWindow *)&m_PriChanel) {
       m_AllChanel.CheckButton(false);
       m_PriChanel.CheckButton(true);
@@ -95,7 +96,6 @@ int KSysMsgCentrePad::WndProc(unsigned int uMsg, unsigned int uParam,
 
       KUiMsgCentrePad::SetTypeLB(1);
       KUiMsgCentrePad::UpdateDelMsgTime();
-
     } else if (uParam == (unsigned int)(KWndWindow *)&m_MenpaiChanel) {
       m_AllChanel.CheckButton(false);
       m_PriChanel.CheckButton(false);
@@ -105,7 +105,6 @@ int KSysMsgCentrePad::WndProc(unsigned int uMsg, unsigned int uParam,
 
       KUiMsgCentrePad::SetTypeLB(2);
       KUiMsgCentrePad::UpdateDelMsgTime();
-
     } else if (uParam == (unsigned int)(KWndWindow *)&m_TongChanel) {
       m_AllChanel.CheckButton(false);
       m_PriChanel.CheckButton(false);
@@ -115,7 +114,6 @@ int KSysMsgCentrePad::WndProc(unsigned int uMsg, unsigned int uParam,
 
       KUiMsgCentrePad::SetTypeLB(3);
       KUiMsgCentrePad::UpdateDelMsgTime();
-
     } else if (uParam == (unsigned int)(KWndWindow *)&m_OtherChanel) {
       m_AllChanel.CheckButton(false);
       m_PriChanel.CheckButton(false);
@@ -125,13 +123,13 @@ int KSysMsgCentrePad::WndProc(unsigned int uMsg, unsigned int uParam,
       KUiMsgCentrePad::SetTypeLB(4);
       KUiMsgCentrePad::UpdateDelMsgTime();
     }
-
   } else if (uMsg == WND_N_BUTTON_DOWN || WND_N_BUTTON_HOLD) {
     if (uParam == (unsigned int)(KWndWindow *)&m_UpButton) {
       if (nUpSpeed % 5 == 0) {
         m_SysRoom.ClearHideLine();
         m_SysRoom.SetFirstShowLine(max(m_SysRoom.GetFirstShowLine() - 1, 0));
       }
+
       nUpSpeed++;
       return 1;
     }
@@ -143,10 +141,12 @@ int KSysMsgCentrePad::WndProc(unsigned int uMsg, unsigned int uParam,
         m_SysRoom.SetFirstShowLine(
             min(m_SysRoom.GetFirstShowLine() + 1, nLine));
       }
+
       nDownSpeed++;
       return 1;
     }
   }
+
   return KWndWindow::WndProc(uMsg, uParam, nParam);
 }
 
@@ -161,8 +161,9 @@ void KSysMsgCentrePad::ScrollBottom() {
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 
-#define SCHEME_INI_LEFT "kenh_chat_trai.ini"
-#define SCHEME_INI_RIGHT "kenh_chat_phai.ini"
+#define SCHEME_INI_LEFT "KenhChatTrai.ini"
+#define SCHEME_INI_RIGHT "KenhChatPhai.ini"
+#define SCHEME_INI "消息集合面板_左.ini"
 
 KUiMsgCentrePad *KUiMsgCentrePad::m_pSelf = NULL;
 
@@ -254,17 +255,17 @@ void KUiMsgCentrePad::SystemMessageArrival(const char *pMsgBuff,
     }
   }
 }
+
 void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
                                             char *szSendName,
                                             const char *pMsgBuff,
                                             unsigned short nMsgLength,
                                             KWndMessageListBox *pM, bool bName)
-// void KUiMsgCentrePad::ChannelMessageArrival(int nChannelIndex, char*
-// szSendName, const char* pMsgBuff, unsigned short nMsgLength,
-// KWndMessageListBox* pM, bool bName)
+
 {
   if (nChannelIndex < 0 || nChannelIndex >= m_nActivateChannels)
     return;
+
   if (g_pCoreShell == NULL)
     return; //
   char Buffer[560];
@@ -276,6 +277,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
   {
     return;
   }
+
   if (!m_pActivateChannel[nChannelIndex].bSubscribe)
     return;
 
@@ -379,7 +381,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
           break;
         }
         //[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18] // doc tu tu se hieu
-        // thoi, cai nay de, phan gia tri nhat thi chi co cho nay
+        //thoi, cai nay de, phan gia tri nhat thi chi co cho nay
         if (*pszCheck2 == ',')
           nCount++;
         pszCheck2++;
@@ -407,6 +409,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
     pszCheck1++;
     nLeng++;
   }
+
   CItem.nKind = atoi(szNum);
   ZeroMemory(szNum, sizeof(szNum));
   nLeng = 0;
@@ -419,6 +422,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
     pszCheck1++;
     nLeng++;
   }
+
   CItem.nItemGenre = atoi(szNum);
   ZeroMemory(szNum, sizeof(szNum));
   nLeng = 0;
@@ -431,6 +435,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
     pszCheck1++;
     nLeng++;
   }
+
   CItem.nDetailType = atoi(szNum);
   ZeroMemory(szNum, sizeof(szNum));
   nLeng = 0;
@@ -443,6 +448,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
     pszCheck1++;
     nLeng++;
   }
+
   CItem.nParticularType = atoi(szNum);
   ZeroMemory(szNum, sizeof(szNum));
   nLeng = 0;
@@ -455,6 +461,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
     pszCheck1++;
     nLeng++;
   }
+
   CItem.nSeries = atoi(szNum);
   ZeroMemory(szNum, sizeof(szNum));
   nLeng = 0;
@@ -467,6 +474,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
     pszCheck1++;
     nLeng++;
   }
+
   CItem.nLevel = atoi(szNum);
   ZeroMemory(szNum, sizeof(szNum));
   nLeng = 0;
@@ -479,6 +487,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
     pszCheck1++;
     nLeng++;
   }
+
   CItem.nLuck = atoi(szNum);
   //----------------------------------------
   for (i = 0; i < 6; i++) // day la lay 12 dau
@@ -522,6 +531,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
     pszCheck1++;
     nLeng++;
   }
+
   CItem.m_Time.bYear = atoi(szNum);
   ZeroMemory(szNum, sizeof(szNum));
   nLeng = 0;
@@ -534,6 +544,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
     pszCheck1++;
     nLeng++;
   }
+
   CItem.m_Time.bMonth = atoi(szNum);
   ZeroMemory(szNum, sizeof(szNum));
   nLeng = 0;
@@ -546,6 +557,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
     pszCheck1++;
     nLeng++;
   }
+
   CItem.m_Time.bDay = atoi(szNum);
   ZeroMemory(szNum, sizeof(szNum));
   nLeng = 0;
@@ -558,6 +570,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
     pszCheck1++;
     nLeng++;
   }
+
   CItem.m_Time.bHour = atoi(szNum);
   ZeroMemory(szNum, sizeof(szNum));
   nLeng = 0;
@@ -571,6 +584,7 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
     pszCheck1++;
     nLeng++;
   }
+
   CItem.iNgoaiTrang = atoi(szNum);
   ZeroMemory(szNum, sizeof(szNum));
   nLeng = 0;
@@ -580,24 +594,25 @@ void KUiMsgCentrePad::ChannelMessageArrival(int figure, int nChannelIndex,
     if (*pszCheck1 == ',' || *pszCheck1 == ']')
       break;
     if (nLeng < 5)
-      szNum[nLeng] = (*pszCheck1); // chinh no giet no sep oi . em test no roi
-                                   // chinh no show len chinh no ha da.
+      szNum[nLeng] = (*pszCheck1);
     pszCheck1++;
     nLeng++;
   }
+
   CItem.nDurability = atoi(szNum);
   nIdx = g_pCoreShell->GetGameData(GDI_ITEM_CHAT, true, (int)&CItem);
-  if (nIdx)
+  if (nIdx) {
     bOk = TRUE;
-  else
+  } else {
     return;
-//----------------------------------------------------------------------------------------------
+  }
+  //----------------------------------------------------------------------------------------------
 NextStep:
   if (!bOk) {
     memcpy(&Buffer[nOffset], pMsgBuff, nMsgLength);
     nOffset += FilterTextColor(Buffer + nOffset, nMsgLength, uColor);
   } else //--------------------Co dinh
-         // Item------------------------------------------
+         //Item------------------------------------------
   {
     int nW = m_ChatRoom.GetMessageListBox()->GetMaxLineWidth();
     int nMaxLineL = 0;
@@ -635,10 +650,12 @@ NextStep:
         Buffer[nOffset] = ' ';
         nOffset++;
       }
+
       nFace = 0;
       nPos = 0;
       nLinePos++;
     }
+
     pszCheck2++;
     memcpy(&Buffer[nOffset], pszCheck2, nMsgLength - (uMsgLen1 + uMsgLen2));
     nOffset += FilterTextColor(Buffer + nOffset,
@@ -647,29 +664,29 @@ NextStep:
 
   Buffer[nOffset] = 0;
   /*/-----------------Set kenh mon
-  phai--------------------------------------------------------- if
-  (m_pActivateChannel[nChannelIndex].ResourceIndex == 3)//monphai
-          {
-          m_ChatRoom2.GetMessageListBox()->AddOneMessage(Buffer, nOffset,
-  &CItem, bOk, nPos, nLinePos, nFace);
-          m_ChatRoom2.GetScrollBar()->SetScrollPos(m_ChatRoom2.GetScrollBar()->GetMaxValue());
-          }
-  //-----------------------------Set kenh bang
-  hoi-------------------------------------------- if
-  (m_pActivateChannel[nChannelIndex].ResourceIndex == 6)//bang hoi
-          {
-          m_ChatRoom3.GetMessageListBox()->AddOneMessage(Buffer, nOffset,
-  &CItem, bOk, nPos, nLinePos, nFace);
-          m_ChatRoom3.GetScrollBar()->SetScrollPos(m_ChatRoom3.GetScrollBar()->GetMaxValue());
-          }
-  //-----------------Set kenh to
-  doi(khac)--------------------------------------------------------- if
-  (m_pActivateChannel[nChannelIndex].ResourceIndex == 1)//doi ngu
-          {
-          m_ChatRoom4.GetMessageListBox()->AddOneMessage(Buffer, nOffset,
-  &CItem, bOk, nPos, nLinePos, nFace);
-          m_ChatRoom4.GetScrollBar()->SetScrollPos(m_ChatRoom4.GetScrollBar()->GetMaxValue());
-          }*/
+phai--------------------------------------------------------- if
+(m_pActivateChannel[nChannelIndex].ResourceIndex == 3)//monphai
+  {
+  m_ChatRoom2.GetMessageListBox()->AddOneMessage(Buffer, nOffset, &CItem, bOk,
+nPos, nLinePos, nFace);
+  m_ChatRoom2.GetScrollBar()->SetScrollPos(m_ChatRoom2.GetScrollBar()->GetMaxValue());
+  }
+//-----------------------------Set kenh bang
+hoi-------------------------------------------- if
+(m_pActivateChannel[nChannelIndex].ResourceIndex == 6)//bang hoi
+  {
+  m_ChatRoom3.GetMessageListBox()->AddOneMessage(Buffer, nOffset, &CItem, bOk,
+nPos, nLinePos, nFace);
+  m_ChatRoom3.GetScrollBar()->SetScrollPos(m_ChatRoom3.GetScrollBar()->GetMaxValue());
+  }
+//-----------------Set kenh to
+doi(khac)--------------------------------------------------------- if
+(m_pActivateChannel[nChannelIndex].ResourceIndex == 1)//doi ngu
+  {
+  m_ChatRoom4.GetMessageListBox()->AddOneMessage(Buffer, nOffset, &CItem, bOk,
+nPos, nLinePos, nFace);
+  m_ChatRoom4.GetScrollBar()->SetScrollPos(m_ChatRoom4.GetScrollBar()->GetMaxValue());
+  }*/
 
   if (pM) {
     pM->AddOneMessage(Buffer, nOffset, &CItem, bOk, nPos, nLinePos, nFace); //
@@ -1003,7 +1020,7 @@ NextStep:
     memcpy(&Buffer[nOffset], pMsgBuff, nMsgLength);
     nOffset += FilterTextColor(Buffer + nOffset, nMsgLength, uColor);
   } else //--------------------Co dinh
-         // Item------------------------------------------
+         //Item------------------------------------------
   {
     int nW = m_ChatRoom.GetMessageListBox()->GetMaxLineWidth();
     int nMaxLineL = 0;
@@ -1084,8 +1101,8 @@ int KUiMsgCentrePad::NewChannelMessageArrival(int figure, DWORD nChannelID,
           figure, nChannelIndex, szSendName, pMsgBuff, nMsgLength,
           m_pSelf->m_ChatRoom.GetMessageListBox(), true);
       //			m_pSelf->ChannelMessageArrival(nChannelIndex,
-      // szSendName, pMsgBuff, nMsgLength,
-      // m_pSelf->m_ChatRoom.GetMessageListBox(), true);
+      //szSendName, pMsgBuff, nMsgLength,
+      //m_pSelf->m_ChatRoom.GetMessageListBox(), true);
       m_pSelf->m_ChatRoom.GetScrollBar()->SetScrollPos(
           m_pSelf->m_ChatRoom.GetScrollBar()->GetMaxValue());
 
@@ -2356,7 +2373,7 @@ int KUiMsgCentrePad::WndProc(unsigned int uMsg, unsigned int uParam,
   switch (uMsg) {
   // case WND_M_POPUPMENU:
   //	if (uParam == (unsigned
-  // int)(KWndWindow*)(m_ChatRoom.GetMessageListBox()))
+  //int)(KWndWindow*)(m_ChatRoom.GetMessageListBox()))
   //		PopupChannelMenu(LOWORD(nParam), HIWORD(nParam));
   //	break;
   case WND_M_MENUITEM_SELECTED:

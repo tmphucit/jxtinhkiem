@@ -53,8 +53,8 @@
 #ifdef _SERVER
 extern int g_WayPointPriceUnit; // WayPoint表格中价格的单位量，WayPoint价格 =
                                 // 单位量 * 表格数值
-extern int g_StationPriceUnit;  // Station表格中价格的单位量，Station价格 =
-                                // 单位量 * 表格数值
+extern int g_StationPriceUnit; // Station表格中价格的单位量，Station价格 =
+                               // 单位量 * 表格数值
 extern int g_DockPriceUnit;
 #endif
 

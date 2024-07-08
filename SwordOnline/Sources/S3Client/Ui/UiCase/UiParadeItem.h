@@ -50,11 +50,11 @@ private:
   KWndText32 m_Name;
   KWndText32 m_Title;
   KWndText32 m_Repute;
-  KWndText32 m_Pk;
-  KWndText32 m_Pd;
-  KWndText32 m_Xh;
-  KWndText32 m_Cs;
-  KWndText32 m_Qh;
+  KWndText32 m_PKValue;
+  KWndText32 m_FuYuan;
+  KWndText32 m_WorldRank;
+  KWndText32 m_TransLife;
+  // KWndText32	m_Qh;
   //	KWndText32	m_MateName;
 
   KWndButton m_Close;

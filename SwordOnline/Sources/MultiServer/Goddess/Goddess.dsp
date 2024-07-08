@@ -56,7 +56,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /map /debug /machine:I386
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\..\bin\client\release\	copy release\Goddess.exe ..\..\..\..\bin\Server\Goddess.exe	copy release\Goddess.exe ..\..\..\..\bin\Server\release\Goddess.exe
+PostBuild_Cmds=md ..\..\..\..\bin\multiserver\	copy release\Goddess.exe ..\..\..\..\bin\multiserver\Goddess.exe	copy release\Goddess.pdb ..\..\..\..\bin\multiserver\Goddess.pdb	md ..\..\..\..\bin\multiserver\release\	copy release\Goddess.exe ..\..\..\..\bin\multiserver\release\Goddess.exe	copy release\Goddess.pdb ..\..\..\..\bin\multiserver\release\Goddess.pdb
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Goddess - Win32 Debug"
@@ -86,7 +86,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\..\bin\client\debug\	copy debug\Goddess.exe ..\..\..\..\bin\Server\Goddess.exe	copy debug\Goddess.exe ..\..\..\..\bin\Server\debug\Goddess.exe
+PostBuild_Cmds=md ..\..\..\..\bin\client\debug\	copy debug\Goddess.exe ..\..\..\..\bin\Client\Goddess.exe	copy debug\Goddess.exe ..\..\..\..\bin\Client\debug\Goddess.exe
 # End Special Build Tool
 
 !ENDIF 

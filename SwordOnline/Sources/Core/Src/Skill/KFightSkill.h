@@ -21,7 +21,7 @@ public:
   BOOL m_bTargetSelf;           //	技能的目标是否可以为自已
 
   NPCATTRIB
-  m_nSkillCostType;      //	技能使用时所需要花费的内力、体力、精力、金钱的类型
+      m_nSkillCostType;  //	技能使用时所需要花费的内力、体力、精力、金钱的类型
   int m_nCost;           //	发该技能所需的内力、体力等的消耗
   int m_nMinTimePerCast; //	发该技能的最小间阁时间
   BOOL m_bMustBeHit;     //	是否为必中技能，即对其处理简单化以便降低服务器负荷

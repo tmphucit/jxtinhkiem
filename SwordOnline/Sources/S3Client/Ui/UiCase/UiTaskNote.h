@@ -12,6 +12,7 @@
 #define _UITASKNOTE
 
 #include "../Elem/WndEdit.h"
+#include "../Elem/WndLabeledButton.h"
 #include "../Elem/WndMessageListBox.h"
 #include "../Elem/WndPage.h"
 #include "../Elem/WndShowAnimate.h"
@@ -36,7 +37,7 @@ private:
   void OnDelete(int nIndex);
 
   KScrollMessageListBox m_RecordList;
-  KWndButton m_BtnDelete;
+  KWndLabeledButton m_BtnDelete;
 };
 
 class KUiTaskNote_Personal : public KWndPage {
@@ -52,8 +53,31 @@ private:
   int WndProc(unsigned int uMsg, unsigned int uParam, int nParam);
   void OnSave();
   KTaskEdit m_Editor;
-  KWndButton m_BtnSave;
+  KWndLabeledButton m_BtnSave;
   KWndScrollBar m_ScrollBar;
+};
+
+class KUiTaskNote_Event : public KWndPage {
+public:
+  void Initialize();
+  void LoadScheme(const char *pScheme);
+
+private:
+  int WndProc(unsigned int uMsg, unsigned int uParam, int nParam);
+};
+
+class KUiTaskNote_Bind : public KWndPage {
+public:
+  void Initialize();                    // 初始化
+  void LoadScheme(const char *pScheme); // 载入界面方案
+  void UpdateView();
+
+private:
+  int WndProc(unsigned int uMsg, unsigned int uParam, int nParam);
+  void OnDelete(int nIndex);
+
+  KScrollMessageListBox m_RecordList;
+  KWndLabeledButton m_BtnDelete;
 };
 
 class KUiTaskNote : public KWndPageSet {
@@ -63,7 +87,8 @@ public:
   static void CloseWindow(bool bDestroy);
   static KUiTaskNote *GetIfVisible();
   // 由游戏循环唤醒
-  static void WakeUp(const char *pSystemRecord, int nLen, unsigned int uValue);
+  static void WakeUp(BYTE btType, const char *pSystemRecord, int nLen,
+                     unsigned int uValue);
   // 载入界面方案
   static void LoadScheme(const char *pScheme);
 
@@ -81,8 +106,13 @@ private:
 
   KUiTaskNote_System m_SystemPad;
   KUiTaskNote_Personal m_PersonalPad;
-  KWndButton m_BtnSystem;
-  KWndButton m_BtnPersonal;
+  KUiTaskNote_Event m_EventPad;
+  KUiTaskNote_Bind m_BindPad;
+
+  KWndLabeledButton m_BtnSystem;
+  KWndLabeledButton m_BtnPersonal;
+  KWndLabeledButton m_BtnEvent;
+  KWndLabeledButton m_BtnBind;
   KWndButton m_BtnClose;
 };
 

@@ -14,6 +14,30 @@
 
 #define MAX_TEAM MAX_PLAYER
 
+enum {
+  Team_S_OpenClose = 0,
+  Team_S_CreatTeamFlag,
+  Team_S_PKFollowCaptain,
+  Team_S_ModePick,
+};
+
+enum {
+  Team_S_NonFollow = 0,
+  Team_S_PKFollow,
+};
+
+enum {
+  Team_S_Close = 0,
+  Team_S_Open,
+};
+
+enum {
+  Team_S_SelfPick = 0,
+  Team_S_FreePick,
+  Team_S_CaptainPick,
+  Team_S_AlternatePick,
+};
+
 #ifdef _SERVER
 class KPlayerTeam // 服务器端玩家的组队信息
 {
@@ -28,7 +52,9 @@ public:
   int m_nListPos;                     // 列表当前位置
 
 private:
-  BOOL m_bCanTeamFlag;
+  BOOL m_bCreatTeamFlag;
+  BOOL m_bFreezeTeamFlag;
+  BOOL m_bPKFollowCaptain;
 
 public:
   KPlayerTeam() { Release(); };
@@ -37,8 +63,14 @@ public:
   void InviteAdd(int nIdx, TEAM_INVITE_ADD_COMMAND *pAdd);
   void GetInviteReply(int nSelfIdx, int nTargetIdx, int nResult);
 
-  void SetCanTeamFlag(int nSelfIdx, BOOL bFlag);
-  BOOL GetCanTeamFlag() { return m_bCanTeamFlag; };
+  void SetCreatTeamFlag(int nSelfIdx, BOOL bFlag);
+  BOOL GetCreatTeamFlag() { return m_bCreatTeamFlag; };
+
+  void SetFreezeTeamFlag(int nSelfIdx, BOOL bFlag);
+  BOOL GetFreezeTeamFlag() { return m_bFreezeTeamFlag; };
+
+  void SetPKFollowCaptain(int nSelfIdx, BOOL bFlag);
+  BOOL GetPKFollowCaptain() { return m_bPKFollowCaptain; };
 };
 #endif
 
@@ -50,7 +82,6 @@ public:
   DWORD m_dwTimer;   // 申请时间计数器
   int m_nLevel;      // 申请人等级
   char m_szName[32]; // 申请人姓名
-
 public:
   KTeamApplyList() { Release(); };
   void Release() {
@@ -66,11 +97,6 @@ class KPlayerTeam // 客户端玩家的组队信息
 public:
   int m_nFlag;   // 标志是否已经组队
   int m_nFigure; // 如果已经组队，player 的身份：TEAM_CAPTAIN TEAM_MEMBER
-  BOOL m_InviteAuto;
-  BOOL m_AcceptAuto;
-  BOOL m_CancelAuto;
-  BOOL Check_AcceptAutoName;
-  char AcceptAutoName[32];
 
   int m_nApplyCaptainID; // 申请加入的目标队伍的队长的 npc id
   DWORD m_dwApplyTimer;  // 申请时间计数器（申请多久了，超过时间取消申请）
@@ -78,20 +104,32 @@ public:
                                 // 自动拒绝   FALSE 手动
   KTeamApplyList
       m_sApplyList[MAX_TEAM_APPLY_LIST]; // 如果为队长，队伍的申请人列表
+  BOOL m_bAutoAccecpt;
+  BOOL m_bActiveAutoParty;
+  BOOL m_bAutoParty;
+  BOOL m_bCreatTeamFlag;
+  BOOL m_bPKFollowCaptain;
+
 public:
   KPlayerTeam();
   void Release();
   void ReleaseList();
-  BOOL ApplyCreate();            // char *lpszTeamName);				//
-                                 // 申请创建一支队伍
-  void InviteAdd(DWORD dwNpcID); // 邀请加入队伍
+  BOOL ApplyCreate(); // char *lpszTeamName);				//
+                      // 申请创建一支队伍
+  void InviteAdd(DWORD dwNpcID);                     // 邀请加入队伍
   void ReceiveInvite(TEAM_INVITE_ADD_SYNC *pInvite); // 收到邀请
   void ReplyInvite(int nIdx, int nResult);           // 回复邀请
   void SetAutoRefuseInvite(BOOL bFlag); // 设定是否自动拒绝别人的加入队伍的邀请
-  BOOL GetAutoRefuseState();         // 获得是否自动拒绝别人的加入队伍的邀请状态
-  int GetInfo(KUiPlayerTeam *pTeam); // 获得自身队伍信息（给界面）
-  void UpdateInterface();            // 更新界面显示
+  BOOL GetAutoRefuseState(); // 获得是否自动拒绝别人的加入队伍的邀请状态
+  BOOL GetInfo(KUiPlayerTeam *pTeam);         // 获得自身队伍信息（给界面）
+  void UpdateInterface();                     // 更新界面显示
   void DeleteOneFromApplyList(DWORD dwNpcID); // 从申请人列表中删除某个申请人
+
+  void SetCreatTeamFlag(BOOL bFlag);
+  BOOL GetCreatTeamFlag() { return m_bCreatTeamFlag; };
+
+  void SetPKFollowCaptain(BOOL bFlag);
+  BOOL GetPKFollowCaptain() { return m_bPKFollowCaptain; };
 };
 #endif
 
@@ -100,8 +138,12 @@ public:
 class KTeam {
 private:
   int m_nIndex; // 本 Team 在 g_Team 中的位置
+#ifdef _SERVER
+  int m_nTurnPick;
+#endif
 public:
-  int m_nState;   // 队伍状态：Team_S_Open Team_S_Close
+  int m_nState; // 队伍状态：Team_S_Open Team_S_Close
+  int m_nModePick;
   int m_nCaptain; // 队长 id ，服务器端用 player index ，客户端用 npc id ，-1
                   // 为空
   int m_nMember[MAX_TEAM_MEMBER]; // 所有队员 id ，服务器端用 player index
@@ -116,21 +158,27 @@ public:
 #endif
 
 public:
-  KTeam();                         // 构造函数
-  void Release();                  // 清空
-  void SetIndex(int nIndex);       // 设定 Team 在 g_Team 中的位置
-  BOOL SetTeamOpen();              // 设定队伍状态：打开（允许接受新成员）
-  BOOL SetTeamClose();             // 设定队伍状态：关闭（不允许接受新成员）
-  int CalcCaptainPower();          // 计算队长能统帅队员的人数
-  int FindFree();                  // 寻找队员空位
-  int FindMemberID(DWORD dwNpcID); // 寻找具有指定npc id的队员（不包括队长）
+  KTeam();                   // 构造函数
+  void Release();            // 清空
+  void SetIndex(int nIndex); // 设定 Team 在 g_Team 中的位置
+  BOOL
+  SetTeamOpen(BOOL bNotify = FALSE); // 设定队伍状态：打开（允许接受新成员）
+  BOOL
+  SetTeamClose(BOOL bNotify = FALSE); // 设定队伍状态：关闭（不允许接受新成员）
+  BOOL SetModePick(int nMode);        // 设定队伍状态：关闭（不允许接受新成员）
+  int CalcCaptainPower();             // 计算队长能统帅队员的人数
+  int FindFree();                     // 寻找队员空位
+  int FindMemberID(DWORD dwNpcID);    // 寻找具有指定npc id的队员（不包括队长）
 #ifdef _SERVER
   BOOL CreateTeam(int nPlayerIndex);   //, char *lpszName);// 创建一支队伍
   BOOL AddMember(int nPlayerIndex);    // 添加一个队伍成员
   BOOL DeleteMember(int nPlayerIndex); // 删除一个队伍成员
   BOOL CheckFull();                    // 判断队伍是否已经满员
-  BOOL IsOpen();                       // 判断队伍是否是打开状态
-  BOOL CheckIn(int nPlayerIndex);      // 判断某人是否是队伍成员
+  void NotifyModePick();
+  void NotifyMemberModePick(int nPlayerIndex);
+  BOOL IsOpen();                                  // 判断队伍是否是打开状态
+  BOOL CheckIn(int nSelfIndex, int nPlayerIndex); // 判断某人是否是队伍成员
+  BOOL CheckItemIn(int nPlayerIndex);             // 判断某人是否是队伍成员
 #endif
 #ifndef _SERVER
   // 客户端创建一支队伍（客户端只可能存在一支队伍，属于本地玩家）

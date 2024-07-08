@@ -162,7 +162,7 @@ typedef struct _DPL_CONNECTION_SETTINGS {
   DWORD dwSize;  // Size of this structure
   DWORD dwFlags; // Connection settings flags (DPLCONNECTSETTINGS_...)
   DPN_APPLICATION_DESC
-  dpnAppDesc; // Application desc for the associated DirectPlay session
+      dpnAppDesc; // Application desc for the associated DirectPlay session
   IDirectPlay8Address *pdp8HostAddress; // Address of host to connect to
   IDirectPlay8Address *
       *ppdp8DeviceAddresses; // Address of device to connect from / host on
@@ -217,7 +217,7 @@ typedef struct _DPL_MESSAGE_CONNECT {
   DWORD dwSize;         // Size of this structure
   DPNHANDLE hConnectId; // Handle of new connection
   PDPL_CONNECTION_SETTINGS
-  pdplConnectionSettings;       // Connection settings for this connection
+      pdplConnectionSettings;   // Connection settings for this connection
   PVOID pvLobbyConnectData;     // User defined lobby data block
   DWORD dwLobbyConnectDataSize; // Size of user defined lobby data block
   PVOID pvConnectionContext;    // Context value for this connection (user set)

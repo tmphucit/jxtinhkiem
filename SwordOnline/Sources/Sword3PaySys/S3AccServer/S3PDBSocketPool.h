@@ -81,7 +81,7 @@ protected:
 
   DWORD ProcessData(S3PDBConVBC *pConn, const void *pData, DWORD dwDataSize);
 
-  BOOL(KGatewayDataProcess::*ProcessFunc[16])
+  BOOL (KGatewayDataProcess::*ProcessFunc[16])
   (S3PDBConVBC *pConn, const IBYTE *lpData, const DWORD dwSize);
 
   BOOL ProGetwayVerify(S3PDBConVBC *pConn, const IBYTE *lpData,

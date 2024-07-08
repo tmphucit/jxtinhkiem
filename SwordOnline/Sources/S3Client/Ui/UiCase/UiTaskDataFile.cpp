@@ -19,12 +19,16 @@ KTaskDataFile::KPersonalRecord *KTaskDataFile::ms_pPersonalRecord = NULL;
 KTaskDataFile::KTaskSystemRecordNode *KTaskDataFile::ms_pSystemRecordList =
     NULL;
 int KTaskDataFile::ms_nSystemRecordCount = 0;
+KTaskDataFile::KTaskBindRecordNode *KTaskDataFile::ms_pBindRecordList = NULL;
+int KTaskDataFile::ms_nBindRecordCount = 0;
 
 void KTaskDataFile::LoadData() {
   ClearAll();
 
   KFile File;
   char szFileName[128];
+  int nPreSize;
+  int i;
 
   GetFileName(szFileName, sizeof(szFileName));
   bool bOk = false;
@@ -48,25 +52,45 @@ void KTaskDataFile::LoadData() {
       }
     }
 
-    //==读系统纪录==
-    TASK_SYSTEM_RECORD record;
-    int nPreSize = sizeof(TASK_SYSTEM_RECORD) - sizeof(record.cBuffer);
-    for (int i = 0; i < Header.nSystemRecordCount; i++) {
-      if (File.Read(&record, nPreSize) != nPreSize)
+    TASK_SYSTEM_RECORD srecord;
+    nPreSize = sizeof(TASK_SYSTEM_RECORD) - sizeof(srecord.cBuffer);
+    for (i = 0; i < Header.nSystemRecordCount; i++) {
+      if (File.Read(&srecord, nPreSize) != nPreSize)
         break;
       KTaskSystemRecordNode *pNode = (KTaskSystemRecordNode *)malloc(
-          sizeof(KTaskSystemRecordNode) + record.nContentLen);
+          sizeof(KTaskSystemRecordNode) + srecord.nContentLen);
       if (pNode) {
-        if (File.Read(pNode->Record.cBuffer, record.nContentLen) !=
-            record.nContentLen) {
+        if (File.Read(pNode->Record.cBuffer, srecord.nContentLen) !=
+            srecord.nContentLen) {
           free(pNode);
           break;
         }
         pNode->pNext = NULL;
-        pNode->Record.nContentLen = record.nContentLen;
-        pNode->Record.tTime = record.tTime;
-        pNode->Record.uReserved = record.uReserved;
+        pNode->Record.nContentLen = srecord.nContentLen;
+        pNode->Record.tTime = srecord.tTime;
+        pNode->Record.uReserved = srecord.uReserved;
         AppendSystemRecord(pNode);
+      }
+    }
+
+    TASK_BIND_RECORD brecord;
+    nPreSize = sizeof(TASK_BIND_RECORD) - sizeof(brecord.cBuffer);
+    for (i = 0; i < Header.nBindRecordCount; i++) {
+      if (File.Read(&brecord, nPreSize) != nPreSize)
+        break;
+      KTaskBindRecordNode *pNode = (KTaskBindRecordNode *)malloc(
+          sizeof(KTaskBindRecordNode) + brecord.nContentLen);
+      if (pNode) {
+        if (File.Read(pNode->Record.cBuffer, brecord.nContentLen) !=
+            brecord.nContentLen) {
+          free(pNode);
+          break;
+        }
+        pNode->pNext = NULL;
+        pNode->Record.nContentLen = brecord.nContentLen;
+        pNode->Record.tTime = brecord.tTime;
+        pNode->Record.uReserved = brecord.uReserved;
+        AppendBindRecord(pNode);
       }
     }
 
@@ -81,11 +105,13 @@ void KTaskDataFile::LoadData() {
 bool KTaskDataFile::SaveData() {
   KFile File;
   char szFileName[128];
+  int i, j;
 
   GetFileName(szFileName, sizeof(szFileName));
 
   bool bOk = false;
-  while (ms_pPersonalRecord || ms_nSystemRecordCount > 0) {
+  while (ms_pPersonalRecord || ms_nSystemRecordCount > 0 ||
+         ms_nBindRecordCount > 0) {
     if (!File.Create(szFileName))
       break;
     //==写文件头==
@@ -97,27 +123,35 @@ bool KTaskDataFile::SaveData() {
                                     sizeof(ms_pPersonalRecord->cBuffer);
     }
     Header.nSystemRecordCount = ms_nSystemRecordCount;
+    Header.nBindRecordCount = ms_nBindRecordCount;
     if (File.Write(&Header, sizeof(Header)) != sizeof(Header))
       break;
 
-    //==写个人纪录==
     if (ms_pPersonalRecord) {
       if (File.Write(ms_pPersonalRecord, Header.nPersonalRecordBytes) !=
           Header.nPersonalRecordBytes)
         break;
     }
 
-    //==写系统纪录==
-    KTaskSystemRecordNode *pCurrent = ms_pSystemRecordList;
-    int i;
+    KTaskSystemRecordNode *psCurrent = ms_pSystemRecordList;
     for (i = 0; i < ms_nSystemRecordCount; i++) {
-      int nSize = sizeof(TASK_SYSTEM_RECORD) + pCurrent->Record.nContentLen -
-                  sizeof(pCurrent->Record.cBuffer);
-      if (File.Write(&pCurrent->Record, nSize) != nSize)
+      int nSize = sizeof(TASK_SYSTEM_RECORD) + psCurrent->Record.nContentLen -
+                  sizeof(psCurrent->Record.cBuffer);
+      if (File.Write(&psCurrent->Record, nSize) != nSize)
         break;
-      pCurrent = pCurrent->pNext;
+      psCurrent = psCurrent->pNext;
     }
-    if (i >= ms_nSystemRecordCount) {
+
+    KTaskBindRecordNode *pbCurrent = ms_pBindRecordList;
+    for (j = 0; j < ms_nBindRecordCount; j++) {
+      int nSize = sizeof(TASK_BIND_RECORD) + pbCurrent->Record.nContentLen -
+                  sizeof(pbCurrent->Record.cBuffer);
+      if (File.Write(&pbCurrent->Record, nSize) != nSize)
+        break;
+      pbCurrent = pbCurrent->pNext;
+    }
+
+    if (i >= ms_nSystemRecordCount || j >= ms_nBindRecordCount) {
       bOk = true;
     }
     break;
@@ -149,6 +183,12 @@ void KTaskDataFile::ClearAll() {
     ms_pSystemRecordList = NULL;
   }
   ms_nSystemRecordCount = 0;
+
+  if (ms_pBindRecordList) {
+    free(ms_pBindRecordList);
+    ms_pBindRecordList = NULL;
+  }
+  ms_nBindRecordCount = 0;
 }
 
 int KTaskDataFile::GetPersonalRecord(char *pszBuffer, int nBufferSize) {
@@ -259,5 +299,86 @@ void KTaskDataFile::InsertSystemRecord(KTaskSystemRecordNode *pNode) {
     pNode->pNext = ms_pSystemRecordList;
     ms_pSystemRecordList = pNode;
     ms_nSystemRecordCount++;
+  }
+}
+
+// BindRecord
+bool KTaskDataFile::RemoveBindRecord(int nIndex) {
+  bool bOk = false;
+  if (nIndex >= 0 && nIndex < ms_nBindRecordCount) {
+    KTaskBindRecordNode *pToRemove = NULL;
+    if (nIndex == 0) {
+      pToRemove = ms_pBindRecordList;
+      ms_pBindRecordList = pToRemove->pNext;
+    } else {
+      KTaskBindRecordNode *pPre = ms_pBindRecordList;
+      while (nIndex > 1) {
+        pPre = pPre->pNext;
+        nIndex--;
+      };
+      pToRemove = pPre->pNext;
+      pPre->pNext = pToRemove->pNext;
+    }
+    free(pToRemove);
+    ms_nBindRecordCount--;
+    bOk = true;
+  }
+  return bOk;
+}
+
+int KTaskDataFile::GetBindRecordCount() { return ms_nBindRecordCount; }
+
+const TASK_BIND_RECORD *KTaskDataFile::GetBindRecord(int nIndex) {
+  TASK_BIND_RECORD *pRet = NULL;
+  if (nIndex >= 0 && nIndex < ms_nBindRecordCount) {
+    KTaskBindRecordNode *pNode = ms_pBindRecordList;
+    while (nIndex > 0) {
+      pNode = pNode->pNext;
+      nIndex--;
+    }
+    pRet = &pNode->Record;
+  }
+  return pRet;
+}
+
+bool KTaskDataFile::InsertBindRecord(TASK_BIND_RECORD *pRecord) {
+  bool bOk = false;
+  if (pRecord) {
+    if (pRecord->nContentLen > 0 && pRecord->pBuffer) {
+      KTaskBindRecordNode *pNode = (KTaskBindRecordNode *)malloc(
+          sizeof(KTaskBindRecordNode) + pRecord->nContentLen);
+      if (pNode) {
+        pNode->pNext = NULL;
+        memcpy(pNode->Record.cBuffer, pRecord->pBuffer, pRecord->nContentLen);
+        pNode->Record.nContentLen = pRecord->nContentLen;
+        pNode->Record.tTime = pRecord->tTime;
+        pNode->Record.uReserved = pRecord->uReserved;
+        InsertBindRecord(pNode);
+        bOk = true;
+      }
+    }
+  }
+  return bOk;
+}
+
+void KTaskDataFile::AppendBindRecord(KTaskBindRecordNode *pNode) {
+  if (pNode) {
+    if (ms_pBindRecordList == NULL) {
+      ms_pBindRecordList = pNode;
+    } else {
+      KTaskBindRecordNode *pPre = ms_pBindRecordList;
+      while (pPre->pNext)
+        pPre = pPre->pNext;
+      pPre->pNext = pNode;
+    }
+    ms_nBindRecordCount++;
+  }
+}
+
+void KTaskDataFile::InsertBindRecord(KTaskBindRecordNode *pNode) {
+  if (pNode) {
+    pNode->pNext = ms_pBindRecordList;
+    ms_pBindRecordList = pNode;
+    ms_nBindRecordCount++;
   }
 }

@@ -298,7 +298,7 @@ public:
   virtual HRESULT SetParam(int index, LPCSTR szValue) = 0;
   //	virtual BOOL				GetFirstParam() = 0;
   //	virtual BOOL				GetNextParam(CString& szItem,
-  // CString& szValue, CString& szDescription) = 0;
+  //CString& szValue, CString& szDescription) = 0;
 
   enum EventEnum {
     SE_CAMERANOTIFY, //		接受Camera move的消息
@@ -454,8 +454,7 @@ public:
   virtual ObstacleEnum CheckObstacle(cPoint ptGround, cPoint &vSpeed,
                                      bool bClockWise) = 0; // 根据多边形来检测
   virtual BOOL BlockObstacle(cPoint pt, ObstacleEnum e) = 0;
-  virtual HRESULT GetTileType(cPoint ptGround,
-                              long &type) = 0; // 根据格子来检测
+  virtual HRESULT GetTileType(cPoint ptGround, long &type) = 0; // 根据格子来检测
 
   // Special
   virtual HRESULT AddiSpecial(iSpecial *p) = 0;

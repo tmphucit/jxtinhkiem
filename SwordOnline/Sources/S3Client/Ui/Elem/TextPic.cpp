@@ -6,7 +6,6 @@
 //////////////////////////////////////////////////////////////////////////////////////
 
 #include "TextPic.h"
-#include "../../../Engine/src/KDebug.h"
 #include "../../../Represent/iRepresent/KRepresentUnit.h"
 #include "../../../Represent/iRepresent/iRepresentShell.h"
 #include "CrtDbg.h"
@@ -20,16 +19,17 @@ BOOL KInlinePicSink::Init(iRepresentShell *pShell) {
   if (!m_pRepShell)
     return FALSE;
   KIniFile ini;
-
-  char szBuffer[MAX_PATH];
-  char szIndex[4];
+#define CHAR_BUFFER_LEN 32
+  char szBuffer[CHAR_BUFFER_LEN], szPath[CHAR_BUFFER_LEN], szIndex[4],
+      szBuffer2[CHAR_BUFFER_LEN * 2];
   int nPicCount = 0, i = 0;
   KUiImageRef CurrentImg;
   KImageParam Param;
 
   if (!ini.Load("\\Ui\\ChatPics.ini"))
     return FALSE;
-
+  ini.GetString("Main", "Path", "\\spr\\Ui\\ÁÄÌì\\±íÇé", szPath,
+                CHAR_BUFFER_LEN);
   ini.GetInteger("Main", "Count", 0, &nPicCount);
 
   if (nPicCount > MAX_SYSTEM_INLINE_PICTURES)
@@ -37,15 +37,18 @@ BOOL KInlinePicSink::Init(iRepresentShell *pShell) {
 
   for (i = 0; i < nPicCount; i++) {
     sprintf(szIndex, "%d", i);
-    if (!ini.GetString("Main", szIndex, "", szBuffer, MAX_PATH)) {
-      //			_ASSERT(0);
+    if (!ini.GetString("Main", szIndex, "", szBuffer, CHAR_BUFFER_LEN)) {
+      _ASSERT(0);
       break;
     }
+    strcpy(szBuffer2, szPath);
+    strcat(szBuffer2, "\\");
+    strcat(szBuffer2, szBuffer);
     IR_InitUiImageRef(CurrentImg);
     CurrentImg.nFlipTime = 0;
     CurrentImg.nInterval = 0;
     CurrentImg.nNumFrames = 0;
-    strncpy(CurrentImg.szImage, szBuffer, sizeof(CurrentImg.szImage));
+    strncpy(CurrentImg.szImage, szBuffer2, sizeof(CurrentImg.szImage));
     CurrentImg.szImage[sizeof(CurrentImg.szImage) - 1] = 0;
     CurrentImg.bRenderFlag = RUIMAGE_RENDER_FLAG_REF_SPOT;
     CurrentImg.nType = ISI_T_SPR;

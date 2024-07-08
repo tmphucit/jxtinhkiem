@@ -30,6 +30,7 @@ public:
 #ifdef _SERVER
   int m_nBackState;
   char m_szBackSentence[MAX_SENTENCE_LENGTH];
+  bool m_bBackTeamState;
 #endif
 
 #ifndef _SERVER

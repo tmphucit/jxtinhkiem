@@ -17,7 +17,7 @@
 
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI_ITEM "itemcheckbox.ini"
+#define SCHEME_INI_ITEM "UiItemCheckBox.ini"
 
 KUiItemCheckBox *KUiItemCheckBox::m_pSelf = NULL;
 

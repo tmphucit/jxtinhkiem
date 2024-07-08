@@ -6,24 +6,25 @@
 #include "Elem/MouseHover.h"
 #include "Elem/Wnds.h"
 #include "KEngine.h"
+#include "UiCase/UiChatCentre.h"
+#include "UiCase/UiInformation2.h"
 #include "UiCase/UiItem.h"
+#include "UiCase/UiMsgCentrePad.h"
+#include "UiCase/UiMsgSel.h"
+#include "UiCase/UiMsgSel2.h"
+#include "UiCase/UiMsgSel3.h"
+#include "UiCase/UiNewsMessage1.h"
 #include "UiCase/UiPlayerBar.h"
+#include "UiCase/UiSelPlayerNearby.h"
 #include "UiCase/UiShop.h"
 #include "UiCase/UiShopGold.h"
 #include "UiCase/UiSkills.h"
 #include "UiCase/UiStatus.h"
-#include "UiCase/UiTrade.h"
-#include "Windows.h"
-// #include "UiCase/UiGetString2.h"
-
-#include "UiCase/UiChatCentre.h"
-#include "UiCase/UiInformation2.h"
-#include "UiCase/UiMsgCentrePad.h"
-#include "UiCase/UiMsgSel.h"
-#include "UiCase/UiSelPlayerNearby.h"
 #include "UiCase/UiStoreBox.h"
 #include "UiCase/UiSysMsgCentre.h"
 #include "UiCase/UiTeamManage.h"
+#include "UiCase/UiTrade.h"
+#include "Windows.h"
 
 #include "UiCase/UiNewPWStoreBox.h"
 
@@ -35,6 +36,7 @@
 #include "KTongProtocol.h"
 #include "UiCase/UiBuyShop.h"
 #include "UiCase/UiCheckItemBox.h"
+#include "UiCase/UiInit.h"
 #include "UiCase/UiNewsMessage.h"
 #include "UiCase/UiPGBoxItem.h"
 #include "UiCase/UiParadeItem.h"
@@ -42,6 +44,7 @@
 #include "UiCase/UiStrengthRank.h"
 #include "UiCase/UiStringBox.h"
 #include "UiCase/UiTaskNote.h"
+#include "UiCase/UiTimeBox.h"
 #include "UiCase/UiTongCreateSheet.h"
 #include "UiCase/UiTongManager.h"
 
@@ -111,6 +114,7 @@ void CoreDataChangedCallback(unsigned int uDataId, unsigned int uParam,
       }
     }
     break;
+
   case GDCNI_OBJECT_CHANGED:
     if (uParam) {
       KUiObjAtContRegion *pObject = (KUiObjAtContRegion *)uParam;
@@ -139,9 +143,7 @@ void CoreDataChangedCallback(unsigned int uDataId, unsigned int uParam,
         KUiStoreBox *pStoreBox = KUiStoreBox::GetIfVisible();
         if (pStoreBox)
           pStoreBox->UpdateItem((KUiObjAtRegion *)uParam, nParam);
-      }
-
-      else if (pObject->eContainer == UOC_RPNEW_BOX) {
+      } else if (pObject->eContainer == UOC_RPNEW_BOX) {
         KUiRPNewBox *pRPNewBox = KUiRPNewBox::GetIfVisible();
         if (pRPNewBox)
           pRPNewBox->UpdateItem((KUiObjAtRegion *)uParam, nParam);
@@ -174,7 +176,9 @@ void CoreDataChangedCallback(unsigned int uDataId, unsigned int uParam,
           else
             pBar->UpdateItem(pObject->Region.h, CGOG_NOTHING, 0);
         }
-      } else if (pObject->eContainer == UOC_IMMEDIA_SKILL) {
+      }
+
+      else if (pObject->eContainer == UOC_IMMEDIA_SKILL) {
         KUiPlayerBar *pBar = KUiPlayerBar::GetIfVisible();
         if (pBar) {
           if (nParam)
@@ -302,6 +306,12 @@ void CoreDataChangedCallback(unsigned int uDataId, unsigned int uParam,
   case GDCNI_QUESTION_CHOOSE:
     KUiMsgSel::OpenWindow((KUiQuestionAndAnswer *)uParam);
     break;
+  case GDCNI_QUESTION_CHOOSE_1: // say new
+    KUiMsgSel2::OpenWindow((KUiQuestionAndAnswer *)uParam, (KUiNpcSpr *)nParam);
+    break;
+  case GDCNI_QUESTION_CHOOSE_2: // say new
+    KUiMsgSel3::OpenWindow((KUiQuestionAndAnswer *)uParam, nParam);
+    break;
   case GDCNI_GAME_START: {
     g_LoginLogic.NotifyToStartGame();
     Wnd_GameSpaceHandleInput(true);
@@ -343,7 +353,7 @@ void CoreDataChangedCallback(unsigned int uDataId, unsigned int uParam,
   } break;
   case GDCNI_QUERY_TONGKIM: {
     if (uParam) {
-      g_DebugLog("cap nhat lai danh sach kenh chat");
+      // g_DebugLog("cap nhat lai danh sach kenh chat");
       KUiMsgCentrePad::QueryAllChannel();
     } else
       KUiMsgCentrePad::CloseSelfChannel(KUiMsgCentrePad::ch_Kim);
@@ -362,7 +372,6 @@ void CoreDataChangedCallback(unsigned int uDataId, unsigned int uParam,
   case GDCNI_OPEN_STORE_BOX:
     KUiStoreBox::OpenWindow();
     KUiItem::OpenWindow();
-
     break;
   case GDCNI_SWITCHING_SCENEPLACE:
     break;
@@ -370,7 +379,7 @@ void CoreDataChangedCallback(unsigned int uDataId, unsigned int uParam,
   case GDCNI_MISSION_RECORD:
     if (uParam) {
       KMissionRecord *pRecord = (KMissionRecord *)uParam;
-      KUiTaskNote::WakeUp(pRecord->sContent, pRecord->nContentLen,
+      KUiTaskNote::WakeUp(nParam, pRecord->sContent, pRecord->nContentLen,
                           pRecord->uValue);
     }
     break;
@@ -386,6 +395,11 @@ void CoreDataChangedCallback(unsigned int uDataId, unsigned int uParam,
     if (uParam)
       KUiNewsMessage::MessageArrival((KNewsMessage *)uParam,
                                      (SYSTEMTIME *)nParam);
+    break;
+  case GDCNI_NEWS_MESSAGE_1: // ÐÂÎÅÏûÏ¢
+    if (uParam)
+      KUiNewsMessage1::MessageArrival1((KNewsMessage1 *)uParam,
+                                       (SYSTEMTIME *)nParam);
     break;
   case GDCNII_RANK_INDEX_LIST_ARRIVE:
     KUiStrengthRank::OpenWindow();
@@ -407,6 +421,10 @@ void CoreDataChangedCallback(unsigned int uDataId, unsigned int uParam,
     KUiItem::UpdateButton(uParam);
     break;
 
+  case GDCNI_OPEN_TIME_BOX: {
+    KUiTimeBoxInfo *pInfo = (KUiTimeBoxInfo *)uParam;
+    KUiTimeBox::OpenWindow(pInfo->szTitle, pInfo->nTime, pInfo->szAction);
+  } break;
   case GDCNI_TONG_ACTION_RESULT:
     KUiTongManager::ResponseResult((KUiGameObjectWithName *)uParam, nParam);
     break;
@@ -430,10 +448,6 @@ void CoreDataChangedCallback(unsigned int uDataId, unsigned int uParam,
   case GDCNI_OPEN_PG_BOX_ITEM:
     KUiPGBoxItem::OpenWindow();
     break;
-    //	case GDCNI_INPUT:
-    //	KUiGetString2::OpenWindow(GSA_INPUT, "NhËp d÷ liÖu", "", // them moi
-    //			NULL, 0, (int)uParam,0,32);
-    //	break;
 
   case GDCNI_OPEN_NEW_PW_BOX_ITEM:
     KUiNewPWStoreBox::OpenWindow();
@@ -455,6 +469,12 @@ void CoreDataChangedCallback(unsigned int uDataId, unsigned int uParam,
     KUiBuyShop::OpenWindow((char *)uParam);
     break;
 
+  case GDCNI_S2C_EXIT_GAME:
+    g_pCoreShell->OperationRequest(GOI_EXIT_GAME, 0, 0);
+    g_LoginLogic.ReturnToIdle();
+    UiEndGame();
+    KUiInit::OpenWindow(true, false);
+    break;
   case GDCNI_OPEN_LOCK_BOX_ITEM:
 
     if (KUiStoreBox::GetIfVisible())
@@ -488,7 +508,7 @@ void KClientCallback::CoreDataChanged(unsigned int uDataId, unsigned int uParam,
 typedef std::map<std::string, std::string> BLACKLIST;
 BLACKLIST g_BlackListUserNames;
 
-#define BLACKLIST_UNITNAME "S?®en"
+#define BLACKLIST_UNITNAME "Sæ ®en"
 
 struct BlacklistNotify : public AddinNotify {
   virtual int RenameUnitGroup(const char *Unit, const char *Name,
@@ -645,7 +665,8 @@ void KClientCallback::ChannelMessageArrival(int figure, DWORD nChannelID,
                                             bool bSucc) {
   if (!bSucc) {
     char szInfo[256];
-    int n = sprintf(szInfo, "±§Ç¸, ÆµµÀ»¹Î´¿ª·Å,ÏûÏ¢ÎÞ·¨·¢µ½!");
+    int n = sprintf(
+        szInfo, "Xin thø lçi! TÇn sè vÉn ch­a më, kh«ng thÓ chuyÓn tin tøc!");
     KUiMsgCentrePad::SystemMessageArrival(szInfo, n);
     return;
   }
@@ -674,6 +695,7 @@ void KClientCallback::ChannelMessageArrival(int figure, DWORD nChannelID,
     if (IsInBlackName(szSendName))
       return;
   }
+
   KUiMsgCentrePad::NewChannelMessageArrival(figure, nChannelID, szSendName,
                                             pMsgBuff, nMsgLength);
 
@@ -683,7 +705,299 @@ void KClientCallback::ChannelMessageArrival(int figure, DWORD nChannelID,
     int nKind = -1;
     if (g_pCoreShell->FindSpecialNPC(szSendName, &SelectPlayer, nKind) &&
         nKind == kind_player) {
-      g_pCoreShell->ChatSpecialPlayer(&SelectPlayer, pMsgBuff, nMsgLength);
+      int nPos = 0;
+      char *pszCheck1 = NULL;
+      char *pszCheck2 = NULL;
+      int nCount = 0;
+      char szNum[16];
+      int nLeng = 0;
+      unsigned int uMsgLen1 = 0;
+      unsigned int uMsgLen2 = 0;
+      int i = 0;
+      int j = 0;
+      int nIdx = 0;
+      BOOL bOk = FALSE;
+      ChatItem CItem;
+      CItem.nItemGenre = -1;
+      pszCheck1 = (char *)pMsgBuff;
+      while (i < nMsgLength) {
+        uMsgLen2 = 0;
+        if (*pszCheck1 == '[') {
+          pszCheck2 = (char *)(pMsgBuff + i);
+          nCount = 0;
+          j = i;
+          while (j < nMsgLength) {
+            uMsgLen2++;
+            if (*pszCheck2 == ']' && nCount == 30) {
+              bOk = TRUE;
+              break;
+            }
+
+            if (*pszCheck2 == ',') {
+              nCount++;
+            }
+
+            pszCheck2++;
+            j++;
+          }
+        }
+
+        pszCheck1++;
+        if (bOk) {
+          uMsgLen1 = i;
+          break;
+        }
+
+        i++;
+      }
+
+      if (bOk) {
+        bOk = FALSE;
+        if (uMsgLen1 > 200) {
+          return;
+        }
+
+        ZeroMemory(szNum, sizeof(szNum));
+        while (1) {
+          if (*pszCheck1 == ',')
+            break;
+          if (nLeng < 5)
+            szNum[nLeng] = (*pszCheck1);
+          pszCheck1++;
+          nLeng++;
+        }
+
+        CItem.nKind = atoi(szNum);
+        ZeroMemory(szNum, sizeof(szNum));
+        nLeng = 0;
+        pszCheck1++;
+        while (1) {
+          if (*pszCheck1 == ',')
+            break;
+          if (nLeng < 5)
+            szNum[nLeng] = (*pszCheck1);
+          pszCheck1++;
+          nLeng++;
+        }
+
+        CItem.nItemGenre = atoi(szNum);
+        ZeroMemory(szNum, sizeof(szNum));
+        nLeng = 0;
+        pszCheck1++;
+        while (1) {
+          if (*pszCheck1 == ',')
+            break;
+          if (nLeng < 5)
+            szNum[nLeng] = (*pszCheck1);
+          pszCheck1++;
+          nLeng++;
+        }
+
+        CItem.nDetailType = atoi(szNum);
+        ZeroMemory(szNum, sizeof(szNum));
+        nLeng = 0;
+        pszCheck1++;
+        while (1) {
+          if (*pszCheck1 == ',')
+            break;
+          if (nLeng < 5)
+            szNum[nLeng] = (*pszCheck1);
+          pszCheck1++;
+          nLeng++;
+        }
+
+        CItem.nParticularType = atoi(szNum);
+        ZeroMemory(szNum, sizeof(szNum));
+        nLeng = 0;
+        pszCheck1++;
+        while (1) {
+          if (*pszCheck1 == ',')
+            break;
+          if (nLeng < 5)
+            szNum[nLeng] = (*pszCheck1);
+          pszCheck1++;
+          nLeng++;
+        }
+
+        CItem.nSeries = atoi(szNum);
+        ZeroMemory(szNum, sizeof(szNum));
+        nLeng = 0;
+        pszCheck1++;
+        while (1) {
+          if (*pszCheck1 == ',')
+            break;
+          if (nLeng < 5)
+            szNum[nLeng] = (*pszCheck1);
+          pszCheck1++;
+          nLeng++;
+        }
+
+        CItem.nLevel = atoi(szNum);
+        ZeroMemory(szNum, sizeof(szNum));
+        nLeng = 0;
+        pszCheck1++;
+        while (1) {
+          if (*pszCheck1 == ',')
+            break;
+          if (nLeng < 5)
+            szNum[nLeng] = (*pszCheck1);
+          pszCheck1++;
+          nLeng++;
+        }
+
+        CItem.nLuck = atoi(szNum);
+
+        for (i = 0; i < 6; i++) {
+          ZeroMemory(szNum, sizeof(szNum));
+          nLeng = 0;
+          pszCheck1++;
+          while (1) {
+            if (*pszCheck1 == ',')
+              break;
+            if (nLeng < 10)
+              szNum[nLeng] = (*pszCheck1);
+            pszCheck1++;
+            nLeng++;
+          }
+
+          CItem.nParamX[i] = atoi(szNum);
+        }
+
+        for (i = 0; i < 12; i++) {
+          ZeroMemory(szNum, sizeof(szNum));
+          nLeng = 0;
+          pszCheck1++;
+          while (1) {
+            if (*pszCheck1 == ',')
+              break;
+            if (nLeng < 10)
+              szNum[nLeng] = (*pszCheck1);
+            pszCheck1++;
+            nLeng++;
+          }
+
+          CItem.pnMagicParam[i] = atoi(szNum);
+        }
+
+        ZeroMemory(szNum, sizeof(szNum));
+        nLeng = 0;
+        pszCheck1++;
+        while (1) {
+          if (*pszCheck1 == ',')
+            break;
+          if (nLeng < 5)
+            szNum[nLeng] = (*pszCheck1);
+          pszCheck1++;
+          nLeng++;
+        }
+
+        CItem.m_Time.bYear = atoi(szNum);
+        ZeroMemory(szNum, sizeof(szNum));
+        nLeng = 0;
+        pszCheck1++;
+        while (1) {
+          if (*pszCheck1 == ',')
+            break;
+          if (nLeng < 5)
+            szNum[nLeng] = (*pszCheck1);
+          pszCheck1++;
+          nLeng++;
+        }
+
+        CItem.m_Time.bMonth = atoi(szNum);
+        ZeroMemory(szNum, sizeof(szNum));
+        nLeng = 0;
+        pszCheck1++;
+        while (1) {
+          if (*pszCheck1 == ',')
+            break;
+          if (nLeng < 5)
+            szNum[nLeng] = (*pszCheck1);
+          pszCheck1++;
+          nLeng++;
+        }
+
+        CItem.m_Time.bDay = atoi(szNum);
+        ZeroMemory(szNum, sizeof(szNum));
+        nLeng = 0;
+        pszCheck1++;
+        while (1) {
+          if (*pszCheck1 == ',')
+            break;
+          if (nLeng < 5)
+            szNum[nLeng] = (*pszCheck1);
+          pszCheck1++;
+          nLeng++;
+        }
+
+        CItem.m_Time.bHour = atoi(szNum);
+        ZeroMemory(szNum, sizeof(szNum));
+        nLeng = 0;
+        pszCheck1++;
+
+        while (1) {
+          if (*pszCheck1 == ',')
+            break;
+          if (nLeng < 8)
+            szNum[nLeng] = (*pszCheck1);
+          pszCheck1++;
+          nLeng++;
+        }
+
+        CItem.iNgoaiTrang = atoi(szNum);
+        ZeroMemory(szNum, sizeof(szNum));
+        nLeng = 0;
+        pszCheck1++;
+
+        while (1) {
+          if (*pszCheck1 == ',' || *pszCheck1 == ']')
+            break;
+          if (nLeng < 5)
+            szNum[nLeng] = (*pszCheck1);
+          pszCheck1++;
+          nLeng++;
+        }
+
+        CItem.nDurability = atoi(szNum);
+        nIdx = g_pCoreShell->GetGameData(GDI_ITEM_CHAT, true, (int)&CItem);
+        if (nIdx) {
+          int nOffset = 0;
+          char Buffer[560] = {0};
+          ZeroMemory(Buffer, sizeof(Buffer));
+          if (uMsgLen1 > 0) {
+            memcpy(&Buffer[nOffset], pMsgBuff, uMsgLen1);
+            nOffset += uMsgLen1;
+          }
+
+          Buffer[nOffset] = '<';
+          nOffset++;
+
+          char szName[64] = {0};
+          g_pCoreShell->GetGameData(GDI_ITEM_NAME, (unsigned int)&szName, nIdx);
+          int nItemLen = strlen(szName);
+          for (i = 0; i < nItemLen; i++) {
+            Buffer[nOffset] = szName[i];
+            nOffset++;
+          }
+
+          Buffer[nOffset] = '>';
+          nOffset++;
+
+          pszCheck2++;
+          memcpy(&Buffer[nOffset], pszCheck2,
+                 nMsgLength - (uMsgLen1 + uMsgLen2));
+          nOffset += nMsgLength - (uMsgLen1 + uMsgLen2);
+          Buffer[nOffset] = 0;
+          if (nOffset) {
+            g_pCoreShell->ChatSpecialPlayer(&SelectPlayer, (const char *)Buffer,
+                                            nOffset);
+          }
+
+          g_pCoreShell->GetGameData(GDI_ITEM_CHAT, false, nIdx);
+        }
+      } else {
+        g_pCoreShell->ChatSpecialPlayer(&SelectPlayer, pMsgBuff, nMsgLength);
+      }
     }
   }
 }
@@ -693,7 +1007,7 @@ void KClientCallback::MSNMessageArrival(char *szSourceName, char *szSendName,
                                         unsigned short nMsgLength, bool bSucc) {
   if (!bSucc) {
     char szInfo[256];
-    int n = sprintf(szInfo, "±§Ç¸, %s ²»ÔÚÓÎÏ·ÖÐ,ÏûÏ¢ÎÞ·¨·¢µ½!", szSendName);
+    int n = sprintf(szInfo, "Ng­êi ch¬i, %s kh«ng cã trªn m¹ng!", szSendName);
     KUiMsgCentrePad::SystemMessageArrival(szInfo, n);
     return;
   }
@@ -712,11 +1026,10 @@ void KClientCallback::MSNMessageArrival(char *szSourceName, char *szSendName,
   //&SelectPlayer, nKind) && nKind == kind_player)
   //	{
   //		strncpy(SelectPlayer.Name, szSourceName, 32);
-  ////ÎªÁËÏÔÊ¾±ðÈËµÄÃû×Ö
-  ///g_pCoreShell->ChatSpecialPlayer(&SelectPlayer,
-  // pMsgBuff, nMsgLength);
+  ////ÎªÁËÏÔÊ¾±ðÈËµÄÃû×Ö 		g_pCoreShell->ChatSpecialPlayer(&SelectPlayer,
+  //pMsgBuff, nMsgLength);
   //	}
-  //  }
+  // }
 }
 
 void KClientCallback::NotifyChannelID(char *ChannelName, DWORD channelid,
@@ -774,9 +1087,9 @@ void KClientCallback::AddFriend(char *roleName, BYTE answer) {
       KSystemMessage sMsg;
 
       sprintf(sMsg.szMessage, MSG_CHAT_REFUSE_FRIEND, roleName);
-      sMsg.eType = SMT_FRIEND;
-      sMsg.byConfirmType = SMCT_CLICK;
-      sMsg.byPriority = 1;
+      sMsg.eType = SMT_NORMAL;
+      sMsg.byConfirmType = SMCT_NONE;
+      sMsg.byPriority = 0;
       sMsg.byParamSize = 0;
       CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (unsigned int)&sMsg, 0);
     } else if (answer == answerUnable) {

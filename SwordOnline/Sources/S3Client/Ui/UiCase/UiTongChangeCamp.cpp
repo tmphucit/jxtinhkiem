@@ -114,7 +114,7 @@ void KUiTongChangeCamp::LoadScheme(const char *pScheme) {
       ms_pSelf->m_BtnDone.Init(&Ini, "BtnDone");
       ms_pSelf->m_BtnCancel.Init(&Ini, "BtnCancel");
 
-      ms_pSelf->m_TextError.SetText("Phi ®æi mµu: 500 v¹n");
+      ms_pSelf->m_TextError.SetText("Phi ®æi mµu: 100 v¹n");
     }
     /*--------------------*/
   }

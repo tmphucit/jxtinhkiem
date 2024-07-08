@@ -183,3 +183,9 @@ public:
   void UpdateData();
   const char *GetShortKey();
 };
+// new add button chat room
+class Player_Auto : public KWndButton {
+public:
+  DECLARE_COMCLASS(Player_Auto)
+  void OnButtonClick();
+};

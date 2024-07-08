@@ -90,6 +90,7 @@ int KUiESCDlg::Initialize() {
   // AddChild(&m_ExitBtn);
   AddChild(&m_HelpBtn);
   // AddChild(&m_TaskBtn);
+  AddChild(&m_OffLineBtn); // Edit by phong kieu button uy thac
 
   Wnd_AddWindow(this, WL_TOPMOST);
 
@@ -115,6 +116,7 @@ void KUiESCDlg::LoadScheme(const char *pScheme) {
     m_ExitGameBtn.Init(&Ini, "ExitGame");
     m_HelpBtn.Init(&Ini, "GameHelp");
     // m_TaskBtn.Init(&Ini, "GameTask");
+    m_OffLineBtn.Init(&Ini, "OffLine"); // edit by phong kieu button uy thac
   }
 }
 
@@ -212,16 +214,22 @@ void KUiESCDlg::OnClickButton(KWndWindow *pWnd) {
   //	UiPostQuitMsg();
   // }
   else if (pWnd == (KWndWindow *)&m_HelpBtn) {
-    // Hide();
-    // KUiHelper2::OpenWindow(true);
     Hide();
-    g_pCoreShell->OperationRequest(GOI_LIXIAN, 0, 0);
+    KUiHelper2::OpenWindow(true);
   }
   // else if (pWnd == (KWndWindow*)&m_TaskBtn)
   //{
   //	Hide();
   //	KUiTaskNote::OpenWindow(true);
   // }
+  else if (pWnd == (KWndWindow *)&m_OffLineBtn) {
+    Hide();
+    g_pCoreShell->OperationRequest(GOI_LIXIAN, 0, 0);
+    // g_pCoreShell->OperationRequest(GOI_EXIT_GAME, 0, 0);
+    // g_LoginLogic.ReturnToIdle();
+    // UiEndGame();
+    // KUiInit::OpenWindow(true, false);
+  }
 }
 
 KWndButton *KUiESCDlg::GetActiveBtn() {

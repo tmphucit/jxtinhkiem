@@ -502,10 +502,9 @@ BOOL KPakMake::Pack(LPSTR lpPackFileName, const vector<string> &vFileList,
               NULL);
         } else if (compress_type == TYPE_BZIP2) {
           //					index_list[index].compress_size
-          //= COMPRESS_BUF_SIZE; 				r =
-          //BZ2_bzBuffToBuffCompress(ptr, (unsigned int
+          //= COMPRESS_BUF_SIZE; 				r = BZ2_bzBuffToBuffCompress(ptr, (unsigned int
           //*)&index_list[index].compress_size, map.m_Ptr, map.m_Size, 9, 0,
-          // 30);
+          //30);
         }
         if (r)
           return false;
@@ -539,11 +538,11 @@ BOOL KPakMake::Pack(LPSTR lpPackFileName, const vector<string> &vFileList,
                   NULL, NULL);
             } else if (compress_type == TYPE_BZIP2) {
               //						size =
-              // COMPRESS_BUF_SIZE;
+              //COMPRESS_BUF_SIZE;
               //							r =
-              // BZ2_bzBuffToBuffCompress(ptr, &size, frame_data +
-              // frame_info[frame_index].Offset, frame_info[frame_index].Length,
-              // 9, 0, 30);
+              //BZ2_bzBuffToBuffCompress(ptr, &size, frame_data +
+              //frame_info[frame_index].Offset, frame_info[frame_index].Length,
+              //9, 0, 30);
             }
             if (r)
               return false;

@@ -56,7 +56,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Ws2_32.lib /nologo /subsystem:windows /map /debug /machine:I386
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\..\bin\client\release\	copy release\S3RelayServer.exe ..\..\..\..\bin\Server\S3RelayServer.exe	copy release\S3RelayServer.exe ..\..\..\..\bin\Server\release\S3RelayServer.exe
+PostBuild_Cmds=md ..\..\..\..\bin\multiserver\	copy release\S3RelayServer.exe ..\..\..\..\bin\multiserver\S3RelayServer.exe	copy release\S3RelayServer.pdb ..\..\..\..\bin\multiserver\S3RelayServer.pdb	md ..\..\..\..\bin\multiserver\release\	copy release\S3RelayServer.exe ..\..\..\..\bin\multiserver\release\S3RelayServer.exe	copy release\S3RelayServer.pdb ..\..\..\..\bin\multiserver\release\S3RelayServer.pdb
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "S3RelayServer - Win32 Debug"
@@ -83,10 +83,10 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Ws2_32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Ws2_32.lib /nologo /subsystem:windows /map /debug /machine:I386 /pdbtype:sept
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\..\bin\client\debug	copy debug\S3RelayServer.exe ..\..\..\..\bin\Server\S3RelayServer.exe	copy debug\S3RelayServer.exe ..\..\..\..\bin\Server\debug\S3RelayServer.exe
+PostBuild_Cmds=md ..\..\..\..\bin\multiserver\	copy debug\S3RelayServer.exe ..\..\..\..\bin\multiserver\S3RelayServer.exe	copy debug\S3RelayServer.pdb ..\..\..\..\bin\multiserver\S3RelayServer.pdb	md ..\..\..\..\bin\multiserver\debug\	copy debug\S3RelayServer.exe ..\..\..\..\bin\multiserver\debug\S3RelayServer.exe	copy debug\S3RelayServer.pdb ..\..\..\..\bin\multiserver\debug\S3RelayServer.pdb
 # End Special Build Tool
 
 !ENDIF 

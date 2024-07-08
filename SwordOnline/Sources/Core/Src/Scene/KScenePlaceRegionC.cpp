@@ -518,8 +518,7 @@ bool KScenePlaceRegionC::LoadAboveGroundObjects(KPakFile *pDataFile,
         m_BiosData.pBios[i].nAniSpeed = 1;
       //			if(!isLoading()) {
       //				getSPR(m_BiosData.pBios[i].szImage,
-      // m_BiosData.pBios[i].nImgNumFrames, false);
-      // releaseSPR();
+      //m_BiosData.pBios[i].nImgNumFrames, false); 				releaseSPR();
       //			}
     }
   }
@@ -661,8 +660,8 @@ void KScenePlaceRegionC::PaintGroundDirect() {
 }
 
 // ##ModelId=3DDBD8C80309
-void KScenePlaceRegionC::PaintGround() {
-  if (m_pPrerenderGroundImg)
+void KScenePlaceRegionC::PaintGround(int bPrerenderGroundImg) {
+  if (m_pPrerenderGroundImg && bPrerenderGroundImg)
     g_pRepresent->DrawPrimitives(1, m_pPrerenderGroundImg, RU_T_IMAGE, false);
   else
     PaintGroundDirect();

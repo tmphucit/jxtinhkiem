@@ -96,9 +96,7 @@ public:
   KWndWindow *GetPreWnd() const { return m_pPreviousWnd; } // 得到前一个兄弟窗口
   KWndWindow *GetNextWnd() const { return m_pNextWnd; }    // 得到后一个兄弟窗口
   KWndWindow *GetParent() const { return m_pParentWnd; }   // 得到父窗口
-  KWndWindow *GetFirstChild() const {
-    return m_pFirstChild;
-  }                       // 得到第一个子窗口
+  KWndWindow *GetFirstChild() const { return m_pFirstChild; } // 得到第一个子窗口
   KWndWindow *GetOwner(); // 获得不再有父窗口的祖先窗口
 
   void Paint();        // 绘制

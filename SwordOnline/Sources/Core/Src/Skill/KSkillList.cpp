@@ -6,7 +6,7 @@
 #include "crtdbg.h"
 
 #ifndef _SERVER
-#include "cOREsHELL.H"
+#include "cOREsHELL.h"
 #endif
 
 KSkillList::KSkillList() {

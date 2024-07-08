@@ -4,7 +4,7 @@
 #include "DBBackup.h"
 #include "CRC32.h"
 #include "DBDumpLoad.h"
-#include "DBTABLE.H"
+#include "DBTABLE.h"
 #include "Macro.h"
 #include "stdafx.h"
 #include <FSTREAM>
@@ -462,6 +462,7 @@ void CDBBackup::Backup() {
     aDBSMoneyCount +=
         pRoleData->BaseInfo.isavemoney + pRoleData->BaseInfo.imoney;
     ++aDBSPlayerCount;
+
     if (((pRoleData->BaseInfo.ifightlevel > 0)) &&
         (pRoleData->BaseInfo.ifightlevel < 200))
       aDBSLevelPlayerCount[pRoleData->BaseInfo.ifightlevel]++;
@@ -535,6 +536,7 @@ void CDBBackup::Backup() {
     } else {
       tmpData = GetMin(aStatData.MoneyStatBySect[0], SECTMAXSTATNUM, stMoney);
     }
+
     if (tmpData->Money <
         pRoleData->BaseInfo.imoney +
             pRoleData->BaseInfo
@@ -549,6 +551,7 @@ void CDBBackup::Backup() {
     } else {
       tmpData = GetMin(aStatData.LevelStatBySect[0], SECTMAXSTATNUM, stMoney);
     }
+    //	if( nTLevel_2 < nTLevel_1)
     if (tmpData->Level <
         pRoleData->BaseInfo
             .ifightlevel) { // 如果当前数据较大就把当前数据代替列表中最小的
@@ -681,6 +684,9 @@ void CDBBackup::Backup() {
     if ((aStatData.LevelStat[i].Sect <= 10) &&
         (aStatData.LevelStat[i].Sect >= 1)) {
       ++aStatData.SectLevelMost[aStatData.LevelStat[i].Sect + 1];
+      //	if (aStatData.LevelStat[i].Level == 97)
+      //	aLogFile<<"Test "<<aStatData.LevelStat[i].Name<< " "
+      //<<aStatData.LevelStat[i].Level <<endl;
     } else {
       ++aStatData.SectLevelMost[0];
     }
@@ -919,7 +925,7 @@ void CDBBackup::SaveStatInfo() { // 把游戏世界等级排名写到指定玩家角色中
     ZCursor *cursor = RunTable->search(aStatData.LevelStat[i].Name,
                                        strlen(aStatData.LevelStat[i].Name) + 1);
     //		char* aBuffer = RunTable->search(aStatData.LevelStat[i].Name,
-    // strlen(aStatData.LevelStat[i].Name) +1,size);
+    //strlen(aStatData.LevelStat[i].Name) +1,size);
     if (!cursor) {
       continue;
     }
@@ -947,8 +953,8 @@ void CDBBackup::SaveStatInfo() { // 把游戏世界等级排名写到指定玩家角色中
           RunTable->search(aStatData.LevelStatBySect[i][j].Name,
                            strlen(aStatData.LevelStatBySect[i][j].Name) + 1);
       //			char* aBuffer =
-      // RunTable->search(aStatData.LevelStatBySect[i][j].Name,
-      // strlen(aStatData.LevelStatBySect[i][j].Name) +1,size);
+      //RunTable->search(aStatData.LevelStatBySect[i][j].Name,
+      //strlen(aStatData.LevelStatBySect[i][j].Name) +1,size);
       if (!cursor) {
         continue;
       }

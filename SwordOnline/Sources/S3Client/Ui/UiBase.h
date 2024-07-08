@@ -96,7 +96,11 @@ public:
   void ClosePrivateSettingFile(bool bSave); // 关闭打开当前账号的设置文件
   KIniFile *GetCommConfigFile();
   void CloseCommConfigFile();
+  KIniFile *GetAutoSettingFile();        // 打开打开当前账号的设置文件
+  void CloseAutoSettingFile(bool bSave); // 关闭打开当前账号的设置文件
 
+  KIniFile *GetGameSettingFile();
+  void CloseGameSettingFile();
   // 设置获取界面操作状态
   UISYS_STATUS GetStatus() { return m_Status; }
   void SetStatus(UISYS_STATUS eStatus);
@@ -130,6 +134,8 @@ private:
   KIniFile *m_pUiCommSettingFile;    // 界面公共设置的文件
   KIniFile *m_pUiPrivateSettingFile; // 当前账号的设置文件
   KIniFile *m_pUiCommConfigFile;
+  KIniFile *m_pUiAutoSettingFile;
+  KIniFile *m_pUiGameSettingFile;
 
   typedef std::map<std::string, HANDLE> EVENTWNDLIST;
   EVENTWNDLIST m_EventWndList;

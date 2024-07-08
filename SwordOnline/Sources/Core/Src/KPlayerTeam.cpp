@@ -22,11 +22,6 @@
 #include "KPlayerTeam.h"
 // #include	"MyAssert.h"
 
-enum {
-  Team_S_Close = 0,
-  Team_S_Open,
-};
-
 KTeam g_Team[MAX_TEAM];
 #ifdef _SERVER
 KTeamSet g_TeamSet;
@@ -43,14 +38,12 @@ void KPlayerTeam::Release() {
   m_nApplyCaptainID = -1;
   m_nApplyCaptainID = 0;
   m_dwApplyTimer = 0;
-
-  Check_AcceptAutoName = FALSE;
-  m_InviteAuto = FALSE;
-  m_AcceptAuto = FALSE;
-  m_CancelAuto = FALSE;
-
   m_bAutoRefuseInviteFlag = FALSE; // TRUE 自动拒绝   FALSE 手动
   ReleaseList();
+  m_bActiveAutoParty = FALSE;
+  m_bAutoParty = FALSE;
+  m_bAutoAccecpt = FALSE;
+  m_bPKFollowCaptain = Team_S_NonFollow;
 }
 #endif
 
@@ -88,8 +81,7 @@ BOOL KPlayerTeam::ApplyCreate() // char *lpszTeamName)
 //---------------------------------------------------------------------------
 void KPlayerTeam::InviteAdd(DWORD dwNpcID) {
   //	if ( !this->m_nFlag || this->m_nFigure != TEAM_CAPTAIN ||
-  // g_Team[0].m_nState != Team_S_Open) 		return;
-
+  //g_Team[0].m_nState != Team_S_Open) 		return;
   TEAM_INVITE_ADD_COMMAND sAdd;
   sAdd.ProtocolType = c2s_teaminviteadd;
   sAdd.m_dwNpcID = dwNpcID;
@@ -112,8 +104,14 @@ void KPlayerTeam::ReceiveInvite(TEAM_INVITE_ADD_SYNC *pInvite) {
          sizeof(pInvite->m_szName) -
              (sizeof(TEAM_INVITE_ADD_SYNC) - pInvite->m_wLength - 1));
   nIdx = pInvite->m_nIdx;
-  if (m_bAutoRefuseInviteFlag) {
+  if (m_bAutoRefuseInviteFlag &&
+      Player[CLIENT_PLAYER_INDEX].m_bActiveAutoParty) {
     ReplyInvite(nIdx, 0);
+  } else if (m_bAutoAccecpt && Player[CLIENT_PLAYER_INDEX].m_bActiveAutoParty &&
+             m_nFlag) // fix loi vao pt
+    return;
+  else if (m_bAutoAccecpt && Player[CLIENT_PLAYER_INDEX].m_bActiveAutoParty) {
+    ReplyInvite(nIdx, 1);
   } else {
     // 通知界面有人邀请玩家加入某个队伍
     KUiPlayerItem sPlayer;
@@ -124,29 +122,29 @@ void KPlayerTeam::ReceiveInvite(TEAM_INVITE_ADD_SYNC *pInvite) {
     sPlayer.uId = 0;
     sPlayer.nData = 0;
 
-    if (m_AcceptAuto && !m_nFlag) {
-      // if (!Check_AcceptAutoName)
-      //{
-      // Check_AcceptAutoName = TRUE;
-      // strcpy(AcceptAutoName,szName);
-
-      //}
-      // if (strcmp(AcceptAutoName,szName) == 0)
-      //{
-      ReplyInvite(nIdx, 1);
-      //}
-
-    } else if (m_CancelAuto)
-      ReplyInvite(nIdx, 0);
-    else {
-      sprintf(sMsg.szMessage, MSG_TEAM_GET_INVITE, szName);
-      sMsg.eType = SMT_TEAM;
-      sMsg.byConfirmType = SMCT_UI_TEAM_INVITE;
-      sMsg.byPriority = 3;
-      sMsg.byParamSize = sizeof(KUiPlayerItem);
-      CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (unsigned int)&sMsg, (int)&sPlayer);
-    }
+    sprintf(sMsg.szMessage, MSG_TEAM_GET_INVITE, szName);
+    sMsg.eType = SMT_TEAM;
+    sMsg.byConfirmType = SMCT_UI_TEAM_INVITE;
+    sMsg.byPriority = 3;
+    sMsg.byParamSize = sizeof(KUiPlayerItem);
+    CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (unsigned int)&sMsg, (int)&sPlayer);
   }
+
+  // 通知界面有人邀请玩家加入某个队伍
+  KUiPlayerItem sPlayer;
+  KSystemMessage sMsg;
+
+  strcpy(sPlayer.Name, szName);
+  sPlayer.nIndex = pInvite->m_nIdx;
+  sPlayer.uId = 0;
+  sPlayer.nData = 0;
+
+  sprintf(sMsg.szMessage, MSG_TEAM_GET_INVITE, szName);
+  sMsg.eType = SMT_TEAM;
+  sMsg.byConfirmType = SMCT_UI_TEAM_INVITE;
+  sMsg.byPriority = 3;
+  sMsg.byParamSize = sizeof(KUiPlayerItem);
+  CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (unsigned int)&sMsg, (int)&sPlayer);
 }
 #endif
 
@@ -158,7 +156,6 @@ void KPlayerTeam::ReceiveInvite(TEAM_INVITE_ADD_SYNC *pInvite) {
 void KPlayerTeam::ReplyInvite(int nIdx, int nResult) {
   if (nIdx < 0 || nResult < 0 || nResult > 1)
     return;
-
   TEAM_REPLY_INVITE_COMMAND sReply;
   sReply.ProtocolType = c2s_teamreplyinvite;
   sReply.m_nIndex = nIdx;
@@ -173,21 +170,10 @@ void KPlayerTeam::ReplyInvite(int nIdx, int nResult) {
 //	功能：设定是否自动拒绝别人的加入队伍的邀请
 //---------------------------------------------------------------------------
 void KPlayerTeam::SetAutoRefuseInvite(BOOL bFlag) {
-  KSystemMessage sMsg;
-  sMsg.eType = SMT_NORMAL;
-  sMsg.byConfirmType = SMCT_NONE;
-  sMsg.byPriority = 0;
-  sMsg.byParamSize = 0;
-
-  if (bFlag) {
+  if (bFlag)
     m_bAutoRefuseInviteFlag = TRUE;
-    sprintf(sMsg.szMessage, MSG_TEAM_AUTO_REFUSE_INVITE);
-  } else {
+  else
     m_bAutoRefuseInviteFlag = FALSE;
-    sprintf(sMsg.szMessage, MSG_TEAM_NOT_AUTO_REFUSE_INVITE);
-  }
-
-  CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (unsigned int)&sMsg, 0);
 }
 #endif
 
@@ -207,8 +193,16 @@ int KPlayerTeam::GetInfo(KUiPlayerTeam *pTeam) {
     return 0;
   pTeam->nCaptainPower = g_Team[0].CalcCaptainPower();
 
-  if (m_nFlag == 0)
+  if (m_nFlag == 0) {
+    pTeam->bTeamLeader = false;
+    pTeam->cNumTojoin = 0;
+    pTeam->nTeamServerID = -1;
+    pTeam->cNumMember = 0;
+    pTeam->bOpened = Team_S_Close;
+    pTeam->nModePick = -1;
+    pTeam->bPKFollowCaptain = Team_S_NonFollow;
     return 0;
+  }
 
   if (m_nFigure == TEAM_CAPTAIN) {
     pTeam->bTeamLeader = true;
@@ -229,6 +223,18 @@ int KPlayerTeam::GetInfo(KUiPlayerTeam *pTeam) {
     pTeam->bOpened = 1;
 
   return 1;
+}
+
+void KPlayerTeam::SetPKFollowCaptain(BOOL bFlag) {
+  m_bPKFollowCaptain = Team_S_NonFollow;
+  if (bFlag)
+    m_bPKFollowCaptain = Team_S_PKFollow;
+}
+
+void KPlayerTeam::SetCreatTeamFlag(BOOL bFlag) {
+  m_bCreatTeamFlag = FALSE;
+  if (bFlag)
+    m_bCreatTeamFlag = TRUE;
 }
 #endif
 
@@ -279,7 +285,7 @@ BOOL KPlayerTeam::CreateTeam(int nIdx, PLAYER_APPLY_CREATE_TEAM *pCreateTeam) {
   _ASSERT(pCreateTeam);
 
   // 当前处于不能组队状态
-  if (!m_bCanTeamFlag) {
+  if (!m_bCreatTeamFlag) {
     PLAYER_SEND_CREATE_TEAM_FALSE sCreateFalse;
     sCreateFalse.ProtocolType = s2c_teamcreatefalse;
     sCreateFalse.m_btErrorID = Team_Create_Error_CannotCreate;
@@ -300,6 +306,14 @@ BOOL KPlayerTeam::CreateTeam(int nIdx, PLAYER_APPLY_CREATE_TEAM *pCreateTeam) {
     return FALSE;
   }
 
+  /*	if (Player[nIdx].m_cPK.GetNormalPKState() == enumPKTongWar)
+          {
+                  PLAYER_SEND_CREATE_TEAM_FALSE	sCreateFalse;
+                  sCreateFalse.ProtocolType = s2c_teamcreatefalse;
+                  sCreateFalse.m_btErrorID = Team_Create_Error_NormalPK;
+                  g_pServer->PackDataToClient(Player[nIdx].m_nNetConnectIdx,
+     (BYTE*)&sCreateFalse, sizeof(PLAYER_SEND_CREATE_TEAM_FALSE)); return FALSE;
+          }*/
   //	char	szTeamName[32];
   //	memcpy(szTeamName, pCreateTeam->m_szTeamName, sizeof(szTeamName));
   //	szTeamName[31] = 0;
@@ -309,8 +323,7 @@ BOOL KPlayerTeam::CreateTeam(int nIdx, PLAYER_APPLY_CREATE_TEAM *pCreateTeam) {
   //		sCreateFalse.ProtocolType = s2c_teamcreatefalse;
   //		sCreateFalse.m_btErrorID = Team_Create_Error_Name;
   //		SendToClient(Player[nIdx].m_nNetConnectIdx,
-  //(BYTE*)&sCreateFalse, sizeof(PLAYER_SEND_CREATE_TEAM_FALSE));
-  //return FALSE;
+  //(BYTE*)&sCreateFalse, sizeof(PLAYER_SEND_CREATE_TEAM_FALSE)); 		return FALSE;
   //	}
   // 创建队伍
   m_nID = g_TeamSet.CreateTeam(nIdx); //, szTeamName);
@@ -332,18 +345,18 @@ BOOL KPlayerTeam::CreateTeam(int nIdx, PLAYER_APPLY_CREATE_TEAM *pCreateTeam) {
                                 (BYTE *)&sCreateSuccess,
                                 sizeof(PLAYER_SEND_CREATE_TEAM_SUCCESS));
     g_Team[m_nID].SetTeamOpen();
+    g_Team[m_nID].NotifyModePick();
 
     return TRUE;
   }
   //	else if (m_nID == -1)					//
-  // 队伍创建失败：同名
+  //队伍创建失败：同名
   //	{
   //		PLAYER_SEND_CREATE_TEAM_FALSE	sCreateFalse;
   //		sCreateFalse.ProtocolType = s2c_teamcreatefalse;
   //		sCreateFalse.m_btErrorID = Team_Create_Error_SameName;
   //		SendToClient(Player[nIdx].m_nNetConnectIdx,
-  //(BYTE*)&sCreateFalse, sizeof(PLAYER_SEND_CREATE_TEAM_FALSE));
-  //return FALSE;
+  //(BYTE*)&sCreateFalse, sizeof(PLAYER_SEND_CREATE_TEAM_FALSE)); 		return FALSE;
   //	}
   else if (m_nID == -2) {
     PLAYER_SEND_CREATE_TEAM_FALSE sCreateFalse;
@@ -376,7 +389,7 @@ void KPlayerTeam::InviteAdd(int nIdx, TEAM_INVITE_ADD_COMMAND *pAdd) {
   int nTargetIdx = Player[nIdx].FindAroundPlayer(pAdd->m_dwNpcID);
   if (nTargetIdx == -1)
     return;
-  if (!Player[nTargetIdx].m_cTeam.m_bCanTeamFlag) {
+  if (!Player[nTargetIdx].m_cTeam.m_bCreatTeamFlag) {
     SHOW_MSG_SYNC sMsg;
     sMsg.ProtocolType = s2c_msgshow;
     sMsg.m_wMsgID = enumMSG_ID_TARGET_CANNOT_ADD_TEAM;
@@ -385,6 +398,7 @@ void KPlayerTeam::InviteAdd(int nIdx, TEAM_INVITE_ADD_COMMAND *pAdd) {
                                 sMsg.m_wLength + 1);
     return;
   }
+
   this->m_nInviteList[this->m_nListPos] = nTargetIdx;
   this->m_nListPos++;
   this->m_nListPos %= MAX_TEAM_MEMBER;
@@ -397,6 +411,18 @@ void KPlayerTeam::InviteAdd(int nIdx, TEAM_INVITE_ADD_COMMAND *pAdd) {
                    strlen(sAdd.m_szName);
   g_pServer->PackDataToClient(Player[nTargetIdx].m_nNetConnectIdx,
                               (BYTE *)&sAdd, sAdd.m_wLength + 1);
+
+  SHOW_MSG_SYNC sMsg;
+  sMsg.ProtocolType = s2c_msgshow;
+  sMsg.m_wMsgID = enumMSG_ID_GET_INVITE_TEAM_REPLY;
+  sMsg.m_wLength =
+      sizeof(SHOW_MSG_SYNC) - 1 - sizeof(LPVOID) + sizeof(sAdd.m_szName);
+  sMsg.m_lpBuf = new BYTE[sMsg.m_wLength + 1];
+  memcpy(sMsg.m_lpBuf, &sMsg, sizeof(SHOW_MSG_SYNC) - sizeof(LPVOID));
+  memcpy((char *)sMsg.m_lpBuf + sizeof(SHOW_MSG_SYNC) - sizeof(LPVOID),
+         sAdd.m_szName, sizeof(sAdd.m_szName));
+  g_pServer->PackDataToClient(Player[nIdx].m_nNetConnectIdx, sMsg.m_lpBuf,
+                              sMsg.m_wLength + 1);
 }
 #endif
 
@@ -444,6 +470,7 @@ void KPlayerTeam::GetInviteReply(int nSelfIdx, int nTargetIdx, int nResult) {
   if (Player[nTargetIdx].m_cTeam.m_nFlag) {
     PLAYER_APPLY_LEAVE_TEAM sLeave;
     sLeave.ProtocolType = c2s_teamapplyleave;
+    sLeave.bMySelf = FALSE;
     Player[nTargetIdx].LeaveTeam((BYTE *)&sLeave);
   }
   // 队伍添加成员
@@ -529,18 +556,47 @@ void KPlayerTeam::GetInviteReply(int nSelfIdx, int nTargetIdx, int nResult) {
 //---------------------------------------------------------------------------
 //	功能：收到邀请加入队伍的回复
 //---------------------------------------------------------------------------
-void KPlayerTeam::SetCanTeamFlag(int nSelfIdx, BOOL bFlag) {
+void KPlayerTeam::SetCreatTeamFlag(int nSelfIdx, BOOL bFlag) {
+  m_bCreatTeamFlag = FALSE;
+  if (bFlag)
+    m_bCreatTeamFlag = TRUE;
+
+  PLAYER_TEAM_CHANGE_STATE sTeamState;
+  sTeamState.ProtocolType = (BYTE)s2c_teamchangestate;
+  sTeamState.m_btState = Team_S_CreatTeamFlag;
+  sTeamState.m_btFlag = m_bCreatTeamFlag;
+  g_pServer->PackDataToClient(Player[nSelfIdx].m_nNetConnectIdx,
+                              (BYTE *)&sTeamState,
+                              sizeof(PLAYER_TEAM_CHANGE_STATE));
+}
+
+void KPlayerTeam::SetFreezeTeamFlag(int nSelfIdx, BOOL bFlag) {
+  m_bFreezeTeamFlag = FALSE;
+  if (bFlag)
+    m_bFreezeTeamFlag = TRUE;
+}
+void KPlayerTeam::SetPKFollowCaptain(int nSelfIdx, BOOL bFlag) {
+  m_bPKFollowCaptain = Team_S_NonFollow;
   if (bFlag) {
-    m_bCanTeamFlag = TRUE;
-    return;
+    Player[nSelfIdx].m_cPK.SetNormalPKState(
+        Player[g_Team[m_nID].m_nCaptain].m_cPK.GetNormalPKState());
+    m_bPKFollowCaptain = Team_S_PKFollow;
+  }
+  if (bFlag) {
+    Player[nSelfIdx].SendSystemMessage(MESSAGE_TEAM_ANNOUCE_HEAD,
+                                       MSG_TEAM_PKFOLLOW_OPEN);
+  } else {
+    Player[nSelfIdx].SendSystemMessage(MESSAGE_TEAM_ANNOUCE_HEAD,
+                                       MSG_TEAM_PKFOLLOW_CLOSE);
   }
 
-  m_bCanTeamFlag = FALSE;
-  if (nSelfIdx >= 0 && nSelfIdx < MAX_PLAYER) {
-    PLAYER_APPLY_LEAVE_TEAM sLeaveTeam;
-    sLeaveTeam.ProtocolType = c2s_teamapplyleave;
-    Player[nSelfIdx].LeaveTeam((BYTE *)&sLeaveTeam);
-  }
+  PLAYER_TEAM_CHANGE_STATE sTeamState;
+  sTeamState.ProtocolType = (BYTE)s2c_teamchangestate;
+  sTeamState.m_btState = Team_S_PKFollowCaptain;
+  sTeamState.m_btFlag = m_bPKFollowCaptain;
+  g_pServer->PackDataToClient(Player[nSelfIdx].m_nNetConnectIdx,
+                              (BYTE *)&sTeamState,
+                              sizeof(PLAYER_TEAM_CHANGE_STATE));
 }
 #endif
 
@@ -553,6 +609,9 @@ KTeam::KTeam() { Release(); }
 //	功能：清空
 //---------------------------------------------------------------------------
 void KTeam::Release() {
+#ifdef _SERVER
+  m_nTurnPick = -1;
+#endif
   m_nCaptain = -1;
   m_nMemNum = 0;
   int i;
@@ -560,6 +619,7 @@ void KTeam::Release() {
     m_nMember[i] = -1;
   }
   m_nState = Team_S_Close;
+  m_nModePick = Team_S_FreePick;
 #ifndef _SERVER
   for (i = 0; i < MAX_TEAM_MEMBER + 1; i++) {
     m_nMemLevel[i] = 0;
@@ -618,7 +678,7 @@ BOOL KTeam::CheckFull() {
 //---------------------------------------------------------------------------
 //	功能：设定队伍状态：打开（允许接受新成员）
 //---------------------------------------------------------------------------
-BOOL KTeam::SetTeamOpen() {
+BOOL KTeam::SetTeamOpen(BOOL bNotify) {
 #ifdef _SERVER
 
   m_nState = Team_S_Open;
@@ -649,6 +709,10 @@ BOOL KTeam::SetTeamOpen() {
   Npc[Player[m_nCaptain].m_nIndex].SendDataToNearRegion((LPVOID)&sSync,
                                                         sSync.m_wLength + 1);
 
+  if (bNotify)
+    Player[m_nCaptain].SendSystemMessage(MESSAGE_TEAM_ANNOUCE_HEAD,
+                                         MSG_TEAM_OPEN);
+
   return TRUE;
 #else
   m_nState = Team_S_Open;
@@ -660,7 +724,7 @@ BOOL KTeam::SetTeamOpen() {
 //---------------------------------------------------------------------------
 //	功能：设定队伍状态：关闭（不允许接受新成员）
 //---------------------------------------------------------------------------
-BOOL KTeam::SetTeamClose() {
+BOOL KTeam::SetTeamClose(BOOL bNotify) {
 #ifdef _SERVER
   m_nState = Team_S_Close;
 
@@ -690,6 +754,10 @@ BOOL KTeam::SetTeamClose() {
   Npc[Player[m_nCaptain].m_nIndex].SendDataToNearRegion((LPVOID)&sSync,
                                                         sSync.m_wLength + 1);
 
+  if (bNotify)
+    Player[m_nCaptain].SendSystemMessage(MESSAGE_TEAM_ANNOUCE_HEAD,
+                                         MSG_TEAM_CLOSE); // thong bao loi paty
+
   return TRUE;
 #else
   m_nState = Team_S_Close;
@@ -698,7 +766,85 @@ BOOL KTeam::SetTeamClose() {
 #endif
 }
 
+BOOL KTeam::SetModePick(int nMode) {
+  if (nMode < Team_S_SelfPick || nMode > Team_S_AlternatePick)
+    return FALSE;
+  if (m_nModePick == nMode)
+    return FALSE;
+  m_nModePick = nMode;
+
 #ifdef _SERVER
+  NotifyModePick();
+
+  PLAYER_TEAM_CHANGE_STATE sTeamState;
+  sTeamState.ProtocolType = (BYTE)s2c_teamchangestate;
+  sTeamState.m_btState = Team_S_ModePick;
+  sTeamState.m_btFlag = m_nModePick;
+  g_pServer->PackDataToClient(Player[m_nCaptain].m_nNetConnectIdx,
+                              (BYTE *)&sTeamState,
+                              sizeof(PLAYER_TEAM_CHANGE_STATE));
+  for (int i = 0; i < MAX_TEAM_MEMBER; i++) {
+    if (m_nMember[i])
+      g_pServer->PackDataToClient(Player[m_nMember[i]].m_nNetConnectIdx,
+                                  (BYTE *)&sTeamState,
+                                  sizeof(PLAYER_TEAM_CHANGE_STATE));
+  }
+#else
+  Player[CLIENT_PLAYER_INDEX].m_cTeam.UpdateInterface();
+#endif
+  return TRUE;
+}
+
+#ifdef _SERVER
+void KTeam::NotifyModePick() {
+  if (m_nModePick < Team_S_SelfPick || m_nModePick > Team_S_AlternatePick)
+    return;
+
+  switch (m_nModePick) {
+  case Team_S_SelfPick:
+    Player[m_nCaptain].SendTeamMessage(Player[m_nCaptain].m_cTeam.m_nID,
+                                       MSG_TEAM_MODEPICK_SELF);
+    break;
+  case Team_S_FreePick:
+    //			Player[m_nCaptain].SendTeamMessage(Player[m_nCaptain].m_cTeam.m_nID,
+    //MSG_TEAM_MODEPICK_FREE);
+    break;
+  case Team_S_CaptainPick:
+    Player[m_nCaptain].SendTeamMessage(Player[m_nCaptain].m_cTeam.m_nID,
+                                       MSG_TEAM_MODEPICK_CAPTAIN);
+    break;
+  case Team_S_AlternatePick:
+    Player[m_nCaptain].SendTeamMessage(Player[m_nCaptain].m_cTeam.m_nID,
+                                       MSG_TEAM_MODEPICK_ALTERNATE);
+    break;
+  }
+}
+
+void KTeam::NotifyMemberModePick(int nPlayerIndex) {
+  if (nPlayerIndex < 0 || nPlayerIndex >= MAX_PLAYER)
+    return;
+  if (m_nModePick < Team_S_SelfPick || m_nModePick > Team_S_AlternatePick)
+    return;
+
+  switch (m_nModePick) {
+  case Team_S_SelfPick:
+    Player[nPlayerIndex].SendSystemMessage(MESSAGE_TEAM_ANNOUCE_HEAD,
+                                           MSG_TEAM_MODEPICK_SELF);
+    break;
+  case Team_S_FreePick:
+    //	Player[nPlayerIndex].SendSystemMessage(MESSAGE_TEAM_ANNOUCE_HEAD,
+    //MSG_TEAM_MODEPICK_FREE);
+    break;
+  case Team_S_CaptainPick:
+    Player[nPlayerIndex].SendSystemMessage(MESSAGE_TEAM_ANNOUCE_HEAD,
+                                           MSG_TEAM_MODEPICK_CAPTAIN);
+    break;
+  case Team_S_AlternatePick:
+    Player[nPlayerIndex].SendSystemMessage(MESSAGE_TEAM_ANNOUCE_HEAD,
+                                           MSG_TEAM_MODEPICK_ALTERNATE);
+    break;
+  }
+}
 //---------------------------------------------------------------------------
 //	功能：判断队伍是否是打开状态
 //---------------------------------------------------------------------------
@@ -738,6 +884,7 @@ BOOL KTeam::CreateTeam(int nPlayerIndex) //, char *lpszName)
 {
   Release();
   m_nCaptain = nPlayerIndex;
+  m_nTurnPick = m_nCaptain;
   //	if (lpszName && lpszName[0])
   //		strcpy(m_szName, lpszName);
 
@@ -754,8 +901,15 @@ BOOL KTeam::AddMember(int nPlayerIndex) {
   if (m_nCaptain < 0)
     return FALSE;
   // 阵营是否相同
-  if (!CheckAddCondition(nPlayerIndex))
+  if (!CheckAddCondition(nPlayerIndex)) {
+    SHOW_MSG_SYNC sMsg;
+    sMsg.ProtocolType = s2c_msgshow;
+    sMsg.m_wMsgID = enumMSG_ID_TEAM_ADDMEMBER_NOTVALID;
+    sMsg.m_wLength = sizeof(SHOW_MSG_SYNC) - 1 - sizeof(LPVOID);
+    g_pServer->PackDataToClient(Player[nPlayerIndex].m_nNetConnectIdx, &sMsg,
+                                sMsg.m_wLength + 1);
     return FALSE;
+  }
   // 是否已经满员
   if (CheckFull())
     return FALSE;
@@ -765,6 +919,7 @@ BOOL KTeam::AddMember(int nPlayerIndex) {
   if (n < 0)
     return FALSE;
   m_nMember[n] = nPlayerIndex;
+  NotifyMemberModePick(nPlayerIndex);
   m_nMemNum++;
 
   return TRUE;
@@ -826,6 +981,13 @@ BOOL KTeam::DeleteMember(int nPlayerIndex) {
         g_pServer->PackDataToClient(Player[nPlayerIndex].m_nNetConnectIdx,
                                     (BYTE *)&sLeaveTeam,
                                     sizeof(PLAYER_LEAVE_TEAM));
+
+        if (m_nTurnPick == m_nMember[i]) {
+          for (i; i < MAX_TEAM_MEMBER; i++)
+            m_nTurnPick = m_nMember[i];
+          if (m_nTurnPick == -1)
+            m_nTurnPick = m_nCaptain;
+        }
       } else {
         if (m_nMember[i] >= 0)
           g_pServer->PackDataToClient(Player[m_nMember[i]].m_nNetConnectIdx,
@@ -935,16 +1097,77 @@ int KTeam::GetMemberInfo(KUiPlayerItem *pList, int nCount) {
 //---------------------------------------------------------------------------
 //	功能：判断某人是否是队伍成员
 //---------------------------------------------------------------------------
-BOOL KTeam::CheckIn(int nPlayerIndex) {
+BOOL KTeam::CheckIn(int nSelfIndex, int nPlayerIndex) {
   if (nPlayerIndex <= 0)
+    return TRUE;
+  if (!CheckItemIn(nPlayerIndex))
     return FALSE;
+  if (m_nModePick < Team_S_SelfPick || m_nModePick > Team_S_AlternatePick) {
+    if (nPlayerIndex == m_nCaptain)
+      return TRUE;
+    for (int i = 0; i < MAX_TEAM_MEMBER; i++) {
+      if (m_nMember[i] == nPlayerIndex)
+        return TRUE;
+    }
+    return FALSE;
+  }
+
+  switch (m_nModePick) {
+  case Team_S_SelfPick:
+    if (nSelfIndex == nPlayerIndex)
+      return TRUE;
+    break;
+  case Team_S_FreePick: {
+    if (nPlayerIndex == m_nCaptain)
+      return TRUE;
+
+    for (int i = 0; i < MAX_TEAM_MEMBER; i++) {
+      if (m_nMember[i] == nPlayerIndex)
+        return TRUE;
+    }
+  } break;
+  case Team_S_CaptainPick:
+    if (nSelfIndex == m_nCaptain)
+      return TRUE;
+    break;
+  case Team_S_AlternatePick:
+    if (nSelfIndex == m_nTurnPick) {
+      int i;
+      if (m_nTurnPick == m_nCaptain) {
+        i = 0;
+        m_nTurnPick = -1;
+      } else {
+        for (int i = 0; i < MAX_TEAM_MEMBER; i++) {
+          if (m_nMember[i] && (m_nMember[i] == m_nTurnPick)) {
+            m_nTurnPick = -1;
+            break;
+          }
+        }
+      }
+      for (i; i < MAX_TEAM_MEMBER; i++) {
+        if (m_nMember[i] && (m_nTurnPick == -1))
+          m_nTurnPick = m_nMember[i];
+      }
+      if (m_nTurnPick == -1)
+        m_nTurnPick = m_nCaptain;
+
+      return TRUE;
+    }
+    break;
+  }
+  return FALSE;
+}
+
+BOOL KTeam::CheckItemIn(int nPlayerIndex) {
+  if (nPlayerIndex <= 0)
+    return TRUE;
+
   if (nPlayerIndex == m_nCaptain)
     return TRUE;
   for (int i = 0; i < MAX_TEAM_MEMBER; i++) {
     if (m_nMember[i] == nPlayerIndex)
       return TRUE;
   }
-
   return FALSE;
 }
 #endif

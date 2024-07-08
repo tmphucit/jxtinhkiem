@@ -118,13 +118,12 @@ char *ZCache::searchNode(unsigned long index_high, unsigned long index_low) {
     if (last_items[index]) {
       current = (item_info *)(buffer + last_items[index]);
       //			unsigned short ref_count = current->index_low >>
-      // 16;
+      //16;
       if (current->index_high == index_high &&
           current->index_low == index_low) {
         //			if(current->index_high == index_high &&
-        // ref_count != 0xFFFF && (current->index_low & 0x0000FFFF) ==
-        // index_low) { 				ref_count++;
-        //if(ref_count >= 2) { 					ref_count = 2;
+        //ref_count != 0xFFFF && (current->index_low & 0x0000FFFF) == index_low)
+        //{ 				ref_count++; 				if(ref_count >= 2) { 					ref_count = 2;
         //				}
         //				current->index_low = (current->index_low
         //& 0x0000FFFF) | (ref_count << 16);
@@ -138,13 +137,12 @@ char *ZCache::searchNode(unsigned long index_high, unsigned long index_low) {
     //		unsigned short ref_count = current->index_low >> 16;
     if (current->index_high == index_high && current->index_low == index_low) {
       //		if(current->index_high == index_high && ref_count !=
-      // 0xFFFF && (current->index_low & 0x0000FFFF) == index_low) {
-      // ref_count++;
+      //0xFFFF && (current->index_low & 0x0000FFFF) == index_low) { 			ref_count++;
       /*			if(ref_count >= 2) {
                                       ref_count = 2;
                               }*/
       //			current->index_low = (current->index_low &
-      // 0x0000FFFF) | (ref_count << 16);
+      //0x0000FFFF) | (ref_count << 16);
       LeaveCriticalSection(&mutex);
       return buffer + current->offset + sizeof(item_info);
     }

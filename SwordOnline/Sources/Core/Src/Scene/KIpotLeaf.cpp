@@ -23,7 +23,7 @@ void KIpotRuntimeObj::Pluck() {
         pParentBranch->m_pLeafs[0] == (KIpotLeaf *)this) {
       pParentBranch->m_pLeafs[0] = pBrother;
     } else if ( //(pParentBranch->m_uFlag &
-                // KIpotBranch::IPOT_BF_HAVE_RIGHT_BRANCH) == 0 &&
+                //KIpotBranch::IPOT_BF_HAVE_RIGHT_BRANCH) == 0 &&
         pParentBranch->m_pLeafs[1] == (KIpotLeaf *)this) {
       pParentBranch->m_pLeafs[1] = pBrother;
     }

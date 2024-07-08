@@ -7,19 +7,27 @@
 #include "UiPlayerBar.h"
 #include "../../../Engine/src/KDebug.h"
 #include "../../../Engine/src/Text.h"
+#include "../../../Headers/KProtocol.h"
+#include "../../../Headers/KProtocolDef.h"
+#include "../../../Headers/KRelayProtocol.h"
 #include "../../../Represent/iRepresent/iRepresentShell.h"
 #include "../../../core/src/CoreObjGenreDef.h"
 #include "../../../core/src/MsgGenreDef.h"
 #include "../../../core/src/coreshell.h"
 #include "../../../core/src/gamedatadef.h"
+#include "../../Login/Login.h"
 #include "../../TextCtrlCmd/TextCtrlCmd.h"
+#include "../ChatFilter.h"
 #include "../Elem/WndMessage.h"
 #include "../ShortcutKey.h"
 #include "../UiBase.h"
+#include "../UiChatPhrase.h"
 #include "../UiSoundSetting.h"
 #include "../elem/wnds.h"
 #include "KIniFile.h"
 #include "KWin32.h"
+#include "UiAuto.h"
+#include "UiChatCentre.h"
 #include "UiEscDlg.h"
 #include "UiFaceSelector.h"
 #include "UiHelper.h"
@@ -28,72 +36,40 @@
 #include "UiSelColor.h"
 #include "UiSkillTree.h"
 #include "UiStatus.h"
+#include "malloc.h"
 #include <crtdbg.h>
 
-#include "../../../Headers/KProtocol.h"
-#include "../../../Headers/KProtocolDef.h"
-#include "../../../Headers/KRelayProtocol.h"
-#include "malloc.h"
-
-#include "UiChatCentre.h"
-
-#include "../UiChatPhrase.h"
-
-#include "../../Login/Login.h"
-
+extern CChatFilter g_ChatFilter;
 extern KUiChatPhrase g_UiChatPhrase;
 
 extern iCoreShell *g_pCoreShell;
 extern iRepresentShell *g_pRepresentShell;
 
-#define SCHEME_INI "ThanhChatPhiaDuoi800.ini"
-// #define	SCHEME_INI			"ThanhChatPhiaDuoi1024.ini"
+#define SCHEME_INI "Íæ¼ÒÐÅÏ¢Ö÷½çÃæ.ini"
 #define SCHEME_INI_MINI "Íæ¼ÒÐÅÏ¢Ö÷½çÃæ×îÐ¡»¯.ini"
-#define GAME_LOGO "Tèng Giang TruyÓn Kú"
+#define GAME_LOGO "Vo Lam Truyen Ky"
 #define SWITCH_LOGO_INTERVAL 5000
 
 #define SEL_CHANNEL_MENU 1
 #define SEL_PHRASE_MENU 2
 
-const char *s_TimeName[12] = {
-    "Nöa ®ªm",  "Gµ g¸y",    "R¹ng s¸ng", "MÆt trêi mäc",
-    "Khi ¨n",   "Gãc trong", "Buæi tr­a", "XÕ chiÒu",
-    "Giê th©n", "NhËp ngµy", "Hoµng h«n", "Nh©n ®Þnh",
-};
-
-const char *s_TimeStone[12] = {"TÝ.",  "Söu", "DÇn",  "M·o", "Th×n", "TÞ.",
-                               "Ngä.", "Mïi", "Th©n", "DËu", "TuÊt", "Hîi"};
-
-const char *s_TimeLine[4] = {"Mét", "Hai", "Ba", "Bèn"};
-
-int GetFormatedTimeString(int nTime, char *pString) {
-  nTime += 60;
-  return sprintf(
-      pString, "%s%sThêi gian ?s kh¾c", s_TimeName[(nTime / 120) % 12],
-      s_TimeStone[(nTime / 120) % 12], s_TimeLine[(nTime % 120) / 30]);
-}
-
 #include "time.h"
 
 int GetFormatedTimeString(struct tm *ptm, char *pString) {
-  return sprintf(pString, "%d/%d/%d %d:%02d", ptm->tm_mday, ptm->tm_mon + 1,
-                 ptm->tm_year + 1900, ptm->tm_hour, ptm->tm_min);
-  // return sprintf(pString, "[%04d/%02d/%02d %02d:%02d:%02d]",
-  //		ptm->tm_year + 1900, ptm->tm_mon + 1, ptm->tm_mday,
-  // ptm->tm_hour, ptm->tm_min, ptm->tm_sec);
+  return sprintf(pString, "%02d:%02d | %02d-%02d-%d", ptm->tm_hour, ptm->tm_min,
+                 ptm->tm_mday, ptm->tm_mon + 1, ptm->tm_year + 1900);
 }
 
 GameWorld_DateTime::GameWorld_DateTime() {
-  m_bTrueWorld = true;
+  m_bRegionName = false;
+  m_bServerName = false;
   m_bLogo = false;
+  m_bNetStatus = false;
   m_uLastSwitchTime = IR_GetCurrentTime();
 }
 
 IMPLEMENT_COMCLASS(GameWorld_DateTime)
-void GameWorld_DateTime::OnButtonClick() {
-  m_bTrueWorld = !m_bTrueWorld;
-  UpdateData();
-}
+void GameWorld_DateTime::OnButtonClick() {}
 
 int GameWorld_DateTime::Init(KIniFile *pIniFile, const char *pSection) {
   if (KWndLabeledButton::Init(pIniFile, pSection)) {
@@ -107,8 +83,7 @@ int GameWorld_DateTime::Init(KIniFile *pIniFile, const char *pSection) {
                         sizeof(m_szCrowdMsg));
     pIniFile->GetString(pSection, "BlockMsg", "", m_szBlockMsg,
                         sizeof(m_szBlockMsg));
-    pIniFile->GetString(pSection, "GameLogo", GAME_LOGO, m_szLogo,
-                        sizeof(m_szLogo));
+    g_LoginLogic.GetRegionServer(m_szRegionName, m_szServerName);
 
     char Buff[16];
     pIniFile->GetString(pSection, "Color", "0,0,0", Buff, sizeof(Buff));
@@ -125,33 +100,30 @@ int GameWorld_DateTime::Init(KIniFile *pIniFile, const char *pSection) {
 
 void GameWorld_DateTime::UpdateData() {
   char szTime[64];
-  if (!m_bLogo && !m_bNetStatus) {
-    if (!m_bTrueWorld && g_pCoreShell) {
-      KUiSceneTimeInfo Info;
-      memset(&Info, 0, sizeof(KUiSceneTimeInfo));
-      g_pCoreShell->SceneMapOperation(GSMOI_SCENE_TIME_INFO,
-                                      (unsigned int)&Info, 0);
-      int nLen = GetFormatedTimeString(Info.nGameSpaceTime, szTime);
-    } else {
-      time_t curtm = ::time(NULL);
-      struct tm *ptm = localtime(&curtm);
-      int nLen = GetFormatedTimeString(ptm, szTime);
-    }
+  if (!m_bRegionName && !m_bServerName && !m_bLogo && !m_bNetStatus) {
+    time_t curtm = ::time(NULL);
+    struct tm *ptm = localtime(&curtm);
+    int nLen = GetFormatedTimeString(ptm, szTime);
     SetLabelColor(m_uDefaultColor);
     SetLabel(szTime);
   }
 
   if (IR_IsTimePassed(SWITCH_LOGO_INTERVAL, m_uLastSwitchTime)) {
-    if (m_bLogo) {
-      m_bLogo = false;
+    if (m_bRegionName) {
+      m_bServerName = true;
+      SetLabelColor(m_uDefaultColor);
+      SetLabel(m_szServerName);
+      m_bRegionName = false;
+    } else if (m_bServerName) {
+      m_bServerName = false;
       UpdateNetStatus();
       m_bNetStatus = true;
     } else if (m_bNetStatus) {
       m_bNetStatus = false;
     } else {
       SetLabelColor(m_uDefaultColor);
-      SetLabel(m_szLogo);
-      m_bLogo = true;
+      SetLabel(m_szRegionName);
+      m_bRegionName = true;
     }
   }
 
@@ -408,9 +380,9 @@ void KUiPlayerBar::LoadScheme(KIniFile *pIni) {
   m_SendBtn.Init(pIni, "SendBtn");
   m_ChannelSwitchBtn.Init(pIni, "ChannelBtn");
   m_ChannelOpenBtn.Init(pIni, "OpenChannelBtn");
-
+  m_Auto.Init(pIni, "Auto");
   m_SwitchBtn.Init(pIni, "SwitchSizeBtn");
-  // Them Vao
+
   for (int j = 0; j < MAX_ITEMBUTTON; j++) {
     m_ItemBtn[j].Init(pIni, "ChatItem");
     m_ItemBtn[j].SetPosition(INVISIBLE_POS);
@@ -421,19 +393,20 @@ void KUiPlayerBar::LoadScheme(KIniFile *pIni) {
 //	¹¦ÄÜ£º³õÊ¼»¯
 //--------------------------------------------------------------------------
 void KUiPlayerBar::Initialize() {
+  AddChild(&m_DateTime);
+  AddChild(&m_Face);
+  AddChild(&m_EscDlg);
+  AddChild(&m_Friend);
   AddChild(&m_ChannelOpenBtn);
+
   for (int j = 0; j < MAX_ITEMBUTTON; j++) {
     AddChild(&m_ItemBtn[j]);
   }
-  AddChild(&m_DateTime);
-  AddChild(&m_Face);
-  AddChild(&m_EscDlg);
-  AddChild(&m_Friend);
 
-  AddChild(&m_DateTime);
+  /*AddChild(&m_DateTime);
   AddChild(&m_Face);
   AddChild(&m_EscDlg);
-  AddChild(&m_Friend);
+  AddChild(&m_Friend);*/
 
   for (int i = 0; i < UPB_IMMEDIA_ITEM_COUNT; i++) {
     m_ImmediaItem[i].SetObjectGenre(CGOG_ITEM);
@@ -441,6 +414,7 @@ void KUiPlayerBar::Initialize() {
     AddChild(&m_ImmediaItem[i]);
     m_ImmediaItem[i].SetContainerId((int)UOC_IMMEDIA_ITEM);
   }
+
   AddChild(&m_ImmediaSkill[0]);
   AddChild(&m_ImmediaSkill[1]);
   m_ImmediaSkill[0].SetContainerId((int)UOC_IMMEDIA_SKILL);
@@ -451,6 +425,7 @@ void KUiPlayerBar::Initialize() {
   AddChild(&m_SendBtn);
   AddChild(&m_SwitchBtn);
   AddChild(&m_ChannelOpenBtn);
+  AddChild(&m_Auto);
 
   char Scheme[256];
   g_UiBase.GetCurSchemePath(Scheme, 256);
@@ -483,6 +458,8 @@ int KUiPlayerBar::WndProc(unsigned int uMsg, unsigned int uParam, int nParam) {
   case WND_N_BUTTON_CLICK:
     if (uParam == (unsigned int)(KWndWindow *)&m_Friend)
       KShortcutKeyCentre::ExcuteScript(SCK_SHORTCUT_FRIEND);
+    else if (uParam == (unsigned int)(KWndWindow *)&m_Auto)
+      KShortcutKeyCentre::ExcuteScript(SCK_SHORTCUT_AUTO);
     else if (uParam == (unsigned int)(KWndWindow *)&m_EscDlg)
       KShortcutKeyCentre::ExcuteScript(SCK_SHORTCUT_SYSTEM);
     else if (uParam == (unsigned int)(KWndWindow *)&m_Face) {
@@ -664,9 +641,11 @@ void KUiPlayerBar::PopupChannelMenu(int x, int y) {
         pMenuData->Items[i].uDataLen += 3;
       }
     }
+
     pMenuData->Items[i].uBgColor = uBKColor.Color_dw;
     pMenuData->usMenuFlag |= PM_F_TAB_SPLIT_ITEM_TEXT;
   }
+
   if (nHei > 0)
     pMenuData->nItemRightWidth = MENU_ITEM_DEFAULT_RIGHT_WIDTH;
   else
@@ -691,6 +670,7 @@ void KUiPlayerBar::PopupChannelMenu(int x, int y) {
         if (nHei > pMenuData->nItemHeight)
           pMenuData->nItemHeight = nHei;
       }
+
       strcpy(pMenuData->Items[i].szData + nOffset,
              m_RecentPlayerName[i - nChannelDataCount]);
       pMenuData->Items[i].uDataLen =
@@ -700,6 +680,7 @@ void KUiPlayerBar::PopupChannelMenu(int x, int y) {
       break;
     }
   }
+
   pMenuData->nNumItem = i;
 
   pMenuData->nX = x;
@@ -712,6 +693,7 @@ void KUiPlayerBar::PopupPhraseMenu(int x, int y, bool bFirstItem) {
   int nDataCount = g_UiChatPhrase.GetPhraseCount();
   if (nDataCount <= 0)
     return;
+
   KPopupMenuData *pMenuData =
       (KPopupMenuData *)malloc(MENU_DATA_SIZE(nDataCount));
   if (pMenuData == NULL) {
@@ -729,6 +711,7 @@ void KUiPlayerBar::PopupPhraseMenu(int x, int y, bool bFirstItem) {
     pMenuData->Items[i].uDataLen =
         g_UiChatPhrase.GetPhrase(i, pMenuData->Items[i].szData);
   }
+
   pMenuData->nNumItem = nDataCount;
 
   pMenuData->nX = x;
@@ -737,59 +720,59 @@ void KUiPlayerBar::PopupPhraseMenu(int x, int y, bool bFirstItem) {
   KPopupMenu::Popup(pMenuData, (KWndWindow *)this, SEL_PHRASE_MENU);
 }
 
-#include "../ChatFilter.h"
-extern CChatFilter g_ChatFilter;
-
 void KUiPlayerBar::OnSend(BOOL bDirectSend) {
-  char Buffer[512];
+  char szBuffer[512] = {0};
+  ZeroMemory(szBuffer, sizeof(szBuffer));
   int nName = 0;
-  int nMsgLength = m_InputEdit.GetText(Buffer, sizeof(Buffer), true);
-
+  int nMsgLength = m_InputEdit.GetText(szBuffer, sizeof(szBuffer), true);
   if (nMsgLength <= 0 || nMsgLength >= 80) {
     m_InputEdit.ClearText();
     return;
   }
 
   //====±£´æµ½×î½ü·¢ËÍÏûÏ¢¼ÇÂ¼Àï====
-  memcpy(m_RecentMsg[m_cLatestMsgIndex], Buffer, nMsgLength);
+  memcpy(m_RecentMsg[m_cLatestMsgIndex], szBuffer, nMsgLength);
   m_RecentMsg[m_cLatestMsgIndex][nMsgLength] = 0;
   m_cLatestMsgIndex = (m_cLatestMsgIndex + 1) % MAX_RECENT_MSG_COUNT;
   m_cPreMsgCounter = 0;
 
   if (!bDirectSend) {
-    if (TextMsgFilter(Buffer, nMsgLength)) // ¿Í»§¶Ë¿ØÖÆÃüÁîÖ´ÐÐ¹ýÂË
+    if (TextMsgFilter(szBuffer, nMsgLength)) // ¿Í»§¶Ë¿ØÖÆÃüÁîÖ´ÐÐ¹ýÂË
     {
       m_InputEdit.ClearText();
       return;
     }
   }
 
-  if (g_pCoreShell == NULL)
+  if (g_pCoreShell == NULL) {
     return;
+  }
 
   //====»ñÈ¡ÊäÈë×Ó´®Ç°¶Ë¿ÉÄÜÖ¸¶¨ÓÐµÄÏûÏ¢´«ËÍÄ¿±ê====
   int bChannel = false;
   int nDestChannel = -1;
   char Name[32];
   Name[0] = 0;
-  if (Buffer[nName] == TEXT_CTRL_CHAT_PREFIX ||
-      Buffer[nName] == TEXT_CTRL_CHANNEL_PREFIX) {
-    bChannel = (Buffer[nName] == TEXT_CTRL_CHANNEL_PREFIX);
+  if (szBuffer[nName] == TEXT_CTRL_CHAT_PREFIX ||
+      szBuffer[nName] == TEXT_CTRL_CHANNEL_PREFIX) {
+    bChannel = (szBuffer[nName] == TEXT_CTRL_CHANNEL_PREFIX);
     while (nName < nMsgLength) {
-      if (Buffer[nName] == ' ') {
-        Buffer[nName] = 0;
+      if (szBuffer[nName] == ' ') {
+        szBuffer[nName] = 0;
         nName++;
         break;
       }
+
       nName++;
     }
 
     if (bChannel) {
-      ReplaceSpecialName(Name, 31, Buffer + 1);
+      ReplaceSpecialName(Name, 31, szBuffer + 1);
       nDestChannel = GetChannelIndex(Name);
     } else {
-      strncpy(Name, Buffer + 1, 31);
+      strncpy(Name, szBuffer + 1, 31);
     }
+
     Name[31] = 0;
   }
 
@@ -809,13 +792,14 @@ void KUiPlayerBar::OnSend(BOOL bDirectSend) {
       }
     }
 
-    if (nDestChannel >= 0)
+    if (nDestChannel >= 0) {
       strncpy(Name, KUiMsgCentrePad::GetChannelTitle(nDestChannel), 31);
+    }
 
     Name[31] = 0;
   } else // Ö¸¶¨Ãû×ÖµÄ»Ö¸´BufferÊý¾Ý
   {
-    Buffer[nName - 1] = ' ';
+    szBuffer[nName - 1] = ' ';
   }
 
   nMsgLength -= nName;
@@ -825,72 +809,84 @@ void KUiPlayerBar::OnSend(BOOL bDirectSend) {
           nDestChannel,
           KUiMsgCentrePad::ch_GM)) // ÔÚ·ÇGMÆµµÀÖÐÊäÈëGMÖ¸Áî,²»·¢ËÍ³öÈ¥,ÒÔÃâÐ¹ÃÜ
   {
-    if (nMsgLength > 3 && Buffer[nName] == '?' &&
-        (Buffer[nName + 1] == 'g' || Buffer[nName + 1] == 'G') &&
-        (Buffer[nName + 2] == 'm' || Buffer[nName + 2] == 'M'))
+    if (nMsgLength > 3 && szBuffer[nName] == '?' &&
+        (szBuffer[nName + 1] == 'g' || szBuffer[nName + 1] == 'G') &&
+        (szBuffer[nName + 2] == 'm' || szBuffer[nName + 2] == 'M')) {
       return;
+    }
   }
 
-  if (!g_ChatFilter.IsTextPass(Buffer + nName)) {
+  if (!g_ChatFilter.IsTextPass(szBuffer + nName)) {
     char szWarning[] =
-        "Xin vui lßng kh«ng s?dông t?ng?kh«ng thÝch hîp trong th?";
+        "Vui lßng kh«ng sö dông tõ ng÷ kh«ng thÝch hîp trong giao tiÕp!";
     KUiMsgCentrePad::SystemMessageArrival(szWarning, sizeof(szWarning));
     return;
   }
 
-  char szEvent[1024];
-  if (bChannel)
-    sprintf(szEvent, APP_CHAT, Name, Buffer + nName);
-  else
-    sprintf(szEvent, APP_SAY, Name, Buffer + nName);
+  char szEvent[1024] = {0};
+  ZeroMemory(szEvent, sizeof(szEvent));
+  if (bChannel) {
+    sprintf(szEvent, APP_CHAT, Name, szBuffer + nName);
+  } else {
+    sprintf(szEvent, APP_SAY, Name, szBuffer + nName);
+  }
 
   szEvent[1023] = 0;
 
-  if (g_UiBase.NotifyEvent(szEvent) == 0)
+  if (g_UiBase.NotifyEvent(szEvent) == 0) {
     return;
+  }
 
-  char Buffer2[1536];
-
+  char szBuffer2[1536] = {0};
+  ZeroMemory(szBuffer2, sizeof(szBuffer2));
   nMsgLength =
-      KUiFaceSelector::ConvertFaceText(Buffer2, Buffer + nName, nMsgLength);
+      KUiFaceSelector::ConvertFaceText(szBuffer2, szBuffer + nName, nMsgLength);
 
   if (m_ItemName[0]) {
-    char *pInsert = strstr(Buffer2, m_ItemName);
-    char *pInsert2 = strstr(Buffer2, m_ItemName);
+    char *pInsert = strstr(szBuffer2, m_ItemName);
+    char *pInsert2 = strstr(szBuffer2, m_ItemName);
+    int nLenChatItemInfo = strlen(m_ChatItemInfo);
     if (pInsert) {
       int nL = 0;
       while (1) {
-        if (*pInsert == '>')
+        if (*pInsert == '>') {
           break;
+        }
+
         nL++;
         pInsert++;
       }
+
       nL++;
       pInsert++;
-      int nLen = strlen(m_ChatItemInfo);
-      int nMove = nLen - nL;
-      if (nMove + strlen(Buffer2) > 1535)
+      // int nLenChatItemInfo = strlen(m_ChatItemInfo);
+      int nMove = nLenChatItemInfo - nL;
+      if (nMove + strlen(szBuffer2) > 1535) {
         return; // gioi han pham vi chuoi~
+      }
+
       int nAfterLen = strlen(pInsert);
-      if (nMove > 0)
+      if (nMove > 0) {
         memmove(pInsert + nMove, pInsert, nAfterLen);
-      memcpy(pInsert2, m_ChatItemInfo, nLen);
+      }
+
+      memcpy(pInsert2, m_ChatItemInfo, nLenChatItemInfo);
       nMsgLength += nMove;
     }
   }
 
-  nMsgLength = TEncodeText(Buffer2, nMsgLength);
+  nMsgLength = TEncodeText(szBuffer2, nMsgLength);
 
   if (bChannel) {
     DWORD nChannelID = KUiMsgCentrePad::GetChannelID(nDestChannel);
     if (nChannelID != -1) {
       KUiMsgCentrePad::CheckChannel(nDestChannel, true);
-      OnSendChannelMessage(nChannelID, Buffer2, nMsgLength);
+      OnSendChannelMessage(nChannelID, szBuffer2, nMsgLength);
       m_InputEdit.ClearText();
       InputCurrentChannel(nDestChannel, true);
     }
   } else if (!IsSelfName(Name)) {
-    OnSendSomeoneMessage(Name, Buffer2, nMsgLength);
+    OnSendSomeoneMessage(Name, szBuffer2, nMsgLength);
 
     int nAdd = AddRecentPlayer(Name);
     if (nAdd >= 0) {
@@ -926,12 +922,13 @@ void KUiPlayerBar::OnSendChannelMessage(DWORD nChannelID, const char *Buffer,
   if (nChannelID != -1 && Buffer && nLen > 0) {
     int nLeft = KUiMsgCentrePad::PushChannelData(nChannelID, Buffer, nLen);
     if (nLeft < 0) {
-      char szWarning[] = "Thiªn l?truyÒn ©m kh«ng c¸ch nµo s?dông liªn tôc, "
+      char szWarning[] = "Thiªn lý truyÒn ©m kh«ng c¸ch nµo sö dông liªn tôc, "
                          "mêi b¹n lÊy h¬i chèc l¸t!";
       KUiMsgCentrePad::SystemMessageArrival(szWarning, sizeof(szWarning));
     } else if (nLeft > 0) {
       char szWarning[64];
-      sprintf(szWarning, "Th«ng b¸o s?®­îc göi sau %d gi©y!",
+      sprintf(szWarning,
+              "B¹n cÇn nghØ ng¬i sau [%d] gi©y míi cã thÓ tiÕp tôc truyÒn tin",
               (nLeft + 999) / 1000);
       KUiMsgCentrePad::SystemMessageArrival(szWarning, strlen(szWarning) + 1);
     }
@@ -1182,7 +1179,6 @@ int KUiPlayerBar::GetCurChannel() {
 //	¹¦ÄÜ£º¸üÐÂ³£±äµÄÄÇÐ©ÊýÖµÊý¾Ý
 //--------------------------------------------------------------------------
 void KUiPlayerBar::UpdateXXXNumber(int &nMana, int &nFullMana) {
-
   KUiPlayerRuntimeInfo Info;
   memset(&Info, 0, sizeof(KUiPlayerRuntimeInfo));
 
@@ -1200,6 +1196,7 @@ void KUiPlayerBar::UpdateXXXNumber(int &nMana, int &nFullMana) {
   g_pCoreShell->SceneMapOperation(GSMOI_SCENE_TIME_INFO, (unsigned int)&Spot,
                                   0);
   KUiMiniMap::UpdateSceneTimeInfo(&Spot);
+  KUiAuto::UpdateSceneTimeInfo(&Spot);
 
   nMana = max(Info.nMana, 0);
   nFullMana = max(Info.nManaFull, 0);
@@ -1273,29 +1270,31 @@ void KUiPlayerBar::Breathe() {
     if (!bSend) {
       if (nRet == 2 && nUseLevel > 0)
         sprintf(szSystem,
-                "§¼ng cÊp cña b¹n kh«ng ®ñ %d cÊp, kh«ng c¸ch nµo s?dông thiªn "
-                "l?truyÒn ©m!",
+                "§¼ng cÊp cña b¹n kh«ng ®ñ [%d], kh«ng thÓ sö dông [Thiªn lý "
+                "truyÒn ©m c«ng] ®Ó chuyÓn ph¸t tin tøc",
                 nUseLevel);
 
       if (nRet == 1 && nUseMoney > 0)
-        sprintf(szSystem,
-                "TiÒn cña b¹n kh«ng ®ñ %d l­îng, kh«ng c¸ch nµo s?dông thiªn "
-                "l?truyÒn ©m!",
-                nUseMoney);
+        sprintf(
+            szSystem,
+            "Money cña b¹n kh«ng ®ñ [%d] ®Ó sö dông Thiªn lý truyÒn ©m c«ng",
+            nUseMoney);
 
       if (nRet == 3 && nUseMana > 0)
-        sprintf(szSystem,
-                "Néi lùc cña b¹n kh«ng ®ñ %d ®iÓm, kh«ng c¸ch nµo s?dông thiªn "
-                "l?truyÒn ©m!",
-                nUseMana);
+        sprintf(
+            szSystem,
+            "Néi lùc cña b¹n kh«ng ®ñ [%d] ®Ó sö dông Thiªn lý truyÒn ©m c«ng",
+            nUseMana);
     } else {
       if (nUseMoney > 0)
         sprintf(szSystem,
-                "B¹n s?dông thiªn l?truyÒn ©m tæn hao ng©n l­îng %d l­îng!",
+                "B¹n ®· sö dông [Thiªn lý truyÒn ©m c«ng] chuyÓn ph¸t lµm tiªu "
+                "hao [%d] money",
                 nUseMoney);
       if (nUseMana > 0)
         sprintf(szSystem,
-                "B¹n s?dông thiªn l?truyÒn ©m tæn hao néi lùc %d ®iÓm!",
+                "B¹n ®· sö dông [Thiªn lý truyÒn ©m c«ng] chuyÓn ph¸t lµm tiªu "
+                "hao [%d] néi lùc",
                 nUseMana);
     }
 
@@ -1335,49 +1334,63 @@ int KUiPlayerBar::IsHasCost(BYTE cost, int nMoney, int nLevel, int nMana,
     nUseMana = 0;
   } else if (cost == 1) // 10ÔªÃ¿¾ä
   {
-    if (nMoney < 10) {
-      nUseMoney = 10;
+    if (nMoney < 100) {
+      nUseMoney = 100;
       return 1;
     }
-    nUseMoney = 10;
+    nUseMoney = 100;
     nUseLevel = 0;
     nUseMana = 0;
   } else if (cost == 2) // 2: <10Lv ? ²»ÄÜËµ : MaxMana/2/¾ä
-  {
-    if (nLevel < 50) {
-      nUseLevel = 50;
-      return 2;
-    }
-
-    if (nMana < nFullMana / 2) {
-      nUseMana = nFullMana / 2;
-      return 3;
-    }
-    nUseMana = nFullMana / 2;
-    nUseMoney = 0;
-    nUseLevel = 50;
-  } else if (cost == 3) // 3: MaxMana/10/¾ä
-  {
-    if (nMoney < 10000) {
-      nUseMoney = 10000;
-      return 1;
-    }
-    nUseMoney = 10000;
-    nUseMana = 0;
-    nUseLevel = 0;
-  } else if (cost == 4) // 4: <20Lv ? ²»ÄÜËµ : MaxMana*4/5/¾ä
   {
     if (nLevel < 20) {
       nUseLevel = 20;
       return 2;
     }
-
+    if (nMoney < 1000) {
+      nUseMoney = 1000;
+      return 1;
+    }
+    if (nMana < nFullMana / 2) {
+      nUseMana = nFullMana / 2;
+      return 3;
+    }
+    nUseMoney = 1000;
+    nUseLevel = 20;
+    nUseMana = nFullMana / 2;
+  } else if (cost == 3) // 3: MaxMana/10/¾ä
+  {
+    if (nLevel < 10) {
+      nUseLevel = 10;
+      return 2;
+    }
+    if (nMoney < 500) {
+      nUseMoney = 500;
+      return 1;
+    }
+    if (nMana < nFullMana / 10) {
+      nUseMana = nFullMana / 10;
+      return 3;
+    }
+    nUseMoney = 500;
+    nUseLevel = 10;
+    nUseMana = nFullMana / 10;
+  } else if (cost == 4) // 4: <20Lv ? ²»ÄÜËµ : MaxMana*4/5/¾ä
+  {
+    if (nLevel < 30) {
+      nUseLevel = 30;
+      return 2;
+    }
+    if (nMoney < 5000) {
+      nUseMoney = 5000;
+      return 1;
+    }
     if (nMana < nFullMana * 4 / 5) {
       nUseMana = nFullMana * 4 / 5;
       return 3;
     }
-    nUseMoney = 0;
-    nUseLevel = 20;
+    nUseMoney = 5000;
+    nUseLevel = 30;
     nUseMana = nFullMana * 4 / 5;
   } else {
     nUseMoney = 0;
@@ -1475,7 +1488,6 @@ char *KUiPlayerBar::GetRecentPlayerName(int nIndex) {
     return "";
   }
 }
-
 int KUiPlayerBar::AddRecentPlayer(const char *szName) {
   if (!m_pSelf)
     return -1;
@@ -1519,6 +1531,7 @@ bool KUiPlayerBar::GetExp(int &nFull, int &nCurrLevelExp, int &nCurrentExp) {
     nCurrentExp = m_pSelf->m_nExperience;
     return true;
   }
+
   return false;
 }
 
@@ -1535,6 +1548,7 @@ BOOL KUiPlayerBar::LoadPrivateSetting(KIniFile *pFile) {
     if (pFile->GetInteger("Player", "PK", 0, (int *)(&nPK)))
       g_pCoreShell->OperationRequest(GOI_PK_SETTING, 0, nPK);
   }
+
   return TRUE;
 }
 
@@ -1547,12 +1561,13 @@ int KUiPlayerBar::SavePrivateSetting(KIniFile *pFile) {
     int nPK = g_pCoreShell->GetGameData(GDI_PK_SETTING, 0, 0);
     pFile->WriteInteger("Player", "PK", nPK);
   }
+
   return 1;
 }
 
 void KUiPlayerBar::SetChatItem(ChatItem CItem, unsigned int uId) {
   if (!uId)
-    return; // uh thank. di ngu thoi 2 ruoi roibb
+    return;
   if (m_pSelf) {
     ZeroMemory(m_pSelf->m_ChatItemInfo, sizeof(m_pSelf->m_ChatItemInfo));
     ZeroMemory(m_pSelf->m_ItemName, sizeof(m_pSelf->m_ItemName));
@@ -1604,6 +1619,7 @@ void KUiPlayerBar::SetChatItem(ChatItem CItem, unsigned int uId) {
       m_pSelf->m_ChatItemInfo[nOffset] = ',';
       nOffset++;
     }
+
     for (int i = 0; i < 12; i++) {
       sprintf(Buffer, "%d", CItem.pnMagicParam[i]);
       // itoa(CItem.pnMagicParam[i], Buffer, 10);
@@ -1613,6 +1629,7 @@ void KUiPlayerBar::SetChatItem(ChatItem CItem, unsigned int uId) {
       m_pSelf->m_ChatItemInfo[nOffset] = ',';
       nOffset++;
     }
+
     itoa(CItem.m_Time.bYear, Buffer, 10);
     strcat(&m_pSelf->m_ChatItemInfo[nOffset], Buffer);
     nOffset += strlen(Buffer);
@@ -1661,7 +1678,6 @@ void KUiPlayerBar::SetChatItem(ChatItem CItem, unsigned int uId) {
   }
 }
 
-//--------------Ken Nguyen-------------------------------------------------
 void KUiPlayerBar::SetItemBtnInfo(int nBtnNo, ChatItem *pItem) {
   if (nBtnNo >= 0 && nBtnNo < MAX_ITEMBUTTON && g_pCoreShell && m_pSelf &&
       pItem) {
@@ -1670,6 +1686,7 @@ void KUiPlayerBar::SetItemBtnInfo(int nBtnNo, ChatItem *pItem) {
         GDI_ITEM_CHAT, true, (int)&m_pSelf->m_ItemBtn[nBtnNo].m_Item);
     if (!nIdx)
       return;
+
     char szName[64];
     char szName2[64];
     int nKind = g_pCoreShell->GetKind(nIdx);
@@ -1699,25 +1716,28 @@ void KUiPlayerBar::SetItemBtnInfo(int nBtnNo, ChatItem *pItem) {
     g_pCoreShell->GetGameData(GDI_ITEM_CHAT, false, nIdx);
   }
 }
-//--------------Ken Nguyen-------------------------------------------------
+
 void KUiPlayerBar::ClearItemBtn() {
-  if (m_pSelf)
+  if (m_pSelf) {
     for (int j = 0; j < MAX_ITEMBUTTON; j++) {
       if (m_pSelf->m_ItemBtn[j].m_X == -300 && m_pSelf->m_ItemBtn[j].m_Y == 100)
         continue;
       m_pSelf->m_ItemBtn[j].SetPosition(INVISIBLE_POS);
       m_pSelf->m_ItemBtn[j].Hide();
     }
+  }
 }
-//--------------Ken Nguyen-------------------------------------------------
+
 void KUiPlayerBar::SetItemBtnPos(int nBtnNo, int X, int Y) {
   if (nBtnNo >= 0 && nBtnNo < MAX_ITEMBUTTON) {
     if (m_pSelf) {
       if (m_pSelf->m_ItemBtn[nBtnNo].m_bHaveItem == false)
         return;
+
       if (m_pSelf->m_ItemBtn[nBtnNo].m_X == -300 == X &&
           m_pSelf->m_ItemBtn[nBtnNo].m_Y == 100 == Y)
         return;
+
       m_pSelf->m_ItemBtn[nBtnNo].SetPosition(X, Y);
       m_pSelf->m_ItemBtn[nBtnNo].m_X = X;
       m_pSelf->m_ItemBtn[nBtnNo].m_Y = Y;
@@ -1728,4 +1748,14 @@ void KUiPlayerBar::SetItemBtnPos(int nBtnNo, int X, int Y) {
         m_pSelf->m_ItemBtn[nBtnNo].Show();
     }
   }
+}
+void KUiPlayerBar::Clear() {
+  if (m_pSelf)
+    m_pSelf->CloseWindow(true);
+  ///	if (ms_pStateList)
+  //	{
+  //		free (ms_pStateList);
+  //		ms_pStateList = NULL;
+  //	}
+  //	ms_nNumState = 0;
 }

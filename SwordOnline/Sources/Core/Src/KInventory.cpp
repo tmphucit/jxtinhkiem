@@ -1,7 +1,7 @@
 #include "KInventory.h"
 #include "KCore.h"
 #include "KItem.h"
-#include "MyAssert.H"
+#include "MyAssert.h"
 
 KInventory::KInventory() {
   m_pArray = NULL;

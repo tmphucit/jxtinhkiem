@@ -369,9 +369,8 @@ DWORD KPIGetPrivateProfileString(
             LPTSTR lpszKeyValue = GetKeyValue(lpszKeyTemp, liKeyValueSize);
             if (NULL != lpszKeyValue) {
               dwRet = liKeyValueSize;
-              DWORD dwCopyLen = dwSize <= (unsigned long)liKeyValueSize
-                                    ? dwSize
-                                    : liKeyValueSize;
+              DWORD dwCopyLen =
+                  dwSize <= liKeyValueSize ? dwSize : liKeyValueSize;
               if (NULL != lpszReturnedString) {
                 memcpy(lpszReturnedString, lpszKeyValue, dwCopyLen);
                 if (dwSize > dwCopyLen) {

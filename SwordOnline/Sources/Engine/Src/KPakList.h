@@ -34,7 +34,7 @@ private:
   unsigned long FileNameToId(const char *pszFileName);
 
 private:
-#define MAX_PAK 48
+#define MAX_PAK 32
   XPackFile *m_PakFilePtrList[MAX_PAK];
   long m_nPakNumber;
 };

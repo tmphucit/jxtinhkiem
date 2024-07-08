@@ -53,9 +53,9 @@ typedef struct Tag_DVAudInfo {
   BYTE bNumAudPin;                 // how many pins
   WORD wAvgSamplesPerPinPerFrm[2]; // sample size for one audio pin in one
                                    // frame(which has 10 or 12 DIF sequence)
-  WORD wBlkMode;                   // 45 for NTSC, 54 for PAL
-  WORD wDIFMode;                   // 5  for NTSC, 6 for PAL
-  WORD wBlkDiv;                    // 15  for NTSC, 18 for PAL
+  WORD wBlkMode; // 45 for NTSC, 54 for PAL
+  WORD wDIFMode; // 5  for NTSC, 6 for PAL
+  WORD wBlkDiv;  // 15  for NTSC, 18 for PAL
 
 } DVAudInfo;
 

@@ -51,6 +51,7 @@ typedef struct {
   DWORD m_dwTime;
   char szName[32];
   BYTE ImagePlayer; // chan dung
+  BYTE PKFlag;
 } PLAYER_SYNC;
 
 typedef struct {
@@ -77,6 +78,7 @@ typedef struct {
   //	BYTE	m_btPKFlag;
   //	BYTE	m_btSleepMode;
   BYTE ImagePlayer; // chan dung
+  BYTE PKFlag;
 } PLAYER_NORMAL_SYNC;
 
 typedef struct {
@@ -87,6 +89,7 @@ typedef struct {
   BYTE m_bySeries;  // 五行系
   int CurrentLife;  // 生命百分比
   int CurrentLifeMax;
+  //	int		Dir;
   BYTE m_btMenuState; // 组队、交易等状态
   BYTE m_Doing;       // 行为
   BYTE m_btKind;      // npc类型
@@ -123,9 +126,23 @@ typedef struct {
   BYTE Camp;
   int CurrentLife;
   int CurrentLifeMax;
+  //	int     RegionID;   // moi them thu 24.06
   BYTE Doing;
   BYTE State;
 } NPC_NORMAL_SYNC;
+
+typedef struct {
+  BYTE ProtocolType;
+  BYTE nType;
+  int nValue;
+} S2C_PLAYER_POINT_SYNC;
+
+typedef struct {
+  BYTE ProtocolType;
+  char Value[32];
+  int Value1;
+  char Value2[64];
+} S2C_TIME_BOX;
 
 typedef struct {
   BYTE ProtocolType;
@@ -342,7 +359,14 @@ typedef struct PLAYER_TEAM_ADD_MEMBER_DATA {
 } PLAYER_TEAM_ADD_MEMBER; // 服务器通知队伍中的各个玩家有新成员加入
 
 typedef struct {
-  BYTE ProtocolType;       // 协议名称
+  BYTE ProtocolType; // 协议名称
+  BYTE m_btState;
+  BYTE m_btFlag;            // 打开或关闭
+} PLAYER_TEAM_CHANGE_STATE; // 队伍队长向服务器申请开放、关闭队伍是否允许接收成员状态
+
+typedef struct {
+  BYTE ProtocolType; // 协议名称
+  BOOL bMySelf;
 } PLAYER_APPLY_LEAVE_TEAM; // 客户端玩家申请离队
 
 typedef struct {
@@ -458,8 +482,11 @@ typedef struct {
   WORD m_wCurFrame;
   BYTE m_btItemHeight;
   BYTE m_btColorID;
+  int m_nGenre;
+  int m_nDetailType;
   BYTE m_btFlag;
-  char m_szName[32];
+  int m_dwNpcId;
+  char m_szName[OBJ_NAME_LENGTH];
 } OBJ_ADD_SYNC;
 
 typedef struct {
@@ -631,11 +658,6 @@ typedef struct {
 typedef struct {
   BYTE ProtocolType; // 协议类型
   int m_ID;          // 物品的ID
-} PLAYER_SELL_ITEM_COMMAND;
-
-typedef struct {
-  BYTE ProtocolType; // 协议类型
-  int m_ID;          // 物品的ID
   int m_Price;
 } PLAYER_SHOP_PRICE_COMMAND;
 
@@ -647,6 +669,14 @@ typedef struct {
 typedef struct {
   BYTE ProtocolType;
 } PLAYER_SHOP_OPEN_COMMAND;
+
+typedef struct {
+  BYTE ProtocolType;
+  BYTE nItemGenre;
+  BYTE nDetailType;
+  BYTE nLevel;
+  BYTE num;
+} CLIENT_OPEN_SHOP;
 
 typedef struct {
   BYTE ProtocolType; // 协议类型
@@ -948,10 +978,14 @@ typedef struct {
 
 typedef struct {
   BYTE ProtocolType; // 协议类型
-  short m_shLife;
-  short m_shStamina;
-  short m_shMana;
-  short m_shAngry;
+  DWORD m_shLife;
+  DWORD m_shStamina;
+  DWORD m_shMana;
+  DWORD m_shAngry;
+
+  int m_shLifeMax;
+  int m_shStaminaMax;
+  int m_shManaMax;
   BYTE m_btTeamData;
 } CURPLAYER_NORMAL_SYNC;
 
@@ -1007,19 +1041,20 @@ typedef struct {
   int m_nMoney1;
   int m_nMoney2;
   int m_btImagePlayer; // chan dung
-} CURPLAYER_SYNC;
+} CURPLAYER_SYNC;      // chinh lai keu du lieu m_wLifeMax
 
-#define MAX_SCIRPTACTION_BUFFERNUM 300
+#define MAX_SCIRPTACTION_BUFFERNUM 1024
 
 typedef struct {
   BYTE ProtocolType;
   WORD m_wProtocolLong;
   BYTE m_nOperateType; // 操作类型
-  BYTE m_bUIId, m_bOptionNum, m_bParam1,
-      m_bParam2; // m_bParam1,主信息是数字标识还是字符串标识,
-                 // m_bParam2,是否是与服务器交互的选择界面
+  BYTE m_bUIId, m_bOptionNum, m_bParam1, m_bParam2,
+      m_Select; // m_bParam1,主信息是数字标识还是字符串标识,
+                // m_bParam2,是否是与服务器交互的选择界面
   int m_nParam;
   int m_nBufferLen;
+  BOOL m_bSelect;
   char m_pContent[MAX_SCIRPTACTION_BUFFERNUM]; // 带控制符
 } PLAYER_SCRIPTACTION_SYNC;
 
@@ -2287,6 +2322,7 @@ typedef struct {
   int m_bManaPoison;
   int m_bAllPoison;
   int m_bAllPoisonMin;
+
   BOOL m_bSuaTrangBi;
   BOOL m_bUseTTL;
   BOOL m_bNhatDoChonLoc;
@@ -2296,6 +2332,36 @@ typedef struct {
   BOOL m_RingSelect;
   BOOL m_WeaSelect;
 } AUTO_QUAYLAI;
+
+typedef struct {
+  BYTE ProtocolType;
+  BYTE m_bAuto;
+  BYTE m_bActive;
+} PLAYER_REQUEST_AUTO;
+
+typedef struct {
+  BYTE ProtocolType; // 协议类型
+  int m_ID;          // 物品的ID
+  BYTE m_Number;
+} PLAYER_SELL_ITEM_COMMAND;
+
+typedef struct {
+  BYTE ProtocolType;
+} S2CEXIT_GAME;
+
+typedef struct tagPLAYER_COMMAND {
+  BYTE ProtocolType;
+  WORD m_wLength;
+  WORD m_wMsgID;
+  LPVOID m_lpBuf;
+  tagPLAYER_COMMAND() { m_lpBuf = NULL; };
+  ~tagPLAYER_COMMAND() { Release(); }
+  void Release() {
+    if (m_lpBuf)
+      delete[] m_lpBuf;
+    m_lpBuf = NULL;
+  }
+} PLAYER_COMMAND;
 
 typedef struct {
   BYTE ProtocolType;
@@ -2575,6 +2641,13 @@ typedef struct {
   BYTE ProtocolType;
 } OPEN_SHOP_GOLD;
 
+typedef struct // protocol image npc
+{
+  BYTE ProtocolType;
+  BYTE m_nType;
+  int m_nValue;
+} IMAGENPC_VALUE_SYNC;
+
 typedef struct {
   BYTE ProtocolType;
 } OPEN_TOP_TK_NEW;
@@ -2591,6 +2664,11 @@ typedef struct {
   BOOL bCheck;
 } PLAYER_TONGKIM_SYNC;
 
+typedef struct {
+  BYTE ProtocolType;
+  int nType;
+  char szFunc[32];
+} PLAYER_UI_CMD_SCRIPT; // protocol load script
 // 在调用这支函数之前必须判断是否处于交易状态，如果正在交易，不能调用这支函数
 void SendClientCmdSell(int nID);
 
@@ -2643,23 +2721,18 @@ void SendClientCmdStoreMoney(int nDir, int nMoney);
 void SendClientCmdRevive();
 void SendObjMouseClick(int nObjID, DWORD dwRegionID);
 void SendClientCmdRepair(DWORD dwID);
+void SendClientCmdLiXian();
 
 void SendClientCmdOpenShopGold();
 void SendClientCmdOpenTopTKNew();
 void SendClientToaDo(int nstt);
 void SendClientCPSetImageCmd(int nNumber);
-void SendClientCmdLiXian(); // UY THAC
-void SendClientCmdAutoQuayLai(int n1, int n2, int n3, int n4, BOOL n5, BOOL n6,
-                              BOOL n7, BOOL n8, int numselect, BOOL ringselect,
-                              BOOL weaselect);
-void SendClientCmdAutoLocDo(int n1, int n2, int n3, int n4, int n5, int n6,
-                            int n7, int n8, int n9, int n10, int n11, int n12,
-                            int n13, int n14, int n15, int n16, int n17,
-                            int n18, int n19, int n20, int n21, int n22,
-                            int n23, int n24, int n25, int n26, int n27,
-                            int n28, int n29, int n30, int n31, int n32,
-                            int n33, int n34, int n35, int n36, int n37,
-                            int n38, int n39);
+void SendUiCmdScript(int nName, char *szFunc);
+void SendClientCmdAutoPlay(BOOL nbAuto, BOOL nbActive);
+void SendClientCmdAutoSell(int nId);
+void SendClientCmdOpenShop(BYTE nItemGenre, BYTE nDetailType, BYTE nLevel,
+                           BYTE num);
+
 extern int g_nProtocolSize[MAX_PROTOCOL_NUM];
 #pragma pack(pop, enter_protocol)
 #endif

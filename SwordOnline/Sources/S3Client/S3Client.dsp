@@ -96,10 +96,10 @@ PostBuild_Cmds=md ..\..\..\bin\client\debug\	copy debug\Game.exe ..\..\..\bin\Cl
 
 # Name "S3Client - Win32 Release"
 # Name "S3Client - Win32 Debug"
-# Begin Group "界面"
+# Begin Group "Ui"
 
 # PROP Default_Filter ""
-# Begin Group "界面基础"
+# Begin Group "Basic"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -351,10 +351,10 @@ SOURCE=.\Ui\Elem\WndWindow.cpp
 SOURCE=.\Ui\Elem\WndWindow.h
 # End Source File
 # End Group
-# Begin Group "界面应用"
+# Begin Group "Application"
 
 # PROP Default_Filter ""
-# Begin Group "登陆界面"
+# Begin Group "UiLogin"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -390,7 +390,7 @@ SOURCE=.\Ui\UiCase\UiSelServer.cpp
 SOURCE=.\Ui\UiCase\UiSelServer.h
 # End Source File
 # End Group
-# Begin Group "主角信息,状态界面"
+# Begin Group "MainUI"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -459,7 +459,7 @@ SOURCE=.\Ui\UiCase\UiStatus.cpp
 SOURCE=.\Ui\UiCase\UiStatus.h
 # End Source File
 # End Group
-# Begin Group "管理界面"
+# Begin Group "UiManager"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -473,7 +473,7 @@ SOURCE=.\Ui\UiCase\UiManage.h
 # PROP Exclude_From_Build 1
 # End Source File
 # End Group
-# Begin Group "选项界面"
+# Begin Group "Options"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -485,7 +485,7 @@ SOURCE=.\Ui\UiCase\UiOptions.cpp
 SOURCE=.\Ui\UiCase\UiOptions.h
 # End Source File
 # End Group
-# Begin Group "初始界面"
+# Begin Group "UiInit"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -497,7 +497,7 @@ SOURCE=.\Ui\UiCase\UiInit.cpp
 SOURCE=.\Ui\UiCase\UiInit.h
 # End Source File
 # End Group
-# Begin Group "道具,装备,技能界面、储物箱"
+# Begin Group "Item"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -526,13 +526,7 @@ SOURCE=.\Ui\UiCase\UiAuto.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Ui\UiCase\UiAutoI.cpp
-# End Source File
-# Begin Source File
 
-SOURCE=.\Ui\UiCase\UiAutoI.h
-# End Source File
-# Begin Source File
 
 SOURCE=.\Ui\UiCase\UiBuyShop.cpp
 # End Source File
@@ -698,6 +692,15 @@ SOURCE=.\Ui\UiCase\UiGetString.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Ui\UiCase\UiGetString3.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Ui\UiCase\UiGetString3.h
+# End Source File
+# Begin Source File
+
+
 SOURCE=.\Ui\UiCase\UiMsgSel.cpp
 # End Source File
 # Begin Source File
@@ -721,7 +724,7 @@ SOURCE=.\Ui\UiCase\UiSelPlayerNearby.cpp
 SOURCE=.\Ui\UiCase\UiSelPlayerNearby.h
 # End Source File
 # End Group
-# Begin Group "角色选择"
+# Begin Group "RoleSelection"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -749,7 +752,7 @@ SOURCE=.\Ui\UiCase\UiSelPlayer.cpp
 SOURCE=.\Ui\UiCase\UiSelPlayer.h
 # End Source File
 # End Group
-# Begin Group "聊天"
+# Begin Group "Chat"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -785,7 +788,7 @@ SOURCE=.\Ui\UiCase\UiChatStatus.cpp
 SOURCE=.\Ui\UiCase\UiChatStatus.h
 # End Source File
 # End Group
-# Begin Group "提示窗口"
+# Begin Group "UiInformation"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -821,7 +824,7 @@ SOURCE=.\Ui\UiCase\UiTeamManage.cpp
 SOURCE=.\Ui\UiCase\UiTeamManage.h
 # End Source File
 # End Group
-# Begin Group "屏幕顶行控制条与消息界面"
+# Begin Group "ControlBar_Msg"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -849,7 +852,7 @@ SOURCE=.\Ui\UiCase\UiToolsControlBar.cpp
 SOURCE=.\Ui\UiCase\UiToolsControlBar.h
 # End Source File
 # End Group
-# Begin Group "交易"
+# Begin Group "Trade"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -885,7 +888,7 @@ SOURCE=.\Ui\UiCase\UiTradeConfirmWnd.cpp
 SOURCE=.\Ui\UiCase\UiTradeConfirmWnd.h
 # End Source File
 # End Group
-# Begin Group "游戏世界窗口"
+# Begin Group "Game"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -897,7 +900,7 @@ SOURCE=.\Ui\UiCase\UiGame.cpp
 SOURCE=.\Ui\UiCase\UiGame.h
 # End Source File
 # End Group
-# Begin Group "系统消息"
+# Begin Group "SysMsgCentre"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -909,7 +912,7 @@ SOURCE=.\Ui\UiCase\UiSysMsgCentre.cpp
 SOURCE=.\Ui\UiCase\UiSysMsgCentre.h
 # End Source File
 # End Group
-# Begin Group "小地图"
+# Begin Group "MiniMap"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -945,7 +948,7 @@ SOURCE=.\Ui\uicase\UiMiniMap.cpp
 SOURCE=.\Ui\uicase\UiMiniMap.h
 # End Source File
 # End Group
-# Begin Group "选颜色"
+# Begin Group "SelColor"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -957,7 +960,7 @@ SOURCE=.\Ui\UiCase\UiSelColor.cpp
 SOURCE=.\Ui\UiCase\UiSelColor.h
 # End Source File
 # End Group
-# Begin Group "新手进入界面"
+# Begin Group "NewPlayerStartMsg"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -969,7 +972,7 @@ SOURCE=.\Ui\UiCase\UiNewPlayerStartMsg.cpp
 SOURCE=.\Ui\UiCase\UiNewPlayerStartMsg.h
 # End Source File
 # End Group
-# Begin Group "播放video"
+# Begin Group "PlayVideo"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -981,7 +984,7 @@ SOURCE=.\Ui\UiCase\UiPlayVideo.cpp
 SOURCE=.\Ui\UiCase\UiPlayVideo.h
 # End Source File
 # End Group
-# Begin Group "帮助界面"
+# Begin Group "Helper"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1001,7 +1004,7 @@ SOURCE=.\Ui\UiCase\UiHelper2.cpp
 SOURCE=.\Ui\UiCase\UiHelper2.h
 # End Source File
 # End Group
-# Begin Group "自动重连"
+# Begin Group "Reconnect"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1013,7 +1016,7 @@ SOURCE=.\Ui\UiCase\UiReconnect.cpp
 SOURCE=.\Ui\UiCase\UiReconnect.h
 # End Source File
 # End Group
-# Begin Group "任务记录"
+# Begin Group "Task"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1026,14 +1029,6 @@ SOURCE=.\Ui\UiCase\UiTaskDataFile.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Ui\UiCase\UiGetString3.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\Ui\UiCase\UiGetString3.h
-# End Source File
-# Begin Source File
-
 SOURCE=.\Ui\UiCase\UiTaskNote.cpp
 # End Source File
 # Begin Source File
@@ -1041,7 +1036,7 @@ SOURCE=.\Ui\UiCase\UiTaskNote.cpp
 SOURCE=.\Ui\UiCase\UiTaskNote.h
 # End Source File
 # End Group
-# Begin Group "世界地图"
+# Begin Group "WorldMap"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1053,7 +1048,7 @@ SOURCE=.\Ui\UiCase\UiWorldMap.cpp
 SOURCE=.\Ui\UiCase\UiWorldMap.h
 # End Source File
 # End Group
-# Begin Group "新闻窗口"
+# Begin Group "NewsMessage"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1074,9 +1069,17 @@ SOURCE=.\Ui\UiCase\UiNewsMessage.cpp
 SOURCE=.\Ui\UiCase\UiNewsMessage.h
 # End Source File
 # End Group
-# Begin Group "排名界面"
+# Begin Group "StrengthRank"
 
 # PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\Ui\UiCase\UiNewsMessage1.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Ui\UiCase\UiNewsMessage1.h
+# End Source File
 # Begin Source File
 
 SOURCE=.\Ui\UiCase\UiStrengthRank.cpp
@@ -1086,7 +1089,7 @@ SOURCE=.\Ui\UiCase\UiStrengthRank.cpp
 SOURCE=.\Ui\UiCase\UiStrengthRank.h
 # End Source File
 # End Group
-# Begin Group "帮会界面"
+# Begin Group "TongManager"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1166,6 +1169,31 @@ SOURCE=.\ui\uicase\UiTongManager.h
 # End Source File
 # Begin Source File
 
+SOURCE=.\Ui\UiCase\UiTimeBox.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Ui\UiCase\UiTimeBox.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Ui\UiCase\UiMsgSel2.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Ui\UiCase\UiMsgSel2.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\Ui\UiCase\UiMsgSel3.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Ui\UiCase\UiMsgSel3.h
+# End Source File
+# Begin Source File
+
+
 SOURCE=.\Ui\UiCase\UiTongStringName.cpp
 # End Source File
 # Begin Source File
@@ -1173,7 +1201,7 @@ SOURCE=.\Ui\UiCase\UiTongStringName.cpp
 SOURCE=.\Ui\UiCase\UiTongStringName.h
 # End Source File
 # End Group
-# Begin Group "打造物品界面"
+# Begin Group "TrembleItem"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1186,7 +1214,7 @@ SOURCE=.\ui\uicase\UiTrembleItem.h
 # End Source File
 # End Group
 # End Group
-# Begin Group "界面声音"
+# Begin Group "Sound"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1227,7 +1255,7 @@ SOURCE=.\Ui\UiShell.cpp
 SOURCE=.\Ui\UiShell.h
 # End Source File
 # End Group
-# Begin Group "其它"
+# Begin Group "Other"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1255,7 +1283,7 @@ SOURCE=.\S3Client.cpp
 SOURCE=.\S3Client.h
 # End Source File
 # End Group
-# Begin Group "网络连接"
+# Begin Group "Connection"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1271,7 +1299,7 @@ SOURCE=.\NetConnect\NetConnectAgent.h
 SOURCE=.\NetConnect\NetMsgTargetObject.h
 # End Source File
 # End Group
-# Begin Group "登陆"
+# Begin Group "Login"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1287,7 +1315,7 @@ SOURCE=.\Login\Login.h
 SOURCE=.\Login\LoginDef.h
 # End Source File
 # End Group
-# Begin Group "文字命令控制"
+# Begin Group "TextControlCommand"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1387,14 +1415,6 @@ SOURCE=.\stdafx.cpp
 # Begin Source File
 
 SOURCE=.\test.ico
-# End Source File
-# Begin Source File
-
-SOURCE=.\Ui\UiCase\UiTeamAuto.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\Ui\UiCase\UiTeamAuto.h
 # End Source File
 # End Target
 # End Project

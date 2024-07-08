@@ -11,84 +11,76 @@
 #include "KWin32.h"
 #include "UiBase.h"
 // #include "../../../core/src/gamedatadef.h"
+#include "../../Represent/iRepresent/iRepresentShell.h"
 #include "../../core/src/coreshell.h"
-
+#include "../Login/Login.h"
+#include "../NetConnect/NetConnectAgent.h"
+#include "ShortcutKey.h"
+#include "UiCase/BuySlectItemShop.h"
+#include "UiCase/KUiKtc.h"
+#include "UiCase/UiAuto.h"
+#include "UiCase/UiBuyShop.h"
+#include "UiCase/UiChannelSubscibe.h"
 #include "UiCase/UiChatCentre.h"
 #include "UiCase/UiChatStatus.h"
+#include "UiCase/UiCheckItemBox.h"
 #include "UiCase/UiConnectInfo.h"
+#include "UiCase/UiEffectNew.h"
 #include "UiCase/UiEscDlg.h"
+#include "UiCase/UiFaceSelector.h"
 #include "UiCase/UiGame.h"
 #include "UiCase/UiHeaderControlBar.h"
+#include "UiCase/UiHelper.h"
+#include "UiCase/UiHelper2.h"
 #include "UiCase/UiInformation.h"
 #include "UiCase/UiInformation2.h"
 #include "UiCase/UiInit.h"
 #include "UiCase/UiItem.h"
 #include "UiCase/UiLogin.h"
 #include "UiCase/UiLoginBg.h"
-#include "UiCase/UiMsgCentrePad.h"
-#include "UiCase/UiNewPlayer.h"
-#include "UiCase/UiOptions.h"
-#include "UiCase/UiParadeItem.h"
-#include "UiCase/UiPlayerBar.h"
-#include "UiCase/UiSelNativePlace.h"
-#include "UiCase/UiSelPlayer.h"
-#include "UiCase/UiSelServer.h"
-#include "UiCase/UiSkillTree.h"
-#include "UiCase/UiSkills.h"
-#include "UiCase/UiStatus.h"
-#include "UiCase/UiStoreBox.h"
-#include "UiCase/UiSysMsgCentre.h"
-#include "UiCase/UiToolsControlBar.h"
-
-#include "UiCase/UiRPNewBox.h"
-
-#include "UiCase/BuySlectItemShop.h"
-#include "UiCase/UiBuyShop.h"
-#include "UiCase/UiCheckItemBox.h"
-#include "UiCase/UiPGBoxItem.h"
-#include "UiCase/UiSlectBoxCheck.h"
-
-#include "UiCase/UiChannelSubscibe.h"
-#include "UiCase/UiMsgSel.h"
-#include "UiCase/UiSelPlayerNearby.h"
-#include "UiCase/UiShop.h"
-#include "UiCase/UiShopGold.h"
-#include "UiCase/UiTeamManage.h"
-
-#include "UiCase/UiMiniMap.h"
-#include "UiCase/UiShopName.h"
-#include "UiCase/UiShopPrice.h"
-#include "UiCase/UiStaskItem.h"
-#include "UiCase/UiTrade.h"
-#include "UiCase/UiTradeConfirmWnd.h"
-
-#include "../../Represent/iRepresent/iRepresentShell.h"
-#include "../Login/Login.h"
-#include "../NetConnect/NetConnectAgent.h"
-#include "ShortcutKey.h"
-#include "UiCase/KUiKtc.h"
-#include "UiCase/UiAuto.h"
-#include "UiCase/UiAutoI.h"
-#include "UiCase/UiEffectNew.h"
-#include "UiCase/UiFaceSelector.h"
-#include "UiCase/UiHelper.h"
-#include "UiCase/UiHelper2.h"
 #include "UiCase/UiLoginPWStoreBox.h"
+#include "UiCase/UiMiniMap.h"
+#include "UiCase/UiMsgCentrePad.h"
+#include "UiCase/UiMsgSel.h"
 #include "UiCase/UiNewPWStoreBox.h"
+#include "UiCase/UiNewPlayer.h"
 #include "UiCase/UiNewPlayerStartMsg.h"
 #include "UiCase/UiNewsMessage.h"
+#include "UiCase/UiOptions.h"
+#include "UiCase/UiPGBoxItem.h"
 #include "UiCase/UiPWStoreBox.h"
+#include "UiCase/UiParadeItem.h"
+#include "UiCase/UiPlayerBar.h"
 #include "UiCase/UiPlayerControlBar.h"
+#include "UiCase/UiRPNewBox.h"
 #include "UiCase/UiReconnect.h"
+#include "UiCase/UiSelNativePlace.h"
+#include "UiCase/UiSelPlayer.h"
+#include "UiCase/UiSelPlayerNearby.h"
+#include "UiCase/UiSelServer.h"
+#include "UiCase/UiShop.h"
+#include "UiCase/UiShopGold.h"
+#include "UiCase/UiShopName.h"
+#include "UiCase/UiShopPrice.h"
+#include "UiCase/UiSkillTree.h"
+#include "UiCase/UiSkills.h"
+#include "UiCase/UiSlectBoxCheck.h"
+#include "UiCase/UiStaskItem.h"
+#include "UiCase/UiStatus.h"
+#include "UiCase/UiStoreBox.h"
 #include "UiCase/UiStrengthRank.h"
 #include "UiCase/UiStringBox.h"
+#include "UiCase/UiSysMsgCentre.h"
 #include "UiCase/UiTaskNote.h"
+#include "UiCase/UiTeamManage.h"
 #include "UiCase/UiTongCreateSheet.h"
 #include "UiCase/UiTongManager.h"
+#include "UiCase/UiToolsControlBar.h"
 #include "UiCase/UiTopTKNew.h"
-#include "UiSoundSetting.h"
-
+#include "UiCase/UiTrade.h"
+#include "UiCase/UiTradeConfirmWnd.h"
 #include "UiChatPhrase.h"
+#include "UiSoundSetting.h"
 
 extern iCoreShell *g_pCoreShell;
 extern iRepresentShell *g_pRepresentShell;
@@ -98,6 +90,7 @@ enum UI_LIVING_STATUS {
   UI_LIVING_S_DEAD,    // 该退出程序了
   UI_LIVING_S_OUTGAME, // 不是游戏运行中
   UI_LIVING_S_INGAME,  // 游戏运行中
+
 };
 
 static UI_LIVING_STATUS s_UiLiveSeed = UI_LIVING_S_DEAD;
@@ -186,6 +179,7 @@ int UiInit() {
   Player_Faction::RegisterSelfClass();
   Player_AT::RegisterSelfClass();
   Player_KTC::RegisterSelfClass();
+  Player_Auto::RegisterSelfClass(); // new button chatroom
 
   //	KWndEdit::Initialize(hInstance);
 
@@ -263,6 +257,7 @@ void UiExit() {
 //	功能：開始界面控制流程
 //--------------------------------------------------------------------------
 int UiStart() {
+
   s_UiLiveSeed = UI_LIVING_S_OUTGAME;
   Wnd_ShowCursor(true);
   Wnd_SwitchCursor(CURSOR_NORMAL);
@@ -309,6 +304,8 @@ void UiPaint(int nGameLoop) {
 #endif
 
   g_pRepresentShell->RepresentEnd();
+  if (g_pRepresentShell->FPSDelay > 0 && g_pRepresentShell->FPSDelay <= 200)
+    Sleep(g_pRepresentShell->FPSDelay);
 }
 
 //--------------------------------------------------------------------------
@@ -351,6 +348,7 @@ void UiProcessInput(unsigned int uMsg, unsigned int uParam, int nParam) {
   } else if (uMsg != WM_ACTIVATEAPP)
     Wnd_ProcessInput(uMsg, uParam, nParam);
   else if (uParam) {
+
     Wnd_RestoreCursor();
     KUiOptions::LoadSetting(false, true);
   }
@@ -381,15 +379,13 @@ void UiRestart() {
   KUiSysMsgCentre::OpenWindow();
   KUiHeaderControlBar::OpenWindow();
   KUiToolsControlBar::OpenWindow();
-  KUiAuto::OpenWindow();
-  // KUiAutoI::OpenWindow();
+
   KUiKtc::OpenWindow();
+  // KUiEffectNew1::OpenWindow();
   KUiNewsMessage::OpenWindow();
   Wnd_ShowHideGameSpace(true);
-
   g_UiBase.SetStatus(UIS_S_IDLE);
   Wnd_GameSpaceHandleInput(true);
-
   KShortcutKeyCentre::Enable(true);
 
   if (g_LoginLogic.IsRoleNewCreated()) {
@@ -406,27 +402,20 @@ void UiRestart() {
 }
 void UiStartGame() {
   UiOnGameServerConnected();
-
   g_UiBase.CleanTempDataFolder();
-
   KUiInit::StopTitleMusic();
-
   UiCloseWndsOutGame(true);
   KUiLoginBackGround::CloseWindow(false);
   KUiConnectInfo::CloseWindow(true);
-
   KUiMsgCentrePad::OpenWindow();
+  KUiPlayerControlBar::OpenWindow();
   KUiPlayerBar::OpenWindow();
   KUiSysMsgCentre::OpenWindow();
   KUiHeaderControlBar::OpenWindow();
   KUiToolsControlBar::OpenWindow();
-  KUiAuto::OpenWindow();
   KUiKtc::OpenWindow();
-  // KUiAutoI::OpenWindow();
-
   KUiNewsMessage::OpenWindow();
   Wnd_ShowHideGameSpace(true);
-
   g_UiBase.SetStatus(UIS_S_IDLE);
   Wnd_GameSpaceHandleInput(true);
 
@@ -468,11 +457,10 @@ bool UiCloseWndsInGame(bool bAll) {
         KUiRPNewBox::GetIfVisible() == NULL &&
         KUiCheckItemBox::GetIfVisible() == NULL &&
         KUiBuyShop::GetIfVisible() == NULL &&
-        KBuySlectItemShop::GetIfVisible() == NULL &&
+        KBuySelectItemShop::GetIfVisible() == NULL &&
         KUiPGBoxItem::GetIfVisible() == NULL &&
         KUiSlectBoxCheck::GetIfVisible() == NULL &&
         KUiTeamManage::GetIfVisible() == NULL &&
-        //			KUiTeamAuto::GetIfVisible() == NULL &&
         KUiTradeConfirm::GetIfVisible() == NULL &&
         KUiShopPrice::GetIfVisible() == NULL &&
         KUiShopName::GetIfVisible() == NULL &&
@@ -492,6 +480,7 @@ bool UiCloseWndsInGame(bool bAll) {
         KUiStringBox::GetIfVisible() == NULL &&
         KUiLoginPWStoreBox::GetIfVisible() == NULL &&
         KUiPWStoreBox::GetIfVisible() == NULL &&
+        KUiAuto::GetIfVisible() == NULL &&
         KUiNewPWStoreBox::GetIfVisible() == NULL
         // KUiManage::GetIfVisible() ||
     ) {
@@ -504,15 +493,16 @@ bool UiCloseWndsInGame(bool bAll) {
     KUiMsgCentrePad::CloseWindow(true);
     KUiHeaderControlBar::CloseWindow();
     KUiToolsControlBar::CloseWindow();
-    KUiAuto::CloseWindow();
+
     KUiKtc::CloseWindow();
-    // KUiAutoI::CloseWindow(true);
+
     KUiESCDlg::CloseWindow(true);
     KUiSysMsgCentre::CloseWindow();
     KUiChatCentre::CloseWindow(true);
     // KUiManage::CloseWindow();
     MapSetMode(MINIMAP_M_NONE);
     KUiNewsMessage::CloseWindow(TRUE);
+    KUiPlayerControlBar::CloseWindow(true);
     g_UiInformation.Close();
     g_UiInformation2.Close();
   }
@@ -529,11 +519,10 @@ bool UiCloseWndsInGame(bool bAll) {
   KUiCheckItemBox::CloseWindow();
   KUiPGBoxItem::CloseWindow(bAll);
   KUiBuyShop::CloseWindow();
-  KBuySlectItemShop::CloseWindow(bAll);
-
+  KBuySelectItemShop::CloseWindow(bAll);
   KUiSlectBoxCheck::CloseWindow();
   KUiTeamManage::CloseWindow();
-  //	KUiTeamAuto::CloseWindow();
+
   KUiTradeConfirm::CloseWindow(bAll);
   KUiShopPrice::CloseWindow(bAll);
   KUiShopName::CloseWindow(bAll);
@@ -551,6 +540,7 @@ bool UiCloseWndsInGame(bool bAll) {
   KUiHelper2::CloseWindow(bAll);
   KUiTaskNote::CloseWindow(bAll);
   KUiParadeItem::CloseWindow(bAll);
+  KUiAuto::CloseWindow();
   KUiStrengthRank::CloseWindow();
   KUiTongManager::CloseWindow();
   KUiTongCreateSheet::CloseWindow();
@@ -590,6 +580,9 @@ void UiOnGameServerConnected() { g_UiBase.SavePrivateConfig(); }
 
 // 与一个新的GameServer建立连接，启动同步完毕
 void UiOnGameServerStartSyncEnd() {
+  KUiAuto::CloseWindow();
+  KUiAuto::OpenWindow();
+  //    KUiAuto::CloseWindow();
   KUiChatCentre::OpenWindow(false);
   KUiChatCentre::CreateSeverUnit();
   g_UiBase.LoadPrivateConfig(); // 不太好:-(
@@ -727,7 +720,7 @@ int Player_Exp::GetToolTipInfo(char *szTip, int nMax) {
   if (KUiPlayerBar::GetExp(nFull, nCurrLevelExp, nCurrent) && szTip &&
       nMax > 0) {
     char szBuffer[64];
-    nLen = sprintf(szBuffer, "经验 %d/%d", nCurrent, nFull);
+    nLen = sprintf(szBuffer, "Kinh nghi謒 %d/%d", nCurrent, nFull);
     if (nLen <= nMax)
       memcpy(szTip, szBuffer, nLen);
     else
@@ -752,7 +745,7 @@ void Player_WorldSort::UpdateData() {
     KUiPlayerBaseInfo Info;
     memset(&Info, 0, sizeof(KUiPlayerBaseInfo));
     g_pCoreShell->GetGameData(GDI_PLAYER_BASE_INFO, (unsigned int)&Info, 0);
-    SetIntText(Info.nRankInWorld, 0);
+    SetWorldText(Info.nRankInWorld, 0); // fix xep hang
   }
 }
 
@@ -914,4 +907,11 @@ void Player_KTC::UpdateData() {}
 const char *Player_KTC::GetShortKey() {
   return KShortcutKeyCentre::GetKeyName(KShortcutKeyCentre::GetCommandKey(
       KShortcutKeyCentre::FindCommandByScript(SCK_SHORTCUT_KTC)));
+}
+IMPLEMENT_COMCLASS(Player_Auto)
+void Player_Auto::OnButtonClick() {
+  if (KUiAuto::GetIfVisible() == NULL)
+    KUiAuto::OpenWindow();
+  else
+    KUiAuto::CloseWindow();
 }

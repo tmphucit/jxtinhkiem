@@ -38,16 +38,6 @@ public:
   void GetCaretPosition(int *nx, int *ny);
   unsigned int GetFocusBkColor() { return m_FocusBkColor; }
   void SetFocusBkColor(unsigned int nC) { m_FocusBkColor = nC; }
-  void SetMaskCharacter(bool bMask) {
-    if (bMask) {
-      m_Flag |= WNDEDIT_ES_MASK_CHARACTER;
-      m_Flag &= ~WNDEDIT_ES_MULTI_LINE;
-    } else {
-      m_Flag &= ~WNDEDIT_ES_MASK_CHARACTER;
-    }
-  };
-  int GetMaskCharacter() { return (m_Flag & WNDEDIT_ES_MASK_CHARACTER); };
-  void SetLimitText(int nLimit) { m_nLimitText = nLimit; };
 
 protected:
   void SetTextPtr(char *pText, int nMaxLen);   // 设置文本缓冲区指针

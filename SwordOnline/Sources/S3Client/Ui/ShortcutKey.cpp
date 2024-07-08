@@ -5,6 +5,7 @@
 //	CreateTime:	2003-1-13
 *****************************************************************************************/
 #include "ShortcutKey.h"
+#include "Elem/SpecialFuncs.h"
 #include "KIniFile.h"
 #include "KWin32.h"
 #include "UICase/UiFaceSelector.h"
@@ -13,7 +14,6 @@
 #include "UICase/UiTaskNote.h"
 #include "UiBase.h"
 #include "UiCase/UiAuto.h"
-#include "UiCase/UiAutoI.h"
 #include "UiCase/UiChannelSubscibe.h"
 #include "UiCase/UiChatCentre.h"
 #include "UiCase/UiESCDlg.h"
@@ -23,6 +23,7 @@
 #include "UiCase/UiMiniMap.h"
 #include "UiCase/UiMsgCentrePad.h"
 #include "UiCase/UiNewsMessage.h"
+#include "UiCase/UiNewsMessage1.h"
 #include "UiCase/UiOptions.h"
 #include "UiCase/UiPlayerBar.h"
 #include "UiCase/UiShop.h"
@@ -34,13 +35,9 @@
 #include "UiCase/UiTeamManage.h"
 #include "UiCase/UiTongCreateSheet.h"
 #include "UiCase/UiToolsControlBar.h"
+#include "UiCase/UiTopTKNew.h"
 #include "UiCase/UiTrade.h"
 #include "UiCase/uisysmsgcentre.h"
-
-#include "UiCase/UiTopTKNew.h"
-
-#include "Elem/SpecialFuncs.h"
-
 #include "UiShell.h"
 
 #include "KProtocol.h"
@@ -120,25 +117,26 @@ void KShortcutKeyCentre::Enable(bool b) { ms_Enable = b; }
 
 // 窗口列表
 char *l_WindowList[] = {
-    "team",        // 0 队伍
-    "map",         // 1 地图
-    "status",      // 2 状态
-    "Items",       // 3 物品
-    "skills",      // 4 技能
-    "system",      // 5 系统
-    "friend",      // 6 好友
-    "help",        // 7 详细帮助
-    "tasknote",    // 8 任务记事
-    "leftskill",   // 9 左手技能
-    "rightskill",  // 10 右手技能
-    "commandline", // 11 命令行
-    "options",     // 12 选项
-    "statustool",  // 13 状态工具条
-    "normaltool",  // 14 常用工具条
-    "chatroom",    // 15 聊天窗口
-    "newsmessage", // 16 新闻窗口
-    "debug",       // 17 调试用的，搞好删掉...
-    "autoplay",    // 18
+    "team",         // 0 队伍
+    "map",          // 1 地图
+    "status",       // 2 状态
+    "Items",        // 3 物品
+    "skills",       // 4 技能
+    "system",       // 5 系统
+    "friend",       // 6 好友
+    "help",         // 7 详细帮助
+    "tasknote",     // 8 任务记事
+    "leftskill",    // 9 左手技能
+    "rightskill",   // 10 右手技能
+    "commandline",  // 11 命令行
+    "options",      // 12 选项
+    "statustool",   // 13 状态工具条
+    "normaltool",   // 14 常用工具条
+    "chatroom",     // 15 聊天窗口
+    "newsmessage",  // 16 新闻窗口
+    "debug",        // 17 调试用的，搞好删掉...
+    "auto",         // 18
+    "newsmessage1", // 18 moi them
 };
 
 int FindWindow(const char *szname) {
@@ -205,7 +203,10 @@ int LuaOpenWindow(Lua_State *L) {
         KUiHelper2::OpenWindow(true);
       break;
     case 8: // 任务记事
-      // KUiAutoI::ActiveAuto();
+      if (KUiTaskNote::GetIfVisible())
+        KUiTaskNote::CloseWindow(false);
+      else
+        KUiTaskNote::OpenWindow();
       break;
     case 9: // 左手技能
       if (KUiSkillTree::GetIfVisible())
@@ -238,10 +239,16 @@ int LuaOpenWindow(Lua_State *L) {
         KUiTongCreateSheet::OpenWindow();
       break;
     case 18:
-      // if (KUiAutoI::GetIfVisible())
-      //	KUiAutoI::CloseWindow(0);
-      // else
-      //	KUiAutoI::OpenWindow();
+      if (KUiAuto::GetIfVisible())
+        KUiAuto::CloseWindow();
+      else
+        KUiAuto::OpenWindow();
+      break;
+    case 19:
+      if (KUiNewsMessage1::GetIfVisible())
+        KUiNewsMessage1::CloseWindow();
+      else
+        KUiNewsMessage1::OpenWindow();
       break;
       break;
     }
@@ -384,10 +391,11 @@ char *l_StatusList[] = {
     "showplayerlife",   // 6 显示玩家生命
     "showplayermana",   // 7 显示玩家内力
     "showplayernumber", // 8 界面显示玩家数字
-    "no9",              // 8
-    "ati",
-    "ktc", // Code cai nay` no qui dinh giong kieu trong file nay
-    "toptknew",
+    "no9",              // 9
+    "ati",              // 10
+    "ktc",              // 11
+    "toptknew",         // 12
+    "onauto",           // 13
 };
 
 int FindStatus(const char *szname) {
@@ -430,6 +438,7 @@ int LuaSwitchStatus(Lua_State *L) {
         }
       }
       break;
+
     case 4:
       if (g_pCoreShell)
         g_pCoreShell->OperationRequest(GOI_PLAYER_ACTION, PA_RIDE, 0);
@@ -465,36 +474,35 @@ int LuaSwitchStatus(Lua_State *L) {
       KUiPlayerBar::SwitchChannel();
       break;
     case 10:
-
       if (g_pCoreShell) {
-        if (!KUiAutoI::GetIfVisible())
-          KUiAutoI::OpenWindow();
-        else
-          KUiAutoI::CloseWindow(false);
       }
-
       break;
-
+      break;
     case 11:
-
       if (g_pCoreShell) {
         if (!KUiShopGold::GetIfVisible())
           g_pCoreShell->OperationRequest(GOI_OPEN_SHOP_GOLD, 0, 0);
         else
           KUiShopGold::CloseWindow();
       }
-
       break;
-
     case 12:
-
       if (g_pCoreShell) {
         if (!KUiTopTKNew::GetIfVisible())
           g_pCoreShell->OperationRequest(GOI_OPEN_TOP_TK_NEW, 0, 0);
         else
           KUiTopTKNew::CloseWindow();
       }
-
+      break;
+    case 13: // 显示玩家生命
+      if (g_pCoreShell) {
+        if (g_pCoreShell->GetAutoFlag()) {
+          if (g_pCoreShell->GetFightFlag())
+            g_pCoreShell->OperationRequest(GOI_AUTO_PLAY, 5, FALSE);
+          else
+            g_pCoreShell->OperationRequest(GOI_AUTO_PLAY, 5, TRUE);
+        }
+      }
       break;
     }
   }
@@ -585,9 +593,9 @@ std::string DescHotKey(DWORD hk) {
       "Shift", "Ctrl", "Alt", "Ext", "", "", "", ""};
   static const char *vkeydesc_table[] = {
       //	0			1			2
-      // 3			4			5 6 7
+      //3			4			5 6 7
       //	8			9			A
-      // B			C			D E F
+      //B			C			D E F
       "",           "LButton", "RButton",    "Cancel",   "MButton",
       "",           "",        "", // 0
       "BackSpace",  "Tab",     "",           "",         "Clear",
@@ -2174,8 +2182,8 @@ TLua_Funcs GameScriptFuns[] = {
     {"Say", LuaSay},   //	char * strPlayerName,	char * strMessage
     {"Chat", LuaChat}, //	char * strChannelName,	char * strMessage
     {"RegisterFunctionAlias",
-     LuaRegisterFunctionAlias},  // char * strFunAlias, char * strFun, [int
-                                 // nParam], [Paramlist...]
+     LuaRegisterFunctionAlias}, // char * strFunAlias, char * strFun, [int
+                                // nParam], [Paramlist...]
     {"SayPhrase", LuaSayPhrase}, // int nIndex
     {"SetPhrase", LuaSetPhrase}, // int nIndex, char * strPhrase
     {"SayEmote",
@@ -2641,9 +2649,9 @@ BOOL KShortcutKeyCentre::TranslateExcuteScript(const char *ScriptCommand) {
 }
 
 BOOL KShortcutKeyCentre::ExcuteScript(const char *ScriptCommand) {
-
-  if (!ms_Enable)
+  if (g_UiBase.GetStatus() != UIS_S_IDLE || !ms_Enable)
     return FALSE;
+
   if (ScriptCommand && ScriptCommand[0] != 0) {
     if (ms_Script.LoadBuffer((PBYTE)ScriptCommand, strlen(ScriptCommand))) {
       return ms_Script.ExecuteCode();

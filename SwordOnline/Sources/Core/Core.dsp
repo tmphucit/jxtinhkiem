@@ -59,7 +59,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\bin\server\debug	md ..\..\lib\debug	copy ServerDebug\CoreServer.map ..\..\..\bin\server\Coreserver.map	copy ServerDebug\CoreServer.pdb ..\..\..\bin\server\Coreserver.pdb	copy ServerDebug\CoreServer.dll ..\..\..\bin\server\Coreserver.dll	copy ServerDebug\CoreServer.map ..\..\..\bin\server\debug\Coreserver.map	copy ServerDebug\CoreServer.pdb ..\..\..\bin\server\debug\Coreserver.pdb	copy ServerDebug\CoreServer.dll ..\..\..\bin\server\debug\Coreserver.dll	copy ServerDebug\CoreServer.lib ..\..\lib\debug\CoreServer.lib
+PostBuild_Cmds=md ..\..\lib\debug\	copy ServerDebug\CoreServer.lib ..\..\lib\debug\CoreServer.lib	md ..\..\..\bin\server\	copy ServerDebug\CoreServer.map ..\..\..\bin\server\CoreServer.map	copy ServerDebug\CoreServer.pdb ..\..\..\bin\server\CoreServer.pdb	copy ServerDebug\CoreServer.dll ..\..\..\bin\server\CoreServer.dll	md ..\..\..\bin\server\debug\	copy ServerDebug\CoreServer.map ..\..\..\bin\server\debug\CoreServer.map	copy ServerDebug\CoreServer.pdb ..\..\..\bin\server\debug\CoreServer.pdb	copy ServerDebug\CoreServer.dll ..\..\..\bin\server\debug\CoreServer.dll
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Core - Win32 Server Release"
@@ -90,7 +90,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\bin\server\release	md ..\..\lib\release	copy ServerRelease\CoreServer.map ..\..\..\bin\server\Coreserver.map	copy ServerRelease\CoreServer.pdb ..\..\..\bin\server\Coreserver.pdb	copy ServerRelease\CoreServer.dll ..\..\..\bin\server\Coreserver.dll	copy ServerRelease\CoreServer.map ..\..\..\bin\server\release\Coreserver.map	copy ServerRelease\CoreServer.pdb ..\..\..\bin\server\release\Coreserver.pdb	copy ServerRelease\CoreServer.dll ..\..\..\bin\server\release\Coreserver.dll	copy ServerRelease\CoreServer.lib ..\..\lib\release\CoreServer.lib
+PostBuild_Cmds=md ..\..\lib\release\	copy ServerRelease\CoreServer.lib ..\..\lib\release\CoreServer.lib	md ..\..\..\bin\server\	copy ServerRelease\CoreServer.map ..\..\..\bin\server\CoreServer.map	copy ServerRelease\CoreServer.pdb ..\..\..\bin\server\CoreServer.pdb	copy ServerRelease\CoreServer.dll ..\..\..\bin\server\CoreServer.dll	md ..\..\..\bin\server\release\	copy ServerRelease\CoreServer.map ..\..\..\bin\server\release\CoreServer.map	copy ServerRelease\CoreServer.pdb ..\..\..\bin\server\release\CoreServer.pdb	copy ServerRelease\CoreServer.dll ..\..\..\bin\server\release\CoreServer.dll
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Core - Win32 Client Debug"
@@ -122,7 +122,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\bin\client\debug	md ..\..\lib\debug	copy ClientDebug\CoreClient.pdb ..\..\..\bin\client\CoreClient.pdb	copy ClientDebug\CoreClient.map ..\..\..\bin\client\CoreClient.map	copy ClientDebug\CoreClient.dll ..\..\..\bin\client\CoreClient.dll	copy ClientDebug\CoreClient.pdb ..\..\..\bin\client\debug\CoreClient.pdb	copy ClientDebug\CoreClient.map ..\..\..\bin\client\debug\CoreClient.map	copy ClientDebug\CoreClient.dll ..\..\..\bin\client\debug\CoreClient.dll	copy ClientDebug\CoreClient.lib ..\..\lib\debug\CoreClient.lib
+PostBuild_Cmds=md ..\..\lib\debug	copy ClientDebug\CoreClient.lib ..\..\lib\debug\CoreClient.lib	md ..\..\..\bin\client\		copy ClientDebug\CoreClient.pdb ..\..\..\bin\client\CoreClient.pdb		copy ClientDebug\CoreClient.map ..\..\..\bin\client\CoreClient.map		copy ClientDebug\CoreClient.dll ..\..\..\bin\client\CoreClient.dll		md ..\..\..\bin\client\debug\		copy ClientDebug\CoreClient.pdb ..\..\..\bin\client\debug\CoreClient.pdb		copy ClientDebug\CoreClient.map ..\..\..\bin\client\debug\CoreClient.map		copy ClientDebug\CoreClient.dll ..\..\..\bin\client\debug\CoreClient.dll
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Core - Win32 Client Release"
@@ -153,7 +153,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\bin\client\release	md ..\..\lib\release	copy ClientRelease\CoreClient.pdb ..\..\..\bin\client\CoreClient.pdb	copy ClientRelease\CoreClient.map ..\..\..\bin\client\CoreClient.map	copy ClientRelease\CoreClient.dll ..\..\..\bin\client\CoreClient.dll	copy ClientRelease\CoreClient.pdb ..\..\..\bin\client\release\CoreClient.pdb	copy ClientRelease\CoreClient.map ..\..\..\bin\client\release\CoreClient.map	copy ClientRelease\CoreClient.dll ..\..\..\bin\client\release\CoreClient.dll	copy ClientRelease\CoreClient.lib ..\..\lib\release\CoreClient.lib
+PostBuild_Cmds=md ..\..\lib\release\	copy ClientRelease\CoreClient.lib ..\..\lib\release\CoreClient.lib	md ..\..\..\bin\client\	copy ClientRelease\CoreClient.pdb ..\..\..\bin\client\CoreClient.pdb	copy ClientRelease\CoreClient.map ..\..\..\bin\client\CoreClient.map	copy ClientRelease\CoreClient.dll ..\..\..\bin\client\CoreClient.dll	md ..\..\..\bin\client\release\	copy ClientRelease\CoreClient.pdb ..\..\..\bin\client\release\CoreClient.pdb	copy ClientRelease\CoreClient.map ..\..\..\bin\client\release\CoreClient.map	copy ClientRelease\CoreClient.dll ..\..\..\bin\client\release\CoreClient.dll
 # End Special Build Tool
 
 !ENDIF 
@@ -164,10 +164,10 @@ PostBuild_Cmds=md ..\..\..\bin\client\release	md ..\..\lib\release	copy ClientRe
 # Name "Core - Win32 Server Release"
 # Name "Core - Win32 Client Debug"
 # Name "Core - Win32 Client Release"
-# Begin Group "技能"
+# Begin Group "Skills"
 
 # PROP Default_Filter ""
-# Begin Group "玩家宠物"
+# Begin Group "Partner"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -191,7 +191,7 @@ SOURCE=.\Src\KPlayerPartner.h
 SOURCE=".\Src\PlayerPartner文档.txt"
 # End Source File
 # End Group
-# Begin Group "偷窃技能"
+# Begin Group "ThiefSkill"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -308,20 +308,15 @@ SOURCE=.\Src\SkillDef.h
 SOURCE=".\Src\技能系统.txt"
 # End Source File
 # End Group
-# Begin Group "人物"
+# Begin Group "NPC_Player"
+
+# PROP Default_Filter ""
+# Begin Group "Npc"
 
 # PROP Default_Filter ""
 # Begin Source File
 
 SOURCE=".\Src\AI设计.txt"
-# End Source File
-# Begin Source File
-
-SOURCE=.\Src\KFaction.cpp
-# End Source File
-# Begin Source File
-
-SOURCE=.\Src\KFaction.h
 # End Source File
 # Begin Source File
 
@@ -413,6 +408,22 @@ SOURCE=.\Src\KNpcTemplate.h
 # End Source File
 # Begin Source File
 
+SOURCE=".\Src\NPC系统.txt"
+# End Source File
+# End Group
+# Begin Group "Player"
+
+# PROP Default_Filter ""
+# Begin Source File
+
+SOURCE=.\Src\KFaction.cpp
+# End Source File
+# Begin Source File
+
+SOURCE=.\Src\KFaction.h
+# End Source File
+# Begin Source File
+
 SOURCE=.\Src\KPlayer.cpp
 # End Source File
 # Begin Source File
@@ -499,6 +510,7 @@ SOURCE=.\Src\KPlayerTrade.cpp
 
 SOURCE=.\Src\KPlayerTrade.h
 # End Source File
+# End Group
 # Begin Source File
 
 SOURCE=.\Src\KSprControl.cpp
@@ -507,17 +519,13 @@ SOURCE=.\Src\KSprControl.cpp
 
 SOURCE=.\Src\KSprControl.h
 # End Source File
-# Begin Source File
-
-SOURCE=".\Src\NPC系统.txt"
-# End Source File
 # End Group
-# Begin Group "物品装备"
+# Begin Group "Item"
 
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\Src\KBasPropTbl.CPP
+SOURCE=.\Src\KBasPropTbl.cpp
 # End Source File
 # Begin Source File
 
@@ -557,7 +565,7 @@ SOURCE=.\Src\KItemChangeRes.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Src\KItemGenerator.CPP
+SOURCE=.\Src\KItemGenerator.cpp
 # End Source File
 # Begin Source File
 
@@ -605,10 +613,10 @@ SOURCE=.\Src\KViewItem.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Src\MyAssert.H
+SOURCE=.\Src\MyAssert.h
 # End Source File
 # End Group
-# Begin Group "世界"
+# Begin Group "World"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -644,7 +652,7 @@ SOURCE=.\Src\KWeatherMgr.cpp
 SOURCE=.\Src\KWeatherMgr.h
 # End Source File
 # End Group
-# Begin Group "地图"
+# Begin Group "Map"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -656,7 +664,7 @@ SOURCE=.\Src\KRegion.cpp
 SOURCE=.\Src\KRegion.h
 # End Source File
 # End Group
-# Begin Group "消息"
+# Begin Group "WorldMsg"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -668,7 +676,7 @@ SOURCE=.\Src\KWorldMsg.cpp
 SOURCE=.\Src\KWorldMsg.h
 # End Source File
 # End Group
-# Begin Group "数学运算"
+# Begin Group "KMath"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -680,7 +688,7 @@ SOURCE=.\Src\KMath.cpp
 SOURCE=.\Src\KMath.h
 # End Source File
 # End Group
-# Begin Group "协议"
+# Begin Group "Protocol"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -765,14 +773,14 @@ SOURCE=.\Src\KProtocolProcess.h
 SOURCE=.\Protocol.xls
 # End Source File
 # End Group
-# Begin Group "脚本"
+# Begin Group "Script"
 
 # PROP Default_Filter ""
 # Begin Group "AI脚本"
 
 # PROP Default_Filter ""
 # End Group
-# Begin Group "立即性脚本"
+# Begin Group "ScriptFuns"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -780,7 +788,7 @@ SOURCE=.\Protocol.xls
 SOURCE=.\Src\ScriptFuns.cpp
 # End Source File
 # End Group
-# Begin Group "单步性脚本"
+# Begin Group "LuaFuns"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -814,7 +822,7 @@ SOURCE=.\Src\LuaFuns.h
 SOURCE=".\Src\脚本说明.txt"
 # End Source File
 # End Group
-# Begin Group "被外界访问接口"
+# Begin Group "AccessedOutsideWorld"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -963,7 +971,7 @@ SOURCE=.\Src\KIndexNode.h
 SOURCE=.\Src\MsgGenreDef.h
 # End Source File
 # End Group
-# Begin Group "数据库相关"
+# Begin Group "Database"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -971,10 +979,10 @@ SOURCE=.\Src\MsgGenreDef.h
 SOURCE=..\..\Lib\S3DBInterface.h
 # End Source File
 # End Group
-# Begin Group "场景"
+# Begin Group "Scenes"
 
 # PROP Default_Filter ""
-# Begin Group "场景中对象与对象树"
+# Begin Group "Objects"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1284,7 +1292,7 @@ SOURCE=.\Src\Scene\ScenePlaceMapC.h
 
 # End Source File
 # End Group
-# Begin Group "图形引用"
+# Begin Group "GraphicalReference"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1364,7 +1372,7 @@ SOURCE=.\Src\ImgRef.h
 
 # End Source File
 # End Group
-# Begin Group "魔法属性"
+# Begin Group "MagicAttribute"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1380,7 +1388,7 @@ SOURCE=.\Src\KMagicDesc.cpp
 SOURCE=.\Src\KMagicDesc.h
 # End Source File
 # End Group
-# Begin Group "GM管理"
+# Begin Group "GMCommand"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1392,7 +1400,7 @@ SOURCE=.\Src\KGMCommand.cpp
 SOURCE=.\Src\KGMCommand.h
 # End Source File
 # End Group
-# Begin Group "任务相关"
+# Begin Group "Task"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1486,7 +1494,7 @@ SOURCE=.\Src\TaskDef.h
 SOURCE=".\Src\任务系统设计文档.txt"
 # End Source File
 # End Group
-# Begin Group "选项"
+# Begin Group "Option"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1498,7 +1506,7 @@ SOURCE=.\Src\KOption.cpp
 SOURCE=.\Src\KOption.h
 # End Source File
 # End Group
-# Begin Group "音乐"
+# Begin Group "Music"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1598,7 +1606,7 @@ SOURCE=..\..\Lib\debug\common.lib
 # End Source File
 # End Group
 # End Group
-# Begin Group "排名"
+# Begin Group "Ranking"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1619,7 +1627,7 @@ SOURCE=.\Src\USBKey\des.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Src\USBKey\EPASSAPI.H
+SOURCE=.\Src\USBKey\EPASSAPI.h
 # End Source File
 # Begin Source File
 
@@ -1627,7 +1635,7 @@ SOURCE=.\Src\USBKey\epsJO.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Src\USBKey\MD5.H
+SOURCE=.\Src\USBKey\MD5.h
 # End Source File
 # Begin Source File
 

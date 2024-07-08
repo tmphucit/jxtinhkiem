@@ -126,6 +126,8 @@ public:
   KWndText32 m_tNQuanhDiem;
   KWndText32 m_tNTheoSau;
   KWndText32 m_tNThongBao;
+  KWndText32 m_tGuiTienNew;
+  KWndText32 m_tGuiTienNew2;
 
   KWndEdit32 m_eBoQuaPK;
   KWndEdit32 m_eLife;
@@ -135,6 +137,7 @@ public:
   KWndEdit32 m_eRange;
   KWndEdit32 m_eNAtack;
   KWndEdit32 m_ePhamViTuVe;
+  KWndEdit32 m_eGuiTienNew;
 
   KWndLabeledButton m_tbQuanhDiem;
   KWndLabeledButton m_tbTheoSau;

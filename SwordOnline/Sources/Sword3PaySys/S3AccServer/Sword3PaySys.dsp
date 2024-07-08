@@ -56,7 +56,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Ws2_32.lib /nologo /subsystem:windows /map /debug /machine:I386
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\..\bin\client\release\	copy release\Sword3PaySys.exe ..\..\..\..\bin\Server\Sword3PaySys.exe	copy release\Sword3PaySys.exe ..\..\..\..\bin\Server\release\Sword3PaySys.exe
+PostBuild_Cmds=md ..\..\..\..\bin\multiserver\	copy release\Sword3PaySys.exe ..\..\..\..\bin\multiserver\Sword3PaySys.exe	copy release\Sword3PaySys.pdb ..\..\..\..\bin\multiserver\Sword3PaySys.pdb	md ..\..\..\..\bin\multiserver\release\	copy release\Sword3PaySys.exe ..\..\..\..\bin\multiserver\release\Sword3PaySys.exe	copy release\Sword3PaySys.pdb ..\..\..\..\bin\multiserver\release\Sword3PaySys.pdb
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Sword3PaySys - Win32 Debug"
@@ -83,10 +83,10 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Ws2_32.lib /nologo /subsystem:windows /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib Ws2_32.lib /nologo /subsystem:windows /map /debug /machine:I386 /pdbtype:sept
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\..\bin\client\debug\	copy debug\Sword3PaySys.exe ..\..\..\..\bin\Server\Sword3PaySys.exe	copy debug\Sword3PaySys.exe ..\..\..\..\bin\Server\debug\Sword3PaySys.exe
+PostBuild_Cmds=md ..\..\..\..\bin\multiserver\	copy debug\Sword3PaySys.exe ..\..\..\..\bin\multiserver\Sword3PaySys.exe	copy debug\Sword3PaySys.pdb ..\..\..\..\bin\multiserver\Sword3PaySys.pdb	md ..\..\..\..\bin\multiserver\debug\	copy debug\Sword3PaySys.exe ..\..\..\..\bin\multiserver\debug\Sword3PaySys.exe	copy debug\Sword3PaySys.pdb ..\..\..\..\bin\multiserver\debug\Sword3PaySys.pdb
 # End Special Build Tool
 
 !ENDIF 

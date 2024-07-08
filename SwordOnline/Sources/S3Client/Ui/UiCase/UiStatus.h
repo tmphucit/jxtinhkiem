@@ -8,13 +8,10 @@
         手镯1×1，鞋子2×2，戒指1×1，腰坠1×2，项链1×1，马2×3。
 *****************************************************************************************/
 #pragma once
-#include "../../../Core/Src/GameDatadef.h"
+
 #include "../Elem/WndButton.h"
-#include "../Elem/WndEdit.h"
-#include "../Elem/WndImage.h"
-#include "../Elem/WndLabeledButton.h"
-#include "../Elem/WndPage.h"
 #include "../Elem/WndPureTextBtn.h"
+#include "../Elem/WndShowAnimate.h"
 #include "../Elem/WndText.h"
 #include "../elem/WndObjContainer.h"
 
@@ -25,11 +22,9 @@ struct KUiPlayerAttribute;
 
 #define _ITEM_COUNT 13
 
-class KUiStatus : public KWndPage {
+class KUiStatus : public KWndShowAnimate {
 public:
   //----界面面板统一的接口函数----
-  // void	Initialize();
-  // void	LoadScheme(class KIniFile* pIni);
   static KUiStatus *OpenWindow();   // 打开窗口，返回唯一的一个类对象实例
   static KUiStatus *GetIfVisible(); // 如果窗口正被显示，则返回实例指针
   static void
@@ -52,17 +47,14 @@ public:
 private:
   KUiStatus() {}
   ~KUiStatus() {}
-  void Initialize(); // 初始化
-  //	void	UseRemainPoint(int ntype, int nPoint);	//升级某项属性
-  // int		WndProc(unsigned int uMsg, unsigned int uParam, int
-  // nParam);	//窗口函数
+  void Initialize();                          // 初始化
+  void UseRemainPoint(int type, int nNumber); // 升级某项属性
+  int WndProc(unsigned int uMsg, unsigned int uParam, int nParam); // 窗口函数
   void LoadScheme(class KIniFile *pIni); // 载入界面方案
   void
   OnEquiptChanged(ITEM_PICKDROP_PLACE *pPickPos,
                   ITEM_PICKDROP_PLACE *pDropPos); // 响应界面操作引起装备的改变
   void OnRepairItem(KUiDraggedObject *pItem);
-  int WndProc(unsigned int uMsg, unsigned int uParam, int nParam);
-  void UseRemainPoint(int type, int nNumber);
 
 private:
   static KUiStatus *m_pSelf;
@@ -91,7 +83,7 @@ private:
       m_AttackSpeed;
   KWndText32 m_PhyDef, m_CoolDef, m_LightDef, m_FireDef, m_PoisonDef;
   KWndText32 m_Level, m_StatusDesc;
-  KWndText32 m_Pk, m_Repute, m_Pd, m_Xh;
+  KWndText32 m_PKValue, m_Repute, m_FuYuan, m_WorldRank;
 
   KWndButton m_OpenItemPad;
   KWndButton m_Close;
@@ -100,9 +92,9 @@ private:
   KWndButton m_BLockBox1;
   KWndButton m_BLockBox2;
 
-  KWndButton m_LockItem;
-  KWndButton m_UnLockItem;
-  KWndText32 m_Cs;
+  KWndButton m_BtnBind;
+  KWndButton m_BtnUnBind;
+  KWndText32 m_TransLife;
   KWndPureTextBtn m_ClickHere;
   KWndText80 m_ClickHere1;
   KWndButton m_Avatar;

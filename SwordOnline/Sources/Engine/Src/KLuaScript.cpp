@@ -111,7 +111,7 @@ BOOL KLuaScript::Load(char *Filename) {
       return FALSE;
     }
   } catch (...) {
-    printf("Load Script %s 出现异常，请检查!!\n", Filename);
+    printf("Load script %s loi khong xac dinh\n", Filename);
     return FALSE;
   }
 
@@ -161,7 +161,7 @@ BOOL KLuaScript::ExecuteCode() {
 // 参数:	int nResults
 // 参数:	LPSTR cFormat  调用时所传参数的类型
 //			n:数字型(double) d:整形(int) s:字符串型 f:C函数型  n:Nil
-// v:Value p:Point
+//v:Value p:Point
 //        v形为Lua支持的，参数为整形的数index，指明将index所指堆栈的变量作为
 //			 该函数的调用参数。
 //	注意：由于该函数有不定参数…,对于数字，系统并不确定数是以double还是以int

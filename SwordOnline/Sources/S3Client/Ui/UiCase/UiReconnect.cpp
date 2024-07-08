@@ -19,11 +19,11 @@
 #include "UiSysMsgCentre.h"
 #include <crtdbg.h>
 
-#define MSG_RECONNECTING "KÕt nèi l¹i lÇn thø <color=red>%d<color>sau \n%s..."
+#define MSG_RECONNECTING                                                       \
+  "HÖ thèng ®ang kÕt nèi l¹i lÇn thø <color=255,0,0>%d<color>\n%s"
 #define MSG_WAIT_TO_RECONNECT                                                  \
-  "Sau %d gi©y tù ®éng kÕt nèi l¹i víi m¸y chñ lÇn  <color=red>%d<color> "
-#define MSG_WAIT_NEXT_GROUP_RECONNECT                                          \
-  "Sau %d gi©y sau hÖ thèng tù ®éng kÕt nèi víi m¸y chñ "
+  "TiÕn hµnh kÕt nèi l¹i trong %d gi©y (lÇn thø <color=255,0,0>%d<color>)"
+#define MSG_WAIT_NEXT_GROUP_RECONNECT "TiÕn hµnh kÕt nèi l¹i trong %d gi©y"
 #define MSG_HIDE_RECONNECT_MSG_ID "21"
 
 // Á½×é¶ÏÏßÖØÁ¬µÄ¼ä¸ôÊ±¼ä£¬µ¥Î»ºÁÃë
@@ -79,23 +79,26 @@ void KReconnectWnd::FirstReconnect() {
 
 bool KReconnectWnd::StartReconnect() {
   if (m_nHideTimes > 0 || (++m_nReconnectTimes) < m_nMaxReconnectTimes) {
-    if (m_nHideTimes > 0) {
-      KSystemMessage Msg;
-      Msg.byConfirmType = SMCT_NONE;
-      Msg.byParamSize = 0;
-      Msg.byPriority = 0;
-      Msg.eType = SMT_NORMAL;
-      Msg.uReservedForUi = 0;
+    /*if (m_nHideTimes > 0)
+    {
+            KSystemMessage	Msg;
+            Msg.byConfirmType = SMCT_NONE;
+            Msg.byParamSize = 0;
+            Msg.byPriority = 0;
+            Msg.eType = SMT_NORMAL;
+            Msg.uReservedForUi = 0;
 
-      KIniFile *pIni = g_UiBase.GetCommConfigFile();
-      if (pIni) {
-        if (pIni->GetString("InfoString", MSG_HIDE_RECONNECT_MSG_ID, "",
-                            Msg.szMessage, sizeof(Msg.szMessage))) {
-          KUiSysMsgCentre::AMessageArrival(&Msg, NULL);
-        }
-        g_UiBase.CloseCommConfigFile();
-      }
-    }
+            KIniFile*	pIni = g_UiBase.GetCommConfigFile();
+            if (pIni)
+            {
+                    if (pIni->GetString("InfoString", MSG_HIDE_RECONNECT_MSG_ID,
+                            "", Msg.szMessage, sizeof(Msg.szMessage)))
+                    {
+                            KUiSysMsgCentre::AMessageArrival(&Msg, NULL);
+                    }
+                    g_UiBase.CloseCommConfigFile();
+            }
+    }*/
 
     g_LoginLogic.ReturnToIdle();
     g_LoginLogic.AutoLogin();
@@ -169,26 +172,26 @@ void KReconnectWnd::Breathe() {
         m_uToWaitTime = INVISIBLE_RECONNECT_INTERVAL;
       } else {
         m_uToWaitTime = RECONNECT_INTERVAL;
-        pReconnectMsg = "´Ë´ÎÖØÁ¬Ê§°Ü";
+        pReconnectMsg = "KÕt nèi thÊt b¹i";
       }
     }
   } break;
   case LL_S_ACCOUNT_CONFIRMING: // µÈ´ıÕËºÅÃÜÂëÑéÖ¤
-    pReconnectMsg = "ÕıÔÚ½øĞĞÕËºÅÓëÃÜÂëÑéÖ¤";
+    pReconnectMsg = "§ang tiÕn hµnh kiÓm tra tµi kho¶n vµ mËt khÈu";
     break;
   case LL_S_WAIT_ROLE_LIST: // µÈ´ı½ÓÊÕ½ÇÉ«ÁĞ±íÊı¾İ
-    pReconnectMsg = "ÕıÔÚ½ÓÊÕ½ÇÉ«ÁĞ±íÊı¾İ";
+    pReconnectMsg = "§ang nhËn danh s¸ch nh©n vËt";
     break;
   case LL_S_WAIT_TO_LOGIN_GAMESERVER: // µÈ´ıµÇÂ½ÓÎÏ··şÎñÆ÷
-    pReconnectMsg = "ÕıÔÚÁ¬½ÓÓÎÏ··şÎñÆ÷";
+    pReconnectMsg = "§ang phôc vô trß ch¬i";
     break;
   case LL_S_ENTERING_GAME: // ÕıÔÚ½øÈëÓÎÏ·
-    pReconnectMsg = "ÕıÔÚ½øÈëÓÎÏ·";
+    pReconnectMsg = "§ang ®¨ng nhËp vµo trß ch¬i";
     break;
   }
 
   if (m_bStop) {
-    pReconnectMsg = "µã¿¨²»×ã£¬Çë³äÖµºóÔÙ¼ÌĞøÓÎÏ·¡£";
+    // pReconnectMsg = "µã¿¨²»×ã£¬Çë³äÖµºóÔÙ¼ÌĞøÓÎÏ·¡£";
     nInfoLen = strlen(pReconnectMsg);
     g_UiInformation.Show(pReconnectMsg, RECONNECT_QUIT_BTN_LABEL, NULL, this, 0,
                          nInfoLen);

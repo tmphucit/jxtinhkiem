@@ -16,8 +16,8 @@ enum UsageEnum {
   USAGE_EFFECT,          // 特效动画		1M
   USAGE_REGION,          // 地表德的		4M
   USAGE_NUM,             // use to get the number
-                         // all
-                         // 27M
+             // all
+             // 27M
 };
 
 enum MediaEnum {

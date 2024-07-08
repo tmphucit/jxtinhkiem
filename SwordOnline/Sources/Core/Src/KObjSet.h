@@ -37,6 +37,7 @@ typedef struct {
   int m_nColorID;
   int m_nMovieFlag;
   int m_nSoundFlag;
+  int m_dwNpcId;
   char m_szName[FILE_NAME_LENGTH];
   BOOL m_bByPlayer;
 } KObjItemInfo;

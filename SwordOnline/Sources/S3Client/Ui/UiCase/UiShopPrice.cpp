@@ -14,7 +14,7 @@
 #include "KWin32.h"
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI "dinh_gia_item.ini"
+#define SCHEME_INI "°ÚÌ¯±ê¼ÛÌõ.ini"
 
 KUiShopPrice *KUiShopPrice::m_pSelf = NULL;
 

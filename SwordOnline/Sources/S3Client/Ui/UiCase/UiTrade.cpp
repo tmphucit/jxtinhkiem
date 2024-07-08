@@ -20,9 +20,9 @@
 extern iCoreShell *g_pCoreShell;
 
 #define SCHEME_INI_TRADE "Íæ¼Ò¼ä½»Ò×.ini"
-#define STR_WAIT_TRADING "Chê Giao DÞch"
-#define STR_OTHER_OK "Chèt giao dÞch"
-#define STR_OTHER_NOT_OK "Hñy bá giao dÞch"
+#define STR_WAIT_TRADING "Chê x¸c nhËn"
+#define STR_OTHER_OK "§èi ph­¬ng ®· khãa giao dÞch"
+#define STR_OTHER_NOT_OK "Chê ®èi ph­¬ng khãa giao dÞch"
 
 KUiTrade *KUiTrade::m_pSelf = NULL;
 

@@ -19,7 +19,7 @@ void CoreDrawGameObj(unsigned int uObjGenre, unsigned int uId, int x, int y,
                      int Width, int Height, int nParam) {
   //	static int nSpeed = 0;
   //	g_DebugLog("TEST VE %d - %d - %d - %d - %d - %d - %d",
-  // uObjGenre,uId,x,y,Width,Height,nParam);
+  //uObjGenre,uId,x,y,Width,Height,nParam);
   switch (uObjGenre) {
   case CGOG_NPC:
 
@@ -55,19 +55,20 @@ void CoreDrawGameObj(unsigned int uObjGenre, unsigned int uId, int x, int y,
         }
       } else if ((nParam & IPOT_RL_OBJECT) == IPOT_RL_OBJECT) {
         Npc[uId].Paint();
-        if ((int)uId == Player[CLIENT_PLAYER_INDEX].GetTargetNpc()) {
-          Npc[uId].DrawBorder();
+        if (Npc[uId].m_HideState.nTime <= 0) {
+          if ((int)uId == Player[CLIENT_PLAYER_INDEX].GetTargetNpc()) {
+            Npc[uId].DrawBorder();
+          }
         }
       }
     }
     break;
   case CGOG_MISSLE:
-
-    if (uId > 0)
-      if (!Player[CLIENT_PLAYER_INDEX].m_HideMissle) {
+    if (uId > 0) {
+      if (Player[CLIENT_PLAYER_INDEX].m_bHideSkill) {
         Missle[uId].Paint();
       }
-
+    }
     break;
   case CGOG_ITEM:
     if (uId == 0)

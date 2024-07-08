@@ -3298,18 +3298,17 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x81000456 /* <> or \| on RT 102-key keyboard (Non-U.S.) */
 #define DIKEYBOARD_F11 0x81000457
 #define DIKEYBOARD_F12 0x81000458
-#define DIKEYBOARD_F13 0x81000464       /*                     (NEC PC98) */
-#define DIKEYBOARD_F14 0x81000465       /*                     (NEC PC98) */
-#define DIKEYBOARD_F15 0x81000466       /*                     (NEC PC98) */
-#define DIKEYBOARD_KANA 0x81000470      /* (Japanese keyboard)            */
-#define DIKEYBOARD_ABNT_C1 0x81000473   /* /? on Brazilian keyboard */
-#define DIKEYBOARD_CONVERT 0x81000479   /* (Japanese keyboard)            */
-#define DIKEYBOARD_NOCONVERT 0x8100047B /* (Japanese keyboard)            */
-#define DIKEYBOARD_YEN 0x8100047D       /* (Japanese keyboard)            */
-#define DIKEYBOARD_ABNT_C2 0x8100047E   /* Numpad . on Brazilian keyboard */
-#define DIKEYBOARD_NUMPADEQUALS                                                \
-  0x8100048D /* = on numeric keypad (NEC PC98)                                 \
-              */
+#define DIKEYBOARD_F13 0x81000464          /*                     (NEC PC98) */
+#define DIKEYBOARD_F14 0x81000465          /*                     (NEC PC98) */
+#define DIKEYBOARD_F15 0x81000466          /*                     (NEC PC98) */
+#define DIKEYBOARD_KANA 0x81000470         /* (Japanese keyboard)            */
+#define DIKEYBOARD_ABNT_C1 0x81000473      /* /? on Brazilian keyboard */
+#define DIKEYBOARD_CONVERT 0x81000479      /* (Japanese keyboard)            */
+#define DIKEYBOARD_NOCONVERT 0x8100047B    /* (Japanese keyboard)            */
+#define DIKEYBOARD_YEN 0x8100047D          /* (Japanese keyboard)            */
+#define DIKEYBOARD_ABNT_C2 0x8100047E      /* Numpad . on Brazilian keyboard */
+#define DIKEYBOARD_NUMPADEQUALS 0x8100048D /* = on numeric keypad (NEC PC98)   \
+                                            */
 #define DIKEYBOARD_PREVTRACK                                                   \
   0x81000490 /* Previous Track (DIK_CIRCUMFLEX on Japanese keyboard) */
 #define DIKEYBOARD_AT 0x81000491          /*                     (NEC PC98) */
@@ -3431,11 +3430,10 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_DRIVINGR_GLANCE_LEFT_LINK                                     \
   0x0107C4E4 /* Fallback Glance Left button */
 #define DIBUTTON_DRIVINGR_GLANCE_RIGHT_LINK                                    \
-  0x0107C4EC /* Fallback Glance Right button */
-#define DIBUTTON_DRIVINGR_DEVICE                                               \
-  0x010044FE                               /* Show input device and controls   \
-                                            */
-#define DIBUTTON_DRIVINGR_PAUSE 0x010044FC /* Start / Pause / Restart game */
+  0x0107C4EC                                /* Fallback Glance Right button */
+#define DIBUTTON_DRIVINGR_DEVICE 0x010044FE /* Show input device and controls  \
+                                             */
+#define DIBUTTON_DRIVINGR_PAUSE 0x010044FC  /* Start / Pause / Restart game */
 
 /*--- Driving Simulator - Combat
       Combat from within a vehicle is primary objective  ---*/
@@ -3458,9 +3456,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x02004406                               /* Select next dashboard option */
 #define DIBUTTON_DRIVINGC_AIDS 0x02004407  /* Driver correction aids */
 #define DIBUTTON_DRIVINGC_BRAKE 0x02004C08 /* Brake-button */
-#define DIBUTTON_DRIVINGC_FIRESECONDARY                                        \
-  0x02004C09 /* Alternative fire button                                        \
-              */
+#define DIBUTTON_DRIVINGC_FIRESECONDARY 0x02004C09 /* Alternative fire button  \
+                                                    */
 #define DIBUTTON_DRIVINGC_ACCELERATE_LINK                                      \
   0x0203D4E0 /* Fallback Accelerate button */
 #define DIBUTTON_DRIVINGC_STEER_LEFT_LINK                                      \
@@ -3470,11 +3467,10 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_DRIVINGC_GLANCE_LEFT_LINK                                     \
   0x0207C4E4 /* Fallback Glance Left button */
 #define DIBUTTON_DRIVINGC_GLANCE_RIGHT_LINK                                    \
-  0x0207C4EC /* Fallback Glance Right button */
-#define DIBUTTON_DRIVINGC_DEVICE                                               \
-  0x020044FE                               /* Show input device and controls   \
-                                            */
-#define DIBUTTON_DRIVINGC_PAUSE 0x020044FC /* Start / Pause / Restart game */
+  0x0207C4EC                                /* Fallback Glance Right button */
+#define DIBUTTON_DRIVINGC_DEVICE 0x020044FE /* Show input device and controls  \
+                                             */
+#define DIBUTTON_DRIVINGC_PAUSE 0x020044FC  /* Start / Pause / Restart game */
 
 /*--- Driving Simulator - Tank
       Combat from withing a tank is primary objective  ---*/
@@ -3485,10 +3481,9 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIAXIS_DRIVINGT_ROTATE 0x03020204     /* Turn barrel left / right */
 #define DIBUTTON_DRIVINGT_FIRE 0x03000C01     /* Fire */
 #define DIBUTTON_DRIVINGT_WEAPONS 0x03000C02  /* Select next weapon */
-#define DIBUTTON_DRIVINGT_TARGET                                               \
-  0x03000C03                              /* Selects next available target     \
-                                           */
-#define DIBUTTON_DRIVINGT_MENU 0x030004FD /* Show menu options */
+#define DIBUTTON_DRIVINGT_TARGET 0x03000C03   /* Selects next available target \
+                                               */
+#define DIBUTTON_DRIVINGT_MENU 0x030004FD     /* Show menu options */
 /*--- Priority 2 controls                            ---*/
 
 #define DIHATSWITCH_DRIVINGT_GLANCE 0x03004601 /* Look around */
@@ -3499,9 +3494,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_DRIVINGT_DASHBOARD                                            \
   0x03005C05                               /* Select next dashboard option */
 #define DIBUTTON_DRIVINGT_BRAKE 0x03004C06 /* Brake-button */
-#define DIBUTTON_DRIVINGT_FIRESECONDARY                                        \
-  0x03004C07 /* Alternative fire button                                        \
-              */
+#define DIBUTTON_DRIVINGT_FIRESECONDARY 0x03004C07 /* Alternative fire button  \
+                                                    */
 #define DIBUTTON_DRIVINGT_ACCELERATE_LINK                                      \
   0x0303D4E0 /* Fallback Accelerate button */
 #define DIBUTTON_DRIVINGT_STEER_LEFT_LINK                                      \
@@ -3519,11 +3513,10 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_DRIVINGT_GLANCE_LEFT_LINK                                     \
   0x0307C4E4 /* Fallback Glance Left button */
 #define DIBUTTON_DRIVINGT_GLANCE_RIGHT_LINK                                    \
-  0x0307C4EC /* Fallback Glance Right button */
-#define DIBUTTON_DRIVINGT_DEVICE                                               \
-  0x030044FE                               /* Show input device and controls   \
-                                            */
-#define DIBUTTON_DRIVINGT_PAUSE 0x030044FC /* Start / Pause / Restart game */
+  0x0307C4EC                                /* Fallback Glance Right button */
+#define DIBUTTON_DRIVINGT_DEVICE 0x030044FE /* Show input device and controls  \
+                                             */
+#define DIBUTTON_DRIVINGT_PAUSE 0x030044FC  /* Start / Pause / Restart game */
 
 /*--- Flight Simulator - Civilian
       Plane control is the primary objective  ---*/
@@ -3558,11 +3551,10 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_FLYINGC_GLANCE_UP_LINK                                        \
   0x0407C4E0 /* Fallback Glance Up button */
 #define DIBUTTON_FLYINGC_GLANCE_DOWN_LINK                                      \
-  0x0407C4E8 /* Fallback Glance Down button */
-#define DIBUTTON_FLYINGC_DEVICE                                                \
-  0x040044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_FLYINGC_PAUSE 0x040044FC /* Start / Pause / Restart game */
+  0x0407C4E8                               /* Fallback Glance Down button */
+#define DIBUTTON_FLYINGC_DEVICE 0x040044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_FLYINGC_PAUSE 0x040044FC  /* Start / Pause / Restart game */
 
 /*--- Flight Simulator - Military
       Aerial combat is the primary objective  ---*/
@@ -3587,11 +3579,10 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x05005407 /* Increment stepping up until fully retracted */
 #define DIBUTTON_FLYINGM_FLAPSDOWN                                             \
   0x05005408 /* Decrement stepping down until fully extended */
-#define DIBUTTON_FLYINGM_FIRESECONDARY                                         \
-  0x05004C09                                   /* Alternative fire button      \
-                                                */
-#define DIBUTTON_FLYINGM_GEAR 0x0500640A       /* Gear up / down */
-#define DIBUTTON_FLYINGM_BRAKE_LINK 0x050464E0 /* Fallback brake button */
+#define DIBUTTON_FLYINGM_FIRESECONDARY 0x05004C09 /* Alternative fire button   \
+                                                   */
+#define DIBUTTON_FLYINGM_GEAR 0x0500640A          /* Gear up / down */
+#define DIBUTTON_FLYINGM_BRAKE_LINK 0x050464E0    /* Fallback brake button */
 #define DIBUTTON_FLYINGM_FASTER_LINK                                           \
   0x0503D4E0 /* Fallback throttle up button */
 #define DIBUTTON_FLYINGM_SLOWER_LINK                                           \
@@ -3603,11 +3594,10 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_FLYINGM_GLANCE_UP_LINK                                        \
   0x0507C4E0 /* Fallback Glance Up button */
 #define DIBUTTON_FLYINGM_GLANCE_DOWN_LINK                                      \
-  0x0507C4E8 /* Fallback Glance Down button */
-#define DIBUTTON_FLYINGM_DEVICE                                                \
-  0x050044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_FLYINGM_PAUSE 0x050044FC /* Start / Pause / Restart game */
+  0x0507C4E8                               /* Fallback Glance Down button */
+#define DIBUTTON_FLYINGM_DEVICE 0x050044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_FLYINGM_PAUSE 0x050044FC  /* Start / Pause / Restart game */
 
 /*--- Flight Simulator - Combat Helicopter
       Combat from helicopter is primary objective  ---*/
@@ -3629,9 +3619,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_FLYINGH_COUNTER 0x06005404 /* Activate counter measures */
 #define DIBUTTON_FLYINGH_VIEW 0x06006405    /* Cycle through view options */
 #define DIBUTTON_FLYINGH_GEAR 0x06006406    /* Gear up / down */
-#define DIBUTTON_FLYINGH_FIRESECONDARY                                         \
-  0x06004C07 /* Alternative fire button                                        \
-              */
+#define DIBUTTON_FLYINGH_FIRESECONDARY 0x06004C07 /* Alternative fire button   \
+                                                   */
 #define DIBUTTON_FLYINGH_FASTER_LINK                                           \
   0x0603DCE0 /* Fallback throttle up button */
 #define DIBUTTON_FLYINGH_SLOWER_LINK                                           \
@@ -3643,11 +3632,10 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_FLYINGH_GLANCE_UP_LINK                                        \
   0x0607C4E0 /* Fallback Glance Up button */
 #define DIBUTTON_FLYINGH_GLANCE_DOWN_LINK                                      \
-  0x0607C4E8 /* Fallback Glance Down button */
-#define DIBUTTON_FLYINGH_DEVICE                                                \
-  0x060044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_FLYINGH_PAUSE 0x060044FC /* Start / Pause / Restart game */
+  0x0607C4E8                               /* Fallback Glance Down button */
+#define DIBUTTON_FLYINGH_DEVICE 0x060044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_FLYINGH_PAUSE 0x060044FC  /* Start / Pause / Restart game */
 
 /*--- Space Simulator - Combat
       Space Simulator with weapons  ---*/
@@ -3657,10 +3645,9 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIAXIS_SPACESIM_THROTTLE 0x07038203  /* Throttle - Engine speed */
 #define DIBUTTON_SPACESIM_FIRE 0x07000401    /* Fire */
 #define DIBUTTON_SPACESIM_WEAPONS 0x07000402 /* Select next weapon */
-#define DIBUTTON_SPACESIM_TARGET                                               \
-  0x07000403                              /* Selects next available target     \
-                                           */
-#define DIBUTTON_SPACESIM_MENU 0x070004FD /* Show menu options */
+#define DIBUTTON_SPACESIM_TARGET 0x07000403  /* Selects next available target  \
+                                              */
+#define DIBUTTON_SPACESIM_MENU 0x070004FD    /* Show menu options */
 /*--- Priority 2 controls                            ---*/
 
 #define DIHATSWITCH_SPACESIM_GLANCE 0x07004601 /* Look around */
@@ -3673,14 +3660,12 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x07004406 /* Raise ship while maintaining current pitch */
 #define DIBUTTON_SPACESIM_LOWER                                                \
   0x07004407 /* Lower ship while maintaining current pitch */
-#define DIBUTTON_SPACESIM_GEAR 0x07004408 /* Gear up / down */
-#define DIBUTTON_SPACESIM_FIRESECONDARY                                        \
-  0x07004409                                   /* Alternative fire button      \
-                                                */
-#define DIBUTTON_SPACESIM_LEFT_LINK 0x0700C4E4 /* Fallback move left button */
-#define DIBUTTON_SPACESIM_RIGHT_LINK                                           \
-  0x0700C4EC /* Fallback move right button                                     \
-              */
+#define DIBUTTON_SPACESIM_GEAR 0x07004408          /* Gear up / down */
+#define DIBUTTON_SPACESIM_FIRESECONDARY 0x07004409 /* Alternative fire button  \
+                                                    */
+#define DIBUTTON_SPACESIM_LEFT_LINK 0x0700C4E4  /* Fallback move left button */
+#define DIBUTTON_SPACESIM_RIGHT_LINK 0x0700C4EC /* Fallback move right button  \
+                                                 */
 #define DIBUTTON_SPACESIM_FORWARD_LINK                                         \
   0x070144E0 /* Fallback move forward button */
 #define DIBUTTON_SPACESIM_BACKWARD_LINK                                        \
@@ -3700,11 +3685,10 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_SPACESIM_GLANCE_UP_LINK                                       \
   0x0707C4E0 /* Fallback Glance Up button */
 #define DIBUTTON_SPACESIM_GLANCE_DOWN_LINK                                     \
-  0x0707C4E8 /* Fallback Glance Down button */
-#define DIBUTTON_SPACESIM_DEVICE                                               \
-  0x070044FE                               /* Show input device and controls   \
-                                            */
-#define DIBUTTON_SPACESIM_PAUSE 0x070044FC /* Start / Pause / Restart game */
+  0x0707C4E8                                /* Fallback Glance Down button */
+#define DIBUTTON_SPACESIM_DEVICE 0x070044FE /* Show input device and controls  \
+                                             */
+#define DIBUTTON_SPACESIM_PAUSE 0x070044FC  /* Start / Pause / Restart game */
 
 /*--- Fighting - First Person
       Hand to Hand combat is primary objective  ---*/
@@ -3731,9 +3715,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x0800C4E4 /* Fallback left sidestep button */
 #define DIBUTTON_FIGHTINGH_RIGHT_LINK                                          \
   0x0800C4EC /* Fallback right sidestep button */
-#define DIBUTTON_FIGHTINGH_FORWARD_LINK                                        \
-  0x080144E0 /* Fallback forward button                                        \
-              */
+#define DIBUTTON_FIGHTINGH_FORWARD_LINK 0x080144E0 /* Fallback forward button  \
+                                                    */
 #define DIBUTTON_FIGHTINGH_BACKWARD_LINK                                       \
   0x080144E8 /* Fallback backward button */
 #define DIBUTTON_FIGHTINGH_DEVICE                                              \
@@ -3770,14 +3753,12 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x0900C4EC                                  /* Fallback rotate right button */
 #define DIBUTTON_FPS_FORWARD_LINK 0x090144E0  /* Fallback forward button */
 #define DIBUTTON_FPS_BACKWARD_LINK 0x090144E8 /* Fallback backward button */
-#define DIBUTTON_FPS_GLANCE_UP_LINK 0x0901C4E0 /* Fallback look up button */
-#define DIBUTTON_FPS_GLANCE_DOWN_LINK                                          \
-  0x0901C4E8                                   /* Fallback look down button    \
-                                                */
-#define DIBUTTON_FPS_STEP_LEFT_LINK 0x090244E4 /* Fallback step left button */
-#define DIBUTTON_FPS_STEP_RIGHT_LINK                                           \
-  0x090244EC                           /* Fallback step right button           \
-                                        */
+#define DIBUTTON_FPS_GLANCE_UP_LINK 0x0901C4E0   /* Fallback look up button */
+#define DIBUTTON_FPS_GLANCE_DOWN_LINK 0x0901C4E8 /* Fallback look down button  \
+                                                  */
+#define DIBUTTON_FPS_STEP_LEFT_LINK 0x090244E4   /* Fallback step left button */
+#define DIBUTTON_FPS_STEP_RIGHT_LINK 0x090244EC  /* Fallback step right button \
+                                                  */
 #define DIBUTTON_FPS_DEVICE 0x090044FE /* Show input device and controls */
 #define DIBUTTON_FPS_PAUSE 0x090044FC  /* Start / Pause / Restart game */
 
@@ -3789,8 +3770,7 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_TPS_RUN 0x0A000401    /* Run or walk toggle switch */
 #define DIBUTTON_TPS_ACTION 0x0A000402 /* Action Button */
 #define DIBUTTON_TPS_SELECT 0x0A000403 /* Select next weapon */
-#define DIBUTTON_TPS_USE                                                       \
-  0x0A000404                         /* Use inventory item currently selected  \
+#define DIBUTTON_TPS_USE 0x0A000404  /* Use inventory item currently selected  \
                                       */
 #define DIBUTTON_TPS_JUMP 0x0A000405 /* Character Jumps */
 #define DIBUTTON_TPS_MENU 0x0A0004FD /* Show menu options */
@@ -3803,19 +3783,16 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIAXIS_TPS_STEP 0x0A00C203        /* Character steps left/right */
 #define DIBUTTON_TPS_DODGE 0x0A004409     /* Character dodges or ducks */
 #define DIBUTTON_TPS_INVENTORY 0x0A00440A /* Cycle through inventory */
-#define DIBUTTON_TPS_TURN_LEFT_LINK 0x0A0244E4 /* Fallback turn left button */
-#define DIBUTTON_TPS_TURN_RIGHT_LINK                                           \
-  0x0A0244EC                                   /* Fallback turn right button   \
-                                                */
-#define DIBUTTON_TPS_FORWARD_LINK 0x0A0144E0   /* Fallback forward button */
-#define DIBUTTON_TPS_BACKWARD_LINK 0x0A0144E8  /* Fallback backward button */
-#define DIBUTTON_TPS_GLANCE_UP_LINK 0x0A07C4E0 /* Fallback look up button */
-#define DIBUTTON_TPS_GLANCE_DOWN_LINK                                          \
-  0x0A07C4E8 /* Fallback look down button                                      \
-              */
-#define DIBUTTON_TPS_GLANCE_LEFT_LINK                                          \
-  0x0A07C4E4 /* Fallback glance up button                                      \
-              */
+#define DIBUTTON_TPS_TURN_LEFT_LINK 0x0A0244E4   /* Fallback turn left button */
+#define DIBUTTON_TPS_TURN_RIGHT_LINK 0x0A0244EC  /* Fallback turn right button \
+                                                  */
+#define DIBUTTON_TPS_FORWARD_LINK 0x0A0144E0     /* Fallback forward button */
+#define DIBUTTON_TPS_BACKWARD_LINK 0x0A0144E8    /* Fallback backward button */
+#define DIBUTTON_TPS_GLANCE_UP_LINK 0x0A07C4E0   /* Fallback look up button */
+#define DIBUTTON_TPS_GLANCE_DOWN_LINK 0x0A07C4E8 /* Fallback look down button  \
+                                                  */
+#define DIBUTTON_TPS_GLANCE_LEFT_LINK 0x0A07C4E4 /* Fallback glance up button  \
+                                                  */
 #define DIBUTTON_TPS_GLANCE_RIGHT_LINK                                         \
   0x0A07C4EC                           /* Fallback glance right button */
 #define DIBUTTON_TPS_DEVICE 0x0A0044FE /* Show input device and controls */
@@ -3860,13 +3837,12 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 /*--- Strategy - Turn based
       Navigation and problem solving are primary actions  ---*/
 #define DIVIRTUAL_STRATEGY_TURN 0x0C000000
-#define DIAXIS_STRATEGYT_LATERAL 0x0C008201  /* Sidestep left/right */
-#define DIAXIS_STRATEGYT_MOVE 0x0C010202     /* Move forward/backwards */
-#define DIBUTTON_STRATEGYT_SELECT 0x0C000401 /* Select unit or object */
-#define DIBUTTON_STRATEGYT_INSTRUCT                                            \
-  0x0C000402                                /* Cycle through instructions      \
-                                             */
-#define DIBUTTON_STRATEGYT_APPLY 0x0C000403 /* Apply selected instruction */
+#define DIAXIS_STRATEGYT_LATERAL 0x0C008201    /* Sidestep left/right */
+#define DIAXIS_STRATEGYT_MOVE 0x0C010202       /* Move forward/backwards */
+#define DIBUTTON_STRATEGYT_SELECT 0x0C000401   /* Select unit or object */
+#define DIBUTTON_STRATEGYT_INSTRUCT 0x0C000402 /* Cycle through instructions   \
+                                                */
+#define DIBUTTON_STRATEGYT_APPLY 0x0C000403    /* Apply selected instruction */
 #define DIBUTTON_STRATEGYT_TEAM                                                \
   0x0C000404 /* Select next team / cycle through all */
 #define DIBUTTON_STRATEGYT_TURN 0x0C000405 /* Indicate turn over */
@@ -3883,9 +3859,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x0C00C4EC /* Fallback sidestep right button */
 #define DIBUTTON_STRATEGYT_FORWARD_LINK                                        \
   0x0C0144E0 /* Fallback move forward button */
-#define DIBUTTON_STRATEGYT_BACK_LINK                                           \
-  0x0C0144E8 /* Fallback move back button                                      \
-              */
+#define DIBUTTON_STRATEGYT_BACK_LINK 0x0C0144E8 /* Fallback move back button   \
+                                                 */
 #define DIBUTTON_STRATEGYT_DEVICE                                              \
   0x0C0044FE                                /* Show input device and controls */
 #define DIBUTTON_STRATEGYT_PAUSE 0x0C0044FC /* Start / Pause / Restart game */
@@ -3911,9 +3886,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIAXIS_HUNTING_ROTATE 0x0D024203   /* Turn body left/right */
 #define DIBUTTON_HUNTING_CROUCH 0x0D004409 /* Crouch/ Climb / Swim down */
 #define DIBUTTON_HUNTING_JUMP 0x0D00440A   /* Jump/ Climb up / Swim up */
-#define DIBUTTON_HUNTING_FIRESECONDARY                                         \
-  0x0D00440B /* Alternative fire button                                        \
-              */
+#define DIBUTTON_HUNTING_FIRESECONDARY 0x0D00440B /* Alternative fire button   \
+                                                   */
 #define DIBUTTON_HUNTING_LEFT_LINK                                             \
   0x0D00C4E4 /* Fallback sidestep left button */
 #define DIBUTTON_HUNTING_RIGHT_LINK                                            \
@@ -3924,11 +3898,10 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_HUNTING_ROTATE_LEFT_LINK                                      \
   0x0D0244E4 /* Fallback turn body left button */
 #define DIBUTTON_HUNTING_ROTATE_RIGHT_LINK                                     \
-  0x0D0244EC /* Fallback turn body right button */
-#define DIBUTTON_HUNTING_DEVICE                                                \
-  0x0D0044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_HUNTING_PAUSE 0x0D0044FC /* Start / Pause / Restart game */
+  0x0D0244EC                               /* Fallback turn body right button */
+#define DIBUTTON_HUNTING_DEVICE 0x0D0044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_HUNTING_PAUSE 0x0D0044FC  /* Start / Pause / Restart game */
 
 /*--- Sports - Fishing
       Catching Fish is primary objective   ---*/
@@ -3959,11 +3932,10 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_FISHING_ROTATE_LEFT_LINK                                      \
   0x0E0244E4 /* Fallback turn body left button */
 #define DIBUTTON_FISHING_ROTATE_RIGHT_LINK                                     \
-  0x0E0244EC /* Fallback turn body right button */
-#define DIBUTTON_FISHING_DEVICE                                                \
-  0x0E0044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_FISHING_PAUSE 0x0E0044FC /* Start / Pause / Restart game */
+  0x0E0244EC                               /* Fallback turn body right button */
+#define DIBUTTON_FISHING_DEVICE 0x0E0044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_FISHING_PAUSE 0x0E0044FC  /* Start / Pause / Restart game */
 
 /*--- Sports - Baseball - Batting
       Batter control is primary objective  ---*/
@@ -3992,9 +3964,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x0F00C4EC /* Fallback sidestep right button */
 #define DIBUTTON_BASEBALLB_FORWARD_LINK                                        \
   0x0F0144E0 /* Fallback move forward button */
-#define DIBUTTON_BASEBALLB_BACK_LINK                                           \
-  0x0F0144E8 /* Fallback move back button                                      \
-              */
+#define DIBUTTON_BASEBALLB_BACK_LINK 0x0F0144E8 /* Fallback move back button   \
+                                                 */
 #define DIBUTTON_BASEBALLB_DEVICE                                              \
   0x0F0044FE                                /* Show input device and controls */
 #define DIBUTTON_BASEBALLB_PAUSE 0x0F0044FC /* Start / Pause / Restart game */
@@ -4022,9 +3993,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x1000C4EC /* Fallback sidestep right button */
 #define DIBUTTON_BASEBALLP_FORWARD_LINK                                        \
   0x100144E0 /* Fallback move forward button */
-#define DIBUTTON_BASEBALLP_BACK_LINK                                           \
-  0x100144E8 /* Fallback move back button                                      \
-              */
+#define DIBUTTON_BASEBALLP_BACK_LINK 0x100144E8 /* Fallback move back button   \
+                                                 */
 #define DIBUTTON_BASEBALLP_DEVICE                                              \
   0x100044FE                                /* Show input device and controls */
 #define DIBUTTON_BASEBALLP_PAUSE 0x100044FC /* Start / Pause / Restart game */
@@ -4054,9 +4024,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x1100C4EC /* Fallback aim right button */
 #define DIBUTTON_BASEBALLF_FORWARD_LINK                                        \
   0x110144E0 /* Fallback move forward button */
-#define DIBUTTON_BASEBALLF_BACK_LINK                                           \
-  0x110144E8 /* Fallback move back button                                      \
-              */
+#define DIBUTTON_BASEBALLF_BACK_LINK 0x110144E8 /* Fallback move back button   \
+                                                 */
 #define DIBUTTON_BASEBALLF_DEVICE                                              \
   0x110044FE                                /* Show input device and controls */
 #define DIBUTTON_BASEBALLF_PAUSE 0x110044FC /* Start / Pause / Restart game */
@@ -4085,9 +4054,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_BBALLO_TIMEOUT 0x1200440D /* Time Out */
 #define DIBUTTON_BBALLO_SUBSTITUTE                                             \
   0x1200440E /* substitute one player for another */
-#define DIBUTTON_BBALLO_LEFT_LINK                                              \
-  0x1200C4E4 /* Fallback sidestep left button                                  \
-              */
+#define DIBUTTON_BBALLO_LEFT_LINK 0x1200C4E4 /* Fallback sidestep left button  \
+                                              */
 #define DIBUTTON_BBALLO_RIGHT_LINK                                             \
   0x1200C4EC /* Fallback sidestep right button */
 #define DIBUTTON_BBALLO_FORWARD_LINK                                           \
@@ -4115,9 +4083,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_BBALLD_TIMEOUT 0x13004408   /* Time Out */
 #define DIBUTTON_BBALLD_SUBSTITUTE                                             \
   0x13004409 /* substitute one player for another */
-#define DIBUTTON_BBALLD_LEFT_LINK                                              \
-  0x1300C4E4 /* Fallback sidestep left button                                  \
-              */
+#define DIBUTTON_BBALLD_LEFT_LINK 0x1300C4E4 /* Fallback sidestep left button  \
+                                              */
 #define DIBUTTON_BBALLD_RIGHT_LINK                                             \
   0x1300C4EC /* Fallback sidestep right button */
 #define DIBUTTON_BBALLD_FORWARD_LINK                                           \
@@ -4163,9 +4130,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x1500C4EC /* Fallback sidestep right button */
 #define DIBUTTON_FOOTBALLQ_FORWARD_LINK                                        \
   0x150144E0 /* Fallback move forward button */
-#define DIBUTTON_FOOTBALLQ_BACK_LINK                                           \
-  0x150144E8 /* Fallback move back button                                      \
-              */
+#define DIBUTTON_FOOTBALLQ_BACK_LINK 0x150144E8 /* Fallback move back button   \
+                                                 */
 #define DIBUTTON_FOOTBALLQ_DEVICE                                              \
   0x150044FE                                /* Show input device and controls */
 #define DIBUTTON_FOOTBALLQ_PAUSE 0x150044FC /* Start / Pause / Restart game */
@@ -4199,9 +4165,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x1600C4EC /* Fallback sidestep right button */
 #define DIBUTTON_FOOTBALLO_FORWARD_LINK                                        \
   0x160144E0 /* Fallback move forward button */
-#define DIBUTTON_FOOTBALLO_BACK_LINK                                           \
-  0x160144E8 /* Fallback move back button                                      \
-              */
+#define DIBUTTON_FOOTBALLO_BACK_LINK 0x160144E8 /* Fallback move back button   \
+                                                 */
 #define DIBUTTON_FOOTBALLO_DEVICE                                              \
   0x160044FE                                /* Show input device and controls */
 #define DIBUTTON_FOOTBALLO_PAUSE 0x160044FC /* Start / Pause / Restart game */
@@ -4218,16 +4183,14 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_FOOTBALLD_TACKLE 0x17000404 /* tackler runner */
 #define DIBUTTON_FOOTBALLD_FAKE                                                \
   0x17000405 /* hold down to fake tackle or intercept */
-#define DIBUTTON_FOOTBALLD_SUPERTACKLE                                         \
-  0x17000406                               /* Initiate special tackle          \
-                                            */
-#define DIBUTTON_FOOTBALLD_MENU 0x170004FD /* Show menu options */
+#define DIBUTTON_FOOTBALLD_SUPERTACKLE 0x17000406 /* Initiate special tackle   \
+                                                   */
+#define DIBUTTON_FOOTBALLD_MENU 0x170004FD        /* Show menu options */
 /*--- Priority 2 controls                            ---*/
 
 #define DIBUTTON_FOOTBALLD_SPIN 0x17004407 /* Spin to beat offensive line */
-#define DIBUTTON_FOOTBALLD_SWIM                                                \
-  0x17004408 /* Swim to beat the offensive line                                \
-              */
+#define DIBUTTON_FOOTBALLD_SWIM 0x17004408 /* Swim to beat the offensive line  \
+                                            */
 #define DIBUTTON_FOOTBALLD_BULLRUSH                                            \
   0x17004409                              /* Bull rush the offensive line */
 #define DIBUTTON_FOOTBALLD_RIP 0x1700440A /* Rip the offensive line */
@@ -4242,9 +4205,8 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x1700C4EC /* Fallback sidestep right button */
 #define DIBUTTON_FOOTBALLD_FORWARD_LINK                                        \
   0x170144E0 /* Fallback move forward button */
-#define DIBUTTON_FOOTBALLD_BACK_LINK                                           \
-  0x170144E8 /* Fallback move back button                                      \
-              */
+#define DIBUTTON_FOOTBALLD_BACK_LINK 0x170144E8 /* Fallback move back button   \
+                                                 */
 #define DIBUTTON_FOOTBALLD_DEVICE                                              \
   0x170044FE                                /* Show input device and controls */
 #define DIBUTTON_FOOTBALLD_PAUSE 0x170044FC /* Start / Pause / Restart game */
@@ -4269,16 +4231,14 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_GOLF_TIMEOUT 0x18004408   /* Call for time out */
 #define DIBUTTON_GOLF_SUBSTITUTE                                               \
   0x18004409 /* substitute one player for another */
-#define DIBUTTON_GOLF_LEFT_LINK 0x1800C4E4 /* Fallback sidestep left button */
-#define DIBUTTON_GOLF_RIGHT_LINK                                               \
-  0x1800C4EC /* Fallback sidestep right button                                 \
-              */
-#define DIBUTTON_GOLF_FORWARD_LINK                                             \
-  0x180144E0                               /* Fallback move forward button     \
-                                            */
-#define DIBUTTON_GOLF_BACK_LINK 0x180144E8 /* Fallback move back button */
-#define DIBUTTON_GOLF_DEVICE 0x180044FE    /* Show input device and controls */
-#define DIBUTTON_GOLF_PAUSE 0x180044FC     /* Start / Pause / Restart game */
+#define DIBUTTON_GOLF_LEFT_LINK 0x1800C4E4  /* Fallback sidestep left button */
+#define DIBUTTON_GOLF_RIGHT_LINK 0x1800C4EC /* Fallback sidestep right button  \
+                                             */
+#define DIBUTTON_GOLF_FORWARD_LINK 0x180144E0 /* Fallback move forward button  \
+                                               */
+#define DIBUTTON_GOLF_BACK_LINK 0x180144E8    /* Fallback move back button */
+#define DIBUTTON_GOLF_DEVICE 0x180044FE /* Show input device and controls */
+#define DIBUTTON_GOLF_PAUSE 0x180044FC  /* Start / Pause / Restart game */
 
 /*--- Sports - Hockey - Offense
       Offense       ---*/
@@ -4307,10 +4267,9 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_HOCKEYO_FORWARD_LINK                                          \
   0x190144E0                                  /* Fallback move forward button */
 #define DIBUTTON_HOCKEYO_BACK_LINK 0x190144E8 /* Fallback move back button */
-#define DIBUTTON_HOCKEYO_DEVICE                                                \
-  0x190044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_HOCKEYO_PAUSE 0x190044FC /* Start / Pause / Restart game */
+#define DIBUTTON_HOCKEYO_DEVICE 0x190044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_HOCKEYO_PAUSE 0x190044FC  /* Start / Pause / Restart game */
 
 /*--- Sports - Hockey - Defense
       Defense       ---*/
@@ -4341,10 +4300,9 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_HOCKEYD_FORWARD_LINK                                          \
   0x1A0144E0                                  /* Fallback move forward button */
 #define DIBUTTON_HOCKEYD_BACK_LINK 0x1A0144E8 /* Fallback move back button */
-#define DIBUTTON_HOCKEYD_DEVICE                                                \
-  0x1A0044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_HOCKEYD_PAUSE 0x1A0044FC /* Start / Pause / Restart game */
+#define DIBUTTON_HOCKEYD_DEVICE 0x1A0044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_HOCKEYD_PAUSE 0x1A0044FC  /* Start / Pause / Restart game */
 
 /*--- Sports - Hockey - Goalie
       Goal tending  ---*/
@@ -4372,10 +4330,9 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_HOCKEYG_FORWARD_LINK                                          \
   0x1B0144E0                                  /* Fallback move forward button */
 #define DIBUTTON_HOCKEYG_BACK_LINK 0x1B0144E8 /* Fallback move back button */
-#define DIBUTTON_HOCKEYG_DEVICE                                                \
-  0x1B0044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_HOCKEYG_PAUSE 0x1B0044FC /* Start / Pause / Restart game */
+#define DIBUTTON_HOCKEYG_DEVICE 0x1B0044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_HOCKEYG_PAUSE 0x1B0044FC  /* Start / Pause / Restart game */
 
 /*--- Sports - Mountain Biking
                      ---*/
@@ -4390,23 +4347,21 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_BIKINGM_MENU 0x1C0004FD     /* Show menu options */
 /*--- Priority 2 controls                            ---*/
 
-#define DIHATSWITCH_BIKINGM_SCROLL 0x1C004601 /* scroll view */
-#define DIBUTTON_BIKINGM_ZOOM 0x1C004406      /* Zoom view in / out */
-#define DIAXIS_BIKINGM_BRAKE 0x1C044203       /* Brake axis  */
-#define DIBUTTON_BIKINGM_LEFT_LINK 0x1C00C4E4 /* Fallback turn left button */
-#define DIBUTTON_BIKINGM_RIGHT_LINK                                            \
-  0x1C00C4EC /* Fallback turn right button                                     \
-              */
+#define DIHATSWITCH_BIKINGM_SCROLL 0x1C004601  /* scroll view */
+#define DIBUTTON_BIKINGM_ZOOM 0x1C004406       /* Zoom view in / out */
+#define DIAXIS_BIKINGM_BRAKE 0x1C044203        /* Brake axis  */
+#define DIBUTTON_BIKINGM_LEFT_LINK 0x1C00C4E4  /* Fallback turn left button */
+#define DIBUTTON_BIKINGM_RIGHT_LINK 0x1C00C4EC /* Fallback turn right button   \
+                                                */
 #define DIBUTTON_BIKINGM_FASTER_LINK                                           \
   0x1C0144E0 /* Fallback pedal faster button */
 #define DIBUTTON_BIKINGM_SLOWER_LINK                                           \
   0x1C0144E8 /* Fallback pedal slower button */
 #define DIBUTTON_BIKINGM_BRAKE_BUTTON_LINK                                     \
-  0x1C0444E8 /* Fallback brake button */
-#define DIBUTTON_BIKINGM_DEVICE                                                \
-  0x1C0044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_BIKINGM_PAUSE 0x1C0044FC /* Start / Pause / Restart game */
+  0x1C0444E8                               /* Fallback brake button */
+#define DIBUTTON_BIKINGM_DEVICE 0x1C0044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_BIKINGM_PAUSE 0x1C0044FC  /* Start / Pause / Restart game */
 
 /*--- Sports: Skiing / Snowboarding / Skateboarding
         ---*/
@@ -4464,10 +4419,9 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_SOCCERO_FORWARD_LINK                                          \
   0x1E0144E0                                  /* Fallback move forward button */
 #define DIBUTTON_SOCCERO_BACK_LINK 0x1E0144E8 /* Fallback move back button */
-#define DIBUTTON_SOCCERO_DEVICE                                                \
-  0x1E0044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_SOCCERO_PAUSE 0x1E0044FC /* Start / Pause / Restart game */
+#define DIBUTTON_SOCCERO_DEVICE 0x1E0044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_SOCCERO_PAUSE 0x1E0044FC  /* Start / Pause / Restart game */
 
 /*--- Sports - Soccer - Defense
       Defense       ---*/
@@ -4500,10 +4454,9 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_SOCCERD_FORWARD_LINK                                          \
   0x1F0144E0                                  /* Fallback move forward button */
 #define DIBUTTON_SOCCERD_BACK_LINK 0x1F0144E8 /* Fallback move back button */
-#define DIBUTTON_SOCCERD_DEVICE                                                \
-  0x1F0044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_SOCCERD_PAUSE 0x1F0044FC /* Start / Pause / Restart game */
+#define DIBUTTON_SOCCERD_DEVICE 0x1F0044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_SOCCERD_PAUSE 0x1F0044FC  /* Start / Pause / Restart game */
 
 /*--- Sports - Racquet
       Tennis - Table-Tennis - Squash   ---*/
@@ -4529,10 +4482,9 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_RACQUET_FORWARD_LINK                                          \
   0x200144E0                                  /* Fallback move forward button */
 #define DIBUTTON_RACQUET_BACK_LINK 0x200144E8 /* Fallback move back button */
-#define DIBUTTON_RACQUET_DEVICE                                                \
-  0x200044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_RACQUET_PAUSE 0x200044FC /* Start / Pause / Restart game */
+#define DIBUTTON_RACQUET_DEVICE 0x200044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_RACQUET_PAUSE 0x200044FC  /* Start / Pause / Restart game */
 
 /*--- Arcade- 2D
       Side to Side movement        ---*/
@@ -4564,10 +4516,9 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x2107C4E4 /* Fallback scroll view left button */
 #define DIBUTTON_ARCADES_VIEW_RIGHT_LINK                                       \
   0x2107C4EC /* Fallback scroll view right button */
-#define DIBUTTON_ARCADES_DEVICE                                                \
-  0x210044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_ARCADES_PAUSE 0x210044FC /* Start / Pause / Restart game */
+#define DIBUTTON_ARCADES_DEVICE 0x210044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_ARCADES_PAUSE 0x210044FC  /* Start / Pause / Restart game */
 
 /*--- Arcade - Platform Game
       Character moves around on screen  ---*/
@@ -4582,10 +4533,9 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_ARCADEP_MENU 0x220004FD    /* Show menu options */
 /*--- Priority 2 controls                            ---*/
 
-#define DIHATSWITCH_ARCADEP_VIEW 0x22004601 /* Scroll view */
-#define DIBUTTON_ARCADEP_FIRESECONDARY                                         \
-  0x22004406 /* Alternative fire button                                        \
-              */
+#define DIHATSWITCH_ARCADEP_VIEW 0x22004601       /* Scroll view */
+#define DIBUTTON_ARCADEP_FIRESECONDARY 0x22004406 /* Alternative fire button   \
+                                                   */
 #define DIBUTTON_ARCADEP_LEFT_LINK                                             \
   0x2200C4E4 /* Fallback sidestep left button */
 #define DIBUTTON_ARCADEP_RIGHT_LINK                                            \
@@ -4601,26 +4551,23 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
   0x2207C4E4 /* Fallback scroll view left button */
 #define DIBUTTON_ARCADEP_VIEW_RIGHT_LINK                                       \
   0x2207C4EC /* Fallback scroll view right button */
-#define DIBUTTON_ARCADEP_DEVICE                                                \
-  0x220044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_ARCADEP_PAUSE 0x220044FC /* Start / Pause / Restart game */
+#define DIBUTTON_ARCADEP_DEVICE 0x220044FE /* Show input device and controls   \
+                                            */
+#define DIBUTTON_ARCADEP_PAUSE 0x220044FC  /* Start / Pause / Restart game */
 
 /*--- CAD - 2D Object Control
       Controls to select and move objects in 2D  ---*/
 #define DIVIRTUAL_CAD_2DCONTROL 0x23000000
-#define DIAXIS_2DCONTROL_LATERAL 0x23008201  /* Move view left / right */
-#define DIAXIS_2DCONTROL_MOVE 0x23010202     /* Move view up / down */
-#define DIAXIS_2DCONTROL_INOUT 0x23018203    /* Zoom - in / out */
-#define DIBUTTON_2DCONTROL_SELECT 0x23000401 /* Select Object */
-#define DIBUTTON_2DCONTROL_SPECIAL1                                            \
-  0x23000402                                  /* Do first special operation    \
-                                               */
-#define DIBUTTON_2DCONTROL_SPECIAL 0x23000403 /* Select special operation */
-#define DIBUTTON_2DCONTROL_SPECIAL2                                            \
-  0x23000404                               /* Do second special operation      \
-                                            */
-#define DIBUTTON_2DCONTROL_MENU 0x230004FD /* Show menu options */
+#define DIAXIS_2DCONTROL_LATERAL 0x23008201    /* Move view left / right */
+#define DIAXIS_2DCONTROL_MOVE 0x23010202       /* Move view up / down */
+#define DIAXIS_2DCONTROL_INOUT 0x23018203      /* Zoom - in / out */
+#define DIBUTTON_2DCONTROL_SELECT 0x23000401   /* Select Object */
+#define DIBUTTON_2DCONTROL_SPECIAL1 0x23000402 /* Do first special operation   \
+                                                */
+#define DIBUTTON_2DCONTROL_SPECIAL 0x23000403  /* Select special operation */
+#define DIBUTTON_2DCONTROL_SPECIAL2 0x23000404 /* Do second special operation  \
+                                                */
+#define DIBUTTON_2DCONTROL_MENU 0x230004FD     /* Show menu options */
 /*--- Priority 2 controls                            ---*/
 
 #define DIHATSWITCH_2DCONTROL_HATSWITCH 0x23004601 /* Hat switch */
@@ -4635,18 +4582,16 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 /*--- CAD - 3D object control
       Controls to select and move objects within a 3D environment  ---*/
 #define DIVIRTUAL_CAD_3DCONTROL 0x24000000
-#define DIAXIS_3DCONTROL_LATERAL 0x24008201  /* Move view left / right */
-#define DIAXIS_3DCONTROL_MOVE 0x24010202     /* Move view up / down */
-#define DIAXIS_3DCONTROL_INOUT 0x24018203    /* Zoom - in / out */
-#define DIBUTTON_3DCONTROL_SELECT 0x24000401 /* Select Object */
-#define DIBUTTON_3DCONTROL_SPECIAL1                                            \
-  0x24000402                                  /* Do first special operation    \
-                                               */
-#define DIBUTTON_3DCONTROL_SPECIAL 0x24000403 /* Select special operation */
-#define DIBUTTON_3DCONTROL_SPECIAL2                                            \
-  0x24000404                               /* Do second special operation      \
-                                            */
-#define DIBUTTON_3DCONTROL_MENU 0x240004FD /* Show menu options */
+#define DIAXIS_3DCONTROL_LATERAL 0x24008201    /* Move view left / right */
+#define DIAXIS_3DCONTROL_MOVE 0x24010202       /* Move view up / down */
+#define DIAXIS_3DCONTROL_INOUT 0x24018203      /* Zoom - in / out */
+#define DIBUTTON_3DCONTROL_SELECT 0x24000401   /* Select Object */
+#define DIBUTTON_3DCONTROL_SPECIAL1 0x24000402 /* Do first special operation   \
+                                                */
+#define DIBUTTON_3DCONTROL_SPECIAL 0x24000403  /* Select special operation */
+#define DIBUTTON_3DCONTROL_SPECIAL2 0x24000404 /* Do second special operation  \
+                                                */
+#define DIBUTTON_3DCONTROL_MENU 0x240004FD     /* Show menu options */
 /*--- Priority 2 controls                            ---*/
 
 #define DIHATSWITCH_3DCONTROL_HATSWITCH 0x24004601 /* Hat switch */
@@ -4769,10 +4714,9 @@ extern HRESULT WINAPI DirectInputCreateEx(HINSTANCE hinst, DWORD dwVersion,
 #define DIBUTTON_BROWSER_PREVIOUS 0x28004408 /* Select Previous page */
 #define DIBUTTON_BROWSER_HISTORY 0x28004409  /* Show/Hide History */
 #define DIBUTTON_BROWSER_PRINT 0x2800440A    /* Print current page */
-#define DIBUTTON_BROWSER_DEVICE                                                \
-  0x280044FE                              /* Show input device and controls    \
-                                           */
-#define DIBUTTON_BROWSER_PAUSE 0x280044FC /* Start / Pause / Restart game */
+#define DIBUTTON_BROWSER_DEVICE 0x280044FE   /* Show input device and controls \
+                                              */
+#define DIBUTTON_BROWSER_PAUSE 0x280044FC    /* Start / Pause / Restart game */
 
 /*--- Driving Simulator - Giant Walking Robot
       Walking tank with weapons  ---*/

@@ -108,8 +108,9 @@ public:
   BOOL DecRef(int nMapX, int nMapY, MOVE_OBJ_KIND nType);
   int FindNpc(int nMapX, int nMapY, int nNpcIdx, int nRelation);
   int FindEquip(int nMapX, int nMapY);
-  int FindObject(int nMapX, int nMapY);
+  int FindObject(int nMapX, int nMapY, bool bAutoFind = false);
   int FindObject(int nObjID);
+  int SearchNpcName(const char *szName);
   void *GetObjNode(int nIdx);
   int SearchNpc(
       DWORD dwNpcID); // 寻找本区域内是否有某个指定 id 的 npc (zroc add)

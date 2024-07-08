@@ -208,7 +208,7 @@ int KWndEdit::WndProc(unsigned int uMsg, unsigned int uParam, int nParam) {
       m_nCaretTime = 0;
 
       //			CreateCaret(::g_GetMainHWnd(), (HBITMAP)NULL, 2,
-      // m_nFontSize);
+      //m_nFontSize);
       m_nCaretX = m_nAbsoluteLeft;
       m_nCaretY = m_nAbsoluteTop;
       SetCaretPos(m_nCaretX, m_nCaretY);
@@ -441,8 +441,8 @@ int KWndEdit::InsertChar(int nChar) {
 //--------------------------------------------------------------------------
 //	功能：在字符串里执行插入字符操作
 //	参数：cLow  ->
-// 为要插入的为单字节字符；如果要插入为双字节字符，则为后一个字节。 cHigh ->
-// 要插入的为单字节字符时cHigh为0，如果要插入为双字节字符，则为前一个字节。
+//为要插入的为单字节字符；如果要插入为双字节字符，则为后一个字节。 	      cHigh ->
+//要插入的为单字节字符时cHigh为0，如果要插入为双字节字符，则为前一个字节。
 //	返回：字符串是否被改变
 //--------------------------------------------------------------------------
 int KWndEdit::InsertChar(char cLow, char cHigh) {

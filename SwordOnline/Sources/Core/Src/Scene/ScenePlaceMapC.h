@@ -63,14 +63,12 @@ private:
 private:
   // 对象运行时的一些参数(仅内部使用)
   enum SCENE_PLACE_MAP_WORK_PARAM {
-    MAP_CELL_MAP_WIDTH = 128,  // 地图块在地图中横向的宽度（单位：像素点）
-    MAP_CELL_MAP_HEIGHT = 128, // 地图块在地图中纵向的宽度（单位：像素点）
-    MAP_CELL_SCENE_WIDTH =
-        2048, // 地图块在实际场景中横向的宽度（单位：像素点）=
-              // MAP_SCALE_H * MAP_CELL_MAP_WIDTH
-    MAP_CELL_SCENE_HEIGHT =
-        4096,                  // 地图块在实际场景中纵向的宽度（单位：像素点）=
-                               // MAP_SCALE_V * MAP_CELL_MAP_HEIGHT
+    MAP_CELL_MAP_WIDTH = 128,    // 地图块在地图中横向的宽度（单位：像素点）
+    MAP_CELL_MAP_HEIGHT = 128,   // 地图块在地图中纵向的宽度（单位：像素点）
+    MAP_CELL_SCENE_WIDTH = 2048, // 地图块在实际场景中横向的宽度（单位：像素点）=
+                                 // MAP_SCALE_H * MAP_CELL_MAP_WIDTH
+    MAP_CELL_SCENE_HEIGHT = 4096, // 地图块在实际场景中纵向的宽度（单位：像素点）=
+                                  // MAP_SCALE_V * MAP_CELL_MAP_HEIGHT
     MAP_CELL_NUM_REGION_H = 4, // 每个地图块在横向包含的场景区域的数目
     MAP_CELL_NUM_REGION_V = 4, // 每个地图块在纵向包含的场景区域的数目
 
@@ -79,8 +77,8 @@ private:
     MAP_CELL_CENTRE_INDEX = 2, // 焦点所在的地图格的横或纵向索引
 
     //		MAP_CELL_FOCUS_INDEX_MIN = 2,
-    ////焦点所在的地图格的横或纵向索引许可最小值
-    ///MAP_CELL_FOCUS_INDEX_MAX = 2, /焦点所在的地图格的横或纵向索引许可最大值
+    ////焦点所在的地图格的横或纵向索引许可最小值 		MAP_CELL_FOCUS_INDEX_MAX = 2,
+    ////焦点所在的地图格的横或纵向索引许可最大值
 
     MAP_MAX_SUPPORT_WIDTH =
         (MAP_CELL_MAX_RANGE - 1) *

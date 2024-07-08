@@ -69,6 +69,16 @@ int KWndText::GetText(char *pBuffer, int nSize) {
   return nRet;
 }
 
+void KWndText::Clear(bool bSafe) {
+  if (m_pText) {
+    m_nTextLen = 0;
+    if (bSafe == false)
+      m_pText[0] = 0;
+    else
+      memset(m_pText, 0, m_nTextLen + 1);
+  }
+}
+
 //--------------------------------------------------------------------------
 //	功能：set the index of the first visible line int the text control wnd
 //--------------------------------------------------------------------------
@@ -230,6 +240,18 @@ void KWndText::Set2IntText(int nNumber1, int nNumber2, char Separator) {
   }
 }
 
+void KWndText::Set2IntTextCS(int nNumber1, int nNumber2, char Separator) {
+  char Buff[32];
+  int nLen;
+  if (m_pText) {
+    if (nNumber1 == 0)
+      nLen = sprintf(Buff, "%d%c%d00", nNumber1, Separator, nNumber2);
+    else
+      nLen = sprintf(Buff, "%d00%c%d00", nNumber1, Separator, nNumber2);
+    SetText(Buff, nLen);
+  }
+}
+
 void KWndText::Set2IntTextExp(char AmDuong, int nNumber1, int nNumber2,
                               char Separator) {
   char Buff[32];
@@ -240,6 +262,21 @@ void KWndText::Set2IntTextExp(char AmDuong, int nNumber1, int nNumber2,
   }
 }
 
+void KWndText::SetWorldText(int nNumber, char Separator) {
+  char Buff[16];
+  int nLen;
+  if (m_pText) {
+    if (Separator)
+      nLen = sprintf(Buff, "%d%c", nNumber, Separator);
+    else if (nNumber < 0)
+      nNumber = 0;
+    if (nNumber == 0)
+      nLen = sprintf(Buff, "?");
+    else
+      nLen = sprintf(Buff, "%d", nNumber);
+    SetText(Buff, nLen);
+  }
+}
 //--------------------------------------------------------------------------
 //	功能：构造函数
 //--------------------------------------------------------------------------

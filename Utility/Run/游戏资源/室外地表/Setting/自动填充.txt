@@ -1,6 +1,0 @@
-[MAIN]
-help=T
-icon=setting
-title="自动填充空白矩形么"
-type=terrain_square
-want=bool

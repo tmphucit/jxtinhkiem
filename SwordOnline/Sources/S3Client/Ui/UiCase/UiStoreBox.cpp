@@ -26,7 +26,7 @@
 
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI_ITEM "ui_storebox_new.ini"
+#define SCHEME_INI_ITEM "¥¢ŒÔœ‰.ini"
 
 KUiStoreBox *KUiStoreBox::m_pSelf = NULL;
 

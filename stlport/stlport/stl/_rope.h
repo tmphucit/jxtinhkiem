@@ -445,7 +445,7 @@ public:
                    _S_rounded_up_size(
                        __len)); //*ty 03/24/2001 - restored not to use
                                 //__stl_alloc_rebind() since it is not defined
-                                // under _STLP_MEMBER_TEMPLATE_CLASSES
+                                //under _STLP_MEMBER_TEMPLATE_CLASSES
 #else
     __stl_alloc_rebind(__a, (_CharT *)0)
         .deallocate(__s, _S_rounded_up_size(__len));

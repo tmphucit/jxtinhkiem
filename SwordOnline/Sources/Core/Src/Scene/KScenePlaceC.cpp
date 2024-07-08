@@ -232,6 +232,9 @@ KScenePlaceC::KScenePlaceC() {
 
   for (int i = 0; i < SPWP_MAX_NUM_REGIONS; i++)
     m_pRegions[i] = &m_RegionObjs[i];
+
+  memset(&m_pBackGroundImages, 0, sizeof(m_pBackGroundImages));
+
   memset(&m_pInProcessAreaRegions, 0, sizeof(m_pInProcessAreaRegions));
   memset(&m_RegionGroundImages, 0, sizeof(m_RegionGroundImages));
   m_nNumGroundImagesAvailable = 0;
@@ -244,7 +247,10 @@ KScenePlaceC::KScenePlaceC() {
   m_nNumObjsAbove = 0;
 
   m_pWeather = NULL;
-  bPaintFlag = false;
+  bPaintFlag = FALSE;
+  m_bBackGroundImages = false;
+  m_nBackGroundImages = 0;
+  memset(BGArea, 0, sizeof(BGArea));
 }
 
 // ##ModelId=3DD17A770383
@@ -279,10 +285,7 @@ void KScenePlaceC::ClosePlace() {
   LeaveCriticalSection(&m_ProcessCritical);
 
   m_nHLSpecialObjectBioIndex = SPWP_NO_HL_SPECAIL_OBJECT;
-
   m_szPlaceRootPath[0] = 0;
-  g_DebugLog("CLOSE PLACE");
-
   m_szSceneName[0] = 0;
   m_bPreprocessEvent = false;
   m_bRenderGround = false;
@@ -312,7 +315,6 @@ bool KScenePlaceC::Initialize() {
 
     if (m_hLoadAndPreprocessThread) {
       m_bInited = true;
-      g_DebugLog("bInvited = true ");
       return true;
     }
 
@@ -366,10 +368,11 @@ bool KScenePlaceC::OpenPlace(int nPlaceIndex) {
   int nValue =
       sprintf(m_szPlaceRootPath, "%s\\%s.wor", ALL_PALCE_ROOT_FOLDER, Buff);
   if (Ini.Load(m_szPlaceRootPath) == FALSE) {
-    g_DebugLog("LOAD MAP FALSE");
+    g_DebugLog("LOAD MAP FALSE [%s]", m_szPlaceRootPath);
     m_szPlaceRootPath[0] = 0;
     return false;
   }
+
   m_szPlaceRootPath[nValue - 4] = 0;
   m_nSceneId = nPlaceIndex;
   m_Map.Load(&Ini, m_szPlaceRootPath);
@@ -738,10 +741,10 @@ void KScenePlaceC::LoadProcess() {
         pRegion->Load(m_szPlaceRootPath);
         LeaveCriticalSection(&m_LoadCritical);
         //				g_DebugLog("[Scene]Enter
-        // ARegionLoaded");
+        //ARegionLoaded");
         ARegionLoaded(pRegion);
         //				g_DebugLog("[Scene]Leave
-        // ARegionLoaded");
+        //ARegionLoaded");
       }
     } else if (dwRetCode == WAIT_TIMEOUT) {
       if (m_nSceneId == SPWP_NO_SCENE)
@@ -984,13 +987,8 @@ void KScenePlaceC::Breathe() {
 // ##ModelId=3DCD7F0A0071
 void KScenePlaceC::Paint() {
   IR_UpdateTime();
-  if (m_bInited == false) {
+  if (m_bInited == false || m_szPlaceRootPath[0] == 0)
     return;
-  }
-
-  if (m_szPlaceRootPath[0] == 0) {
-    return;
-  }
 
   if (m_bRenderGround) {
     m_bRenderGround = false;
@@ -998,10 +996,13 @@ void KScenePlaceC::Paint() {
   }
 
   EnterCriticalSection(&m_ProcessCritical);
+
+  int bPrerenderGroundImg = PaintBackGround();
+
   unsigned int i;
   for (i = 0; i < SPWP_NUM_REGIONS_IN_PROCESS_AREA; i++) {
     if (m_pInProcessAreaRegions[i])
-      m_pInProcessAreaRegions[i]->PaintGround();
+      m_pInProcessAreaRegions[i]->PaintGround(bPrerenderGroundImg);
   }
 
   m_ObjectsTree.Paint(&m_RepresentArea, IPOT_RL_COVER_GROUND);
@@ -1021,7 +1022,6 @@ void KScenePlaceC::Paint() {
 
   //====显示游戏（场景）信息====
 #ifdef SWORDONLINE_SHOW_DBUG_INFO
-
   if (g_bShowObstacle) {
     for (i = 0; i < SPWP_NUM_REGIONS_IN_PROCESS_AREA; i++) {
       if (m_pInProcessAreaRegions[i]) {
@@ -1722,6 +1722,74 @@ void KScenePlaceC::FollowMapMove(int nbEnable) {
   }
 }
 
+void KScenePlaceC::LoadGround(KIniFile *pIni) // ve map hoa son
+{
+  m_nBackGroundImages = 0;
+  memset(m_pBackGroundImages, 0, sizeof(m_pBackGroundImages));
+  m_bBackGroundImages = false;
+
+  if (pIni == NULL)
+    return;
+
+  int nValue, nCount;
+  pIni->GetInteger("Main", "Count", 0, &nCount);
+
+  if (nCount <= 0)
+    return;
+
+  char szSection[32];
+  for (int i = 0; i < nCount; i++) {
+    itoa(i, szSection, 10);
+
+    if (m_nBackGroundImages < MAX_BACKGROUND_IMAGE) {
+      pIni->GetInteger(szSection, "AreaLeft", 0, &nValue);
+      BGArea[m_nBackGroundImages].left = nValue;
+      pIni->GetInteger(szSection, "AreaTop", 0, &nValue);
+      BGArea[m_nBackGroundImages].top = nValue;
+      pIni->GetInteger(szSection, "AreaRight", 0, &nValue);
+      BGArea[m_nBackGroundImages].right = nValue;
+      pIni->GetInteger(szSection, "AreaBottom", 0, &nValue);
+      BGArea[m_nBackGroundImages].bottom = nValue;
+      m_pBackGroundImages[m_nBackGroundImages].nType = ISI_T_BITMAP16;
+      m_pBackGroundImages[m_nBackGroundImages].Color.Color_b.a = 255;
+      m_pBackGroundImages[m_nBackGroundImages].bRenderStyle =
+          IMAGE_RENDER_STYLE_OPACITY;
+      m_pBackGroundImages[m_nBackGroundImages].uImage = 0;
+      m_pBackGroundImages[m_nBackGroundImages].nISPosition =
+          IMAGE_IS_POSITION_INIT;
+      m_pBackGroundImages[m_nBackGroundImages].bRenderFlag = 0;
+      pIni->GetString(szSection, "Image", "",
+                      m_pBackGroundImages[m_nBackGroundImages].szImage,
+                      sizeof(m_pBackGroundImages[m_nBackGroundImages].szImage));
+      pIni->GetInteger(szSection, "PicCenterPointX", 0,
+                       &m_pBackGroundImages[m_nBackGroundImages].oPosition.nX);
+      pIni->GetInteger(szSection, "PicCenterPointY", 0,
+                       &m_pBackGroundImages[m_nBackGroundImages].oPosition.nY);
+      m_pBackGroundImages[m_nBackGroundImages].oPosition.nZ = 0;
+      m_pBackGroundImages[m_nBackGroundImages].nFrame = 0;
+      m_nBackGroundImages++;
+    }
+  }
+  m_bBackGroundImages = (BOOL)m_nBackGroundImages;
+}
+
+BOOL KScenePlaceC::PaintBackGround() {
+  BOOL bRet = TRUE;
+  if (m_bBackGroundImages) {
+    for (int i = 0; i < m_nBackGroundImages; i++) {
+      if ((m_FocusRegion.x > BGArea[i].left || BGArea[i].left == 0) &&
+          (m_FocusRegion.y < BGArea[i].bottom || BGArea[i].bottom == 0) &&
+          (m_FocusRegion.x < BGArea[i].right || BGArea[i].right == 0) &&
+          (m_FocusRegion.y > BGArea[i].top || BGArea[i].top == 0)) {
+        g_pRepresent->DrawPrimitives(1, &m_pBackGroundImages[i], RU_T_IMAGE,
+                                     true);
+        bRet = FALSE;
+      }
+    }
+  }
+  return bRet;
+}
+
 void KScenePlaceC::DrawGreenLine(int nX, int nY, BOOL bSearch,
                                  BOOL bDelete) // toa do
 {
@@ -1739,7 +1807,7 @@ void KScenePlaceC::CalcFlagPos(int nX, int nY, bool bCalc, bool bLine) {
   m_Map.CalcFlagPos(nX, nY, bCalc, bLine);
 }
 
-void KScenePlaceC::SetAutoMove(bool bIndex) {
+void KScenePlaceC::SetAutoMove(BOOL bIndex) {
   m_Map.AutoMove = bIndex;
 
   g_DebugLog("Test AutoMOve: %d \n", m_Map.AutoMove);

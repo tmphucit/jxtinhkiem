@@ -23,7 +23,7 @@ extern iRepresentShell *g_pRepresentShell;
 
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI_AUTO_SHEET "\\Ui\\Ui3\\AutoPlay800.ini"
+#define SCHEME_INI_AUTO_SHEET "\\Ui\\Ui3\\AutoPlay.ini"
 // #define 	SCHEME_INI_AUTO_SHEET
 // "\\Ui\\Ui3\\AutoPlay1024.ini"
 
@@ -378,6 +378,10 @@ void KUiFighting::Initialize() {
   AddChild(&m_tBoQuaPK2);
   AddChild(&m_eBoQuaPK);
 
+  AddChild(&m_tGuiTienNew);
+  AddChild(&m_tGuiTienNew2);
+  AddChild(&m_eGuiTienNew);
+
   Wnd_AddWindow(this);
 }
 // Cai` dat. file .ini
@@ -423,6 +427,7 @@ void KUiFighting::LoadScheme() {
 
     m_tMana.SetText("Håi Néi Lùc");
     m_tReturn.SetText("Thæ §Þa Phï");
+
     m_tBoQuaPK.SetText("Thêi gian ®æi ng­êi");
     m_tBoQuaPK2.SetText("gi©y");
     m_tAtack.SetText("Ph¹m vi tÊn c«ng");
@@ -457,6 +462,13 @@ void KUiFighting::LoadScheme() {
     m_tTuVe.SetFrame(0);
     m_tTuVe.CheckButton(false);
     m_bTuVe = false;
+
+    m_tGuiTienNew.Init(&Ini, "TGuiTienNew");
+    m_tGuiTienNew.SetText("TDP khi ng©n l­îng > ");
+    m_tGuiTienNew2.Init(&Ini, "TGuiTienNew2");
+    m_tGuiTienNew2.SetText("v¹n");
+    m_eGuiTienNew.Init(&Ini, "EGuiTienNew");
+    m_eGuiTienNew.SetIntText(9999); // them goi tien
   }
 }
 // Ham` chay. lien tuc. (nhu hoi tho~)
@@ -1143,7 +1155,7 @@ void KUiAutoI::PaintWindow() {
     RUIconImage.uImage = 0;
     RUIconImage.nISPosition = IMAGE_IS_POSITION_INIT;
     RUIconImage.bRenderFlag = 0;
-    strcpy(RUIconImage.szImage, "\\spr\\Auto\\thanhdai.spr");
+    //		strcpy(RUIconImage.szImage, "\\spr\\Auto\\thanhdai.spr");
     RUIconImage.oPosition.nX = m_Left + 28;
     RUIconImage.oPosition.nY = m_Top + 6;
     RUIconImage.oPosition.nZ = 0;
@@ -1324,6 +1336,15 @@ void KUiAutoI::PaintWindow() {
         rect6.oEndPos.nX = rect5.oEndPos.nX;
         rect6.oEndPos.nY = rect6.oPosition.nY + 14;
         g_pRepresentShell->DrawPrimitives(1, &rect6, RU_T_RECT, true);
+
+        KRURect rect7;
+        rect7.Color.Color_dw = 0xfffffcb2;
+        rect7.oPosition.nX = rect6.oPosition.nX;
+        rect7.oPosition.nY = rect6.oEndPos.nY + 6;
+        rect7.oEndPos.nZ = rect7.oPosition.nZ = 0;
+        rect7.oEndPos.nX = rect6.oEndPos.nX - 15;
+        rect7.oEndPos.nY = rect7.oPosition.nY + 14;
+        g_pRepresentShell->DrawPrimitives(1, &rect7, RU_T_RECT, true);
       }
     }
   }
@@ -1558,7 +1579,7 @@ void KUiAutoI::Breathe() {
   nAuto.bHorse = m_FightPad.m_bHorse;
   nAuto.bTuVe = m_FightPad.m_bTuVe;
   nAuto.nPhamViTuVe = m_FightPad.m_ePhamViTuVe.GetIntNumber();
-
+  nAuto.nGuiTienNew = m_FightPad.m_eGuiTienNew.GetIntNumber();
   if (m_FightPad.m_bTargetPlayer) {
     m_FightPad.m_tReturn.Hide();
     //	m_FightPad.m_tAtack.Hide();
@@ -1696,7 +1717,7 @@ void KUiAutoI::Breathe() {
   g_pCoreShell->OperationRequest(GOI_AUTOQUAYLAI, (int)&pInfoTM, 0);
   if (m_CauHinhPad.m_eFPS.GetIntNumber() >= 200)
     m_CauHinhPad.m_eFPS.SetIntText(200);
-  //	if (m_CauHinhPad.m_eFPS.GetIntNumber() > 0 &&
-  // m_CauHinhPad.m_eFPS.GetIntNumber() <= 200) g_pRepresentShell->FPSDelay =
-  // m_CauHinhPad.m_eFPS.GetIntNumber();
+  if (m_CauHinhPad.m_eFPS.GetIntNumber() > 0 &&
+      m_CauHinhPad.m_eFPS.GetIntNumber() <= 200)
+    g_pRepresentShell->FPSDelay = m_CauHinhPad.m_eFPS.GetIntNumber();
 }

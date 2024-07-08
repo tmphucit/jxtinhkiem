@@ -1,6 +1,0 @@
---??? ??? ????3
-
-function main(sel)
-Msg2Player("Chµo mõng c¸c h¹ ®Õn víi Vâ L©m BÝch Long")
-
-end;

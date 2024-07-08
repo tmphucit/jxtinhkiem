@@ -493,13 +493,12 @@
   ED_BASE + 656L // event handle to signal event
                  // completion
 #define ED_EDIT_TEST                                                           \
-  ED_BASE + 657L // returns OAFALSE if filter thinks
-                 //  edit can be done, OATRUE if not
-#define ED_EDIT_IMMEDIATE                                                      \
-  ED_BASE + 658L // OATRUE means start put the
-                 // device into edit mode (editing
-                 // "on the fly") immediately upon
-                 //  execution of Mode(ED_MODE_EDIT_CUE)
+  ED_BASE + 657L                         // returns OAFALSE if filter thinks
+                                         //  edit can be done, OATRUE if not
+#define ED_EDIT_IMMEDIATE ED_BASE + 658L // OATRUE means start put the
+                                         // device into edit mode (editing
+                                         // "on the fly") immediately upon
+                                         //  execution of Mode(ED_MODE_EDIT_CUE)
 #define ED_EDIT_MODE ED_BASE + 659L
 // can be one of the following values:
 #define ED_EDIT_MODE_ASSEMBLE ED_BASE + 660L

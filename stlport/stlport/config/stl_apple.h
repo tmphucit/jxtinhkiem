@@ -68,7 +68,7 @@ typedef int wint_t;
 
 #if defined(__SC__)
 #define _STLP_VENDOR_LONG_DOUBLE_MATH //*TY 12/03/2000 - SCpp's native math type
-                                      // is long double
+                                      //is long double
 #endif
 
 #ifndef _STLP_NATIVE_INCLUDE_PATH
@@ -95,9 +95,9 @@ typedef int wint_t;
 #define _STLP_USE_STDIO_IO                                                     \
   1 //*TY 02/24/2000 - see also ; ref.[ file _fstream.h; line 36 ]
 #define _STLP_NO_THREADS //*TY 12/17/2000 - multi-thread capability not
-                         // explored, yet.
+                         //explored, yet.
 #undef _REENTRANT        //*ty 11/24/2001 - to make sure no thread facility is
-                         // activated
+                         //activated
 #define _NOTHREADS       //*ty 12/07/2001 -
 
 // native library limitations

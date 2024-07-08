@@ -52,10 +52,10 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /machine:I386
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /map /debug /machine:I386
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy Release\lualibdll.lib ..\..\..\Lib\lualibdll.lib	copy Release\lualibdll.dll ..\..\..\Lib\lualibdll.dll
+PostBuild_Cmds=copy release\lualibdll.lib ..\..\..\Lib\LuaLibDll.lib	copy release\lualibdll.dll ..\..\..\Lib\LuaLibDll.dll	copy release\lualibdll.pdb ..\..\..\Lib\LuaLibDll.pdb	copy release\lualibdll.lib ..\..\Core\LuaLibDll.lib	md ..\..\..\..\bin\client\	copy release\lualibdll.dll ..\..\..\..\bin\client\LuaLibDll.dll	copy release\lualibdll.pdb ..\..\..\..\bin\client\LuaLibDll.pdb	md ..\..\..\..\bin\client\release\	copy release\lualibdll.dll ..\..\..\..\bin\client\release\LuaLibDll.dll	copy release\lualibdll.pdb ..\..\..\..\bin\client\release\LuaLibDll.pdb	md ..\..\..\..\bin\server\	copy release\lualibdll.dll ..\..\..\..\bin\server\LuaLibDll.dll	copy release\lualibdll.pdb ..\..\..\..\bin\server\LuaLibDll.pdb	md ..\..\..\..\bin\server\release\	copy release\lualibdll.dll ..\..\..\..\bin\server\release\LuaLibDll.dll	copy release\lualibdll.pdb ..\..\..\..\bin\server\release\LuaLibDll.pdb	md ..\..\..\..\bin\multiserver\	copy release\lualibdll.dll ..\..\..\..\bin\multiserver\LuaLibDll.dll	copy release\lualibdll.pdb ..\..\..\..\bin\multiserver\LuaLibDll.pdb	md ..\..\..\..\bin\multiserver\release\	copy release\lualibdll.dll ..\..\..\..\bin\multiserver\release\LuaLibDll.dll	copy\release\lualibdll.pdb ..\..\..\..\bin\multiserver\release\LuaLibDll.pdb
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "LuaLibDll - Win32 Debug"
@@ -82,10 +82,10 @@ BSC32=bscmake.exe
 # ADD BSC32 /nologo
 LINK32=link.exe
 # ADD BASE LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
-# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /debug /machine:I386 /pdbtype:sept
+# ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /dll /map /debug /machine:I386 /pdbtype:sept
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=copy debug\lualibdll.lib ..\..\..\Lib\lualibdll.lib	copy debug\lualibdll.dll ..\..\..\Lib\lualibdll.dll
+PostBuild_Cmds=copy debug\lualibdll.lib ..\..\Core\lualibdll.lib	copy debug\lualibdll.lib ..\..\..\Lib\lualibdll.lib	copy debug\lualibdll.dll ..\..\..\Lib\lualibdll.dll	md ..\..\..\..\bin\client\	copy debug\lualibdll.dll ..\..\..\..\bin\client\lualibdll.dll	md ..\..\..\..\bin\client\debug\	copy debug\lualibdll.dll ..\..\..\..\bin\client\debug\lualibdll.dll	md ..\..\..\..\bin\server\	copy debug\lualibdll.dll ..\..\..\..\bin\server\lualibdll.dll	md ..\..\..\..\bin\server\debug\	copy debug\lualibdll.dll ..\..\..\..\bin\server\debug\lualibdll.dll	md ..\..\..\..\bin\multiserver\	copy debug\lualibdll.dll ..\..\..\..\bin\multiserver\lualibdll.dll	md ..\..\..\..\bin\multiserver\debug\	copy debug\lualibdll.dll ..\..\..\..\bin\multiserver\debug\lualibdll.dll
 # End Special Build Tool
 
 !ENDIF 

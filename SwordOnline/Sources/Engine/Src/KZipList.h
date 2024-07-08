@@ -13,7 +13,7 @@
 #include "KZipCodec.h"
 #include "KZipData.h"
 //---------------------------------------------------------------------------
-#define MAX_PAK 48
+#define MAX_PAK 32
 //---------------------------------------------------------------------------
 class ENGINE_API KZipList {
 private:

@@ -2,6 +2,9 @@
 #ifndef COREUSENAMEDEF_H
 #define COREUSENAMEDEF_H
 
+#define NPCNAME_KEY "<npc>"
+#define PLAYERNAME_KEY "<player>"
+#define SEXNAME_KEY "<sex>"
 #define MAX_PLAYER_IN_ACCOUNT 3
 
 #define SETTING_PATH "\\settings"
@@ -94,6 +97,7 @@
 #define SKILL_SETTING_FILE "\\settings\\Skills.txt"
 #define MISSLES_SETTING_FILE "\\settings\\Missles.txt"
 #define NPC_SETTING_FILE "\\settings\\NpcS.txt"
+#define NPC_NAME_FILE "\\settings\\NpcName.txt"
 #define NPC_GOLD_TEMPLATE_FILE "\\settings\\npc\\NpcGoldTemplate.txt"
 
 //---------------------------- object Ïà¹Ø ------------------------------
@@ -133,8 +137,9 @@
 
 //---------------------------- ÏûÏ¢Ïà¹Ø ------------------------------
 // ÌØ±ð×¢Òâ£ºÒÔÏÂ×Ö·û´®³¤¶È²»ÄÜ³¬¹ý32×Ö½Ú£¬°üÀ¨ %d %s µÈ½ÓÊÕ¾ßÌåÄÚÈÝÒÔºóµÄ³¤¶È
-#define MSG_GET_EXP "NhËn ®­îc %d kinh nghiÖm"
-#define MSG_DEC_EXP "ThiÖt h¹i %d kinh nghiÖm !"
+#define MSG_GET_EXP "B¹n nhËn ®­îc <color=green>%d <color>®iÓm kinh nghiÖm"
+#define MSG_GET_EXP_CS "B¹n nhËn ®­îc <color=green>%d00 <color>®iÓm kinh nghiÖm"
+#define MSG_DEC_EXP "B¹n tæn thÊt <color=green>%d <color>®iÓm kinh nghiÖm"
 #define MSG_LEVEL_UP "Th¨ng cÊp nh©n vËt, ®¼ng cÊp hiÖn t¹i %d !"
 #define MSG_LEADER_LEVEL_UP "Th¨ng cÊp l·nh ®¹o, ®¼ng cÊp hiÖn t¹i %d !"
 #define MSG_GET_ATTRIBUTE_POINT "NhËn ®­îc %d ®iÓm tiÒm n¨ng !"
@@ -142,6 +147,16 @@
 #define MSG_GET_ATTRIBUTE_SKILL_POINT                                          \
   "NhËn ®­îc %d ®iÓm tiÒm n¨ng vµ %d ®iÓm kü n¨ng !"
 
+#define MSG_TEAM_IS_FULL "Nhãm mµ b¹n xin phÐp gia nhËp ®· ®ñ sè l­îng"
+#define MSG_TEAM_OPEN "Nhãm cña b¹n hiÖn t¹i cã thÓ tiÕp nhËn thµnh viªn míi"
+#define MSG_TEAM_CLOSE                                                         \
+  "Nhãm cña b¹n hiÖn t¹i kh«ng thÓ tiÕp nhËn thµnh viªn míi"
+#define MSG_TEAM_MODEPICK_SELF "Tù nhÆt"
+#define MSG_TEAM_MODEPICK_FREE "Tù do nhÆt"
+#define MSG_TEAM_MODEPICK_CAPTAIN "§éi tr­ëng nhÆt"
+#define MSG_TEAM_MODEPICK_ALTERNATE "Lu©n phiªn nhÆt"
+#define MSG_TEAM_PKFOLLOW_OPEN "B¹n më chÕ ®é PK theo nhãm"
+#define MSG_TEAM_PKFOLLOW_CLOSE "B¹n ®ãng chÕ ®é PK theo nhãm"
 #define MSG_TEAM_AUTO_REFUSE_INVITE "Tõ chèi tù ®éng mêi nhãm "
 #define MSG_TEAM_NOT_AUTO_REFUSE_INVITE "Kh«ng tõ chèi mêi nhãm"
 #define MSG_TEAM_SEND_INVITE "Göi lêi mêi tíi %s vµo nhãm !"
@@ -151,8 +166,6 @@
 #define MSG_TEAM_CREATE_FAIL "T¹o tæ ®éi míi thÊt b¹i !"
 #define MSG_TEAM_CANNOT_CREATE "Kh«ng thÓ lËp tæ ®éi !"
 #define MSG_TEAM_TARGET_CANNOT_ADD_TEAM "Kh«ng thÓ thªm thµnh viªn !"
-#define MSG_TEAM_OPEN "Tæ ®éi ®­îc phÐp nhËn thµnh viªn míi !"
-#define MSG_TEAM_CLOSE "Tæ ®éi kh«ng thÓ nhËn thµnh viªn míi !"
 #define MSG_TEAM_ADD_MEMBER "%s gia nhËp tæ ®éi !"
 #define MSG_TEAM_SELF_ADD "Tham gia nhãm %s !"
 #define MSG_TEAM_DISMISS_CAPTAIN "Gi¶ t¸n nhãm !"
@@ -201,11 +214,11 @@
 
 #define MSG_OBJ_CANNOT_PICKUP "Kh«ng thÓ nhÆt trang bÞ cña ng­êi kh¸c !"
 #define MSG_MONEY_CANNOT_PICKUP "Kh«ng thÓ nhÆt tiÒn cña ng­êi kh¸c !"
-#define MSG_OBJ_TOO_FAR "Qu¸ xa kh«ng thÓ nhÆt !"
-#define MSG_DEC_MONEY "BÞ r¬i %d l­îng !"
-#define MSG_EARN_MONEY "NhËn ®­îc %d l­îng"
-#define MSG_DEATH_LOSE_ITEM "B¹n bÞ mÊt vËt phÈm %s£¡"
-#define MSG_ADD_ITEM "B¹n nhËn ®­îc <color=yellow>%s"
+#define MSG_OBJ_TOO_FAR "VËt phÈm qu¸ xa kh«ng thÓ lÊy"
+#define MSG_DEC_MONEY "B¹n bÞ mÊt <color=yellow>%d <color>l­îng b¹c"
+#define MSG_EARN_MONEY "B¹n nhËn ®­îc <color=yellow>%d <color>l­îng b¹c"
+#define MSG_DEATH_LOSE_ITEM "B¹n ®· bÞ mÊt <color=blue>%s<color>"
+#define MSG_ADD_ITEM "B¹n nhËn ®­îc mét c¸i <color=blue>%s"
 #define MSG_ITEM_SAME_DETAIL_IN_IMMEDIATE                                      \
   "Thanh phÝm t¾t cã cïng mét lo¹i vËt phÈm!"
 #define MSG_CAN_NOT_VIEW_ITEM "HiÖn t¹i kh«ng thÓ coi trang bÞ ng­êi kh¸c!"
@@ -232,6 +245,11 @@
 #define MSG_PK_NORMAL_FLAG_OPEN "Tr¹ng th¸i PK chiÕn ®Êu !"
 #define MSG_PK_NORMAL_FLAG_CLOSE "Tr¹ng th¸i PK luyÖn c«ng !"
 #define MSG_PK_NORMAL_FLAG_OPEN_NEXT "Tr¹ng th¸i PK ®å s¸t !"
+#define MSG_PK_NORMAL_FLAG_UNKNOWN "Tr¹ng th¸i PK ë d¹ng thøc ch­a râ"
+#define MSG_PK_HIGHT_LOCK_NOT_SWITCH                                           \
+  "HiÖn giê PK cña b¹n >= %d, tr­íc khi PK xin h·y hñy bá tr¹ng th¸i khãa "    \
+  "b¶o hiÓm."
+#define MSG_PKSTATE_NOT_OPEN "Tr¹ng th¸i PK nµy ch­a më"
 #define MSG_PK_VALUE "TrÞ sè PK hiÖn giê lµ %d !"
 #define MSG_PK_ERROR_1 "HiÖn t¹i b¹n ®ang ë tr¹ng th¸i phi chiÕn ®Êu!"
 #define MSG_PK_ERROR_2 "T©n thñ kh«ng thÓ cõu s¸t!"
@@ -240,11 +258,25 @@
 #define MSG_PK_ERROR_5 "B¹n kh«ng thÓ cõu s¸t t©n thñ!!"
 #define MSG_PK_ERROR_6 "§èi ph­¬ng ®ang ë tr¹ng th¸i phi chiÕn ®Êu!"
 #define MSG_PK_ERROR_7 "§èi ph­¬ng ®ang cïng ng­êi kh¸c bµn luËn!"
+#define MSG_PK_ERROR_8 "B¹n hiÖn giê kh«ng thÓ cõu s¸t!"
+#define MSG_PK_ERROR_9 "Ng­êi nµy ®ang trong tr¹ng th¸i ®ãng cõu s¸t"
+#define MGS_PK_IS_LOCK                                                         \
+  "PK tõ phi chiÕn ®Êu chuyÓn sang luyÖn c«ng ph¶i mÊt %d phót"
+#define MGS_PK_IS_LOCK1 "Tr¹ng th¸i ®Æc biÖt kh«ng thÓ chuyÓn kiÓu chiÕn ®Êu"
+#define MGS_PK_IS_LOCK2 "Thµnh viªn bang héi míi cã thÓ më chiÕn ®Êu bang héi"
+#define MGS_PK_IS_LOCK3                                                        \
+  "ChÕ ®éi PK nhãm kh«ng thÓ tù ý chuyÓn tr¹ng th¸i chiÕn ®Êu"
+#define MGS_PK_IS_LOCK4 "Trong tæ ®éi kh«ng thÓ chuyÓn PK m« h×nh bang chiÕn"
+#define MGS_PK_IS_LOCK5 "§iÓm PK cña b¹n qu¸ nhiÒu, kh«ng thÓ h¹ thñ ®­îc!"
+#define MGS_PK_IS_LOCK6                                                        \
+  "§iÓm kinh nghiÖm ©m cña b¹n qu¸ nhiÒu, kh«ng thÓ h¹ thñ ®­îc!"
+#define MGS_PK_IS_LOCK7                                                        \
+  "PK chuyÓn gi÷a c¸c tr¹ng th¸i chiÕn ®Êu ph¶i mÊt %d gi©y"
 
-#define MSG_PK_ENMITY_SUCCESS_1 "B¹n vµ %s tiÕn hµnh cõu s¸t!"
-#define MSG_PK_ENMITY_SUCCESS_2 "10 gi©y sau cõu s¸t b¾t ®Çu."
-#define MSG_PK_ENMITY_CLOSE "KÕt thóc cõu s¸t!"
-#define MSG_PK_ENMITY_OPEN "B¾t ®Çu tiÕn hµnh cõu s¸t."
+#define MSG_PK_ENMITY_SUCCESS_1 "%s cïng víi B¹n tiÕn hµnh cõu s¸t"
+#define MSG_PK_ENMITY_SUCCESS_2 "Sau 10 gi©y b¾t ®Çu tiÕn hµnh cõu s¸t"
+#define MSG_PK_ENMITY_CLOSE "Tr¹ng th¸i cõu s¸t kÕt thóc"
+#define MSG_PK_ENMITY_OPEN "B¾t ®Çu tiÕn hµnh cõu s¸t"
 
 #define MSG_TONG_CREATE_ERROR01 "Tªn bang héi qu¸ dµi!"
 #define MSG_TONG_CREATE_ERROR02 "Phe ph¸i bang héi sai!"
@@ -279,7 +311,14 @@
 #define MSG_TONG_CHANGE_AS_MEMBER                                              \
   "HiÖn t¹i b¹n trë thµnh bang chóng b×nh th­êng!"
 
+#define MSG_NEW_BLOCK "B¹n ch­a më khãa r­¬ng, kh«ng thÓ chuyÓn tr¹ng th¸i!"
+#define MSG_NEW_CHANGESTATEPK10                                                \
+  "PK 10 kh«ng thÓ chuyÓn tr¹ng th¸i khi ë ngoµi thµnh"
+
+#define MSG_FUNCTION_FOBIDDENED "Xin lçi, c«ng n¨ng nµy t¹m thêi ®· bÞ ®ãng!"
 #define MESSAGE_SYSTEM_ANNOUCE_HEAD "C«ng bè "
+#define MESSAGE_TEAM_ANNOUCE_HEAD "Tin ®éi"
+#define NORMAL_FUNCTION_NAME "main"
 
 enum enumMSG_ID {
   enumMSG_ID_NONE = 0,
@@ -287,7 +326,10 @@ enum enumMSG_ID {
   enumMSG_ID_TEAM_DISMISS,
   enumMSG_ID_TEAM_LEAVE,
   enumMSG_ID_TEAM_REFUSE_INVITE,
+  enumMSG_ID_TEAM_APPLY_INVITE_FAIL,
+  enumMSG_ID_TEAM_APPLY_INVITE_FAIL2,
   enumMSG_ID_TEAM_SELF_ADD,
+  enumMSG_ID_TEAM_ADDMEMBER_NOTVALID,
   enumMSG_ID_TEAM_CHANGE_CAPTAIN_FAIL,
   enumMSG_ID_TEAM_CHANGE_CAPTAIN_FAIL2,
   enumMSG_ID_OBJ_CANNOT_PICKUP,
@@ -301,7 +343,13 @@ enum enumMSG_ID {
   enumMSG_ID_ITEM_DAMAGED,
   enumMSG_ID_MONEY_CANNOT_PICKUP,
   enumMSG_ID_CANNOT_ADD_TEAM,
+  enumMSG_ID_TEAM_IS_FULL,
+  enumMSG_ID_CANNOT_INVITE_TEAM,
   enumMSG_ID_TARGET_CANNOT_ADD_TEAM,
+  enumMSG_ID_GET_INVITE_TEAM_REPLY,
+  enumMSG_ID_PK_NORMAL_NOT_OPEN,
+  enumMSG_ID_PK_HIGHT_LOCK_NOT_SWITCH,
+  enumMSG_ID_PKSTATE_NOT_OPEN,
   enumMSG_ID_PK_ERROR_1,
   enumMSG_ID_PK_ERROR_2,
   enumMSG_ID_PK_ERROR_3,
@@ -309,6 +357,16 @@ enum enumMSG_ID {
   enumMSG_ID_PK_ERROR_5,
   enumMSG_ID_PK_ERROR_6,
   enumMSG_ID_PK_ERROR_7,
+  enumMSG_ID_PK_ERROR_8,
+  enumMSG_ID_PK_ERROR_9,
+  enumMSG_ID_PK_IS_LOCK,
+  enumMSG_ID_PK_IS_LOCK1,
+  enumMSG_ID_PK_IS_LOCK2,
+  enumMSG_ID_PK_IS_LOCK3,
+  enumMSG_ID_PK_IS_LOCK4,
+  enumMSG_ID_PK_IS_LOCK5,
+  enumMSG_ID_PK_IS_LOCK6,
+  enumMSG_ID_PK_IS_LOCK7,
   enumMSG_ID_DEATH_LOSE_ITEM,
   enumMSG_ID_TONG_REFUSE_ADD,
   enumMSG_ID_TONG_BE_KICK,
@@ -316,7 +374,20 @@ enum enumMSG_ID {
   enumMSG_ID_TONG_LEAVE_FAIL,
   enumMSG_ID_TONG_CHANGE_AS_MASTER,
   enumMSG_ID_TONG_CHANGE_AS_MEMBER,
+
+  enumMSG_ID_FIGHT_MODE_ERROR1,
+  enumMSG_ID_FIGHT_MODE_ERROR2,
+  enumMSG_ID_FIGHT_MODE_ERROR3,
+
+  enumMSG_ID_ITEM_CANTREPAIR,
+
+  enumMSG_ID_FUNCTION_FOBIDDENED,
+
+  enumMSG_ID_ITEM_TOWNPORTAL,
+
   enumMSG_ID_NUM,
+  enumMSG_ID_BLOCK_PK,
+  enumMSG_ID_CHANGE_STATE_PK10,
 };
 
 //---------------------------- Êó±êÖ¸ÕëÏà¹Ø ------------------------------
@@ -326,4 +397,5 @@ enum enumMSG_ID {
 #define MOUSE_CURSOR_PICK 3
 #define MOUSE_CURSOR_USE 8
 #define MOUSE_CURSOR_SHOP_ITEM 9
+#define MOUSE_CURSOR_TRADE 11
 #endif

@@ -150,7 +150,7 @@ void KUiTradeConfirm::Show() {
     sprintf(ngan_luong, "%s%d %s", ngan_luong, luong, "l­îng");
 
   } else if (m_nslect == 1) {
-    sprintf(ngan_luong, "%d vµng", m_PriceInfo.nPrice);
+    sprintf(ngan_luong, "%d Xu", m_PriceInfo.nPrice);
   } else if (m_nslect == 2) {
     sprintf(ngan_luong, "%d tÝch lòy", m_PriceInfo.nPrice);
   } else if (m_nslect == 3) {
@@ -233,7 +233,7 @@ void KUiTradeConfirm::LoadScheme(const char *pScheme) {
       sprintf(ngan_luong, "%s%d %s", ngan_luong, luong, "l­îng");
 
     } else if (m_nslect == 1) {
-      sprintf(ngan_luong, "%d vµng", m_PriceInfo.nPrice);
+      sprintf(ngan_luong, "%d Xu", m_PriceInfo.nPrice);
     } else if (m_nslect == 2) {
       sprintf(ngan_luong, "%d tÝch lòy", m_PriceInfo.nPrice);
     } else if (m_nslect == 3) {
@@ -342,7 +342,7 @@ void KUiTradeConfirm::UpdateNumber() {
 
     sprintf(ngan_luong, "%s%d %s", ngan_luong, luong, "l­îng");
   } else if (m_nslect == 1) {
-    sprintf(ngan_luong, "%d vµng", m_nBuyNumber * m_PriceInfo.nPrice);
+    sprintf(ngan_luong, "%d Xu", m_nBuyNumber * m_PriceInfo.nPrice);
   } else if (m_nslect == 2) {
     sprintf(ngan_luong, "%d tÝch lòy", m_nBuyNumber * m_PriceInfo.nPrice);
   } else if (m_nslect == 3) {

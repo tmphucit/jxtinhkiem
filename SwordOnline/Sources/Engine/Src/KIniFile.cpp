@@ -771,6 +771,41 @@ void KIniFile::GetInteger2(LPCSTR lpSection, // points to section name
     *pnValue2 = atoi(pChar);
   }
 }
+
+void KIniFile::GetInteger3(LPCSTR lpSection, // points to section name
+                           LPCSTR lpKeyName, // points to key name
+                           int *pnValue1,    // value 1
+                           int *pnValue2,    // value 2
+                           int *pnValue3     // value 3
+) {
+  char Buffer[64];
+  char *pChar = Buffer;
+  if (GetKeyValue(lpSection, lpKeyName, Buffer, sizeof(Buffer))) {
+    while (*pChar) {
+      if (',' == *pChar) {
+        *pChar++ = 0;
+        break;
+      }
+      pChar++;
+    }
+    *pnValue1 = atoi(Buffer);
+    *pnValue2 = atoi(pChar);
+
+    pChar++;
+    while (*pChar) {
+      if (',' == *pChar) {
+        *pChar++ = 0;
+        break;
+      }
+      pChar++;
+    }
+    *pnValue3 = atoi(pChar);
+  } else {
+    *pnValue1 = 0;
+    *pnValue2 = 0;
+    *pnValue3 = 0;
+  }
+}
 //---------------------------------------------------------------------------
 // 函数:	GetFloat
 // 功能:	读取1个浮点数
@@ -913,6 +948,28 @@ void KIniFile::WriteInteger2(LPCSTR lpSection, // pointer to section name
   char Buffer[32];
 
   sprintf(Buffer, "%d,%d", Value1, Value2);
+  SetKeyValue(lpSection, lpKeyName, Buffer);
+}
+
+void KIniFile::WriteInteger3(LPCSTR lpSection, // pointer to section name
+                             LPCSTR lpKeyName, // pointer to key name
+                             int Value1,       // value 1 to write
+                             int Value2,       // value 2 to write
+                             int Value3        // value 3 to write
+) {
+  char Buffer[64];
+
+  sprintf(Buffer, "%d,%d,%d", Value1, Value2, Value3);
+  SetKeyValue(lpSection, lpKeyName, Buffer);
+}
+
+void KIniFile::WriteDword(LPCSTR lpSection, // pointer to section name
+                          LPCSTR lpKeyName, // pointer to key name
+                          DWORD nValue      // Integer to write
+) {
+  char Buffer[64];
+
+  sprintf(Buffer, "%u", nValue);
   SetKeyValue(lpSection, lpKeyName, Buffer);
 }
 //---------------------------------------------------------------------------

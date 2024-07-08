@@ -54,7 +54,7 @@ LINK32=link.exe
 # ADD LINK32 Common.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:console /map /debug /machine:I386
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\..\bin\server\release\	copy Release\GameServer.exe ..\..\..\..\bin\Server\GameServer.exe	copy Release\GameServer.exe ..\..\..\..\bin\Server\release\GameServer.exe	copy Release\GameServer.pdb ..\..\..\..\bin\Server\release\GameServer.pdb	copy Release\GameServer.map ..\..\..\..\bin\Server\release\GameServer.map
+PostBuild_Cmds=md ..\..\..\..\bin\server\	copy release\GameServer.exe ..\..\..\..\bin\Server\GameServer.exe	copy release\GameServer.pdb ..\..\..\..\bin\Server\GameServer.pdb	copy release\GameServer.map ..\..\..\..\bin\Server\GameServer.map	md ..\..\..\..\bin\server\release\	copy release\GameServer.exe ..\..\..\..\bin\Server\release\GameServer.exe	copy release\GameServer.pdb ..\..\..\..\bin\Server\release\GameServer.pdb	copy release\GameServer.map ..\..\..\..\bin\Server\release\GameServer.map
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "GameServer - Win32 Debug"

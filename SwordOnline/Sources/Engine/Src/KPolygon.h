@@ -26,7 +26,9 @@ public:
   BOOL AddPointToVertex(POINT pos);    //	增加顶点
   BOOL AddPointToVertex(int x, int y); //	增加顶点
   int GetNearVertex(POINT pos);        //	取得与当前点最近的顶点索引
-  int GetVertexNumber() { return m_Polygon.nVertex; }; //	取得多边形的顶点数目
+  int GetVertexNumber() {
+    return m_Polygon.nVertex;
+  };                                         //	取得多边形的顶点数目
   BOOL GetIndexVertex(int i, POINT *vertex); //	取得多边形的第I个顶点座标
   BOOL RemoveIndexVertex(int i);             //	从多边形中去除掉一个顶点
   void LoopVertex(int i);                    //	把多边形顶点顺序进行I次循环变化

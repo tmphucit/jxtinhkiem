@@ -32,6 +32,7 @@
 #include <list>
 #include <string>
 #include <strstream>
+#include <time.h>
 
 #include "FilterTextLib.h"
 #include "RoleNameFilter.h"
@@ -396,6 +397,21 @@ BOOL CALLBACK MainWndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam) {
     break;
 
   case WM_CREATE_ENGINE: {
+    time_t rawtime;
+    struct tm *timeinfo;
+
+    time(&rawtime);
+    timeinfo = localtime(&rawtime);
+
+    char szText[64];
+    sprintf(szText, "%04d%02d%02d", timeinfo->tm_year + 1900,
+            timeinfo->tm_mon + 1, timeinfo->tm_mday);
+    if ((int)(atoi(szText)) > KPROTOCOL_EXPIRATION_DATE) {
+      MessageBox(hwnd, "Protocol Version is illegal", "Information",
+                 MB_OK | MB_ICONERROR);
+      break;
+    }
+
     g_nServerPort = ::GetDlgItemInt(hwnd, IDC_EDIT_PORT, &bTranslated, FALSE);
     g_nMaxRoleCount =
         ::GetDlgItemInt(hwnd, IDC_EDIT_MAXNUM_ROLE, &bTranslated, FALSE);

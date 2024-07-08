@@ -198,6 +198,7 @@ void KMissle::Release() {
   m_nFollowNpcIdx = 0;
 #endif
 #ifdef _SERVER
+  m_nPKFlag = 0;
   if (m_pMagicAttribsData)
     if (m_pMagicAttribsData->DelRef() == 0)
       delete m_pMagicAttribsData;
@@ -396,8 +397,13 @@ int KMissle::Activate() {
     DoVanish();
     return 0;
   }
-
-  // 跟踪的目标人物已经不在该地图上时，自动清空
+#ifdef _SERVER
+  if (Player[Npc[m_nLauncher].GetPlayerIdx()].m_cPK.GetNormalPKState() !=
+      m_nPKFlag) {
+    // DoVanish();
+    return 0;
+  }
+#endif
   if (m_nFollowNpcIdx > 0) {
     if (!Npc[m_nFollowNpcIdx].IsMatch(m_dwFollowNpcID) ||
         Npc[m_nFollowNpcIdx].m_SubWorldIndex != m_nSubWorldId) {
@@ -1296,20 +1302,20 @@ BOOL KMissle::ProcessDamage(int nNpcId) {
         // if (m_pMagicAttribsData->m_nStateMagicAttribsNum > 0)
         //{
         //	KSkill * pSkillActive = (KSkill *)
-        // g_SkillManager.GetSkill(Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[1],Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[2]);
+        //g_SkillManager.GetSkill(Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[1],Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[2]);
         //    if (pSkillActive)
         //	{
         //	KMagicAttrib* pMagicAttrib = pSkillActive->GetStateAttribs();
         //	int pMagicAttribNum = pSkillActive->GetStateAttribsNum();
         //	Npc[nNpcId].SetStateSkillEffect(nNpcId,
-        // Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[1],
-        // Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[2], pMagicAttrib,
-        // pMagicAttribNum, pMagicAttrib[0].nValue[1]);
+        //Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[1],
+        //Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[2], pMagicAttrib,
+        //pMagicAttribNum, pMagicAttrib[0].nValue[1]);
         //	}
         //	Npc[m_nLauncher].SetStateSkillEffect(nNpcId, m_nSkillId,
-        // m_nLevel, m_pMagicAttribsData->m_pStateMagicAttribs,
-        // m_pMagicAttribsData->m_nStateMagicAttribsNum,
-        // m_pMagicAttribsData->m_pStateMagicAttribs[0].nValue[1]);
+        //m_nLevel, m_pMagicAttribsData->m_pStateMagicAttribs,
+        //m_pMagicAttribsData->m_nStateMagicAttribsNum,
+        //m_pMagicAttribsData->m_pStateMagicAttribs[0].nValue[1]);
         //}
 
       }
@@ -1734,7 +1740,8 @@ BOOL KMissle::CreateMissleForShow(char *szMovie, char *szFormat, char *szSound,
   Missle[nMissleIndex].m_nSubWorldId = nSubWorldId;
   Missle[nMissleIndex].m_nLauncher = pShowParam->nLauncherIndex;
   Missle[nMissleIndex].m_dwLauncherId = Npc[pShowParam->nLauncherIndex].m_dwID;
-
+  // Missle[nMissleIndex].m_nPKFlag			=
+  // Npc[pShowParam->nLauncherIndex].m_nPKFlag;
   Missle[nMissleIndex].m_nParentMissleIndex = 0;
 
   Missle[nMissleIndex].m_nSkillId = 0;

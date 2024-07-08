@@ -595,22 +595,18 @@ BOOL KSubWorld::LoadMap(int nId, int nRegion) {
   }
 
   if (!m_Region) {
-    g_DebugLog("LOAD MAP 2");
     m_Region = new KRegion[MAX_REGION];
-  };
+  }
 
   if (nId != m_SubWorldID) {
-    g_DebugLog("LOAD MAP 1");
-    g_DebugLog("ID %d %d", nId, m_SubWorldID);
-    g_DebugLog("Region: %d", m_Region);
     SubWorld[0].Close();
     g_ScenePlace.ClosePlace();
     // NpcSet.RemoveAll(Player[CLIENT_PLAYER_INDEX].m_nIndex); -- later finish
     // it. spe
 
-    char szKeyName[32], szPathName[FILE_NAME_LENGTH];
-
-    g_DebugLog("ID 2: %d %d", nId, m_SubWorldID);
+    char szKeyName[32];
+    char szPathName[FILE_NAME_LENGTH];
+    BOOL m_bBgPic;
 
     g_SetFilePath("\\settings");
     IniFile.Load("MapList.ini");
@@ -618,8 +614,17 @@ BOOL KSubWorld::LoadMap(int nId, int nRegion) {
     IniFile.GetString("List", szKeyName, "", szPathName, sizeof(szPathName));
 
     sprintf(m_szMapPath, "\\maps\\%s", szPathName);
-
     g_ScenePlace.OpenPlace(nId);
+
+    sprintf(szKeyName, "%d_Bg", nId);
+    IniFile.GetInteger("List", szKeyName, 0, &m_bBgPic);
+    g_DebugLog("bgpic %d", m_bBgPic);
+    if (m_bBgPic) {
+      sprintf(szPathName, "\\settings\\maps\\bg\\%d.ini", nId);
+      IniFile.Load(szPathName);
+      g_ScenePlace.LoadGround(&IniFile);
+    }
+
     m_SubWorldID = nId;
     m_nRegionWidth = KScenePlaceRegionC::RWPP_AREGION_WIDTH / 32;
     m_nRegionHeight = KScenePlaceRegionC::RWPP_AREGION_HEIGHT / 32;
@@ -633,8 +638,6 @@ BOOL KSubWorld::LoadMap(int nId, int nRegion) {
   int nIdx = FindRegion(nRegion);
 
   if (nIdx < 0) {
-    g_DebugLog("LOAD MAP 3:");
-    g_DebugLog("nIDx %d:", nIdx);
     nIdx = m_ClientRegionIdx[0];
 
     if (m_Region[nIdx].Load(nX, nY)) {
@@ -647,7 +650,6 @@ BOOL KSubWorld::LoadMap(int nId, int nRegion) {
   g_ScenePlace.SetFocusPosition(m_Region[nIdx].m_nRegionX,
                                 m_Region[nIdx].m_nRegionY, 0);
   m_ClientRegionIdx[0] = nIdx;
-
   for (int i = 0; i < 8; i++) {
     int nConIdx;
     nConIdx = FindRegion(m_Region[nIdx].m_nConRegionID[i]);
@@ -670,7 +672,6 @@ BOOL KSubWorld::LoadMap(int nId, int nRegion) {
     m_ClientRegionIdx[i + 1] = nConIdx;
     m_Region[nIdx].m_nConnectRegion[i] = nConIdx;
   }
-
   if (m_Region[nIdx].m_nConnectRegion[0] >= 0) {
     m_Region[m_Region[nIdx].m_nConnectRegion[0]].m_nConnectRegion[0] = -1;
     m_Region[m_Region[nIdx].m_nConnectRegion[0]].m_nConnectRegion[1] = -1;
@@ -1311,11 +1312,16 @@ BOOL KSubWorld::CanPutObj(POINT pos) {
   int nRegion, nMapX, nMapY, nOffX, nOffY;
   Mps2Map(pos.x, pos.y, &nRegion, &nMapX, &nMapY, &nOffX, &nOffY);
 
-  if (nRegion >= 0 &&
-      !m_Region[nRegion].GetBarrier(nMapX, nMapY, nOffX, nOffY) &&
-      !m_Region[nRegion].GetRef(nMapX, nMapY, obj_object))
+  if (nRegion >= 0) {
+    if (m_Region[nRegion].GetBarrier(nMapX, nMapY, nOffX, nOffY))
+      return FALSE;
+    if (m_Region[nRegion].GetRef(nMapX, nMapY, obj_object))
+      return FALSE;
+    if (m_Region[nRegion].GetTrap(nMapX, nMapY))
+      return FALSE;
     return TRUE;
-  return FALSE;
+  }
+  return TRUE;
 }
 
 #ifdef _SERVER

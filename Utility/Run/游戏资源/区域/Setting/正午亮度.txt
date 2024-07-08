@@ -1,5 +1,0 @@
-[MAIN]
-help=255
-icon=setting
-type=region
-want=int

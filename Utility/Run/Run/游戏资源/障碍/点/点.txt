@@ -1,4 +1,0 @@
-[MAIN]
-geometrytype=1
-icon=obstacle
-type=obstacle

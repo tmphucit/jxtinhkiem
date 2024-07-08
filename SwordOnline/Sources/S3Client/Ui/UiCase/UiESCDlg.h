@@ -37,6 +37,7 @@ private:
   // KWndButton	m_TaskBtn;
   KWndButton m_OptionsBtn;
   KWndButton m_ContinueGameBtn; // ¼ÌÐøÓÎÏ·
+  KWndButton m_OffLineBtn;      // edit by phong kieu button uy thac
 };
 
 #endif // __UIESCDLG_H__

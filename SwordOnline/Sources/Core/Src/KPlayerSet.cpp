@@ -870,8 +870,7 @@ int KPlayerSet::AttachPlayer(const unsigned long lnID, GUID *pGuid) {
       //			else
       //			{
       //				g_DebugLog("[error]Attach to a connected
-      // player named %s", Player[nUseIdx].m_PlayerName);
-      // return 0;
+      //player named %s", Player[nUseIdx].m_PlayerName); 				return 0;
       //			}
     }
     nUseIdx = m_UseIdx.GetPrev(nUseIdx);

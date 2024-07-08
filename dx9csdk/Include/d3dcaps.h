@@ -44,11 +44,10 @@ typedef struct _D3DLIGHTINGCAPS {
 #define D3DLIGHTINGMODEL_RGB 0x00000001L
 #define D3DLIGHTINGMODEL_MONO 0x00000002L
 
-#define D3DLIGHTCAPS_POINT 0x00000001L /* Point lights supported */
-#define D3DLIGHTCAPS_SPOT 0x00000002L  /* Spot lights supported */
-#define D3DLIGHTCAPS_DIRECTIONAL                                               \
-  0x00000004L /* Directional lights supported                                  \
-               */
+#define D3DLIGHTCAPS_POINT 0x00000001L       /* Point lights supported */
+#define D3DLIGHTCAPS_SPOT 0x00000002L        /* Spot lights supported */
+#define D3DLIGHTCAPS_DIRECTIONAL 0x00000004L /* Directional lights supported   \
+                                              */
 #if (DIRECT3D_VERSION < 0x700)
 #define D3DLIGHTCAPS_PARALLELPOINT                                             \
   0x00000008L /* Parallel point lights supported */
@@ -468,17 +467,15 @@ typedef HRESULT(CALLBACK *LPD3DENUMDEVICESCALLBACK7)(LPSTR lpDeviceDescription,
 
 /* D3DDEVICEDESC dwDevCaps flags */
 
-#define D3DDEVCAPS_FLOATTLVERTEX                                               \
-  0x00000001L /* Device accepts floating point                                 \
-               */
+#define D3DDEVCAPS_FLOATTLVERTEX 0x00000001L /* Device accepts floating point  \
+                                              */
 /* for post-transform vertex data */
 #define D3DDEVCAPS_SORTINCREASINGZ                                             \
   0x00000002L /* Device needs data sorted for increasing Z */
 #define D3DDEVCAPS_SORTDECREASINGZ                                             \
   0X00000004L /* Device needs data sorted for decreasing Z */
-#define D3DDEVCAPS_SORTEXACT                                                   \
-  0x00000008L /* Device needs data sorted exactly                              \
-               */
+#define D3DDEVCAPS_SORTEXACT 0x00000008L /* Device needs data sorted exactly   \
+                                          */
 
 #define D3DDEVCAPS_EXECUTESYSTEMMEMORY                                         \
   0x00000010L /* Device can use execute buffers from system memory */

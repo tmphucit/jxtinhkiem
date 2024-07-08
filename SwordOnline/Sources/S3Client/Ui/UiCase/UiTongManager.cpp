@@ -466,6 +466,10 @@ void KUiTongManager::UpdateBtnTheme(int nType, BOOL IsDissable) {
     m_BtnCaptainList.Show();
     m_BtnMemberList.Show();
     m_BtnElderList.Show();
+
+    m_BtnTitle.Show();
+    m_BtnMaleTitle.Show();
+    m_BtnFemaleTitle.Show();
     break;
 
   case enumTONG_FIGURE_MANAGER:

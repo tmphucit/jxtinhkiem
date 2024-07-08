@@ -18,7 +18,7 @@
 
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI_ITEM "uibuyshop.ini"
+#define SCHEME_INI_ITEM "UiBuyShop.ini"
 
 KUiBuyShop *KUiBuyShop::m_pSelf = NULL;
 
@@ -34,6 +34,7 @@ KUiBuyShop *KUiBuyShop::OpenWindow(char *szTitleBox) {
     if (m_pSelf)
       m_pSelf->Initialize();
   }
+
   if (m_pSelf) {
     if (KUiItem::GetIfVisible() == NULL)
       KUiItem::OpenWindow();
@@ -46,6 +47,7 @@ KUiBuyShop *KUiBuyShop::OpenWindow(char *szTitleBox) {
     m_pSelf->m_TitleBox.SetText(szTitleBox);
     Wnd_GameSpaceHandleInput(false);
   }
+
   return m_pSelf;
 }
 
@@ -54,7 +56,6 @@ KUiBuyShop *KUiBuyShop::OpenWindow(char *szTitleBox) {
 //--------------------------------------------------------------------------
 void KUiBuyShop::CloseWindow() {
   if (m_pSelf) {
-
     if (g_UiBase.GetStatus() == UIS_S_IDLE) {
       if (g_pCoreShell)
         g_pCoreShell->OperationRequest(GOI_BUY_SHOP_CLOSE, 0, 0);
@@ -70,7 +71,6 @@ void KUiBuyShop::CloseWindow() {
 // 功能	: 初始化
 // -------------------------------------------------------------------------
 void KUiBuyShop::Initialize() {
-
   AddChild(&m_TitleBox);
   AddChild(&m_CloseBtn);
   AddChild(&m_ItemBox);
@@ -131,9 +131,7 @@ int KUiBuyShop::WndProc(unsigned int uMsg, unsigned int uParam, int nParam) {
 
       CloseWindow();
     }
-
     break;
-
   case WND_M_OTHER_WORK_RESULT:
     break;
   default:
@@ -164,7 +162,7 @@ void KUiBuyShop::OnItemPickDrop(ITEM_PICKDROP_PLACE *pPickPos,
     KUiItemBuySelInfo Price = {0};
     if (g_pCoreShell->GetGameData(GDI_SHOP_ITEM_PRICE, (unsigned int)(&Pick),
                                   (int)(&Price)) != 0) {
-      KBuySlectItemShop::OpenWindow(&Pick, &Price);
+      KBuySelectItemShop::OpenWindow(&Pick, &Price);
     }
   }
 }

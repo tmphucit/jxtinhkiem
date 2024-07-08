@@ -5,11 +5,11 @@
 //	Modified	: 8/14/2002                //
 //                                         //
 //-----------------------------------------//
-#include "tchar.h"
-
 #include "GlobalFun.h"
 #include "KStdAfx.h"
-#include "process.h"
+#include "PROCESS.h"
+#include "stdafx.h"
+#include "tchar.h"
 
 static const TCHAR szEnter1[] = "\r\n";
 static const UINT uiEnter1 = _tcslen(szEnter1);
@@ -369,9 +369,8 @@ DWORD KPIGetPrivateProfileString(
             LPTSTR lpszKeyValue = GetKeyValue(lpszKeyTemp, liKeyValueSize);
             if (NULL != lpszKeyValue) {
               dwRet = liKeyValueSize;
-              DWORD dwCopyLen = dwSize <= (unsigned long)liKeyValueSize
-                                    ? dwSize
-                                    : liKeyValueSize;
+              DWORD dwCopyLen =
+                  dwSize <= liKeyValueSize ? dwSize : liKeyValueSize;
               if (NULL != lpszReturnedString) {
                 memcpy(lpszReturnedString, lpszKeyValue, dwCopyLen);
                 if (dwSize > dwCopyLen) {

@@ -14,7 +14,7 @@
 #include "KWin32.h"
 extern iCoreShell *g_pCoreShell;
 
-#define STRING_BOX_SCHEME "stringbox.ini"
+#define STRING_BOX_SCHEME "UiStringBox.ini"
 
 KUiStringBox *KUiStringBox::m_pSelf = NULL;
 
@@ -22,12 +22,12 @@ KUiStringBox *KUiStringBox::m_pSelf = NULL;
 //	功能：打开窗口，返回唯一的一个类对象实例
 //--------------------------------------------------------------------------
 KUiStringBox *KUiStringBox::OpenWindow(int nId, char *szTitle) {
-
   if (m_pSelf == NULL) {
     m_pSelf = new KUiStringBox;
     if (m_pSelf)
       m_pSelf->Initialize();
   }
+
   if (m_pSelf) {
     m_pSelf->m_nID = nId;
     strcpy(m_pSelf->m_szTitle, szTitle);
@@ -35,6 +35,7 @@ KUiStringBox *KUiStringBox::OpenWindow(int nId, char *szTitle) {
     m_pSelf->BringToTop();
     m_pSelf->Show();
   }
+
   return m_pSelf;
 }
 
@@ -87,7 +88,6 @@ void KUiStringBox::Hide() {
 //	功能：初始化
 //--------------------------------------------------------------------------
 void KUiStringBox::Initialize() {
-
   AddChild(&m_StringBoxName);
   AddChild(&m_StringEdit);
   AddChild(&m_NumberEdit);
@@ -118,9 +118,7 @@ void KUiStringBox::LoadScheme(const char *pScheme) {
       m_pSelf->m_BtnDone.Init(&Ini, "BtnDone");
       m_pSelf->m_BtnCancel.Init(&Ini, "BtnCancel");
     }
-    /*--------------------*/
   }
-  /*--------------------*/
 }
 
 //--------------------------------------------------------------------------
@@ -153,6 +151,7 @@ int KUiStringBox::WndProc(unsigned int uMsg, unsigned int uParam, int nParam) {
   default:
     nRet = KWndImage::WndProc(uMsg, uParam, nParam);
   }
+
   return nRet;
 }
 
@@ -171,6 +170,7 @@ void KUiStringBox::OnOk() {
   if (Buff[0] && g_pCoreShell) {
     g_pCoreShell->OperationRequest(GOI_STRING_BOX, (unsigned int)(&Buff), 0);
   }
+
   CloseWindow(false);
 }
 

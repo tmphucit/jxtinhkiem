@@ -1,1 +1,0 @@
-Include("\\script\\Global\\pass.lua")

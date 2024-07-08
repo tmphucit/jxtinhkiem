@@ -125,6 +125,8 @@ public:
   void SaveLoginChoice();
   // 读取以前的的登陆选择
   void LoadLoginChoice();
+
+  void GetRegionServer(char *pszRegion, char *pszServer);
   // 获取服务器区域的列表
   KLoginServer *GetServerRegionList(int &nCount, int &nAdviceChoice);
   // 登陆服务器列表获取
@@ -175,7 +177,7 @@ private:
   DWORD m_LeftTime;
 
   struct LOGIN_CHOICE {
-    int nServerRegionIndex;        // 服务器区域索引
+    char RegionName[32];
     KLoginServer AccountServer;    // 当前使用的服务器
     char Account[32];              // 当前账号
     KSG_PASSWORD Password;         // 当前账号的密码

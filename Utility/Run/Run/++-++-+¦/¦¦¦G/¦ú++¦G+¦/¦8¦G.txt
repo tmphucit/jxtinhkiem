@@ -1,7 +1,0 @@
-[MAIN]
-icon=light
-type=light_static
-lighttype=static
-lightcolor=255,0,0,255
-lightradius=7
-height=3.0

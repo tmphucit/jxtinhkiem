@@ -71,7 +71,7 @@ BOOL KPlayerTong::ApplyCreateTong(int nCamp, char *lpszTongName) {
   }
 
   int i;
-  for (i = 0; (unsigned)i < (strlen(lpszTongName)); i++) {
+  for (i = 0; i < strlen(lpszTongName); i++) {
     if (lpszTongName[i] == 32) {
       defFuncShowNormalMsg("Tªn bang héi kh«ng ®­îc chøa ký tù ®Æc biÖt");
       return FALSE;
@@ -861,7 +861,8 @@ void KPlayerTong::ChangeTitleFeMale(DWORD dwTongID, char *szTitle) {
   if (!szTitle || !szTitle[0] || strlen(szTitle) > 12 || strlen(szTitle) < 6)
     return;
 
-  if (Player[m_nPlayerIndex].m_cTong.m_nFigure != enumTONG_FIGURE_MASTER)
+  if (Player[m_nPlayerIndex].m_cTong.m_nFigure != enumTONG_FIGURE_MASTER &&
+      Player[m_nPlayerIndex].m_cTong.m_nFigure != enumTONG_FIGURE_DIRECTOR)
     return;
 
   int i;
@@ -942,7 +943,8 @@ void KPlayerTong::ChangeTitleMale(DWORD dwTongID, char *szTitle) {
   if (!szTitle || !szTitle[0] || strlen(szTitle) > 12 || strlen(szTitle) < 6)
     return;
 
-  if (Player[m_nPlayerIndex].m_cTong.m_nFigure != enumTONG_FIGURE_MASTER)
+  if (Player[m_nPlayerIndex].m_cTong.m_nFigure != enumTONG_FIGURE_MASTER &&
+      Player[m_nPlayerIndex].m_cTong.m_nFigure != enumTONG_FIGURE_DIRECTOR)
     return;
 
   int i;
@@ -1028,7 +1030,8 @@ void KPlayerTong::ChangeTitle(DWORD dwTongID, char *szName, char *szTitle) {
   if (!szName || !szName[0] || strlen(szName) > 16 || strlen(szName) < 6)
     return;
 
-  if (Player[m_nPlayerIndex].m_cTong.m_nFigure != enumTONG_FIGURE_MASTER)
+  if (Player[m_nPlayerIndex].m_cTong.m_nFigure != enumTONG_FIGURE_MASTER &&
+      Player[m_nPlayerIndex].m_cTong.m_nFigure != enumTONG_FIGURE_DIRECTOR)
     return;
 
   int i;
@@ -1886,7 +1889,7 @@ BOOL KPlayerTong::ApplyChangeTitleFeMale(char *lpszName) {
 
   int i;
 
-  for (i = 0; (unsigned)i < strlen(lpszName); i++) {
+  for (i = 0; i < strlen(lpszName); i++) {
 
     if (lpszName[i] == 32) {
       defFuncShowNormalMsg("Tªn ngo¹i hiÖu kh«ng ®­îc cã ký tù ®Æc biÖt !");
@@ -1924,7 +1927,7 @@ BOOL KPlayerTong::ApplyChangeTitleMale(char *lpszName) {
 
   int i;
 
-  for (i = 0; (unsigned)i < strlen(lpszName); i++) {
+  for (i = 0; i < strlen(lpszName); i++) {
 
     if (lpszName[i] == 32) {
       defFuncShowNormalMsg("Tªn ngo¹i hiÖu kh«ng ®­îc cã ký tù ®Æc biÖt!");
@@ -2043,7 +2046,7 @@ BOOL KPlayerTong::ApplyChangeTitle(char *lpszName, char *lpszNameChange) {
 
   int i;
 
-  for (i = 0; (unsigned)i < strlen(lpszName); i++) {
+  for (i = 0; i < strlen(lpszName); i++) {
 
     if (lpszName[i] == 32) {
       defFuncShowNormalMsg("Tªn ngo¹i hiÖu kh«ng ®­îc chøa ký tù ®Æc biÖt !");
@@ -2052,7 +2055,7 @@ BOOL KPlayerTong::ApplyChangeTitle(char *lpszName, char *lpszNameChange) {
     }
   }
 
-  for (i = 0; (unsigned)i < strlen(lpszNameChange); i++) {
+  for (i = 0; i < strlen(lpszNameChange); i++) {
 
     if (lpszNameChange[i] == 32) {
       defFuncShowNormalMsg("Tªn nh©n vËt kh«ng ®­îc chø ký tù ®Æc biÖt !");

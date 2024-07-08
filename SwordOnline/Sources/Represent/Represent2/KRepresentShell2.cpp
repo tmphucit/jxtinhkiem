@@ -172,7 +172,7 @@ void KRepresentShell2::DrawPrimitives(int nPrimitiveCount,
         //****to be modify end****
 
         //						Check Current Draw
-        // Device??;
+        //Device??;
         if ((pTemp->bRenderFlag & RUIMAGE_RENDER_FLAG_FRAME_DRAW) == 0) {
           nX += pFrame->OffsetX;
           nY += pFrame->OffsetY;
@@ -196,11 +196,14 @@ void KRepresentShell2::DrawPrimitives(int nPrimitiveCount,
                               pFrame->Sprite, pPalette);
           break;
         case IMAGE_RENDER_STYLE_BORDER:
-          //							m_Canvas.DrawSpriteBorder(nX,
-          // nY, pFrame->Width, pFrame->Height,
-          //								///g_RGB(pTemp->Color.Color_b.r,
-          // pTemp->Color.Color_b.g, pTemp->Color.Color_b.b),
-          // g_RGB(200, 200, 0), 								pFrame->Sprite);
+          break;
+        case IMAGE_RENDER_STYLE_BORDER_RECT:
+          m_Canvas.DrawSpriteBorder(nX, nY, pFrame->Width, pFrame->Height,
+                                    g_RGB(pTemp->Color.Color_b.r,
+                                          pTemp->Color.Color_b.g,
+                                          pTemp->Color.Color_b.b),
+                                    // g_RGB(200, 200, 0),
+                                    pFrame->Sprite);
           break;
         case IMAGE_RENDER_STYLE_ALPHA_COLOR_ADJUST:
           pPalette = m_ImageStore.GetAdjustColorPalette(pTemp->nISPosition,
@@ -286,11 +289,14 @@ void KRepresentShell2::DrawPrimitives(int nPrimitiveCount,
                               pFrame->Sprite, pPalette);
           break;
         case IMAGE_RENDER_STYLE_BORDER:
-          //							m_Canvas.DrawSpriteBorder(nX,
-          // nY, pFrame->Width, pFrame->Height,
-          //								///g_RGB(pTemp->Color.Color_b.r,
-          // pTemp->Color.Color_b.g, pTemp->Color.Color_b.b),
-          // g_RGB(200, 200, 0), 								pFrame->Sprite);
+          break;
+        case IMAGE_RENDER_STYLE_BORDER_RECT:
+          m_Canvas.DrawSpriteBorder(nX, nY, pFrame->Width, pFrame->Height,
+                                    g_RGB(pTemp->Color.Color_b.r,
+                                          pTemp->Color.Color_b.g,
+                                          pTemp->Color.Color_b.b),
+                                    // g_RGB(200, 200, 0),
+                                    pFrame->Sprite);
           break;
         case IMAGE_RENDER_STYLE_ALPHA_COLOR_ADJUST:
           pPalette = m_ImageStore.GetAdjustColorPalette(pTemp->nISPosition,
@@ -327,7 +333,7 @@ void KRepresentShell2::DrawPrimitives(int nPrimitiveCount,
           nY -= pSprHeader->CenterY;
         }
         //						Check Current Draw
-        // Device??;
+        //Device??;
 
         // Clipper
         if ((pTemp->bRenderFlag & RUIMAGE_RENDER_FLAG_FRAME_DRAW) == 0) {

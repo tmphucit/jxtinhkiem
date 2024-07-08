@@ -26,7 +26,7 @@
 
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI_ITEM "ruong_chua_do.ini"
+#define SCHEME_INI "ËæÉíÎïÆ·.ini"
 
 KUiItem *KUiItem::m_pSelf = NULL;
 
@@ -123,7 +123,7 @@ void KUiItem::Breathe() {
 
   char vang_ktc[32] = "";
 
-  sprintf(vang_ktc, "%d vµng", m_nGold);
+  sprintf(vang_ktc, "%d Xu", m_nGold);
 
   m_Gold.SetText(vang_ktc);
 }
@@ -153,7 +153,7 @@ void KUiItem::UpdateData() {
 
   char vang_ktc[32] = "";
 
-  sprintf(vang_ktc, "%d vµng", m_nGold);
+  sprintf(vang_ktc, "%d Xu", m_nGold);
   m_Gold.SetText(vang_ktc);
 
   KUiObjAtRegion *pObjs = NULL;
@@ -207,7 +207,7 @@ void KUiItem::UpdateItem(KUiObjAtRegion *pItem, int bAdd) {
 void KUiItem::LoadScheme(const char *pScheme) {
   char Buff[128];
   KIniFile Ini;
-  sprintf(Buff, "%s\\%s", pScheme, SCHEME_INI_ITEM);
+  sprintf(Buff, "%s\\%s", pScheme, SCHEME_INI);
   if (m_pSelf && Ini.Load(Buff)) {
     m_pSelf->Init(&Ini, "Main");
     m_pSelf->m_Money.Init(&Ini, "Money");

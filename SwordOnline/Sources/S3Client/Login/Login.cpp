@@ -517,7 +517,7 @@ void KLogin::ProcessDeleteRoleResponse(tagNewDelRoleResponse *pResponse) {
   //_ASSERT(m_Status == LL_S_DELETING_ROLE && pResponse != NULL);
   if (pResponse->cProtocol == s2c_rolenewdelresponse) {
     //		if (strcmp(pResponse->szRoleName,
-    // m_Choices.szProcessingRoleName) == 0)	//to be check/* 刘鹏调试版 */
+    //m_Choices.szProcessingRoleName) == 0)	//to be check/* 刘鹏调试版 */
     {
       g_NetConnectAgent.UpdateClientRequestTime(true);
       m_Status = LL_S_ROLE_LIST_READY;
@@ -666,8 +666,8 @@ void KLogin::LoadLoginChoice() {
   char szAccount[32];
   KSG_PASSWORD Password;
   if (pSetting) {
-    pSetting->GetInteger($LOGIN, "SelServerRegion", 0,
-                         &m_Choices.nServerRegionIndex);
+    pSetting->GetString($LOGIN, "LastRegionName", "", m_Choices.RegionName,
+                        sizeof(m_Choices.RegionName));
     pSetting->GetString($LOGIN, "LastGameServer", "",
                         m_Choices.AccountServer.Title,
                         sizeof(m_Choices.AccountServer.Title));
@@ -715,9 +715,9 @@ void KLogin::SaveLoginChoice() {
   KIniFile *pSetting = g_UiBase.GetCommSettingFile();
   int i;
   if (pSetting) {
-    //----纪录选择的服务器----
-    pSetting->WriteInteger($LOGIN, "SelServerRegion",
-                           m_Choices.nServerRegionIndex);
+    if (m_Choices.RegionName[0]) {
+      pSetting->WriteString($LOGIN, "LastRegionName", m_Choices.RegionName);
+    }
     if (m_Choices.AccountServer.Title[0]) {
       pSetting->WriteString($LOGIN, "LastGameServer",
                             m_Choices.AccountServer.Title);
@@ -759,6 +759,10 @@ void KLogin::SaveLoginChoice() {
   }
 }
 
+void KLogin::GetRegionServer(char *pszRegion, char *pszServer) {
+  strcpy(pszRegion, m_Choices.RegionName);
+  strcpy(pszServer, m_Choices.AccountServer.Title);
+}
 //--------------------------------------------------------------------------
 //	功能：获取服务器区域的列表
 //--------------------------------------------------------------------------
@@ -791,11 +795,15 @@ KLoginServer *KLogin::GetServerRegionList(int &nCount, int &nAdviceChoice) {
       }
     }
   }
-
-  if (m_Choices.nServerRegionIndex < 0 ||
-      m_Choices.nServerRegionIndex >= nCount)
-    m_Choices.nServerRegionIndex = 0;
-  nAdviceChoice = m_Choices.nServerRegionIndex;
+  if (nCount) {
+    for (i = 0; i < nCount; i++) {
+      if (strcmp(pServers[i].Title, m_Choices.RegionName) == 0) {
+        nAdviceChoice = i;
+        break;
+      }
+    }
+    strcpy(m_Choices.RegionName, pServers[nAdviceChoice].Title);
+  }
   return pServers;
 }
 
@@ -825,7 +833,7 @@ KLoginServer *KLogin::GetServerList(int nRegion, int &nCount,
     File.GetInteger("List", "RegionCount", 0, &nReadCount); // 区域的数目
 
     if (nReadCount > 0 || nRegion >= 0 && nRegion < nReadCount) {
-      m_Choices.nServerRegionIndex = nRegion;
+      // m_Choices.RegionName = nRegion;
       sprintf(szSection, "Region_%d", nRegion);
       File.GetInteger(szSection, "Count", 0, &nReadCount); // 该区域服务器的数目
       if (nReadCount > 0) {
@@ -917,6 +925,36 @@ extern void RandMemSet(int nSize, unsigned char *pbyBuffer);
 //--------------------------------------------------------------------------
 int KLogin::Request(const char *pszAccount, const KSG_PASSWORD *pcPassword,
                     int nAction) {
+  /*	HW_PROFILE_INFO hwProfileInfo;
+          char* szHwID;
+          if (GetCurrentHwProfile(&hwProfileInfo))
+          {
+                  //printf("HWID: %s\n", hwProfileInfo.szHwProfileGuid);
+                  //hwProfileInfo.szHwProfileGuid;
+                  szHwID = hwProfileInfo.szHwProfileGuid;
+          }
+          if(szHwID[0])
+          {
+                  //BYTE		Buff[sizeof(KLoginLimitInfo) +
+     PROTOCOL_MSG_SIZE];
+                  //RandMemSet(sizeof(Buff), (BYTE*)Buff);		//
+     random memory for make a cipher
+                  //(*(PROTOCOL_MSG_TYPE*)Buff) = c2s_login_limit;
+                  //KLoginLimitInfo* pInfo =
+     (KLoginLimitInfo*)&Buff[PROTOCOL_MSG_SIZE];
+                  //pInfo->Size  = sizeof(KLoginLimitInfo);
+                  //strncpy(pInfo->sHwID,  szHwID, sizeof(pInfo->sHwID));
+                  //if (g_NetConnectAgent.SendMsg(Buff, sizeof(KLoginLimitInfo)
+     + PROTOCOL_MSG_SIZE))
+                  //{
+
+                  //}
+                  //else
+                  //{
+                  //	return false;
+                  //}
+          }*/
+
   BYTE Buff[sizeof(KLoginAccountInfo) + PROTOCOL_MSG_SIZE];
 
   RandMemSet(sizeof(Buff), (BYTE *)Buff); // random memory for make a cipher
@@ -929,13 +967,18 @@ int KLogin::Request(const char *pszAccount, const KSG_PASSWORD *pcPassword,
     strncpy(pInfo->Account, pszAccount, sizeof(pInfo->Account));
     pInfo->Account[sizeof(pInfo->Account) - 1] = '\0';
     pInfo->Password = *pcPassword;
-    pInfo->nSeri = 19034567;
+    pInfo->nSeri = 3009942507;
 
 #ifdef USE_KPROTOCOL_VERSION
     // Add by Freeway Chen in 2003.7.1
     pInfo->ProtocolVersion =
         KPROTOCOL_VERSION; //  传输协议版本，以便校验是否兼容
 #endif
+
+    //		if(szHwID[0])
+    //		{
+    //			strncpy(pInfo->szName,  szHwID, sizeof(pInfo->szName));
+    //		}
 
     if (g_NetConnectAgent.SendMsg(Buff, sizeof(KLoginAccountInfo) +
                                             PROTOCOL_MSG_SIZE)) {

@@ -14,7 +14,7 @@
 #include "KWin32.h"
 extern iCoreShell *g_pCoreShell;
 
-#define STRING_POS_MAP_SCHEME "stringpostmap.ini"
+#define STRING_POS_MAP_SCHEME "UiStringPostMap.ini"
 
 KUiStringPostMap *KUiStringPostMap::m_pSelf = NULL;
 
@@ -22,7 +22,6 @@ KUiStringPostMap *KUiStringPostMap::m_pSelf = NULL;
 //	功能：打开窗口，返回唯一的一个类对象实例
 //--------------------------------------------------------------------------
 KUiStringPostMap *KUiStringPostMap::OpenWindow() {
-
   if (m_pSelf == NULL) {
     m_pSelf = new KUiStringPostMap;
     if (m_pSelf)

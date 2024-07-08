@@ -301,7 +301,7 @@ protected:
   void _ClearTaskQueue();
 
   bool _VerifyAccount_ToPlayer(UINT nQueryResult, unsigned long nLeftTime);
-  bool _QueryRoleInfo_ToDBRole(const char *pRoleName);
+  bool _QueryRoleInfo_ToDBRole(const char *pRoleName, const char *pAccountName);
   bool _SyncRoleInfo_ToGameServer(const void *pData, size_t dataLength);
 
   bool _CreateNewPlayer_ToDBRole(const char *pRoleName,
@@ -311,6 +311,8 @@ protected:
   UINT _DeleteRole_ToDBRole(const void *pData, size_t dataLength);
 
   bool _UnlockAccount();
+  bool FreezeMoney(const char *pAccountName, int nExtPoint,
+                   int nChangeExtPoint);
 };
 
 #endif // __INCLUDE_GAMEPLAYER_H__

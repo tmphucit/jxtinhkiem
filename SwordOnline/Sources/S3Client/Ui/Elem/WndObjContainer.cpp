@@ -243,7 +243,8 @@ void KWndObjectBox::PaintWindow() {
           }
         }
 
-        if (g_pCoreShell->GetGameData(GDI_ITEMDATAINFO, m_Object.uId, 1) == 2) {
+        if (g_pCoreShell->GetGameData(GDI_ITEMDATAINFO, m_Object.uId, 5) >=
+            11) {
 
           int Time_Paint = timeGetTime() / 15;
           int Color_Exp = 0;
@@ -644,8 +645,8 @@ void KWndObjectMatrix::PaintWindow() {
           }
         }
 
-        else if (g_pCoreShell->GetGameData(GDI_ITEMDATAINFO, pObj->uId, 1) ==
-                 2) {
+        else if (g_pCoreShell->GetGameData(GDI_ITEMDATAINFO, pObj->uId, 5) >=
+                 11) {
 
           int Time_Paint = timeGetTime() / 15;
           int Color_Exp = 0;

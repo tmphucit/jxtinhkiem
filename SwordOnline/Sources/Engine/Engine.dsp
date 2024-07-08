@@ -20,7 +20,7 @@ CFG=Engine - Win32 OutRead Debug
 !MESSAGE "Engine - Win32 Release" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "Engine - Win32 Debug" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE "Engine - Win32 OutRead Debug" (based on "Win32 (x86) Dynamic-Link Library")
-!MESSAGE "Engine - Win32 OuRead Release" (based on "Win32 (x86) Dynamic-Link Library")
+!MESSAGE "Engine - Win32 OutRead Release" (based on "Win32 (x86) Dynamic-Link Library")
 !MESSAGE 
 
 # Begin Project
@@ -60,7 +60,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\lib\release	copy release\engine.lib ..\..\lib\release\engine.lib	md ..\..\..\bin\client\release\	copy release\engine.dll ..\..\..\bin\client\engine.dll	copy release\engine.dll ..\..\..\bin\client\release\engine.dll	copy release\engine.pdb ..\..\..\bin\client\release\engine.pdb	copy release\engine.map ..\..\..\bin\client\release\engine.map	md ..\..\..\bin\server\release\	copy release\engine.dll ..\..\..\bin\server\engine.dll	copy release\engine.dll ..\..\..\bin\server\release\engine.dll	copy release\engine.pdb ..\..\..\bin\server\release\engine.pdb	copy release\engine.map ..\..\..\bin\server\release\engine.map
+PostBuild_Cmds=md ..\..\lib\release\	copy release\engine.lib ..\..\lib\release\Engine.lib	md ..\..\..\bin\client\	copy release\engine.dll ..\..\..\bin\client\Engine.dll	copy release\engine.pdb ..\..\..\bin\client\Engine.pdb	md ..\..\..\bin\client\release\	copy release\engine.dll ..\..\..\bin\client\release\Engine.dll	copy release\engine.pdb ..\..\..\bin\client\release\Engine.pdb	md ..\..\..\bin\server\	copy release\engine.dll ..\..\..\bin\server\Engine.dll	copy release\engine.pdb ..\..\..\bin\server\Engine.pdb	md ..\..\..\bin\server\release\	copy release\engine.dll ..\..\..\bin\server\release\Engine.dll	copy release\engine.pdb ..\..\..\bin\server\release\Engine.pdb	md ..\..\..\bin\multiserver\	copy release\engine.dll ..\..\..\bin\multiserver\Engine.dll	copy release\engine.pdb ..\..\..\bin\multiserver\Engine.pdb	md ..\..\..\bin\multiserver\release\	copy release\engine.dll ..\..\..\bin\multiserver\release\Engine.dll	copy release\engine.pdb ..\..\..\bin\multiserver\release\Engine.pdb
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Engine - Win32 Debug"
@@ -91,7 +91,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\lib\debug	copy debug\engine.lib ..\..\lib\debug\engine.lib	md ..\..\..\bin\client\debug\	copy debug\engine.dll ..\..\..\bin\client\engine.dll	copy debug\engine.dll ..\..\..\bin\client\debug\engine.dll	md ..\..\..\bin\server\debug\	copy debug\engine.dll ..\..\..\bin\server\engine.dll	copy debug\engine.dll ..\..\..\bin\server\debug\engine.dll
+PostBuild_Cmds=md ..\..\lib\debug\	copy debug\engine.lib ..\..\lib\debug\Engine.lib	md ..\..\..\bin\client\	copy debug\engine.dll ..\..\..\bin\client\Engine.dll	copy debug\engine.pdb ..\..\..\bin\client\Engine.pdb	md ..\..\..\bin\client\debug\	copy debug\engine.dll ..\..\..\bin\client\debug\Engine.dll	copy debug\engine.pdb ..\..\..\bin\client\debug\Engine.pdb	md ..\..\..\bin\server\	copy debug\engine.dll ..\..\..\bin\server\Engine.dll	copy debug\engine.pdb ..\..\..\bin\server\Engine.pdb	md ..\..\..\bin\server\debug\	copy debug\engine.dll ..\..\..\bin\server\debug\Engine.dll	copy debug\engine.pdb ..\..\..\bin\server\debug\Engine.pdb	md ..\..\..\bin\multiserver\	copy debug\engine.dll ..\..\..\bin\multiserver\Engine.dll	copy debug\engine.pdb ..\..\..\bin\multiserver\Engine.pdb	md ..\..\..\bin\multiserver\debug\	copy debug\engine.dll ..\..\..\bin\multiserver\debug\Engine.dll	copy debug\engine.pdb ..\..\..\bin\multiserver\debug\Engine.pdb
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Debug"
@@ -124,21 +124,21 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\lib\debug	copy Engine___Win32_OutRead_Debug\Engine.lib ..\..\lib\debug\engine.lib	md ..\..\..\bin\client\debug\	copy Engine___Win32_OutRead_Debug\Engine.dll ..\..\..\bin\client\engine.dll	copy Engine___Win32_OutRead_Debug\Engine.dll ..\..\..\bin\client\debug\engine.dll	md ..\..\..\bin\server\debug\	copy Engine___Win32_OutRead_Debug\Engine.dll ..\..\..\bin\server\engine.dll	copy Engine___Win32_OutRead_Debug\Engine.dll ..\..\..\bin\server\debug\engine.dll
+PostBuild_Cmds=md ..\..\lib\debug	copy Engine___Win32_OutRead_Debug\Engine.lib ..\..\lib\debug\Engine.lib	md ..\..\..\bin\client\debug\	copy Engine___Win32_OutRead_Debug\Engine.dll ..\..\..\bin\client\Engine.dll	copy Engine___Win32_OutRead_Debug\Engine.dll ..\..\..\bin\client\debug\Engine.dll	md ..\..\..\bin\server\debug\	copy Engine___Win32_OutRead_Debug\Engine.dll ..\..\..\bin\server\Engine.dll	copy Engine___Win32_OutRead_Debug\Engine.dll ..\..\..\bin\server\debug\Engine.dll
 # End Special Build Tool
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # PROP BASE Use_MFC 0
 # PROP BASE Use_Debug_Libraries 0
-# PROP BASE Output_Dir "Engine___Win32_OuRead_Release"
-# PROP BASE Intermediate_Dir "Engine___Win32_OuRead_Release"
+# PROP BASE Output_Dir "Engine___Win32_OutRead_Release"
+# PROP BASE Intermediate_Dir "Engine___Win32_OutRead_Release"
 # PROP BASE Ignore_Export_Lib 0
 # PROP BASE Target_Dir ""
 # PROP Use_MFC 0
 # PROP Use_Debug_Libraries 0
-# PROP Output_Dir "Engine___Win32_OuRead_Release"
-# PROP Intermediate_Dir "Engine___Win32_OuRead_Release"
+# PROP Output_Dir "Engine___Win32_OutRead_Release"
+# PROP Intermediate_Dir "Engine___Win32_OutRead_Release"
 # PROP Ignore_Export_Lib 0
 # PROP Target_Dir ""
 # ADD BASE CPP /nologo /MD /W3 /GX /Zi /O2 /I "include" /I "..\Pack\ucl-1.01\include" /D "NDEBUG" /D "WIN32" /D "_WINDOWS" /D "_MBCS" /D "_USRDLL" /D "ENGINE_EXPORTS" /D WINVER=0x0500 /YX"KWin32.h" /FD /c
@@ -159,7 +159,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /pdb:none
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\lib\release	copy Engine___Win32_OuRead_Release\Engine.lib ..\..\lib\release\engine.lib	md ..\..\..\bin\client\release\	copy Engine___Win32_OuRead_Release\engine.dll ..\..\..\bin\client\engine.dll	copy Engine___Win32_OuRead_Release\engine.dll ..\..\..\bin\client\release\engine.dll	copy Engine___Win32_OuRead_Release\engine.pdb ..\..\..\bin\client\release\engine.pdb	copy Engine___Win32_OuRead_Release\engine.map ..\..\..\bin\client\release\engine.map	md ..\..\..\bin\server\release\	copy Engine___Win32_OuRead_Release\Engine.dll ..\..\..\bin\server\engine.dll	copy Engine___Win32_OuRead_Release\Engine.dll ..\..\..\bin\server\release\engine.dll	copy Engine___Win32_OuRead_Release\Engine.pdb ..\..\..\bin\server\release\engine.pdb	copy Engine___Win32_OuRead_Release\Engine.map ..\..\..\bin\server\release\engine.map
+PostBuild_Cmds=md ..\..\lib\release	copy Engine___Win32_OutRead_Release\Engine.lib ..\..\lib\release\Engine.lib	md ..\..\..\bin\client\release\	copy Engine___Win32_OutRead_Release\engine.dll ..\..\..\bin\client\Engine.dll	copy Engine___Win32_OutRead_Release\engine.dll ..\..\..\bin\client\release\Engine.dll	copy Engine___Win32_OutRead_Release\engine.pdb ..\..\..\bin\client\release\Engine.pdb	copy Engine___Win32_OutRead_Release\engine.map ..\..\..\bin\client\release\Engine.map	md ..\..\..\bin\server\release\	copy Engine___Win32_OutRead_Release\Engine.dll ..\..\..\bin\server\Engine.dll	copy Engine___Win32_OutRead_Release\Engine.dll ..\..\..\bin\server\release\Engine.dll	copy Engine___Win32_OutRead_Release\Engine.pdb ..\..\..\bin\server\release\Engine.pdb	copy Engine___Win32_OutRead_Release\Engine.map ..\..\..\bin\server\release\Engine.map
 # End Special Build Tool
 
 !ENDIF 
@@ -169,7 +169,7 @@ PostBuild_Cmds=md ..\..\lib\release	copy Engine___Win32_OuRead_Release\Engine.li
 # Name "Engine - Win32 Release"
 # Name "Engine - Win32 Debug"
 # Name "Engine - Win32 OutRead Debug"
-# Name "Engine - Win32 OuRead Release"
+# Name "Engine - Win32 OutRead Release"
 # Begin Group "source files"
 
 # PROP Default_Filter "cpp"
@@ -1141,7 +1141,7 @@ SOURCE=..\..\Lib\debug\JpgLib.lib
 
 !ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Debug"
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # PROP Exclude_From_Build 1
 
@@ -1160,7 +1160,7 @@ SOURCE=..\..\Lib\debug\LuaLibDll.lib
 
 !ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Debug"
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # PROP Exclude_From_Build 1
 
@@ -1179,7 +1179,7 @@ SOURCE=..\..\Lib\debug\mp3lib.lib
 
 !ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Debug"
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # PROP Exclude_From_Build 1
 
@@ -1204,7 +1204,7 @@ SOURCE=..\..\Lib\release\JpgLib.lib
 
 # PROP Exclude_From_Build 1
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 !ENDIF 
 
@@ -1223,7 +1223,7 @@ SOURCE=..\..\Lib\release\LuaLibDll.lib
 
 # PROP Exclude_From_Build 1
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 !ENDIF 
 
@@ -1242,7 +1242,7 @@ SOURCE=..\..\Lib\release\mp3lib.lib
 
 # PROP Exclude_From_Build 1
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 !ENDIF 
 
@@ -1261,7 +1261,7 @@ SOURCE=.\Include\LuaLib.h
 SOURCE=..\..\Lib\mp3lib.h
 # End Source File
 # End Group
-# Begin Group "译码与解码"
+# Begin Group "Cryptography"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1273,7 +1273,7 @@ SOURCE=.\Src\Cryptography\EDOneTimePad.cpp
 SOURCE=.\Src\Cryptography\EDOneTimePad.h
 # End Source File
 # End Group
-# Begin Group "文字处理"
+# Begin Group "Text"
 
 # PROP Default_Filter ""
 # Begin Source File
@@ -1305,7 +1305,7 @@ SOURCE=.\Src\ucl\alloc.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1342,7 +1342,7 @@ SOURCE=.\Src\ucl\io.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1367,7 +1367,7 @@ SOURCE=.\Src\ucl\n2b_99.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1392,7 +1392,7 @@ SOURCE=.\Src\ucl\n2b_d.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1417,7 +1417,7 @@ SOURCE=.\Src\ucl\n2b_ds.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1442,7 +1442,7 @@ SOURCE=.\Src\ucl\n2b_to.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1467,7 +1467,7 @@ SOURCE=.\Src\ucl\n2d_99.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1492,7 +1492,7 @@ SOURCE=.\Src\ucl\n2d_d.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1517,7 +1517,7 @@ SOURCE=.\Src\ucl\n2d_ds.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1542,7 +1542,7 @@ SOURCE=.\Src\ucl\n2d_to.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1567,7 +1567,7 @@ SOURCE=.\Src\ucl\n2e_99.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1592,7 +1592,7 @@ SOURCE=.\Src\ucl\n2e_d.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1617,7 +1617,7 @@ SOURCE=.\Src\ucl\n2e_ds.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1642,7 +1642,7 @@ SOURCE=.\Src\ucl\n2e_to.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1675,7 +1675,7 @@ SOURCE=.\Src\ucl\ucl_crc.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1700,7 +1700,7 @@ SOURCE=.\Src\ucl\ucl_dll.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1725,7 +1725,7 @@ SOURCE=.\Src\ucl\ucl_init.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1750,7 +1750,7 @@ SOURCE=.\Src\ucl\ucl_ptr.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1779,7 +1779,7 @@ SOURCE=.\Src\ucl\ucl_str.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX
@@ -1804,7 +1804,7 @@ SOURCE=.\Src\ucl\ucl_util.c
 # SUBTRACT BASE CPP /YX /Yc /Yu
 # SUBTRACT CPP /YX /Yc /Yu
 
-!ELSEIF  "$(CFG)" == "Engine - Win32 OuRead Release"
+!ELSEIF  "$(CFG)" == "Engine - Win32 OutRead Release"
 
 # SUBTRACT BASE CPP /YX
 # SUBTRACT CPP /YX

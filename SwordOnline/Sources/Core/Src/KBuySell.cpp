@@ -180,6 +180,95 @@ int KBuySell::GetItemIndex(int nShop, int nIndex) {
 }
 
 #ifdef _SERVER
+BOOL KBuySell::AutoSell(int nPlayerIdx, int nBuy, int nIdx, int nBuyNumber) {
+  KASSERT(nPlayerIdx >= 0 && nPlayerIdx < MAX_PLAYER);
+  KASSERT(nIdx >= 0 && nIdx < MAX_ITEM);
+
+  if (Npc[Player[nPlayerIdx].m_nIndex].m_FightMode) {
+    SHOW_MSG_SYNC sMsg;
+    sMsg.ProtocolType = s2c_msgshow;
+    sMsg.m_wMsgID = enumMSG_ID_FIGHT_MODE_ERROR1;
+    sMsg.m_wLength = sizeof(SHOW_MSG_SYNC) - 1 - sizeof(LPVOID);
+    if (g_pServer && Player[nPlayerIdx].m_nNetConnectIdx != -1)
+      g_pServer->PackDataToClient(Player[nPlayerIdx].m_nNetConnectIdx, &sMsg,
+                                  sMsg.m_wLength + 1);
+    return FALSE;
+  }
+
+  if (Item[nIdx].GetGenre() == item_task)
+    return FALSE;
+
+  if ((Item[nIdx].GetGenre() == item_equip ||
+       Item[nIdx].GetGenre() == item_medicine) &&
+      Item[nIdx].m_GeneratorParam.nVersion > 1)
+    return FALSE;
+
+  if (Item[nIdx].GetGenre() == item_equip && Item[nIdx].GetDurability() == 0)
+    return FALSE;
+
+  if (Npc[Player[nPlayerIdx].m_nIndex].m_FightMode)
+    return FALSE;
+
+  if (nBuy != Player[nPlayerIdx].m_BuyInfo.m_nBuyIdx) {
+    g_DebugLog("BuySell: %s buy idx error!",
+               Npc[Player[nPlayerIdx].m_nIndex].Name);
+    return FALSE;
+  }
+  int nMoney = Item[nIdx].GetPrice(); //* Item[nIdx].GetStackNum();
+  nMoney /= BUY_SELL_SCALE;
+  if (nMoney <= 0)
+    nMoney = 0;
+  if (nMoney)
+    Player[nPlayerIdx].Earn(nMoney);
+  Player[nPlayerIdx].m_ItemList.Remove(nIdx);
+  ItemSet.Remove(nIdx);
+
+  return TRUE;
+}
+
+BOOL KBuySell::AutoBuyItem(int nPlayerIdx, BYTE nItemGenre, BYTE nDetailType,
+                           BYTE nLevel, BYTE nBuyNumber) {
+  BOOL bShowMsg = TRUE;
+  SHOW_MSG_SYNC sMsg;
+  sMsg.ProtocolType = s2c_msgshow;
+  for (int i = 0; i < nBuyNumber; i++) {
+    int nIndex = ItemSet.Add(nItemGenre, 0, nLevel, 0, nDetailType, 0, 0,
+                             g_SubWorldSet.GetGameVersion());
+    if (nIndex <= 0)
+      return FALSE;
+
+    sMsg.m_wLength = sizeof(SHOW_MSG_SYNC) - 1 - sizeof(LPVOID);
+    if (Player[nPlayerIdx].m_ItemList.GetEquipmentMoney() <
+        Item[nIndex].GetPrice()) {
+      // bShowMsg = FALSE;
+      // sMsg.m_wMsgID = enumMSG_ID_SHOP_NO_MONEY;
+      break;
+    }
+
+    int nWidth = Item[nIndex].GetWidth();
+    int nHeight = Item[nIndex].GetHeight();
+
+    ItemPos Pos;
+    if (Player[nPlayerIdx].m_ItemList.SearchPosition(nWidth, nHeight, &Pos)) {
+      if (Pos.nPlace == pos_hand) {
+        break;
+      }
+      if (Player[nPlayerIdx].m_ItemList.Add(nIndex, Pos.nPlace, Pos.nX,
+                                            Pos.nY)) {
+        int nPrice = Item[nIndex].GetPrice();
+        Player[nPlayerIdx].Pay(nPrice);
+      }
+    } else {
+      break;
+    }
+  }
+  if (!bShowMsg)
+    g_pServer->PackDataToClient(Player[nPlayerIdx].m_nNetConnectIdx, &sMsg,
+                                sMsg.m_wLength + 1);
+
+  return bShowMsg;
+}
+
 BOOL KBuySell::Buy(int nPlayerIdx, int nBuy, int nBuyIdx, int nPlace, int nX,
                    int nY) {
   KASSERT(nPlayerIdx >= 0 && nPlayerIdx < MAX_PLAYER);
@@ -533,6 +622,9 @@ BOOL KBuySell::Sell(int nPlayerIdx, int nBuy, int nIdx) {
   if ((Item[nIdx].GetGenre() == item_equip ||
        Item[nIdx].GetGenre() == item_medicine) &&
       Item[nIdx].m_GeneratorParam.nVersion > 1)
+    return FALSE;
+
+  if (Item[nIdx].GetGenre() == item_equip && Item[nIdx].GetDurability() == 0)
     return FALSE;
 
   if (Npc[Player[nPlayerIdx].m_nIndex].m_FightMode)

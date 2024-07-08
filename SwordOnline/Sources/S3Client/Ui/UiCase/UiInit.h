@@ -40,18 +40,15 @@ private:
 
 private:
   char m_szLoginBg[32];
-  KWndButton m_EnterGame;    // 进入游戏
-  KWndButton m_GameConfig;   // 游戏设置
-  KWndButton m_DesignerList; // 制作人员名单
-                             //	KWndButton m_AutoLogin;
-                             ////自动登陆
-  KWndButton m_ExitGame;     // 退出游戏
-
-  KWndImage m_EnterGameBorder;    // 进入游戏
-  KWndImage m_GameConfigBorder;   // 游戏设置
-  KWndImage m_DesignerListBorder; // 制作人员名单
-  KWndImage m_KingSoft;           // 自动登陆
-  KWndImage m_ExitGameBorder;     // 退出游戏
+  KWndButton m_EnterGame;  // 进入游戏
+  KWndButton m_GameConfig; // 游戏设置
+  KWndButton m_OpenRep;    // 制作人员名单
+  KWndButton m_ExitGame;   // 退出游戏
+  KWndButton m_EnterGameBorder;
+  KWndButton m_GameConfigBorder;
+  KWndButton m_OpenRepBorder;
+  KWndButton m_ExitGameBorder;
+  KWndButton m_Copyright;
 
   int m_nCurrentMovieIndex; // 当前播放的动画的编号
 };

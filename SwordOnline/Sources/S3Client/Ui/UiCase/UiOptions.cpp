@@ -19,16 +19,15 @@
 #include "UiInit.h"
 extern iCoreShell *g_pCoreShell;
 
-#define SCHEME_INI_OPTION "选项.ini"
+#define SCHEME_INI_OPTION "UiOption.ini"
 #define OPTIONS_SAVE_SECTION "Options"
 
 #define DEFAULT_SETTING_SET "\\Ui\\autoexec.lua"
 #define LEGEND_SETTING_SET "\\Ui\\船鳍配置.lua"
 
 const char *ls_ToggleOptionName[OPTION_INDEX_COUNT] = {
-    "DynamicLight",
-    "Weather",
-    "Perspective",
+    "DynamicLight", "Weather",   "Perspective",
+    "HidePlayer",   "HideSkill", "HideNpc",
 };
 
 KUiOptions *KUiOptions::m_pSelf = NULL;
@@ -40,10 +39,10 @@ KUiOptions::KUiOptions() {
   m_pReturn = NULL;
   m_nToggleItemCount = 0;
   m_pSkinMenu = NULL;
-  m_nBrightness = 50;
-  m_nSoundValue = 100;
-  m_nMusicValue = 100;
-  m_nShortcutSet = 0;
+  m_nBrightness = -1;
+  m_nSoundValue = -1;
+  m_nMusicValue = -1;
+  m_nShortcutSet = -1;
   m_nFirstControlableIndex = 0;
   m_nToggleBtnValidCount = 0;
   m_nToggleItemCount = 0;
@@ -54,6 +53,9 @@ KUiOptions::KUiOptions() {
   m_ToggleItemList[OPTION_I_DYNALIGHT].bInvalid = !g_bRepresent3;
   m_ToggleItemList[OPTION_I_WEATHER].bInvalid = false;
   m_ToggleItemList[OPTION_I_PERSPECTIVE].bInvalid = !g_bRepresent3;
+  m_ToggleItemList[OPTION_H_PLAYER].bInvalid = false;
+  m_ToggleItemList[OPTION_H_SKILL].bInvalid = false;
+  m_ToggleItemList[OPTION_H_NPC].bInvalid = false;
 }
 
 void KUiOptions::CancelMenu() {
@@ -114,8 +116,14 @@ void KUiOptions::Initialize() {
   AddChild(&m_CloseBtn);
   // AddChild(&m_SkinBtn);
   AddChild(&m_BrightnessScroll);
+  AddChild(&m_BrightnessText);
+  AddChild(&m_BrightnessEx);
   AddChild(&m_BGMValue);
+  AddChild(&m_BGMValueText);
+  AddChild(&m_BGMValueEx);
   AddChild(&m_SoundValue);
+  AddChild(&m_SoundValueText);
+  AddChild(&m_SoundValueEx);
   AddChild(&m_ShortcutSetView);
   AddChild(&m_Scroll);
   for (int i = 0; i < MAX_TOGGLE_BTN_COUNT; i++) {
@@ -153,8 +161,14 @@ void KUiOptions::LoadScheme(KIniFile *pIni) {
   //	m_SkinBtn.Init(pIni, "SkinBtn");
 
   m_BrightnessScroll.Init(pIni, "Brightness");
+  m_BrightnessText.Init(pIni, "BrightnessText");
+  m_BrightnessEx.Init(pIni, "BrightnessEx");
   m_BGMValue.Init(pIni, "Music");
+  m_BGMValueText.Init(pIni, "MusicText");
+  m_BGMValueEx.Init(pIni, "MusicEx");
   m_SoundValue.Init(pIni, "Sound");
+  m_SoundValueText.Init(pIni, "SoundText");
+  m_SoundValueEx.Init(pIni, "SoundEx");
   m_ShortcutSetView.Init(pIni, "ShortcutSet");
   m_Scroll.Init(pIni, "Scroll");
 
@@ -433,7 +447,8 @@ void KUiOptions::LoadSetting(bool bReload, bool bUpdateOption) {
   int nSettingSet = 0;
   int i;
 
-  int bOptionsEnable[OPTION_INDEX_COUNT] = {true, true, true};
+  int bOptionsEnable[OPTION_INDEX_COUNT] = {true,  true,  true,
+                                            false, false, false};
 
   if (bReload == false && m_pSelf) {
     nBrightness = m_pSelf->m_nBrightness;
@@ -481,6 +496,12 @@ void KUiOptions::LoadSetting(bool bReload, bool bUpdateOption) {
                                    nSoundValue);
     g_pCoreShell->OperationRequest(GOI_OPTION_SETTING, OPTION_WEATHER,
                                    bOptionsEnable[OPTION_I_WEATHER]);
+    g_pCoreShell->OperationRequest(GOI_OPTION_SETTING, OPTION_HIDE_PLAYER,
+                                   bOptionsEnable[OPTION_H_PLAYER]);
+    g_pCoreShell->OperationRequest(GOI_OPTION_SETTING, OPTION_HIDE_SKILL,
+                                   bOptionsEnable[OPTION_H_SKILL]);
+    g_pCoreShell->OperationRequest(GOI_OPTION_SETTING, OPTION_HIDE_NPC,
+                                   bOptionsEnable[OPTION_H_NPC]);
   }
 
   if (m_pSelf) {
@@ -542,6 +563,21 @@ void KUiOptions::ToggleOption(int nIndex) {
   case OPTION_I_PERSPECTIVE: // 透视模式
     if (g_pCoreShell)
       g_pCoreShell->OperationRequest(GOI_OPTION_SETTING, OPTION_PERSPECTIVE,
+                                     bEnable);
+    break;
+  case OPTION_H_PLAYER: // 透视模式
+    if (g_pCoreShell)
+      g_pCoreShell->OperationRequest(GOI_OPTION_SETTING, OPTION_HIDE_PLAYER,
+                                     bEnable);
+    break;
+  case OPTION_H_SKILL: // 透视模式
+    if (g_pCoreShell)
+      g_pCoreShell->OperationRequest(GOI_OPTION_SETTING, OPTION_HIDE_SKILL,
+                                     bEnable);
+    break;
+  case OPTION_H_NPC: // 透视模式
+    if (g_pCoreShell)
+      g_pCoreShell->OperationRequest(GOI_OPTION_SETTING, OPTION_HIDE_NPC,
                                      bEnable);
     break;
   }

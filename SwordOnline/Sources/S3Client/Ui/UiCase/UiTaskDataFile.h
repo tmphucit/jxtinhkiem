@@ -63,6 +63,7 @@ struct TASK_FILE_HEADER {
   char cFlag[sizeof(int)];
   int nPersonalRecordBytes;
   int nSystemRecordCount;
+  int nBindRecordCount;
   int nReserved;
 };
 
@@ -76,7 +77,17 @@ struct TASK_SYSTEM_RECORD {
   };
 };
 
-// Classsssssssssssssssssssss
+struct TASK_BIND_RECORD {
+  time_t tTime;
+  unsigned int uReserved;
+  int nContentLen;
+  union {
+    char cBuffer[4];
+    const char *pBuffer;
+  };
+};
+
+// Class
 class KTaskDataFile {
 public:
   static void LoadData();
@@ -93,24 +104,42 @@ public:
   static bool RemoveSystemRecord(int nIndex);
   static const TASK_SYSTEM_RECORD *GetSystemRecord(int nIndex);
 
+  static void ClearBindRecords();
+  static int GetBindRecordCount();
+  static bool InsertBindRecord(TASK_BIND_RECORD *pRecord);
+  static bool RemoveBindRecord(int nIndex);
+  static const TASK_BIND_RECORD *GetBindRecord(int nIndex);
+
 private:
   struct KPersonalRecord {
     int nLen;
     char cBuffer[4];
   };
+
   struct KTaskSystemRecordNode {
     KTaskSystemRecordNode *pNext;
     TASK_SYSTEM_RECORD Record;
   };
 
+  struct KTaskBindRecordNode {
+    KTaskBindRecordNode *pNext;
+    TASK_BIND_RECORD Record;
+  };
+
 private:
   static void GetFileName(char *pszFileName, int nLen);
+
   static void AppendSystemRecord(KTaskSystemRecordNode *pNode);
   static void InsertSystemRecord(KTaskSystemRecordNode *pNode);
+
+  static void AppendBindRecord(KTaskBindRecordNode *pNode);
+  static void InsertBindRecord(KTaskBindRecordNode *pNode);
 
 private:
   static KPersonalRecord *ms_pPersonalRecord;
   static KTaskSystemRecordNode *ms_pSystemRecordList;
   static int ms_nSystemRecordCount;
+  static KTaskBindRecordNode *ms_pBindRecordList;
+  static int ms_nBindRecordCount;
 };
 #endif

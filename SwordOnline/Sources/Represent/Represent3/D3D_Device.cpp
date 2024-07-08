@@ -1,6 +1,6 @@
 // D3D_Device.h
 //	Contains the active D3D Device. CD3D_Shell & CD3D_Device are the main
-// containers of D3D shtuff...
+//containers of D3D shtuff...
 
 #include "precompile.h"
 
@@ -49,11 +49,11 @@ bool CD3D_Device::CreateDevice(D3DAdapterInfo *pAdapter, D3DDeviceInfo *pDevice,
   //	{
   //		g_bNonPow2Conditional = true;
   //		g_DebugLog("[D3DRender]D3DPTEXTURECAPS_NONPOW2CONDITIONAL is
-  // supported.");
+  //supported.");
   //	}
   //	else
   //		g_DebugLog("[D3DRender]D3DPTEXTURECAPS_NONPOW2CONDITIONAL is not
-  // supported");
+  //supported");
 
   // 设置缺省的渲染状态
   SetDefaultRenderStates();
@@ -154,7 +154,7 @@ void CD3D_Device::SetPresentationParams(
   PresentationParam.Windowed = g_bRunWindowed;
   PresentationParam.EnableAutoDepthStencil = false;
   //	PresentationParam.AutoDepthStencilFormat			=
-  // GetDefaultDepthStencilFormat(g_CV_ZBitDepth,g_CV_StencilBitDepth);
+  //GetDefaultDepthStencilFormat(g_CV_ZBitDepth,g_CV_StencilBitDepth);
   // 要支持全屏模式下的系统输入法，这里必须是D3DPRESENTFLAG_LOCKABLE_BACKBUFFER，在某些显卡上可能有性能损失
   PresentationParam.Flags =
       D3DPRESENTFLAG_LOCKABLE_BACKBUFFER; // puffs, but need it for the console
@@ -257,7 +257,7 @@ void CD3D_Device::SetDefaultRenderStates() {
 
   // HW Transform & Light...
   //	if (!(g_Device.GetDeviceCaps()->DevCaps &
-  // D3DDEVCAPS_HWTRANSFORMANDLIGHT))
+  //D3DDEVCAPS_HWTRANSFORMANDLIGHT))
   //		PD3DDEVICE->SetRenderState(D3DRS_SOFTWAREVERTEXPROCESSING,true);
 
   // Setup Material (for D3D lighting)...

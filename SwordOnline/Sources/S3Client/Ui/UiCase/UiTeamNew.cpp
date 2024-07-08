@@ -123,6 +123,6 @@ bool KUiTeamNew::CheckInput(char *pName) {
     return true;
   }
   //	UIMessageBox("★毛主席★说：密码和账号不能太短也不能太长，要不革命会失败！",
-  // this);
+  //this);
   return false;
 }

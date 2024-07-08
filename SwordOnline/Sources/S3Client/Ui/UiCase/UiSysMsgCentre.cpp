@@ -11,6 +11,7 @@
 #include "../../../core/src/coreshell.h"
 #include "../Elem/WndMessage.h"
 #include "../Elem/Wnds.h"
+#include "../ShortcutKey.h"
 #include "../UiBase.h"
 #include "../UiShell.h"
 #include "KIniFile.h"
@@ -32,7 +33,7 @@ extern iCoreShell *g_pCoreShell;
 extern iRepresentShell *g_pRepresentShell;
 
 #define SCHEME_INI "ÏµÍ³ÏûÏ¢.ini"
-#define SYSTEM_MSG_SENDER_NAME "¹«¸æ"
+#define SYSTEM_MSG_SENDER_NAME "HÖ thèng"
 #define MSG_LIST_EXPAND_STEP 4
 #define POPUP_MOVE_INTERVAL_DEF 20
 #define MSG_DISAPPEAR_INTERVAL_DEF 30000
@@ -40,8 +41,7 @@ extern iRepresentShell *g_pRepresentShell;
 #define LAST_MOVEMENT_POS -1
 #define MAX_MSG_IN_RECYCLE_HEAP 10
 
-#define MSG_RENASCENCE "B¹n ®· bÞ träng th­¬ng !"
-#define MSG_BACK_TO_TOWN "Trë l¹i ®Þa ®iÓm cò "
+#define MSG_BACK_TO_TOWN "VÒ thµnh d­ìng søc"
 
 #define POP_UP_TIME uReservedForUi
 
@@ -146,7 +146,7 @@ void KUiSysMsgCentre::LoadScheme(KIniFile *pIni) {
   for (int i = 0; i < MAX_SYS_MSG_TYPE; i++) {
     sprintf(szBuf, "MsgIcon_%d", i + 1);
     m_MsgIconBtn[i].Init(pIni, szBuf);
-    m_MsgIconBtn[i].SetImage(ISI_T_SPR, "");
+    m_MsgIconBtn[i].RemoveImage();
     //		m_MsgIconBtn[i].m_Image.szImage[0] = 0;
     //		m_MsgIconBtn[i].m_Image.uImage = 0;
     m_MsgIcon[i].Color.Color_b.a = 255;
@@ -187,6 +187,14 @@ int KUiSysMsgCentre::WndProc(unsigned int uMsg, unsigned int uParam,
     for (i = 0; i < MAX_SYS_MSG_TYPE; i++) {
       if (uParam == (unsigned int)(KWndWindow *)&m_MsgIconBtn[i]) {
         DeleteMsgInHeap(i, 0, (uMsg == WND_N_BUTTON_MR_DOWN), true);
+        break;
+      }
+    }
+    break;
+  case WND_N_BUTTON_LCLICK:
+    for (i = 0; i < MAX_SYS_MSG_TYPE; i++) {
+      if (uParam == (unsigned int)(KWndWindow *)&m_MsgIconBtn[i]) {
+        DeleteMsgInHeap(i, 0, (uMsg == WND_N_BUTTON_MR_DOWN), false);
         break;
       }
     }
@@ -346,7 +354,7 @@ bool KUiSysMsgCentre::AMessageArrival(KSystemMessage *pMsg, void *pParam) {
     g_pCoreShell->OperationRequest(
         GOI_PLAYER_RENASCENCE, 0,
         1); // nSelAction=0£ºÔ­µØÖØÉú, nSelAction=1£º»Ø³Ç
-    //		UIMessageBox(MSG_RENASCENCE, m_pSelf, MSG_BACK_TO_TOWN, NULL,
+    // UIMessageBox(MSG_RENASCENCE, m_pSelf, MSG_BACK_TO_TOWN, NULL,
     // SMCT_UI_RENASCENCE);
     return true;
   }
@@ -488,6 +496,7 @@ void KUiSysMsgCentre::ConfirmMsg(KSystemMessage *pMsg, bool bImmedDel) {
   char szBuf[128] = "";
   const char *pFirstBtnText = NULL, *pSecBtnText = NULL;
   unsigned char byConfirmType = pMsg->byConfirmType;
+  unsigned char eType = pMsg->eType - 1;
 
   switch (byConfirmType) {
   case SMCT_MSG_BOX:
@@ -614,7 +623,7 @@ void KUiSysMsgCentre::DeleteMsgInHeap(int nHeapIndex, int nMsgIndex,
       }
       *pHeap = temp;
       SetPopupMsgDest();
-      m_MsgTextWnd.SetText("");
+      m_MsgTextWnd.Clear();
       m_bShowMsgText = false;
     }
   }

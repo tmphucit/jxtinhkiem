@@ -1,10 +1,10 @@
 /* this ALWAYS GENERATED file contains the definitions for the interfaces */
 
 /* File created by MIDL compiler version 5.01.0164 */
-/* at Mon Apr 13 18:09:42 2020
+/* at Sat Mar 02 21:36:23 2024
  */
 /* Compiler settings for
-   D:\MySon\Project\Jx1Source\swrod3\SwordOnline_TuyetTinhKiem\Sources\KLVIDEO\KLVideo\KLVideo.idl:
+   D:\SOURCE_TINHDUYEN\SwordOnline\SwordOnline\Sources\KLVIDEO\KLVideo\KLVideo.idl:
     Oicf (OptLev=i2), W1, Zp8, env=Win32, ms_ext, c_ext
     error checks: allocation ref bounds_check enum stub_data
 */

@@ -318,8 +318,8 @@ int KNetServer::SendMessage(int nClientIndex) {
 
   if (pTemp->dwSize > 32)
     //		g_DebugLog("[net]Compress Percent:%d.%d, size:%d",
-    // pTemp->dwCompSize * 100 / pTemp->dwSize, (pTemp->dwCompSize * 10000 /
-    // pTemp->dwSize) % 100, pTemp->dwSize);
+    //pTemp->dwCompSize * 100 / pTemp->dwSize, (pTemp->dwCompSize * 10000 /
+    //pTemp->dwSize) % 100, pTemp->dwSize);
     dwRealSize = pTemp->dwCompSize + sizeof(SEND_DATA) - SEND_BUFFER_SIZE;
   len = send(socket, (char *)pTemp, dwRealSize, 0);
 
@@ -438,8 +438,8 @@ int KNetServer::SendDest(int nClientIndex) {
 
   if (pTemp->dwSize > 32)
     //		g_DebugLog("[net]Compress Percent:%d.%d, size:%d",
-    // pTemp->dwCompSize * 100 / pTemp->dwSize, (pTemp->dwCompSize * 10000 /
-    // pTemp->dwSize) % 100, pTemp->dwSize);
+    //pTemp->dwCompSize * 100 / pTemp->dwSize, (pTemp->dwCompSize * 10000 /
+    //pTemp->dwSize) % 100, pTemp->dwSize);
 
     dwRealSize = pTemp->dwCompSize + sizeof(SEND_DATA) - SEND_BUFFER_SIZE;
   len = send(socket, (char *)pTemp, dwRealSize, 0);

@@ -1,8 +1,3 @@
-/********************************************************************
-File        : UiPlayerControlBar.cpp
-Author		: Hoang.JX1Team
-*********************************************************************/
-
 #include "UiPlayerControlBar.h"
 #include "../../../Engine/src/KDebug.h"
 #include "../../../Engine/src/Text.h"
@@ -21,11 +16,10 @@ Author		: Hoang.JX1Team
 #include "GameDataDef.h"
 #include "KIniFile.h"
 #include "KWin32.h"
-// #include "UiAutoPlay.h"
 #include "UiTongManager.h"
 #include <crtdbg.h>
 
-#define SCHEME_INI "Íæ¼Ò°ïÖúÆÁÄ».ini"
+#define SCHEME_INI "UiPlayerControlBar.ini"
 
 KUiPlayerControlBar *KUiPlayerControlBar::m_pSelf = NULL;
 
@@ -84,8 +78,6 @@ void KUiPlayerControlBar::Initialize() {
     AddChild(&m_txtBuffTime[i]);
   }
 
-  for (i = 0; i < MAX_ITEMBUTTON; i++)
-    AddChild(&m_ItemBtn[i]);
   char Scheme[256];
   g_UiBase.GetCurSchemePath(Scheme, 256);
   LoadScheme(Scheme);
@@ -112,8 +104,6 @@ void KUiPlayerControlBar::LoadScheme(const char *pScheme) {
       }
       m_pSelf->Ini.GetInteger("BuffList", "BuffCount", 0,
                               &m_pSelf->m_BuffListCount);
-      for (i = 0; i < MAX_ITEMBUTTON; i++)
-        m_pSelf->m_ItemBtn[i].SetPosition(HIDE_POS);
     }
   }
 }
@@ -228,10 +218,9 @@ void KUiPlayerControlBar::Add(int nSkillPos, KStateControl *pStateSkill) {
 
   if (pStateSkill->nLeftTime <= GAME_FPS) {
     strcpy(szTemp, "N/A");
-    strcat(pszDesc, "Duy tr?vÜnh viÔn ");
+    strcat(pszDesc, "Duy tr× vÜnh viÔn");
   } else {
-    sprintf(szTemp, "Duy tr?%02dh:%02dm:%02ds",
-            pStateSkill->nLeftTime / 18 / 60 / 60,
+    sprintf(szTemp, "%02dh:%02dm:%02ds", pStateSkill->nLeftTime / 18 / 60 / 60,
             pStateSkill->nLeftTime / 18 / 60 % 60,
             pStateSkill->nLeftTime / 18 % 60);
     strcat(pszDesc, szTemp);
@@ -256,88 +245,3 @@ void KUiPlayerControlBar::Release() {
   }
   m_nListCount = 0;
 }
-
-/*void KUiPlayerControlBar::SetItemBtnInfo(int nBtnNo, const char* pItem)
-{
-        if (!pItem || !pItem[0])
-                return;
-
-        if(m_pSelf && g_pCoreShell && nBtnNo >=0 && nBtnNo < MAX_ITEMBUTTON)
-        {
-                m_pSelf->m_ItemBtn[nBtnNo].SetItem(pItem);
-                char m_pItem[MAX_SENTENCE_LENGTH];
-                memset(m_pItem, 0, sizeof(m_pItem));
-                memcpy(m_pItem, pItem, sizeof(m_pItem));
-                int nIdx = g_pCoreShell->GetGameData(GDI_ITEM_CHAT, true,
-(int)&m_pItem); if (nIdx)
-                {
-                        switch (g_pCoreShell->GetGameData(GDI_ITEM_QUALITY,
-nIdx, 0))
-                        {
-                                case equip_magic:
-                                        m_pSelf->m_ItemBtn[nBtnNo].SetColor(0xff6464ff,0xff00ffff,0xffff659c);
-                                        break;
-                                case equip_damage:
-                                        m_pSelf->m_ItemBtn[nBtnNo].SetColor(0xffff0042,0xff00ffff,0xffff659c);
-                                        break;
-                                case equip_violet:
-                                        m_pSelf->m_ItemBtn[nBtnNo].SetColor(0xffcc33ff,0xff00ffff,0xffff659c);
-                                        break;
-                                case equip_gold:
-                                case equip_platina:
-                                        m_pSelf->m_ItemBtn[nBtnNo].SetColor(0xffffd94e,0xff00ffff,0xffff659c);
-                                        break;
-                                default:
-                                        m_pSelf->m_ItemBtn[nBtnNo].SetColor(0xffffffff,0xff00ffff,0xffff659c);
-                                        break;
-                        }
-                        char szName[64];
-                        char szName2[64];
-                        g_pCoreShell->GetGameData(GDI_ITEM_NAME, (unsigned
-int)&szName, nIdx); int nLen = strlen(szName); szName2[0] = '<';
-                        strncpy(szName2+1,szName,nLen);
-                        strncpy(szName2+1+nLen,">",1);
-                        nLen += 2;
-                        szName2[nLen] = '\0';
-                        m_pSelf->m_ItemBtn[nBtnNo].SetSize(nLen*6,14);
-                        m_pSelf->m_ItemBtn[nBtnNo].SetText(szName2,nLen);
-                        m_pSelf->m_ItemBtn[nBtnNo].m_bHaveItem = true;
-                        g_pCoreShell->GetGameData(GDI_ITEM_CHAT, false, nIdx);
-                }
-        }
-}
-
-void KUiPlayerControlBar::ClearItemBtn()
-{
-        if(m_pSelf)
-        {
-                for (int j =0; j < MAX_ITEMBUTTON; j++)
-                {
-                        if(m_pSelf->m_ItemBtn[j].m_X == -300 &&
-m_pSelf->m_ItemBtn[j].m_Y == 100) continue;
-                        m_pSelf->m_ItemBtn[j].SetPosition(HIDE_POS);
-                        m_pSelf->m_ItemBtn[j].Hide();
-                }
-        }
-}
-
-void KUiPlayerControlBar::SetItemBtnPos(int nBtnNo, int X, int Y)
-{
-        if(nBtnNo >=0 && nBtnNo < MAX_ITEMBUTTON)
-        {
-                if(m_pSelf)
-                {
-                        if(m_pSelf->m_ItemBtn[nBtnNo].m_bHaveItem == false)
-return; if(m_pSelf->m_ItemBtn[nBtnNo].m_X == -300 == X &&
-m_pSelf->m_ItemBtn[nBtnNo].m_Y == 100 == Y) return;
-
-                        m_pSelf->m_ItemBtn[nBtnNo].SetPosition(X,Y);
-                        m_pSelf->m_ItemBtn[nBtnNo].m_X = X;
-                        m_pSelf->m_ItemBtn[nBtnNo].m_Y = Y;
-
-                        if(m_pSelf->m_ItemBtn[nBtnNo].m_X == -300 &&
-m_pSelf->m_ItemBtn[nBtnNo].m_Y == 100) m_pSelf->m_ItemBtn[nBtnNo].Hide(); else
-                                m_pSelf->m_ItemBtn[nBtnNo].Show();
-                }
-        }
-}*/

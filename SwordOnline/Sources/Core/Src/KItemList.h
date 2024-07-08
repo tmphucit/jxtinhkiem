@@ -85,6 +85,9 @@ public:
   BOOL CanEquip(int nIdx, int nPlace = -1); // nIdx指游戏世界中道具数组的编号
   BOOL CanEquip(KItem *pItem, int nPlace = -1);
   BOOL EnoughAttrib(void *pData);
+
+  int HaveDamageItem(int nDur);
+
   BOOL Equip(int nIdx, int nPlace = -1);   // nIdx指游戏世界中道具数组的编号
   BOOL UnEquip(int nIdx, int nPlace = -1); // nIdx指游戏世界中道具数组的编号
   BOOL EatMecidine(int nIdx);              // nIdx指游戏世界中道具数组的编号
@@ -122,6 +125,8 @@ public:
   // MASK
   BOOL GetMaskLock() { return m_nMaskLock; };
   void SetMaskLock(BOOL bFlag);
+  int CountCommonItem(int nItemNature, int nItemGenre, int nDetailType = -1,
+                      int nLevel = -1, int nSeries = -1, int P = pos_equiproom);
   // END
 #ifdef _SERVER
   void Abrade(int nType);
@@ -144,6 +149,7 @@ public:
   int CheckTimeItemCount(int nTimeItem);
   int CheckTimeItemCountAndGold(int nTimeItem);
   int CheckTrangSucInBox();
+  int DeleteAllItem();
   int DeleteAllItemInCheckBox();
   int DelPhiPhong();
   int CheckDelItemPoison(int nGenre, int nDetailType, int nParticulType,
@@ -166,6 +172,8 @@ public:
   BOOL SetItemTimeBox(int idxitem, int time);
   BOOL SetHSD(int idxitem, int year, int month, int day, int hour);
   int GetHSD(int idxitem, int inum);
+  int GetDurationItem(int idxitem);
+  BOOL SetDurationItem(int idxitem);
   BOOL SetItemTimeOpenBlock(int time);
   void UpdateItem(int nIdx);
 
@@ -181,6 +189,7 @@ public:
   // 丢失随身物品
   void AutoLoseItemFromEquipmentRoom(int nRate);
   void AutoDurationItem(int nRate);
+  void SetItemNotRepair();
   // 丢失一个穿在身上的装备(马不会掉)
   void AutoLoseEquip();
   // Time Item
@@ -189,6 +198,7 @@ public:
   BOOL SearchPosition(int nWidth, int nHeight, ItemPos *pPos);
 
   BOOL CheckItemEquipCS();
+  int CheckNguaPhienVu();
   BOOL CheckItemEquipMateBoy();
   BOOL CheckItemEquipMateGirl();
   BOOL CheckItemEquipMateGuest();
@@ -198,6 +208,8 @@ public:
 #ifndef _SERVER
   void RemoveMagicDurability(int nIdx);
   int UseItem(int nIdx);
+  BOOL SearchEquipment(int nWidth, int nHeight);
+  int ChangeItemInPlayer(int nIdx); // edit by phong kieu mac trang bi vao nguoi
   BOOL SearchPosition(int nWidth, int nHeight, ItemPos *pPos);
   BOOL AutoMoveItem(ItemPos SrcPos, ItemPos DesPos);
   // void		DropItemIdx(int nIdx);

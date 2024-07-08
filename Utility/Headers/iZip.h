@@ -9,7 +9,7 @@ public:
   virtual bool create(LPCSTR szZipFile) = 0; // create a .zip file
   virtual bool add(LPCSTR szFile) = 0;       // add a file to zip file
   //	bool remove(LPCSTR szFile);				//remove a file
-  // from zip file
+  //from zip file
 };
 
 // use to autoupdate get a zip from server and extra to client
@@ -19,7 +19,7 @@ public:
   virtual ULONG Release() = 0;
   virtual bool load(LPCSTR szZipFile) = 0; // load a .zip file from disk
   //	virtual bool load_buffer(char* buffer) = 0;		//load a .zip
-  // file from buffer
+  //file from buffer
   virtual bool extract(LPCSTR szFolder) = 0; // extrace to a folder like d:\test
   virtual DWORD get_uncompressedsize() = 0;  // get size of uncompressed
 };

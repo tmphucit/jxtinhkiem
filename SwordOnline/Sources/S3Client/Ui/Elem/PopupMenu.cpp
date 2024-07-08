@@ -35,9 +35,8 @@ unsigned int KPopupMenu::m_uDefBorderLineColor =
     0xff000000; // 菜单的变框颜色，为0则无
 unsigned int KPopupMenu::m_uDefTextColor = 0xffffffff; // 菜单项的文字色
 unsigned int KPopupMenu::m_uDefTextBorderColor =
-    0xff000000; // 菜单项的文字边缘色
-unsigned int KPopupMenu::m_uDefSelTextColor =
-    0xffe0e0e0; // 被选中菜单项的文字色
+    0xff000000;                                           // 菜单项的文字边缘色
+unsigned int KPopupMenu::m_uDefSelTextColor = 0xffe0e0e0; // 被选中菜单项的文字色
 unsigned int KPopupMenu::m_uDefSelTextBorderColor =
     0xff000000; // 被选中菜单项的文字边缘色
 unsigned int KPopupMenu::m_uDefItemBgColor = 0x0a404040; // 菜单项的背景色

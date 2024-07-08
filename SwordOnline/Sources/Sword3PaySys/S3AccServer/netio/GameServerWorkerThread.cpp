@@ -139,7 +139,7 @@ CGameServerWorkerThread::ProcessDataStream(CSocketServer::Socket *pSocket,
   bool done;
 
   //	DEBUG_ONLY( Output( _T("ProcessDataStream:\n") + DumpData(
-  // pBuffer->GetBuffer(), pBuffer->GetUsed(), 40 ) ) );
+  //pBuffer->GetBuffer(), pBuffer->GetUsed(), 40 ) ) );
 
   do {
     done = true;

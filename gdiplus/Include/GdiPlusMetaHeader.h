@@ -21,7 +21,7 @@ typedef struct {
                    // than the sizeof(ENHMETAHEADER).
   RECTL rclBounds; // Inclusive-inclusive bounds in device units
   RECTL
-  rclFrame; // Inclusive-inclusive Picture Frame of metafile in .01 mm units
+      rclFrame; // Inclusive-inclusive Picture Frame of metafile in .01 mm units
   DWORD dSignature;     // Signature.  Must be ENHMETA_SIGNATURE.
   DWORD nVersion;       // Version number
   DWORD nBytes;         // Size of the metafile in bytes

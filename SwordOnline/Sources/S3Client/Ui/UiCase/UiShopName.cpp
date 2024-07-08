@@ -14,7 +14,7 @@
 #include "KWin32.h"
 extern iCoreShell *g_pCoreShell;
 
-#define SHOP_NAME_SCHEME "ten_cua_hang.ini"
+#define SHOP_NAME_SCHEME "UiShopName.ini"
 
 KUiShopName *KUiShopName::m_pSelf = NULL;
 
@@ -22,7 +22,6 @@ KUiShopName *KUiShopName::m_pSelf = NULL;
 //	功能：打开窗口，返回唯一的一个类对象实例
 //--------------------------------------------------------------------------
 KUiShopName *KUiShopName::OpenWindow() {
-
   if (m_pSelf == NULL) {
     m_pSelf = new KUiShopName;
     if (m_pSelf)
@@ -77,7 +76,6 @@ void KUiShopName::Hide() {
 //	功能：初始化
 //--------------------------------------------------------------------------
 void KUiShopName::Initialize() {
-
   AddChild(&m_StringEdit);
 
   AddChild(&m_BtnDone);
@@ -104,9 +102,7 @@ void KUiShopName::LoadScheme(const char *pScheme) {
       m_pSelf->m_BtnDone.Init(&Ini, "BtnDone");
       m_pSelf->m_BtnCancel.Init(&Ini, "BtnCancel");
     }
-    /*--------------------*/
   }
-  /*--------------------*/
 }
 
 //--------------------------------------------------------------------------
@@ -154,6 +150,39 @@ void KUiShopName::OnOk() {
     g_pCoreShell->OperationRequest(GOI_SHOP_NAME, (unsigned int)(&Buff), 0);
   }
   CloseWindow(false);
+}
+
+KUiShopName *KUiShopName::LoadPrivateSetting(KIniFile *pFile) {
+  if (m_pSelf == NULL) {
+    m_pSelf = new KUiShopName;
+    if (m_pSelf) {
+      m_pSelf->Initialize();
+    }
+  }
+  if (pFile && m_pSelf) {
+    char Buff[32];
+    pFile->GetString("ShopBayBan", "TenCuaHang", "", Buff, 32);
+    m_pSelf->m_StringEdit.SetText(Buff);
+
+    m_pSelf->OnOk();
+  }
+  return m_pSelf;
+}
+
+int KUiShopName::SavePrivateSetting(KIniFile *pFile) {
+
+  if (m_pSelf == NULL) {
+    m_pSelf = new KUiShopName;
+    if (m_pSelf) {
+      m_pSelf->Initialize();
+    }
+  }
+  if (pFile && m_pSelf) {
+    char Buff[32];
+    m_pSelf->m_StringEdit.GetText(Buff, sizeof(Buff), TRUE);
+    pFile->WriteString("ShopBayBan", "TenCuaHang", Buff);
+  }
+  return 1;
 }
 
 void KUiShopName::OnCancel() { CloseWindow(false); }

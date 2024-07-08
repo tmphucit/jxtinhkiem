@@ -57,7 +57,7 @@ LINK32=link.exe
 # ADD LINK32 kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib d3dx9dt.lib d3d9.lib winmm.lib dxguid.lib ddraw.lib GdiPlus.lib /nologo /dll /map /debug /machine:I386 /libpath:"..\..\..\Lib"
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\bin\client\release\	copy Release\Represent3.dll ..\..\..\..\bin\client\Represent3.dll	copy Release\Represent3.pdb ..\..\..\..\bin\client\Represent3.pdb	copy Release\Represent3.map ..\..\..\..\bin\client\Represent3.map	copy Release\Represent3.dll ..\..\..\..\bin\client\release\Represent3.dll	copy Release\Represent3.pdb ..\..\..\..\bin\client\release\Represent3.pdb	copy Release\Represent3.map ..\..\..\..\bin\client\release\Represent3.map
+PostBuild_Cmds=md ..\..\..\..\bin\client\	copy release\Represent3.dll ..\..\..\..\bin\client\Represent3.dll	copy release\Represent3.pdb ..\..\..\..\bin\client\Represent3.pdb	md ..\..\..\..\bin\client\release\	copy release\Represent3.dll ..\..\..\..\bin\client\release\Represent3.dll	copy release\Represent3.pdb ..\..\..\..\bin\client\release\Represent3.pdb
 # End Special Build Tool
 
 !ELSEIF  "$(CFG)" == "Represent3 - Win32 Debug"
@@ -88,7 +88,7 @@ LINK32=link.exe
 # SUBTRACT LINK32 /profile
 # Begin Special Build Tool
 SOURCE="$(InputPath)"
-PostBuild_Cmds=md ..\..\..\bin\client\debug\	copy Debug\Represent3.dll ..\..\..\..\bin\client\Represent3.dll	copy Debug\Represent3.pdb ..\..\..\..\bin\client\Represent3.pdb	copy Debug\Represent3.dll ..\..\..\..\bin\client\debug\Represent3.dll	copy Debug\Represent3.pdb ..\..\..\..\bin\client\debug\Represent3.pdb
+PostBuild_Cmds=md ..\..\..\..\bin\client\	copy debug\Represent3.dll ..\..\..\..\bin\client\Represent3.dll	copy debug\Represent3.pdb ..\..\..\..\bin\client\Represent3.pdb	md ..\..\..\..\bin\client\debug\	copy debug\Represent3.dll ..\..\..\..\bin\client\debug\Represent3.dll	copy debug\Represent3.pdb ..\..\..\..\bin\client\debug\Represent3.pdb
 # End Special Build Tool
 
 !ENDIF 

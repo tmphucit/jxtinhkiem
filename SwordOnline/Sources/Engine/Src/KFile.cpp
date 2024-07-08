@@ -248,7 +248,7 @@ DWORD KFile::Write(LPVOID lpBuffer, DWORD dwWriteBytes) {
 // 功能:	移动文件指针位置
 // 参数:	lDistance		移动长度
 //			dwMoveMethod
-// 移动方法＝FILE_BEGIN，FILE_CURRENT，FILE_END
+//移动方法＝FILE_BEGIN，FILE_CURRENT，FILE_END
 // 返回:	成功返回指针位置，失败返回SEEK_ERROR。
 //---------------------------------------------------------------------------
 DWORD KFile::Seek(LONG lDistance, DWORD dwMoveMethod) {

@@ -14,6 +14,7 @@ public:
   BOOL Init();
   const char *GetDesc(void *pData);
   const char *GetDesc2(int nType);
+  int String2MagicID(char *szMagicAttribName);
 };
 
 extern KMagicDesc g_MagicDesc;

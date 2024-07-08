@@ -17,10 +17,9 @@ extern iCoreShell *g_pCoreShell;
 
 KUiMapCave *KUiMapCave::m_pSelf = NULL;
 
-#define SCHEME_INI_WORLD "CaveList.ini"
-#define WORLD_MAP_INFO_FILE "\\Settings\\MapList.ini"
+#define SCHEME_INI "小地图_山洞地图版.ini"
 
-void maptoggle();
+void MapToggleStatus();
 
 KUiMapCave *KUiMapCave::OpenWindow() {
   if (m_pSelf == NULL) {
@@ -44,7 +43,7 @@ void KUiMapCave::CloseWindow() {
     Wnd_ReleaseExclusive(m_pSelf);
     m_pSelf->Destroy();
     m_pSelf = NULL;
-    maptoggle();
+    MapToggleStatus();
   }
 }
 
@@ -55,18 +54,17 @@ KUiMapCave *KUiMapCave::GetIfVisible() {
     return NULL;
 }
 
+// 初始化
 void KUiMapCave::Initialize() {
   AddChild(&m_Sign);
-
   char szBuffer[128];
   g_UiBase.GetCurSchemePath(szBuffer, sizeof(szBuffer));
-  strcat(szBuffer, "\\" SCHEME_INI_WORLD);
+  strcat(szBuffer, "\\" SCHEME_INI);
   KIniFile Ini;
   if (Ini.Load(szBuffer)) {
-    Init(&Ini, "WorldMap");
+    Init(&Ini, "CaveMap");
     m_Sign.Init(&Ini, "Sign");
   }
-
   Wnd_AddWindow(this, WL_TOPMOST);
   return;
 }
@@ -93,12 +91,12 @@ void KUiMapCave::UpdateData() {
 
   if (g_pCoreShell) {
     KIniFile Ini;
-    if (Ini.Load(WORLD_MAP_INFO_FILE)) {
-
+    if (Ini.Load("\\settings\\CaveList.ini")) {
+      // 取得世界地图的图形文件明
       char szBuffer[128];
-      if (Ini.GetString("List", "WorldMapImageSonDong", "", szBuffer,
+      if (Ini.GetString("List", "CaveMapImage", "", szBuffer,
                         sizeof(szBuffer))) {
-        SetImage(ISI_T_BITMAP16, szBuffer, true);
+        SetImage(ISI_T_SPR, szBuffer, true);
 
         int nAreaX = -1, nAreaY = 0;
         KUiSceneTimeInfo Info;
@@ -109,7 +107,7 @@ void KUiMapCave::UpdateData() {
         if (nAreaX != -1) {
           int nWidth, nHeight;
           m_Sign.GetSize(&nWidth, &nHeight);
-          m_Sign.SetPosition(nAreaX - nWidth / 2, nAreaY - nHeight / 2);
+          m_Sign.SetPosition(nAreaX - nWidth / 2, (nAreaY - nHeight / 2) - 15);
           m_Sign.Show();
         }
       }
@@ -117,6 +115,7 @@ void KUiMapCave::UpdateData() {
   }
 }
 
+// 活动函数
 void KUiMapCave::Breathe() {
   if (m_Sign.IsVisible())
     m_Sign.NextFrame();

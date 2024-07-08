@@ -45,20 +45,20 @@ void g_Pal24ToPal16(KPAL24 *pPal24, KPAL16 *pPal16, int nColors) {
 				mov		edi, pPal16
 Start_Convert_565:
 				{
-					xor		ebx, ebx // ebx清0
+					xor		ebx, ebx     // ebx清0
 					mov		dx, [esi + 1] // 读如GB
-					mov		al, [esi] // 读入R
-					mov		bl, dl // 把G移动到[bl]
+					mov		al, [esi]   // 读入R
+					mov		bl, dl      // 把G移动到[bl]
 					shr		eax, 3
 					shr		ebx, 2
-					shl		eax, 11 // 目标r生成了
+					shl		eax, 11      // 目标r生成了
 					shl		ebx, 5
 					add		esi, 3
-					add		eax, ebx // 目标RG都合成到ax了
-					xor		ebx, ebx // 把ebx清0
-					mov		bl, dh // 把B移动[bl]
+					add		eax, ebx     // 目标RG都合成到ax了
+					xor		ebx, ebx     // 把ebx清0
+					mov		bl, dh      // 把B移动[bl]
 					shr		ebx, 3
-					add		eax, ebx // 把目标
+					add		eax, ebx     // 把目标
 					mov		[edi], ax
 					add		edi, 2
 					dec		ecx // 减少count记数
@@ -74,20 +74,20 @@ Start_Convert_565:
 Start_Convert_555:
 				{
        // ax用于保存目标结果，假设第15bit对结果无影响
-					xor		ebx, ebx // ebx清0
+					xor		ebx, ebx     // ebx清0
 					mov		dx, [esi + 1] // 读如GB
-					mov		al, [esi] // 读入R
-					mov		bl, dl // 把G移动到[bl]
+					mov		al, [esi]   // 读入R
+					mov		bl, dl      // 把G移动到[bl]
 					shr		eax, 3
 					shr		ebx, 3
-					shl		eax, 10 // 目标r生成了
+					shl		eax, 10      // 目标r生成了
 					shl		ebx, 5
 					add		esi, 3
-					add		eax, ebx // 目标RG都合成到ax了
-					xor		ebx, ebx // 把ebx清0
-					mov		bl, dh // 把B移动[bl]
+					add		eax, ebx     // 目标RG都合成到ax了
+					xor		ebx, ebx     // 把ebx清0
+					mov		bl, dh      // 把B移动[bl]
 					shr		ebx, 3
-					add		eax, ebx // 把目标
+					add		eax, ebx     // 把目标
 					mov		[edi], ax
 					add		edi, 2
 					dec		ecx // 减少count记数
@@ -112,15 +112,15 @@ void g_Pal16ToPal24(KPAL16 *pPal16, KPAL24 *pPal24, int nColors) {
 				mov		edi, pPal24
 Start_Convert_565:
 				{
-					mov		ax, [esi] // 读入16bit色
+					mov		ax, [esi]    // 读入16bit色
 					add		esi, 2
-					mov		bx, ax // 复制16bit色
-					and		ax, 0xF814 // 得到r0b
+					mov		bx, ax       // 复制16bit色
+					and		ax, 0xF814   // 得到r0b
 					add		edi, 3
-					mov		dl, al // dl = b
-					sub		bx, ax // bx = 0g0
-					shl		dl, 3 // dl = B
-					shr		bx, 3 // bl = G
+					mov		dl, al       // dl = b
+					sub		bx, ax       // bx = 0g0
+					shl		dl, 3        // dl = B
+					shr		bx, 3        // bl = G
 					mov		[edi - 1], dl
 					mov		[edi - 2], bl
 					mov		[edi - 3], ah
@@ -136,17 +136,17 @@ Start_Convert_565:
 				mov		edi, pPal24
 Start_Convert_555:
 				{
-					mov		ax, [esi] // 读入16bit色
+					mov		ax, [esi]    // 读入16bit色
 					add		esi, 2
-					mov		bx, ax // 复制16bit色
-					and		ax, 0x7C14 // 得到r0b
+					mov		bx, ax       // 复制16bit色
+					and		ax, 0x7C14   // 得到r0b
 					add		edi, 3
-					mov		dl, al // dl = b
-					sub		bx, ax // bx = 0g0
-					shl		dx, 11 // dx = B0
-					shr		bx, 2 // bl = G
+					mov		dl, al       // dl = b
+					sub		bx, ax       // bx = 0g0
+					shl		dx, 11       // dx = B0
+					shr		bx, 2        // bl = G
 					add		ax, ax
-					mov		dl, bl // dx = BG
+					mov		dl, bl       // dx = BG
 					mov		[edi - 3], ah
 					mov		[edi - 2], dx
 					dec		ecx // 减少count记数

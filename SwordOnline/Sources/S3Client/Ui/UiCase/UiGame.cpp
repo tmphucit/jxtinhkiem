@@ -174,9 +174,11 @@ void KUiGameSpace::OnMouseMoveCursor(int x, int y) {
   } else if (g_pCoreShell->FindSelectObject(x, y, true, nObjectIdx, nKind)) {
     if (nKind == Obj_Kind_MapObj)
       Wnd_SwitchCursor(MOUSE_CURSOR_DIALOG);
-    else if (nKind == Obj_Kind_Item || nKind == Obj_Kind_Money ||
-             nKind == Obj_Kind_Prop)
+    else if (nKind == Obj_Kind_Item ||
+             nKind == Obj_Kind_Money /* || nKind == Obj_Kind_Prop*/)
       Wnd_SwitchCursor(MOUSE_CURSOR_PICK);
+    else if (nKind == Obj_Kind_Prop)
+      Wnd_SwitchCursor(MOUSE_CURSOR_USE);
     else if (nKind == Obj_Kind_Box)
       Wnd_SwitchCursor(CURSOR_POINT_TO_OBJ_NPC);
   } else
@@ -219,6 +221,12 @@ void AddBlackList(const char *strName, const char *strGroup);
 void ProcessPeople(KUiPlayerItem *pDest, int nAction) {
   if (pDest == NULL || pDest->Name[0] == 0)
     return;
+  if (!g_pCoreShell)
+    return;
+
+  if (!g_pCoreShell->CheckMapLoiDai())
+    return;
+
   switch (nAction) {
   case ACTION_JOINTEAM: // 要用nIndex
     if (g_pCoreShell && pDest->nData == PLAYER_MENU_STATE_TEAMOPEN &&
@@ -363,11 +371,11 @@ void PopUpContextPeopleMenu(const KUiPlayerItem &SelectPlayer, int x, int y) {
     if ((i == ACTION_JOINTEAM && SelectPlayer.nIndex != -1 &&
          SelectPlayer.nData ==
              PLAYER_MENU_STATE_TEAMOPEN) || //"申请入队",
-                                            // 对方未打开队伍时不能加入
+                                            //对方未打开队伍时不能加入
         (i == ACTION_TRADE && SelectPlayer.nIndex != -1 &&
          SelectPlayer.nData ==
              PLAYER_MENU_STATE_TRADEOPEN) || //"交易物品",
-                                             // 对方未打开交易时不能加入
+                                             //对方未打开交易时不能加入
         (i == ACTION_MAKEFRIEND &&
          !KUiChatCentre::IsMyFriend(
              (char *)SelectPlayer

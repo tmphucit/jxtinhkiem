@@ -1,13 +1,15 @@
 #ifndef KProtocolDefH
 #define KProtocolDefH
 
-// Add by Freeway chen in 2003.7.1
-// 定义协议兼容的版本，如果修改的协议，导致原有版本无法使用，需要修改下面的值
+// verision
+//  Add by Freeway chen in 2003.7.1
+//  定义协议兼容的版本，如果修改的协议，导致原有版本无法使用，需要修改下面的值
 
 #define USE_KPROTOCOL_VERSION 1
 // #undef USE_KPROTOCOL_VERSION
+#define KPROTOCOL_EXPIRATION_DATE 20501230
 
-#define KPROTOCOL_VERSION 1
+#define KPROTOCOL_VERSION 20240131 /// vesonin phiên b?n 8 s? m?i
 /*
  *
  */
@@ -187,7 +189,12 @@ enum s2c_PROTOCOL {
   s2c_playertongkimsync,
   s2c_sync_item_param,
   s2c_refestitem,
-  c2s_toado,
+  s2c_playerpointsync,
+  s2c_autoplay, //----129
+  s2c_timebox,
+  s2c_exitgame,
+  s2c_imagenpc, // protocol image npc
+  s2c_teamchangestate,
 
   //	s2c_gmgateway2relaysvr,
   ////GM登陆后网关通知中转服务器有合法连接的协议
@@ -327,8 +334,12 @@ enum c2s_PROTOCOL {
   c2s_playernewpwstorebox,
   c2s_opentoptknew,
   c2s_playerlixian, // UYTHAC
-  c2s_autoquaylai,  // AUTOQUAYLAI
-  c2s_autolocdo,    // AUTOQUAYLAI
+  c2s_autoplay,
+  c2s_playercommand,
+  c2s_openshop,
+  c2s_autoplayersellitem,
+  c2s_uicmdscript,
+
   _c2s_begin_relay = 250,
   c2s_extend = _c2s_begin_relay,
   c2s_extendchat,
@@ -467,6 +478,17 @@ enum {
   enumTONG_COMMAND_ID_APPLY_TAKE_MONEY,
 
   enumTONG_COMMAND_ID_NUM,
+};
+
+enum {
+  enumC2S_PLAYERCOMMAND_ID_LOCKSTATE,
+  enumC2S_PLAYERCOMMAND_ID_GIVE,
+  enumC2S_PLAYERCOMMAND_ID_LOCKITEM,
+  enumC2S_PLAYERCOMMAND_ID_UNLOCKITEM,
+  enumC2S_PLAYERCOMMAND_ID_SUPERSHOP,
+  enumC2S_PLAYERCOMMAND_ID_OFFLINE,
+  enumC2S_PLAYERCOMMAND_ID_MASKFEATURE,
+  enumC2S_PLAYERCOMMAND_ID_RETURN,
 };
 
 #endif

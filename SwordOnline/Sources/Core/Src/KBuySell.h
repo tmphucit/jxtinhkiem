@@ -1,7 +1,7 @@
 #ifndef KBuySellH
 #define KBuySellH
 
-#define BUY_SELL_SCALE 4
+#define BUY_SELL_SCALE 10
 
 class KItem;
 
@@ -39,6 +39,9 @@ public:
   BOOL Buy(int nPlayerIdx, int nBuy, int nBuyIdx, int nPlace, int nX,
            int nY); // 买第几个买卖列表中的第几项道具
   BOOL Sell(int nPlayerIdx, int nBuy, int nIdx);
+  BOOL AutoBuyItem(int nPlayerIdx, BYTE nItemGenre, BYTE nDetailType,
+                   BYTE nLevel, BYTE nBuyNumber);
+  BOOL AutoSell(int nPlayerIdx, int nBuy, int nIdx, int nBuyNumber);
 #endif
 #ifndef _SERVER
   KInventory *m_pShopRoom;

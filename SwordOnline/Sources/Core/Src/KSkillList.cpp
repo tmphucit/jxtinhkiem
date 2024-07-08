@@ -12,7 +12,7 @@
 #include "KSkills.h"
 
 #ifndef _SERVER
-#include "cOREsHELL.H"
+#include "cOREsHELL.h"
 #endif
 
 KSkillList::KSkillList() {
@@ -176,7 +176,7 @@ void KSkillList::UpdateAddDameSkillLevel() {
 }
 
 void KSkillList::UpdateMagicAddSkillLevel() {
-  // KSkill * pSkillAddDame;
+  //    KSkill * pSkillAddDame;
 
   for (int i = 1; i < MAX_NPCSKILL; i++) {
     if (m_Skills[i].SkillId > 0 && m_Skills[i].SkillId < MAX_SKILL) {
@@ -431,9 +431,9 @@ int KSkillList::GetSkillSortList(KUiSkillData *pSkillList) {
       case SKILL_SS_Missles: //	子弹类		本技能用于发送子弹类
       case SKILL_SS_Melee:
       case SKILL_SS_InitiativeNpcState: //	主动类
-                                        // 本技能用于改变当前Npc的主动状态
+                                        //本技能用于改变当前Npc的主动状态
       case SKILL_SS_PassivityNpcState:  //	被动类
-                                        // 本技能用于改变Npc的被动状态
+                                        //本技能用于改变Npc的被动状态
       {
         pOrdinSkill = (KSkill *)pSkill;
         if (pOrdinSkill->IsPhysical())
@@ -488,9 +488,9 @@ int KSkillList::GetLeftSkillSortList(KUiSkillData *pSkillList) {
       case SKILL_SS_Missles: //	子弹类		本技能用于发送子弹类
       case SKILL_SS_Melee:
       case SKILL_SS_InitiativeNpcState: //	主动类
-                                        // 本技能用于改变当前Npc的主动状态
+                                        //本技能用于改变当前Npc的主动状态
       case SKILL_SS_PassivityNpcState:  //	被动类
-                                        // 本技能用于改变Npc的被动状态
+                                        //本技能用于改变Npc的被动状态
       {
         pOrdinSkill = (KSkill *)pISkill;
         if ((!pOrdinSkill->IsPhysical()) &&
@@ -549,9 +549,9 @@ int KSkillList::GetRightSkillSortList(KUiSkillData *pSkillList) {
       case SKILL_SS_Missles: //	子弹类		本技能用于发送子弹类
       case SKILL_SS_Melee:
       case SKILL_SS_InitiativeNpcState: //	主动类
-                                        // 本技能用于改变当前Npc的主动状态
+                                        //本技能用于改变当前Npc的主动状态
       case SKILL_SS_PassivityNpcState:  //	被动类
-                                        // 本技能用于改变Npc的被动状态
+                                        //本技能用于改变Npc的被动状态
       {
         pOrdinSkill = (KSkill *)pISkill;
         if ((!pOrdinSkill->IsPhysical()) &&
@@ -577,6 +577,165 @@ int KSkillList::GetRightSkillSortList(KUiSkillData *pSkillList) {
     }
   }
   return nCount;
+}
+
+// auto game
+
+int KSkillList::GetSkillState(int nIndex) {
+  if (nIndex > 0) {
+    int i = 0, j = 0;
+    for (i = 1; i < MAX_NPCSKILL; i++) {
+      int nCurLevel = 0;
+      if (m_Skills[i].SkillId && m_Skills[i].SkillLevel) {
+        nCurLevel = this->GetCurrentLevel(m_Skills[i].SkillId);
+        if (nCurLevel > 0) {
+          KSkill *pOrdinSkill =
+              (KSkill *)g_SkillManager.GetSkill(m_Skills[i].SkillId, nCurLevel);
+          if (!pOrdinSkill)
+            continue;
+
+          if (pOrdinSkill->IsAura() || pOrdinSkill->IsTargetEnemy())
+            continue;
+
+          if ((pOrdinSkill->GetSkillStyle() == SKILL_SS_Missles ||
+               pOrdinSkill->GetSkillStyle() == SKILL_SS_InitiativeNpcState) &&
+              pOrdinSkill->IsTargetSelf()) {
+            j++;
+            if (j == nIndex)
+              return m_Skills[i].SkillId;
+          }
+        } else
+          continue;
+      }
+    }
+    return 0;
+  }
+  int nCount = 0;
+  for (int i = 1; i < MAX_NPCSKILL; i++) {
+    int nCurLevel = 0;
+    if (m_Skills[i].SkillId && m_Skills[i].SkillLevel) {
+      nCurLevel = this->GetCurrentLevel(m_Skills[i].SkillId);
+      if (nCurLevel > 0) {
+        KSkill *pOrdinSkill =
+            (KSkill *)g_SkillManager.GetSkill(m_Skills[i].SkillId, nCurLevel);
+        if (!pOrdinSkill)
+          continue;
+
+        if (pOrdinSkill->IsAura())
+          continue;
+
+        if ((pOrdinSkill->GetSkillStyle() == SKILL_SS_Missles ||
+             pOrdinSkill->GetSkillStyle() == SKILL_SS_InitiativeNpcState) &&
+            pOrdinSkill->IsTargetSelf())
+          nCount++;
+      } else
+        continue;
+    }
+  }
+  return nCount;
+}
+
+int KSkillList::GetSkillFight(int nIndex) {
+  if (nIndex > 0) {
+    int i = 0, j = 0;
+    for (i = 1; i < MAX_NPCSKILL; i++) {
+      int nCurLevel = 0;
+      if (m_Skills[i].SkillId && m_Skills[i].SkillLevel) {
+        nCurLevel = this->GetCurrentLevel(m_Skills[i].SkillId);
+        if (nCurLevel > 0) {
+          KSkill *pOrdinSkill =
+              (KSkill *)g_SkillManager.GetSkill(m_Skills[i].SkillId, nCurLevel);
+          if (!pOrdinSkill)
+            continue;
+
+          if (pOrdinSkill->IsAbs())
+            continue;
+
+          if (pOrdinSkill->IsAura())
+            continue;
+
+          if ((pOrdinSkill->GetSkillStyle() == SKILL_SS_Missles ||
+               pOrdinSkill->GetSkillStyle() == SKILL_SS_Melee) &&
+              pOrdinSkill->IsTargetEnemy()) {
+            j++;
+            if (j == nIndex)
+              return m_Skills[i].SkillId;
+          }
+        } else
+          continue;
+      }
+    }
+    return 0;
+  }
+  int nCount = 0;
+  for (int i = 1; i < MAX_NPCSKILL; i++) {
+    int nCurLevel = 0;
+    if (m_Skills[i].SkillId && m_Skills[i].SkillLevel) {
+      nCurLevel = this->GetCurrentLevel(m_Skills[i].SkillId);
+      if (nCurLevel > 0) {
+        KSkill *pOrdinSkill =
+            (KSkill *)g_SkillManager.GetSkill(m_Skills[i].SkillId, nCurLevel);
+        if (!pOrdinSkill)
+          continue;
+
+        if (pOrdinSkill->IsAbs())
+          continue;
+
+        if (pOrdinSkill->IsAura())
+          continue;
+
+        if ((pOrdinSkill->GetSkillStyle() == SKILL_SS_Missles ||
+             pOrdinSkill->GetSkillStyle() == SKILL_SS_Melee) &&
+            pOrdinSkill->IsTargetEnemy())
+          nCount++;
+      } else
+        continue;
+    }
+  }
+  return nCount;
+}
+int KSkillList::FindSkillAura(int nIndex) {
+  if (nIndex > 0) {
+    int i = 0, j = 0;
+    for (i = 1; i < MAX_NPCSKILL; i++) {
+      int nCurLevel = 0;
+      if (m_Skills[i].SkillId && m_Skills[i].SkillLevel) {
+        nCurLevel = this->GetCurrentLevel(m_Skills[i].SkillId);
+        if (nCurLevel > 0) {
+          KSkill *pOrdinSkill =
+              (KSkill *)g_SkillManager.GetSkill(m_Skills[i].SkillId, nCurLevel);
+          if (!pOrdinSkill)
+            continue;
+
+          if (pOrdinSkill->IsAura()) {
+            j++;
+            if (j == nIndex)
+              return m_Skills[i].SkillId;
+          }
+        } else
+          continue;
+      }
+    }
+    return 0;
+  }
+  int _nCount = 0;
+  for (int i = 1; i < MAX_NPCSKILL; i++) {
+    int nCurLevel = 0;
+    if (m_Skills[i].SkillId && m_Skills[i].SkillLevel) {
+      nCurLevel = this->GetCurrentLevel(m_Skills[i].SkillId);
+      if (nCurLevel > 0) {
+        KSkill *pOrdinSkill =
+            (KSkill *)g_SkillManager.GetSkill(m_Skills[i].SkillId, nCurLevel);
+        if (!pOrdinSkill)
+          continue;
+
+        if (pOrdinSkill->IsAura())
+          _nCount++;
+      } else
+        continue;
+    }
+  }
+  return _nCount;
 }
 
 int KSkillList::GetSkillPosition(int nSkillId) // 获得技能在技能界面的位置
@@ -607,9 +766,9 @@ int KSkillList::GetSkillPosition(int nSkillId) // 获得技能在技能界面的位置
     case SKILL_SS_Missles: //	子弹类		本技能用于发送子弹类
     case SKILL_SS_Melee:
     case SKILL_SS_InitiativeNpcState: //	主动类
-                                      // 本技能用于改变当前Npc的主动状态
+                                      //本技能用于改变当前Npc的主动状态
     case SKILL_SS_PassivityNpcState:  //	被动类
-                                      // 本技能用于改变Npc的被动状态
+                                      //本技能用于改变Npc的被动状态
     {
       pOrdinSkill = (KSkill *)pISkill;
       if ((!m_Skills[i].SkillId) || (pOrdinSkill->IsPhysical())) {

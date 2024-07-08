@@ -18,7 +18,7 @@ Description : 创建帮会的表单
 
 #include "UiTongStringName.h"
 
-#define TONG_STRING_NAME_SCHEME "tongstringname.ini"
+#define TONG_STRING_NAME_SCHEME "UiTongStringName.ini"
 
 KUiTongStringName *KUiTongStringName::ms_pSelf = NULL;
 

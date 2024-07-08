@@ -13,7 +13,7 @@
 
 #define SCK_SHORTCUT_FRIEND "Open([[friend]])"
 #define SCK_SHORTCUT_SYSTEM "Open([[system]])"
-#define SCK_SHORTCUT_AUTOPLAY "Open([[autoplay]])"
+#define SCK_SHORTCUT_AUTO "Open([[auto]])"
 #define SCK_SHORTCUT_ITEMS "Open([[items]])"
 #define SCK_SHORTCUT_STATUS "Open([[status]])"
 #define SCK_SHORTCUT_MAP "Open([[map]])"

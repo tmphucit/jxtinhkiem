@@ -175,7 +175,7 @@ void KNpcRes::DrawStun() {
 }
 
 void KNpcRes::Draw(int nNpcIdx, int nDir, int nAllFrame, int nCurFrame,
-                   BOOL bInMenu, BOOL bOn) {
+                   BOOL bInMenu, BOOL bOn, BOOL bHide) {
 
   int i, nGetFrame = 1, nGetDir = 1, nFirst, nPos;
   int nCurFrameNo = 0, nCurDirNo = 0;
@@ -304,43 +304,46 @@ void KNpcRes::Draw(int nNpcIdx, int nDir, int nAllFrame, int nCurFrame,
   m_cDrawFile[nPos].oPosition.nZ = 0; // nScreenZ;
   nPos++;
 
-  // 脚底状态特效
-  for (i = 12; i < 18; i++) {
-    if (m_cStateSpr[i].m_nID) {
-      strcpy(m_cDrawFile[nPos].szImage, m_cStateSpr[i].m_SprContrul.m_szName);
-      m_cDrawFile[nPos].uImage = m_cStateSpr[i].m_SprContrul.m_dwNameID;
-      m_cDrawFile[nPos].nFrame = m_cStateSpr[i].m_SprContrul.m_nCurFrame;
-      m_cDrawFile[nPos].oPosition.nX = nScreenX;
-      m_cDrawFile[nPos].oPosition.nY = nScreenY;
-      m_cDrawFile[nPos].oPosition.nZ = 0;
-      nPos++;
-    }
-  }
-
-  g_pRepresent->DrawPrimitives(nPos, m_cDrawFile, RU_T_IMAGE, bInMenu);
-  nPos = 0;
-
-  // 身上状态特效(npc背后)
-  for (i = 6; i < 12; i++) {
-    if (m_cStateSpr[i].m_nID) {
-      if (m_cStateSpr[i].m_nBackStart <=
-              m_cStateSpr[i].m_SprContrul.m_nCurFrame &&
-          m_cStateSpr[i].m_SprContrul.m_nCurFrame < m_cStateSpr[i].m_nBackEnd) {
+  if (!bHide) {
+    for (i = 12; i < 18; i++) {
+      if (m_cStateSpr[i].m_nID) {
         strcpy(m_cDrawFile[nPos].szImage, m_cStateSpr[i].m_SprContrul.m_szName);
         m_cDrawFile[nPos].uImage = m_cStateSpr[i].m_SprContrul.m_dwNameID;
         m_cDrawFile[nPos].nFrame = m_cStateSpr[i].m_SprContrul.m_nCurFrame;
         m_cDrawFile[nPos].oPosition.nX = nScreenX;
         m_cDrawFile[nPos].oPosition.nY = nScreenY;
-        int nHeightOff = 0;
-        if (m_bRideHorse && !Npc[nNpcIdx].m_MaskType)
-          nHeightOff += 38;
-        m_cDrawFile[nPos].oPosition.nZ = nScreenZ + nHeightOff;
+        m_cDrawFile[nPos].oPosition.nZ = 0;
         nPos++;
       }
     }
-  }
 
-  g_pRepresent->DrawPrimitives(nPos, m_cDrawFile, RU_T_IMAGE, bInMenu);
+    g_pRepresent->DrawPrimitives(nPos, m_cDrawFile, RU_T_IMAGE, bInMenu);
+    nPos = 0;
+
+    // 身上状态特效(npc背后)
+    for (i = 6; i < 12; i++) {
+      if (m_cStateSpr[i].m_nID) {
+        if (m_cStateSpr[i].m_nBackStart <=
+                m_cStateSpr[i].m_SprContrul.m_nCurFrame &&
+            m_cStateSpr[i].m_SprContrul.m_nCurFrame <
+                m_cStateSpr[i].m_nBackEnd) {
+          strcpy(m_cDrawFile[nPos].szImage,
+                 m_cStateSpr[i].m_SprContrul.m_szName);
+          m_cDrawFile[nPos].uImage = m_cStateSpr[i].m_SprContrul.m_dwNameID;
+          m_cDrawFile[nPos].nFrame = m_cStateSpr[i].m_SprContrul.m_nCurFrame;
+          m_cDrawFile[nPos].oPosition.nX = nScreenX;
+          m_cDrawFile[nPos].oPosition.nY = nScreenY;
+          int nHeightOff = 0;
+          if (m_bRideHorse && !Npc[nNpcIdx].m_MaskType)
+            nHeightOff += 38;
+          m_cDrawFile[nPos].oPosition.nZ = nScreenZ + nHeightOff;
+          nPos++;
+        }
+      }
+    }
+
+    g_pRepresent->DrawPrimitives(nPos, m_cDrawFile, RU_T_IMAGE, bInMenu);
+  }
   nPos = 0;
 
   // npc部件
@@ -372,59 +375,62 @@ void KNpcRes::Draw(int nNpcIdx, int nDir, int nAllFrame, int nCurFrame,
   g_pRepresent->DrawPrimitives(nPos, m_cDrawFile, RU_T_IMAGE, bInMenu);
   nPos = 0;
 
-  // 身上状态特效(npc身前)
-  for (i = 6; i < 12; i++) {
-    if (m_cStateSpr[i].m_nID) {
-      if (m_cStateSpr[i].m_SprContrul.m_nCurFrame <
-              m_cStateSpr[i].m_nBackStart ||
-          m_cStateSpr[i].m_SprContrul.m_nCurFrame >=
-              m_cStateSpr[i].m_nBackEnd) {
+  if (!bHide) {
+    // 身上状态特效(npc身前)
+    for (i = 6; i < 12; i++) {
+      if (m_cStateSpr[i].m_nID) {
+        if (m_cStateSpr[i].m_SprContrul.m_nCurFrame <
+                m_cStateSpr[i].m_nBackStart ||
+            m_cStateSpr[i].m_SprContrul.m_nCurFrame >=
+                m_cStateSpr[i].m_nBackEnd) {
+          strcpy(m_cDrawFile[nPos].szImage,
+                 m_cStateSpr[i].m_SprContrul.m_szName);
+          m_cDrawFile[nPos].uImage = m_cStateSpr[i].m_SprContrul.m_dwNameID;
+          m_cDrawFile[nPos].nFrame = m_cStateSpr[i].m_SprContrul.m_nCurFrame;
+          m_cDrawFile[nPos].oPosition.nX = nScreenX;
+          m_cDrawFile[nPos].oPosition.nY = nScreenY;
+          int nHeightOff = 0;
+          if (m_bRideHorse && !Npc[nNpcIdx].m_MaskType)
+            nHeightOff += 38;
+          m_cDrawFile[nPos].oPosition.nZ = nScreenZ + nHeightOff;
+          nPos++;
+        }
+      }
+    }
+
+    // 特殊的只播放一遍的spr文件
+    if (m_cSpecialSpr.m_szName[0]) {
+      strcpy(m_cDrawFile[nPos].szImage, m_cSpecialSpr.m_szName);
+      m_cDrawFile[nPos].uImage = m_cSpecialSpr.m_dwNameID;
+      m_cDrawFile[nPos].nFrame = m_cSpecialSpr.m_nCurFrame;
+      m_cDrawFile[nPos].oPosition.nX = nScreenX;
+      m_cDrawFile[nPos].oPosition.nY = nScreenY;
+      int nHeightOff = 0;
+      if (m_bRideHorse && !Npc[nNpcIdx].m_MaskType)
+        nHeightOff += 38;
+      m_cDrawFile[nPos].oPosition.nZ = nScreenZ + nHeightOff;
+      nPos++;
+    }
+    g_pRepresent->DrawPrimitives(nPos, m_cDrawFile, RU_T_IMAGE, bInMenu);
+
+    nPos = 0;
+
+    for (i = 0; i < 6; i++) {
+      if (m_cStateSpr[i].m_nID) {
         strcpy(m_cDrawFile[nPos].szImage, m_cStateSpr[i].m_SprContrul.m_szName);
         m_cDrawFile[nPos].uImage = m_cStateSpr[i].m_SprContrul.m_dwNameID;
         m_cDrawFile[nPos].nFrame = m_cStateSpr[i].m_SprContrul.m_nCurFrame;
         m_cDrawFile[nPos].oPosition.nX = nScreenX;
         m_cDrawFile[nPos].oPosition.nY = nScreenY;
-        int nHeightOff = 0;
+        int nHeightOff = 22;
         if (m_bRideHorse && !Npc[nNpcIdx].m_MaskType)
           nHeightOff += 38;
         m_cDrawFile[nPos].oPosition.nZ = nScreenZ + nHeightOff;
         nPos++;
       }
     }
+    g_pRepresent->DrawPrimitives(nPos, m_cDrawFile, RU_T_IMAGE, bInMenu);
   }
-  // 特殊的只播放一遍的spr文件
-  if (m_cSpecialSpr.m_szName[0]) {
-    strcpy(m_cDrawFile[nPos].szImage, m_cSpecialSpr.m_szName);
-    m_cDrawFile[nPos].uImage = m_cSpecialSpr.m_dwNameID;
-    m_cDrawFile[nPos].nFrame = m_cSpecialSpr.m_nCurFrame;
-    m_cDrawFile[nPos].oPosition.nX = nScreenX;
-    m_cDrawFile[nPos].oPosition.nY = nScreenY;
-    int nHeightOff = 0;
-    if (m_bRideHorse && !Npc[nNpcIdx].m_MaskType)
-      nHeightOff += 38;
-    m_cDrawFile[nPos].oPosition.nZ = nScreenZ + nHeightOff;
-    nPos++;
-  }
-  g_pRepresent->DrawPrimitives(nPos, m_cDrawFile, RU_T_IMAGE, bInMenu);
-
-  nPos = 0;
-  // 头顶状态特效
-  for (i = 0; i < 6; i++) {
-    if (m_cStateSpr[i].m_nID) {
-      strcpy(m_cDrawFile[nPos].szImage, m_cStateSpr[i].m_SprContrul.m_szName);
-      m_cDrawFile[nPos].uImage = m_cStateSpr[i].m_SprContrul.m_dwNameID;
-      m_cDrawFile[nPos].nFrame = m_cStateSpr[i].m_SprContrul.m_nCurFrame;
-      m_cDrawFile[nPos].oPosition.nX = nScreenX;
-      m_cDrawFile[nPos].oPosition.nY = nScreenY;
-      int nHeightOff = 22;
-      if (m_bRideHorse && !Npc[nNpcIdx].m_MaskType)
-        nHeightOff += 38;
-      m_cDrawFile[nPos].oPosition.nZ = nScreenZ + nHeightOff;
-      nPos++;
-    }
-  }
-  g_pRepresent->DrawPrimitives(nPos, m_cDrawFile, RU_T_IMAGE, bInMenu);
-
   nPos = 0;
 
   // -------------------------------- 处理绘制列表 end
@@ -454,7 +460,7 @@ void KNpcRes::Draw(int nNpcIdx, int nDir, int nAllFrame, int nCurFrame,
   // -------------------------------- 绘制
 
   //	g_pRepresent->DrawPrimitives(MAX_NPC_IMAGE_NUM, m_cDrawFile, RU_T_IMAGE,
-  // bInMenu);
+  //bInMenu);
 }
 
 void KNpcRes::GetShadowName(char *lpszShadow, char *lpszSprName) {

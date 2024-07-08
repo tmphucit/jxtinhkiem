@@ -49,8 +49,8 @@ typedef struct _D3DCAPS8 {
   DWORD TextureFilterCaps;     // D3DPTFILTERCAPS for IDirect3DTexture8's
   DWORD CubeTextureFilterCaps; // D3DPTFILTERCAPS for IDirect3DCubeTexture8's
   DWORD
-  VolumeTextureFilterCaps;  // D3DPTFILTERCAPS for IDirect3DVolumeTexture8's
-  DWORD TextureAddressCaps; // D3DPTADDRESSCAPS for IDirect3DTexture8's
+      VolumeTextureFilterCaps; // D3DPTFILTERCAPS for IDirect3DVolumeTexture8's
+  DWORD TextureAddressCaps;    // D3DPTADDRESSCAPS for IDirect3DTexture8's
   DWORD VolumeTextureAddressCaps; // D3DPTADDRESSCAPS for
                                   // IDirect3DVolumeTexture8's
 
@@ -303,9 +303,8 @@ typedef struct _D3DCAPS8 {
 #define D3DPTEXTURECAPS_NONPOW2CONDITIONAL 0x00000100L
 #define D3DPTEXTURECAPS_PROJECTED                                              \
   0x00000400L /* Device can do D3DTTFF_PROJECTED */
-#define D3DPTEXTURECAPS_CUBEMAP                                                \
-  0x00000800L /* Device can do cubemap textures                                \
-               */
+#define D3DPTEXTURECAPS_CUBEMAP 0x00000800L /* Device can do cubemap textures  \
+                                             */
 #define D3DPTEXTURECAPS_VOLUMEMAP                                              \
   0x00002000L /* Device can do volume textures */
 #define D3DPTEXTURECAPS_MIPMAP                                                 \

@@ -897,9 +897,8 @@ Band item header
 #define DMUS_IO_INST_GM (1 << 8)  /* Instrument is from GM collection */
 #define DMUS_IO_INST_GS (1 << 9)  /* Instrument is from GS collection */
 #define DMUS_IO_INST_XG (1 << 10) /* Instrument is from XG collection */
-#define DMUS_IO_INST_CHANNEL_PRIORITY                                          \
-  (1 << 11) /* dwChannelPriority is valid                                      \
-             */
+#define DMUS_IO_INST_CHANNEL_PRIORITY (1 << 11) /* dwChannelPriority is valid  \
+                                                 */
 #define DMUS_IO_INST_USE_DEFAULT_GM_SET                                        \
   (1 << 12) /* Always use the default GM set for this patch,  */
             /* don't rely on the synth caps stating GM or GS in hardware. */
@@ -974,10 +973,10 @@ RIFF
 
 typedef struct _DMUS_IO_WAVE_HEADER {
   REFERENCE_TIME
-  rtReadAhead;   /* How far ahead in the stream wave data will be read (in
-                    REFERENCE_TIME).  Ignored for one-shot waves.  */
-  DWORD dwFlags; /* Various flags, including whether this is a streaming wave
-                    and whether it can be invalidated. */
+      rtReadAhead; /* How far ahead in the stream wave data will be read (in
+                      REFERENCE_TIME).  Ignored for one-shot waves.  */
+  DWORD dwFlags;   /* Various flags, including whether this is a streaming wave
+                      and whether it can be invalidated. */
 } DMUS_IO_WAVE_HEADER;
 
 /*  File io for Wave track */
@@ -1017,7 +1016,7 @@ typedef struct _DMUS_IO_WAVE_PART_HEADER {
   DWORD dwFlags;      /* Flags, including stuff for managing how variations are
                          chosen (in low-order nibble) */
   DWORD
-  dwIndex; /* Index for distinguishing multiple parts on the same PChannel*/
+      dwIndex; /* Index for distinguishing multiple parts on the same PChannel*/
 } DMUS_IO_WAVE_PART_HEADER;
 
 typedef struct _DMUS_IO_WAVE_ITEM_HEADER {
@@ -1034,7 +1033,7 @@ typedef struct _DMUS_IO_WAVE_ITEM_HEADER {
   REFERENCE_TIME rtDuration;    /* Duration, in REFERENCE_TIME or MUSIC_TIME,
                                    depending on track timing format. */
   MUSIC_TIME
-  mtLogicalTime;     /* If in music track format, this indicates the musical
+      mtLogicalTime; /* If in music track format, this indicates the musical
                         boundary where this belongs. Otherwise, ignored. */
   DWORD dwLoopStart; /* Start point for a looping wave. */
   DWORD dwLoopEnd;   /* End point for a looping wave. */
@@ -1218,7 +1217,7 @@ typedef struct _DMUS_IO_SEGMENT_HEADER {
   DWORD dwResolution;   /* Default resolution. */
   /* Following added for DirectX8: */
   REFERENCE_TIME
-  rtLength; /* Length, in reference time (overrides music time length.) */
+      rtLength; /* Length, in reference time (overrides music time length.) */
   DWORD dwFlags;
   DWORD dwReserved; /* Reserved. */
   /* Added for DirectX9: */
@@ -1996,10 +1995,10 @@ typedef struct _DMUS_IO_SCRIPTTRACK_EVENTHEADER {
 typedef struct _DMUS_IO_LYRICSTRACK_EVENTHEADER {
   DWORD dwFlags; /* Reserved leave as 0. */
   DWORD
-  dwTimingFlags; /* Combination DMUS_PMSGF_TOOL_* flags.  Determines the
-                    precise timing of when the notification happens. Invalid
-                    with the flag DMUS_PMSGF_REFTIME, DMUS_PMSGF_MUSICTIME,
-                    DMUS_PMSGF_TOOL_FLUSH, or DMUS_PMSGF_LOCKTOREFTIME. */
+      dwTimingFlags; /* Combination DMUS_PMSGF_TOOL_* flags.  Determines the
+                        precise timing of when the notification happens. Invalid
+                        with the flag DMUS_PMSGF_REFTIME, DMUS_PMSGF_MUSICTIME,
+                        DMUS_PMSGF_TOOL_FLUSH, or DMUS_PMSGF_LOCKTOREFTIME. */
   MUSIC_TIME lTimeLogical;  /* Position in track list. Time in the music with
                                which the event is associated. */
   MUSIC_TIME lTimePhysical; /* Precise time event will be triggered. Should be

@@ -58,8 +58,8 @@ int g_nProtocolSize[MAX_PROTOCOL_NUM] = {
     sizeof(PLAYER_FACTION_DATA),             // s2c_playerfactiondata,
     sizeof(PLAYER_LEAVE_FACTION),            // s2c_playerleavefaction,
     sizeof(PLAYER_FACTION_SKILL_LEVEL),      // s2c_playerfactionskilllevel,
-    -1,                                 // sizeof(PLAYER_SEND_CHAT_SYNC),			//
-                                        // s2c_playersendchat,
+    -1, // sizeof(PLAYER_SEND_CHAT_SYNC),			//
+        // s2c_playersendchat,
     sizeof(PLAYER_LEAD_EXP_SYNC),       // s2c_playersyncleadexp
     sizeof(PLAYER_LEVEL_UP_SYNC),       // s2c_playerlevelup
     sizeof(PLAYER_TEAMMATE_LEVEL_SYNC), // s2c_teammatelevel
@@ -117,19 +117,34 @@ int g_nProtocolSize[MAX_PROTOCOL_NUM] = {
     sizeof(ITEM_DURABILITY_CHANGE), // s2c_itemdurabilitychange
     sizeof(MASK_SYNC),              // MASK
     sizeof(PLAYER_BLOCK_ITEM_RETURN_COMMAND),
-    sizeof(PLAYER_UNBLOCK_ITEM_RETURN_COMMAND), sizeof(CURPLAYER_HEIGHT_SYNC),
-    sizeof(PLAYER_UNBLOCK_ITEM_NOW_COMMAND), sizeof(PLAYER_ITEM_UPDATE_VERSION),
-    sizeof(NPC_UPDATE_TONG), sizeof(PLAYER_OPEN_STRING_BOX),
-    sizeof(PLAYER_OPEN_CHECK_ITEM_BOX), sizeof(PLAYER_OPEN_SLECT_CHECK_BOX),
-    sizeof(PLAYER_OPEN_PG_BOX_ITEM), sizeof(PLAYER_SHOP_PRICE_RETURN_COMMAND),
+    sizeof(PLAYER_UNBLOCK_ITEM_RETURN_COMMAND),
+    sizeof(CURPLAYER_HEIGHT_SYNC),
+    sizeof(PLAYER_UNBLOCK_ITEM_NOW_COMMAND),
+    sizeof(PLAYER_ITEM_UPDATE_VERSION),
+    sizeof(NPC_UPDATE_TONG),
+    sizeof(PLAYER_OPEN_STRING_BOX),
+    sizeof(PLAYER_OPEN_CHECK_ITEM_BOX),
+    sizeof(PLAYER_OPEN_SLECT_CHECK_BOX),
+    sizeof(PLAYER_OPEN_PG_BOX_ITEM),
+    sizeof(PLAYER_SHOP_PRICE_RETURN_COMMAND),
     sizeof(PLAYER_UPDATE_SHOP_PRICE_COMMAND),
-    sizeof(PLAYER_SHOP_OPEN_RETURN_COMMAND), sizeof(NPC_UPDATE_SHOP),
-    sizeof(BOX_BUY_SHOP_SYNC), sizeof(ITEM_BUY_SHOP_SYNC), sizeof(NPC_POS_SYNC),
-    sizeof(PLAYER_BLOCK_BOX), sizeof(PLAYER_OPEN_NEW_PW_BOX_ITEM),
+    sizeof(PLAYER_SHOP_OPEN_RETURN_COMMAND),
+    sizeof(NPC_UPDATE_SHOP),
+    sizeof(BOX_BUY_SHOP_SYNC),
+    sizeof(ITEM_BUY_SHOP_SYNC),
+    sizeof(NPC_POS_SYNC),
+    sizeof(PLAYER_BLOCK_BOX),
+    sizeof(PLAYER_OPEN_NEW_PW_BOX_ITEM),
     sizeof(PLAYER_SEND_TOP_TK_NEW),
-    sizeof(PLAYER_TONGKIM_SYNC), // s2c_playertongkimsync
-    sizeof(S2C_SYNC_ITEM_PARAM), // s2c_sync_item_param
-    sizeof(S2C_ITEM_REFRESH),    // s2c_refestitem
+    sizeof(PLAYER_TONGKIM_SYNC),      // s2c_playertongkimsync
+    sizeof(S2C_SYNC_ITEM_PARAM),      // s2c_sync_item_param
+    sizeof(S2C_ITEM_REFRESH),         // s2c_refestitem
+    sizeof(S2C_PLAYER_POINT_SYNC),    // s2c_playerpointsync
+    sizeof(PLAYER_REQUEST_AUTO),      // s2c_autoplay
+    sizeof(S2C_TIME_BOX),             // s2c_timebox
+    sizeof(S2CEXIT_GAME),             // s2c_exitgame
+    sizeof(IMAGENPC_VALUE_SYNC),      // s2c_imagenpc
+    sizeof(PLAYER_TEAM_CHANGE_STATE), // s2c_teamchangestate,
 
 #else
     sizeof(LOGIN_COMMAND),       //	c2s_login,
@@ -208,19 +223,30 @@ int g_nProtocolSize[MAX_PROTOCOL_NUM] = {
     sizeof(SET_IMAGE),                     // c2s_cpsetimage
     sizeof(PLAYER_BLOCK_ITEM_COMMAND),     // c2s_lockitem
     sizeof(PLAYER_UNBLOCK_ITEM_COMMAND),   // c2s_unlockitem
-    sizeof(PLAYER_STASK_ITEM_COMMAND), sizeof(PLAYER_STRING_BOX),
-    sizeof(PLAYER_CHECK_ITEM_BOX), sizeof(PLAYER_SLECT_CHECK_BOX),
-    sizeof(PLAYER_BUTTON_PG_BOX), sizeof(PLAYER_SHOP_NAME),
-    sizeof(PLAYER_SHOP_PRICE_COMMAND), sizeof(PLAYER_SHOP_OPEN_COMMAND),
-    sizeof(PLAYER_OPEN_BUY_SHOP), sizeof(PLAYER_SHOP_BUY_ITEM_COMMAND),
-    sizeof(PLAYER_CLOSE_BUY_SHOP), sizeof(OPEN_SHOP_GOLD),
-    sizeof(PLAYER_LOGIN_PW_STORE_BOX), sizeof(PLAYER_PW_STORE_BOX),
-    sizeof(PLAYER_BLOCK_STORE_BOX), sizeof(PLAYER_UNBLOCK_STORE_BOX),
-    sizeof(PLAYER_NEW_PW_STORE_BOX), sizeof(OPEN_TOP_TK_NEW),
-    // sizeof(CP_TOADO),
-    sizeof(TONG_DISMISS_SYNC), // c2s_playerLiXian
-    sizeof(AUTO_QUAYLAI),      // c2s_autoquaylai;
-    sizeof(AUTO_LOCDO)
+    sizeof(PLAYER_STASK_ITEM_COMMAND),
+    sizeof(PLAYER_STRING_BOX),
+    sizeof(PLAYER_CHECK_ITEM_BOX),
+    sizeof(PLAYER_SLECT_CHECK_BOX),
+    sizeof(PLAYER_BUTTON_PG_BOX),
+    sizeof(PLAYER_SHOP_NAME),
+    sizeof(PLAYER_SHOP_PRICE_COMMAND),
+    sizeof(PLAYER_SHOP_OPEN_COMMAND),
+    sizeof(PLAYER_OPEN_BUY_SHOP),
+    sizeof(PLAYER_SHOP_BUY_ITEM_COMMAND),
+    sizeof(PLAYER_CLOSE_BUY_SHOP),
+    sizeof(OPEN_SHOP_GOLD),
+    sizeof(PLAYER_LOGIN_PW_STORE_BOX),
+    sizeof(PLAYER_PW_STORE_BOX),
+    sizeof(PLAYER_BLOCK_STORE_BOX),
+    sizeof(PLAYER_UNBLOCK_STORE_BOX),
+    sizeof(PLAYER_NEW_PW_STORE_BOX),
+    sizeof(OPEN_TOP_TK_NEW),
+    sizeof(TONG_DISMISS_SYNC),        // c2s_playerLiXian
+    sizeof(PLAYER_REQUEST_AUTO),      // c2s_autoplay
+    sizeof(PLAYER_COMMAND),           // c2s_playercommand
+    sizeof(CLIENT_OPEN_SHOP),         // c2s_openshop
+    sizeof(PLAYER_SELL_ITEM_COMMAND), // c2s_autoplayersellitem
+    sizeof(PLAYER_UI_CMD_SCRIPT),     // c2s_uicmdscript
 
 #endif
 };
@@ -254,15 +280,17 @@ void SendClientCmdRun(int nX, int nY) {
     g_pClient->SendPackToServer((BYTE *)&NetCommand, sizeof(NetCommand));
 }
 
-void SendClientToaDo(int nstt) {
-  CP_TOADO ButtonCmd;
+/*
+void SendClientToaDo(int nstt)
+{
+CP_TOADO ButtonCmd;
 
-  ButtonCmd.ProtocolType = c2s_toado;
-  ButtonCmd.nbutton = nstt;
-  if (g_pClient)
-    g_pClient->SendPackToServer((BYTE *)&ButtonCmd, sizeof(CP_TOADO));
+ButtonCmd.ProtocolType = c2s_toado;
+ButtonCmd.nbutton = nstt;
+if (g_pClient)
+g_pClient->SendPackToServer((BYTE*)&ButtonCmd, sizeof(CP_TOADO));
 }
-
+*/
 void SendClientCPSetImageCmd(int nNumber) {
   SET_IMAGE SetImageCmd;
 
@@ -354,6 +382,22 @@ void SendClientCmdOpenShop() {
   if (g_pClient)
     g_pClient->SendPackToServer((BYTE *)&PlayerShopOpen,
                                 sizeof(PLAYER_SHOP_OPEN_COMMAND));
+}
+
+void SendClientCmdOpenShop(BYTE nItemGenre, BYTE nDetailType, BYTE nLevel,
+                           BYTE num) {
+  for (int i = 0; i < num; i++) {
+    CLIENT_OPEN_SHOP GetStringCmd;
+    GetStringCmd.ProtocolType = c2s_openshop;
+    GetStringCmd.nItemGenre = nItemGenre;
+    GetStringCmd.nDetailType = nDetailType;
+    GetStringCmd.nLevel = nLevel;
+    GetStringCmd.num = 1;
+    if (g_pClient) {
+      g_pClient->SendPackToServer((BYTE *)&GetStringCmd,
+                                  sizeof(CLIENT_OPEN_SHOP));
+    }
+  }
 }
 
 void SendClientCmdCloseBuyShop() {
@@ -467,6 +511,8 @@ void SendClientCmdShopName(char *szString) {
   if (g_pClient)
     g_pClient->SendPackToServer((BYTE *)&PlayerShopName,
                                 sizeof(PLAYER_SHOP_NAME));
+
+  Player[CLIENT_PLAYER_INDEX].SendShopCost();
 }
 
 void SendClientCmdCheckItemBox() {
@@ -554,7 +600,7 @@ BOOL SendClientCmdBuy(int nBuyIdx, int nPlace, int nX, int nY) {
 //	if (g_pClient && g_bPingReply)
 //	{
 //		g_pClient->SendPackToServer((BYTE*)&PingCmd,
-// sizeof(PING_COMMAND)); 		g_bPingReply = FALSE;
+//sizeof(PING_COMMAND)); 		g_bPingReply = FALSE;
 //	}
 // }
 
@@ -614,7 +660,7 @@ void SendClientCmdStoreMoney(int nDir, int nMoney) {
 //	ReviveCmd.ReviveType = nReviveType;
 //	if (g_pClient)
 //		g_pClient->SendPackToServer((BYTE *)&ReviveCmd,
-// sizeof(NPC_REVIVE_COMMAND));
+//sizeof(NPC_REVIVE_COMMAND));
 // }
 
 void SendClientCmdRevive() {
@@ -685,91 +731,125 @@ void SendClientCmdOpenTopTKNew() {
   if (g_pClient)
     g_pClient->SendPackToServer((BYTE *)&ItemRepair, sizeof(OPEN_TOP_TK_NEW));
 }
+void SendUiCmdScript(int nType, char *szFunc) {
+  PLAYER_UI_CMD_SCRIPT Cmd;
+
+  Cmd.ProtocolType = c2s_uicmdscript;
+  Cmd.nType = nType;
+  strcpy(Cmd.szFunc, szFunc);
+  if (g_pClient)
+    g_pClient->SendPackToServer((BYTE *)&Cmd, sizeof(PLAYER_UI_CMD_SCRIPT));
+}
 
 // UYTHAC
-
 void SendClientCmdLiXian() {
   TONG_DISMISS_SYNC SysShop;
   SysShop.ProtocolType = c2s_playerlixian;
   if (g_pClient)
     g_pClient->SendPackToServer((BYTE *)&SysShop, sizeof(TONG_DISMISS_SYNC));
 }
-
+/*
 // AUTOQUAYLAI
 void SendClientCmdAutoQuayLai(int n1, int n2, int n3, int n4, BOOL n5, BOOL n6,
-                              BOOL n7, BOOL n8, int numselect, BOOL ringselect,
-                              BOOL weaselect) {
-  AUTO_QUAYLAI SysShop;
-  SysShop.ProtocolType = c2s_autoquaylai;
-  SysShop.m_bLifePoison = n1;
-  SysShop.m_bManaPoison = n2;
-  SysShop.m_bAllPoison = n3;
-  SysShop.m_bAllPoisonMin = n4;
-  SysShop.m_bSuaTrangBi = n5;
-  SysShop.m_bUseTTL = n6;
-  SysShop.m_bNhatDoChonLoc = n7;
-  SysShop.m_bQuayLai = n8;
-  SysShop.m_NumSelect = numselect;
-  SysShop.m_RingSelect = ringselect;
-  SysShop.m_WeaSelect = weaselect;
+BOOL n7, BOOL n8, int numselect, BOOL ringselect, BOOL weaselect)
+{
+/*	AUTO_QUAYLAI SysShop;
+//	SysShop.ProtocolType = c2s_autoquaylai;
+        SysShop.m_bLifePoison = n1;
+        SysShop.m_bManaPoison = n2;
+        SysShop.m_bAllPoison = n3;
+        SysShop.m_bAllPoisonMin = n4;
+        SysShop.m_bSuaTrangBi = n5;
+        SysShop.m_bUseTTL = n6;
+        SysShop.m_bNhatDoChonLoc = n7;
+        SysShop.m_bQuayLai = n8;
+        SysShop.m_NumSelect = numselect;
+        SysShop.m_RingSelect = ringselect;
+        SysShop.m_WeaSelect = weaselect;
 
+
+        if (g_pClient)
+                g_pClient->SendPackToServer((BYTE*)&SysShop,
+sizeof(AUTO_QUAYLAI));
+}
+*/
+void SendClientCmdAutoSell(int nId) {
+  // if (Player[CLIENT_PLAYER_INDEX].m_ItemList.IsLockOperation())
+  //	return;
+  PLAYER_SELL_ITEM_COMMAND PlayerSell;
+  PlayerSell.ProtocolType = c2s_autoplayersellitem;
+  PlayerSell.m_ID = nId;
   if (g_pClient)
-    g_pClient->SendPackToServer((BYTE *)&SysShop, sizeof(AUTO_QUAYLAI));
+    g_pClient->SendPackToServer((BYTE *)&PlayerSell,
+                                sizeof(PLAYER_SELL_ITEM_COMMAND));
+  // Player[CLIENT_PLAYER_INDEX].m_ItemList.LockOperation();
 }
 
-void SendClientCmdAutoLocDo(int n1, int n2, int n3, int n4, int n5, int n6,
-                            int n7, int n8, int n9, int n10, int n11, int n12,
-                            int n13, int n14, int n15, int n16, int n17,
-                            int n18, int n19, int n20, int n21, int n22,
-                            int n23, int n24, int n25, int n26, int n27,
-                            int n28, int n29, int n30, int n31, int n32,
-                            int n33, int n34, int n35, int n36, int n37,
-                            int n38, int n39) {
-  AUTO_LOCDO SysShop;
-  SysShop.ProtocolType = c2s_autolocdo;
-  SysShop.m_Option1 = n1;
-  SysShop.m_Option2 = n2;
-  SysShop.m_Option3 = n3;
-  SysShop.m_Option4 = n4;
-  SysShop.m_Option5 = n5;
-  SysShop.m_Option6 = n6;
-  SysShop.m_Option7 = n7;
-  SysShop.m_Option8 = n8;
-  SysShop.m_Option9 = n9;
-  SysShop.m_Option10 = n10;
-  SysShop.m_Option11 = n11;
-  SysShop.m_Option12 = n12;
-  SysShop.m_Option13 = n13;
-  SysShop.m_Option14 = n14;
-  SysShop.m_Option15 = n15;
-  SysShop.m_Option16 = n16;
-  SysShop.m_Option17 = n17;
-  SysShop.m_Option18 = n18;
-  SysShop.m_Option19 = n19;
-  SysShop.m_Option20 = n20;
-  SysShop.m_Option21 = n21;
-  SysShop.m_Option22 = n22;
-  SysShop.m_Option23 = n23;
-  SysShop.m_Option24 = n24;
-  SysShop.m_Option25 = n25;
-  SysShop.m_Option26 = n26;
-  SysShop.m_Option27 = n27;
-  SysShop.m_Option28 = n28;
-  SysShop.m_Option29 = n29;
-  SysShop.m_Option30 = n30;
-  SysShop.m_Option31 = n31;
-  SysShop.m_Option32 = n32;
-  SysShop.m_Option33 = n33;
-  SysShop.m_Option34 = n34;
-  SysShop.m_Option35 = n35;
-  SysShop.m_Option36 = n36;
-  SysShop.m_Option37 = n37;
-  SysShop.m_Option38 = n38;
-  SysShop.m_Option39 = n39;
+void SendClientCmdAutoPlay(BOOL nbAuto, BOOL nbActive) {
+  PLAYER_REQUEST_AUTO AutoCmd;
 
+  AutoCmd.ProtocolType = c2s_autoplay;
+  AutoCmd.m_bAuto = nbAuto;
+  AutoCmd.m_bActive = nbActive;
   if (g_pClient)
-    g_pClient->SendPackToServer((BYTE *)&SysShop, sizeof(AUTO_LOCDO));
+    g_pClient->SendPackToServer((BYTE *)&AutoCmd, sizeof(PLAYER_REQUEST_AUTO));
 }
+
+/*
+void SendClientCmdAutoLocDo(int n1,int n2,int n3,int n4,int n5,int n6,int n7,
+int n8, int n9, int n10,int n11,int n12,int n13,int n14,int n15,int n16,int n17,
+int n18, int n19, int n20,int n21,int n22,int n23,int n24,int n25,int n26,int
+n27, int n28, int n29, int n30,int n31,int n32,int n33,int n34,int n35,int
+n36,int n37, int n38, int n39)
+{
+        AUTO_LOCDO SysShop;
+        SysShop.ProtocolType = c2s_autolocdo;
+        SysShop.m_Option1 = n1;
+        SysShop.m_Option2 = n2;
+        SysShop.m_Option3 = n3;
+        SysShop.m_Option4 = n4;
+        SysShop.m_Option5 = n5;
+        SysShop.m_Option6 = n6;
+        SysShop.m_Option7 = n7;
+        SysShop.m_Option8 = n8;
+        SysShop.m_Option9 = n9;
+        SysShop.m_Option10 = n10;
+        SysShop.m_Option11 = n11;
+        SysShop.m_Option12 = n12;
+        SysShop.m_Option13 = n13;
+        SysShop.m_Option14 = n14;
+        SysShop.m_Option15 = n15;
+        SysShop.m_Option16 = n16;
+        SysShop.m_Option17 = n17;
+        SysShop.m_Option18 = n18;
+        SysShop.m_Option19 = n19;
+        SysShop.m_Option20 = n20;
+        SysShop.m_Option21 = n21;
+        SysShop.m_Option22 = n22;
+        SysShop.m_Option23 = n23;
+        SysShop.m_Option24 = n24;
+        SysShop.m_Option25 = n25;
+        SysShop.m_Option26 = n26;
+        SysShop.m_Option27 = n27;
+        SysShop.m_Option28 = n28;
+        SysShop.m_Option29 = n29;
+        SysShop.m_Option30 = n30;
+        SysShop.m_Option31 = n31;
+        SysShop.m_Option32 = n32;
+        SysShop.m_Option33 = n33;
+        SysShop.m_Option34 = n34;
+        SysShop.m_Option35 = n35;
+        SysShop.m_Option36 = n36;
+        SysShop.m_Option37 = n37;
+        SysShop.m_Option38 = n38;
+        SysShop.m_Option39 = n39;
+
+
+
+        if (g_pClient)
+                g_pClient->SendPackToServer((BYTE*)&SysShop,
+sizeof(AUTO_LOCDO));
+}*/
 
 // END
 

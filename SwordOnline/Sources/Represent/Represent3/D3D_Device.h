@@ -1,6 +1,6 @@
 // D3D_Device.h
 //	Contains the active D3D Device. CD3D_Shell & CD3D_Device are the main
-// containers of D3D shtuff...
+//containers of D3D shtuff...
 
 #ifndef __D3D_DEVICE_H__
 #define __D3D_DEVICE_H__
@@ -63,7 +63,7 @@ public:
   LPDIRECT3DDEVICE9 m_pD3DDevice; // D3D ‰÷»æ…Ë±∏
 private:
   //	D3DFORMAT
-  // GetDefaultDepthStencilFormat(uint32 iZBitDepth,uint32 iStencilBitDepth);
+  //GetDefaultDepthStencilFormat(uint32 iZBitDepth,uint32 iStencilBitDepth);
   D3DMULTISAMPLE_TYPE GetDefaultMultiSampleType(uint32 Samples);
   void SetPresentationParams(D3DPRESENT_PARAMETERS &PresentationParam,
                              D3DModeInfo *pMode);

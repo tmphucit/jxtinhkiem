@@ -60,7 +60,7 @@ typedef struct _DMUS_INSTRUMENT {
   ULONG ulPatch;
   ULONG ulFirstRegionIdx;
   ULONG
-  ulGlobalArtIdx; /* If zero the instrument does not have an articulation */
+      ulGlobalArtIdx; /* If zero the instrument does not have an articulation */
   ULONG ulFirstExtCkIdx; /* If zero no 3rd party entenstion chunks associated
                             with the instrument */
   ULONG ulCopyrightIdx;  /* If zero no Copyright information associated with the

@@ -231,7 +231,6 @@ int KItemSet::Add(int nItemGenre, int nSeries, int nLevel, int nLuck,
 
   pItem->m_GeneratorParam.nVersion = nVersion;
   pItem->m_GeneratorParam.uRandomSeed = nRandomSeed;
-  g_DebugLog("Test %d \n", iNgoaiTrang);
   pItem->m_CommonAttrib.iNgoaiTrang = iNgoaiTrang;
 
   switch (nItemGenre) {

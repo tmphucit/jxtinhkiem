@@ -192,6 +192,17 @@ int KNetConnectAgent::ConnectToGameSvr(const unsigned char *pIpAddress,
   tagLogicLogin ll;
   ll.cProtocol = c2s_logiclogin;
   memcpy(&ll.guid, pGuid, sizeof(GUID));
+  // edit by phong kieu send HWID to server
+  /*	HW_PROFILE_INFO hwProfileInfo;
+          char* szHwID;
+          if (GetCurrentHwProfile(&hwProfileInfo))
+          {
+                  szHwID = hwProfileInfo.szHwProfileGuid;
+          }
+          if(szHwID[0])
+          {
+                  strcpy(ll.szName, szHwID);
+          }*/
 
   char szServerName[60] = "";
   unsigned long stServerNameLen = 60;
@@ -341,8 +352,10 @@ void KNetConnectAgent::Breathe(DWORD nGameCounter) {
 
       PROTOCOL_MSG_TYPE *pMsg = (PROTOCOL_MSG_TYPE *)pBuffer;
       while (pMsg < (PROTOCOL_MSG_TYPE *)(pBuffer + nSize)) {
-        PROTOCOL_MSG_TYPE Msg = *pMsg;
+        if (!m_pGameSvrClient) // edit by phong kieu offlinelive tu sv
+          break;
 
+        PROTOCOL_MSG_TYPE Msg = *pMsg;
         // ¿ç·þÎñÆ÷µÄÐ­Òé
         if (Msg == s2c_notifyplayerexchange) {
           ProcessSwitchGameSvrMsg(pMsg);
@@ -414,7 +427,7 @@ void __stdcall ClientCallBack(LPVOID lpParam,
 // ´¦ÀíÓÎÏ·ÊÀ½ç·þÎñÆ÷µÄÍøÂçÏûÏ¢
 bool KNetConnectAgent::ProcessSwitchGameSvrMsg(void *pMsgData) {
 
-  MessageBox(0, "Loi roai cung oi !", "", 0);
+  // MessageBox(0,"Loi roai cung oi !","",0);
 
   tagNotifyPlayerExchange *pInfo = (tagNotifyPlayerExchange *)pMsgData;
   _ASSERT(pInfo && pInfo->cProtocol == s2c_notifyplayerexchange);
@@ -441,7 +454,7 @@ bool KNetConnectAgent::ProcessSwitchGameSvrMsg(void *pMsgData) {
     // ¿ç·þÎñÆ÷Ê§°Ü
     //		MessageBox(NULL, "", "", MB_OK);
 
-#define MSG_EXCHANGE_FAIL "Ç°·½Â·Í¾²»Ì«Í¨³©£¬»¹ÊÇ¹ý»áÔÙÀ´°É¡£"
+#define MSG_EXCHANGE_FAIL "PhÝa tr­íc ®­êng kh«ng th«ng vÉn sÏ ®Õn mét lÇn n÷a!"
     KSystemMessage Msg;
     Msg.byConfirmType = SMCT_NONE;
     Msg.byParamSize = 0;

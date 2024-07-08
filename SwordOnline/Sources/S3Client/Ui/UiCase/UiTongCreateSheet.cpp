@@ -18,7 +18,7 @@ Description : 创建帮会的表单
 
 #include "UiTongCreateSheet.h"
 
-#define TONG_CREATE_SHEET_SCHEME "UiTongCreateSheet.ini"
+#define TONG_CREATE_SHEET_SCHEME "帮会创建单.ini"
 
 KUiTongCreateSheet *KUiTongCreateSheet::ms_pSelf = NULL;
 
