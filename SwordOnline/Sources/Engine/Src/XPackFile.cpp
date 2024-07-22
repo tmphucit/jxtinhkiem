@@ -189,9 +189,9 @@ bool XPackFile::DirectRead(void *pBuffer, unsigned int uOffset,
 // 功能：带解压地读取包文件到缓冲区
 // 参数：pBuffer --> 缓冲区指针
 //		uExtractSize  -->
-//数据（期望）解压后的大小，pBuffer缓冲区的大小不小于此数 		lCompressType -->
-//直接从包中度取得原始（/压缩）大小 		uOffset  --> 从包中的此偏移位置开始读取
-//		uSize    --> 从包中直接读取得（压缩）数据的大小
+// 数据（期望）解压后的大小，pBuffer缓冲区的大小不小于此数
+// lCompressType --> 直接从包中度取得原始（/压缩）大小 		uOffset  -->
+// 从包中的此偏移位置开始读取 		uSize    --> 从包中直接读取得（压缩）数据的大小
 // 返回：成功与否
 //-------------------------------------------------
 bool XPackFile::ExtractRead(void *pBuffer, unsigned int uExtractSize,
@@ -379,9 +379,10 @@ int XPackFile::ElemFileRead(XPackElemFileRef &ElemRef, void *pBuffer,
             ms_ElemFileCache[ElemRef.nCacheIndex].nElemIndex &&
         ElemRef.nSize == ms_ElemFileCache[ElemRef.nCacheIndex].lSize) {
       //_ASSERT(ElemRef.nPackIndex ==
-      //ms_ElemFileCache[ElemRef.nCacheIndex].nPackIndex);
+      // ms_ElemFileCache[ElemRef.nCacheIndex].nPackIndex);
       //_ASSERT(ElemRef.nElemIndex ==
-      //ms_ElemFileCache[ElemRef.nCacheIndex].nElemIndex); _ASSERT(ElemRef.nSize
+      // ms_ElemFileCache[ElemRef.nCacheIndex].nElemIndex);
+      // _ASSERT(ElemRef.nSize
       //== ms_ElemFileCache[ElemRef.nCacheIndex].lSize);
 
       if (ElemRef.nOffset < 0)

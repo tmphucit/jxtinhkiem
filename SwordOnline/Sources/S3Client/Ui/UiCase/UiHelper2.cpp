@@ -184,7 +184,7 @@ int KUiHelper2::WndProc(unsigned int uMsg, unsigned int uParam, int nParam) {
     }
     //			}
     //			else if (nParam == (unsigned
-    //int)(KWndWindow*)&m_MessageList)
+    // int)(KWndWindow*)&m_MessageList)
     //			{
     //				nCurIdx = m_MessageList.GetCurSel();
     //				nTotal = m_IndexList.GetCount();

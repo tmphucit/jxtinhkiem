@@ -125,7 +125,7 @@ private:
 #ifdef _SERVER
   PLAYER_REVIVAL_POS m_sLoginRevivalPos; // 登入重生点位置（会存盘）
   PLAYER_REVIVAL_POS
-      m_sDeathRevivalPos;             // 死亡重生点（默认为登入重生点，不存盘）
+  m_sDeathRevivalPos;                 // 死亡重生点（默认为登入重生点，不存盘）
   PLAYER_TOWNPORTAL_POS m_sPortalPos; // 传送门位置
   BOOL m_bUseReviveIdWhenLogin;
   int m_nExtPoint;       // 活动点数
@@ -635,7 +635,7 @@ public:
   void ApplyTeamInfo(DWORD dwNpcID); // 向服务器申请查询某个npc所在队伍的信息
   void ApplySelfTeamInfo();          // 向服务器申请查询玩家自身的队伍情况
   BOOL ApplyCreateTeam();            // char *lpszTeamName);		//
-                          // 玩家向服务器申请创建队伍
+                                     // 玩家向服务器申请创建队伍
   BOOL ApplyTeamOpenClose(
       BOOL bFlag); // 队长向服务器申请开放、关闭队伍是否允许加入成员状态
   void ApplyAddTeam(int nNpcIndex);     // 玩家向服务器申请加入某个队伍
@@ -650,9 +650,10 @@ public:
   void ApplyFactionData();   // 玩家向服务器申请门派数据
   void SendChat(KUiMsgParam *pMsg,
                 char *lpszSentence); // 客户端发送聊天语句给服务器
-  void ApplyAddBaseAttribute(int nAttribute,
-                             int nNo); // 队长向服务器申请增加四项属性中某一项的点数(0=Strength
-                                       // 1=Dexterity 2=Vitality 3=Engergy)
+  void ApplyAddBaseAttribute(
+      int nAttribute,
+      int nNo); // 队长向服务器申请增加四项属性中某一项的点数(0=Strength
+                // 1=Dexterity 2=Vitality 3=Engergy)
   BOOL ApplyAddSkillLevel(int nSkillID,
                           int nAddPoint); // 向服务器申请某个技能升级
   BOOL ApplyUseItem(
@@ -740,7 +741,7 @@ public:
   BOOL IsExchangingServer();
   void TobeExchangeServer(DWORD dwMapID, int nX, int nY);
   //	void			UpdateEnterGamePos(DWORD dwSubWorldID, int nX,
-  //int nY, int nFightMode);
+  // int nY, int nFightMode);
   BOOL IsWaitingRemove();
   BOOL IsLoginTimeOut();
   void WaitForRemove();
@@ -829,8 +830,9 @@ public:
   void SetPK(BYTE *pProtocol);       // 收到客户端请求设定PK状态
   void SendFactionData(BYTE *pProtocol); // 收到客户端请求获得门派数据
   void ServerSendChat(BYTE *pProtocol);  // 收到客户端发来的聊天语句
-  void AddBaseAttribute(BYTE *pProtocol); // 收到客户端要求增加基本属性点(0=Strength
-                                          // 1=Dexterity 2=Vitality 3=Engergy)
+  void
+  AddBaseAttribute(BYTE *pProtocol); // 收到客户端要求增加基本属性点(0=Strength
+                                     // 1=Dexterity 2=Vitality 3=Engergy)
   void AddSkillPoint(BYTE *pProtocol); // 收到客户端要求增加某个技能的点数
   BOOL ServerPickUpItem(
       BYTE *pProtocol);          // 收到客户端消息鼠标点击某个obj拣起装备或金钱

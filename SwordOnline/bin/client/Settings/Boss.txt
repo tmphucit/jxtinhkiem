@@ -1,0 +1,20 @@
+Name	IDBoss	Level	Maps
+Bach Doanh Doanh	742		
+Chung Linh Tu	756		
+Co Bach	566		
+Dao Thanh Chan Nhan	562		
+Dieu Nhu	513		
+Doan Moc Due	757		
+Don Tu Nam	759		
+Duong Bat Nhiem	753		
+Gia Luat Ti Li	563		
+Ha Linh Phieu	755		
+Ha Nhan Nga	758		
+Han Mong	748		
+Huyen Giac Dai Su	752		
+Lam Y Y	754		
+Lieu Thanh Thanh	523		
+Thanh Tuyet Su Thai	743
+Truong Tong Chinh	511
+Tuyen Co Tu	760
+Vuong Ta	751

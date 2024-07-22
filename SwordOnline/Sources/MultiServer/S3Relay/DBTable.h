@@ -75,7 +75,8 @@ protected:
                 int &size);          // 搜索指定记录
   char *_next(bool bKey, int &size); // 下一个记录
 public:
-  CDBTableReadOnly(const char *path, const char *name); // 环境目录和数据表的名字
+  CDBTableReadOnly(const char *path,
+                   const char *name); // 环境目录和数据表的名字
   virtual ~CDBTableReadOnly();
 
   bool open();  // 打开数据表

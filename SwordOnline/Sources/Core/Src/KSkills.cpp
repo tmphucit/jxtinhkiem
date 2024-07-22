@@ -3186,7 +3186,7 @@ void KSkill::GetDesc(unsigned long ulSkillId, unsigned long ulLevel,
       strcat(pszMsg, szTemp);
     }
   } break; //	主动类
-           //本技能用于改变当前Npc的主动状态
+           // 本技能用于改变当前Npc的主动状态
   case SKILL_SS_PassivityNpcState: {
     strcat(pszMsg, "被动辅助武功\n");
   } break; //	被动类		本技能用于改变Npc的被动状态
@@ -3436,9 +3436,10 @@ void KSkill::GetDescAboutLevel(char *pszMsg, int pszlevel, int nOwnerIndex) {
                                    m_DamageAttribs[i].nValue[2]) *
                                100 / m_DamageAttribs[i].nValue[0];
         strcat(pszMsg, " ");
-        strcat(pszMsg, "Luy�n t�p k� n�ng: ");
+        strcat(pszMsg, "<color=water>M�c �� luy�n: ");
         sprintf(pszMsg, "%s%d", pszMsg, ExpPecentUpLevel);
-        strcat(pszMsg, "% ");
+        strcat(pszMsg, "%");
+        strcat(pszMsg, "<color>");
         strcat(pszMsg, "\n");
       }
     } else if (m_DamageAttribs[i].nAttribType == magic_nstatus_p) {

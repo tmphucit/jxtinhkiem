@@ -19,7 +19,7 @@ void CoreDrawGameObj(unsigned int uObjGenre, unsigned int uId, int x, int y,
                      int Width, int Height, int nParam) {
   //	static int nSpeed = 0;
   //	g_DebugLog("TEST VE %d - %d - %d - %d - %d - %d - %d",
-  //uObjGenre,uId,x,y,Width,Height,nParam);
+  // uObjGenre,uId,x,y,Width,Height,nParam);
   switch (uObjGenre) {
   case CGOG_NPC:
 

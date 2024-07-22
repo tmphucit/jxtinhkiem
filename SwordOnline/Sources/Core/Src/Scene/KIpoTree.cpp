@@ -11,7 +11,7 @@
 #include "..\ImgRef.h"
 #include "..\KCore.h"
 #include "..\KNpc.h"
-#include "..\MyAssert.h"
+#include "..\MyAssert.H"
 #include "KEngine.h"
 #include "KIpotBranch.h"
 #include "KIpotLeaf.h"

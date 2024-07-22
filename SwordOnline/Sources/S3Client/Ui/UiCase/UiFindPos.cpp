@@ -17,7 +17,7 @@ KUiFindPos *KUiFindPos::m_pSelf = NULL;
 
 //--------------------------------------------------------------------------
 //	Kiem tra xem hop thoai co dang visible hay khong, neu visible thi tra ve
-//con tro hop thoai
+// con tro hop thoai
 //--------------------------------------------------------------------------
 KUiFindPos *KUiFindPos::GetIfVisible() {
   if (m_pSelf && m_pSelf->IsVisible())

@@ -1782,7 +1782,7 @@ void KSwordOnLineSever::DatabaseMessageProcess(const char *pData,
       int nIndex = pPD->ulIdentity;
       m_pCoreServerShell->SetSaveStatus(nIndex, SAVE_IDLE);
       //			printf("  Save Player Data finished(%d)!\n",
-      //nIndex);
+      // nIndex);
     }
     break;
   default:
@@ -1993,7 +1993,7 @@ void KSwordOnLineSever::TransferLargePackProcess(const void *pData,
 
       } else {
         //					cout << "Don't find any valid
-        //data!" << endl;
+        // data!" << endl;
       }
     } break;
     default:
@@ -2085,7 +2085,7 @@ void KSwordOnLineSever::TransferSmallPackProcess(const void *pData,
       if (m_pTransferClient)
         m_pTransferClient->SendPackToServer(&lg2, sizeof(tagLeaveGame2));
       //				cout << sLeaveGame.szAccountName << "
-      //leave game!" << endl;
+      // leave game!" << endl;
       m_pGameStatus[lnID].nExchangeStatus = enumExchangeCleaning;
       m_pGameStatus[lnID].nPlayerIndex = 0;
     } else {
@@ -2946,7 +2946,7 @@ BOOL KSwordOnLineSever::SavePlayerData(int nIndex, bool bUnLock) {
       m_pDatabaseClient->SendPackToServer(pBuffer, actLen);
 #endif
       //				cout << "Save small package:" <<
-      //pBuffer->GetUsed() << endl;
+      // pBuffer->GetUsed() << endl;
 #ifndef _STANDALONE
       try {
         if (pBuffer) {
@@ -3050,7 +3050,8 @@ void KSwordOnLineSever::PlayerExchangeServer() {
             (tagSearchWay *)(szChar + sizeof(RELAY_ASKWAY_DATA) +
                              pRAD->wMethodDataLength);
         //					pSW->ProtocolFamily =
-        //pf_gameworld; 					pSW->ProtocolID = c2c_notifyexchange;
+        // pf_gameworld; 					pSW->ProtocolID
+        // = c2c_notifyexchange;
         pSW->cProtocol = c2c_notifyexchange;
         pSW->lnID = i;
         pSW->nIndex = m_pGameStatus[i].nPlayerIndex;
@@ -3104,7 +3105,7 @@ void KSwordOnLineSever::PlayerLogoutGateway() {
       if (m_pTransferClient)
         m_pTransferClient->SendPackToServer(&lg2, sizeof(tagLeaveGame2));
       //			cout << sLeaveGame.szAccountName << " leave
-      //game!" << endl;
+      // game!" << endl;
       m_pCoreServerShell->RemovePlayerLoginTimeOut(nIndex);
     } else if (m_pCoreServerShell->IsCharacterQuiting(nIndex)) {
 
@@ -3216,7 +3217,7 @@ int KSwordOnLineSever::ProcessLoginProtocol(const unsigned long lnID,
     int nIdx = m_pCoreServerShell->AttachPlayer(lnID, &pLL->guid);
     if (nIdx) {
       //			cout << "Found player " << nIdx << " is logging
-      //in system!" << endl;
+      // in system!" << endl;
       return nIdx;
     } else {
       // 非法的玩家，该怎么处理怎么处理

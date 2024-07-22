@@ -1,0 +1,1 @@
+TEN_BANG = {"TøÙH¶i","ThiªnÙMa"}

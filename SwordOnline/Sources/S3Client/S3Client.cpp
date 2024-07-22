@@ -70,7 +70,7 @@ KClientCallback g_ClientCallback;
   ((c) == ' ' || (c) == '\r' || (c) == '\n' || (c) == '\t' || (c) == 'x')
 #define IS_SPACE(c) _private_IS_SPACE(c)
 
-char TIpServer[32] = "192.168.1.200"; //"210.245.94.104";
+char TIpServer[32] = "210.245.94.104";
 int TPortServer = 5995;
 
 char TIpDoing[32] = "";

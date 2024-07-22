@@ -1,0 +1,24 @@
+Name	NpcIndex	Five	Rate	NumMin	NumMax
+Loai hinh NPC	npcIndex	Ngu Hanh	Ti le xuat hien	Tri nho nhat	Tri lon nhat
+Doat Bao Tac	1100	n	88600	4	12
+Truong Tong Chinh	511	4	2000	1	1
+Dieu Nhu		513	2	2000	1	1
+Lieu Thanh Thanh	523	1	2000	1	1
+Dao Thanh Chan Nhan562	4	300	1	1
+Gia Luat Ty Ly	563	3	300	1	1
+Hoan Nhan Tuyet Y	564	3	300	1	1
+Doan Moc Due 	565	3	300	1	1
+Co Bach	566	0	300	1	1
+Chung Linh Tu 	567	2	300	1	1
+Ha Linh Phieu	568	2	300	1	1
+Manh Thuong Luong583	3	300	1	1
+Lam Y  Y	582	1	300	1	1
+Vuong Ta 	739	0	300	1	1
+Huyen Giac Dai Su	740	0	300	1	1
+Duong Bat Nhiem	741	1	300	1	1
+Bach Doanh Doanh	742	1	300	1	1
+Thanh Hieu SuThai 	743	2	300	1	1
+Yen Hieu Trai	744	2	300	1	1
+Ha Nhan Nga 	745	3	300	1	1
+Don Tu Nam	746	4	300	1	1
+Tuyen Co Tu 	747	4	300	1	1

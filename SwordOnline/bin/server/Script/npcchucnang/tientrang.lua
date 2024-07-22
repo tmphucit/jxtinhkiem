@@ -1,0 +1,131 @@
+Include("\\Script\\Global\\sourcejx49.lua")
+Include("\\Script\\header\\taskid.lua");
+Include("\\Script\\lib\\worldlibrary.lua");
+Include("\\Script\\lib\\thuvien.lua");
+
+-----------------------------------------------§Ã FIX OK 10/03/2024-----------------------------------------------------
+---------======================ANHVIETDONGNAI=====================-------------------
+--=========================------------------------====================-------------------
+
+function main()
+vang = GetTask(XU_VANG)
+SayNew("nhµ ng­¬i ®ang cã: <color=yellow>"..vang.." Xu<color>. Vµ <color=yellow>"..GetTask(VANGKHOA_1).." Vµng Khãa <color>",5,
+"§æi Kim Nguyªn B¶o >>> ra Xu/new_guiknb",
+"§æi Xu ra >>> Kim Nguyªn B¶o/new_rutknb",
+"§æi Kim Nguyªn B¶o thµnh Ng©n L­îng/new_doiknb",
+"§æi Kim Nguyªn B¶o thµnh Vµng Khãa/doivangkhoa200",
+"Tho¸t./no")
+end
+
+------------------------------------------------------------------------------------------------------------------------------------
+function new_guiknb()
+sl = GetItemCount(17) 
+sl2 = GetItemCount(631) 
+vang = GetTask(XU_VANG)
+vang2 = GetTask(XU_VANG2)
+if GetItemCount(17) > 0 then
+	DelItem(17)
+	if GetItemCount(17) == sl-1 then
+		SetTask(XU_VANG,GetTask(XU_VANG) + 20)
+		SetTask(XU_VANG2,GetTask(XU_VANG2) + 20)
+		if GetTask(XU_VANG) ~= vang + 20 or GetTask(XU_VANG2) ~= vang2 + 20 or GetTask(XU_VANG) ~= GetTask(XU_VANG2) then
+			inlog("Error: "..GetAccount().." - "..GetName().." reset "..GetTask(99).." vang")
+			SetTask(XU_VANG,0)
+			SetTask(XU_VANG2,0)
+			Talk(1,"","Check hack KNB: B¹n bÞ reset sè vµng hiÖn cã, liªn hÖ GM ®Ó gi¶i quyÕt !")
+		end
+		Msg2Player("B¹n ®· göi thµnh c«ng 1 Kim Nguyªn B¶o !")
+		inlog("[Gui] "..GetAccount().." - "..GetName().." thµnh cong. Hanh Trang: "..GetItemCount(17).."  - Tien trang: "..GetTask(99).." ")
+		Talk(0,"")
+	else
+		Talk(1,"","hack ha cung !")
+	end
+else
+	Talk(1,"","B¹n kh«ng mang theo <color=yellow>Kim Nguyªn B¶o<color>")
+end
+end
+-------------------------------------------------------------------------------------------------------------------------------------
+function new_rutknb()
+ngay = tonumber(date("%d"))
+
+if CheckFreeBoxItem(4,17,1,1) == 0 then
+Talk(1,"","Hµnh trang kh«ng cßn chç trèng vui lßng kiÓm tra l¹i !")
+return
+end
+
+if GetLevel() < 80 then
+Talk(1,"","Ng­¬i kh«ng ®ñ cÊp 80, kh«ng thÓ rót KNB")
+return
+end
+
+slknb = GetItemCount(17) 
+vang = GetTask(XU_VANG)
+if GetTask(XU_VANG) >= 20 and CheckFreeBoxItem(4,17,1,1) ~= 0 then
+	SetTask(XU_VANG,GetTask(XU_VANG) - 20)
+	SetTask(XU_VANG2,GetTask(XU_VANG2) - 20)
+	if GetTask(XU_VANG) == vang-20 and CheckFreeBoxItem(4,17,1,1) ~= 0 then
+		AddEventItem(17)
+		if GetItemCount(17) ~= slknb + 1 then
+			inlog("Error: "..GetAccount().." - "..GetName().." reset "..GetTask(99).." KNB moi: "..GetItemCount(17).." KNB cu: "..slknb.."vang")
+			SetTask(XU_VANG,0)
+			DelItem(17)
+			Talk(1,"","Check hack KNB: B¹n bÞ reset sè vµng hiÖn cã, liªn hÖ GM ®Ó gi¶i quyÕt !")
+		end
+		inlog("[Rut] "..GetAccount().." - "..GetName()..". Hanh Trang: "..GetItemCount(17).." x10  - TiÒn Trang : "..GetTask(99).." ")
+		Msg2Player("B¹n nhËn ®­îc 1 Kim Nguyªn B¶o ")
+		Talk(0,"")
+	else
+		Talk(1,"","Hack ha em")
+	end
+else
+	Talk(1,"","Ng­¬i kh«ng ®ñ <color=yellow>20 vµng<color>, kh«ng thÓ ®æi Kim Nguyªn B¶o")
+end
+end
+-------------------------------------------------------------------------------------------------------------------------------------
+function new_doiknb()
+SayNew("<color=green>Chñ TiÒn Trang<color>: <color=yellow>1 Kim Nguyªn B¶o = 800 v¹n l­îng<color>. Ng­¬i cã muèn ®æi kh«ng? ",2,
+"Ta muèn ®æi kim nguyªn b¶o/new_doiknb2",
+"Tho¸t./no")
+end
+
+function new_doiknb2()
+if GetItemCount(17)  >= 1 then
+Earn(8000000)
+DelItem(17)
+Msg2Player("<color=green>B¹n nhËn ®­îc 800 v¹n");
+return end
+Talk(1,"","B¹n kh«ng ®ñ 1 KNB");
+end
+-------------------------------------------------------------------------------------------------------------------------------------
+function doivangkhoa200()
+SayNew("<color=green>Chñ TiÒn Trang<color>: <color=yellow>1 Kim Nguyªn B¶o = 100 vµng khãa<color>. Ng­¬i cã muèn ®æi kh«ng? ",2,
+"Ta muèn ®æi /doivangkhoa300",
+"Tho¸t./no")
+end
+
+function doivangkhoa300()
+if GetItemCount(17)  >= 1 then
+SetTask(VANGKHOA_1,GetTask(VANGKHOA_1) + 100) 
+DelItem(17)
+Msg2Player("<color=green>B¹n nhËn ®­îc 100 vµng khãa");
+return end
+Talk(1,"","B¹n kh«ng ®ñ 1 KNB");
+end
+-------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------
+function inlog(string)
+thoigian = tonumber(date("%H%M%d%m"))
+LoginLog = openfile("Data/logKimNguyenBao.txt", "a");
+if LoginLog then
+write(LoginLog,""..string.." - Time: "..thoigian.."\n");
+end
+closefile(LoginLog)
+end
+
+
+
+function no()
+end

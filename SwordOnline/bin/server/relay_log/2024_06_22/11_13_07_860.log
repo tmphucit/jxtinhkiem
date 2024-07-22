@@ -1,0 +1,116 @@
+
+*
+***** S3Relay Start (@ 2024/06/22 11:13:07.860) >>>>>
+*
+
+[2024/06/22 11:13:10] 1 -- Initializing ...
+[2024/06/22 11:13:10] 2 -- Create Channel: [Stock, GM] <00000000> GM
+[2024/06/22 11:13:10] 3 -- Create Channel: [Stock] <00000001> 世界
+[2024/06/22 11:13:10] 4 -- friend timing update db: start
+[2024/06/22 11:13:10] 5 -- relay server startup
+[2024/06/22 11:13:10] 6 -- root client create: 192.168.11.13
+[2024/06/22 11:13:10] 7 -- root client close: 192.168.11.13
+[2024/06/22 11:13:10] 8 -- FAIL: DBRole client - 192.168.11.13
+[2024/06/22 11:13:10] 9 -- enable reclient: db
+[2024/06/22 11:13:10] 10 -- gateway client create: 192.168.11.13
+[2024/06/22 11:13:10] 11 -- host server startup
+[2024/06/22 11:13:10] 12 -- tong server startup
+[2024/06/22 11:13:10] 13 -- chat server startup
+[2024/06/22 11:13:10] 14 -- SockThread start success
+[2024/06/22 11:13:10] 15 -- tong database open ok!
+[2024/06/22 11:13:10] 16 -- tongset init ok !
+[2024/06/22 11:13:10] 17 -- Initialize OK
+[2024/06/22 11:13:25] 18 -- host connect create: 192.168.11.13
+[2024/06/22 11:13:25] 19 -- chat connect create: 192.168.11.13
+[2024/06/22 11:13:25] 20 -- tong connect create: 192.168.11.13
+[2024/06/22 11:13:25] 21 -- try reclient: db - 192.168.11.13
+[2024/06/22 11:13:25] 22 -- FAIL: reclient db - 192.168.11.13
+[2024/06/22 11:13:37] 23 -- try reclient: db - 192.168.11.13
+[2024/06/22 11:13:37] 24 -- FAIL: reclient db - 192.168.11.13
+[2024/06/22 11:13:49] 25 -- try reclient: db - 192.168.11.13
+[2024/06/22 11:13:49] 26 -- FAIL: reclient db - 192.168.11.13
+[2024/06/22 11:13:52] 27 -- load someone: ThienNhan
+[2024/06/22 11:13:52] 28 -- player login: hinodl01 [ThienNhan] (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 29 -- Query ChannelID: \S from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 30 -- Create Channel: <00000002> \S218867904
+[2024/06/22 11:13:52] 31 -- Query ChannelID: 世界 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 32 -- Query ChannelID: \F7 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 33 -- Create Channel: <00000003> \F7
+[2024/06/22 11:13:52] 34 -- Query ChannelID: GM from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 35 -- Query ChannelID: \B from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 36 -- Create Channel: <00000004> \B218867904
+[2024/06/22 11:13:52] 37 -- sync friend list: ThienNhan (full)
+[2024/06/22 11:13:52] 38 -- Query ChannelID: \S from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 39 -- Query ChannelID: 世界 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 40 -- Query ChannelID: \F7 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 41 -- Query ChannelID: GM from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 42 -- Query ChannelID: \B from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 43 -- Query ChannelID: \O311280548 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 44 -- Create Channel: <00000005> \O311280548
+[2024/06/22 11:13:52] 45 -- Query ChannelID: \S from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 46 -- Query ChannelID: 世界 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 47 -- Query ChannelID: \F7 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 48 -- Query ChannelID: GM from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 49 -- Query ChannelID: \B from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 50 -- Query ChannelID: \O311280548 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 51 -- Query ChannelID: \S from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 52 -- Query ChannelID: 世界 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 53 -- Query ChannelID: \F7 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 54 -- Query ChannelID: GM from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 55 -- Query ChannelID: \B from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 56 -- Query ChannelID: \O311280548 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 57 -- Query ChannelID: \S from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 58 -- Query ChannelID: 世界 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 59 -- Query ChannelID: \F7 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 60 -- Query ChannelID: GM from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 61 -- Query ChannelID: \B from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 62 -- Query ChannelID: \O311280548 from (0D0BA8C0, 00000000)
+[2024/06/22 11:13:52] 63 -- Subscribe Channel: 00000002 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 64 -- Subscribe Channel: 00000001 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 65 -- Subscribe Channel: 00000003 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 66 -- Subscribe Channel: GM <00000000> by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 67 -- Subscribe Channel: 00000004 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 68 -- Subscribe Channel: 00000002 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 69 -- Subscribe Channel: 00000001 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 70 -- Subscribe Channel: 00000003 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 71 -- Subscribe Channel: GM <00000000> by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 72 -- Subscribe Channel: 00000004 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 73 -- Subscribe Channel: 00000005 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 74 -- Subscribe Channel: 00000002 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 75 -- Subscribe Channel: 00000001 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 76 -- Subscribe Channel: 00000003 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 77 -- Subscribe Channel: GM <00000000> by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 78 -- Subscribe Channel: 00000004 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 79 -- Subscribe Channel: 00000005 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 80 -- Subscribe Channel: 00000002 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 81 -- Subscribe Channel: 00000001 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 82 -- Subscribe Channel: 00000003 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 83 -- Subscribe Channel: GM <00000000> by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 84 -- Subscribe Channel: 00000004 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 85 -- Subscribe Channel: 00000005 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 86 -- Subscribe Channel: 00000002 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 87 -- Subscribe Channel: 00000001 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 88 -- Subscribe Channel: 00000003 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 89 -- Subscribe Channel: GM <00000000> by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 90 -- Subscribe Channel: 00000004 by (0D0BA8C0,00000000)
+[2024/06/22 11:13:52] 91 -- Subscribe Channel: 00000005 by (0D0BA8C0,00000000)
+[2024/06/22 11:14:01] 92 -- try reclient: db - 192.168.11.13
+[2024/06/22 11:14:01] 93 -- FAIL: reclient db - 192.168.11.13
+[2024/06/22 11:14:07] 94 -- Destroy Channel: <00000002> \S218867904
+[2024/06/22 11:14:07] 95 -- Destroy Channel: <00000003> \F7
+[2024/06/22 11:14:07] 96 -- Destroy Channel: <00000004> \B218867904
+[2024/06/22 11:14:07] 97 -- Destroy Channel: <00000005> \O311280548
+[2024/06/22 11:14:07] 98 -- player logout: hinodl01
+[2024/06/22 11:14:13] 99 -- try reclient: db - 192.168.11.13
+[2024/06/22 11:14:13] 100 -- FAIL: reclient db - 192.168.11.13
+[2024/06/22 11:14:22] 101 -- Uninitializing ...
+[2024/06/22 11:14:22] 102 -- disable reclient: db
+[2024/06/22 11:14:22] 103 -- SockThread stop success
+[2024/06/22 11:14:22] 104 -- chat server shutdown
+[2024/06/22 11:14:22] 105 -- gateway client close: 192.168.11.13
+[2024/06/22 11:14:22] 106 -- Uninitialize OK
+
+*
+***** S3Relay Stop (@ 2024/06/22 11:14:22.188) <<<<<
+*
+

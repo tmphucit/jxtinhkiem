@@ -460,7 +460,7 @@ void KNpcRes::Draw(int nNpcIdx, int nDir, int nAllFrame, int nCurFrame,
   // -------------------------------- »æÖÆ
 
   //	g_pRepresent->DrawPrimitives(MAX_NPC_IMAGE_NUM, m_cDrawFile, RU_T_IMAGE,
-  //bInMenu);
+  // bInMenu);
 }
 
 void KNpcRes::GetShadowName(char *lpszShadow, char *lpszSprName) {

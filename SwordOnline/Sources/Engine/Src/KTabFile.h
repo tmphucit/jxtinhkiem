@@ -35,8 +35,9 @@ public:
   BOOL Load(LPSTR FileName);
   BOOL Save(LPSTR FileName) { return FALSE; }; // 无法保存
   BOOL LoadPack(LPSTR FileName);
-  int FindRow(LPSTR szRow);       // 返回以1为起点的值
-  int FindColumn(LPSTR szColumn); // 返回以1为起点的值
+  int FindRow(LPSTR szRow);           // 返回以1为起点的值
+  int FindRow(LPSTR szRow, int nCol); // them boi Vincent Hoang --
+  int FindColumn(LPSTR szColumn);     // 返回以1为起点的值
   void Col2Str(int nCol, LPSTR szColumn);
   int GetWidth() { return m_Width; };
   int GetHeight() { return m_Height; };

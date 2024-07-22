@@ -1,0 +1,53 @@
+TongXacSuat = 1000
+
+MangVatPham = {
+{1,119, "Tiªn Th¶o Lé 3 Giê ", 20},
+{0,113, "Tiªn Th¶o Lé 30 Phót", 235},
+{0,117, "Tiªn Th¶o Lé 1 Giê ", 100},
+{1,120, "Tiªn Th¶o Lé 6 Giê ", 5},
+{0,118, "N÷ Nhi Hång 1 Giê ",100},
+{1,115, "N÷ Nhi Hång 3 Giê ",20},
+{1,116, "N÷ Nhi Hång 6 Giê ",5},
+{1,919, "Thiªn S¬n B¶o Lé ",10},
+{1,920, "QuÕ Hoa Töu",10},
+{1,251, "Phi Phong",10},
+{1,674, "Ho¸n Binh Th¹ch",2},
+{1,28, "Lam Thñy Tinh",15},
+{1,29, "Tö Thñy Tinh",15},
+{1,30, "Lôc Thñy Tinh",15},
+{1,31, "Tinh Hång B¶o Th¹ch",20},
+{1,2, "ThiÕt La H¸n",2},
+{1,252, "B¸t Nh· T©m Kinh",5},
+{1,0, "Vâ L©m MËt TÞch",1},
+{1,1, "TÈy Tñy Kinh",1},
+{0,59, "X¸ Lîi Kim §¬n",20},
+{1,16, "ThÇn BÝ §¹i Hång Bao",10},
+{1,271, "M·nh HiÖp Cèt",1},
+{1,270, "M·nh Nhu T×nh",1},
+
+{1,325, "Bao L× X× (Nhá)",20},
+{1,326, "Bao L× X× (Lín)",5},
+
+{1,895, "M¶nh §Þnh Quèc Tö §»ng Hé UyÓn",1},
+{1,896, "M¶nh §Þnh Quèc ¤ Sa Ph¸t Qu¸n",1},
+{1,897, "M¶nh §Þnh Quèc Thanh Sa Tr­êng Sam",1},
+{1,898, "M¶nh §Þnh Quèc Ng©n TÇm Yªu §¸i",1},
+{1,899,"M¶nh §Þnh Quèc XÝch QuyÒn NhuyÔn Ngoa",1},
+{1,900, "M¶nh An Bang B¨ng Tinh Th¹ch H¹ng Liªn",1},
+{1,901, "M¶nh An Bang Kª HuyÕt Th¹ch Giíi ChØ ",1},
+{1,902, "M¶nh An Bang Cóc Hoa Th¹ch ChØ Hoµn",1},
+{1,903, "M¶nh An Bang §iÒn Hoµng Th¹ch Ngäc Béi",1},
+
+--{1,9999, "Hoµng Kim T©n Thñ ", 10, 2 , 80, 1},
+--{1,9999, "Hoµng Kim T©n Thñ ", 10, 4 , 21, 1},
+--{1,9999, "Hoµng Kim T©n Thñ ", 10, 6 , 27, 1},
+--{1,9999, "Hoµng Kim T©n Thñ ", 10, 5 , 25, 1},
+--{1,9999, "Hoµng Kim T©n Thñ ", 10, 8 , 23, 1},
+--{1,9999, "Hoµng Kim T©n Thñ ", 10, 7 , 42, 1},
+--{1,9999, "Hoµng Kim T©n Thñ ", 10, 9 , 21, 1},
+--{1,9999, "Hoµng Kim T©n Thñ ", 10, 3 , 40, 1},
+--{1,9999, "Hoµng Kim T©n Thñ ", 10, 3 , 41, 1},
+
+
+{0,114, "N÷ Nhi Hång 30 Phót",235},
+}

@@ -350,8 +350,8 @@ void KScenePlaceMapC::CalcPicLayout() {
   ShowLTPos.x = m_MapCoverArea.left - m_PicLoadedLTPosition.x / MAP_SCALE_H;
   ShowLTPos.y = m_MapCoverArea.top - m_PicLoadedLTPosition.y / MAP_SCALE_V;
   //	ShowLTPos.x = (m_FocusPosition.x - m_PicLoadedLTPosition.x) /
-  //MAP_SCALE_H - m_Size.cx / 2; 	ShowLTPos.y = (m_FocusPosition.y -
-  //m_PicLoadedLTPosition.y) / MAP_SCALE_V - m_Size.cy / 2;
+  // MAP_SCALE_H - m_Size.cx / 2; 	ShowLTPos.y = (m_FocusPosition.y -
+  // m_PicLoadedLTPosition.y) / MAP_SCALE_V - m_Size.cy / 2;
 
   m_PaintCell.left = ShowLTPos.x / MAP_CELL_MAP_WIDTH;
   m_PaintCell.top = ShowLTPos.y / MAP_CELL_MAP_HEIGHT;

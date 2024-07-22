@@ -1,0 +1,48 @@
+
+*
+***** S3Relay Start (@ 2024/04/16 21:46:19.339) >>>>>
+*
+
+[2024/04/16 21:46:21] 1 -- Initializing ...
+[2024/04/16 21:46:21] 2 -- Create Channel: [Stock, GM] <00000000> GM
+[2024/04/16 21:46:21] 3 -- Create Channel: [Stock] <00000001> 世界
+[2024/04/16 21:46:21] 4 -- friend timing update db: start
+[2024/04/16 21:46:21] 5 -- relay server startup
+[2024/04/16 21:46:21] 6 -- root client create: 192.168.11.13
+[2024/04/16 21:46:21] 7 -- root client close: 192.168.11.13
+[2024/04/16 21:46:21] 8 -- FAIL: DBRole client - 192.168.11.13
+[2024/04/16 21:46:21] 9 -- enable reclient: db
+[2024/04/16 21:46:21] 10 -- gateway client create: 192.168.11.13
+[2024/04/16 21:46:21] 11 -- host server startup
+[2024/04/16 21:46:21] 12 -- tong server startup
+[2024/04/16 21:46:21] 13 -- chat server startup
+[2024/04/16 21:46:21] 14 -- SockThread start success
+[2024/04/16 21:46:21] 15 -- tong database open ok!
+[2024/04/16 21:46:21] 16 -- tongset init ok !
+[2024/04/16 21:46:21] 17 -- Initialize OK
+[2024/04/16 21:46:37] 18 -- host connect create: 192.168.11.13
+[2024/04/16 21:46:37] 19 -- chat connect create: 192.168.11.13
+[2024/04/16 21:46:37] 20 -- tong connect create: 192.168.11.13
+[2024/04/16 21:46:37] 21 -- try reclient: db - 192.168.11.13
+[2024/04/16 21:46:37] 22 -- FAIL: reclient db - 192.168.11.13
+[2024/04/16 21:46:49] 23 -- try reclient: db - 192.168.11.13
+[2024/04/16 21:46:49] 24 -- FAIL: reclient db - 192.168.11.13
+[2024/04/16 21:47:01] 25 -- try reclient: db - 192.168.11.13
+[2024/04/16 21:47:01] 26 -- FAIL: reclient db - 192.168.11.13
+[2024/04/16 21:47:13] 27 -- try reclient: db - 192.168.11.13
+[2024/04/16 21:47:13] 28 -- FAIL: reclient db - 192.168.11.13
+[2024/04/16 21:47:25] 29 -- try reclient: db - 192.168.11.13
+[2024/04/16 21:47:25] 30 -- FAIL: reclient db - 192.168.11.13
+[2024/04/16 21:47:31] 31 -- load someone: 313131231
+[2024/04/16 21:47:31] 32 -- player login: quycan1 [313131231] (0D0BA8C0, 00000000)
+[2024/04/16 21:47:31] 33 -- Query ChannelID: \S from (0D0BA8C0, 00000000)
+[2024/04/16 21:47:31] 34 -- Create Channel: <00000002> \S218867904
+[2024/04/16 21:47:31] 35 -- Query ChannelID: 世界 from (0D0BA8C0, 00000000)
+[2024/04/16 21:47:31] 36 -- Query ChannelID: GM from (0D0BA8C0, 00000000)
+[2024/04/16 21:47:31] 37 -- Query ChannelID: \B from (0D0BA8C0, 00000000)
+[2024/04/16 21:47:31] 38 -- Create Channel: <00000003> \B218867904
+[2024/04/16 21:47:31] 39 -- sync friend list: 313131231 (full)
+[2024/04/16 21:47:31] 40 -- Subscribe Channel: 00000002 by (0D0BA8C0,00000000)
+[2024/04/16 21:47:31] 41 -- Subscribe Channel: 00000001 by (0D0BA8C0,00000000)
+[2024/04/16 21:47:31] 42 -- Subscribe Channel: GM <00000000> by (0D0BA8C0,00000000)
+[2024/04/16 21:47:31] 43 -- Subscribe Channel: 00000003 by (0D0BA8C0,00000000)

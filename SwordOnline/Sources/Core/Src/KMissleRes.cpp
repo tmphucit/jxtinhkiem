@@ -114,7 +114,7 @@ int KMissleRes::Draw(int eStatus, int nX, int nY, int nZ, int nDir,
 
     if (!m_RUImage[eStatus].szImage[0]) {
       //			g_GetFullPath(SprFileName,
-      //m_MissleRes[eStatus].AnimFileName);
+      // m_MissleRes[eStatus].AnimFileName);
       g_StrCpy(m_RUImage[eStatus].szImage, m_MissleRes[eStatus].AnimFileName);
     }
 

@@ -1,0 +1,17 @@
+
+*
+***** Sword3PaySys Start (@ 2024/04/30 02:14:09.865) >>>>>
+*
+
+[2024/04/30 02:14:14] 1 >> DB Connect 0 is busy !
+[2024/04/30 02:14:14] 2 >> Add Gateway(192.168.11.13 : 55936) Client 0 ! -- At 0
+[2024/04/30 02:14:14] 3 >> [Debug] SQL Query CMD NOT [155]
+[2024/04/30 02:14:14] 4 >> Gateway vantoi(192.168.11.13)B42E-992C-2E81: Verify OK !
+[2024/04/30 02:14:14] 5 >> [Debug] SQL CMD [update Account_info set iClientID = 0, dLogoutDate = getdate() where (iClientID = 7)]
+[2024/04/30 02:14:14] 6 >> Gateway unlock OK!
+[2024/04/30 02:14:14] 7 >> Gateway Connect OK!
+[2024/04/30 02:14:15] 8 >> DB Connect 0 is free !
+[2024/04/30 02:14:24] 9 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 02:14:34] 10 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 02:14:44] 11 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/30 02:14:54] 12 >> Gateway vantoi(192.168.11.13): Ping 10(s)

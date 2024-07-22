@@ -30,9 +30,9 @@ BOOL g_InstanceSkill(eSKillStyle eStyle, unsigned long ulSkillID,
 
     } break;
     case SKILL_SS_InitiativeNpcState: //	主动类
-                                      //本技能用于改变当前Npc的主动状态
+                                      // 本技能用于改变当前Npc的主动状态
     case SKILL_SS_PassivityNpcState:  //	被动类
-                                      //本技能用于改变Npc的被动状态
+                                      // 本技能用于改变Npc的被动状态
     {
       g_pSkill[ulSkillID][ulSkillLevel] = new KStateFightSkill;
     } break;

@@ -39,7 +39,7 @@ int SM_Distance_PointLine(const POINT &Point, const POINT &LP1,
   //  直线方程：
   //	y(x2-x1) - x(y2-y1) + (x1y2 - x2y1) = 0
   //	int d = abs(pt.y*(x2-x1) - pt.x*(y2-y1) + (x1*y2 - x2*y1) ) /
-  //sqrtf((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
+  // sqrtf((x2-x1)*(x2-x1) + (y2-y1)*(y2-y1));
 
   int d = (int)(abs(x1 * y2 - x2 * y1) /
                 sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1)));

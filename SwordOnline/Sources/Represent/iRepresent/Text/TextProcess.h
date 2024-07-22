@@ -30,7 +30,8 @@ private:
     unsigned char cCtrl; // 此成员取值为Text.h中梅举KTEXT_CTRL_CODE中的一个值
     union {
       struct {
-        unsigned char cParam0; // 此及以下两个成员的取值与含义依据cCtrl的取值而定
+        unsigned char
+            cParam0; // 此及以下两个成员的取值与含义依据cCtrl的取值而定
         unsigned char cParam1;
         unsigned char cParam2;
       };

@@ -1168,10 +1168,10 @@ public: // Helper functions for compare.
 
 #if defined(_STLP_USE_TEMPLATE_EXPORT)
 _STLP_EXPORT_TEMPLATE_CLASS
-    basic_string<char, char_traits<char>, allocator<char>>;
+basic_string<char, char_traits<char>, allocator<char>>;
 #if defined(_STLP_HAS_WCHAR_T)
 _STLP_EXPORT_TEMPLATE_CLASS
-    basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t>>;
+basic_string<wchar_t, char_traits<wchar_t>, allocator<wchar_t>>;
 #endif
 #endif /* _STLP_USE_TEMPLATE_EXPORT */
 

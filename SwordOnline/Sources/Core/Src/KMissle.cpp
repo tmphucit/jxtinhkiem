@@ -1302,20 +1302,20 @@ BOOL KMissle::ProcessDamage(int nNpcId) {
         // if (m_pMagicAttribsData->m_nStateMagicAttribsNum > 0)
         //{
         //	KSkill * pSkillActive = (KSkill *)
-        //g_SkillManager.GetSkill(Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[1],Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[2]);
+        // g_SkillManager.GetSkill(Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[1],Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[2]);
         //    if (pSkillActive)
         //	{
         //	KMagicAttrib* pMagicAttrib = pSkillActive->GetStateAttribs();
         //	int pMagicAttribNum = pSkillActive->GetStateAttribsNum();
         //	Npc[nNpcId].SetStateSkillEffect(nNpcId,
-        //Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[1],
-        //Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[2], pMagicAttrib,
-        //pMagicAttribNum, pMagicAttrib[0].nValue[1]);
+        // Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[1],
+        // Npc[nNpcId].m_CurrentBuffEmtyRetPercent.nValue[2], pMagicAttrib,
+        // pMagicAttribNum, pMagicAttrib[0].nValue[1]);
         //	}
         //	Npc[m_nLauncher].SetStateSkillEffect(nNpcId, m_nSkillId,
-        //m_nLevel, m_pMagicAttribsData->m_pStateMagicAttribs,
-        //m_pMagicAttribsData->m_nStateMagicAttribsNum,
-        //m_pMagicAttribsData->m_pStateMagicAttribs[0].nValue[1]);
+        // m_nLevel, m_pMagicAttribsData->m_pStateMagicAttribs,
+        // m_pMagicAttribsData->m_nStateMagicAttribsNum,
+        // m_pMagicAttribsData->m_pStateMagicAttribs[0].nValue[1]);
         //}
 
       }

@@ -261,7 +261,7 @@ void KSelSavedCharacter::AcceptNetMsg(void *pMsgData) {
     case s2c_rolenewdelresponse:
       tagNewDelRoleResponse *pResponse = (tagNewDelRoleResponse *)pMsgData;
       //			if (strcmp(pResponse->szRoleName,
-      //m_szProcessingRoleName) == 0)	/* ÁõÅôµ÷ÊÔ°æ */
+      // m_szProcessingRoleName) == 0)	/* ÁõÅôµ÷ÊÔ°æ */
       {
         if (m_Status == SSC_S_CREATING_CHARACTER) {
           if (pResponse->bSucceeded) {

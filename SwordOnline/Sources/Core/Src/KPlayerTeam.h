@@ -114,9 +114,9 @@ public:
   KPlayerTeam();
   void Release();
   void ReleaseList();
-  BOOL ApplyCreate(); // char *lpszTeamName);				//
-                      // 申请创建一支队伍
-  void InviteAdd(DWORD dwNpcID);                     // 邀请加入队伍
+  BOOL ApplyCreate();            // char *lpszTeamName);				//
+                                 // 申请创建一支队伍
+  void InviteAdd(DWORD dwNpcID); // 邀请加入队伍
   void ReceiveInvite(TEAM_INVITE_ADD_SYNC *pInvite); // 收到邀请
   void ReplyInvite(int nIdx, int nResult);           // 回复邀请
   void SetAutoRefuseInvite(BOOL bFlag); // 设定是否自动拒绝别人的加入队伍的邀请

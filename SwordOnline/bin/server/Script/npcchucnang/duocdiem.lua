@@ -1,0 +1,425 @@
+Include("\\script\\Global\\passwords.lua");
+Include("\\script\\ket_hon\\nguyet_lao.lua");
+
+Include("\\Script\\global\\sourcejx49.lua");
+Include("\\Script\\header\\taskid.lua");
+Include("\\Script\\lib\\worldlibrary.lua");
+Include("\\Script\\lib\\thuvien.lua");
+-----------------------------------------------------§Ã FIX OK 10/03/2024--------------------------------------------------------
+-----------=======================-------------------------====================----------------------
+----------=========================ANHVIETDONGNAI=====================----------------------
+-----------=======================-------------------------====================----------------------
+
+function main()
+SetFightState(0)
+w,X,Y = GetWorldPos()
+	SayNew("<color=green>D­îc §iÕm<color>: Ta chØ biÕt chöa bÖnh vµ cøu gióp ng­êi v« téi.",4,
+	"Giao dÞch/giaodich",
+              "Mua ngò hoa t¸n /muanguhoa",
+	"Giao tÝn th­ ch­ëng m«n/giaotinthu",
+	"Kh«ng giao dÞch/kogiaodich")
+end;
+
+-------------------------------------------------------------------------------------------------------------------
+
+function goplebao()
+for i=103,105 do
+	sl = GetItemCount(i)
+	if sl > 1 then
+		for k=1,sl do DelItem(i)	end
+		for k=1,sl do AddEventItem(i) end
+	end
+end
+for i=107,112 do
+	sl = GetItemCount(i)
+	if sl > 1 then
+		for k=1,sl do DelItem(i)	end
+		for k=1,sl do AddEventItem(i) end
+	end
+end
+end
+
+
+function lbbattu()
+if GetCash() < 30000 then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ 3 v¹n l­îng, kh«ng thÓ mua")
+return
+end
+
+Pay(30000)
+AddEventItem(160)
+Msg2Player("B¹n nhËn ®­îc 1 <color=yellow>Ng­êi TuyÕt Vui VÎ ")
+Msg2Player("<color=green>Chó ý: Mang theo vËt phÈm di chuyÓn ra ngoµi sÏ kh«ng bÞ chÕt trong vßng 10 gi©y!")
+
+end
+
+function muattmvip()
+SayNew("<color=green>D­îc §iÕm<color>: <enter>VËt phÈm: <color=yellow>[VIP] Thõa Tiªn MËt LÔ Bao<color>. Chän thêi h¹n muèn mua?",5,
+"Ta muèn mua 1 ngµy = 50 v¹n l­îng/yesmuattm2",
+"Ta muèn mua 3 ngµy = 140 v¹n l­îng/yesmuattm2",
+"Ta muèn mua 7 ngµy = 300 v¹n l­îng/yesmuattm2",
+"Ta muèn mua 30 ngµy = 60 vµng/yesmuattm",
+"Tho¸t./kogiaodich")
+end
+
+giavip = 60
+vanvip = 2500000
+function yesmuattm2(nsel)
+i = nsel + 1
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+
+if CheckFreeBoxItem(0,3,3,1) == 0 then
+Talk(1,"","Hµnh trang kh«ng ®ñ chç trèng !")
+return
+end
+
+if i == 1 then
+	buy_ngay = 1
+	buy_van = 500000
+elseif i == 2 then
+	buy_ngay = 3
+	buy_van = 1400000
+elseif i == 3 then
+	if GetAccount() == "" then
+	buy_ngay = 10
+	else
+	buy_ngay = 7
+	end
+	buy_van = 3000000	
+end
+ 
+vang = GetCash()
+if GetCash() >= buy_van and CheckFreeBoxItem(0,3,3,1) ~= 0 then
+	Pay(buy_van)
+	if GetCash() == vang-buy_van and CheckFreeBoxItem(0,3,3,1) ~= 0 then
+	
+		ngay = ngay + buy_ngay
+		if ngay > mangthang[thang] then
+			ngay = ngay - mangthang[thang]
+			thang = thang + 1
+		end
+		itemidx = AddEventItem(264)
+		SetHSD(itemidx, 2018 , thang, ngay, gio )
+		Msg2Player("B¹n nhËn ®­îc 1 [VIP] Thõa Tiªn MËt LÔ Bao")
+		
+		inloghks("Log "..buy_ngay.." ngay: "..GetAccount().." - "..GetName().." - "..GetLevel().." ")
+		Talk(0,"")
+	else
+		Talk(1,"","Hack ha em")
+	end
+else
+	Talk(1,"","B¹n kh«ng ®ñ <color=yellow>"..buy_van.."<color> l­îng, kh«ng thÓ giao dÞch!")
+end
+end
+
+function yesmuattm()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+
+
+if CheckFreeBoxItem(0,3,3,1) == 0 then
+Talk(1,"","Hµnh trang kh«ng ®ñ chç trèng !")
+return
+end
+ 
+vang = GetTask(99)
+vang2 = GetTask(101)
+if GetTask(99) >= giavip and GetTask(101) >= giavip and CheckFreeBoxItem(0,3,3,1) ~= 0 then
+	SetTask(99,GetTask(99) - giavip)
+	SetTask(101,GetTask(101) - giavip)
+	if GetTask(99) == vang-giavip and GetTask(101) == vang2 - giavip and GetTask(99) == GetTask(101) and CheckFreeBoxItem(0,3,3,1) ~= 0 then
+		nam = 2018
+		thang = thang + 1
+		if thang == 13 then
+			thang = 1
+			nam = 2019
+		end
+		itemidx = AddEventItem(264)
+		SetHSD(itemidx, nam , thang, ngay, gio )
+		Msg2Player("B¹n nhËn ®­îc 1 [VIP] Thõa Tiªn MËt LÔ Bao")
+		inloghks("Log 1 Thang: "..GetAccount().." - "..GetName().." - "..GetLevel().." ")
+		
+		Talk(0,"")
+	else
+		Talk(1,"","Hack ha em")
+	end
+else
+	Talk(1,"","B¹n kh«ng ®ñ <color=yellow>"..giavip.."<color> vµng, kh«ng thÓ giao dÞch!")
+end
+end
+
+
+function yesmuattm1()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+nam = tonumber(date("%y"))
+
+if CheckFreeBoxItem(0,3,3,1) == 0 then
+Talk(1,"","Hµnh trang kh«ng ®ñ chç trèng !")
+return
+end
+ 
+vang = GetTask(99)
+vang2 = GetTask(101)
+if GetTask(99) >= 80 and GetTask(101) >= 80 and CheckFreeBoxItem(0,3,3,1) ~= 0 then
+	SetTask(99,GetTask(99) - 80)
+	SetTask(101,GetTask(101) - 80)
+	if GetTask(99) == vang-80 and GetTask(101) == vang2 - 80 and GetTask(99) == GetTask(101) and CheckFreeBoxItem(0,3,3,1) ~= 0 then
+		if thang == 12 then
+			thang = 1
+			nam = nam + 1
+		else
+			thang = thang + 1
+		end
+		itemidx = AddEventItem(264)
+		SetHSD(itemidx, nam + 2000 , thang, ngay, gio )
+		SetBindItem(itemidx,1)
+		Msg2Player("B¹n nhËn ®­îc 1 [VIP] Thõa Tiªn MËt LÔ Bao")
+		Msg2SubWorld("§¹i hiÖp "..GetName().." ®· mua [VIP] Thõa Tiªn MËt LÔ Bao 30 ngµy. Con ®­êng tu luyÖn phÝa tr­íc b©y giê ®· trë nªn ®¬n gi¶n h¬n ")
+		inloghks("Log 30 ngay: "..GetAccount().." - "..GetName().." - "..GetLevel().." ")
+		Talk(0,"")
+	else
+		Talk(1,"","Hack ha em")
+	end
+else
+	Talk(1,"","B¹n kh«ng ®ñ <color=yellow>80<color> vµng, kh«ng thÓ giao dÞch!")
+end
+end
+
+mangthang = {31,28,31,30,31,30,31,31,30,31,30,31}
+
+function inloghks(string)
+thoigian = tonumber(date("%H%M%d%m"))
+LoginLog = openfile("Data/ThanBi/ThuaTienMat_3V.txt", "a");
+if LoginLog then
+write(LoginLog,""..string.." - Time: "..thoigian.."\n");
+end
+closefile(LoginLog)
+end
+
+
+function nhanmaumienphi()
+if GetLevel() < 130 then
+for i=1,20 do
+			idx = AddItem(1,2,0,3,0,0,0)
+			SetItemLock(idx)
+		end
+Msg2Player("B¹n nhËn ®­îc 20 B×nh D­îc PhÈm MiÔn PhÝ !")
+else
+Talk(1,"","Tói Thuèc chØ hç trî cho t©n thñ ®¼ng cÊp d­íi 130 !")
+end
+end
+
+function muanhanh()
+SayNew("B¹n muèn mua thuèc nµo: ?",10,
+"Kim S¸ng D­îc LÔ Bao (Trung) /muanhanh2",
+"Kim S¸ng D­îc LÔ Bao (§¹i)/muanhanh2",
+"Cöu ChuyÓn Hoµn Hån §an LÔ Bao/muanhanh2",
+"Ng­ng ThÇn §an LÔ Bao (Trung)/muanhanh2",
+"Ng­ng ThÇn §an LÔ Bao (§¹i)/muanhanh2",
+"Thñ ¤ Hoµn ThÇn §an LÔ Bao/muanhanh2",
+"Thõa Tiªn MËt LÔ Bao (trung)/muanhanh2",
+"Thõa Tiªn MËt LÔ Bao (§¹i)/muanhanh2",
+"Ngò Hoa Ngäc Lé Hoµn LÔ Bao/muanhanh2",
+"Tho¸t./kogiaodich")
+end
+
+function muanhanh2(nsel)
+SetTaskTemp(1, nsel+1)
+SayNew("B¹n cã ch¾c ch¾n mua <color=green>"..DuocPham[nsel+1][2].."<color> víi gi¸ <color=yellow>"..DuocPham[nsel+1][3].." l­îng",2,
+"Ta ch¾c ch¾n muèn mua vËt phÈm nµy /muanhanh3",
+"Tho¸t./kogiaodich")
+end
+function muanhanh3()
+OpenStringBox(2,"NhËp sè l­îng","muanhanh4")
+end
+
+function muanhanh4(num2)
+num = tonumber(num2)
+if num == 0 then
+return
+end
+
+vt = GetTaskTemp(1)
+if vt < 1 and vt > getn(DuocPham) then
+return
+end
+if CheckFreeBoxItem(0,3,3,1) == 0 then
+Talk(1,"","Hµnh trang kh«ng ®ñ chç trèng !")
+return
+end
+cash = GetCash()
+if GetCash() < num*DuocPham[vt][3] then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ "..(num*DuocPham[vt][3]).." l­îng, kh«ng thÓ mua vËt phÈm nµy")
+return
+end
+
+Pay(num*DuocPham[vt][3])
+if GetCash() == cash - num*DuocPham[vt][3] then
+	for p=1,num do AddEventItem(DuocPham[vt][1]) end
+	Msg2Player("B¹n nhËn ®­îc "..num.." "..DuocPham[vt][2].."")
+else
+	Talk(1,"","Hack ha em")
+end
+end
+
+DuocPham = {
+{108, "Kim S¸ng D­îc Trung",2000},
+{110, "Kim S¸ng D­îc §¹i",5000},
+{104, "C÷u ChuyÓn Hoµn Hån §an LÔ Bao",40000},
+{112, "Ng­ng ThÇn §an Trung",2000},
+{111, "Ng­ng ThÇn §an §¹i",5000},
+{105, "Thñ ¤ Hoµn ThÇn §an LÔ Bao",40000},
+{107, "Thõa Tiªn MËt Trung",3000},
+{109, "Thõa Tiªn MËt §¹i",7500},
+{103, "Ngò Hoa Ngäc Lé Hoµn LÔ Ba",60000},
+}
+function muannh()
+if CheckFreeBoxItem(4,114,1,1) == 0 then
+Talk(1,"","Hµnh trang kh«ng ®ñ chç trèng !")
+return
+end
+
+
+sl = GetItemCount(114) 
+vang = GetTask(99)
+vang2 = GetTask(101)
+if GetTask(99) >= 1 and GetTask(101) >= 1 then
+	SetTask(99,GetTask(99) - 1)
+	SetTask(101,GetTask(101) - 1)
+	if GetTask(99) == vang-1 and GetTask(101) == vang2 - 1 and GetTask(99) == GetTask(101) then
+		AddEventItem(118)
+		Msg2Player("B¹n ®· mua 1 b×nh N÷ Nhi Hång gi¸ 1 vµng ")
+		Talk(0,"")
+	else
+		Talk(1,"","Hack ha em")
+	end
+else
+	Talk(1,"","B¹n kh«ng ®ñ <color=yellow>1<color> vµng !")
+end
+end
+
+function lagmau()
+sl = GetCash()
+if GetCash() >= 5000 then
+Pay(5000)
+if GetCash() == sl - 5000 then
+AddEventItem(111)
+Talk(0,"")
+else
+Talk(1,"","hack ha em")
+
+end
+else
+Talk(1,"","B¹n kh«ng ®ñ 5000 l­îng !")
+end
+end
+
+
+function lagmau2()
+sl = GetCash()
+if GetCash() >= 40000 then
+Pay(40000)
+if GetCash() == sl - 40000 then
+AddEventItem(105)
+Talk(0,"")
+else
+Talk(1,"","hack ha em")
+
+end
+else
+Talk(1,"","B¹n kh«ng ®ñ 40000 l­îng !")
+end
+end
+function thuatien()
+sl = GetCash()
+if GetCash() >= 7500 then
+Pay(7500)
+if GetCash() == sl - 7500 then
+AddEventItem(109)
+Talk(0,"")
+else
+Talk(1,"","hack ha em")
+
+end
+else
+Talk(1,"","B¹n kh«ng ®ñ 5000 l­îng !")
+end
+end
+
+function kimsang()
+sl = GetCash()
+if GetCash() >= 5000 then
+Pay(5000)
+if GetCash() == sl - 5000 then
+AddEventItem(110)
+Talk(0,"")
+else
+Talk(1,"","hack ha em")
+
+end
+else
+Talk(1,"","B¹n kh«ng ®ñ 5000 l­îng !")
+end
+end
+
+function giaotinthu()
+	if GetTask(NV_MONPHAI1) == 4 then
+		SetTask(NV_MONPHAI1,5)
+		Talk(1,"","<color=green>D­îc §iÕm <color>: Ta ®· nhËn ®­îc tÝn th­, h·y nãi víi Ch­ëng M«n ng­¬i lµ ta sÏ cè g¾ng hÕt søc ®Ó gióp ®Ö tö cña ng­êi !")
+	end
+	Msg2Player("B¹n kh«ng cã tÝn th­ ch­ëng m«n....")
+end
+
+function muanguhoa()
+	if GetCash() >= 5000 then
+	Pay(5000)
+	AddEventItem(18)
+	Msg2Player("B¹n nhËn ®­îc 1 Ngò Hoa T¸n.")
+	else
+	Talk(1,"","B¹n kh«ng ®ñ 5000 l­îng !")		
+	end
+  end
+
+function giaodich()
+w,X,Y = GetWorldPos()
+if w == 66 or w == 3 or w == 53 or w == 9 or w == 15 or w == 17 or w == 42 or w == 20 or w == 24 or w == 4 or w == 160 or w == 187 or w == 174 then
+	Sale(7);
+else
+	Sale(7);
+end
+end;
+
+function kogiaodich()
+end;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

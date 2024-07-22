@@ -88,9 +88,10 @@ private:
                                    // 这也是空行
   void
   ConstructIndexView(); // 把Index的数据(m_data)构造进去m_indexList里面，以显示出来
-  void ConstructRankView(); // 把Rank的排名数据构造进去m_RankList里面，以显示出来
-  void ReleasePic();        // 释放图形资源
-  void ReleaseData();       // 释放数据和重置显示
+  void
+  ConstructRankView(); // 把Rank的排名数据构造进去m_RankList里面，以显示出来
+  void ReleasePic();   // 释放图形资源
+  void ReleaseData();  // 释放数据和重置显示
 
   void ArrangeDefaultData(); // 安排默认数据的显示
 

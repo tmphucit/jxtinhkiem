@@ -1,0 +1,56 @@
+Include("\\script\\addnpccacmap\\addquai\\addquai_head.lua")
+Include("\\script\\addnpccacmap\\addquai\\phonglangdo.lua")
+Include("\\script\\addnpccacmap\\addquai\\visondao.lua")
+Include("\\script\\addnpccacmap\\addquai\\truongcamon.lua")
+
+function addquai()
+    AddAllQuai()
+    addquaivsd()
+    addquaitcm()
+    add_pld()
+    add_pld2()
+    add_pld_sv2()
+    add_pld2_sv2()
+end
+
+function addquai1()
+    pns()
+    hoason()
+    tuyetbaodong()
+    duocvuongdong()
+    tanlang()
+    xivuudong()
+    lamduquan()
+    channui()
+
+    --addquaichutien()
+
+    --truongbachbac()
+    --truongbachnam()
+    --macbac()
+    maccaoquat()
+
+    samac1()
+    samac2()
+    --samac3()
+    --truongcamon1()
+
+    coduong1()
+    duongtrung1()
+    truongcamon2()
+    samacdiabieu()
+
+    addquaivsd()
+
+    --pns2()
+    --hoason2()
+    --tuyetbaodong2()
+    --xivuudong2()
+    --duocvuongdong2()
+    --tanlang2()
+    --xivuudong2()
+    --lamduquan2()
+    --channui2()
+    add_pld()
+    add_pld2()
+end

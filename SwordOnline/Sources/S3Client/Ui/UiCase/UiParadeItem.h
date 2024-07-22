@@ -18,7 +18,7 @@
 enum UI_PLAYER_ATTRIBUTE;
 struct KUiObjAtRegion;
 
-#define _ITEM_COUNT 13
+#define _ITEM_COUNT 15
 
 class KUiParadeItem : protected KWndShowAnimate {
 public:
@@ -61,6 +61,7 @@ private:
   KWndButton m_Avatar;
   // 装备物品
   KWndObjectBox m_EquipBox[_ITEM_COUNT];
+  KWndImage m_EquipExpandImg;
 
   KUiPlayerItem m_Dest;
 };

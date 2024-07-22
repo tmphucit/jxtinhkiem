@@ -1,0 +1,26 @@
+Include("\\script\\global\\sourcejx49.lua")
+Include("\\Script\\header\\taskid.lua");
+Include("\\Script\\lib\\worldlibrary.lua");
+Include("\\Script\\lib\\thuvien.lua");
+
+idxitem = 725
+
+function main(idx)
+
+if GetTask(UYTHACBANDO) >= 1000 then
+	Talk(1,"","Ng­¬i ®· sö dông råi ! ")
+	return 0;	
+end
+n = GetItemCount(idxitem)
+if GetItemCount(idxitem) >= 1 then
+	DelItemIdx(idx);
+	if GetItemCount(idxitem) == (n-1) then
+		SetTask(101,GetTask(101) + 20)
+		SetTask(99,GetTask(99) + 20)
+		Msg2Player("Chøc n¨ng tam khãa ®Ó fix ! Hoµn tr¶ l¹i 20 xu ")
+	else
+		Talk(1,"","Hack Ha Em")
+	end
+end
+
+end

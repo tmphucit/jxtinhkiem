@@ -211,7 +211,7 @@ typedef struct _PIPE_TERMINATION {
   KS_FRAMING_RANGE PhysicalRange;
   KS_FRAMING_RANGE_WEIGHTED OptimalRange;
   KS_COMPRESSION
-      Compression; // relative to the connected pin on a neighboring filter.
+  Compression; // relative to the connected pin on a neighboring filter.
 } PIPE_TERMINATION;
 
 //

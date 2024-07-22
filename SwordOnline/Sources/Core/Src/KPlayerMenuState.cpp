@@ -9,7 +9,7 @@
 
 #include "KCore.h"
 #include "KPlayer.h"
-#include "MyAssert.h"
+#include "MyAssert.H"
 #ifdef _SERVER
 // #include	"KNetServer.h"
 // #include "../MultiServer/Heaven/Interface/iServer.h"

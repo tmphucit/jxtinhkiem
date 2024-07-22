@@ -217,21 +217,44 @@ void KUiPlayerControlBar::Add(int nSkillPos, KStateControl *pStateSkill) {
   strcat(pszDesc, "\n");
 
   if (pStateSkill->nLeftTime <= GAME_FPS) {
-    strcpy(szTemp, "N/A");
+    strcpy(szTemp, "0:01");
     strcat(pszDesc, "Duy tr× vÜnh viÔn");
   } else {
-    sprintf(szTemp, "%02dh:%02dm:%02ds", pStateSkill->nLeftTime / 18 / 60 / 60,
+    sprintf(szTemp, "\n%02dh:%02dm:%02ds",
+            pStateSkill->nLeftTime / 18 / 60 / 60,
             pStateSkill->nLeftTime / 18 / 60 % 60,
             pStateSkill->nLeftTime / 18 % 60);
     strcat(pszDesc, szTemp);
 
-    if (pStateSkill->nLeftTime >= 64800)
-      sprintf(szTemp, "%dh", pStateSkill->nLeftTime / 18 / 60 / 60);
-    else if (pStateSkill->nLeftTime >= 1080)
-      sprintf(szTemp, "%dm", pStateSkill->nLeftTime / 18 / 60);
-    else
-      sprintf(szTemp, "%ds", pStateSkill->nLeftTime / 18);
+    if (pStateSkill->nLeftTime >= 24 * 64800) {
+      int nDay = pStateSkill->nLeftTime / 18 / 60 / 60 / 24;
+      int nHour = (pStateSkill->nLeftTime / 18 / 60 / 60) % 24;
+      int nMin = (pStateSkill->nLeftTime / 18 / 60) % 24;
+      if (nDay >= 10)
+        sprintf(szTemp, "%02dD", nDay);
+      else if (nHour >= 10)
+        sprintf(szTemp, "%dD%02dH", nDay, nHour);
+      else
+        sprintf(szTemp, "%dD%02dM", nDay, nMin);
+    } else if (pStateSkill->nLeftTime >= 64800) {
+      int nHour = pStateSkill->nLeftTime / 18 / 60 / 60;
+      int nMin = pStateSkill->nLeftTime / 18 / 60;
+      if (pStateSkill->nLeftTime >= 10 * 64800) {
+        sprintf(szTemp, "%dH", nHour);
+      } else {
+        sprintf(szTemp, "%dM", nMin);
+      }
+    } else if (pStateSkill->nLeftTime >= 10800) {
+      int nMin = pStateSkill->nLeftTime / 18 / 60;
+      sprintf(szTemp, "%02dM", nMin);
+    } else if (pStateSkill->nLeftTime >= 1080) {
+      int nMin = pStateSkill->nLeftTime / 18 / 60;
+      int nSec = (pStateSkill->nLeftTime / 18) % 60;
+      sprintf(szTemp, "%d:%02d", nMin, nSec);
+    } else
+      sprintf(szTemp, "0:%02d", pStateSkill->nLeftTime / 18);
   }
+
   m_BuffImage[m_nListCount].SetToolTipInfo(pszDesc, strlen(pszDesc));
   m_txtBuffTime[m_nListCount].Show();
   m_txtBuffTime[m_nListCount].SetText(szTemp);

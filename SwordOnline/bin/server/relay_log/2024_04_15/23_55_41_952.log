@@ -1,0 +1,57 @@
+
+*
+***** S3Relay Start (@ 2024/04/15 23:55:41.952) >>>>>
+*
+
+[2024/04/15 23:55:44] 1 -- Initializing ...
+[2024/04/15 23:55:44] 2 -- Create Channel: [Stock, GM] <00000000> GM
+[2024/04/15 23:55:44] 3 -- Create Channel: [Stock] <00000001> 世界
+[2024/04/15 23:55:44] 4 -- friend timing update db: start
+[2024/04/15 23:55:44] 5 -- relay server startup
+[2024/04/15 23:55:44] 6 -- root client create: 192.168.11.13
+[2024/04/15 23:55:44] 7 -- root client close: 192.168.11.13
+[2024/04/15 23:55:44] 8 -- FAIL: DBRole client - 192.168.11.13
+[2024/04/15 23:55:44] 9 -- enable reclient: db
+[2024/04/15 23:55:44] 10 -- gateway client create: 192.168.11.13
+[2024/04/15 23:55:44] 11 -- host server startup
+[2024/04/15 23:55:44] 12 -- tong server startup
+[2024/04/15 23:55:44] 13 -- chat server startup
+[2024/04/15 23:55:44] 14 -- SockThread start success
+[2024/04/15 23:55:44] 15 -- tong database open ok!
+[2024/04/15 23:55:44] 16 -- tongset init ok !
+[2024/04/15 23:55:44] 17 -- Initialize OK
+[2024/04/15 23:55:58] 18 -- host connect create: 192.168.11.13
+[2024/04/15 23:55:58] 19 -- chat connect create: 192.168.11.13
+[2024/04/15 23:55:58] 20 -- tong connect create: 192.168.11.13
+[2024/04/15 23:55:59] 21 -- try reclient: db - 192.168.11.13
+[2024/04/15 23:55:59] 22 -- FAIL: reclient db - 192.168.11.13
+[2024/04/15 23:56:11] 23 -- try reclient: db - 192.168.11.13
+[2024/04/15 23:56:11] 24 -- FAIL: reclient db - 192.168.11.13
+[2024/04/15 23:56:23] 25 -- try reclient: db - 192.168.11.13
+[2024/04/15 23:56:23] 26 -- FAIL: reclient db - 192.168.11.13
+[2024/04/15 23:56:35] 27 -- try reclient: db - 192.168.11.13
+[2024/04/15 23:56:35] 28 -- FAIL: reclient db - 192.168.11.13
+[2024/04/15 23:56:47] 29 -- try reclient: db - 192.168.11.13
+[2024/04/15 23:56:47] 30 -- FAIL: reclient db - 192.168.11.13
+[2024/04/15 23:56:58] 31 -- load someone: chuotnhat
+[2024/04/15 23:56:58] 32 -- player login: quycan1 [chuotnhat] (0D0BA8C0, 00000000)
+[2024/04/15 23:56:58] 33 -- Query ChannelID: \S from (0D0BA8C0, 00000000)
+[2024/04/15 23:56:58] 34 -- Create Channel: <00000002> \S218867904
+[2024/04/15 23:56:58] 35 -- Query ChannelID: 世界 from (0D0BA8C0, 00000000)
+[2024/04/15 23:56:58] 36 -- Query ChannelID: GM from (0D0BA8C0, 00000000)
+[2024/04/15 23:56:58] 37 -- Query ChannelID: \B from (0D0BA8C0, 00000000)
+[2024/04/15 23:56:58] 38 -- Create Channel: <00000003> \B218867904
+[2024/04/15 23:56:58] 39 -- sync friend list: chuotnhat (full)
+[2024/04/15 23:56:58] 40 -- Subscribe Channel: 00000002 by (0D0BA8C0,00000000)
+[2024/04/15 23:56:58] 41 -- Subscribe Channel: 00000001 by (0D0BA8C0,00000000)
+[2024/04/15 23:56:58] 42 -- Subscribe Channel: GM <00000000> by (0D0BA8C0,00000000)
+[2024/04/15 23:56:58] 43 -- Subscribe Channel: 00000003 by (0D0BA8C0,00000000)
+[2024/04/15 23:56:59] 44 -- try reclient: db - 192.168.11.13
+[2024/04/15 23:56:59] 45 -- FAIL: reclient db - 192.168.11.13
+[2024/04/15 23:57:02] 46 -- Destroy Channel: <00000002> \S218867904
+[2024/04/15 23:57:02] 47 -- Destroy Channel: <00000003> \B218867904
+[2024/04/15 23:57:02] 48 -- player logout: quycan1
+[2024/04/15 23:57:11] 49 -- try reclient: db - 192.168.11.13
+[2024/04/15 23:57:11] 50 -- FAIL: reclient db - 192.168.11.13
+[2024/04/15 23:57:23] 51 -- try reclient: db - 192.168.11.13
+[2024/04/15 23:57:23] 52 -- FAIL: reclient db - 192.168.11.13

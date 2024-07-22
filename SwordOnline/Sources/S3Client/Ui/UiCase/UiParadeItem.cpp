@@ -38,7 +38,13 @@ static struct UE_CTRL_MAP {
     {UIEP_WAIST_DECOR, "Pendant"}, // 装备-腰缀
     {UIEP_FOOT, "Shoes"},          // 装备-鞋子
     {UIEP_HORSE, "Horse"},         // 装备-马
-    {UIEP_MASK, "Mask"}            // Mask EP chu ko phai PE
+    {UIEP_MASK, "Mask"},           // Mask EP chu ko phai PE
+    {UIEP_PHIPHONG,
+     "FiFong"}, // FiFong EP chu ko phai PE
+                //{ UIEP_SIGNET,      "Signet"	},  //装备-马
+                //{ UIEP_SHIPIN,      "Shipin"	},  //装备-马
+                //{ UIEP_HOODS,       "Hoods"		},  //装备-马
+                //{ UIEP_CLOAK,       "Cloak"		},  //装备-马
 };
 
 //--------------------------------------------------------------------------

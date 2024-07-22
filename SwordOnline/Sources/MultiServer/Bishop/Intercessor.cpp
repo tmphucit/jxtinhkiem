@@ -65,7 +65,7 @@ bool CIntercessor::Create(HWND hwndViewer /* NULL */) {
   }
 
   //	m_pAccSvrClient = m_theNetworkConfig.CreateAccSvrClient(
-  //m_theNetworkConfig.GetAccSvrIP(), m_theNetworkConfig.GetAccSvrPort() );
+  // m_theNetworkConfig.GetAccSvrIP(), m_theNetworkConfig.GetAccSvrPort() );
 
   //	ASSERT( m_pAccSvrClient );
 
@@ -314,7 +314,7 @@ bool CIntercessor::StartupNetwork() {
   if (bPlayerServerSucceed && bDBRoleServerSucceed && bGameSvrServerSucceed) {
     //		IClient *pCloneAcc = NULL;
     //		m_pAccSvrClient->QueryInterface( IID_IESClient,
-    //reinterpret_cast< void ** >( &pCloneAcc ) );
+    // reinterpret_cast< void ** >( &pCloneAcc ) );
 
     IServer *pClonePlayer = NULL;
     m_pPlayerServer->QueryInterface(IID_IIOCPServer,
@@ -517,7 +517,7 @@ int CIntercessor::Helper() {
 
       g_theSmartClient.Send(&pc, sizeof(PING_COMMAND));
       //			m_pAccSvrClient->SendPackToServer( &pc, sizeof(
-      //PING_COMMAND ) );
+      // PING_COMMAND ) );
     }
 
     /*
@@ -526,7 +526,7 @@ int CIntercessor::Helper() {
     size_t dataLength = 0;
     const void *pData = g_theSmartClient.Recv(dataLength);
     //		const void *pData = m_pAccSvrClient->GetPackFromServer(
-    //dataLength );
+    // dataLength );
 
     while (pData && dataLength) {
       ASSERT(CPackager::Peek(pData) > g_nGlobalProtocolType);
@@ -558,12 +558,12 @@ int CIntercessor::Helper() {
 
         g_theSmartClient.Send(&pc, sizeof(PING_COMMAND));
         //				m_pAccSvrClient->SendPackToServer( &pc,
-        //sizeof( PING_COMMAND ) );
+        // sizeof( PING_COMMAND ) );
       }
 
       pData = g_theSmartClient.Recv(dataLength);
       //			pData = m_pAccSvrClient->GetPackFromServer(
-      //dataLength );
+      // dataLength );
     }
 
     /*
@@ -607,7 +607,7 @@ int CIntercessor::Helper() {
 
         g_theSmartClient.Send(&pc, sizeof(PING_COMMAND));
         //				m_pAccSvrClient->SendPackToServer( &pc,
-        //sizeof( PING_COMMAND ) );
+        // sizeof( PING_COMMAND ) );
       }
 
       pData = m_pDBRoleClient->GetPackFromServer(dataLength);

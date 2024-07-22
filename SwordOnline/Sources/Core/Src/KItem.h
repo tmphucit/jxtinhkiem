@@ -18,11 +18,15 @@
 #endif
 #include "KTabFile.h"
 // #include	"KPlayer.h"
+//  them van toi
+#include "KSG_StringProcess.h"
 class KPlayer;
 class KIniFile;
 
 #define IN
 #define OUT
+// them van toi
+// #define		KItemNormalAttrib KMagicAttrib
 
 #define MAX_ITEM_STACK 50
 
@@ -81,6 +85,8 @@ enum EQUIPDETAILTYPE {
   equip_horse,
   equip_mask, // Mak
   equip_fifong,
+  equip_signet, // an
+  equip_shipin, // trang suc
   equip_detailnum,
 };
 
@@ -156,6 +162,7 @@ public:
   KItemNormalAttrib m_aryBaseAttrib[7];    // 道具的基础属性
   KItemNormalAttrib m_aryRequireAttrib[6]; // 道具的需求属性
   KItemNormalAttrib m_aryMagicAttrib[6];   // 道具的魔法属性
+  // KItemNormalAttrib	m_aryMagicAttrib[i];	// 道具的魔法属性
 
   // 以下是辅助性的成员变量
 public:
@@ -281,6 +288,10 @@ public:
   friend class KItemList;
 
 private:
+// cai doan ma ban phai khai bao trong class moi hoat dong dc
+#ifndef _SERVER
+  void FindMagic(int nPropKind, int *nMin, int *nMax);
+#endif
   BOOL SetAttrib_CBR(IN const KBASICPROP_EQUIPMENT *);
   BOOL SetAttrib_MA(IN const KItemNormalAttrib *);
   BOOL SetAttrib_MA(IN const KMACP *);

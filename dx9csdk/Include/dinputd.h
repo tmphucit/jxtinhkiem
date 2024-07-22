@@ -288,24 +288,28 @@ typedef struct IDirectInputEffectDriver *LPDIRECTINPUTEFFECTDRIVER;
   0x80000000l /* CPL overrides custom property sheet */
 
 /* Settings for TypeInfo Flags2 */
-#define JOYTYPE_DEVICEHIDE 0x00010000l    /* Hide unclassified devices */
-#define JOYTYPE_MOUSEHIDE 0x00020000l     /* Hide mice */
-#define JOYTYPE_KEYBHIDE 0x00040000l      /* Hide keyboards */
-#define JOYTYPE_GAMEHIDE 0x00080000l      /* Hide game controllers */
-#define JOYTYPE_HIDEACTIVE 0x00100000l    /* Hide flags are active */
-#define JOYTYPE_INFOMASK 0x00E00000l      /* Mask for type specific info */
-#define JOYTYPE_INFODEFAULT 0x00000000l   /* Use default axis mappings */
-#define JOYTYPE_INFOYYPEDALS 0x00200000l  /* Use Y as a combined pedals axis */
-#define JOYTYPE_INFOZYPEDALS 0x00400000l  /* Use Z for accelerate, Y for brake \
-                                           */
-#define JOYTYPE_INFOYRPEDALS 0x00600000l  /* Use Y for accelerate, R for brake \
-                                           */
-#define JOYTYPE_INFOZRPEDALS 0x00800000l  /* Use Z for accelerate, R for brake \
+#define JOYTYPE_DEVICEHIDE 0x00010000l   /* Hide unclassified devices */
+#define JOYTYPE_MOUSEHIDE 0x00020000l    /* Hide mice */
+#define JOYTYPE_KEYBHIDE 0x00040000l     /* Hide keyboards */
+#define JOYTYPE_GAMEHIDE 0x00080000l     /* Hide game controllers */
+#define JOYTYPE_HIDEACTIVE 0x00100000l   /* Hide flags are active */
+#define JOYTYPE_INFOMASK 0x00E00000l     /* Mask for type specific info */
+#define JOYTYPE_INFODEFAULT 0x00000000l  /* Use default axis mappings */
+#define JOYTYPE_INFOYYPEDALS 0x00200000l /* Use Y as a combined pedals axis */
+#define JOYTYPE_INFOZYPEDALS                                                   \
+  0x00400000l /* Use Z for accelerate, Y for brake                             \
+               */
+#define JOYTYPE_INFOYRPEDALS                                                   \
+  0x00600000l /* Use Y for accelerate, R for brake                             \
+               */
+#define JOYTYPE_INFOZRPEDALS                                                   \
+  0x00800000l                             /* Use Z for accelerate, R for brake \
                                            */
 #define JOYTYPE_INFOZISSLIDER 0x00200000l /* Use Z as a slider */
 #define JOYTYPE_INFOZISZ 0x00400000l      /* Use Z as Z axis */
-#define JOYTYPE_ENABLEINPUTREPORT 0x01000000l /* Enable initial input reports  \
-                                               */
+#define JOYTYPE_ENABLEINPUTREPORT                                              \
+  0x01000000l /* Enable initial input reports                                  \
+               */
 
 /* struct for storing x,y, z, and rudder values */
 typedef struct joypos_tag {

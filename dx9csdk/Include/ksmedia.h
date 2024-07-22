@@ -3513,7 +3513,7 @@ typedef struct _VBICODECFILTERING_SCANLINES {
 
 typedef struct _VBICODECFILTERING_NABTS_SUBSTREAMS {
   DWORD
-      SubstreamMask[128]; // An array of 4096 bits (one for each NABTS GroupID)
+  SubstreamMask[128]; // An array of 4096 bits (one for each NABTS GroupID)
 } VBICODECFILTERING_NABTS_SUBSTREAMS, *PVBICODECFILTERING_NABTS_SUBSTREAMS;
 
 typedef struct _VBICODECFILTERING_CC_SUBSTREAMS {

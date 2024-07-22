@@ -85,7 +85,7 @@ typedef struct tagBDA_TRANSPORT_INFO {
   ULONG ulcbPhyiscalFrame;  // Size, in bytes, of each physical frame
                             // 0 indicates no HW requirement
   ULONG
-      ulcbPhyiscalFrameAlignment; // Capture buffer alignment in bytes
+  ulcbPhyiscalFrameAlignment;     // Capture buffer alignment in bytes
                                   // 0 and 1 indicate no alignment requirements
   REFERENCE_TIME AvgTimePerFrame; // Normal ActiveMovie units (100 nS)
 

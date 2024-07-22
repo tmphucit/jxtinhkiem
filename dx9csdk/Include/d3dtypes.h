@@ -1693,8 +1693,8 @@ typedef enum _D3DTEXTUREOP {
   D3DTOP_BLENDDIFFUSEALPHA = 12, // iterated alpha
   D3DTOP_BLENDTEXTUREALPHA = 13, // texture alpha
   D3DTOP_BLENDFACTORALPHA = 14,  // alpha from D3DRENDERSTATE_TEXTUREFACTOR
-                                // Linear alpha blend with pre-multiplied arg1
-                                // input: Arg1 + Arg2*(1-Alpha)
+                                 // Linear alpha blend with pre-multiplied arg1
+                                 // input: Arg1 + Arg2*(1-Alpha)
   D3DTOP_BLENDTEXTUREALPHAPM = 15, // texture alpha
   D3DTOP_BLENDCURRENTALPHA = 16,   // by alpha of current color
 
@@ -1710,14 +1710,13 @@ typedef enum _D3DTEXTUREOP {
                                          // COLOROP only
 
   // Bump mapping
-  D3DTOP_BUMPENVMAP = 22, // per pixel env map perturbation
-  D3DTOP_BUMPENVMAPLUMINANCE =
-      23, // with luminance channel
-          // This can do either diffuse or specular bump mapping with correct
-          // input. Performs the function (Arg1.R*Arg2.R + Arg1.G*Arg2.G +
-          // Arg1.B*Arg2.B) where each component has been scaled and offset to
-          // make it signed. The result is replicated into all four (including
-          // alpha) channels. This is a valid COLOROP only.
+  D3DTOP_BUMPENVMAP = 22,          // per pixel env map perturbation
+  D3DTOP_BUMPENVMAPLUMINANCE = 23, // with luminance channel
+  // This can do either diffuse or specular bump mapping with correct
+  // input. Performs the function (Arg1.R*Arg2.R + Arg1.G*Arg2.G +
+  // Arg1.B*Arg2.B) where each component has been scaled and offset to
+  // make it signed. The result is replicated into all four (including
+  // alpha) channels. This is a valid COLOROP only.
   D3DTOP_DOTPRODUCT3 = 24,
 
   D3DTOP_FORCE_DWORD = 0x7fffffff,

@@ -1,0 +1,50 @@
+Include("\\\script\\hoatdong\\tongkim\\headtime.lua")
+Include("\\\script\\hoatdong\\tongkim\\headtime.lua")
+Include("\\Script\\Global\\sourcejx49.lua")
+Include("\\Script\\header\\taskid.lua");
+Include("\\Script\\lib\\worldlibrary.lua");
+Include("\\Script\\lib\\thuvien.lua");
+
+function OnDeath()
+if GetGlbMissionV(60) == 2000 then
+	if GetTask(12) == 1 then
+		tongdiem = 2000
+		SetTask(14,GetTask(14)+1) -- NPC
+		SetTask(20,GetTask(20)+tongdiem)
+		SetTask(31,GetTask(31)+tongdiem)
+		SetTask(15,GetTask(15)+tongdiem)
+		SetGlbMissionV(81,GetGlbMissionV(81)+tongdiem)
+		Msg2Player("B¹n nhËn ®­îc "..tongdiem.." ®iÓm tÝch luü, ®iÓm tÝch luü hiÖn t¹i lµ:  "..GetTask(31).." ®iÓm")
+		SetGlbMissionV(87,2)
+		Msg2World("Tèng qu©n "..GetName().." ®· giÕt ®­îc Nguyªn So¸i phe Kim!!!")
+		if (GetTask(31) >= danhhieu[GetTask(19)+1][2]) then
+			SetTask(19,GetTask(19)+1)
+			qh = GetTask(19)
+			AddMagic(413,qh)
+			AddRepute(danhhieu[qh][5])
+			SetRank(219+qh*2)
+			Msg2Player("B¹n nhËn ®­îc "..danhhieu[qh][5].." ®iÓm danh väng")
+			Msg2Player("Qu©n hµm cña b¹n ®· t¨ng lªn"..danhhieu[qh][1]..", xin chóc mõng !")
+			Msg2World("Qu©n Tèng, ng­êi ch¬i "..GetName().." ®­îc phong hµm "..danhhieu[qh][1]..", chóc mõng !")
+		end
+if GetTask(31) >= 25000 and GetTask(TONGKIM_TLthuong) <= 3 then
+AddItemCount(304) --r­¬ng
+end
+if GetTask(31) >= 15000 and GetTask(TONGKIM_TLthuong) <= 3 then
+AddOwnExp(1000000) ---1 triÖu EPX
+end
+if GetTask(31) >= 10000 and GetTask(TONGKIM_TLthuong) <= 3 then
+AddOwnExp(1000000) ---1 triÖu EPX
+end
+if GetTask(31) >= 5000 and GetTask(TONGKIM_TLthuong) <= 3 then
+AddOwnExp(1000000) ---1 triÖu EPx
+end
+		UpdateTopTKNew()
+                            SetTask(TONGKIM_TLthuong,GetTask(TONGKIM_TLthuong) + 1)
+	end
+end
+end
+
+
+function OnDrop()
+end

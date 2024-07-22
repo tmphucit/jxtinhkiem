@@ -422,10 +422,10 @@ typedef struct {
   LPDIRECTSOUND lpdsPlaybackDevice; // DirectSound Object to use (optional)
   GUID guidCaptureDevice;           // GUID of the capture device to use
   LPDIRECTSOUNDCAPTURE
-      lpdsCaptureDevice; // DirectSoundCapture Object to use (optional)
-  HWND hwndAppWindow;    // HWND of your application's top-level window
+  lpdsCaptureDevice;  // DirectSoundCapture Object to use (optional)
+  HWND hwndAppWindow; // HWND of your application's top-level window
   LPDIRECTSOUNDBUFFER
-      lpdsMainBuffer;      // DirectSoundBuffer to use for playback (optional)
+  lpdsMainBuffer;          // DirectSoundBuffer to use for playback (optional)
   DWORD dwMainBufferFlags; // Flags to pass to Play() on the main buffer
   DWORD dwMainBufferPriority; // Priority to set when calling Play() on the main
                               // buffer
@@ -509,7 +509,7 @@ typedef struct {
   PVOID pvContext; // Context value to be passed to Initialize() of new host
                    // object
   PDVMESSAGEHANDLER
-      pMessageHandler; // Message handler to be used by new host object
+  pMessageHandler; // Message handler to be used by new host object
 } DVMSG_LOCALHOSTSETUP, *LPDVMSG_LOCALHOSTSETUP, *PDVMSG_LOCALHOSTSETUP;
 
 //
@@ -638,9 +638,9 @@ DECLARE_INTERFACE_(IDirectPlayVoiceClient, IUnknown) {
   STDMETHOD_(HRESULT, SetTransmitTargets)(THIS_ PDVID, DWORD, DWORD) PURE;
   STDMETHOD_(HRESULT, GetTransmitTargets)(THIS_ PDVID, PDWORD, DWORD) PURE;
   STDMETHOD_(HRESULT, Create3DSoundBuffer)
-  (THIS_ DVID, LPDIRECTSOUNDBUFFER, DWORD, DWORD, LPDIRECTSOUND3DBUFFER *) PURE;
+  (THIS_ DVID, LPDIRECTSOUNDBUFFER, DWORD, DWORD, LPDIRECTSOUND3DBUFFER *)PURE;
   STDMETHOD_(HRESULT, Delete3DSoundBuffer)
-  (THIS_ DVID, LPDIRECTSOUND3DBUFFER *) PURE;
+  (THIS_ DVID, LPDIRECTSOUND3DBUFFER *)PURE;
   STDMETHOD_(HRESULT, SetNotifyMask)(THIS_ PDWORD, DWORD) PURE;
   STDMETHOD_(HRESULT, GetSoundDeviceConfig)
   (THIS_ PDVSOUNDDEVICECONFIG, PDWORD) PURE;

@@ -27,7 +27,7 @@
 //(KWndWindow*)uParam = 调用菜单的的窗口
 //	(short)(nParam & 0xffff) = 所选的菜单项的索引，如果选择取消则为-1
 //	(short)((nParam >> 16) & 0xffff) =
-//操作需求界面执行定义的操作参数，比如需求界面用此参数来区分自己可以发出的多个需求
+// 操作需求界面执行定义的操作参数，比如需求界面用此参数来区分自己可以发出的多个需求
 /*
 #define	WND_M_CREATE			WND_M_BASE + 1
 #define	WND_M_DESTROY			WND_M_BASE + 2
@@ -59,9 +59,9 @@
 
 #define WND_N_ITEM_PICKDROP WND_M_BASE + 17 // 捡起/放下物品
 //(ITEM_PICKDROP_PLACE*)uParam =
-//欲捡起物品的所在位置，如无物品要被捡起，则uParam = 0
+// 欲捡起物品的所在位置，如无物品要被捡起，则uParam = 0
 //(ITEM_PICKDROP_PLACE*)nParam =
-//欲放下物品的放下位置，如无东西要被放下，则nParam = 0
+// 欲放下物品的放下位置，如无东西要被放下，则nParam = 0
 
 #define WND_N_LEFT_CLICK_ITEM WND_M_BASE + 18 // 左键点按物品对象
 //(const KUiDraggedObject*)uParam = 被点按的物品的信息

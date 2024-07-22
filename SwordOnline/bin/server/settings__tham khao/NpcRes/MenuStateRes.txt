@@ -1,0 +1,8 @@
+状态	图形文件名
+TeamState	\spr\npcres\style\menustate01.spr
+TradeOpenState	\spr\npcres\style\menustate02.spr
+TradingState	\spr\npcres\style\menustate03.spr
+SleepingState	\spr\npcres\style\menustate04.spr
+PersonShopOpenState
+
+	

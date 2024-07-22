@@ -410,11 +410,11 @@ BOOL KUiStrengthRank::LoadRankIni(KIniFile *Ini, int nID) {
 // void KUiStrengthRank::SendGetIndexToCore()
 //{
 //	if(g_pCoreShell && IR_GetCurrentTime() - m_uLastGetIndexTime >
-//GET_RANK_TIME_OUT)
+// GET_RANK_TIME_OUT)
 //	{
 //		m_uLastGetIndexTime = IR_GetCurrentTime();
 //		g_pCoreShell->OperationRequest(GOI_QUERY_RANK_INFORMATION, 0,
-//TRUE);
+// TRUE);
 //	}
 // }
 

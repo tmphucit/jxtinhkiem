@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------
 // Sword3 Core (c) 2002 by Kingsoft
 //
-// File:	KBasPropTbl.cpp
+// File:	KBasPropTbl.CPP
 // Date:	2002.08.14
 // Code:	DongBo
 // Desc:    cpp file. 本文件实现的类用于从tab file中读出道具的初始属性,
@@ -10,7 +10,7 @@
 
 #include "KCore.h"
 #include "KTabFile.h"
-#include "MyAssert.h"
+#include "MyAssert.H"
 #include "KBasPropTbl.h"
 
 #define		TABFILE_PATH				"\\settings\\item"

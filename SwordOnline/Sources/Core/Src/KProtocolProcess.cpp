@@ -1198,7 +1198,8 @@ void KProtocolProcess::s2cFactionSkillOpen(BYTE *pMsg) {
   //			Player[CLIENT_PLAYER_INDEX].m_cFaction.m_sSkillOpen[i].m_nOpenLevel
   //= pSkill->m_btLevel;
   //			Player[CLIENT_PLAYER_INDEX].m_cFaction.OpenCurSkillLevel(Player[CLIENT_PLAYER_INDEX].m_cFaction.m_sSkillOpen[i].m_nOpenLevel,
-  //&Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_SkillList); 			break;
+  //&Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_SkillList);
+  //break;
   //		}
   //	}
 }
@@ -1408,11 +1409,11 @@ void KProtocolProcess::s2cSetFactionData(BYTE *pMsg) {
   CoreDataChanged(GDCNI_PLAYER_BASE_INFO, 0, 0);
 
   //	Player[CLIENT_PLAYER_INDEX].m_cFaction.m_sSkillOpen[0].m_nOpenLevel =
-  //pData->m_btNo1SkillOpenLevel;
+  // pData->m_btNo1SkillOpenLevel;
   //	Player[CLIENT_PLAYER_INDEX].m_cFaction.m_sSkillOpen[1].m_nOpenLevel =
-  //pData->m_btNo2SkillOpenLevel; 	if
+  // pData->m_btNo2SkillOpenLevel; 	if
   //(Player[CLIENT_PLAYER_INDEX].m_cFaction.m_nCurFaction ==
-  //Player[CLIENT_PLAYER_INDEX].m_cFaction.m_sSkillOpen[0].m_nID)
+  // Player[CLIENT_PLAYER_INDEX].m_cFaction.m_sSkillOpen[0].m_nID)
   //		Player[CLIENT_PLAYER_INDEX].m_cFaction.OpenCurSkillLevel(Player[CLIENT_PLAYER_INDEX].m_cFaction.m_sSkillOpen[0].m_nOpenLevel,
   //&Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_SkillList); 	else
   //		Player[CLIENT_PLAYER_INDEX].m_cFaction.OpenCurSkillLevel(Player[CLIENT_PLAYER_INDEX].m_cFaction.m_sSkillOpen[1].m_nOpenLevel,
@@ -1772,7 +1773,7 @@ void KProtocolProcess::SyncCurNormalData(BYTE *pMsg) {
   //	if (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_Doing == do_sit)
   //	{
   //		if (Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentLife >=
-  //Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentLifeMax &&
+  // Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentLifeMax &&
   //			Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentMana
   //>= Npc[Player[CLIENT_PLAYER_INDEX].m_nIndex].m_CurrentManaMax)
   //		{
@@ -2111,7 +2112,7 @@ void KProtocolProcess::SyncObjectAdd(BYTE *pMsg) {
     //		sPickUp.m_btPosY = 0;
     //		if (g_pClient)
     //			g_pClient->SendPackToServer(&sPickUp,
-    //sizeof(PLAYER_PICKUP_ITEM_COMMAND));
+    // sizeof(PLAYER_PICKUP_ITEM_COMMAND));
   } else if (Object[nObjIndex].m_nKind == Obj_Kind_Item) {
     ItemPos sItemPos;
     if (FALSE == Player[CLIENT_PLAYER_INDEX].m_ItemList.SearchPosition(
@@ -2539,8 +2540,9 @@ void KProtocolProcess::s2cSyncAllSkill(BYTE *pMsg) {
     if (pSync->m_sAllSkill[i].SkillId) {
 
       //			pOrdinSkill = (KSkill *)
-      //g_SkillManager.GetSkill(pSync->m_sAllSkill[i].SkillId,
-      //pSync->m_sAllSkill[i].SkillLevel); 			if (!pOrdinSkill)
+      // g_SkillManager.GetSkill(pSync->m_sAllSkill[i].SkillId,
+      // pSync->m_sAllSkill[i].SkillLevel); 			if
+      // (!pOrdinSkill)
       //              continue;
 
       Npc[nNpcIndex].m_SkillList.Add(pSync->m_sAllSkill[i].SkillId,
@@ -3089,7 +3091,7 @@ void KProtocolProcess::s2cShowMsg(BYTE *pMsg) {
     sMsg.byParamSize = 0;
     sprintf(sMsg.szMessage, MSG_TONG_LEAVE_FAIL);
     //			CoreDataChanged(GDCNI_SYSTEM_MESSAGE, (unsigned
-    //int)&sMsg, 0);
+    // int)&sMsg, 0);
   } break;
   case enumMSG_ID_TONG_CHANGE_AS_MASTER: {
     KSystemMessage sMsg;
@@ -4413,8 +4415,8 @@ void KProtocolProcess::TeamReplyInvite(int nIndex, BYTE *pProtocol) {
 //	PingCmd.ProtocolType = s2c_ping;
 //	PingCmd.m_dwTime = pPingCmd->m_dwTime;
 //	g_pServer->SendData(Player[nIndex].m_nNetConnectIdx, &PingCmd,
-//sizeof(PING_COMMAND)); 	Player[nIndex].m_uLastPingTime =
-//g_SubWorldSet.GetGameTime();
+// sizeof(PING_COMMAND)); 	Player[nIndex].m_uLastPingTime =
+// g_SubWorldSet.GetGameTime();
 // }
 
 void KProtocolProcess::NpcSitCommand(int nIndex, BYTE *pProtocol) {

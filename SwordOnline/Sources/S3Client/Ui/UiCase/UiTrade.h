@@ -24,8 +24,10 @@ public:
   static void CloseWindow();         // 关闭窗口，同时可以选则是否删除对象实例
   static void LoadScheme(const char *pScheme); // 载入界面方案
 
-  void OnChangedTakewithItem(KUiObjAtRegion *pObj, int bAdd); // 对方变更随身物品
-  void OnOppositeChangedItem(KUiObjAtRegion *pObj, int bAdd); // 对方变更交易物品
+  void OnChangedTakewithItem(KUiObjAtRegion *pObj,
+                             int bAdd); // 对方变更随身物品
+  void OnOppositeChangedItem(KUiObjAtRegion *pObj,
+                             int bAdd);                   // 对方变更交易物品
   void OnSelfChangedItem(KUiObjAtRegion *pObj, int bAdd); // 自己变更交易物品
   void UpdateOperData();
 

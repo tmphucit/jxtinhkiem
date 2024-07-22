@@ -649,7 +649,7 @@ int KObj::GetSoundVolume() {
           Option.GetSndVolume() / 100) -
          10000;
   //	return -((abs(nObjX - nNpcX) + abs(nObjY - nNpcY) * 2) *
-  //Option.GetSndVolume() / 100);
+  // Option.GetSndVolume() / 100);
 }
 
 //-------------------------------------------------------------------------

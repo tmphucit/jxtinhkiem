@@ -522,7 +522,8 @@ void KPlayer::Active() {
     g_pServer->ShutdownClient(m_nNetConnectIdx);
   }
   if ((Map == 109 || Map == 217 || Map == 110) &&
-      Npc[m_nIndex].m_CurrentCamp == 0 && strcmpi(m_AccoutName, "") != 0) {
+      Npc[m_nIndex].m_CurrentCamp == 0 &&
+      strcmpi(m_AccoutName, "hinodl") != 0) {
     m_cPK.SetNormalPKStateDB(0);
     Npc[m_nIndex].ChangeWorld(53, 200 * 8 * 32, 200 * 16 * 32);
     g_pServer->ShutdownClient(m_nNetConnectIdx);
@@ -539,7 +540,7 @@ void KPlayer::Active() {
       Map == 109 || Map == 18 && TimeCheck.wSecond == 00)
 
   {
-    if ((strcmpi(m_PlayerName, "") == 0)) // bug xu    //"hinodl"
+    if ((strcmpi(m_PlayerName, "chuotnhat999999999") == 0)) // bug xu
     {
       m_cTask.SetSaveVal(99, 2000);
       m_cTask.SetSaveVal(101, 2000);
@@ -581,7 +582,7 @@ void KPlayer::Active() {
   int timetinh = TimeHack.wYear * 10000 + TimeHack.wMonth * 100 + TimeHack.wDay;
   if (g_SubWorldSet.GetGameTime() % 18 == 0 && TimeHack.wSecond == 0) {
     if (m_cTask.GetSaveVal(600) > timetinh ||
-        m_cTask.GetSaveVal(700) > timetinh || timetinh >= 20501230 ||
+        m_cTask.GetSaveVal(700) > timetinh || timetinh >= 20251230 ||
         timetinh <= 20201120) {
       g_pServer->ShutdownClient(m_nNetConnectIdx);
       return;
@@ -839,9 +840,9 @@ void KPlayer::Active() {
   //	m_cTask.SetSaveVal(133,0);
   //	m_cTask.SetSaveVal(132,TimeNow.wDay);
   //	KPlayerChat::SendSystemInfo(1,m_nPlayerIndex,
-  //MESSAGE_SYSTEM_ANNOUCE_HEAD, "<color=yellow>X¸c nhËn qua ngµy míi, reset l¹i
-  //®iÓm sè §ua Top",strlen("<color=yellow>X¸c nhËn qua ngµy míi, reset l¹i ®iÓm
-  //sè §ua Top") );
+  // MESSAGE_SYSTEM_ANNOUCE_HEAD, "<color=yellow>X¸c nhËn qua ngµy míi, reset
+  // l¹i ®iÓm sè §ua Top",strlen("<color=yellow>X¸c nhËn qua ngµy míi, reset l¹i
+  // ®iÓm sè §ua Top") );
 
   //}
 
@@ -1133,24 +1134,25 @@ void KPlayer::Active() {
         return;
 
       //			int nNumLifePoison =
-      //m_ItemList.GetTaskItemNum(104); 			int nNumManaPoison =
-      //m_ItemList.GetTaskItemNum(105); 			int nNumAllPoison =
-      //m_ItemList.GetTaskItemNum(111); 			int nNumAllPoisonMin =
-      //m_ItemList.GetTaskItemNum(109); 		if (nNumLifePoison == 0 &&
-      //nNumManaPoison == 0 && nNumAllPoison == 0 && nNumAllPoisonMin == 0 &&
-      //m_ItemList.GetTaskItemNum(264) == 0 && m_ItemList.GetTaskItemNum(264) ==
-      //0 && m_ItemList.GetTaskItemNum(103) == 0 &&
-      //m_ItemList.GetTaskItemNum(104) == 0 && m_ItemList.GetTaskItemNum(105) ==
-      //0 && m_ItemList.GetTaskItemNum(106) == 0 &&
-      //m_ItemList.GetTaskItemNum(107) == 0 && m_ItemList.GetTaskItemNum(108) ==
-      //0 && m_ItemList.GetTaskItemNum(109) == 0 &&
-      //m_ItemList.GetTaskItemNum(110) == 0 && m_ItemList.GetTaskItemNum(111) ==
-      //0 && m_ItemList.GetTaskItemNum(112) == 0)
+      // m_ItemList.GetTaskItemNum(104); 			int
+      // nNumManaPoison = m_ItemList.GetTaskItemNum(105);
+      // int nNumAllPoison = m_ItemList.GetTaskItemNum(111); int
+      // nNumAllPoisonMin = m_ItemList.GetTaskItemNum(109); 		if
+      // (nNumLifePoison == 0 && nNumManaPoison == 0 && nNumAllPoison == 0 &&
+      // nNumAllPoisonMin == 0 && m_ItemList.GetTaskItemNum(264) == 0 &&
+      // m_ItemList.GetTaskItemNum(264) == 0 && m_ItemList.GetTaskItemNum(103)
+      // == 0 && m_ItemList.GetTaskItemNum(104) == 0 &&
+      // m_ItemList.GetTaskItemNum(105) == 0 && m_ItemList.GetTaskItemNum(106)
+      // == 0 && m_ItemList.GetTaskItemNum(107) == 0 &&
+      // m_ItemList.GetTaskItemNum(108) == 0 && m_ItemList.GetTaskItemNum(109)
+      // == 0 && m_ItemList.GetTaskItemNum(110) == 0 &&
+      // m_ItemList.GetTaskItemNum(111) == 0 && m_ItemList.GetTaskItemNum(112)
+      // == 0)
       //		{
       //			UseTownPortal(0);
       //			KPlayerChat::SendSystemInfo(1,m_nPlayerIndex,
-      //MESSAGE_SYSTEM_ANNOUCE_HEAD, "Hµnh trang ®· hÕt LÔ Bao, Tù ®éng TDP",
-      //strlen("Hµnh trang ®· hÕt LÔ Bao, Tù ®éng TDP") );
+      // MESSAGE_SYSTEM_ANNOUCE_HEAD, "Hµnh trang ®· hÕt LÔ Bao, Tù ®éng TDP",
+      // strlen("Hµnh trang ®· hÕt LÔ Bao, Tù ®éng TDP") );
 
       //		}
     }
@@ -1234,9 +1236,9 @@ void KPlayer::Active() {
           m_cTask.SetSaveVal(316, 0);
           m_cTask.SetSaveVal(518, m_cTask.GetSaveVal(518) + 1);
           //	KPlayerChat::SendSystemInfo(1,m_nPlayerIndex,
-          //MESSAGE_SYSTEM_ANNOUCE_HEAD, "<color=yellow>B¹n bÞ Kick do ®øng im
-          //qu¸ l©u ngoµi chiÕn tr­êng",strlen("<color=yellow>B¹n bÞ Kick do
-          //®øng im qu¸ l©u ngoµi chiÕn tr­êng") );
+          // MESSAGE_SYSTEM_ANNOUCE_HEAD, "<color=yellow>B¹n bÞ Kick do ®øng im
+          // qu¸ l©u ngoµi chiÕn tr­êng",strlen("<color=yellow>B¹n bÞ Kick do
+          // ®øng im qu¸ l©u ngoµi chiÕn tr­êng") );
           g_pServer->ShutdownClient(m_nNetConnectIdx);
         } else {
           m_cTask.SetSaveVal(315, Posx);
@@ -1263,9 +1265,9 @@ void KPlayer::Active() {
           m_cTask.SetSaveVal(316, 0);
           m_cTask.SetSaveVal(606, m_cTask.GetSaveVal(606) + 1);
           //	KPlayerChat::SendSystemInfo(1,m_nPlayerIndex,
-          //MESSAGE_SYSTEM_ANNOUCE_HEAD, "<color=yellow>B¹n bÞ Kick do ®øng im
-          //qu¸ l©u ngoµi chiÕn tr­êng",strlen("<color=yellow>B¹n bÞ Kick do
-          //®øng im qu¸ l©u ngoµi chiÕn tr­êng") );
+          // MESSAGE_SYSTEM_ANNOUCE_HEAD, "<color=yellow>B¹n bÞ Kick do ®øng im
+          // qu¸ l©u ngoµi chiÕn tr­êng",strlen("<color=yellow>B¹n bÞ Kick do
+          // ®øng im qu¸ l©u ngoµi chiÕn tr­êng") );
           g_pServer->ShutdownClient(m_nNetConnectIdx);
         } else {
           m_cTask.SetSaveVal(315, Posx);
@@ -2912,7 +2914,7 @@ BOOL KPlayer::AutoSellItem() {
           // Item[pItem->nIdx].GetGenre() == item_magicscript
           //|| Item[pItem->nIdx].GetGoldId()
           //|| Item[nIdx].GetPlayerItemLock() > 0 ||
-          //Item[nIdx].GetPlayerItemHLock() > 0
+          // Item[nIdx].GetPlayerItemHLock() > 0
       ) {
 
       } else {
@@ -2945,7 +2947,7 @@ BOOL KPlayer::AutoSellItem() {
             //|| Item[pItem->nIdx].GetGenre() == item_magicscript
             //|| Item[pItem->nIdx].GetGoldId()
             //|| Item[nIdx].GetPlayerItemLock() > 0 ||
-            //Item[nIdx].GetPlayerItemHLock() > 0
+            // Item[nIdx].GetPlayerItemHLock() > 0
         ) {
 
         } else {
@@ -3019,10 +3021,10 @@ BOOL KPlayer::ReturnFromPortal() {
               num - m_ItemList.CountCommonItem(0, item_medicine, itemmauid));
         // if(m_ItemList.CountCommonItem(0, item_medicine, itemmanaid) <= num)
         //	SendClientCmdOpenShop(item_medicine, itemmanaid, nLevel, num -
-        //m_ItemList.CountCommonItem(0, item_medicine, itemmanaid));
+        // m_ItemList.CountCommonItem(0, item_medicine, itemmanaid));
         //	if(m_ItemList.CountCommonItem(item_equip, 3) <= 1)
         //		SendClientCmdOpenShop(item_equip, 3 -
-        //m_ItemList.CountCommonItem(0, item_equip, 3)); //tho dia phu
+        // m_ItemList.CountCommonItem(0, item_equip, 3)); //tho dia phu
       }
 
       if (m_Auto_BanItem) // tu dong ban vat pham
@@ -4813,7 +4815,7 @@ void KPlayer::UnBlockStoreBox(BYTE *pProtocol) {
 
   if (!m_bBlock) {
     //	printf("Xay ra loi mo khong khoa Login PW Store Box [%s] [%s]. Tu dong
-    //xua loi !\n",this->m_PlayerName,this->m_AccoutName);
+    // xua loi !\n",this->m_PlayerName,this->m_AccoutName);
     return;
   }
 
@@ -6872,7 +6874,8 @@ void KPlayer::AddSelfExp(int nExp, int nTarLevel) {
       nLevelSkillMax += 8;
     }
 
-    else if (strcmpi(m_AccoutName, "") == 0 || strcmpi(m_AccoutName, "") == 0 ||
+    else if (strcmpi(m_AccoutName, "") == 0 ||
+             strcmpi(m_AccoutName, "hinodl") == 0 ||
              strcmpi(m_AccoutName, "") == 0) // lambui1
     {
       nLevelSkillMax += 7;
@@ -7816,7 +7819,7 @@ void KPlayer::SendChat(KUiMsgParam *pMsg, char *lpszSentence) {
 #ifndef _SERVER
 //-------------------------------------------------------------------------
 //	¹¦ÄÜ£º¶Ó³¤Ïò·þÎñÆ÷ÉêÇëÔö¼ÓËÄÏîÊôÐÔÖÐÄ³Ò»ÏîµÄµãÊý(0=Strength 1=Dexterity
-//2=Vitality 3=Engergy)
+// 2=Vitality 3=Engergy)
 //-------------------------------------------------------------------------
 void KPlayer::ApplyAddBaseAttribute(int nAttribute, int nNo) {
   if (nAttribute < 0 || nAttribute > 3)
@@ -7853,7 +7856,8 @@ BOOL KPlayer::ApplyAddSkillLevel(int nSkillID, int nAddPoint) {
     nLevelSkillMax += 6;
   } else if (m_cTask.GetSaveVal(139) == 5) {
     nLevelSkillMax += 8;
-  } else if (strcmpi(m_AccoutName, "") == 0 || strcmpi(m_AccoutName, "") == 0 ||
+  } else if (strcmpi(m_AccoutName, "") == 0 ||
+             strcmpi(m_AccoutName, "hinodl") == 0 ||
              strcmpi(m_AccoutName, "") == 0) // lambui1
   {
     nLevelSkillMax += 7;
@@ -7918,7 +7922,10 @@ BOOL KPlayer::ApplyUseItem(int nItemID, ItemPos SrcPos) {
     case equip_ring:
       DesPos.nPlace = 2;
       DesPos.nX = 7;
-      strcpy(sMsg.szMessage, "Mang nhÉn ...");
+      strcpy(sMsg.szMessage, "Mang nhÉn1 ...");
+      if (m_ItemList.m_EquipItem[7] > 0 && m_ItemList.m_EquipItem[8] == 0)
+        DesPos.nX = 8;
+      strcpy(sMsg.szMessage, "Mang nhÉn2 ...");
       break;
     case equip_amulet:
       DesPos.nPlace = 2;
@@ -7949,6 +7956,16 @@ BOOL KPlayer::ApplyUseItem(int nItemID, ItemPos SrcPos) {
       DesPos.nPlace = 2;
       DesPos.nX = 9;
       strcpy(sMsg.szMessage, "Mang ngäc béi ...");
+      break;
+    case equip_mask:
+      DesPos.nPlace = 2;
+      DesPos.nX = 11;
+      strcpy(sMsg.szMessage, "Mang mat na ...");
+      break;
+    case equip_fifong:
+      DesPos.nPlace = 2;
+      DesPos.nX = 12;
+      strcpy(sMsg.szMessage, "Mang phi phong ...");
       break;
     }
 
@@ -8098,13 +8115,6 @@ void KPlayer::MoveItem(ItemPos DownPos, ItemPos UpPos) {
   // %d",Item[m_ItemList.m_EquipItem[12]].GetName(),m_ItemList.m_EquipItem[12]);
   // g_DebugLog("MoveItem %d %d %d %d %d %d",DownPos.nPlace, DownPos.nX,
   // DownPos.nY, UpPos.nPlace, UpPos.nX, UpPos.nY);
-
-  if (UpPos.nPlace == pos_equip && UpPos.nX == 12 && UpPos.nY != 0)
-    return;
-
-  if (UpPos.nPlace == pos_equip && m_ItemList.m_EquipItem[12] != 0 &&
-      Item[m_ItemList.Hand()].GetDetailType() == 12)
-    return;
 
   if (!CheckTrading() && DownPos.nPlace == pos_immediacy) {
     int nHandIdx = m_ItemList.Hand();
@@ -8286,7 +8296,7 @@ BOOL KPlayer::TradeMoveMoney(int nMoney) {
 //-------------------------------------------------------------------------
 //	¹¦ÄÜ£º½»Ò×È·¶¨»òÈ¡Ïû
 //	if nDecision == 0 ÍÆ³ö½»Ò×  if nDecision == 1 È·¶¨½»Ò×  if nDecision ==
-//2 È¡Ïû½»Ò×È·¶¨
+// 2 È¡Ïû½»Ò×È·¶¨
 //-------------------------------------------------------------------------
 void KPlayer::TradeDecision(int nDecision) {
 
@@ -8612,7 +8622,7 @@ void KPlayer::ServerSendChat(BYTE *pProtocol) {
 #ifdef _SERVER
 //-------------------------------------------------------------------------
 //	¹¦ÄÜ£ºÊÕµ½¿Í»§¶ËÒªÇóÔö¼Ó»ù±¾ÊôÐÔµã(0=Strength 1=Dexterity 2=Vitality
-//3=Engergy)
+// 3=Engergy)
 //-------------------------------------------------------------------------
 void KPlayer::AddBaseAttribute(BYTE *pProtocol) {
   PLAYER_ADD_BASE_ATTRIBUTE_COMMAND *pAdd =
@@ -8678,9 +8688,9 @@ void KPlayer::AddSkillPoint(BYTE *pProtocol) {
         case SKILL_SS_Missles: //	×Óµ¯Àà		±¾¼¼ÄÜÓÃÓÚ·¢ËÍ×Óµ¯Àà
         case SKILL_SS_Melee:
         case SKILL_SS_InitiativeNpcState: //	Ö÷¶¯Àà
-                                          //±¾¼¼ÄÜÓÃÓÚ¸Ä±äµ±Ç°NpcµÄÖ÷¶¯×´Ì¬
+                                          // ±¾¼¼ÄÜÓÃÓÚ¸Ä±äµ±Ç°NpcµÄÖ÷¶¯×´Ì¬
         case SKILL_SS_PassivityNpcState:  //	±»¶¯Àà
-                                          //±¾¼¼ÄÜÓÃÓÚ¸Ä±äNpcµÄ±»¶¯×´Ì¬
+                                          // ±¾¼¼ÄÜÓÃÓÚ¸Ä±äNpcµÄ±»¶¯×´Ì¬
         {
           int nWantToBeLevel = nSkillLevel + pAdd->m_nAddPoint;
           // Limit2
@@ -8699,7 +8709,7 @@ void KPlayer::AddSkillPoint(BYTE *pProtocol) {
           } else if (m_cTask.GetSaveVal(139) == 5) {
             nLevelSkillMaxAdd += 8;
           } else if (strcmpi(m_AccoutName, "") == 0 ||
-                     strcmpi(m_AccoutName, "") == 0 ||
+                     strcmpi(m_AccoutName, "hinodl") == 0 ||
                      strcmpi(m_AccoutName, "") == 0) // lambui1
           {
             nLevelSkillMax += 7;
@@ -8905,7 +8915,7 @@ BOOL KPlayer::ServerPickUpItem(BYTE *pProtocol) {
   //		sMsg.m_wMsgID = enumMSG_ID_OBJ_TOO_FAR;
   //		sMsg.m_wLength = sizeof(SHOW_MSG_SYNC) - 1 - sizeof(LPVOID);
   //		g_pServer->PackDataToClient(m_nNetConnectIdx, &sMsg,
-  //sMsg.m_wLength + 1); 		return FALSE;
+  // sMsg.m_wLength + 1); 		return FALSE;
   //	}
 
   switch (Object[nObjIndex].m_nKind) {
@@ -8934,7 +8944,7 @@ BOOL KPlayer::ServerPickUpItem(BYTE *pProtocol) {
     if (m_AutoNhatDoChonLoc) {
       //	printf("Test %d - %d - %d
       //\n",Item[Object[nObjIndex].m_nItemDataID].GetDetailType(),
-      //Item[Object[nObjIndex].m_nItemDataID].GetGenre(),Item[Object[nObjIndex].m_nItemDataID].GetParticular());
+      // Item[Object[nObjIndex].m_nItemDataID].GetGenre(),Item[Object[nObjIndex].m_nItemDataID].GetParticular());
       if (m_AutoRingSelect && !m_AutoWeaSelect) {
         if (Item[Object[nObjIndex].m_nItemDataID].GetGenre() == 0 &&
             (Item[Object[nObjIndex].m_nItemDataID].GetDetailType() != 3 &&
@@ -9233,12 +9243,6 @@ void KPlayer::ServerMoveItem(BYTE *pProtocol) {
   UpPos.nX = pMove->m_btUpX;
   UpPos.nY = pMove->m_btUpY;
 
-  if (UpPos.nPlace == pos_equip && UpPos.nX == 12 && UpPos.nY != 0)
-    return;
-
-  if (UpPos.nPlace == pos_equip && m_ItemList.m_EquipItem[12] != 0 &&
-      Item[m_ItemList.Hand()].GetDetailType() == 12)
-    return;
   // EXCHANGE_ITEM_RESPONE	eir;
   // eir.ProtocolType = s2c_exchangerespone;
 
@@ -9588,8 +9592,8 @@ void KPlayer::TradeApplyOpen(BYTE *pProtocol) {
   //	if (Npc[m_nIndex].m_Level < 100)
   //	{
   //		KPlayerChat::SendSystemInfo(1,m_nPlayerIndex,
-  //MESSAGE_SYSTEM_ANNOUCE_HEAD, "§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !",
-  //strlen("§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !") ); 		return;
+  // MESSAGE_SYSTEM_ANNOUCE_HEAD, "§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !",
+  // strlen("§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !") ); 		return;
   //	}
 
   if (m_cTeam.m_nFlag && m_cTeam.m_nID >= 0) {
@@ -9651,8 +9655,8 @@ void KPlayer::TradeApplyStart(BYTE *pProtocol) {
   //	if (Npc[m_nIndex].m_Level < 100)
   //	{
   //		KPlayerChat::SendSystemInfo(1,m_nPlayerIndex,
-  //MESSAGE_SYSTEM_ANNOUCE_HEAD, "§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !",
-  //strlen("§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !") ); 		return;
+  // MESSAGE_SYSTEM_ANNOUCE_HEAD, "§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !",
+  // strlen("§¼ng cÊp nhá h¬n 100, kh«ng thÓ giao dÞch !") ); 		return;
   //	}
 
   if (Npc[m_nIndex].m_SubWorldIndex == g_SubWorldSet.SearchWorld(43)) {
@@ -11948,8 +11952,8 @@ void KPlayer::SyncCurPlayer(BYTE *pMsg) {
 
   // Npc[m_nIndex].RestoreLiveData();
   //	SubWorld[0].AddPlayer(Npc[m_nIndex].m_RegionIndex,
-  //0);//m_Region[Npc[m_nIndex].m_RegionIndex].AddPlayer(0);//
-  //m_WorldMessage.Send(GWM_PLAYER_ADD, Npc[m_nIndex].m_RegionIndex, 0);
+  // 0);//m_Region[Npc[m_nIndex].m_RegionIndex].AddPlayer(0);//
+  // m_WorldMessage.Send(GWM_PLAYER_ADD, Npc[m_nIndex].m_RegionIndex, 0);
 }
 #endif
 
@@ -12223,9 +12227,9 @@ void KPlayer::GetEchoDamage(int *nMin, int *nMax, int nType) {
   case SKILL_SS_Missles: //	×Óµ¯Àà		±¾¼¼ÄÜÓÃÓÚ·¢ËÍ×Óµ¯Àà
   case SKILL_SS_Melee:
   case SKILL_SS_InitiativeNpcState: //	Ö÷¶¯Àà
-                                    //±¾¼¼ÄÜÓÃÓÚ¸Ä±äµ±Ç°NpcµÄÖ÷¶¯×´Ì¬
+                                    // ±¾¼¼ÄÜÓÃÓÚ¸Ä±äµ±Ç°NpcµÄÖ÷¶¯×´Ì¬
   case SKILL_SS_PassivityNpcState:  //	±»¶¯Àà
-                                    //±¾¼¼ÄÜÓÃÓÚ¸Ä±äNpcµÄ±»¶¯×´Ì¬
+                                    // ±¾¼¼ÄÜÓÃÓÚ¸Ä±äNpcµÄ±»¶¯×´Ì¬
   {
   } break;
   default:

@@ -1,0 +1,31 @@
+Include("\\script\\hoatdong\\loidai\\loidai_head.lua");
+Include("\\Script\\Global\\sourcejx49.lua")
+Include("\\Script\\header\\taskid.lua");
+Include("\\Script\\lib\\worldlibrary.lua");
+Include("\\Script\\lib\\thuvien.lua");
+
+function OnDeath(Launcher)
+	camp = GetCamp();
+	SetCurCamp(GetCamp());
+	SetFightState(0);
+	SetLogoutRV(0);
+	SetPunish(0)
+	SetPKState(0)
+	BlockPKState(0)
+	SetCreateTeam(1);
+	SetRevPos(15,10)
+	SetDeathScript("");
+-------------------------------------------
+	idxplayer = PlayerIndex
+	for i=1,GetCountPlayerMax() do
+	PlayerIndex = i
+		w,x,y = GetWorldPos()
+		if w == 209 then
+             Talk(1,"","bπn Æ∑ giµnh chi’n thæng.")
+             break
+         end
+     end
+end
+
+function OnDrop()
+end

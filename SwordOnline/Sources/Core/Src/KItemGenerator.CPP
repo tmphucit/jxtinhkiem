@@ -1,14 +1,14 @@
 //---------------------------------------------------------------------------
 // Sword3 Core (c) 2002 by Kingsoft
 //
-// File:	KItemGenerator.cpp
+// File:	KItemGenerator.CPP
 // Date:	2002.08.26
 // Code:	DongBo
 // Desc:    CPP file. 本文件实现的类用于生成道具
 //---------------------------------------------------------------------------
 #include "KEngine.h"
 #include "KCore.h"
-#include "MyAssert.h"
+#include "MyAssert.H"
 #include "KItem.h"
 #include "KSubWorldSet.h"
 #include "KItemGenerator.h"

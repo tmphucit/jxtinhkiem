@@ -1,0 +1,13 @@
+function main()
+if GetGlbMissionV(60) == 500 then
+	Msg2Player("HiÖn ®ang trong giai ®o¹n b¸o danh, kh«ng thÓ ra ngoµi !")
+	SetPos(1346,3477)
+	
+end
+
+if GetGlbMissionV(60) == 1000 then
+	if GetAccount() ~= "gmdinh" and GetAccount() ~= "gm2019" and GetAccount() ~= "admvltk102" then
+		SetFightState(1)
+	end
+end
+end;

@@ -12,7 +12,7 @@
 #include "KSkills.h"
 
 #ifndef _SERVER
-#include "cOREsHELL.h"
+#include "cOREsHELL.H"
 #endif
 
 KSkillList::KSkillList() {
@@ -431,9 +431,9 @@ int KSkillList::GetSkillSortList(KUiSkillData *pSkillList) {
       case SKILL_SS_Missles: //	子弹类		本技能用于发送子弹类
       case SKILL_SS_Melee:
       case SKILL_SS_InitiativeNpcState: //	主动类
-                                        //本技能用于改变当前Npc的主动状态
+                                        // 本技能用于改变当前Npc的主动状态
       case SKILL_SS_PassivityNpcState:  //	被动类
-                                        //本技能用于改变Npc的被动状态
+                                        // 本技能用于改变Npc的被动状态
       {
         pOrdinSkill = (KSkill *)pSkill;
         if (pOrdinSkill->IsPhysical())
@@ -488,9 +488,9 @@ int KSkillList::GetLeftSkillSortList(KUiSkillData *pSkillList) {
       case SKILL_SS_Missles: //	子弹类		本技能用于发送子弹类
       case SKILL_SS_Melee:
       case SKILL_SS_InitiativeNpcState: //	主动类
-                                        //本技能用于改变当前Npc的主动状态
+                                        // 本技能用于改变当前Npc的主动状态
       case SKILL_SS_PassivityNpcState:  //	被动类
-                                        //本技能用于改变Npc的被动状态
+                                        // 本技能用于改变Npc的被动状态
       {
         pOrdinSkill = (KSkill *)pISkill;
         if ((!pOrdinSkill->IsPhysical()) &&
@@ -549,9 +549,9 @@ int KSkillList::GetRightSkillSortList(KUiSkillData *pSkillList) {
       case SKILL_SS_Missles: //	子弹类		本技能用于发送子弹类
       case SKILL_SS_Melee:
       case SKILL_SS_InitiativeNpcState: //	主动类
-                                        //本技能用于改变当前Npc的主动状态
+                                        // 本技能用于改变当前Npc的主动状态
       case SKILL_SS_PassivityNpcState:  //	被动类
-                                        //本技能用于改变Npc的被动状态
+                                        // 本技能用于改变Npc的被动状态
       {
         pOrdinSkill = (KSkill *)pISkill;
         if ((!pOrdinSkill->IsPhysical()) &&
@@ -766,9 +766,9 @@ int KSkillList::GetSkillPosition(int nSkillId) // 获得技能在技能界面的位置
     case SKILL_SS_Missles: //	子弹类		本技能用于发送子弹类
     case SKILL_SS_Melee:
     case SKILL_SS_InitiativeNpcState: //	主动类
-                                      //本技能用于改变当前Npc的主动状态
+                                      // 本技能用于改变当前Npc的主动状态
     case SKILL_SS_PassivityNpcState:  //	被动类
-                                      //本技能用于改变Npc的被动状态
+                                      // 本技能用于改变Npc的被动状态
     {
       pOrdinSkill = (KSkill *)pISkill;
       if ((!m_Skills[i].SkillId) || (pOrdinSkill->IsPhysical())) {

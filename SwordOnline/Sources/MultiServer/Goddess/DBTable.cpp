@@ -93,7 +93,8 @@ bool ZDBTable::open() {
         return true; // 成功了
       else
         while (--index)
-          (index_db[index])->close(index_db[index], 0); // 出错，关闭前面的索引表
+          (index_db[index])
+              ->close(index_db[index], 0); // 出错，关闭前面的索引表
       primary_db->close(primary_db, 0);
     }
   }

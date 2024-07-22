@@ -1,0 +1,19 @@
+--西南北区 成都南门 战斗状态切换Trap
+Include("\\script\\Global\\doimaump.lua")
+Include("\\script\\checkloinhanvat.lua")
+function main(sel)
+if check() == 0 then
+checkruapk()
+if ( GetFightState() == 0 ) then	-- 玩家处于非战斗状态，即在城内
+	SetPos(2979, 5144)		-- 设置走出Trap点，目的点在城外	
+	SetFightState(1)		-- 转换为战斗状态
+else			       		-- 玩家处于战斗状态，即在城外
+	SetPos(2982, 5139)		-- 设置走出Trap点，目的点在城内	
+	SetFightState(0)		-- 转换为非战斗状态
+end;
+doimaump()
+	AddStation(2)			-- 记录角色曾经到过成都府
+else
+xuly()
+end
+end;

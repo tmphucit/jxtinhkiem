@@ -1,0 +1,64 @@
+
+
+
+
+
+Include("\\script\\global\\sourcejx49.lua")
+Include("\\Script\\header\\taskid.lua");
+Include("\\Script\\lib\\worldlibrary.lua");
+Include("\\Script\\lib\\thuvien.lua");
+
+
+function main()
+w,x,y = GetWorldPos();
+dofile("script/player/offline.lua");
+if(GetFightState() == 1) then
+          Talk(1,"","Tr¹ng th¸i kh«ng ®­îc b¶o vÖ, kh«ng thÓ thùc hiÖn.")
+	return end
+
+if w == 53  then
+UythacOff()  ---uythac
+
+		
+    else
+		Talk(1,"","ChØ ®­îc ñy th¸c ë Ba L¨ng HuyÖn 123 !")
+	end
+
+end
+-----------------------------------------------------------------------------
+
+function begin_onlinecommission2()
+if GetLevel() < 10 then
+	Talk(1,"","§¼ng cÊp nhá h¬n 10 kh«ng thÓ Uû Th¸c")
+	return 0;	
+end
+Talk(1,"","Ng­¬i ®ang trong tr¹ng th¸i Uû th¸c Online")
+end
+
+function end_onlinecommission2()
+if GetLevel() < 10 then
+	Talk(1,"","§¼ng cÊp nhá h¬n 10 kh«ng thÓ Uû Th¸c")
+	return 0;	
+end
+Talk(1,"","Ng­¬i ®· ng­ng Uû th¸c Online")
+end
+
+function offlineaward2()
+if GetLevel() < 10 then
+	Talk(1,"","§¼ng cÊp nhá h¬n 10 kh«ng thÓ Uû Th¸c")
+	return 0;	
+end
+Talk(1,"","TÝnh n¨ng ®ang ®uîc hoµn thiÖn")
+end
+
+function UyThacBanHang()
+if GetLevel() < 10 then
+	Talk(1,"","§¼ng cÊp nhá h¬n 10 kh«ng thÓ Uû Th¸c")
+	return 0;	
+end
+
+UythacOff()  ---uythac
+end
+
+function kethtuc()
+end

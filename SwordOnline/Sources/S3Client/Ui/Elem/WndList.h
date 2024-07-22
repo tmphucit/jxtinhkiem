@@ -43,7 +43,7 @@ public:
   void SetTopItemIndex(int nTopItemIndex); // 设置列表窗口顶部显示的数据项的索引
   int GetTopItemIndex() {
     return m_nTopItemIndex;
-  }                                     // 获得列表窗口顶部显示的数据项的索引
+  } // 获得列表窗口顶部显示的数据项的索引
   int GetVisibleItemCount() const;      // 获得列表框可以同时显示的项的数目
   int GetCount() { return m_nNumItem; } // 获取数据项的总数目
   int GetCurSel() { return m_nSelItemIndex; } // 得到当前选择的数据项的索引
@@ -74,7 +74,7 @@ private:
   int m_nItemSize;     // 数据项结构的存储空间宽度
   int m_nStringOffset; // 要显示的字符串在数据项结构中的偏移位置
   int m_nColorOffset;  // 要显示的字符串的颜色在数据项结构中的偏移位置，
-                      // 只当有WNDLIST_ES_CUSTOM_COLOR标记时，才有效果
+                       // 只当有WNDLIST_ES_CUSTOM_COLOR标记时，才有效果
 
   int m_nTopItemIndex;       // 窗口顶部显示的数据项的索引
   int m_nSelItemIndex;       // 选中的数据项的索引

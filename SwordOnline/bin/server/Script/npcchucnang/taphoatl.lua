@@ -1,0 +1,189 @@
+Include("\\Script\\global\\sourcejx49.lua");
+Include("\\Script\\header\\taskid.lua");
+Include("\\Script\\lib\\worldlibrary.lua");
+Include("\\Script\\lib\\thuvien.lua");
+-----------------------------------------------------§Ã FIX OK 10/03/2024--------------------------------------------------------
+-----------=======================-------------------------====================----------------------
+----------=========================ANHVIETDONGNAI=====================----------------------
+-----------=======================-------------------------====================----------------------
+
+function main()
+SayNew("<color=green>Chñ tiÖm T¹p ho¸ <color>: Ta chuyÒn vÒ ¨n mÆc, b¸n c¸c thø linh tinh nh­ng rÊt cÇn thiÕt",6,
+"Giao DÞch/giaodich",
+"Mua Thæ §Þa Phï/thodiaphu123",
+"Tèng Kim Chiªu Th­ [2000 l­îng]/muatdp",
+"Giao tÝn th­ ch­ëng m«n/giaotinthu",
+"Mua G¹o TÎ [10 v¹n l­îng]/muagaote",
+"Kh«ng cÇn ®©u/kocan")
+end;
+
+function thodiaphu123()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+mangthang = {31,28,31,30,31,30,31,31,30,31,30,31}
+		ngayvp = ngay + 7
+		thangvp = thang
+		if ngayvp > mangthang[thang] then
+		ngayvp = ngayvp - mangthang[thang]
+		thangvp = thang + 1
+		end
+if GetCash() >= 3000 then
+                            itemidx = AddEventItem(3)
+		SetBindItem(itemidx,1)
+                            SetHSD(itemidx, 2024 , thangvp, ngayvp, gio)
+
+Pay(10000);
+Msg2Player("<color=green>B¹n nhËn ®­îc 1 thæ ®ia phï.");
+   return end
+Talk(1,"","b¹n kh«ng ®ñ 3000 l­îng ®Ó mua ");
+end
+
+
+function muagaote()
+if GetCash() < 100000 then
+Talk(1,"","Ng­¬i kh«ng mang ®ñ 10 v¹n l­îng, kh«ng thÓ mua g¹o ")
+return
+end
+Pay(100000)
+AddEventItem(661)
+Msg2Player("B¹n nhËn ®­îc 1 G¹o TÎ ")
+end
+
+------------------------------------------------
+function muatdp30()
+SayNew("<color=green>Chñ tiÖm T¹p ho¸ <color>: Ng­¬i ch¾c ch¾n muèn mua <color=red>Thæ §Þa Phï 30 Ngµy<color> víi gi¸ <color=yellow>10 Vµng<color> kh«ng?",2,
+"Ta ®ång ý mua víi gi¸ 10 vµng /muatdo301",
+"Tho¸t./no")
+end
+
+function muatdo301()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+cash = GetTask(XU_VANG)
+if GetTask(XU_VANG) >= 10 then
+	SetTask(XU_VANG,GetTask(XU_VANG) - 10)
+	SetTask(XU_VANG2,GetTask(XU_VANG2) - 10)
+	if GetTask(XU_VANG) == cash - 10 then
+		itemidx = AddEventItem(272)
+	if thang == 12 then
+		SetHSD(itemidx,2017,1,ngay,gio)
+		SetBindItem(itemidx,1)
+	else
+		SetHSD(itemidx,2017,thang+1,ngay,gio)
+		SetBindItem(itemidx,1)
+	end
+	Msg2Player("B¹n nhËn ®­îc 1 c¸i  <color=yellow>Thæ §Þa Phï [30 Ngµy]")
+	Msg2Player("<color=yellow>Chó ý: NÕu kh«ng thÊy xuÊt hiÖn trong hµnh trang h·y tho¸t hÕt game vµ ch¹y cËp nhËt l¹i !")
+		Talk(0,"")
+	else
+		Talk(1,"","hack ha em")
+	end
+else
+Talk(1,"","Ng­¬i kh«ng ®ñ 10 vµng, kh«ng thÓ mua ")
+end
+end
+-------------------------------------------------------------
+
+function muatdp()
+if GetCash() < 2000 then
+Talk(1,"","Kh«ng ®ñ 2000 l­îng, kh«ng thÓ mua vËt phÈm nµy ")
+return
+end
+Pay(2000)
+a = GetCash()
+AddEventItem(24)
+Msg2Player("B¹n nhËn ®­îc 1 Tèng Kim Chiªu Th­ ")
+Talk(0,"")
+end
+-------------------------------------------------------------------------------
+function mokhoafull()
+if GetItemCount2(150) > 0 then
+Talk(1,"","B¹n ph¶i sö dông hÕt LÔ Bao Tèng Kim míi cã thÓ më khãa !")
+return
+end
+if GetItemCount2(109) > 0 then
+Talk(1,"","B¹n ph¶i sö dông hÕt LÔ Bao MiÔn PhÝ míi cã thÓ më khãa !")
+return
+end
+SetBindAllItem()
+Msg2Player("B¹n ®· më khãa thµnh c«ng !")
+end
+------------------------------------------------------------------------------
+function giaotinthu()
+	if GetTask(NV_MONPHAI1) == 5 then
+		SetTask(NV_MONPHAI1,6)
+		Talk(1,"","<color=green>Chñ tiÖm T¹p Hãa<color>: Ta ®· nhËn ®­îc tÝn th­, h·y nãi víi Ch­ëng M«n ng­¬i lµ ta sÏ cè g¾ng hÕt søc ®Ó gióp ®Ö tö cña ng­êi !")
+		Msg2Player("<color=green>NhiÖm vô M«n Ph¸i: <color=red>H·y ®Õn gÆp Thî RÌn")
+	end
+Msg2Player("b¹n kh«ng cã tÝn th­...")
+end
+------------------------------------------------------------------------------
+function muatkchieuthu()
+a = GetCash()
+if GetCash() >= 5000 then
+Pay(5000)
+if GetCash() == (a-5000) then
+AddEventItem(24)
+Msg2Player("B¹n nhËn ®­îc 1 Tèng Kim Chiªu Th­")
+Talk(0,"")
+end
+else
+Talk(1,"","<color=green>Chñ tiÖm t¹m ho¸ <color>: B¹n kh«ng ®ñ <color=red>5000<color> l­îng")
+end
+end
+function sudolenh()
+a = GetCash()
+if GetCash() >= 300000 then
+Pay(300000)
+if GetCash() == (a-300000) then
+AddEventItem(14)
+Msg2Player("B¹n nhËn ®­îc 1 s­ ®å lÖnh")
+Talk(0,"")
+end
+else
+Talk(1,"","<color=green>Chñ tiÖm t¹m ho¸ <color>: B¹n kh«ng ®ñ <color=red>30 v¹n<color> l­îng")
+end
+end
+-------------------------------------------------------------------------
+function sudothiep()
+a = GetCash()
+if GetCash() >= 5000 then
+Pay(5000)
+if GetCash() == (a-5000) then
+AddEventItem(15)
+Msg2Player("B¹n nhËn ®­îc 1 s­ ®å thiÕp")
+Talk(0,"")
+end
+else
+Talk(1,"","<color=green>Chñ tiÖm t¹m ho¸ <color>: B¹n kh«ng ®ñ <color=red>5000<color> l­îng")
+end
+end
+----------------------------------------------------------
+function giaodich()
+w,x,y = GetWorldPos()
+if w == 17 then
+Sale(3)
+elseif w == 9 then
+Sale(4)
+elseif w == 3 then
+Sale(5)
+elseif w == 66 then
+Sale(6)
+elseif w == 15 then
+Sale(2)
+else
+Sale(3)
+end
+end;
+-----------------------------------------------------------------------------------
+function shop(nsel)
+i = nsel+2
+Sale(i)
+end
+
+function kocan()
+end;

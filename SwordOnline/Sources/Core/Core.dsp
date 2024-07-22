@@ -525,7 +525,7 @@ SOURCE=.\Src\KSprControl.h
 # PROP Default_Filter ""
 # Begin Source File
 
-SOURCE=.\Src\KBasPropTbl.cpp
+SOURCE=.\Src\KBasPropTbl.CPP
 # End Source File
 # Begin Source File
 
@@ -565,7 +565,7 @@ SOURCE=.\Src\KItemChangeRes.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Src\KItemGenerator.cpp
+SOURCE=.\Src\KItemGenerator.CPP
 # End Source File
 # Begin Source File
 
@@ -613,7 +613,7 @@ SOURCE=.\Src\KViewItem.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Src\MyAssert.h
+SOURCE=.\Src\MyAssert.H
 # End Source File
 # End Group
 # Begin Group "World"
@@ -1627,7 +1627,7 @@ SOURCE=.\Src\USBKey\des.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Src\USBKey\EPASSAPI.h
+SOURCE=.\Src\USBKey\EPASSAPI.H
 # End Source File
 # Begin Source File
 
@@ -1635,7 +1635,7 @@ SOURCE=.\Src\USBKey\epsJO.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\Src\USBKey\MD5.h
+SOURCE=.\Src\USBKey\MD5.H
 # End Source File
 # Begin Source File
 

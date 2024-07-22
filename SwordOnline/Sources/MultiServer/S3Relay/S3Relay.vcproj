@@ -1212,7 +1212,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath="TONGDB.h"
+				RelativePath="TONGDB.H"
 				>
 			</File>
 		</Filter>

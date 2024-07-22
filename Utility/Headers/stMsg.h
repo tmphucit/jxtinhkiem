@@ -18,7 +18,7 @@ public:
   //	__declspec(dllexport) DWORD GetSize() const;
   //	BOOL IsValid() const;
   //	void operator = (const stMsg&
-  //msg){memcpy(GetBuffer(),msg.GetBuffer(),msg.GetSize());}
+  // msg){memcpy(GetBuffer(),msg.GetBuffer(),msg.GetSize());}
   static stMsg *CreateMsg(const stMsg &msg, DWORD size) {
     char *p = new char[size];
     memcpy(p, msg.GetBuffer(), size);

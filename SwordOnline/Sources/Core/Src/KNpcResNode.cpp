@@ -144,7 +144,9 @@ BOOL KNpcResNode::Init(char *lpszNpcName, CActionName *cActionName,
           for (k = 0; k < nActionCount; k++) {
             // 用字符串比较太慢，所以直接用编号，但是表格必须保证不出错
             //						cActionName->GetActionName(k,
-            //szBuffer, sizeof(szBuffer)); 						SectFile.GetString( 							j + 2, 							szBuffer,
+            // szBuffer, sizeof(szBuffer));
+            // SectFile.GetString(
+            // j + 2, szBuffer,
             //							"",
             //							szTemp,
             //							80);
@@ -670,7 +672,7 @@ BOOL CStateMagicTable::Init() {
     cTabFile.GetString(i + 2, 2, "", szTemp, sizeof(szTemp));
     g_StrCpy(m_szName[i], szTemp);
     //		Temp.ComposePathAndName(m_szName[i], RES_NPC_STYLE_PATH,
-    //szTemp);
+    // szTemp);
   }
 
   return TRUE;

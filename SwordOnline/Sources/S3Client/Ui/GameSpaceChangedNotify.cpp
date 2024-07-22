@@ -1026,10 +1026,11 @@ void KClientCallback::MSNMessageArrival(char *szSourceName, char *szSendName,
   //&SelectPlayer, nKind) && nKind == kind_player)
   //	{
   //		strncpy(SelectPlayer.Name, szSourceName, 32);
-  ////为了显示别人的名字 		g_pCoreShell->ChatSpecialPlayer(&SelectPlayer,
-  //pMsgBuff, nMsgLength);
+  ////为了显示别人的名字
+  ///g_pCoreShell->ChatSpecialPlayer(&SelectPlayer,
+  // pMsgBuff, nMsgLength);
   //	}
-  // }
+  //  }
 }
 
 void KClientCallback::NotifyChannelID(char *ChannelName, DWORD channelid,

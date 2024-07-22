@@ -124,7 +124,7 @@ static BOOL LoadScriptToSortList(char *szFileName) {
   getcwd(szCurrentDirectory, MAX_PATH);
   szRelativePath = szCurrentDirectory + strlen(szRootPath);
   //	PathRelativePathTo(szRelativePath,szRootPath,
-  //FILE_ATTRIBUTE_DIRECTORY,szCurrentDirectory , FILE_ATTRIBUTE_NORMAL );
+  // FILE_ATTRIBUTE_DIRECTORY,szCurrentDirectory , FILE_ATTRIBUTE_NORMAL );
   char szRelativeFile[MAX_PATH];
   if (szRelativePath[0] == '.' && szRelativePath[1] == '\\')
     sprintf(szRelativeFile, "%s\\%s", szRelativePath + 1, szFileName);

@@ -1,0 +1,111 @@
+
+*
+***** S3Relay Start (@ 2024/05/26 23:02:03.386) >>>>>
+*
+
+[2024/05/26 23:02:07] 1 -- Initializing ...
+[2024/05/26 23:02:07] 2 -- Create Channel: [Stock, GM] <00000000> GM
+[2024/05/26 23:02:07] 3 -- Create Channel: [Stock] <00000001> 世界
+[2024/05/26 23:02:07] 4 -- friend timing update db: start
+[2024/05/26 23:02:07] 5 -- relay server startup
+[2024/05/26 23:02:07] 6 -- root client create: 192.168.1.11
+[2024/05/26 23:02:07] 7 -- root client close: 192.168.1.11
+[2024/05/26 23:02:07] 8 -- FAIL: DBRole client - 192.168.1.11
+[2024/05/26 23:02:07] 9 -- enable reclient: db
+[2024/05/26 23:02:07] 10 -- gateway client create: 192.168.1.11
+[2024/05/26 23:02:07] 11 -- host server startup
+[2024/05/26 23:02:07] 12 -- tong server startup
+[2024/05/26 23:02:07] 13 -- chat server startup
+[2024/05/26 23:02:07] 14 -- SockThread start success
+[2024/05/26 23:02:07] 15 -- tong database open ok!
+[2024/05/26 23:02:07] 16 -- tongset init ok !
+[2024/05/26 23:02:07] 17 -- Initialize OK
+[2024/05/26 23:02:21] 18 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:02:21] 19 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:02:33] 20 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:02:33] 21 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:02:45] 22 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:02:45] 23 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:02:57] 24 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:02:57] 25 -- host connect create: 192.168.1.11
+[2024/05/26 23:02:57] 26 -- chat connect create: 192.168.1.11
+[2024/05/26 23:02:57] 27 -- tong connect create: 192.168.1.11
+[2024/05/26 23:02:57] 28 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:03:08] 29 -- load someone: ThienNhan
+[2024/05/26 23:03:08] 30 -- player login: hinodl01 [ThienNhan] (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 31 -- Query ChannelID: \S from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 32 -- Create Channel: <00000002> \S184658112
+[2024/05/26 23:03:08] 33 -- Query ChannelID: 世界 from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 34 -- Query ChannelID: \F7 from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 35 -- Create Channel: <00000003> \F7
+[2024/05/26 23:03:08] 36 -- Query ChannelID: GM from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 37 -- Query ChannelID: \B from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 38 -- Create Channel: <00000004> \B184658112
+[2024/05/26 23:03:08] 39 -- sync friend list: ThienNhan (full)
+[2024/05/26 23:03:08] 40 -- Query ChannelID: \S from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 41 -- Query ChannelID: 世界 from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 42 -- Query ChannelID: \F7 from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 43 -- Query ChannelID: GM from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 44 -- Query ChannelID: \B from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 45 -- Query ChannelID: \S from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 46 -- Query ChannelID: 世界 from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 47 -- Query ChannelID: \F7 from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 48 -- Query ChannelID: GM from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 49 -- Query ChannelID: \B from (0B01A8C0, 00000000)
+[2024/05/26 23:03:08] 50 -- Subscribe Channel: 00000002 by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 51 -- Subscribe Channel: 00000001 by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 52 -- Subscribe Channel: 00000003 by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 53 -- Subscribe Channel: GM <00000000> by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 54 -- Subscribe Channel: 00000004 by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 55 -- Subscribe Channel: 00000002 by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 56 -- Subscribe Channel: 00000001 by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 57 -- Subscribe Channel: 00000003 by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 58 -- Subscribe Channel: GM <00000000> by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 59 -- Subscribe Channel: 00000004 by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 60 -- Subscribe Channel: 00000002 by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 61 -- Subscribe Channel: 00000001 by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 62 -- Subscribe Channel: 00000003 by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 63 -- Subscribe Channel: GM <00000000> by (0B01A8C0,00000000)
+[2024/05/26 23:03:08] 64 -- Subscribe Channel: 00000004 by (0B01A8C0,00000000)
+[2024/05/26 23:03:09] 65 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:03:09] 66 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:03:21] 67 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:03:21] 68 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:03:33] 69 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:03:33] 70 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:03:45] 71 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:03:45] 72 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:03:57] 73 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:03:57] 74 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:04:09] 75 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:04:09] 76 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:04:21] 77 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:04:21] 78 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:04:33] 79 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:04:33] 80 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:04:45] 81 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:04:45] 82 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:04:57] 83 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:04:57] 84 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:05:09] 85 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:05:09] 86 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:05:21] 87 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:05:21] 88 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:05:34] 89 -- try reclient: db - 192.168.1.11
+[2024/05/26 23:05:34] 90 -- FAIL: reclient db - 192.168.1.11
+[2024/05/26 23:05:34] 91 -- Uninitializing ...
+[2024/05/26 23:05:34] 92 -- disable reclient: db
+[2024/05/26 23:05:34] 93 -- SockThread stop success
+[2024/05/26 23:05:34] 94 -- chat server shutdown
+[2024/05/26 23:05:34] 95 -- tong server shutdown
+[2024/05/26 23:05:34] 96 -- host server shutdown
+[2024/05/26 23:05:34] 97 -- gateway client close: 192.168.1.11
+[2024/05/26 23:05:34] 98 -- relay server shutdown
+[2024/05/26 23:05:34] 99 -- friend timing update db: stop
+[2024/05/26 23:05:34] 100 -- store someone: ThienNhan
+[2024/05/26 23:05:34] 101 -- Uninitialize OK
+
+*
+***** S3Relay Stop (@ 2024/05/26 23:05:34.487) <<<<<
+*
+

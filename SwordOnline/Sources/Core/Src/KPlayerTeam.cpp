@@ -81,7 +81,7 @@ BOOL KPlayerTeam::ApplyCreate() // char *lpszTeamName)
 //---------------------------------------------------------------------------
 void KPlayerTeam::InviteAdd(DWORD dwNpcID) {
   //	if ( !this->m_nFlag || this->m_nFigure != TEAM_CAPTAIN ||
-  //g_Team[0].m_nState != Team_S_Open) 		return;
+  // g_Team[0].m_nState != Team_S_Open) 		return;
   TEAM_INVITE_ADD_COMMAND sAdd;
   sAdd.ProtocolType = c2s_teaminviteadd;
   sAdd.m_dwNpcID = dwNpcID;
@@ -323,7 +323,8 @@ BOOL KPlayerTeam::CreateTeam(int nIdx, PLAYER_APPLY_CREATE_TEAM *pCreateTeam) {
   //		sCreateFalse.ProtocolType = s2c_teamcreatefalse;
   //		sCreateFalse.m_btErrorID = Team_Create_Error_Name;
   //		SendToClient(Player[nIdx].m_nNetConnectIdx,
-  //(BYTE*)&sCreateFalse, sizeof(PLAYER_SEND_CREATE_TEAM_FALSE)); 		return FALSE;
+  //(BYTE*)&sCreateFalse, sizeof(PLAYER_SEND_CREATE_TEAM_FALSE));
+  //return FALSE;
   //	}
   // 创建队伍
   m_nID = g_TeamSet.CreateTeam(nIdx); //, szTeamName);
@@ -350,13 +351,14 @@ BOOL KPlayerTeam::CreateTeam(int nIdx, PLAYER_APPLY_CREATE_TEAM *pCreateTeam) {
     return TRUE;
   }
   //	else if (m_nID == -1)					//
-  //队伍创建失败：同名
+  // 队伍创建失败：同名
   //	{
   //		PLAYER_SEND_CREATE_TEAM_FALSE	sCreateFalse;
   //		sCreateFalse.ProtocolType = s2c_teamcreatefalse;
   //		sCreateFalse.m_btErrorID = Team_Create_Error_SameName;
   //		SendToClient(Player[nIdx].m_nNetConnectIdx,
-  //(BYTE*)&sCreateFalse, sizeof(PLAYER_SEND_CREATE_TEAM_FALSE)); 		return FALSE;
+  //(BYTE*)&sCreateFalse, sizeof(PLAYER_SEND_CREATE_TEAM_FALSE));
+  //return FALSE;
   //	}
   else if (m_nID == -2) {
     PLAYER_SEND_CREATE_TEAM_FALSE sCreateFalse;
@@ -807,7 +809,7 @@ void KTeam::NotifyModePick() {
     break;
   case Team_S_FreePick:
     //			Player[m_nCaptain].SendTeamMessage(Player[m_nCaptain].m_cTeam.m_nID,
-    //MSG_TEAM_MODEPICK_FREE);
+    // MSG_TEAM_MODEPICK_FREE);
     break;
   case Team_S_CaptainPick:
     Player[m_nCaptain].SendTeamMessage(Player[m_nCaptain].m_cTeam.m_nID,
@@ -833,7 +835,7 @@ void KTeam::NotifyMemberModePick(int nPlayerIndex) {
     break;
   case Team_S_FreePick:
     //	Player[nPlayerIndex].SendSystemMessage(MESSAGE_TEAM_ANNOUCE_HEAD,
-    //MSG_TEAM_MODEPICK_FREE);
+    // MSG_TEAM_MODEPICK_FREE);
     break;
   case Team_S_CaptainPick:
     Player[nPlayerIndex].SendSystemMessage(MESSAGE_TEAM_ANNOUCE_HEAD,

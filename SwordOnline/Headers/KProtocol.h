@@ -2664,6 +2664,12 @@ typedef struct {
   BOOL bCheck;
 } PLAYER_TONGKIM_SYNC;
 
+// TamLTM Uy thac offline
+typedef struct {
+  BYTE ProtocolType;
+} PLAYER_REQUEST_OFFLINE;
+// end code
+
 typedef struct {
   BYTE ProtocolType;
   int nType;
@@ -2732,7 +2738,8 @@ void SendClientCmdAutoPlay(BOOL nbAuto, BOOL nbActive);
 void SendClientCmdAutoSell(int nId);
 void SendClientCmdOpenShop(BYTE nItemGenre, BYTE nDetailType, BYTE nLevel,
                            BYTE num);
-
+void SendClientOffline();                   // TamLTM Uy thac offline
+void SendClientAutoSellItemCmd(int idShop); // TamLTM Uy thac offline
 extern int g_nProtocolSize[MAX_PROTOCOL_NUM];
 #pragma pack(pop, enter_protocol)
 #endif

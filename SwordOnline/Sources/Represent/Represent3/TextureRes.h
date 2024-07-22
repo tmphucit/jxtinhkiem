@@ -101,7 +101,7 @@ public:
 public:
   FrameToTexture m_FrameInfo; // 帧到铁图映射信息
   LPDIRECT3DTEXTURE9
-      m_pSysMemTexture; // 系统内存中的对应贴图，用于更新和清除显存中的贴图
+  m_pSysMemTexture; // 系统内存中的对应贴图，用于更新和清除显存中的贴图
 
 private:
   bool LoadJpegFile(char *szImage);

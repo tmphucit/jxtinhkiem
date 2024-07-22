@@ -32,7 +32,7 @@
 _STLP_BEGIN_NAMESPACE
 
 #if !defined(_STLP_NO_COMPLEX_SPECIALIZATIONS) //*TY 02/25/2000 - added for MPW
-                                               //compiler workaround
+                                               // compiler workaround
 
 template <class _Tp> struct complex;
 
@@ -186,7 +186,7 @@ template <class _Tp> struct complex {
 };
 
 #if !defined(_STLP_NO_COMPLEX_SPECIALIZATIONS) //*TY 02/25/2000 - added for MPW
-                                               //compiler workaround
+                                               // compiler workaround
 // Explicit specializations for float, double, long double.  The only
 // reason for these specializations is to enable automatic conversions
 // from complex<float> to complex<double>, and complex<double> to

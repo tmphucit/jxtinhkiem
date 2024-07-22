@@ -69,10 +69,10 @@ public:
 
 private:
   //	void		SubAddNode(int nX,int nY,int nW,int nH,KDrawNode*
-  //pNode); 	void		SubAdd(int nCol, int nRow, KDrawNode* pNode);
+  // pNode); 	void		SubAdd(int nCol, int nRow, KDrawNode* pNode);
   //	void		SubChangedNode(int nX,int nY,int nW,int nH,KDrawNode*
-  //pNode); 	void		SubChanged(int nCol, int nRow); 	void
-  //SubMarkChanged();
+  // pNode); 	void		SubChanged(int nCol, int nRow); 	void
+  // SubMarkChanged();
   void UpdateBackBuffer(LPRECT lpRect);
   void UpdateFrontBuffer(LPRECT lpRect);
   bool GetUpdateRect(LPRECT lpSrc, LPRECT lpDest);

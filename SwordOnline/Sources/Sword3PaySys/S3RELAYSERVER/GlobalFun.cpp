@@ -7,7 +7,7 @@
 //-----------------------------------------//
 #include "GlobalFun.h"
 #include "KStdAfx.h"
-#include "PROCESS.h"
+#include "PROCESS.H"
 #include "stdafx.h"
 #include "tchar.h"
 

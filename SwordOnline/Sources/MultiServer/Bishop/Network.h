@@ -65,7 +65,7 @@ protected:
   static OnlineGameLib::Win32::CLibrary m_theRainbowLib;
 
   //	static void __stdcall AccSvrEventNotify( LPVOID lpParam, const unsigned
-  //long &ulnEventType ); 	void	DistroyAccSvrClient();
+  // long &ulnEventType ); 	void	DistroyAccSvrClient();
 
 private:
   /*

@@ -1,0 +1,1318 @@
+Include("\\script\\lib\\thuvien.lua")
+Include("\\script\\Global\\sourcejx49.lua")
+Include("\\script\\admin\\chucnanggm.lua")
+Include("\\script\\admin\\chucnanggm2.lua")
+Include("\\script\\admin\\chucnangnv.lua")
+Include("\\DATA\\MANGNV.txt")
+Include("\\script\\addnpccacmap\\addnpc.lua")
+
+Include("\\script\\admin\\monphai.lua")
+Include("\\script\\codeevent.lua")
+
+mangtoado = {
+{"Vi Son Dao",24,1457,2562},
+{"Ba Lang Huyen",53,1544,3264},
+}
+
+ToaDoSatThu = {
+-- 2x
+{57,1531,3155,24}, 
+{57,1567,3253,24},
+{68,1865,3228,24}, 
+{68,1709,3127,24},
+{70,1803,3147,24},
+{70,1708,2865,24},
+-- 3x
+{74.1872,3172,34},
+{74,1962,3598,34},
+{92,1850,3184,34},
+{92,1943,2931,34},
+{73,1544,2947,34},
+{73,1635,3080,34},
+-- 4x
+{8,1887,3426,44},
+{8,1818,3463,44},
+{41,2064,2997,44},
+{41,2175,3030,44},
+{13,1122,4091,44},
+{13,869,3781,44},
+-- 5x
+{91,1534,3005,54},
+{91,1524,2808,54},
+{38,1728,3033,54},
+{38,1681,3215,54},
+{14,1576,3109,54},
+{14,1854,3181,54},
+-- 6x
+{50,1506,3161,64},
+{50,1718,3109,64},
+{50,1622,3002,64},
+{39,1691,3166,64},
+{39,1695,3037,64},
+{39,1555,3108,64},
+{62,1652,3720,64},
+{62,1601,3453,64},
+{62,1643,3256,64},
+-- 7x
+{78,1691,3134,74},
+{78,1723,3179,74},
+{78,1749,3229,74},
+{102,1833,3396,74},
+{102,1693,3237,74},
+{102,1975,3630,74},
+{63,1544,3189,74},
+{63,1626,3423,74},
+{63,1559,3494,74},
+-- 8x
+{104,1439,2998,84},
+{104,1319,2655,84},
+{104,1470,2253,84},
+{64,1574,3242,84},
+{64,1431,3184,84},
+{64,1345,3010,84},
+{65,1683,3357,84},
+{65,1611,3451,84},
+{65,1535,3303,84},
+-- 9x
+{21,1311,2800,94},
+{21,1454,2499,94},
+{21,1584,2696,94},
+{21,1450,3067,94},
+{105,1829,3398,94},
+{105,1774,3919,94},
+{105,2009,3787,94},
+{105,1983,3337,94},
+{79,1736,2772,94},
+{79,1463,2809,94},
+{79,1249,2744,94},
+{79,1249,2743,94},
+}
+
+function addboss()
+for i=1,getn(ToaDoSatThu) do
+		quai = AddNpc(1203 + i,ToaDoSatThu[i][4],SubWorldID2Idx(ToaDoSatThu[i][1]),ToaDoSatThu[i][2] * 32,ToaDoSatThu[i][3] * 32)
+		SetNpcScript(quai, "\\script\\cacnhiemvu\\nvsatthu\\bossstdie.lua")
+end
+end
+
+mangxh = {}
+bientam = {}
+Include("\\script\\addnpccacmap\\trap\\mangtrap.lua")
+Include("\\script\\cacnhiemvu\\datau\\diadochi\\head_datau.lua")
+MaxRank = 10
+
+function chon1(nsel)
+if nsel == 0 then
+	SetTask(88,GetTask(88) - 1)
+else
+	SetTask(88,GetTask(88) + 1)
+end
+if GetTask(88) <= 0 or GetTask(88) > getn(DoChi_Map) then
+SetTask(88,1)
+end
+Msg2Player("STT MAP: "..GetTask(88).." ")
+NewWorld(DoChi_Map[GetTask(88)][1],DoChi_Map[GetTask(88)][3],DoChi_Map[GetTask(88)][4])
+		SetFightState(1)
+		Msg2Player("di chuyen qua <color=yellow>"..DoChi_Map[GetTask(88)][2].."")
+end
+
+
+TDGD = {
+{3,1672,3113},
+}
+
+function taocode()
+LoginLog = openfile("Data/TaoCode.txt", "a");
+if LoginLog then
+for i=1,1000 do
+	Code_Event[getn(Code_Event)+1] = {seri,0}
+	seri = RandomNew(11111111,99999999)
+	write(LoginLog,"{"..seri..",0},\n");
+end
+
+end
+closefile(LoginLog)
+	BANG2 = TaoBang(Code_Event,"Code_Event")
+			LuuBang("script/codeevent.lua",BANG2)
+Msg2Player("XONG")
+end
+
+function AddNpcGiaoDichVien()
+for i=1,getn(TDGD) do
+	songbac=AddNpc(217,95,SubWorldID2Idx(TDGD[i][1]),TDGD[i][2]*32,TDGD[i][3]*32)
+	SetNpcScript(songbac, "\\script\\global\\songbac.lua");
+	SetNpcName(songbac,"Giao Dich Vien")
+end
+end
+
+function taoquahuyhoang()
+for i=1,getn(Hoa_Dang) do
+hd1 = AddNpc(919,95,SubWorldID2Idx(Hoa_Dang[i][1]),Hoa_Dang[i][2]*32,Hoa_Dang[i][3]*32)
+SetNpcScript(hd1, "\\script\\hoatdong\\hoadang\\hoadang2.lua")
+end
+end
+
+Hoa_Dang = {
+{53,1659,3250},
+}
+
+Include("\\script\\addnpccacmap\\boss.lua")
+function taocode11()
+
+LoginLog = openfile("Data/MaGiftCode.txt", "a");
+if LoginLog then
+
+
+for i=1,1000 do
+macode = RandomNew(111111111,999999999)
+write(LoginLog,"{"..macode..",0},\n");
+end
+
+end
+
+closefile(LoginLog)
+Msg2Player("Tao code xong")
+end
+function checkduatop()
+idxp = PlayerIndex
+for i=1,GetCountPlayerMax() do
+	PlayerIndex = i
+	w,x,y = GetWorldPos()
+	if w ~= 53 then
+		NewWorld(53,200*8,200*16)
+		thoigian = tonumber(date("%H%M%d%m"))
+		LoginLog = openfile("Data/DEBUGDACBIET.txt", "a");
+		if LoginLog then
+		write(LoginLog,"Ngoai BLH ["..w.."] ["..GetAccount().."] ["..GetName().."] ["..GetLevel().."]["..GetExp().."] - IP: "..GetIP().." -  Time: "..thoigian.."\n");
+		end
+		closefile(LoginLog)
+
+	end
+	if GetLevel() > 120 or (GetLevel() == 120 and GetExp() > 0) then
+		
+		thoigian = tonumber(date("%H%M%d%m"))
+		LoginLog = openfile("Data/DEBUGDACBIET.txt", "a");
+		if LoginLog then
+		write(LoginLog,"Level ["..GetLevel().." "..GetExp().."] ["..GetAccount().."] ["..GetName().."] ["..GetLevel().."]["..GetExp().."] - IP: "..GetIP().." -  Time: "..thoigian.."\n");
+		end
+		closefile(LoginLog)
+
+	end
+	if w == 53 then
+	SetFightState(0)
+	end
+end
+PlayerIndex = idxp
+end
+
+function main(idx)
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+w,x,y = GetWorldPos()
+
+
+
+
+--ReLoadScript("\\script\\hoatdong\\congthanh\\npccongthanh.lua")
+--Msg2Player("Check "..GetGlbMissionV(83).." - "..GetGlbMissionV(84).."")
+--SetGlbMissionV(82, GetGlbMissionV(82) - 10994)
+--AddItem(0,5,24,1,0,0,0)
+--ReLoadScript("\\script\\npcchucnang\\thoren.lua")
+
+
+
+
+--ReLoadScript("\\script\\cacnhiemvu\\datau\\diadochi\\matchi.lua")
+--ReLoadScript("\\script\\npcchucnang\\hotrotanthu.lua")
+--ReLoadScript("\\script\\global\\lequan.lua")
+--ReLoadScript("\\script\\admin\\dangnhap.lua")
+--ReLoadScript("\\\script\\hoatdong\\tongkim\\cuusat\\tong\\cuarabentong.lua")
+--ReLoadScript("\\Script\\¨¢?ot??\\¡ã¨ª¨¢¨º??\\npc\\xaphu.lua")
+
+
+
+
+--ReLoadScript("\\script\\item\\questkey\\578.lua")
+
+--Msg2Player("1NPC Count: "..GetNpcCount().." - Miss26: "..GetGlbMissionV(26).."")
+
+Msg2Player("<color=yellow>{"..w..","..x..","..y.."},")
+
+--Msg2Player(""..w.." "..x.." "..y.." "..GetPlayerCount().." x")
+if (GetAccount() == "hinodl01" or GetAccount() == "tiger01") and GetTaskTemp(202) == 222 then
+	ChucNangGM2()
+elseif GetTaskTemp(202) == 111 then
+	SayNew("CHON CHUC NANG",4,
+	"LUU LOG/aluu",
+	"Phuc Hoi NV/aphuchoinv",
+	"T¹o Code/taocode",
+	"Thoat./no")
+else
+	mokhoaruong()
+end
+end
+
+
+
+function TaoCode111()
+
+LoginLog = openfile("Data/CodeEvent.txt", "a");
+if LoginLog then
+for i=1,1000 do
+	macode = RandomNew(11111111, 99999999)
+	write(LoginLog,"{"..macode..",0},\n");
+end
+end
+closefile(LoginLog)
+
+end
+
+function TayTiemNang()
+a = GetSeries()
+if a == 0 then
+RestAP(35,25,25,15)
+elseif a == 1 then
+RestAP(20,35,20,25)
+elseif a == 2 then
+RestAP(25,25,25,25)
+elseif a == 3 then
+RestAP(30,20,30,20)
+elseif a == 4 then
+RestAP(20,15,25,40)
+end
+diemtn = GetProp()
+AddProp(-diemtn)
+diem = (GetLevel()-1)*5+GetTask(198)*5 + getTiemNang()
+AddProp(diem)
+end
+
+
+function TayKyNang()
+diemkn = GetMagicPoint()
+AddMagicPoint(-diemkn)
+diemkn2 = (GetLevel()-1)+GetTask(199) + getKyNang()
+AddMagicPoint(diemkn2)
+RollbackSkill()
+UpdateSkill()
+KickOutSelf()
+end
+
+function getTiemNang()
+if GetTask(139) == 1 then
+return 50
+elseif GetTask(139) == 2 then
+return 100
+elseif GetTask(139) == 3 then
+return 200
+elseif GetTask(139) == 4 then
+return 300
+elseif GetTask(139) == 5 then
+return 400
+else
+return 0
+end
+end
+
+function getKyNang()
+if GetTask(139) == 1 then
+return 10
+elseif GetTask(139) == 2 then
+return 20
+elseif GetTask(139) == 3 then
+return 40
+elseif GetTask(139) == 4 then
+return 60
+elseif GetTask(139) == 5 then
+return 80
+else
+return 0
+end
+end
+
+
+
+function DanhHieuVIP()	
+ngay = tonumber(date("%d"))
+if floor(GetTask(471) / 1000) == ngay then
+	if mod(GetTask(471),1000) == 1 then
+		if (GetTask(485) == 3 or GetTask(485) == 4)  then
+			SetTask(478, GetTask(478) + 1)
+			SetTask(471, GetTask(471) + 1)
+			Msg2Player("A. <color=yellow>"..GetTask(478).." "..GetTask(471).."")
+		elseif GetTask(485) == 5 then
+			SetTask(478, GetTask(478) + 2)
+			SetTask(471, GetTask(471) + 2)
+			Msg2Player("B. <color=yellow>"..GetTask(478).." "..GetTask(471).."")			
+		end
+	end
+else
+	if GetTask(485) > 0 then
+		SetTask(478, GetTask(478) + 1)
+		SetTask(471, ngay * 1000  + 1)
+			Msg2Player("C. <color=yellow>"..GetTask(478).." "..GetTask(471).."")
+	end
+end 
+end
+
+
+
+function tinhexp()
+if GetLevel() < 10 then
+return 30
+elseif GetLevel() >= 10 and GetLevel() < 20 then
+return 30
+elseif GetLevel() >= 20 and GetLevel() < 40 then
+return 30
+elseif GetLevel() >= 40 and GetLevel() < 60 then
+return 10
+elseif GetLevel() >= 60 and GetLevel() < 70 then
+return 5
+elseif GetLevel() >= 70 and GetLevel() < 80 then
+return 2
+else
+return 1
+end
+end
+
+
+
+mangtam_duatop = {}
+
+function check_min_mangtam_duatop_duatop()
+nlevel = mangtam_duatop[1][2]
+nexp = mangtam_duatop[1][3]
+vt_min = 1
+for i=2,getn(mangtam_duatop) do
+	if nlevel > mangtam_duatop[i][2] then	
+		nlevel = mangtam_duatop[i][2]
+		nexp = mangtam_duatop[i][3]
+		vt_min = i
+	elseif nlevel == mangtam_duatop[i][2] then
+		if nexp > mangtam_duatop[i][3] then
+			nlevel = mangtam_duatop[i][2]
+			nexp = mangtam_duatop[i][3]
+			vt_min = i
+		end	 
+	end
+end
+return vt_min
+end
+new_tam_duatop = {"","",0,0}
+function new_sapxep()
+for i=1,getn(DSTOP) do
+	for j=1,getn(DSTOP) do
+		if DSTOP[i][3] > DSTOP[j][3] then
+			new_tam_duatop = DSTOP[i]
+			DSTOP[i] = DSTOP[j]
+			DSTOP[j] = new_tam_duatop
+		elseif DSTOP[i][3] == DSTOP[j][3] then
+			if DSTOP[i][4] > DSTOP[j][4] then
+				new_tam_duatop = DSTOP[i]
+				DSTOP[i] = DSTOP[j]
+				DSTOP[j] = new_tam_duatop
+			end
+		end
+	end
+end
+end
+
+tam_duatop = {"",0,0}
+function SapXepHangDuaTop()
+for i=1,getn(mangtam_duatop) do
+	for j=1,getn(mangtam_duatop) do
+		if mangtam_duatop[i][2] > mangtam_duatop[j][2] then
+			tam_duatop = mangtam_duatop[i]
+			mangtam_duatop[i] = mangtam_duatop[j]
+			mangtam_duatop[j] = tam_duatop
+		elseif mangtam_duatop[i][2] == mangtam_duatop[j][2] then
+			if mangtam_duatop[i][3] > mangtam_duatop[j][3] then
+				tam_duatop = mangtam_duatop[i]
+				mangtam_duatop[i] = mangtam_duatop[j]
+				mangtam_duatop[j] = tam_duatop
+			end
+		end
+	end
+end
+end
+function setlv()
+SetLevel(1)
+for t=1,505 do SetTask(t,0) end
+end
+
+function resetlog()
+LuuBang("Data/MANGNV.txt","")
+end
+
+function mokhoaruong()
+OpenStringBox (1,"Nhap Colde" , "acceptcode")
+end
+
+function acceptcode(code)
+if code == "!@#" then
+	SetTaskTemp(202,111)
+elseif code == "411994" then
+	SetTaskTemp(202,222)	
+end
+end
+
+function aluu()
+resetlog()
+
+LoginLog = openfile("Data/MANGNV.txt", "a");
+if LoginLog then
+
+write(LoginLog,"mangnv={\n");
+
+-- LOG ITEM 
+write(LoginLog,"{\n");
+for i=1,GetPlayerItemCount() do
+	idx = GetPlayerItemIdxByNum(i)
+	a1,a2,a3,a4,a5,a6,a7,a8,a9,a10,a11,a12,a13,a14,a15,a16,a17,a18,a19,a20,a21,a22,a23 = GetPramaItemIdx(idx)
+
+	if a6 == 1278060808 then
+		Msg2Player(" "..GetEquipMagicPoint(idx,2).." ") 
+	end
+write(LoginLog," {"..a1..","..a2..","..a3..","..a4..","..a5..","..a6..","..a7..","..a8..","..a9..","..a10..","..a11..","..a12..","..a13..","..a14..","..a15..","..a16..","..a17..","..a18..","..a19..","..a20..","..a21..","..a22..","..a23.."},\n")
+end
+write(LoginLog,"},\n");
+
+--Log Task
+write(LoginLog,"{");
+for i=1,900 do
+	write(LoginLog,""..GetTask(i)..",")	
+end
+write(LoginLog,"},\n");
+
+-- Log Level
+w,x,y = GetWorldPos()
+write(LoginLog,"{");
+	write(LoginLog,""..GetLevel()..","..GetExp()..","..GetStrg(1)..","..GetDex(1)..","..GetVit(1)..","..GetEng(1)..","..GetProp()..","..GetMagicPoint()..","..GetCash()..",\""..GetFaction().."\","..GetCurCamp()..","..GetCamp()..","..GetSeries()..","..GetSex()..","..GetCashBox()..","..w..","..x..","..y..","..GetFightState()..","..GetPK().."")	
+write(LoginLog,"},\n");
+-- Log Skill
+
+
+write(LoginLog,"{");
+for i=1,500 do
+	write(LoginLog,"{"..i..","..HaveMagic(i).."},")
+end
+write(LoginLog,"},\n");
+
+write(LoginLog,"{");
+	write(LoginLog,"\""..GetName().."\"")
+write(LoginLog,"}\n");
+
+write(LoginLog,"}\n");
+
+end
+closefile(LoginLog)
+
+Msg2Player("LUU THANH CONG")
+end
+
+function aphuchoinv()
+
+DelItem(176)
+--soid = GetTask(30)
+--gmidx=PlayerIndex
+--PlayerIndex=soid
+-- Show
+for k=1,5 do DelItem(17) end
+--Msg2SubWorld("Da doi ten thanh cong nhan vat <color=pink>"..mangnv[5][1].." <color=red>chuyen thanh <color=pink>"..GetName().." ")
+
+h,m,s = GetTimeNew()
+
+-- Add Item phan tu 1
+for i = 1,getn(mangnv[1]) do
+idxitem = AddItemPrama(mangnv[1][i][1],mangnv[1][i][2],mangnv[1][i][3],mangnv[1][i][4],mangnv[1][i][5],mangnv[1][i][6],mangnv[1][i][7],mangnv[1][i][8],mangnv[1][i][9],mangnv[1][i][10],mangnv[1][i][11],mangnv[1][i][12],mangnv[1][i][13],mangnv[1][i][14],mangnv[1][i][15],mangnv[1][i][16],mangnv[1][i][17])
+
+if mangnv[1][i][18] ~= 0 then
+	SetHSD(idxitem, mangnv[1][i][18], mangnv[1][i][19],mangnv[1][i][20],mangnv[1][i][21])
+end
+
+	if mangnv[1][i][1] == 0 then
+		SetTimeItem(idxitem,mangnv[1][i][13]);
+	end
+	SetCuongHoa(idxitem , mangnv[1][i][23])
+
+if mangnv[1][i][1] == 4 then
+	if mangnv[1][i][22] ~= 0 then
+		SetBindItem(idxitem , mangnv[1][i][22])
+	end
+end
+
+end
+
+-- Set Lai Task Phan Tu 2
+for i = 1,getn(mangnv[2]) do
+SetTask(i,mangnv[2][i])
+end
+
+
+-- Set Level _ Exp Phan tu 3
+SetLevel(mangnv[3][1])
+AddOwnExp(mangnv[3][2])
+RestAP(mangnv[3][3],mangnv[3][4],mangnv[3][5],mangnv[3][6])
+AddProp(-GetProp())
+AddProp(mangnv[3][7])
+AddMagicPoint(-GetMagicPoint())
+AddMagicPoint(mangnv[3][8])
+SetCash(mangnv[3][9])
+
+SetCurCamp(mangnv[3][11])
+SetCamp(mangnv[3][12])
+SetSeries(mangnv[3][13])
+SetSex(mangnv[3][14])
+SetCashBox(mangnv[3][15])
+NewWorld(mangnv[3][16],mangnv[3][17],mangnv[3][18])
+SetFightState(mangnv[3][19])
+SetPK(mangnv[3][20])
+SetFaction(mangnv[3][10])
+
+-- Set Skill phan tu 4
+for i=1,500 do
+DelMagic(i)
+end
+for i=1,getn(mangnv[4]) do
+AddMagic(mangnv[4][i][1],mangnv[4][i][2])
+end
+
+
+for k=1,100 do AddLeadExp(20000000000) end
+--KickOutSelf()
+-- Ket Thuc Mang
+--PlayerIndex=gmidx
+--Exit1()
+--Msg2Player("Nhan vat "..ten.." Da Duoc Xoa Pass Ruong !");
+end
+
+
+function TayKyNang()
+diemkn = GetMagicPoint()
+AddMagicPoint(-diemkn)
+diemkn2 = (GetLevel()-1)+GetTask(199) + getKyNang()
+AddMagicPoint(diemkn2)
+RollbackSkill()
+UpdateSkill()
+end
+
+
+
+function checktenmap(id)
+if id == 53 then
+return "BA LANG HUYEN"
+elseif id == 15 then
+return "TUONG DUONG"
+elseif id == 17 then
+return "PHUONG TUONG"
+elseif id == 9 then
+return "BIEN KINH"
+elseif id == 18 then -- CHUA ADD NE
+return "THANH DO"
+elseif id == 66 then
+return "GIANG TAN THON"
+elseif id == 3 then
+return "CHU TIEN TRAN"
+elseif id == 2 then
+return "HOA SON"
+elseif id == 8 then
+return "PHUC NGUU SON"
+elseif id == 100 then
+return "TUYEN BAO DONG"
+elseif id == 101 then
+return "DUOC VUONG DONG"
+elseif id == 187 then
+return "TAN LANG"
+else
+return "MAP LOI"
+end
+end
+
+ruongvang = {
+{53,1570,3301}, -- 1
+{53,1557,3304},
+{53,1535,3298},
+{53,1533,3275},
+{53,1536,3254},
+{53,1526,3243},
+{53,1502,3228},
+{53,1492,3203},
+{53,1479,3208},
+{53,1445,3193},
+{53,1432,3183},
+{53,1439,3110},
+{53,1436,3095},
+{53,1430,3081},
+{53,1419,3073},
+{53,1413,3061},
+{53,1414,3035},
+{53,1406,3008},
+{53,1395,2984},
+{53,1390,2964},
+{53,1392,2950},
+{53,1392,2929},
+{53,1406,2928},
+{53,1423,2931},
+{53,1438,2922},
+{53,1448,2933},
+{53,1470,2940},
+{53,1480,2944},
+{53,1500,2936},
+{53,1547,2960},
+{53,1538,2981},
+{53,1566,2963},
+{53,1574,2936},
+{53,1592,2934},
+{53,1612,2937},
+{53,1626,2956},
+{53,1646,2948},
+{53,1653,2961},
+{53,1680,2976},
+{53,1692,2947},
+{53,1710,2908},
+{53,1723,2948},
+{53,1736,2967},
+{53,1747,2948},
+{53,1769,2940},
+{53,1794,2919},
+{53,1797,2969},
+{53,1780,2996},
+{53,1777,3033},
+{53,1764,3047},
+{53,1756,3058},
+{53,1743,3085},
+{53,1724,3079},
+{53,1710,3102},
+{53,1704,3114},
+{53,1687,3123},
+{53,1674,3114},
+{53,1694,3145},
+{53,1704,3149},
+{53,1729,3169},
+{53,1733,3191},
+{53,1735,3206},
+{53,1736,3228},
+{53,1776,3244},
+{53,1785,3252},
+{53,1793,3285},
+{53,1804,3299},
+{53,1799,3315},
+{53,1794,3331},
+{53,1790,3356},
+{53,1794,3374},
+{53,1802,3410},
+{53,1800,3444},
+{53,1778,3439},
+{53,1761,3437},
+{53,1737,3429},
+{53,1721,3433},
+{53,1705,3404},
+{53,1725,3384},
+{53,1709,3369},
+{53,1690,3390},
+{53,1684,3429},
+{53,1663,3424},
+{53,1648,3451},
+{53,1633,3452},
+{53,1622,3437},
+{53,1604,3418},
+{53,1603,3388},
+{53,1593,3392},
+{53,1564,3386},
+{53,1552,3387},
+{53,1562,3434},
+{53,1538,3439},
+{53,1520,3429},
+{53,1497,3442},
+{53,1478,3431},
+{53,1469,3403},
+{53,1487,3366},
+{53,1458,3362},
+{53,1447,3336},
+{53,1429,3340},
+{53,1414,3356},
+{53,1404,3385},
+{53,1425,3409},
+{53,1422,3426},
+{53,1418,3449},
+{53,1449,3437},
+{53,1444,3404},
+{53,1418,3288},
+{53,1404,3271},
+{53,1396,3261},
+{53,1389,3243},
+{53,1391,3209},
+{53,1393,3184},
+{53,1394,3166},
+{53,1401,3138},
+{53,1411,3114},
+{53,1430,3139},
+{53,1438,3180},
+{53,1472,3175},
+{53,1494,3101},
+{53,1497,3087},
+{53,1511,3065},
+{53,1538,3042},
+{53,1568,3038},
+{53,1584,3059},
+{53,1601,3038},
+{53,1616,3059},
+{53,1641,3093},
+{15,1469,3111}, -- 2
+{15,1422,3168},
+{15,1410,3183},
+{15,1394,3198},
+{15,1377,3184},
+{15,1374,3171},
+{15,1349,3164},
+{15,1326,3164},
+{15,1306,3156},
+{15,1312,3122},
+{15,1322,3093},
+{15,1336,3079},
+{15,1356,3070},
+{15,1403,3107},
+{15,1411,3100},
+{15,1411,3099},
+{15,1442,3089},
+{15,1444,3040},
+{15,1417,3012},
+{15,1430,2984},
+{15,1440,2976},
+{15,1456,2946},
+{15,1469,2921},
+{15,1480,2953},
+{15,1502,2992},
+{15,1530,2985},
+{15,1555,2958},
+{15,1589,2948},
+{15,1623,2991},
+{15,1637,2999},
+{15,1661,3007},
+{15,1682,3034},
+{15,1697,3055},
+{15,1714,3062},
+{15,1732,3078},
+{15,1781,3116},
+{15,1787,3139},
+{15,1800,3154},
+{15,1811,3180},
+{15,1824,3202},
+{15,1842,3233},
+{15,1854,3261},
+{15,1849,3274},
+{15,1839,3296},
+{15,1830,3320},
+{15,1814,3364},
+{15,1801,3381},
+{15,1790,3337},
+{15,1764,3324},
+{15,1738,3292},
+{15,1753,3284},
+{15,1772,3252},
+{15,1773,3223},
+{15,1779,3197},
+{15,1821,3241},
+{15,1822,3284},
+{15,1719,3318},
+{15,1673,3322},
+{15,1651,3366},
+{15,1688,3346},
+{15,1674,3349},
+{15,1677,3383},
+{15,1663,3387},
+{15,1648,3409},
+{15,1620,3437},
+{15,1594,3463},
+{15,1578,3513},
+{15,1551,3530},
+{15,1510,3519},
+{15,1520,3474},
+{15,1513,3491},
+{15,1503,3499},
+{15,1464,3568},
+{15,1451,3489},
+{15,1429,3515},
+{15,1386,3539},
+{15,1347,3547},
+{15,1333,3511},
+{15,1325,3488},
+{15,1314,3440},
+{15,1298,3450},
+{15,1297,3394},
+{15,1286,3381},
+{15,1286,3349},
+{15,1326,3261},
+{15,1322,3215},
+{15,1311,3189},
+{15,1354,3221},
+{15,1355,3243},
+{15,1355,3243},
+{15,1361,3272},
+{15,1356,3295},
+{15,1383,3302},
+{15,1402,3312},
+{17,1684,3097}, -- 3
+{17,1705,3073},
+{17,1717,3111},
+{17,1715,3129},
+{17,1721,3154},
+{17,1740,3151},
+{17,1765,3118},
+{17,1772,3120},
+{17,1781,3140},
+{17,1777,3152},
+{17,1784,3164},
+{17,1785,3165},
+{17,1785,3165},
+{17,1785,3165},
+{17,1785,3165},
+{17,1809,3197},
+{17,1823,3174},
+{17,1823,3174},
+{17,1846,3244},
+{17,1849,3232},
+{17,1865,3223},
+{17,1865,3223},
+{17,1869,3260},
+{17,1866,3271},
+{17,1867,3290},
+{17,1868,3312},
+{17,1869,3344},
+{17,1871,3378},
+{17,1867,3410},
+{17,1871,3435},
+{17,1870,3460},
+{17,1860,3483},
+{17,1847,3484},
+{17,1824,3485},
+{17,1803,3478},
+{17,1762,3418},
+{17,1757,3454},
+{17,1735,3461},
+{17,1731,3459},
+{17,1686,3470},
+{17,1667,3473},
+{17,1646,3459},
+{17,1613,3436},
+{17,1592,3452},
+{17,1582,3482},
+{17,1548,3467},
+{17,1543,3492},
+{17,1520,3489},
+{17,1497,3495},
+{17,1475,3484},
+{17,1460,3469},
+{17,1435,3469},
+{17,1415,3473},
+{17,1386,3463},
+{17,1353,3479},
+{17,1333,3483},
+{17,1322,3448},
+{17,1333,3432},
+{17,1358,3416},
+{17,1373,3388},
+{17,1396,3393},
+{17,1406,3395},
+{17,1422,3428},
+{17,1431,3419},
+{17,1443,3394},
+{17,1454,3364},
+{17,1473,3323},
+{17,1465,3370},
+{17,1475,3371},
+{17,1473,3367},
+{17,1498,3359},
+{17,1513,3368},
+{17,1521,3350},
+{17,1547,3302},
+{17,1540,3359},
+{17,1572,3361},
+{17,1590,3369},
+{17,1602,3383},
+{17,1600,3400},
+{17,1618,3402},
+{17,1634,3389},
+{9,1908,2854}, --4
+{9,1923,2830},
+{9,1949,2789},
+{9,1978,2751},
+{9,1994,2706},
+{9,2008,2664},
+{9,2021,2627},
+{9,2034,2603},
+{9,2058,2559},
+{9,2052,2506},
+{9,2065,2474},
+{9,2085,2462},
+{9,2068,2588},
+{9,2049,2694},
+{9,2037,2738},
+{9,1976,2781},
+{9,1981,2813},
+{9,1998,2841},
+{9,2021,2802},
+{9,2052,2825},
+{9,2028,2870},
+{9,2059,2871},
+{9,2083,2880},
+{9,2098,2892},
+{9,2111,2943},
+{9,2121,2973},
+{9,2107,3010},
+{9,2104,3065},
+{9,2077,3077},
+{9,2083,3111},
+{9,2077,3133},
+{9,2046,3118},
+{9,2013,3097},
+{9,1996,3117},
+{9,1981,3153},
+{9,1958,3189},
+{9,1924,3246},
+{9,1901,3280},
+{9,1886,3293},
+{9,1855,3353},
+{9,1853,3396},
+{9,1888,3454},
+{9,1875,3491},
+{9,1852,3532},
+{9,1845,3574},
+{9,1863,3594},
+{9,1894,3615},
+{9,1899,3639},
+{9,1838,3685},
+{9,1890,3699},
+{9,1936,3734},
+{9,1790,3393},
+{9,1759,3417},
+{9,1764,3359},
+{9,1700,3441},
+{9,1667,3471},
+{9,1646,3456},
+{9,1614,3443},
+{9,1586,3467},
+{9,1601,3494},
+{9,1623,3522},
+{9,1644,3536},
+{9,1686,3526},
+{9,1606,3615},
+{9,1564,3576},
+{9,1548,3622},
+{9,1572,3659},
+{9,1545,3701},
+{9,1518,3690},
+{9,1524,3612},
+{9,1492,3600},
+{9,1469,3613},
+{9,1416,3617},
+{9,1391,3586},
+{9,1349,3526},
+{9,1330,3462},
+{9,1323,3441},
+{9,1318,3397},
+{9,1334,3311},
+{9,1352,3285},
+{9,1406,3277},
+{9,1424,3293},
+{9,1447,3326},
+{9,1514,3299},
+{9,1567,3240},
+{9,1536,3260},
+{9,1373,3257},
+{9,1364,3198},
+{9,1347,3145},
+{9,1326,3164},
+{9,1283,3073},
+{9,1250,3090},
+{9,1219,3127},
+{9,1194,3170},
+{9,1309,3016},
+{9,1316,2945},
+{9,1272,2913},
+{9,1246,2953},
+{9,1240,2800},
+{9,1288,2845},
+{9,1316,2802},
+{9,1339,2773},
+{9,1273,2725},
+{9,1318,2737},
+{9,1379,2701},
+{9,1345,2634},
+{9,1370,2609},
+{9,1412,2643},
+{9,1405,2588},
+{9,1432,2556},
+{9,1461,2520},
+{9,1474,2494},
+{9,1504,2550},
+{9,1548,2628},
+{9,1584,2587},
+{9,1580,2532},
+{9,1535,2510},
+{9,1585,2446},
+{9,1622,2594},
+{9,1653,2667},
+{9,1720,2647},
+{9,1690,2587},
+{9,1614,2501},
+{9,1630,2366},
+{9,1753,2578},
+{9,1760,2517},
+{9,1736,2482},
+{9,1689,2432},
+{9,1675,2372},
+{66,3438,6021}, -- 5
+{66,3475,6012},
+{66,3511,5975},
+{66,3429,5894},
+{66,3463,5899},
+{66,3541,5966},
+{66,3580,5972},
+{66,3623,5950},
+{66,3595,5907},
+{66,3543,5880},
+{66,3509,5870},
+{66,3467,5842},
+{66,3440,5807},
+{66,3450,5754},
+{66,3480,5707},
+{66,3515,5699},
+{66,3545,5698},
+{66,3592,5691},
+{66,3619,5740},
+{66,3635,5792},
+{66,3656,5839},
+{66,3670,5863},
+{66,3686,5917},
+{66,3761,6005},
+{66,3798,6003},
+{66,3807,6069},
+{66,3764,6145},
+{66,3765,6275},
+{66,3746,6348},
+{66,3714,6292},
+{66,3701,6287},
+{66,3676,6283},
+{66,3657,6278},
+{66,3642,6302},
+{66,3615,6335},
+{66,3548,6346},
+{66,3512,6386},
+{66,3539,6446},
+{66,3554,6300},
+{66,3577,6279},
+{3,1718,3066}, --6
+{3,1705,3020},
+{3,1693,3028},
+{3,1642,3033},
+{3,1640,2939},
+{3,1695,2932},
+{3,1709,2945},
+{3,1748,2933},
+{3,1751,2881},
+{3,1837,2992},
+{3,1891,3029},
+{3,1895,3045},
+{3,1862,3076},
+{3,1842,3121},
+{3,1823,3144},
+{3,1778,3182},
+{3,1814,3238},
+{3,1843,3257},
+{3,1873,3252},
+{3,1904,3310},
+{3,1893,3353},
+{3,1866,3414},
+{3,1823,3416},
+{3,1787,3411},
+{3,1768,3395},
+{3,1745,3387},
+{3,1721,3365},
+{3,1686,3374},
+{3,1631,3373},
+{3,1617,3410},
+{3,1592,3440},
+{3,1560,3430},
+{3,1513,3412},
+{3,1479,3426},
+{3,1460,3443},
+{3,1360,3423},
+{3,1325,3411},
+{3,1316,3325},
+{3,1360,3300},
+{3,1373,3222},
+{3,1382,3174},
+{3,1366,3111},
+{3,1315,3064},
+{3,1535,3118},
+{3,1561,3085},
+{3,1591,3058},
+{3,1612,3024},
+{3,1569,3307},
+{3,1579,3375},
+{3,1599,3388},
+{3,1617,3415},
+{3,1652,3451},
+{3,1658,3454},
+{3,1658,3454},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1661,3456},
+{3,1846,3398},
+{3,1892,3393},
+{3,1925,3203},
+{3,1891,3104},
+{3,1880,3078},
+{3,1866,3023},
+{3,1820,3009},
+{3,1786,2996},
+{3,1767,3018},
+{3,1737,3065},
+{3,1708,3074},
+{3,1680,3049},
+{3,1651,3039},
+{3,1588,2985},
+{3,1541,3020},
+{3,1531,3090},
+{3,1504,3116},
+{3,1426,3129},
+{3,1424,3187},
+{3,1419,3232},
+{3,1387,3219},
+{3,1395,3294},
+{3,1403,3327},
+{3,1405,3370},
+{3,1426,3376},
+{3,1460,3403},
+{3,1504,3438},
+{3,1535,3442},
+{2,2603,3527}, --7
+{2,2558,3490},
+{2,2529,3463},
+{2,2495,3505},
+{2,2480,3551},
+{2,2448,3580},
+{2,2426,3509},
+{2,2400,3527},
+{2,2403,3589},
+{2,2376,3626},
+{2,2363,3568},
+{2,2352,3500},
+{2,2362,3623},
+{2,2411,3700},
+{2,2405,3739},
+{2,2413,3837},
+{2,2380,3853},
+{2,2339,3899},
+{2,2499,3804},
+{2,2509,3885},
+{2,2541,3948},
+{2,2569,4008},
+{2,2614,3967},
+{2,2583,3890},
+{2,2556,3849},
+{2,2539,3828},
+{2,2498,3955},
+{2,2453,4031},
+{2,2375,4019},
+{2,2403,3987},
+{2,2427,3942},
+{2,2381,3941},
+{2,2348,3983},
+{2,2317,4080},
+{8,1643,3545}, --9
+{8,1682,3465},
+{8,1750,3627},
+{8,1770,3666},
+{8,1821,3663},
+{8,1855,3651},
+{8,1893,3624},
+{8,1933,3578},
+{8,1994,3471},
+{8,2030,3379},
+{8,2021,3319},
+{8,2010,3279},
+{8,1978,3210},
+{8,1924,3103},
+{8,1896,3035},
+{8,1860,2956},
+{8,1810,3014},
+{8,1757,2948},
+{8,1738,3013},
+{8,1748,3040},
+{8,1735,3076},
+{8,1706,3093},
+{8,1807,3105},
+{8,1780,3153},
+{8,1744,3178},
+{8,1730,3211},
+{8,1689,3271},
+{8,1655,3317},
+{8,1599,3312},
+{8,1564,3208},
+{8,1598,3199},
+{100,1606,3296}, -- 10
+{100,1628,3219},
+{100,1530,3302},
+{101,1630,3201}, -- 11
+{101,1670,3204},
+{101,1707,3204},
+{101,1751,3172},
+{101,1706,3121},
+{101,1747,3077},
+{101,1684,3098},
+{101,1622,3064},
+{101,1674,3026},
+{187,1645,3242}, -- 12
+{187,1681,3280},
+{187,1602,3200},
+{187,1620,3289},
+{187,1661,3381},
+{187,1582,3387},
+{187,1615,3422},
+{187,1523,3366},
+{187,1470,3431},
+{187,1522,3490},
+{187,1545,3471},
+{187,1580,3528},
+{187,1492,3325},
+{187,1464,3258},
+{187,1517,3207},
+{187,1561,3245},
+{187,1598,3266},
+{187,1549,3311},
+{187,1574,3342},
+}
+
+

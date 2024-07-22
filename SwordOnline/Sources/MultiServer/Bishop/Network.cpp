@@ -92,13 +92,14 @@ void CNetwork::Destroy() {
 }
 
 // IClient *CNetwork::CreateAccSvrClient( const char * const
-// pAddressToConnectServer, 									  unsigned short usPortToConnectServer )
+// pAddressToConnectServer,
+// unsigned short usPortToConnectServer )
 //{
 //	if ( m_pAccSvrClient )
 //	{
 //		IClient *pClonClient = NULL;
 //		m_pAccSvrClient->QueryInterface( IID_IESClient,
-//reinterpret_cast< void ** >( &pClonClient ) );
+// reinterpret_cast< void ** >( &pClonClient ) );
 //
 //		return pClonClient;
 //	}
@@ -112,12 +113,12 @@ void CNetwork::Destroy() {
 //	IClientFactory *pClientFactory = NULL;
 //
 //	if ( pClientFactroyFun && SUCCEEDED( pClientFactroyFun(
-//IID_IClientFactory, reinterpret_cast< void ** >( &pClientFactory ) ) ) )
+// IID_IClientFactory, reinterpret_cast< void ** >( &pClientFactory ) ) ) )
 //	{
 //		pClientFactory->SetEnvironment( 1024 * 1024 );
 //
 //		pClientFactory->CreateClientInterface( IID_IESClient,
-//reinterpret_cast< void ** >( &m_pAccSvrClient ) );
+// reinterpret_cast< void ** >( &m_pAccSvrClient ) );
 //
 //		SAFE_RELEASE( pClientFactory );
 //	}
@@ -127,10 +128,10 @@ void CNetwork::Destroy() {
 //		m_pAccSvrClient->Startup();
 //
 //		m_pAccSvrClient->RegisterMsgFilter( reinterpret_cast< void * >(
-//this ), AccSvrEventNotify );
+// this ), AccSvrEventNotify );
 //
 //		if ( FAILED( m_pAccSvrClient->ConnectTo(
-//pAddressToConnectServer, usPortToConnectServer ) ) )
+// pAddressToConnectServer, usPortToConnectServer ) ) )
 //		{
 //			m_pAccSvrClient->Cleanup();
 //
@@ -147,7 +148,7 @@ void CNetwork::Destroy() {
 //
 //		IClient *pClonClient = NULL;
 //		m_pAccSvrClient->QueryInterface( IID_IESClient,
-//reinterpret_cast< void ** >( &pClonClient ) );
+// reinterpret_cast< void ** >( &pClonClient ) );
 //
 //		return pClonClient;
 //	}

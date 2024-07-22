@@ -52,8 +52,8 @@ struct KPopupMenuData {
   ////是否放大当前选中的菜单项 	bool			bHaveHeadTailImg;
   ////是否在菜单顶上底下添加边界图形 	bool			bHaveSeparator;
   ////菜单项是否有分隔线 	bool			bAutoDelete;
-  ////是否菜单消失的时候自动删除菜单数据 	bool			bManualCancel;
-  ////是否由调用者来决定是否菜单消失
+  ////是否菜单消失的时候自动删除菜单数据 	bool
+  ///bManualCancel; /是否由调用者来决定是否菜单消失
 
   unsigned int uBorderLineColor;    // 菜单的边框颜色，为0则无
   unsigned int uSelItemBgColor;     // 被选中菜单项的背景色

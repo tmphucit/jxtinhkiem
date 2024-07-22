@@ -994,7 +994,7 @@ DWORD KObjSet::GetNameColor(int nColorID) {
 //-------------------------------------------------------------------------
 //	功能：设定是否全部显示 item 和 money 类的 object 的名字
 //			bFlag ==	TRUE 显示，bFlag == FALSE 不显示 zroc
-//add
+// add
 //-------------------------------------------------------------------------
 void KObjSet::SetShowNameFlag(BOOL bFlag) { this->m_nShowNameFlag = bFlag; }
 #endif
@@ -1002,7 +1002,7 @@ void KObjSet::SetShowNameFlag(BOOL bFlag) { this->m_nShowNameFlag = bFlag; }
 #ifndef _SERVER
 //-------------------------------------------------------------------------
 //	功能：判断是否全部显示 item 和 money 类的 object 的名字  返回值 TRUE
-//显示，FALSE 不显示
+// 显示，FALSE 不显示
 //-------------------------------------------------------------------------
 BOOL KObjSet::CheckShowName() { return m_nShowNameFlag; }
 #endif

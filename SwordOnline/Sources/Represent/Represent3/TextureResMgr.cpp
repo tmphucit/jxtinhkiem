@@ -105,11 +105,11 @@ void TextureResMgr::CheckBalance() {
   //            m_TextureResList[nNodeSelected].m_pTextureRes->Release();
   //			SAFE_DELETE(m_TextureResList[nNodeSelected].m_pTextureRes);
   //			m_TextureResList.erase(m_TextureResList.begin() +
-  //nNodeSelected);
+  // nNodeSelected);
   //		}
   //		else
   //			m_TextureResList.erase(m_TextureResList.begin() +
-  //nNodeSelected);
+  // nNodeSelected);
   //	}
 }
 

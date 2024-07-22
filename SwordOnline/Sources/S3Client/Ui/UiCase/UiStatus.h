@@ -20,7 +20,7 @@ struct KUiPlayerRuntimeInfo;
 struct KUiObjAtRegion;
 struct KUiPlayerAttribute;
 
-#define _ITEM_COUNT 13
+#define _ITEM_COUNT 15
 
 class KUiStatus : public KWndShowAnimate {
 public:
@@ -91,7 +91,12 @@ private:
 
   KWndButton m_BLockBox1;
   KWndButton m_BLockBox2;
-
+  // vantoi
+  KWndButton m_EquipExpandBtn;
+  KWndImage m_EquipExpandImg;
+  KWndButton m_MaskFeature;
+  KWndButton m_UnlockBtn;
+  // end
   KWndButton m_BtnBind;
   KWndButton m_BtnUnBind;
   KWndText32 m_TransLife;

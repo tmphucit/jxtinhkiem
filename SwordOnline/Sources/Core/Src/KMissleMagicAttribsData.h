@@ -22,7 +22,7 @@ public:
 private:
   void Remove() {
     //	if (m_pStateMagicAttribs != NULL)		delete
-    //m_pStateMagicAttribs;
+    // m_pStateMagicAttribs;
     if (m_pDamageMagicAttribs != NULL)
       delete[] m_pDamageMagicAttribs;
   };

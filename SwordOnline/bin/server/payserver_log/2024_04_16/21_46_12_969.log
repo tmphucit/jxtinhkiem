@@ -1,0 +1,41 @@
+
+*
+***** Sword3PaySys Start (@ 2024/04/16 21:46:12.969) >>>>>
+*
+
+[2024/04/16 21:46:17] 1 >> DB Connect 0 is busy !
+[2024/04/16 21:46:17] 2 >> Add Gateway(192.168.11.13 : 50805) Client 0 ! -- At 0
+[2024/04/16 21:46:17] 3 >> [Debug] SQL Query CMD NOT [155]
+[2024/04/16 21:46:17] 4 >> Gateway vantoi(192.168.11.13)B42E-992C-2E81: Verify OK !
+[2024/04/16 21:46:17] 5 >> [Debug] SQL CMD [update Account_info set iClientID = 0, dLogoutDate = getdate() where (iClientID = 20)]
+[2024/04/16 21:46:17] 6 >> Gateway unlock OK!
+[2024/04/16 21:46:17] 7 >> Gateway Connect OK!
+[2024/04/16 21:46:18] 8 >> DB Connect 0 is free !
+[2024/04/16 21:46:27] 9 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/16 21:46:37] 10 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/16 21:46:47] 11 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/16 21:46:57] 12 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/16 21:47:08] 13 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/16 21:47:16] 14 >> DB Connect 0 is busy !
+[2024/04/16 21:47:16] 15 >> [Debug] SQL Query CMD NOT [142]
+[2024/04/16 21:47:16] 16 >> [Debug] SQL Query CMD NOT [131]
+[2024/04/16 21:47:16] 17 >> [Debug] SQL CMD [update Account_info set iClientID = 20, dLoginDate = null where (cAccName = 'quycan1')]
+[2024/04/16 21:47:16] 18 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/16 21:47:16] 19 >> Gateway vantoi(192.168.11.13): User quycan1 Login Success ! (Ext:0)
+[2024/04/16 21:47:17] 20 >> DB Connect 0 is free !
+[2024/04/16 21:47:18] 21 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/16 21:47:27] 22 >> DB Connect 0 is busy !
+[2024/04/16 21:47:27] 23 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/16 21:47:27] 24 >> [Debug] SQL CMD [update Account_info set dLoginDate = getdate() where (cAccName = 'quycan1') and (iClientID = 20) and (dLoginDate is null)]
+[2024/04/16 21:47:27] 25 >> [Debug] SQL CMD [update View_AccountMoney set iNumLogin = 0 where (cAccName = 'quycan1')]
+[2024/04/16 21:47:27] 26 >> Gateway vantoi(192.168.11.13): User quycan1 Enter Game Success !
+[2024/04/16 21:47:28] 27 >> Gateway vantoi(192.168.11.13): Ping 10(s)
+[2024/04/16 21:47:29] 28 >> DB Connect 0 is free !
+[2024/04/16 21:47:35] 29 >> DB Connect 0 is busy !
+[2024/04/16 21:47:35] 30 >> [Debug] SQL CMD NOT [149]
+[2024/04/16 21:47:35] 31 >> [S3PDB_MSSQLServer_Connection::Do COM error: IDispatch error #3092
+[2024/04/16 21:47:35] 32 >> [Debug] SQL Query CMD [select iClientID from Account_info where (cAccName = 'quycan1')]
+[2024/04/16 21:47:35] 33 >> [Debug] SQL Query CMD NOT [131]
+[2024/04/16 21:47:35] 34 >> [Debug] SQL CMD [update Account_info set iClientID = 0, dLogoutDate = getdate() where (cAccName = 'quycan1') and (iClientID = 20)]
+[2024/04/16 21:47:35] 35 >> [Debug] SQL CMD [update View_AccountMoney set nExtPoint = iNumLogin, iNumLogin = 0 where (cAccName = 'quycan1') and (iNumLogin > 0)]
+[2024/04/16 21:47:35] 36 >> Gateway vantoi(192.168.11.13): User quycan1 Logout Success ! (Ext:0)

@@ -221,7 +221,7 @@ bool CoreServerShell::PlayerDbLoading(int nPlayerIndex, int bSyncEnd,
     return true;
   } else if (pData) {
     //		if (0 == Player[nPlayerIndex].LoadDBPlayerInfo((BYTE *)pData,
-    //nStep, nParam))
+    // nStep, nParam))
     //		{
     //			// 把玩家的登入状态设置为未登入，等待时延自动清除
     //			Player[nPlayerIndex].m_nNetConnectIdx = -1;
@@ -291,8 +291,8 @@ void CoreServerShell::RemoveQuitingPlayer(int nIndex) {
 //--------------------------------------------------------------------------
 //	功能：从游戏世界获取数据
 //	参数：unsigned int uDataId -->
-//表示获取游戏数据的数据项内容索引，其值为梅举类型 							GAMEDATA_INDEX的取值之一。
-//		  unsigned int uParam  --> 依据uDataId的取值情况而定
+// 表示获取游戏数据的数据项内容索引，其值为梅举类型
+// GAMEDATA_INDEX的取值之一。 		  unsigned int uParam  --> 依据uDataId的取值情况而定
 //		  int nParam --> 依据uDataId的取值情况而定
 //	返回：依据uDataId的取值情况而定。
 //--------------------------------------------------------------------------
@@ -1378,7 +1378,7 @@ void CoreServerShell::PreparePlayerForLoginFailed(int nIndex) {
 //
 // #define	MAX_PING_TIME	(60 * 20)	//	1min
 //	if (g_SubWorldSet.GetGameTime() - Player[nIndex].m_uLastPingTime >
-//MAX_PING_TIME)
+// MAX_PING_TIME)
 //	{
 //		return FALSE;
 //	}
@@ -1420,7 +1420,7 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
           continue;
 
         //			if (FromRelayID !=
-        //Player[nTargetIdx].m_nNetConnectIdx)
+        // Player[nTargetIdx].m_nNetConnectIdx)
         g_pServer->PackDataToClient(Player[nTargetIdx].m_nNetConnectIdx,
                                     pExHeader, pckgsize);
       }
@@ -1475,7 +1475,7 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
       while (nTargetIdx) {
         if (Player[nTargetIdx].m_cFaction.m_nCurFaction ==
             tgtid) //				&& FromRelayID !=
-                   //Player[nTargetIdx].m_nNetConnectIdx)
+                   // Player[nTargetIdx].m_nNetConnectIdx)
           g_pServer->PackDataToClient(Player[nTargetIdx].m_nNetConnectIdx,
                                       pExHeader, pckgsize);
 
@@ -1506,7 +1506,7 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
       while (nTargetIdx) {
         if (Player[nTargetIdx].m_cTong.GetTongNameID() ==
             tgtid) //				&& FromRelayID !=
-                   //Player[nTargetIdx].m_nNetConnectIdx)
+                   // Player[nTargetIdx].m_nNetConnectIdx)
           g_pServer->PackDataToClient(Player[nTargetIdx].m_nNetConnectIdx,
                                       pExHeader, pckgsize);
 
@@ -1522,7 +1522,8 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
     {
 
       //		int nMaxRelayPlayer = (1024 - 32 - sizeof(CHAT_GROUPMAN)
-      //- size) / sizeof(WORD); 		if (nMaxRelayPlayer <= 0) 			return FALSE;
+      //- size) / sizeof(WORD); 		if (nMaxRelayPlayer <= 0)
+      //return FALSE;
 
       int idxNPC = Player[tgtid].m_nIndex;
       int idxSubWorld = Npc[idxNPC].m_SubWorldIndex;
@@ -1587,7 +1588,7 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
         KIndexNode *pNode = (KIndexNode *)pRegion->m_PlayerList.GetHead();
         while (pNode) {
           //				_ASSERT(pNode->m_nIndex > 0 &&
-          //pNode->m_nIndex < MAX_PLAYER);
+          // pNode->m_nIndex < MAX_PLAYER);
 
           // if (FromRelayID != Player[pNode->m_nIndex].m_nNetConnectIdx)
           {
@@ -1608,14 +1609,14 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
             //					++ pCgc->wPlayerCount;
             //
             //					if (pCgc->wPlayerCount >=
-            //nMaxRelayPlayer)
+            // nMaxRelayPlayer)
             //					{
             //						size_t pckgsize =
-            //basesize + sizeof(WORD) * pCgc->wPlayerCount; 						pCgc->wSize =
-            //pckgsize - 1;
+            // basesize + sizeof(WORD) * pCgc->wPlayerCount;
+            // pCgc->wSize = pckgsize - 1;
             //
             //						pClient->SendPackToServer(pCgc,
-            //pckgsize);
+            // pckgsize);
             //
             //						pCgc->wPlayerCount = 0;
             //					}
@@ -1628,7 +1629,7 @@ BOOL CoreServerShell::GroupChat(IClient *pClient, DWORD FromIP,
       //		if (pCgc->wPlayerCount > 0)
       //		{
       //			size_t pckgsize = basesize + sizeof(WORD) *
-      //pCgc->wPlayerCount; 			pCgc->wSize = pckgsize - 1;
+      // pCgc->wPlayerCount; 			pCgc->wSize = pckgsize - 1;
       //
       //			pClient->SendPackToServer(pCgc, pckgsize);
       //		}

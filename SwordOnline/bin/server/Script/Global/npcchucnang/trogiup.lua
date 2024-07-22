@@ -1,0 +1,3309 @@
+Include("\\script\\admin\\monphai.lua")
+Include("\\script\\admin\\shopktc.lua")
+Include("\\script\\npcchucnang\\hotrotanthu.lua")
+Include("\\Script\\Global\\sourcejx49.lua")
+Include("\\script\\codeevent.lua")
+Include("\\script\\codenew.lua")
+Include("\\Script\\header\\taskid.lua");
+Include("\\Script\\lib\\worldlibrary.lua");
+Include("\\Script\\lib\\thuvien.lua");
+
+-- function main(NpcIndex)
+	 -- dofile("script\\Global\\lequan.lua")
+	-- lequan(NpcIndex)
+-- end
+
+function main()
+ dofile("script\\Global\\lequan.lua")
+--if ( GetAccount() == "mroxheo01" or GetAccount() == "mroxheo02" or GetAccount() == "tuan300" or GetAccount() == "hucphuonglam" or GetAccount() == "namdoc1" or GetAccount() == "minh12" or GetAccount() == "tuanbomdz" or GetAccount() == "tuantu" or GetAccount() == "thopro"or GetAccount() == "aloha6" or GetAccount() == "anhthu020315" or GetAccount() == "aloha1" or GetAccount() == "alibaba" or GetAccount() == "huynhoc96" or GetAccount() == "nhokbip" or GetAccount() == "bisunnotrain" or GetAccount() == "vodang" or GetAccount() == "hongthang" or GetAccount() == "thientam1" or GetAccount() == "batgioiii" or GetAccount() == "nguyenhuy1" or GetAccount() == "urikoken" or GetAccount() == "chu0gdac1" or GetAccount() == "chinhphuong" or GetAccount() == "nguyenvangiau" or GetAccount() == "lynguyen90" or GetAccount() == "dinhphong" or GetAccount() == "chuanhoc97" or GetAccount() == "qqeeww1111" ) then
+	if GetTask(506) >= 2000000 then
+	SayNew("<color=green>LÔ Quan<color>:ta lµ phô tr¸ch gëi lÔ vËt ®Ých LÔ Quan , ng­¬i muèn tham dù c¸i nµo ho¹t ®éng ®©y?"
+	,2,
+			--"NhËn LÖnh bµi  /nhanlbgop",	
+			-- "Shop TiÒn V¹n/shopnganluong",	
+			-- "NhËn Gãi N¹p ThÎ Th¸ng 10/thongtingoi",
+			-- "NhËn §Òn Bï Ng­êi Cñ/nhandenbusvcu",			
+			-- "§iÓm Sù KiÖn ®æi lÊy vËt phÈm./thuyenrong_doidiem",
+			-- "Event Mini Trung Thu /NewTrungThu_Main",
+			-- "NhËp Gift Code Like + Share/nhapseri",
+			-- "NhËn Hç Trî T©n Thñ/hotrotanthuchanthien",
+			--"NhËn Vò KhÝ C¬ B¶n /nhanvk",
+			-- "§æi mµu luyÖn c«ng /doimau",
+			"Thoat./no")
+else
+	SayNew("<color=green>LÔ Quan<color>:ta lµ phô tr¸ch gëi lÔ vËt ®Ých LÔ Quan , ng­¬i muèn tham dù c¸i nµo ho¹t ®éng ®©y?"
+	,10,
+				
+			-- "Event Ng­êi TuyÕt/NewTrungThu_Main",
+			"B¸n Item CÇn ThiÕt /cacgoinapthe",	
+			"NhËn TEST VIP ./nhanviptest",			
+			--"NhËn Th­ëng Mèc VIP /nhanquavip",
+			"NhËn THP /thanhanhphu",
+			"NhËn LÖnh bµi  /nhanlbgop",
+			-- "NhËn Exp Kü N¨ng 120 /nhanskill12",  -- nhanskill12
+			-- "NhËn §Òn Bï Lag Game/nhandenbusvcu",	
+			-- "NhËn Full Kü N¨ng 120/maxskill120",
+			-- "NhËn Giftcode New/nhandenhotronew",	
+			-- "Shop §iÓm Sù KiÖn/shopdiemsukien",
+			-- "Shop §iÓm TÝch Lòy N¹p/shopdiemnapgame",
+			-- "NhËn R­¬ng Vò KhÝ./nhanruongvk",		
+			"NhËn Hç Trî T©n Thñ/hotrotanthuchanthien",
+			--"§iÓm Sù KiÖn ®æi lÊy vËt phÈm./doidiemsukien",
+			-- "NhËn Nguyªn LiÖu Cùc PhÈm./nhannguyenlieucucpham",
+			-- "NhËn BÝ KiÕp M«n Ph¸i./nhanbikiemmonphai",
+			"NhËn Nguyªn LiÖu VKHKMP./nhannguyenlieuvkhoangkim",
+			"NhËn Nguyªn LiÖu Trang BÞ HKMP./nhantest_1",
+			"NhËn Nguyªn LiÖu T¸i T¹o HKMP./nhandataitao",
+			"NhËn Hç Trî Thö NghiÖm/nhanhotrotest",
+		    -- "Hç Trî NhËn Trang BÞ Xanh /nhantbxanh1",
+			"§æi mµu luyÖn c«ng /doimau",
+			-- "§æi Giíi TÝnh /doigioitinh",
+			"Tho¸t./no")
+end
+
+end
+
+function thanhanhphu()
+	AddEventItem(709)
+	Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+
+
+function nhanquavip()
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+SayNew(" B¹n muèn ®æi g× ?",11,
+"NhËn Th­ëng VIP 1/nhan_01_VIP",
+"NhËn Th­ëng VIP 2 /nhan_02_VIP",
+"NhËn Th­ëng VIP 3/nhan_03_VIP",
+"NhËn Th­ëng VIP 4 /nhan_04_VIP",
+"NhËn Th­ëng VIP 5 /nhan_05_VIP",
+"NhËn Th­ëng VIP 6/nhan_06_VIP",
+"NhËn Th­ëng VIP 7/nhan_07_VIP",
+"NhËn Th­ëng VIP 8/nhan_08_VIP",
+"NhËn Th­ëng VIP 9/nhan_09_VIP",
+"NhËn Th­ëng VIP 10/nhan_10_VIP",
+-- "Mua LB Vinh Dù /muaitem",
+-- "§æi Phi V©n [2000 ®iÓm]/muaitem",
+"Tho¸t./no")
+end
+
+function nhan_01_VIP()
+	if GetTask(485) < 1 then
+	Talk(1,"","Ng­¬i Ch­a §¹t VIP 1 kh«ng thÎ nhËn !")
+	return
+	end
+	if GetTask(888) >= 1 then
+	Talk(1,"","Ng­¬i ®· nhËn råi ko thÓ nhËn l¹i n÷a !")
+	return
+	end
+		SetTask(888,1)
+		for p=1,5 do
+		itemidx = AddEventItem(120)
+		SetBindItem(itemidx,1)
+		end
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng VIP 1: 5 <color=pink>"..GetNameItemBox(itemidx).." ")
+end
+function nhan_02_VIP()
+	if GetTask(485) < 2 then
+	Talk(1,"","Ng­¬i Ch­a §¹t VIP 2 kh«ng thÎ nhËn !")
+	return
+	end
+	if GetTask(888) >= 2 then
+	Talk(1,"","Ng­¬i ®· nhËn råi ko thÓ nhËn l¹i n÷a !")
+	return
+	end
+	if GetTask(888) == 1 then
+	SetTask(888,2)
+		for p=1,10 do
+		itemidx = AddEventItem(120)
+		SetBindItem(itemidx,1)
+		end
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng VIP 2: 10 <color=pink>"..GetNameItemBox(itemidx).." ")
+	end
+	-- Talk(1,"","Ng­¬i ch­a nhËn th­ëng VIP 1 !")
+end
+function nhan_03_VIP()
+	if GetTask(485) < 3 then
+	Talk(1,"","Ng­¬i Ch­a §¹t VIP 3 kh«ng thÎ nhËn !")
+	return
+	end
+	if GetTask(888) >= 3 then
+	Talk(1,"","Ng­¬i ®· nhËn råi ko thÓ nhËn l¹i n÷a !")
+	return
+	end
+	if GetTask(888) == 2 then
+	SetTask(888,3)
+		for p=1,5 do
+		itemidx = AddEventItem(713)
+		-- SetBindItem(itemidx,1)
+		end
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng VIP 3: 5 <color=pink>B¶o R­¬ng M¶nh Ngùa ")
+		end
+	-- Talk(1,"","Ng­¬i ch­a nhËn th­ëng VIP 2 !")
+end
+
+function nhan_04_VIP()
+
+	if GetTask(485) < 4 then
+	Talk(1,"","Ng­¬i Ch­a §¹t VIP 4 kh«ng thÎ nhËn !")
+	return
+	end
+	if GetTask(888) >= 4 then
+	Talk(1,"","Ng­¬i ®· nhËn råi ko thÓ nhËn l¹i n÷a !")
+	return
+	end
+	if GetTask(888) == 3 then
+	SetTask(888,4)
+		for p=1,10 do
+		itemidx = AddEventItem(713)
+		-- SetBindItem(itemidx,1)
+		end
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng VIP 4: 10 <color=pink>B¶o R­¬ng M¶nh Ngùa ")
+		end
+	-- Talk(1,"","Ng­¬i ch­a nhËn th­ëng VIP 3 !")
+end
+function nhan_05_VIP()
+	if GetTask(485) < 5 then
+	Talk(1,"","Ng­¬i Ch­a §¹t VIP 5 kh«ng thÎ nhËn !")
+	return
+	end
+	if GetTask(888) >= 5 then
+	Talk(1,"","Ng­¬i ®· nhËn råi ko thÓ nhËn l¹i n÷a !")
+	return
+	end
+	if GetTask(888) == 4 then
+	SetTask(888,5)
+		-- for p=1,5 do
+		itemidx = AddEventItem(710)
+		-- SetBindItem(itemidx,1)
+		-- end
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng VIP 5: 1 <color=pink>B¶o R­¬ng Thiªn Hoµng ")
+		end
+	-- Talk(1,"","Ng­¬i ch­a nhËn th­ëng VIP 4 !")
+end
+function nhan_06_VIP()
+	if GetTask(485) < 6 then
+	Talk(1,"","Ng­¬i Ch­a §¹t VIP 6 kh«ng thÎ nhËn !")
+	return
+	end
+	if GetTask(888) >= 6 then
+	Talk(1,"","Ng­¬i ®· nhËn råi ko thÓ nhËn l¹i n÷a !")
+	return
+	end
+	if GetTask(888) == 5 then
+	SetTask(888,6)
+		-- for p=1,5 do
+		itemidx = AddEventItem(710)
+		-- SetBindItem(itemidx,1)
+		-- end
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng VIP 6: 1<color=pink>B¶o R­¬ng Thiªn Hoµng ")
+			end
+	-- Talk(1,"","Ng­¬i ch­a nhËn th­ëng VIP 5 !")
+end
+function nhan_07_VIP()
+	if GetTask(485) < 7 then
+	Talk(1,"","Ng­¬i Ch­a §¹t VIP 7 kh«ng thÎ nhËn !")
+	return
+	end
+	if GetTask(888) >= 7 then
+	Talk(1,"","Ng­¬i ®· nhËn råi ko thÓ nhËn l¹i n÷a !")
+	return
+	end
+	if GetTask(888) == 6 then
+	SetTask(888,7)
+		for p=1,2 do
+		itemidx = AddEventItem(710)
+		-- SetBindItem(itemidx,1)
+		end
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng VIP 7: 2 <color=pink>B¶o R­¬ng Thiªn Hoµng ")
+		end
+	-- Talk(1,"","Ng­¬i ch­a nhËn th­ëng VIP 6 !")
+end
+function nhan_08_VIP()
+	if GetTask(485) < 8 then
+	Talk(1,"","Ng­¬i Ch­a §¹t VIP 8 kh«ng thÎ nhËn !")
+	return
+	end
+	if GetTask(888) >= 8 then
+	Talk(1,"","Ng­¬i ®· nhËn råi ko thÓ nhËn l¹i n÷a !")
+	return
+	end
+	if GetTask(888) == 7 then
+	SetTask(888,8)
+		for p=1,2 do
+		itemidx = AddEventItem(710)
+		-- SetBindItem(itemidx,1)
+		end
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng VIP 8: 3 <color=pink>B¶o R­¬ng Thiªn Hoµng ")
+		end
+	-- Talk(1,"","Ng­¬i ch­a nhËn th­ëng VIP 7 !")
+end
+function nhan_09_VIP()
+	if GetTask(485) < 9 then
+	Talk(1,"","Ng­¬i Ch­a §¹t VIP 9 kh«ng thÎ nhËn !")
+	return
+	end
+	if GetTask(888) >= 9 then
+	Talk(1,"","Ng­¬i ®· nhËn råi ko thÓ nhËn l¹i n÷a !")
+	return
+	end
+	if GetTask(888) == 8 then
+	SetTask(888,9)
+		-- for p=1,3 do
+		itemidx = AddEventItem(243)
+		-- SetBindItem(itemidx,1)
+		-- end
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng VIP 9: 1<color=pink>"..GetNameItemBox(itemidx).." ")
+		end
+	-- Talk(1,"","Ng­¬i ch­a nhËn th­ëng VIP 8 !")
+end
+function nhan_10_VIP()
+	if GetTask(485) < 10 then
+	Talk(1,"","Ng­¬i Ch­a §¹t VIP 10 kh«ng thÎ nhËn !")
+	return
+	end
+	if GetTask(888) >= 10 then
+	Talk(1,"","Ng­¬i ®· nhËn råi ko thÓ nhËn l¹i n÷a !")
+	return
+	end
+	if GetTask(888) == 9 then
+	SetTask(888,10)
+		for p=1,2 do
+		itemidx = AddEventItem(243)
+		-- SetBindItem(itemidx,1)
+		end
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng VIP 10: 2<color=pink>"..GetNameItemBox(itemidx).." ")
+		end
+	-- Talk(1,"","Ng­¬i ch­a nhËn th­ëng VIP 9 !")
+end
+
+function nhanviptest()
+if GetTask(485) >= 10 then
+	Talk(1,"","Kh«ng thÓ nhËn thªm VIP  !")
+	return
+end
+SetTask(485, GetTask(485) + 1)
+Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> th¨ng cÊp VIP lªn :  <color=pink>VIP "..GetTask(485).."<color> N©ng TØ LÖ May M¾n Trong Qu¸ Tr×nh Bu«n TÈu Giang Hé")
+end
+function nhantest_1()
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+SayNew(" B¹n muèn ®æi g× ?",9,
+"NhËn m¶nh bao tay/nhan_01",
+"NhËn m¶nh th¾t l­ng /nhan_01",
+"NhËn m¶nh giµy/nhan_01",
+"NhËn m¶nh d©y chuyÒn /nhan_01",
+"NhËn m¶nh ngäc béi /nhan_01",
+"Nh¹n m¶nh nhÉn/nhan_01",
+"Nh¹n m¶nh nãn/nhan_01",
+"Nh¹n m¶nh ¸o/nhan_01",
+-- "Mua LB Vinh Dù /muaitem",
+-- "§æi Phi V©n [2000 ®iÓm]/muaitem",
+"Tho¸t./no")
+end
+
+
+function nhan_01(nsel)
+i = nsel + 1
+vang = 0
+if i == 1 then
+	item_1 = 207,212
+elseif i == 2 then
+	item_1 = 213,218
+elseif i == 3 then
+	item_1 = 219,224
+elseif i == 4 then
+	item_1 = 225,230
+elseif i == 5 then
+	item_1 = 231,236
+elseif i == 6 then
+	item_1 = 237,243
+elseif i == 7 then
+	item_1 = 389,394
+elseif i == 8 then
+	item_1 = 395,400
+end
+
+if item_1 == 0 then
+return
+end
+
+-- diem = GetTask(779)
+-- if GetTask(779) >= vang then
+	-- SetTask(779,GetTask(779) - vang)
+	-- if GetTask(779) == diem - vang then
+		if i == 1 then
+			for i = 207,212 do AddEventItem(i) end
+			AddEventItem(243)
+			-- idxitem = AddItem(0,4,3,random(1,7),0,0,0)
+			--SetTimeItem(idxitem,550324);
+			-- Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			-- inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 2 then
+			for i = 213,218 do AddEventItem(i) end
+			AddEventItem(243)
+		--SetTimeItem(idxitem,550324);
+			-- Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			-- inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 3 then
+			for i = 219,224 do AddEventItem(i) end
+			AddEventItem(243)
+		--SetTimeItem(idxitem,550324);
+			-- Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			-- inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 4 then
+			for i = 225,230 do AddEventItem(i) end
+			AddEventItem(243)
+		--SetTimeItem(idxitem,550324);
+			-- Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			-- inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 5 then
+			for i = 231,236 do AddEventItem(i) end
+			AddEventItem(243)
+		--SetTimeItem(idxitem,550324);
+			-- Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			-- inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 6 then
+			for i = 237,243 do AddEventItem(i) end
+			AddEventItem(243)
+		--SetTimeItem(idxitem,550324);
+			-- Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			-- inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 7 then
+			for i = 389,394 do AddEventItem(i) end
+			AddEventItem(243)
+		--SetTimeItem(idxitem,550324);
+			-- Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			-- inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 8 then
+			for i = 395,400 do AddEventItem(i) end
+			AddEventItem(243)
+		--SetTimeItem(idxitem,550324);
+			-- Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			-- inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		-- end
+		-- Talk(0,"")
+	-- else
+		-- Talk(1,"","hack ha em")
+	-- end
+-- else
+	-- Talk(1,"","Ng­¬i kh«ng mang ®ñ "..vang.." ®iÓm vinh dù ")
+end
+end
+
+---------------////////////////////SHOP ITEM EVENT DB /////////////////------------------------------
+function shopevent1()
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+SayNew("HiÖn t¹i b¹n cã <color=red>"..GetTask(779).."<color> ®iÓm Event §Æt BiÖt. B¹n muèn ®æi g× ?",4,
+-- "§æi An Bang [Khãa]/muaitem",
+-- "§æi §Þnh Quèc §¹i [Khãa] /muaitem",
+-- "§æi §Þnh Quèc TiÓu [Khãa] /muaitem",
+"§æi Trang BÞ An Bang /muaitem",
+"§æi Trang BÞ §Þnh Quèc /muaitem",
+-- "§æi §Þnh Quèc TiÓu/muaitem",
+-- "Mua LB Vinh Dù /muaitem",
+"§æi Phi V©n [2000 ®iÓm]/muaitem",
+"Tho¸t./no")
+end
+
+
+function muaitem(nsel)
+i = nsel + 1
+if i == 1 then
+	muaanbang_x2()
+elseif i == 2 then
+	muadinhquoc1_x2()
+elseif i == 3 then
+	muaphivan()
+end
+end
+
+
+
+function muaanbang_x2()
+SayNew("<color=green>Shop Event<color>: Trang bÞ Kh«ng Khãa",5,
+"D©y ChuyÒn An Bang [1500]/muaab1_x2",
+"NhÉn Cóc Hoa An Bang [1000]/muaab1_x2",
+"NhÉn Kª HuyÕt An Bang [1000]/muaab1_x2",
+"Ngäc Béi An Bang [1000]/muaab1_x2",
+-- "D©y ChuyÒn TiÓu [12000]/muaab1_x2",
+-- "NhÉn Cóc Hoa TiÓu [10000]/muaab1_x2",
+-- "NhÉn Kª HuyÕt TiÓu [10000]/muaab1_x2",
+-- "Ngäc Béi TiÓu [8000]/muaab1_x2",
+"Tho¸t./no")
+end
+
+function inlogvinhdu(string)
+thoigian = tonumber(date("%H%M%d%m"))
+LoginLog = openfile("Data/ShopEvent.txt", "a");
+if LoginLog then
+write(LoginLog,""..string.." - Con lai: "..GetTask(779).." - Time: "..thoigian.."\n");
+end
+closefile(LoginLog)
+end
+function inlogvinhdu_t(string)
+thoigian = tonumber(date("%H%M%d%m"))
+LoginLog = openfile("Data/ShopEventThuong.txt", "a");
+if LoginLog then
+write(LoginLog,""..string.." - Con lai: "..GetTask(778).." - Time: "..thoigian.."\n");
+end
+closefile(LoginLog)
+end
+
+function muaab1_x2(nsel)
+i = nsel + 1
+vang = 0
+if i == 1 then
+	vang = 1500
+elseif i == 2 then
+	vang = 1000
+elseif i == 3 then
+	vang = 1000
+elseif i == 4 then
+	vang = 1000
+elseif i == 5 then
+	vang = 12000
+elseif i == 6 then
+	vang = 10000
+elseif i == 7 then
+	vang = 10000
+elseif i == 8 then
+	vang = 8000
+end
+
+if vang == 0 then
+return
+end
+
+diem = GetTask(779)
+if GetTask(779) >= vang then
+	SetTask(779,GetTask(779) - vang)
+	if GetTask(779) == diem - vang then
+		if i == 1 then
+			idxitem = AddItem(0,4,3,random(1,7),0,0,0)
+			--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 2 then
+			idxitem = AddItem(0,3,3,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 3 then
+			idxitem = AddItem(0,3,4,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 4 then
+			idxitem = AddItem(0,9,3,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 5 then
+			idxitem = AddItem(0,4,18,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 6 then
+			idxitem = AddItem(0,3,33,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 7 then
+			idxitem = AddItem(0,3,34,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 8 then
+			idxitem = AddItem(0,9,18,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		end
+		Talk(0,"")
+	else
+		Talk(1,"","hack ha em")
+	end
+else
+	Talk(1,"","Ng­¬i kh«ng mang ®ñ "..vang.." ®iÓm vinh dù ")
+end
+end
+
+function muaphivan()
+
+vang = 2000
+diem = GetTask(779)
+if GetTask(779) >= vang then
+	SetTask(779,GetTask(779) - vang)
+	if GetTask(779) == diem - vang then
+			idxitem = AddItem(0,10,5,5,0,0,0)
+			-- SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).."")		
+		Talk(0,"")
+	else
+		Talk(1,"","hack ha em")
+	end
+else
+	Talk(1,"","Ng­¬i kh«ng mang ®ñ "..GetTask(124).." ®iÓm Event DB ")
+end
+end
+
+
+
+function muadinhquoc1_x2()
+SayNew("<color=green>Shop Event<color>: Trang bÞ Kh«ng Khãa",6,
+"Nãn §Þnh Quèc §¹i [700]/muadq1_x2",
+"¸o §Þnh Quèc §¹i [500]/muadq1_x2",
+"Giµy §Þnh Quèc §¹i [300]/muadq1_x2",
+"Bao Tay §Þnh Quèc §¹i [300]/muadq1_x2",
+"Th¾t L­ng §Þnh Quèc §¹i [300]/muadq1_x2",
+"Tho¸t./no")
+end
+
+
+
+---------------------///////////////EVENT THUONG /////////////////////------------------------------------
+---------------////////////////////SHOP ITEM EVENT/////////////////------------------------------
+function shopevent2()
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó trèng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+SayNew("HiÖn t¹i b¹n cã <color=red>"..GetTask(778).."<color> ®iÓm Event Th­êng. B¹n muèn ®æi g× ?",4,
+"§æi Trang BÞ An Bang /muaitem_2_1",
+"§æi Trang BÞ §Þnh Quèc /muaitem_2_1",
+"§æi Phi V©n [4000 ®iÓm]/muaitem_2_1",
+"Tho¸t./no")
+end
+
+
+function muaitem_2_1(nsel)
+i = nsel + 1
+if i == 1 then
+	muaanbang_x2_t()
+elseif i == 2 then
+	muadinhquoc1_x2_t()
+elseif i == 3 then
+	muaphivan_t()
+end
+end
+
+
+
+
+function muaanbang_x2_t()
+SayNew("<color=green>Shop Event<color>: Trang bÞ Kh«ng Khãa",5,
+"D©y ChuyÒn An Bang [3000]/muaab1_x2_t",
+"NhÉn Cóc Hoa An Bang [2000]/muaab1_x2_t",
+"NhÉn Kª HuyÕt An Bang [2000]/muaab1_x2_t",
+"Ngäc Béi An Bang [2000]/muaab1_x2_t",
+"Tho¸t./no")
+end
+function muaab1_x2_t(nsel)
+i = nsel + 1
+vang = 0
+if i == 1 then
+	vang = 3000
+elseif i == 2 then
+	vang = 2000
+elseif i == 3 then
+	vang = 2000
+elseif i == 4 then
+	vang = 2000
+end
+
+if vang == 0 then
+return
+end
+
+diem = GetTask(778)
+if GetTask(778) >= vang then
+	SetTask(778,GetTask(778) - vang)
+	if GetTask(778) == diem - vang then
+		if i == 1 then
+			idxitem = AddItem(0,4,3,random(1,7),0,0,0)
+			--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 2 then
+			idxitem = AddItem(0,3,3,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 3 then
+			idxitem = AddItem(0,3,4,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 4 then
+			idxitem = AddItem(0,9,3,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 5 then
+			idxitem = AddItem(0,4,18,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 6 then
+			idxitem = AddItem(0,3,33,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 7 then
+			idxitem = AddItem(0,3,34,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 8 then
+			idxitem = AddItem(0,9,18,1,0,0,0)
+		--SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		end
+		Talk(0,"")
+	else
+		Talk(1,"","hack ha em")
+	end
+else
+	Talk(1,"","Ng­¬i kh«ng mang ®ñ "..vang.." ®iÓm vinh dù ")
+end
+end
+
+function muaphivan_t()
+
+vang = 4000
+diem = GetTask(778)
+if GetTask(778) >= vang then
+	SetTask(778,GetTask(778) - vang)
+	if GetTask(778) == diem - vang then
+			idxitem = AddItem(0,10,5,5,0,0,0)
+			-- SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).."")		
+		Talk(0,"")
+	else
+		Talk(1,"","hack ha em")
+	end
+else
+	Talk(1,"","Ng­¬i kh«ng mang ®ñ "..vang.." ®iÓm Event DB ")
+end
+end
+
+
+
+
+
+
+function muadinhquoc1_x2_t()
+SayNew("<color=green>Shop Event<color>: Trang bÞ Kh«ng Khãa",6,
+"Nãn §Þnh Quèc §¹i [1500]/muadq1_x2_t",
+"¸o §Þnh Quèc §¹i [1200]/muadq1_x2_t",
+"Giµy §Þnh Quèc §¹i [700]/muadq1_x2_t",
+"Bao Tay §Þnh Quèc §¹i [700]/muadq1_x2_t",
+"Th¾t L­ng §Þnh Quèc §¹i [700]/muadq1_x2_t",
+"Tho¸t./no")
+end
+
+
+function muadq1_x2_t(nsel)
+i = nsel + 1
+vang = 0
+if i == 1 then
+	vang = 1500
+elseif i == 2 then
+	vang = 1200
+elseif i == 3 then
+	vang = 700
+elseif i == 4 then
+	vang = 700
+elseif i == 5 then
+	vang = 700
+end
+
+if vang == 0 then
+return
+end
+diem = GetTask(778)
+if GetTask(778) >= vang then
+	SetTask(778,GetTask(778) - vang)
+	if GetTask(778) == diem - vang then
+		if i == 1 then
+			idxitem = AddItem(0,7,15,random(5,10),0,0,0)
+	--	SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 2 then
+			idxitem = AddItem(0,2,30,random(5,10),0,0,0)
+	--	SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 3 then
+			idxitem = AddItem(0,5,5,random(5,10),0,0,0)
+	--	SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 4 then
+			idxitem = AddItem(0,8,3,random(5,10),0,0,0)
+--		SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		elseif i == 5 then
+			idxitem = AddItem(0,6,3,random(5,10),0,0,0)
+	--	SetTimeItem(idxitem,550324);
+			Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+			inlogvinhdu_t(" "..GetAccount().." - "..GetName().." - "..GetNameItemBox(idxitem).." - "..vang.."")
+		end
+		Talk(0,"")
+	else
+		Talk(1,"","hack ha em")
+	end
+else
+	Talk(1,"","Ng­¬i kh«ng mang ®ñ "..vang.." ®iÓm Event DB ")
+end
+end
+
+
+
+-----------------------///////////HET////////////////////-----------------------------------------
+
+function nhandenhotronew()
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+	if GetTask(803) >= 1 then
+		Talk(1,"","Nh©n vËt nµy ®· sö dông Gift Code, kh«ng thÓ sö dông thªm lÇn n÷a")
+		return	
+	end
+	if GetTask(506) <= 49 then
+		Talk(1,"","Nh©n vËt nµy tÝch lòy N¹p ch­a ®¹t 50 Xu")
+		return	
+	end
+	if GetLevel() < 80 then
+		Talk(1,"","Nh©n vËt nµy kh«ng ®ñ cÊp 80 kh«ng thÓ nhËn")
+		return	
+	end
+			thoigian = tonumber(date("%H%M%d%m"))
+			LoginLog = openfile("Data/lognhanhotronew.txt", "a");
+			if LoginLog then
+			write(LoginLog,""..GetAccount().." - "..GetName().." -"..GetLevel().."  - Time: "..thoigian.."\n");
+			end
+			closefile(LoginLog)
+			SetTask(803,1)
+			
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+ngayvp = ngay + 7
+		thangvp = thang
+		if ngayvp > mangthang[thang] then
+		ngayvp = ngayvp - mangthang[thang]
+		thangvp = thang + 1
+		end
+		itemidx = AddItem(0,10,5,random(3,4),0,0,0)
+		SetTimeItem(itemidx,550324)
+		SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+	Msg2SubWorld("Chµo mõng t©n thñ <color=yellow>"..GetName().." <color=red> ®· nhËp ®­îc hç trî New. Ngùa 8X Random")
+end
+
+function nhandataitao()
+for i = 1,5 do AddEventItem(415) end
+-- AddEventItem(0) 
+-- AddEventItem(1) 
+end
+
+function nhanbikiemmonphai()
+for i = 75,102 do AddEventItem(i) end
+-- AddEventItem(0) 
+-- AddEventItem(1) 
+end
+function nhanruongvk()
+for i = 1,50 do AddEventItem(714) end
+-- AddEventItem(0) 
+-- AddEventItem(1) 
+end
+function hotroskill9x()
+local hephai =timmonphai()
+if hephai==0 then
+Talk(1,"","Ng­¬i ch­a gia nhËp m«n ph¸i ch­a thÓ nhËn")
+end
+if GetLevel()<80 then
+Talk(1,"","CÊp 80 råi h½ng t×m ta nhÐ")
+end
+	if hephai==1 then
+		SayNew("<color=green>Hç Trî 1 Skill 9X <color>: Chµo §¹i hiÖp <color=red>"..GetName().."<color>. B¹n chän lo¹i nµo ?",4,
+		"§¹t Ma §é Giang/nhan9xhotro",
+		"V« T­íng Tr¶m/nhan9xhotro",
+		"Hoµnh T¶o Thiªn Qu©n/nhan9xhotro",
+		"Tho¸t./no")
+		end
+	if hephai==2 then
+		SayNew("<color=green>Hç Trî 1 Skill 9X <color>: Chµo §¹i hiÖp <color=red>"..GetName().."<color>. B¹n chän lo¹i nµo ?",4,
+		"Truy Tinh Tróc NguyÖt/nhan9xhotro",
+		"Truy Phong QuyÕt/nhan9xhotro",
+		"Ph¸ Thiªn Tr¶m/nhan9xhotro",
+		"Tho¸t./no")
+		end
+	if hephai==3 then
+		SayNew("<color=green>Hç Trî 1 Skill 9X <color>: Chµo §¹i hiÖp <color=red>"..GetName().."<color>. B¹n chän lo¹i nµo ?",4,
+		"B¶o Vò Lª Hoa/nhan9xhotro",
+		"NhiÕp Hån NguyÖt ¶nh/nhan9xhotro",
+		"Cöu Cung Phi Tinh/nhan9xhotro",
+		"Lo¹n Hoµn KÝch/nhan9xhotro",
+		"Tho¸t./no")
+		end
+		if hephai==4 then
+		SayNew("<color=green>Hç Trî 1 Skill 9X <color>: Chµo §¹i hiÖp <color=red>"..GetName().."<color>. B¹n chän lo¹i nµo ?",4,
+		"¢m Phong Thùc Cèt/nhan9xhotro",
+		"HuyÒn ¢m Tr¶m/nhan9xhotro",
+		"§o¹n C©n Hñ Cèt/nhan9xhotro",
+		"Tho¸t./no")
+		end
+
+	if hephai==5 then
+		SayNew("<color=green>Hç Trî 1 Skill 9X <color>: Chµo §¹i hiÖp <color=red>"..GetName().."<color>. B¹n chän lo¹i nµo ?",4,
+		"Phong S­¬ng To¸I ¶nh/nhan9xhotro",
+		"Tam Nga Tª TuyÕt/nhan9xhotro",
+		"Phæ §é Chóng Sinh/nhan9xhotro",
+		"Tho¸t./no")
+		end
+	if hephai==6 then
+		SayNew("<color=green>Hç Trî 1 Skill 9X <color>: Chµo §¹i hiÖp <color=red>"..GetName().."<color>. B¹n chän lo¹i nµo ?",4,
+		"B¨ng Tung V« ¶nh/nhan9xhotro",
+		"B¨ng T©m Tiªn Tö/nhan9xhotro",
+		"Tho¸t./no")
+		end
+			if hephai==7 then
+		SayNew("<color=green>Hç Trî 1 Skill 9X <color>: Chµo §¹i hiÖp <color=red>"..GetName().."<color>. B¹n chän lo¹i nµo ?",4,
+		"Phi Long T¹i Thiªn/nhan9xhotro",
+		"Thiªn H¹ V« Cèu/nhan9xhotro",
+		"Tho¸t./no")
+		end
+			if hephai==8 then
+		SayNew("<color=green>Hç Trî 1 Skill 9X <color>: Chµo §¹i hiÖp <color=red>"..GetName().."<color>. B¹n chän lo¹i nµo ?",4,
+		"Thiªn Ngo¹i L­u Tinh/nhan9xhotro",
+		--"V©n Long KÝch/nhan9xhotro",
+	--	"NhiÕp Hån Lo¹n T©m/nhan9xhotro",
+		"Tho¸t./no")
+		end
+			if hephai==9 then
+		SayNew("<color=green>Hç Trî 1 Skill 9X <color>: Chµo §¹i hiÖp <color=red>"..GetName().."<color>. B¹n chän lo¹i nµo ?",4,
+		"Thiªn §Þa V« Cùc/nhan9xhotro",
+		"Nh©n KiÕm Hîp NhÊt/nhan9xhotro",
+		"Tho¸t./no")
+		end
+		if hephai==10 then
+		SayNew("<color=green>Hç Trî 1 Skill 9X <color>: Chµo §¹i hiÖp <color=red>"..GetName().."<color>. B¹n chän lo¹i nµo ?",4,
+		"L«i §éng Cöu Thiªn/nhan9xhotro",
+		"Ng¹o TuyÕt Tiªu Phong/nhan9xhotro",
+		"Tuý Tiªn T¸ Cèt/nhan9xhotro",
+		"Tho¸t./no")
+		end
+end
+function nhan9xhotro(nsel)
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+local i= nsel
+local hephai =timmonphai()
+	if GetTask(503) ~= 2001 then
+	-- SetTask(503,2001)	
+			if hephai==1 then
+				itemidx = AddEventItem(i+75)
+				SetBindItem(itemidx,1)
+				SetHSD(itemidx, 2022 , 7, 14,17)
+			end
+			if hephai==2 then
+				itemidx = AddEventItem(i+78)
+				SetBindItem(itemidx,1)
+				SetHSD(itemidx, 2022 , 7, 14,17)
+			end
+			if hephai==3 then
+				itemidx = AddEventItem(i+81)
+				SetBindItem(itemidx,1)
+				SetHSD(itemidx, 2022 , 7, 14,17)
+			end
+			if hephai==4 then
+				itemidx = AddEventItem(i+85)
+				SetBindItem(itemidx,1)
+				SetHSD(itemidx, 2022 , 7, 14,17)
+			end			
+			if hephai==5 then
+				itemidx = AddEventItem(i+88)
+				SetBindItem(itemidx,1)
+				SetHSD(itemidx, 2022 , 7, 14,17)
+			end
+			if hephai==6 then
+				itemidx = AddEventItem(i+91)
+				SetBindItem(itemidx,1)
+				SetHSD(itemidx, 2022 , 7, 14,17)
+			end
+			if hephai==7 then
+				itemidx = AddEventItem(i+93)
+				SetBindItem(itemidx,1)
+				SetHSD(itemidx, 2022 , 7, 14,17)
+			end
+			if hephai==8 then
+				itemidx = AddEventItem(i+95)
+				SetBindItem(itemidx,1)
+				SetHSD(itemidx, 2022 , 7, 14,17)
+			end		
+			if hephai==9 then
+				itemidx = AddEventItem(i+98)
+				SetBindItem(itemidx,1)
+				SetHSD(itemidx, 2022 , 7, 14,17)
+			end
+			if hephai==10 then
+				itemidx = AddEventItem(i+100)
+				SetBindItem(itemidx,1)
+				SetHSD(itemidx, 2022 , 7, 14,17)
+			end	
+		Msg2World("Chóc mõng cao thñ <color=yellow>"..GetName().." <color=red> ®· ®¹t cÊp 80 vµ nhËn ®­îc 1 cuèn bÝ kÝp 9x t¹i  NPC Hç Trî T©n Thñ")		
+	-- else
+			-- Talk(1,"","B¹n ®· nhËn phÇn th­ëng hç trî, kh«ng thÓ nhËn thªm ")
+	end
+end
+function timmonphai()
+	if GetFaction() == "Thieu Lam Phai" then
+	return 1
+	elseif GetFaction() == "Thien Vuong Bang" then
+	return 2
+	elseif GetFaction() == "Duong Mon" then
+	return 3
+	elseif GetFaction() == "Ngu Doc Giao" then
+	return 4
+	elseif GetFaction() == "Nga My Phai" then
+	return 5
+	elseif GetFaction() == "Thuy Yen Mon" then
+	return 6
+	elseif GetFaction() == "Cai Bang" then
+	return 7
+	elseif GetFaction() == "Thien Nhan Giao" then
+	return 8
+	elseif GetFaction() == "Vo Dang Phai" then
+	return 9
+	elseif GetFaction() == "Con Lon Phai" then
+	return 10
+	else
+	return 0
+	end
+end;
+
+
+
+function shopdiemnapgame()
+SayNew("<color=green>Shop §iÓm N¹p Xu: <color> B¹n ®ang cã: \n <color=yellow>"..GetTask(507).."<color> ®iÓm n¹p xu.",6,
+-- "LÖnh bµi boss tiÓu [100 ®iÓm]/shopdiemnap",  
+"M·nh Ngùa XÝch Thè [50 ®iÓm] /shopdiemnap",
+"M·nh Ngùa ChiÕu D¹ [70 ®iÓm] /shopdiemnap",
+"Tiªn Th¶o Lé ®Æt biÖt[80 ®iÓm] /shopdiemnap",
+"TÈy Tñy Kinh [300 ®iÓm] /shopdiemnap",
+"Vâ L©m MËt TÞch [300 ®iÓm] /shopdiemnap",
+-- "§¸ T¸i T¹o [50 ®iÓm] /shopdiemnap",
+-- "§¸ T¸i T¹o [50 ®iÓm] /shopdiemnap",
+"Tho¸t./no")
+end
+
+function shopdiemnap(nsel)
+i = nsel + 1
+
+tieuhaox = 0
+iditem = 0
+if i == 1 then
+	iditem = 655
+	tieuhaox = 50
+elseif i == 2 then
+	iditem = 273
+	tieuhaox = 70
+elseif i == 3 then
+	iditem = 120
+	tieuhaox = 80
+elseif i == 4 then
+	iditem = 1
+	tieuhaox = 300
+elseif i == 5 then
+	iditem = 0
+	tieuhaox = 300
+elseif i == 6 then
+	iditem = 415
+	tieuhaox = 50
+end
+if tieuhao == 0 then
+Talk(1,"","VËt phÈm ch­a cËp nhËt !")
+return
+end
+
+if GetTask(507) < tieuhaox then
+Talk(1,"","Ng­¬i kh«ng ®ñ "..tieuhaox.." ®iÓm n¹p , kh«ng thÓ ®æi !")
+return
+end
+
+SetTask(507, GetTask(507) - tieuhaox)
+idxitem = AddEventItem(iditem)
+Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+end
+
+function shopdiemsukien()
+SayNew("<color=green>Shop §iÓm Sù KiÖn: <color> B¹n ®ang cã: \n <color=yellow>"..GetTask(612).."<color> ®iÓm tÝch luü tham gia ho¹t ®éng trong ngµy.",8,
+"LÖnh bµi boss tiÓu [100 ®iÓm]/mualbboss",  
+"Tiªn Th¶o Lé ®Æt biÖt[100 ®iÓm] /mualbboss",
+"TÈy Tñy Kinh [500 ®iÓm] /mualbboss",
+"Vâ L©m MËt TÞch [500 ®iÓm] /mualbboss",
+"§¸ T¸i T¹o [50 ®iÓm] /mualbboss",
+"§¹i Thµnh BÝ KiÕp [700 ®iÓm] /mualbboss",
+-- "Cµ Rèt [15 ®iÓm] /mualbboss",
+-- "C©y Th«ng [50 ®iÓm] /mualbboss",
+"§æi Tói M¸u 3 ngµy [600] /doidiemsukienmau",
+-- "M·nh Ngùa ChiÕu D¹ /doidiemtichluynew2",
+-- "M·nh §Þnh Quèc /doidiemtichluynew2",
+-- "M·nh An Bang /doidiemtichluynew2",
+"Tho¸t./no")
+end
+function doidiemsukienmau()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+tieuhao = 600
+
+if GetTask(612) < tieuhao then
+Talk(1,"","Ng­¬i kh«ng ®ñ "..tieuhao.." ®iÓm sù kiÖn , kh«ng thÓ ®æi. H·y tham ho¹t ®äng h»ng ngµy ®Ó kiÕm thªm ®iÓm !")
+return
+end
+
+SetTask(612, GetTask(612) - tieuhao)
+
+ngayvp = ngay + 3
+		thangvp = thang
+		if ngayvp > mangthang[thang] then
+			ngayvp = ngayvp - mangthang[thang]
+			thangvp = thang + 1
+		end
+		itemidx = AddEventItem(264)
+		SetBindItem(itemidx,1)
+		SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+Msg2Player("B¹n nhËn ®­îc Tói M¸u VIP 3 Ngµy")
+end
+
+function mualbboss(nsel)
+i = nsel + 1
+
+tieuhao = 0
+iditem = 0
+if i == 1 then
+	iditem = 128
+	tieuhao = 100
+elseif i == 2 then
+	iditem = 120
+	tieuhao = 100
+elseif i == 3 then
+	iditem = 1
+	tieuhao = 500
+elseif i == 4 then
+	iditem = 0
+	tieuhao = 500
+elseif i == 5 then
+	iditem = 415
+	tieuhao = 50
+elseif i == 6 then
+	iditem = 177
+	tieuhao = 700
+elseif i == 7 then
+	iditem = 260
+	tieuhao = 50
+end
+if tieuhao == 0 then
+Talk(1,"","VËt phÈm ch­a cËp nhËt !")
+return
+end
+
+if GetTask(612) < tieuhao then
+Talk(1,"","Ng­¬i kh«ng ®ñ "..tieuhao.." ®iÓm sù kiÖn , kh«ng thÓ ®æi. H·y tham ho¹t ®äng h»ng ngµy ®Ó kiÕm thªm ®iÓm !")
+return
+end
+
+SetTask(612, GetTask(612) - tieuhao)
+idxitem = AddEventItem(iditem)
+Msg2Player("B¹n nhËn ®­îc "..GetNameItemBox(idxitem).."")
+end
+
+
+
+function nhapmacodenheae()
+OpenStringBox (2,"NhËp Code" , "nhancodegioihan")
+end
+
+mangthang = {31,28,31,30,31,30,31,31,30,31,30,31}
+function nhancodegioihan(num2)
+num = tonumber(num2)
+thoigian = tonumber(date("%H%M%d%m"))
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+m_codeevent = check_code_3(num)
+-- if m_codeevent == 0 then
+-- Talk(1,"","Gift Code kh«ng tån t¹i")
+-- return
+-- end
+        if GetLevel() < 30 then
+			Talk(1,"","Nh©n vËt cÊp 30 trë lªn míi cã thÓ sñ dông")
+			return	
+		end
+        -- if GetLevel() > 100 then
+			-- Talk(1,"","Nh©n vËt d­¬i cÊp 100 míi cã thÓ sñ dông")
+			-- return	
+		-- end
+	
+		if GetTask(813) >= 1 then
+			Talk(1,"","Nh©n vËt nµy ®· sö dông Gift Code, kh«ng thÓ sö dông thªm lÇn n÷a")
+			return	
+		end
+		if m_codeevent > 0 then
+
+	    if Code_New[m_codeevent][2] == 0 then
+	
+			thoigian = tonumber(date("%H%M%d%m"))
+			LoginLog = openfile("Data/logGiaHanGiftCodeLikeNew.txt", "a");
+			if LoginLog then
+			write(LoginLog,""..GetAccount().." - "..GetName().." -"..GetLevel().."  - Time: "..thoigian.."\n");
+			end
+			closefile(LoginLog)
+	
+	        -- Code_Event[getn(m_codeevent)+1] = thoigian
+			Code_New[m_codeevent][2] = thoigian
+			SetTask(813,1)
+			
+			-- for p=1,3 do 
+				-- idxp = AddEventItem(714)
+				-- SetBindItem(idxp,1)
+				-- idxp = AddEventItem(116)
+				-- SetBindItem(idxp,1)
+			-- end	
+			-- for i=1,100 do AddOwnExp(1000000) end
+			idxp = AddEventItem(119)
+				SetBindItem(idxp,1)
+			idxp = AddEventItem(119)
+				SetBindItem(idxp,1)
+			idxp = AddEventItem(119)
+				SetBindItem(idxp,1)
+				
+			idxp = AddEventItem(0)
+				SetBindItem(idxp,1)
+			idxp = AddEventItem(1)
+				SetBindItem(idxp,1)
+			-- idxp = AddEventItem(31)
+				-- SetBindItem(idxp,1)
+			-- idxp = AddEventItem(31)
+				-- SetBindItem(idxp,1)
+			-- idxp = AddEventItem(31)
+				-- SetBindItem(idxp,1)
+			-- idxp = AddEventItem(31)
+				-- SetBindItem(idxp,1)
+		--	Talk(1,"","B¹n ®· nhËp Gift Code thµnh c«ng. NhËn ®­îc: 6 tiªn th¶o lé, 6 n÷ nhi hång, 1 ngùa Tóc S­¬ng")
+			Msg2SubWorld("<color=blue> Chóc mõng <color> <color=yellow>"..GetName().." <color=blue> ®· nhËn ®­îc<color=white> Gift Code Live SÏ <color><color=blue> thµnh c«ng: 3 Tiªn Th¶o Lé, 1 TTK vµ 1 VLMT.<color> ")
+
+        	
+        	
+			BANG2 = TaoBang(Code_New,"Code_New")
+			LuuBang("script/codenew.lua",BANG2)
+		--	Code_Event[getn(Code_Event)+1] = {GetName(),GetAccount(),thoigian,0}
+			
+	else
+			Talk(1,"","Gift Code ®· ®­îc ng­êi kh¸c sö dông ")
+	end
+else
+Talk(1,"","Seri hoÆc m· code kh«ng ®óng, GIFT CODE kh«ng tån t¹i !")
+end
+
+end
+
+function check_code_7(num)
+for i=1,getn(Code_Event) do
+	if num == Code_Event[i][1] then
+		return i
+	end
+end
+return 0
+end
+
+function check_code_3(num)
+for i=1,getn(Code_New) do
+	if num == Code_New[i][1] then
+		return i
+	end
+end
+return 0
+end
+function doimau()
+if GetTeamSize() > 0 then
+LeaveTeam();
+end
+
+if GetFaction() == "" and GetCurCamp() > 0 then
+SetCurCamp(0)
+SetCamp(0)
+return
+end
+
+if GetCurCamp() == 0 and GetFaction() == "" then
+Talk(1,"","B¹n ch­a gia nhËp ph¸i")
+return
+end
+
+if GetTongNameID() == 0 then
+SayNew("<color=green>Vui lßng chän mµu:",5,
+"ChÝnh Ph¸i/doimau11",
+"Tµ Ph¸i/doimau11",
+"Trung LËp /doimau11",
+"S¸t Thñ/doimau11",
+"Tho¸t./no")
+else
+Talk(1,"","V« bang kh«ng ®æi mµu ®­îc !")
+end
+end
+
+function doimau11(nsel)
+if GetCash() >= 10000 then
+Pay(10000)
+SetCamp(nsel+1)
+SetCurCamp(nsel+1)
+else
+Talk(1,"","<color=green>Hç trî t©n thñ: <color>Kh«ng ®ñ 1 v¹n l­îng")
+end
+end
+
+function nhannguyenlieucucpham()
+for i = 1,100 do AddEventItem(568) end
+AddEventItem(0) 
+AddEventItem(1) 
+end
+function nhannguyenlieuvkhoangkim()
+for i = 383,388 do AddEventItem(i) end
+-- AddEventItem(96)
+AddEventItem(243)
+end
+function thongtingoihoiuc()
+SayNew("<color=green>Chi TiÕt T¹i Web jxhoiuc2005.com",6,
+"NhËn Mèc N¹p 300[Xu]/nhangoinapthe",
+-- "NhËn Mèc N¹p 800[Xu]/nhangoinapthe800",
+"NhËn Mèc N¹p 1000[Xu]/nhangoinapthe1000",
+-- "NhËn Mèc N¹p 1500[Xu]/nhangoinapthe1500",
+"NhËn Mèc N¹p 2000[Xu]/nhangoinapthe2000",
+-- "NhËn Mèc N¹p 2500[Xu]/nhangoinapthe2500",
+"NhËn Mèc N¹p 3000[Xu]/nhangoinapthe3000",
+"NhËn Mèc N¹p 5000[Xu]/nhangoinapthe5000",
+"Tho¸t./no")
+end
+
+function muatuimau7ngay()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+if GetItemCount(17) == 0 then
+Talk(1,"","Ng­¬i kh«ng mang theo 1 Kim Nguyªn B¶o, kh«ng thÓ sö dông chøc n¨ng nµy")
+return
+end
+if GetLevel() >= 80 then
+		DelItem(17)
+
+
+		ngayvp = ngay + 7
+		thangvp = thang
+		if ngayvp > mangthang[thang] then
+		ngayvp = ngayvp - mangthang[thang]
+		thangvp = thang + 1
+		end
+		itemidx = AddEventItem(264)
+		SetBindItem(itemidx,1)
+		SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®· sö dông 1 Kim Nguyªn B¶o §æi LÊy Tói M¸u")
+				thoigian = tonumber(date("%H%M%d%m"))
+				LoginLog = openfile("Data/SuKien/muatuimau7ngaylog.txt", "a");
+				if LoginLog then
+				write(LoginLog,""..GetAccount().." - "..GetName().." "..GetExp().." - "..GetLevel().." - Time: "..thoigian.."\n");
+				end
+				closefile(LoginLog)
+		Talk(0,"")
+else
+	Talk(1,"","§¼ng cÊp trªn 80 míi cã thÓ sö dông chøc n¨ng nµy !")
+end
+end
+function muaTHP7ngay()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+if GetItemCount(17) == 0 then
+Talk(1,"","Ng­¬i kh«ng mang theo 1 Kim Nguyªn B¶o, kh«ng thÓ sö dông chøc n¨ng nµy")
+return
+end
+if GetLevel() >= 80 then
+		DelItem(17)
+
+
+		ngayvp = ngay + 7
+		thangvp = thang
+		if ngayvp > mangthang[thang] then
+		ngayvp = ngayvp - mangthang[thang]
+		thangvp = thang + 1
+		end
+		itemidx = AddEventItem(709)
+		SetBindItem(itemidx,1)
+		SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®· sö dông 1 Kim Nguyªn B¶o §æi LÊy ThÇn Hµnh Phï.")
+				thoigian = tonumber(date("%H%M%d%m"))
+				LoginLog = openfile("Data/SuKien/muatuiTHPngaylog.txt", "a");
+				if LoginLog then
+				write(LoginLog,""..GetAccount().." - "..GetName().." "..GetExp().." - "..GetLevel().." - Time: "..thoigian.."\n");
+				end
+				closefile(LoginLog)
+		Talk(0,"")
+else
+	Talk(1,"","§¼ng cÊp trªn 80 míi cã thÓ sö dông chøc n¨ng nµy !")
+end
+end
+function nhangoinapthe()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+if GetTask(682) >= 777 then
+Talk(1,"","Mçi nh©n vËt chØ nhËn ®­îc 1 gãi, kh«ng thÓ nhËn thªm")
+return
+end
+
+if GetTask(506) < 300 then
+Talk(1,"","B¹n ch­a n¹p ®ñ <color=yellow>"..GetTask(506).." /300 Xu<color> ®Ó nhËn Gãi Quµ nµy")
+return 
+end
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+if GetTask(506) >= 300 then
+	SetTask(682, 777)
+		for i = 1,10 do
+		AddEventItem(120) 
+		end
+		-- for i = 1,10 do
+		-- AddEventItem(325) 
+		-- end
+		for i = 1,10 do
+		AddEventItem(34) 
+		end
+		AddEventItem(177) 
+	--nhantuimaunap()
+	-- Talk(1,"","NÕu AutoPlay kh«ng tù ®éng më Thõa Tiªn MËt LÔ Bao. Vui lßng tho¸t toµn bé Game vµ ch¹y l¹i ®Ó cËp nhËt ")
+	Msg2SubWorld("<color=pink>Chóc mõng "..GetName().." tham gia Gãi Quµ KhuyÕn M·i N¹p ThÎ Mèc 300 xu th¸ng 4 nhËn ®­îc 10 D©y Th¨ng CÊp Siªu Quang + 1 §¹i Thµnh BÝ KiÕp 90 + 10 TTL ")
+	
+	thoigian = tonumber(date("%H%M%d%m"))
+	LoginLog = openfile("Data/LogQuaNapMoc300Thang4.txt", "a");
+	if LoginLog then
+	write(LoginLog,""..GetAccount().." - "..GetName().." - "..GetLevel().."  - Time: "..thoigian.."\n");
+	end
+	closefile(LoginLog)
+end
+
+end
+
+function nhangoinapthe800()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+if GetTask(682) >= 888 then
+Talk(1,"","Mçi nh©n vËt chØ nhËn ®­îc 1 gãi, kh«ng thÓ nhËn thªm")
+return
+end
+if GetTask(682) < 777 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [300], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+if GetTask(506) < 800 then
+Talk(1,"","B¹n ch­a n¹p ®ñ <color=yellow>"..GetTask(506).." /800 Xu<color> ®Ó nhËn Gãi Quµ nµy")
+return 
+end
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+if GetTask(506) >= 800 then
+	SetTask(682, 888)
+		for i = 1,15 do
+		AddEventItem(120) 
+		end
+		for i = 1,10 do
+		AddEventItem(34) 
+		end
+
+	--nhantuimaunap()
+	-- Talk(1,"","NÕu AutoPlay kh«ng tù ®éng më Thõa Tiªn MËt LÔ Bao. Vui lßng tho¸t toµn bé Game vµ ch¹y l¹i ®Ó cËp nhËt ")
+	Msg2SubWorld("<color=pink>Chóc mõng "..GetName().." tham gia Gãi Quµ KhuyÕn M·i N¹p ThÎ Mèc 800 xu th¸ng 3 nhËn ®­îc 15 LÖnh Bµi Boss + 15 TTL + 10 D©y Th¨ng CÊp Siªu Quang")
+	
+	thoigian = tonumber(date("%H%M%d%m"))
+	LoginLog = openfile("Data/LogQuaNapMoc800Thang4.txt", "a");
+	if LoginLog then
+	write(LoginLog,""..GetAccount().." - "..GetName().." - "..GetLevel().."  - Time: "..thoigian.."\n");
+	end
+	closefile(LoginLog)
+end
+
+end
+
+
+function nhangoinapthe1000()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+if GetTask(682) >= 999 then
+Talk(1,"","Mçi nh©n vËt chØ nhËn ®­îc 1 gãi, kh«ng thÓ nhËn thªm")
+return
+end
+if GetTask(682) < 777 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [300], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+-- if GetTask(682) < 888 then
+-- Talk(1,"","Ng­¬i ch­a nhËn mèc [800], kh«ng thÓ nhËn mèc nµy ")
+-- return
+-- end
+if GetTask(506) < 1000 then
+Talk(1,"","B¹n ch­a n¹p ®ñ <color=yellow>"..GetTask(506).." /1000 Xu<color> ®Ó nhËn Gãi Quµ nµy")
+return 
+end
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+if GetTask(506) >= 1000 then
+	SetTask(682, 999)
+		-- for i = 1,5 do
+		-- AddEventItem(654) 
+		-- end
+		for i = 1,15 do
+		AddEventItem(120) 
+		end
+		for i = 1,15 do
+		AddEventItem(34) 
+		end
+	--nhantuimaunap()
+	-- Talk(1,"","NÕu AutoPlay kh«ng tù ®éng më Thõa Tiªn MËt LÔ Bao. Vui lßng tho¸t toµn bé Game vµ ch¹y l¹i ®Ó cËp nhËt ")
+	Msg2SubWorld("<color=pink>Chóc mõng "..GetName().." tham gia Gãi Quµ KhuyÕn M·i N¹p ThÎ Mèc 1000 xu th¸ng 4 nhËn ®­îc 20 D©y Th¨ng CÊp Siªu Quang + 15 TTL. ")
+	
+	thoigian = tonumber(date("%H%M%d%m"))
+	LoginLog = openfile("Data/LogQuaNapMoc1000Thang4.txt", "a");
+	if LoginLog then
+	write(LoginLog,""..GetAccount().." - "..GetName().." - "..GetLevel().."  - Time: "..thoigian.."\n");
+	end
+	closefile(LoginLog)
+end
+
+end
+function nhangoinapthe1500()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+if GetTask(682) >= 1111 then
+Talk(1,"","Mçi nh©n vËt chØ nhËn ®­îc 1 gãi, kh«ng thÓ nhËn thªm")
+return
+end
+if GetTask(682) < 777 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [300], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+if GetTask(682) < 888 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [800], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+if GetTask(682) < 999 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [1000], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+if GetTask(506) < 1500 then
+Talk(1,"","B¹n ch­a n¹p ®ñ <color=yellow>"..GetTask(506).." /1500 Xu<color> ®Ó nhËn Gãi Quµ nµy")
+return 
+end
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+if GetTask(506) >= 1500 then
+	SetTask(682, 1111)
+		-- for i = 1,50 do
+		-- AddEventItem(665) 
+		-- end
+		for i = 1,10 do
+		AddEventItem(120) 
+		end
+		for i = 1,20 do
+		AddEventItem(34) 
+		end
+		-- for i = 1,15 do
+		AddEventItem(243) 
+		-- end
+	--nhantuimaunap()
+	-- Talk(1,"","NÕu AutoPlay kh«ng tù ®éng më Thõa Tiªn MËt LÔ Bao. Vui lßng tho¸t toµn bé Game vµ ch¹y l¹i ®Ó cËp nhËt ")
+	Msg2SubWorld("<color=pink>Chóc mõng "..GetName().." tham gia Gãi Quµ KhuyÕn M·i N¹p ThÎ Mèc 1500 xu th¸ng 3 nhËn ®­îc 20 D©y Th¨ng CÊp Siªu Quang + 10 TTL + 1 §å Phæ HKMP. ")
+	
+	thoigian = tonumber(date("%H%M%d%m"))
+	LoginLog = openfile("Data/LogQuaNapMoc1500Thang4.txt", "a");
+	if LoginLog then
+	write(LoginLog,""..GetAccount().." - "..GetName().." - "..GetLevel().."  - Time: "..thoigian.."\n");
+	end
+	closefile(LoginLog)
+end
+
+end
+
+function nhangoinapthe2000()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+if GetTask(682) >= 1222 then
+Talk(1,"","Mçi nh©n vËt chØ nhËn ®­îc 1 gãi, kh«ng thÓ nhËn thªm")
+return
+end
+if GetTask(682) < 777 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [300], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+-- if GetTask(682) < 888 then
+-- Talk(1,"","Ng­¬i ch­a nhËn mèc [800], kh«ng thÓ nhËn mèc nµy ")
+-- return
+-- end
+if GetTask(682) < 999 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [1000], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+-- if GetTask(682) < 1111 then
+-- Talk(1,"","Ng­¬i ch­a nhËn mèc [1500], kh«ng thÓ nhËn mèc nµy ")
+-- return
+-- end
+if GetTask(506) < 2000 then
+Talk(1,"","B¹n ch­a n¹p ®ñ <color=yellow>"..GetTask(506).." /2000 Xu<color> ®Ó nhËn Gãi Quµ nµy")
+return 
+end
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+if GetTask(506) >= 2000 then
+	SetTask(682, 1222)
+		for i = 1,20 do
+		AddEventItem(120) 
+		end
+		for i = 1,3 do
+		AddEventItem(0) 
+		end
+		for i = 1,3 do
+		AddEventItem(1) 
+		end
+		for i = 1,50 do
+		AddEventItem(34) 
+		end
+	--nhantuimaunap()
+	-- Talk(1,"","NÕu AutoPlay kh«ng tù ®éng më Thõa Tiªn MËt LÔ Bao. Vui lßng tho¸t toµn bé Game vµ ch¹y l¹i ®Ó cËp nhËt ")
+	Msg2SubWorld("<color=pink>Chóc mõng "..GetName().." tham gia Gãi Quµ KhuyÕn M·i N¹p ThÎ Mèc 2000 xu th¸ng 3 nhËn ®­îc 50 D©y Th¨ng CÊp Siªu Quang + 3 VLMT + 3 TTK + 20 TTL")
+	
+	thoigian = tonumber(date("%H%M%d%m"))
+	LoginLog = openfile("Data/LogQuaNapMoc2000T4.txt", "a");
+	if LoginLog then
+	write(LoginLog,""..GetAccount().." - "..GetName().." - "..GetLevel().."  - Time: "..thoigian.."\n");
+	end
+	closefile(LoginLog)
+end
+
+end
+
+function nhangoinapthe2500()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+if GetTask(682) >= 1333 then
+Talk(1,"","Mçi nh©n vËt chØ nhËn ®­îc 1 gãi, kh«ng thÓ nhËn thªm")
+return
+end
+if GetTask(682) < 777 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [300], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+if GetTask(682) < 888 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [800], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+if GetTask(682) < 999 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [1000], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+if GetTask(682) < 1111 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [1500], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+if GetTask(682) < 1222 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [2000], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+if GetTask(506) < 2500 then
+Talk(1,"","B¹n ch­a n¹p ®ñ <color=yellow>"..GetTask(506).." /2500 Xu<color> ®Ó nhËn Gãi Quµ nµy")
+return 
+end
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+if GetTask(506) >= 2500 then
+	SetTask(682, 1333)
+		for i = 1,5 do
+		AddEventItem(0) 
+		end
+		for i = 1,5 do
+		AddEventItem(1) 
+		end
+		for i = 1,25 do
+		AddEventItem(128) 
+		end
+		for i = 1,20 do
+		AddEventItem(273) 
+		end
+	Msg2SubWorld("<color=pink>Chóc mõng "..GetName().." tham gia Gãi Quµ KhuyÕn M·i N¹p ThÎ Mèc 2500 xu th¸ng 3 nhËn ®­îc 25 LÖnh Bµi Boss 50 D©y Th¨ng CÊp Siªu Quang +")
+	thoigian = tonumber(date("%H%M%d%m"))
+	LoginLog = openfile("Data/LogQuaNapMoc2500T4.txt", "a");
+	if LoginLog then
+	write(LoginLog,""..GetAccount().." - "..GetName().." - "..GetLevel().."  - Time: "..thoigian.."\n");
+	end
+	closefile(LoginLog)
+end
+
+end
+
+function nhangoinapthe3000()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+if GetTask(682) >= 1444 then
+Talk(1,"","Mçi nh©n vËt chØ nhËn ®­îc 1 gãi, kh«ng thÓ nhËn thªm")
+return
+end
+if GetTask(682) < 777 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [300], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+-- if GetTask(682) < 888 then
+-- Talk(1,"","Ng­¬i ch­a nhËn mèc [800], kh«ng thÓ nhËn mèc nµy ")
+-- return
+-- end
+if GetTask(682) < 999 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [1000], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+-- if GetTask(682) < 1111 then
+-- Talk(1,"","Ng­¬i ch­a nhËn mèc [1500], kh«ng thÓ nhËn mèc nµy ")
+-- return
+-- end
+if GetTask(682) < 1222 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [2000], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+-- if GetTask(682) < 1333 then
+-- Talk(1,"","Ng­¬i ch­a nhËn mèc [2500], kh«ng thÓ nhËn mèc nµy ")
+-- return
+-- end
+if GetTask(506) < 3000 then
+Talk(1,"","B¹n ch­a n¹p ®ñ <color=yellow>"..GetTask(506).." /3000 Xu<color> ®Ó nhËn Gãi Quµ nµy")
+return 
+end
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+if GetTask(506) >= 3000 then
+	SetTask(682, 1444)
+		for i = 1,50 do
+		AddEventItem(34) 
+		end
+		for i = 1,2 do
+		AddEventItem(243) 
+		end
+	Msg2SubWorld("<color=pink>Chóc mõng "..GetName().." tham gia Gãi Quµ KhuyÕn M·i N¹p ThÎ Mèc 3000 xu th¸ng 4 nhËn ®­îc 50 D©y Th¨ng CÊp Siªu Quang + 2 §å Phæ HKMP")
+	thoigian = tonumber(date("%H%M%d%m"))
+	LoginLog = openfile("Data/LogQuaNapMoc3000T4.txt", "a");
+	if LoginLog then
+	write(LoginLog,""..GetAccount().." - "..GetName().." - "..GetLevel().."  - Time: "..thoigian.."\n");
+	end
+	closefile(LoginLog)
+end
+
+end
+
+
+function nhangoinapthe5000()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+if GetTask(682) >= 1555 then
+Talk(1,"","Mçi nh©n vËt chØ nhËn ®­îc 1 gãi, kh«ng thÓ nhËn thªm")
+return
+end
+if GetTask(682) < 777 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [300], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+-- if GetTask(682) < 888 then
+-- Talk(1,"","Ng­¬i ch­a nhËn mèc [800], kh«ng thÓ nhËn mèc nµy ")
+-- return
+-- end
+if GetTask(682) < 999 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [1000], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+-- if GetTask(682) < 1111 then
+-- Talk(1,"","Ng­¬i ch­a nhËn mèc [1500], kh«ng thÓ nhËn mèc nµy ")
+-- return
+-- end
+if GetTask(682) < 1222 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [2000], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+-- if GetTask(682) < 1333 then
+-- Talk(1,"","Ng­¬i ch­a nhËn mèc [2500], kh«ng thÓ nhËn mèc nµy ")
+-- return
+-- end
+
+if GetTask(682) < 1444 then
+Talk(1,"","Ng­¬i ch­a nhËn mèc [3000], kh«ng thÓ nhËn mèc nµy ")
+return
+end
+
+if GetTask(506) < 5000 then
+Talk(1,"","B¹n ch­a n¹p ®ñ <color=yellow>"..GetTask(506).." /5000 Xu<color> ®Ó nhËn Gãi Quµ nµy")
+return 
+end
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+if GetTask(506) >= 5000 then
+	SetTask(682, 1555)
+		for i = 1,200 do
+		AddEventItem(34) 
+		end
+		for i = 1,5 do
+		AddEventItem(243) 
+		end
+	Msg2SubWorld("<color=pink>Chóc mõng "..GetName().." tham gia Gãi Quµ KhuyÕn M·i N¹p ThÎ Mèc 5000 xu th¸ng 4 nhËn ®­îc 200 D©y Th¨ng CÊp Siªu Quang + 5 §å Phæ HKMP ")
+	thoigian = tonumber(date("%H%M%d%m"))
+	LoginLog = openfile("Data/LogQuaNapMoc5000T4.txt", "a");
+	if LoginLog then
+	write(LoginLog,""..GetAccount().." - "..GetName().." - "..GetLevel().."  - Time: "..thoigian.."\n");
+	end
+	closefile(LoginLog)
+end
+
+end
+
+
+function nhannguyenlieu()
+SayNew("<color=green>LÔ Quan<color>:ta lµ phô tr¸ch gëi lÔ vËt ®Ých LÔ Quan , ng­¬i muèn tham dù c¸i nµo ho¹t ®éng ®©y?"
+,4,
+"NhËn Hoµn Mü Tinh Th¹ch /nhanhmtt",
+"NhËn M¶nh Thiªn Th¹ch 1 - 6 /nhanmanhthienthach",
+"NhËn Lam Thñy Tinh /nhanlamthuytinh",
+			"Tho¸t./no")
+end
+
+function doidiemsukien()
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+SayNew("HiÖn t¹i ng­¬i ®ang cã <color=red>"..GetTask(612).." ®iÓm TÝch Lòy Sù KiÖn<color>, ng­¬i muèn ®æi phÇn th­ëng nµo?",3,
+"§æi 300 ®iÓm /thuyenrong_doidiem2",
+"§æi 1500 ®iÓm /thuyenrong_doidiem2",
+-- "§æi 1500 ®iÓm /thuyenrong_doidiem2",
+-- "§æi 2000 ®iÓm /thuyenrong_doidiem2",
+-- "§æi 400 ®iÓm /thuyenrong_doidiem2",
+-- "§æi 401 ®iÓm /thuyenrong_doidiem2",
+-- "§æi 402 ®iÓm /thuyenrong_doidiem2",
+-- "§æi 403 ®iÓm /thuyenrong_doidiem2",
+"Tho¸t./no")
+end
+
+function thuyenrong_doidiem2(nsel)
+
+i = nsel + 1
+if i == 1 then
+	SayNew("B¹n cã ch¾c ch¾n ®æi 300 ®iÓm TÝch Lòy Sù KiÖn ®Ó lÊy: 30% Tiªn Th¶o Lé 6 Giê, 30% §¹i Thµnh 90, 20% TÈy Tñy Kinh, 20% Vâ L©m MËt TÞch",2,
+	"Ta ®ång ý ®æi /thuyenrong_doidiem_1",
+	"Tho¸t./no")
+elseif i == 2 then
+	SayNew("B¹n cã ch¾c ch¾n ®æi 1500 ®iÓm TÝch Lòy Sù KiÖn ®Ó lÊy: 15% Nãn §Þnh Quèc, 15% ¸o §Þnh Quèc, 20% Giµy §Þnh Quèc, 20% Bao Tay §Þnh Quèc, 20% Th¾t L­ng §Þnh Quèc, 10% ChiÕu D¹ ",2,
+	"Ta ®ång ý ®æi /thuyenrong_doidiem_3",
+	"Tho¸t./no")
+elseif i == 3 then
+	SayNew("B¹n cã ch¾c ch¾n ®æi 2000 ®iÓm TÝch Lòy Sù KiÖn ®Ó lÊy: 30% §Þnh Quèc Tinh LuyÖn Th¹ch x50, 30% An Bang Tinh LuyÖn Th¹ch x50, 10% Hoµn Mü Tinh Th¹ch x500, 30% Cùc PhÈm Tinh Th¹ch x50 ",2,
+	"Ta ®ång ý ®æi /thuyenrong_doidiem_4",
+	"Tho¸t./no")
+elseif i == 4 then
+	SayNew("B¹n cã ch¾c ch¾n ®æi 2000 ®iÓm TÝch Lòy Sù KiÖn ®Ó lÊy: 30% Bi Kip 120, 15% NhÉn Cóc Hoa, 15% NhÉn Kª HuyÕt, 15% Ngäc Béi AB, 15% D©y ChuyÒn An Bang, 10% ChiÕu D¹ ",2,
+	"Ta ®ång ý ®æi /thuyenrong_doidiem_4",
+	"Tho¸t./no")
+elseif i == 5 then
+	SayNew("B¹n cã ch¾c ch¾n ®æi 400 ®iÓm TÝch Lòy Sù KiÖn ®Ó lÊy: 30% Bi Kip 120, 67% Ngäc Béi An Bang, 3% Phi V©n ThÇn M· ",2,
+	"Ta ®ång ý ®æi /thuyenrong_doidiem_5",
+	"Tho¸t./no")
+elseif i == 6 then
+	SayNew("B¹n cã ch¾c ch¾n ®æi 401 ®iÓm TÝch Lòy Sù KiÖn ®Ó lÊy: 30% Bi Kip 120, 67% NhÉn Cóc Hoa, 3% Phi V©n ThÇn M· ",2,
+	"Ta ®ång ý ®æi /thuyenrong_doidiem_6",
+	"Tho¸t./no")
+elseif i == 7 then
+	SayNew("B¹n cã ch¾c ch¾n ®æi 402 ®iÓm TÝch Lòy Sù KiÖn ®Ó lÊy: 30% Bi Kip 120, 67% NhÉn Kª HuyÕt, 3% Phi V©n ThÇn M· ",2,
+	"Ta ®ång ý ®æi /thuyenrong_doidiem_7",
+	"Tho¸t./no")
+elseif i == 8 then
+	SayNew("B¹n cã ch¾c ch¾n ®æi 403 ®iÓm TÝch Lòy Sù KiÖn ®Ó lÊy: 30% Bi Kip 120, 67%D©y ChuyÒn An Bang, 3% Phi V©n ThÇn M· ",2,
+	"Ta ®ång ý ®æi /thuyenrong_doidiem_8",
+	"Tho¸t./no")
+end
+end
+
+function thuyenrong_doidiem_1()
+diem = 300
+task = GetTask(612)
+if task < diem then
+Talk(1,"","B¹n kh«ng ®ñ "..diem.." ®iÓm TÝch Lòy Sù KiÖn, kh«ng thÓ ®æi phÇn th­ëng")
+return
+end
+SetTask(612, GetTask(612) - diem)
+if GetTask(612) == task - diem then
+	sx = random(1,100)
+	if sx < 30 then
+		idxitem = AddEventItem(120)
+		idxitem = AddEventItem(120)
+		idxitem = AddEventItem(120)
+		idxitem = AddEventItem(120)
+		idxitem = AddEventItem(120)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 1] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	elseif sx >= 30 and sx < 60 then
+		idxitem = AddEventItem(177)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 1] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	elseif sx >= 60 and sx < 80 then
+		idxitem = AddEventItem(0)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 1] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	else
+		idxitem = AddEventItem(1)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 1] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	end	
+	Talk(0,"")
+else
+	Talk(1,"","hack ha em")
+end
+end
+
+
+function thuyenrong_doidiem_2()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+diem = 500
+task = GetTask(612)
+if task < diem then
+Talk(1,"","B¹n kh«ng ®ñ "..diem.." ®iÓm TÝch Lòy Sù KiÖn, kh«ng thÓ ®æi phÇn th­ëng")
+return
+end
+SetTask(612, GetTask(612) - diem)
+if GetTask(612) == task - diem then
+	sx = random(1,100)
+	if sx < 25 then
+		ngayitem = ngay + 15
+		thangitem = thang
+		if ngayitem > mangthang[thang] then
+		ngayitem = ngayitem - mangthang[thang]
+		thangitem = thang + 1
+		end
+		idxitem = AddItem(0,10,5,4,0,0,0)
+		SetHSD(idxitem, 2022 , thangitem, ngayitem, gio )
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 2] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	elseif sx >= 25 and sx < 50 then
+		ngayitem = ngay + 15
+		thangitem = thang
+		if ngayitem > mangthang[thang] then
+		ngayitem = ngayitem - mangthang[thang]
+		thangitem = thang + 1
+		end
+		idxitem = AddItem(0,10,5,3,0,0,0)
+		SetHSD(idxitem, 2022 , thangitem, ngayitem, gio )
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 2] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	elseif sx >= 50 and sx < 75 then
+		ngayitem = ngay + 15
+		thangitem = thang
+		if ngayitem > mangthang[thang] then
+		ngayitem = ngayitem - mangthang[thang]
+		thangitem = thang + 1
+		end
+		idxitem = AddItem(0,10,5,1,0,0,0)
+		SetHSD(idxitem, 2022 , thangitem, ngayitem, gio )
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 2] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	elseif sx >= 75 and sx < 95 then
+		ngayitem = ngay + 15
+		thangitem = thang
+		if ngayitem > mangthang[thang] then
+		ngayitem = ngayitem - mangthang[thang]
+		thangitem = thang + 1
+		end
+		idxitem = AddItem(0,10,5,1,0,0,0)
+		SetHSD(idxitem, 2022 , thangitem, ngayitem, gio )
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 2] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	else
+		-- ngayitem = ngay + 15
+		-- thangitem = thang
+		-- if ngayitem > mangthang[thang] then
+		-- ngayitem = ngayitem - mangthang[thang]
+		-- thangitem = thang + 1
+		-- end
+		idxitem = AddItem(0,10,5,10,0,0,0)
+		-- SetHSD(idxitem, 2022 , thangitem, ngayitem, gio )
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 2] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	end	
+	Talk(0,"")
+else
+	Talk(1,"","hack ha em")
+end
+end
+
+
+function thuyenrong_doidiem_3()
+diem = 1500
+task = GetTask(612)
+if task < diem then
+Talk(1,"","B¹n kh«ng ®ñ "..diem.." ®iÓm TÝch Lòy Sù KiÖn, kh«ng thÓ ®æi phÇn th­ëng")
+return
+end
+SetTask(612, GetTask(612) - diem)
+if GetTask(612) == task - diem then
+	sx = random(1,100)
+	if sx < 15 then
+		idxitem = AddItem(0,7,15,random(1,8),0,0,0)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 3] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	elseif sx >= 15 and sx < 30 then
+		idxitem = AddItem(0,2,30,random(1,8),0,0,0)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 3] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	elseif sx >= 30 and sx < 50 then
+		idxitem = AddItem(0,6,3,random(1,8),0,0,0)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 3] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	elseif sx >= 50 and sx < 70 then
+		idxitem = AddItem(0,8,3,random(1,8),0,0,0)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 3] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	elseif sx >= 70 and sx < 95 then
+		idxitem = AddItem(0,5,5,random(1,8),0,0,0)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 3] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	else
+		idxitem = AddItem(0,10,5,10,0,0,0)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 3] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	end	
+	Talk(0,"")
+else
+	Talk(1,"","hack ha em")
+end
+end
+
+function thuyenrong_doidiem_4()
+diem = 2000
+task = GetTask(612)
+if task < diem then
+Talk(1,"","B¹n kh«ng ®ñ "..diem.." ®iÓm TÝch Lòy Sù KiÖn, kh«ng thÓ ®æi phÇn th­ëng")
+return
+end
+SetTask(612, GetTask(612) - diem)
+if GetTask(612) == task - diem then
+	sx = random(1,100)
+	if sx < 30 then
+		for i = 1,50 do AddEventItem(665) end
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>50 §Þnh Quèc Tinh LuyÖn Th¹ch")
+		inlog4("[Goi 1] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	elseif sx >= 30 and sx < 60 then
+		for i = 1,50 do AddEventItem(664) end
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>50 An Bang Tinh LuyÖn Th¹ch")
+		inlog4("[Goi 1] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	elseif sx >= 60 and sx < 70 then
+		for i = 1,500 do AddEventItem(567) end
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>500 Hoµn Mü Tinh Th¹ch")
+		inlog4("[Goi 1] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	else
+		for i = 1,50 do AddEventItem(568) end
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>50 Cùc PhÈm Tinh Th¹ch")
+		inlog4("[Goi 1] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	end	
+	Talk(0,"")
+else
+	Talk(1,"","hack ha em")
+end
+end
+
+
+function thuyenrong_doidiem_5()
+diem = 400
+task = GetTask(488)
+if task < diem then
+Talk(1,"","B¹n kh«ng ®ñ "..diem.." ®iÓm TÝch Lòy Sù KiÖn, kh«ng thÓ ®æi phÇn th­ëng")
+return
+end
+SetTask(488, GetTask(488) - diem)
+if GetTask(488) == task - diem then
+	sx = random(1,100)
+	if sx < 35 then
+		idxitem = AddEventItem(19)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 5] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	else
+		idxitem = AddItem(0,9,3,random(1,5),0,0,0)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 5] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	end	
+	Talk(0,"")
+else
+	Talk(1,"","hack ha em")
+end
+end
+function thuyenrong_doidiem_6()
+diem = 401
+task = GetTask(488)
+if task < diem then
+Talk(1,"","B¹n kh«ng ®ñ "..diem.." ®iÓm TÝch Lòy Sù KiÖn, kh«ng thÓ ®æi phÇn th­ëng")
+return
+end
+SetTask(488, GetTask(488) - diem)
+if GetTask(488) == task - diem then
+	sx = random(1,100)
+	if sx < 35 then
+		idxitem = AddEventItem(19)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 6] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	else
+		idxitem = AddItem(0,3,3,random(1,5),0,0,0)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 6] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	end	
+	Talk(0,"")
+else
+	Talk(1,"","hack ha em")
+end
+end
+function thuyenrong_doidiem_7()
+diem = 402
+task = GetTask(488)
+if task < diem then
+Talk(1,"","B¹n kh«ng ®ñ "..diem.." ®iÓm TÝch Lòy Sù KiÖn, kh«ng thÓ ®æi phÇn th­ëng")
+return
+end
+SetTask(488, GetTask(488) - diem)
+if GetTask(488) == task - diem then
+	sx = random(1,100)
+	if sx < 35 then
+		idxitem = AddEventItem(19)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 7] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	else
+		idxitem = AddItem(0,3,4,random(1,5),0,0,0)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 7] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	end	
+	Talk(0,"")
+else
+	Talk(1,"","hack ha em")
+end
+end
+function thuyenrong_doidiem_8()
+diem = 403
+task = GetTask(488)
+if task < diem then
+Talk(1,"","B¹n kh«ng ®ñ "..diem.." ®iÓm TÝch Lòy Sù KiÖn, kh«ng thÓ ®æi phÇn th­ëng")
+return
+end
+SetTask(488, GetTask(488) - diem)
+if GetTask(488) == task - diem then
+	sx = random(1,100)
+	if sx < 35 then
+		idxitem = AddEventItem(19)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 8] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	else
+		idxitem = AddItem(0,4,3,random(1,5),0,0,0)
+		Msg2SubWorld("Chóc mõng "..GetName().." ®æi "..diem.." ®iÓm TÝch Lòy Sù KiÖn nhËn ®­îc: <color=yellow>"..GetNameItemBox(idxitem).."")
+		inlog4("[Goi 8] "..GetNameItemBox(idxitem).." - "..GetAccount().." - "..GetName().."")
+	end	
+	Talk(0,"")
+else
+	Talk(1,"","hack ha em")
+end
+end
+
+
+function nhanhmtt()
+for i = 1 , 500 do AddEventItem(567) end
+end
+function nhanlamthuytinh()
+for i = 1 , 9 do AddEventItem(28) end
+end
+function nhanmanhthienthach()
+for i = 61 , 66 do AddEventItem(i) end
+end
+function nhanlbgop()
+AddEventItem(176)
+end
+function nhandenbusvcu()
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+	if GetTask(803) >= 1 then
+		Talk(1,"","Nh©n vËt nµy ®· sö dông Gift Code, kh«ng thÓ sö dông thªm lÇn n÷a")
+		return	
+	end
+	if GetLevel() < 90 then
+		Talk(1,"","Nh©n vËt nµy kh«ng ®ñ cÊp 90 kh«ng thÓ nhËn")
+		return	
+	end
+			thoigian = tonumber(date("%H%M%d%m"))
+			LoginLog = openfile("Data/lognhandenbu.txt", "a");
+			if LoginLog then
+			write(LoginLog,""..GetAccount().." - "..GetName().." -"..GetLevel().."  - Time: "..thoigian.."\n");
+			end
+			closefile(LoginLog)
+			SetTask(803,1)
+			
+				idxp = AddEventItem(120)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(120)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(120)
+				SetBindItem(idxp,1)
+	Msg2Player("Chµo mõng t©n thñ <color=yellow>"..GetName().." <color=red> ®· nhËp ®­îc ®Òn bï. NhËn ®­îc: 3 TTL")
+end
+
+function NewTrungThu_Main()
+SayNew("Sù kiÖn Event Mini b¾t ®Çu vµo 08/07/2021 - 18/07/2021. Ng­¬i cÇn ta gióp g×?",8,
+"Mua Cµ Rèt  /muanodo",
+"Mua C©y Th«ng/muagiotraicay",
+"Shop Event Th­êng  /shopevent2",
+"Shop Event §Æt BiÖt /shopevent1",
+"Tham Gia Event Ng­êi TuyÕt /NewTrungThu_NauBanh",
+-- "Gia h¹n Ng­êi tuyÕt choµng kh¨n xanh (th­êng)./giahanthiepchucmung",
+-- "Gia h¹n Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt)./gianhanhopqua",
+"NhËn th­ëng Ng­êi tuyÕt choµng kh¨n xanh (th­êng)./NewTrungThu_GioiHanT",
+"NhËn th­ëng Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt)./NewTrungThu_GioiHan",
+-- "NhËn th­ëng MAX 2 LÇn Ng­êi tuyÕt choµng kh¨n xanh (th­êng)./nhanmax2lanthuong",
+-- "NhËn th­ëng MAX 2 LÇn Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt)./nhanmax2landb",
+"Tho¸t./no")
+end
+function muanodo()
+SayNew("Shop N¬ §æ ?",4,
+"Mua 1 Cµ Rèt [1 V¹n]./muano1",
+"Mua 10 Cµ Rèt [10 V¹n L­îng]./muano10",
+"Mua 50 Cµ Rèt [50 V¹n L­îng]./muano50",
+"Tho¸t./no")
+end
+
+function muano1()
+if CheckFreeBoxItem(0,10,5,5) == 0 then
+Talk(1,"","Hµnh trang kh«ng ®ñ 2 x 3 « chç C©y Th«ng, xin kiÓm tra l¹i !")
+return
+end
+	if GetCash() >= 10000 then
+	AddEventItem(NGUYENLIEUT)
+	Pay(10000)
+	else
+	Talk(1,"","<color=green>Shop Cµ Rèt: <color>Kh«ng ®ñ 1 V¹n")
+	end
+end
+
+function muano10()
+if CheckFreeBoxItem(0,10,5,5) == 0 then
+Talk(1,"","Hµnh trang kh«ng ®ñ 2 x 3 « chç C©y Th«ng, xin kiÓm tra l¹i !")
+return
+end
+	if GetCash() >= 100000 then
+	for i =1,10 do AddEventItem(NGUYENLIEUT) end 
+	Pay(100000)
+	else
+	Talk(1,"","<color=green>Shop Cµ Rèt: <color>Kh«ng ®ñ 10 V¹n L­îng")
+	end
+end
+
+function muano50()
+if CheckFreeBoxItem(0,10,5,5) == 0 then
+Talk(1,"","Hµnh trang kh«ng ®ñ 2 x 3 « chç C©y Th«ng, xin kiÓm tra l¹i !")
+return
+end
+	if GetCash() >= 500000 then
+	for i =1, 50 do AddEventItem(NGUYENLIEUT) end 
+	Pay(500000)
+	else
+	Talk(1,"","<color=green>Shop Cµ Rèt: <color>Kh«ng ®ñ 50 V¹n L­îng")
+	end
+end
+
+
+
+function muagiotraicay()
+SayNew("Shop C©y Th«ng",4,
+"Mua 1 C©y Th«ng [1 Xu]./muagiotraicay2",
+"Mua 10 C©y Th«ng [10 Xu]./muagiotraicay10",
+"Mua 50 C©y Th«ng [50 Xu]./muagiotraicay50",
+"Tho¸t./no")
+end
+
+function muagiotraicay2()
+if CheckFreeBoxItem(0,10,5,5) == 0 then
+Talk(1,"","Hµnh trang kh«ng ®ñ 2 x 3 « chç C©y Th«ng, xin kiÓm tra l¹i !")
+return
+end
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+	vang = GetTask(99)
+	vang2 = GetTask(101)
+	if GetTask(99) >= 1 and GetTask(101) >= 1 then
+		SetTask(99,GetTask(99) - 1)
+		SetTask(101,GetTask(101) - 1)
+		if GetTask(99) == vang-1 and GetTask(101) == vang2 - 1 and GetTask(99) == GetTask(101) then
+			
+			-- for i=1,2 do
+			AddEventItem(NGUYENLIEUDB)
+			-- end
+				thoigian = tonumber(date("%H%M%d%m"))
+				LoginLog = openfile("Data/SuKien/CayThong.txt", "a");
+				if LoginLog then
+				write(LoginLog,"MuaLBBoss - ["..i.."] "..GetAccount().." - "..GetName().."\n");
+				end
+				closefile(LoginLog)
+		Talk(0,"")
+       else
+	   Talk(1,"","Ng­¬i kh«ng mang ®ñ xu! Kh«ng thÓ mua !")
+		end
+	end
+end
+function muagiotraicay10()
+if CheckFreeBoxItem(0,10,5,5) == 0 then
+Talk(1,"","Hµnh trang kh«ng ®ñ 2 x 3 « chç C©y Th«ng, xin kiÓm tra l¹i !")
+return
+end
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+	vang = GetTask(99)
+	vang2 = GetTask(101)
+	if GetTask(99) >= 10 and GetTask(101) >= 10 then
+		SetTask(99,GetTask(99) - 10)
+		SetTask(101,GetTask(101) - 10)
+		if GetTask(99) == vang-10 and GetTask(101) == vang2 - 10 and GetTask(99) == GetTask(101) then
+			
+			for i=1,10 do
+			AddEventItem(NGUYENLIEUDB)
+			end
+				thoigian = tonumber(date("%H%M%d%m"))
+				LoginLog = openfile("Data/SuKien/CayThong.txt", "a");
+				if LoginLog then
+				write(LoginLog,"MuaLBBoss - ["..i.."] "..GetAccount().." - "..GetName().."\n");
+				end
+				closefile(LoginLog)
+		Talk(0,"")
+       else
+	Talk(1,"","Ng­¬i kh«ng mang ®ñ xu! Kh«ng thÓ mua !")
+		end
+	end
+end
+
+function muagiotraicay50()
+if CheckFreeBoxItem(0,10,5,5) == 0 then
+Talk(1,"","Hµnh trang kh«ng ®ñ 2 x 3 « chç C©y Th«ng, xin kiÓm tra l¹i !")
+return
+end
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+	vang = GetTask(99)
+	vang2 = GetTask(101)
+	if GetTask(99) >= 50 and GetTask(101) >= 50 then
+		SetTask(99,GetTask(99) - 50)
+		SetTask(101,GetTask(101) - 50)
+		if GetTask(99) == vang-50 and GetTask(101) == vang2 - 50 and GetTask(99) == GetTask(101) then
+			
+			for i=1,50 do
+			AddEventItem(NGUYENLIEUDB)
+			end
+				thoigian = tonumber(date("%H%M%d%m"))
+				LoginLog = openfile("Data/SuKien/CayThong.txt", "a");
+				LoginLog = openfile("Data/SuKien/CayThong.txt", "a");
+				if LoginLog then
+				write(LoginLog,"MuaLBBoss - ["..i.."] "..GetAccount().." - "..GetName().."\n");
+				end
+				closefile(LoginLog)
+		Talk(0,"")
+       else
+	Talk(1,"","Ng­¬i kh«ng mang ®ñ xu! Kh«ng thÓ mua !")
+		end
+	end
+end
+
+
+
+function gianhanhopqua()
+	if GetTask(Task_GH_Event_DB) >= 1 then
+		Talk(1,"","Ng­¬i ®· gia h¹n 1 lÇn råi mµ, muèn nhËn n÷a ah ?")
+	return
+	end
+	if GetTask(Task_GH_THUYENRONGLON) < 1500 then
+		Talk(1,"","B¹n hiÖn t¹i <color=yellow>"..GetTask(Task_GH_THUYENRONGLON).."<color>/1500 c¸i ch­a ®ñ ®Ó nhËn ")
+		return
+	end
+	if GetTask(Task_GH_MocEvent) == 0 then
+		Talk(1,"","Ng­¬i ch­a nhËn th­ëng MAX Event kh«ng thÓ gia h¹n Event  ?")
+	return
+	end
+	if GetItemCount(17) < 5 then
+		Talk(1,"","B¹n kh«ng ®ñ 5 KNB, h·y kiÓm tra l¹i !")
+		return
+	end
+	Msg2SubWorld("Chµo mõng <color=yellow>"..GetName().." <color=red> ®· dïng 5KNB gia h¹n l¹i event Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt)!")
+	SetTask(Task_GH_THUYENRONGLON, GetTask(Task_GH_THUYENRONGLON) - 1500)
+	SetTask(Task_GH_MocEvent,0)
+	-- SetTask(Task_GH_Event_DB,1)
+	SetTask(Task_GH_Event_DB,1)
+	for i = 1,5 do DelItem(17) end
+	thoigian = tonumber(date("%H%M%d%m"))
+			LoginLog = openfile("Data/SuKien/logGianhanEventDB2007.txt", "a");
+			if LoginLog then
+			write(LoginLog,""..GetAccount().." - "..GetName().." -"..GetLevel().."  - Time: "..thoigian.."\n");
+			end
+			closefile(LoginLog)
+end
+
+function giahanthiepchucmung()
+	if GetTask(Task_GH_Event_T) >= 1 then
+		Talk(1,"","Ng­¬i ®· gia h¹n 1 lÇn råi mµ, muèn nhËn n÷a ah ?")
+	return
+	end
+	if GetTask(Task_GH_THUYENRONGNHO) < 2000 then
+		Talk(1,"","B¹n hiÖn t¹i <color=yellow>"..GetTask(Task_GH_THUYENRONGNHO).."<color>/2000 c¸i ch­a ®ñ ®Ó nhËn ")
+		return
+	end
+	if GetTask(Task_GH_MocEventT) == 0 then
+		Talk(1,"","Ng­¬i ch­a nhËn th­ëng MAX Event kh«ng thÓ gia h¹n Event  ?")
+	return
+	end
+	if GetItemCount(17) < 3 then
+		Talk(1,"","B¹n kh«ng ®ñ 3 KNB, h·y kiÓm tra l¹i !")
+		return
+	end
+	Msg2SubWorld("Chµo mõng <color=yellow>"..GetName().." <color=red> ®· dïng 3KNB gia h¹n l¹i event Ng­êi tuyÕt choµng kh¨n xanh (th­êng).  !")
+	SetTask(Task_GH_THUYENRONGNHO, GetTask(Task_GH_THUYENRONGNHO) - 2000)
+	SetTask(Task_GH_MocEventT,0)
+	-- SetTask(Task_GH_Event_T,1)
+	SetTask(Task_GH_Event_T,1)
+	for i = 1,3 do DelItem(17) end
+	thoigian = tonumber(date("%H%M%d%m"))
+			LoginLog = openfile("Data/SuKien/logGiaHanEventThuong2007.txt", "a");
+			if LoginLog then
+			write(LoginLog,""..GetAccount().." - "..GetName().." -"..GetLevel().."  - Time: "..thoigian.."\n");
+			end
+			closefile(LoginLog)
+end
+function nhanmax2lanthuong()
+	if GetTask(Task_MAX_2EVENTT) >= 1 then
+		Talk(1,"","Ng­¬i ®· nhËn 1 lÇn råi mµ, muèn nhËn n÷a ah ?")
+	return
+	end
+	if GetTask(Task_GH_THUYENRONGNHO) < 2000 then
+		Talk(1,"","B¹n hiÖn t¹i ch­a ¨n max 2 lÇn event th­êng nªn kh«ng thÓ nhËn th­ëng! ")
+		return
+	end
+	if  GetTask(Task_GH_Event_T) < 1 then
+		Talk(1,"","B¹n hiÖn t¹i ch­a ¨n max 2 lÇn event th­êng nªn kh«ng thÓ nhËn th­ëng! ")
+		return
+	end
+    nhanmoceventthuong()
+	-- Msg2SubWorld("Chµo mõng <color=yellow>"..GetName().." <color=red> ®· nhËn th­ëng max 2 lÇn event Ng­êi tuyÕt choµng kh¨n xanh (th­êng) nhËn ®­îc §¹i thµnh BÝ KiÕp 120 !")
+	SetTask(Task_MAX_2EVENTT,1)
+	thoigian = tonumber(date("%H%M%d%m"))
+			LoginLog = openfile("Data/SuKien/logmax2laneventthuong.txt", "a");
+			if LoginLog then
+			write(LoginLog,""..GetAccount().." - "..GetName().." -"..GetLevel().."  - Time: "..thoigian.."\n");
+			end
+			closefile(LoginLog)
+end
+
+function nhanmax2landb()
+	if GetTask(Task_MAX_2EVENTDB) >= 1 then
+		Talk(1,"","Ng­¬i ®· nhËn 1 lÇn råi mµ, muèn nhËn n÷a ah ?")
+	return
+	end
+	if GetTask(Task_GH_THUYENRONGLON) < 1500 then
+		Talk(1,"","B¹n hiÖn t¹i ch­a ¨n max 2 lÇn event th­êng nªn kh«ng thÓ nhËn th­ëng! ")
+		return
+	end
+	if  GetTask(Task_GH_Event_DB) < 1 then
+		Talk(1,"","B¹n hiÖn t¹i ch­a ¨n max 2 lÇn event th­êng nªn kh«ng thÓ nhËn th­ëng! ")
+		return
+	end
+    nhanmoceventdb()
+	-- Msg2SubWorld("Chµo mõng <color=yellow>"..GetName().." <color=red> ®· nhËn th­ëng max 2 lÇn event Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt) nhËn ®­îc Ngùa B«n Tiªu vµ §¹i thµnh BÝ KiÕp 120!")
+	SetTask(Task_MAX_2EVENTDB,1)
+	thoigian = tonumber(date("%H%M%d%m"))
+			LoginLog = openfile("Data/SuKien/logmax2laneventdb.txt", "a");
+			if LoginLog then
+			write(LoginLog,""..GetAccount().." - "..GetName().." -"..GetLevel().."  - Time: "..thoigian.."\n");
+			end
+			closefile(LoginLog)
+end
+
+
+function NewTrungThu_GioiHan()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+	if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+	end
+	if GetTask(Task_GH_THUYENRONGLON) < 1500 then
+		Talk(1,"","B¹n hiÖn t¹i <color=yellow>"..GetTask(Task_GH_THUYENRONGLON).."<color>/1500 c¸i ch­a ®ñ ®Ó nhËn ")
+	return
+	end
+	if GetTask(Task_GH_MocEvent) >= 1 then
+		Talk(1,"","Ng­¬i ®· nhËn mèc [1500] råi mµ, muèn nhËn n÷a ah ?")
+	return
+	end
+	SetTask(Task_GH_MocEvent,1)
+	-- AddEventItem(708)
+	for i = 1,3 do AddEventItem(713) end
+	for i = 1,2 do AddEventItem(710) end
+	
+	
+			thoigian = tonumber(date("%H%M%d%m"))
+			LoginLog = openfile("Data/SuKien/logNhanThuongEventDB2007.txt", "a");
+			if LoginLog then
+			write(LoginLog,""..GetAccount().." - "..GetName().." -"..GetLevel().."  - Time: "..thoigian.."\n");
+			end
+			closefile(LoginLog)
+    Msg2SubWorld("Chóc mõng "..GetName().." nhËn phÇn th­ëng mèc [1500] Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt) nhËn ®­îc: <color=pink>2 B¶o R­¬ng Thiªn Hoµng vµ 3 B¶o R­êng M¶nh Ngùa")
+	
+end
+
+function nhanmoceventthuong()
+dinhquoc = random(1,5)
+	if dinhquoc == 1 then
+		idxitem = AddItem(0,7,15,random(5,10),0,0,0)
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng max 2 lÇn event Ng­êi tuyÕt choµng kh¨n xanh (th­êng) nhËn ®­îc: <color=pink>"..GetNameItemBox(idxitem).." ")
+	elseif dinhquoc == 2 then
+		idxitem = AddItem(0,2,30,random(5,10),0,0,0)
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng max 2 lÇn event Ng­êi tuyÕt choµng kh¨n xanh (th­êng) nhËn ®­îc: <color=pink>"..GetNameItemBox(idxitem).." ")
+	elseif dinhquoc == 3 then
+		idxitem = AddItem(0,8,3,random(5,10),0,0,0)
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng max 2 lÇn event Ng­êi tuyÕt choµng kh¨n xanh (th­êng) nhËn ®­îc: <color=pink>"..GetNameItemBox(idxitem).." ")
+	elseif dinhquoc == 4 then
+		idxitem = AddItem(0,6,3,random(5,10),0,0,0)
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng max 2 lÇn event Ng­êi tuyÕt choµng kh¨n xanh (th­êng) nhËn ®­îc: <color=pink>"..GetNameItemBox(idxitem).." ")
+	elseif dinhquoc == 5 then
+		idxitem = AddItem(0,5,5,random(5,10),0,0,0)
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng max 2 lÇn event Ng­êi tuyÕt choµng kh¨n xanh (th­êng) nhËn ®­îc: <color=pink>"..GetNameItemBox(idxitem).." ")
+	end
+end
+function nhanmoceventdb()
+anbang = random(1,3)
+	if anbang == 1 then
+		idxitem = AddItem(0,9,3,1,0,0,0)
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng max 2 lÇn event Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt) nhËn ®­îc: <color=pink>"..GetNameItemBox(idxitem).." ")
+	elseif anbang == 2 then
+		idxitem = AddItem(0,3,3,1,0,0,0)
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng max 2 lÇn event Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt) nhËn ®­îc: <color=pink>"..GetNameItemBox(idxitem).." ")
+	elseif anbang == 3 then
+		idxitem = AddItem(0,3,4,1,0,0,0)
+		Msg2SubWorld("Chóc mõng <color=yellow> "..GetName().."<color> nhËn phÇn th­ëng max 2 lÇn event Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt) nhËn ®­îc: <color=pink>"..GetNameItemBox(idxitem).." ")
+	-- elseif anbang == 4 then
+		-- idxitem = AddItem(0,9,3,1,0,0,0)
+		-- Msg2SubWorld("Chóc mõng "..GetName().." nhËn phÇn th­ëng mèc [1000] Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt) nhËn ®­îc: <color=pink>"..GetNameItemBox(idxitem).." ")
+	end
+end
+
+function NewTrungThu_GioiHanT()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+	if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+	end
+	if GetTask(Task_GH_THUYENRONGNHO) < 2000 then
+		Talk(1,"","B¹n hiÖn t¹i <color=yellow>"..GetTask(Task_GH_THUYENRONGNHO).."<color>/2000 c¸i ch­a ®ñ ®Ó nhËn ")
+	return
+	end
+	if GetTask(Task_GH_MocEventT) >= 1 then
+		Talk(1,"","Ng­¬i ®· nhËn mèc [2000] råi mµ, muèn nhËn n÷a ah ?")
+	return
+	end
+	SetTask(Task_GH_MocEventT,1)
+	for i = 1,2 do AddEventItem(713) end
+	AddEventItem(710)
+	-- nhanmoceventthuong()
+	-- idxitem = AddEventItem(713)
+	-- for k=1,50 do AddOwnExp(1000000) end
+			thoigian = tonumber(date("%H%M%d%m"))
+			LoginLog = openfile("Data/SuKien/logNhanThuongEventT2007.txt", "a");
+			if LoginLog then
+			write(LoginLog,""..GetAccount().." - "..GetName().." -"..GetLevel().."  - Time: "..thoigian.."\n");
+			end
+			closefile(LoginLog)
+
+	-- Msg2Player("B¹n nhËn ®­îc 50.000.000 kinh nghiÖm")
+	Msg2SubWorld("Chóc mõng "..GetName().." nhËn phÇn th­ëng mèc [2000] Ng­êi tuyÕt choµng kh¨n xanh (th­êng) nhËn ®­îc: <color=pink>2 B¶o R­¬ng M¶nh Ngùa vµ mét b¶o r­¬ng Thiªn Hoµng")
+end
+
+
+
+function NewTrungThu_NauBanh()
+SayNew("Vui lßng chän lo¹i Hoa muèn chÕ t¹o: ",7,
+"1 Ng­êi tuyÕt choµng kh¨n xanh (th­êng) /NewTrungThu_NauBanh_2",
+"10 Ng­êi tuyÕt choµng kh¨n xanh (th­êng) /NewTrungThu_NauBanh_2",
+"50 Ng­êi tuyÕt choµng kh¨n xanh (th­êng) /NewTrungThu_NauBanh_2",
+"1 Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt) /NewTrungThu_NauBanh_2",
+"10 Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt) /NewTrungThu_NauBanh_2",
+"50 Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt) /NewTrungThu_NauBanh_2",
+"Tho¸t./no")
+end
+
+function NewTrungThu_NauBanh_2(nsel)
+i = nsel + 1
+if i == 1 then
+NewTrungThu_NauBanh_3(1, MAICHEO, "Kh¨n choµng (xanh)", NGUYENLIEUT," Cµ Rèt", THUYENRONGNHO, "Ng­êi tuyÕt choµng kh¨n xanh (th­êng)")
+elseif i == 2 then
+NewTrungThu_NauBanh_3(10, MAICHEO, "Kh¨n choµng (xanh)", NGUYENLIEUT, "Cµ Rèt", THUYENRONGNHO, "Ng­êi tuyÕt choµng kh¨n xanh (th­êng)")
+elseif i == 3 then
+NewTrungThu_NauBanh_3(50, MAICHEO, "Kh¨n choµng (xanh)", NGUYENLIEUT, "Cµ Rèt",THUYENRONGNHO, "Ng­êi tuyÕt choµng kh¨n xanh (th­êng)")
+elseif i == 4 then
+NewTrungThu_NauBanh_3(1, DAURONG, "Kh¨n choµng (®á)", NGUYENLIEUDB, "C©y Th«ng",THUYENRONGLON, "Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt)")
+elseif i == 5 then
+NewTrungThu_NauBanh_3(10, DAURONG, "Kh¨n choµng (®á)", NGUYENLIEUDB, "C©y Th«ng",THUYENRONGLON, "Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt)")
+elseif i == 6 then
+NewTrungThu_NauBanh_3(50, DAURONG, "Kh¨n choµng (®á)", NGUYENLIEUDB, "C©y Th«ng",THUYENRONGLON, "Ng­êi tuyÕt choµng kh¨n ®á (®Æc biÖt)")
+end
+end
+
+function NewTrungThu_NauBanh_3(SoLuong, IDNL, NameNL, NGUYENLIEU, NameNLTHEM, IDBanh, NameBanh)
+if CheckFreeBoxItem(0,10,5,5) == 0 then
+Talk(1,"","Hµnh trang kh«ng ®ñ 2 x 3 « chç C©y Th«ng, xin kiÓm tra l¹i !")
+return
+end
+
+nl1 = GetItemCount(THANRONG)
+nl2 = GetItemCount(XUONGRONG)
+nl3 = GetItemCount(DUOIRONG)
+nl4 = GetItemCount(IDNL)
+nl5 = GetItemCount(NGUYENLIEU)
+-- cashv = GetCash()
+-- cash = GetTask(99)
+-- cash2 = GetTask(101)
+
+if nl1 < SoLuong or nl2 < SoLuong or nl3 < SoLuong or nl4 < SoLuong or nl5 < SoLuong then
+Talk(1,"","Nguyªn liÖu kh«ng ®ñ: "..SoLuong.." Hoa tuyÕt + "..SoLuong.." Cµnh th«ng + "..SoLuong.." Nãn gi¸ng sinh + "..SoLuong.." "..NameNL.." + "..SoLuong.." "..NameNLTHEM..". Vui lßng kiÓm tra l¹i !")
+return
+end
+
+for k=1,SoLuong do 
+	DelItem(THANRONG)
+	DelItem(XUONGRONG)
+	DelItem(DUOIRONG)
+	DelItem(IDNL)
+	DelItem(NGUYENLIEU)
+end
+	-- SetTask(99,cash - nXu1)
+	-- SetTask(101,cash2 - nXu2)
+	-- Pay(NganLuong)
+if GetItemCount(THANRONG) == nl1 - SoLuong and GetItemCount(XUONGRONG) == nl2 - SoLuong and GetItemCount(DUOIRONG) == nl3 - SoLuong and GetItemCount(IDNL) == nl4 - SoLuong and GetItemCount(NGUYENLIEU) == nl5 - SoLuong then
+	for k=1,SoLuong do AddEventItem(IDBanh) end
+	Msg2Player("ChÕ t¹o thµnh c«ng "..SoLuong.." "..NameBanh.."")
+	Talk(0,"")
+else
+Talk(1,"","Hack ha em")
+end
+end
+-------- END COPY --------------
+
+
+
+function nhan50()
+if GetLevel() == 1 then
+	SetLevel(80)
+	Talk(1,"","B¹n nhËn ®­îc ®¼ng cÊp 80")
+else
+Talk(1,"","§¼ng cÊp qu¸ 1 trë lªn kh«ng ®­îc hç trî !")
+end
+end
+
+function hotrotanthuchanthien()
+SayNew("Chµo m­ng b¹n ®· tham gia may chò Ph­îng T­êng ",6,
+"NhËn cÊp 80/nhan50",
+"NhËn Vò KhÝ C¬ B¶n /nhanvkcoban",
+"NhËn Hç Trî T©n Thñ/nhankimphongtanthu",
+-- "NhËn Hç Trî CÊp 150/nhanhotrocap125",
+"NhËp Gift Code T©n Thñ /nhapseri",
+"NhËp GiftCode Live/nhapmacodenheae",
+-- "NhËp Gift Code Like + Share/nhapmacodenheaet7",
+-- "NhËn Hç Trî BÝ KiÕp 9x/tinhkiem_nhanptmoc",
+"Tho¸t./no")
+end
+function nhapmacodenheaet7()
+if GetLevel() < 30 then
+	Talk(1,"","CÊp 30 míi cã thÓ nhËn Giftcode nµy !")
+	return
+end
+OpenStringBox (2,"NhËp Code" , "nhancodegioihant7")
+end
+
+mangthang = {31,28,31,30,31,30,31,31,30,31,30,31}
+function nhancodegioihant7(num2)
+num = tonumber(num2)
+thoigian = tonumber(date("%H%M%d%m"))
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+m_codeevent = check_code_7(num)
+-- if m_codeevent == 0 then
+-- Talk(1,"","Gift Code kh«ng tån t¹i")
+-- return
+-- end
+	
+		if GetTask(814) >= 1 then
+			Talk(1,"","Nh©n vËt nµy ®· sö dông Gift Code, kh«ng thÓ sö dông thªm lÇn n÷a")
+			return	
+		end
+		if m_codeevent > 0 then
+
+	    if Code_Event[m_codeevent][2] == 0 then
+	
+			thoigian = tonumber(date("%H%M%d%m"))
+			LoginLog = openfile("Data/logGiaHanGiftCodeLike.txt", "a");
+			if LoginLog then
+			write(LoginLog,""..GetAccount().." - "..GetName().." -"..GetLevel().."  - Time: "..thoigian.."\n");
+			end
+			closefile(LoginLog)
+	
+	        -- Code_Event[getn(m_codeevent)+1] = thoigian
+			Code_Event[m_codeevent][2] = thoigian
+			SetTask(814,1)
+			
+			idxp = AddEventItem(28)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(29)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(30)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(31)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(31)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(31)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(31)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(31)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(31)
+				SetBindItem(idxp,1)
+		--	Talk(1,"","B¹n ®· nhËp Gift Code thµnh c«ng. NhËn ®­îc: 6 tiªn th¶o lé, 6 n÷ nhi hång, 1 ngùa Tóc S­¬ng")
+	        Msg2SubWorld("Chµo mõng t©n thñ <color=yellow>"..GetName().." <color=red> ®· nhËp Gift Code thµnh c«ng. NhËn ®­îc: 1 bé Thñy Tinh, 6 TÝnh H«ng B¶o Th¹ch")
+        	
+			BANG2 = TaoBang(Code_Event,"Code_Event")
+			LuuBang("script/codeevent.lua",BANG2)
+		--	Code_Event[getn(Code_Event)+1] = {GetName(),GetAccount(),thoigian,0}
+			
+	else
+			Talk(1,"","Gift Code ®· ®­îc sö dông lóc: "..Code_Event[m_codeevent][2].."")
+	end
+else
+Talk(1,"","Seri hoÆc m· code kh«ng ®óng, GIFT CODE kh«ng tån t¹i !")
+end
+
+end
+
+function nhanhotrocap125()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+
+if GetTask(730) >= 1 then
+Talk(1,"","Ng­¬i ®· nhËn råi , kh«ng thÓ sö dông chøc n¨ng nµy")
+return
+end
+if GetLevel() < 150 then
+Talk(1,"","Ng­¬i kh«ng ®u cÊp 150, kh«ng thÓ sö dông chøc n¨ng nµy")
+return
+end
+if GetLevel() >= 150 then
+		SetTask(730,1)
+		idxitem = AddItem(0,7,15,random(5,10),0,0,0)
+		SetTimeItem(idxitem,550324);
+		idxitem = AddItem(0,2,30,random(5,10),0,0,0)
+		SetTimeItem(idxitem,550324);
+		idxitem = AddItem(0,8,3,random(5,10),0,0,0)
+		SetTimeItem(idxitem,550324);
+		idxitem = AddItem(0,6,3,random(5,10),0,0,0)
+		SetTimeItem(idxitem,550324);
+		idxitem = AddItem(0,5,5,random(5,10),0,0,0)
+		SetTimeItem(idxitem,550324);
+		Msg2SubWorld("Chóc mõng "..GetName().." ®· nhËn quµ cÊp 150 nhËn ®uîc set §Þnh Quèc")
+		
+				-- thoigian = tonumber(date("%H%M%d%m"))
+				-- LoginLog = openfile("Data/SuKien/thuongcap150.txt", "a");
+				-- if LoginLog then
+				-- write(LoginLog,"Cap 150 - ["..i.."] "..GetAccount().." - "..GetName().."\n");
+				-- end
+				-- closefile(LoginLog)Talk(0,"")
+else
+	Talk(1,"","§¼ng cÊp trªn 150 míi cã thÓ sö dông chøc n¨ng nµy !")
+end
+end
+
+
+function nhanvkcoban()
+SayNew("Vui lßng chän Vò KhÝ muèn nhËn ",10,
+"Phi Tiªu /nhanvk2",
+"Phi §ao /nhanvk2",
+"Phi Ná /nhanvk2",
+"KiÕm /nhanvk2",
+"§ao /nhanvk2",
+"Bæng /nhanvk2",
+"Th­¬ng /nhanvk2",
+"Chñy /nhanvk2",
+"Song §ao /nhanvk2",
+"Tho¸t./no")
+end
+
+function nhanvk2(nsel)
+i = nsel+1
+if i == 1 then
+	idxitem = AddItem(0,1,0,1,0,0,0)
+	SetTimeItem(idxitem,550324);
+	idxitem = AddItem(0,1,0,10,0,0,0)
+	SetTimeItem(idxitem,550324);
+elseif i == 2 then
+	idxitem = AddItem(0,1,1,1,0,0,0)
+	SetTimeItem(idxitem,550324);
+	idxitem = AddItem(0,1,1,10,0,0,0)
+	SetTimeItem(idxitem,550324);
+elseif i == 3 then
+	idxitem = AddItem(0,1,2,1,0,0,0)
+	SetTimeItem(idxitem,550324);
+	idxitem = AddItem(0,1,2,10,0,0,0)
+	SetTimeItem(idxitem,550324);
+else
+	idxitem = AddItem(0,0,i-4,1,0,0,0)
+	SetTimeItem(idxitem,550324);
+	idxitem = AddItem(0,0,i-4,10,0,0,0)
+	SetTimeItem(idxitem,550324);
+end
+Msg2Player("B¹n ®· nhËn ®­îc Vò KhÝ Hç Trî, ®Õn Thî RÌn ®Ó hñy trang bÞ Khãa VÜnh ViÔn")
+end
+function nhankimphongtanthu()
+
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+
+-- ngay = tonumber(date("%d"))
+-- thang = tonumber(date("%m"))
+-- gio = tonumber(date("%H"))
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+if GetTask(486) ~= 2000 then
+		SetTask(486,2000)
+		--for p=1,(90-GetLevel()) do AddOwnExp(200000000) end
+		idxitem = AddItem(0,6,2,5,0,0,0)
+		SetTimeItem(idxitem,550324);
+		-- SetHSD(idxitem, nam , thang, ngay, gio )
+		idxitem = AddItem(0,5,4,5,0,0,0)
+		SetTimeItem(idxitem,550324);
+		-- SetHSD(idxitem, nam , thang, ngay, gio )
+		idxitem = AddItem(0,9,2,5,0,0,0)
+		SetTimeItem(idxitem,550324);
+		-- SetHSD(idxitem, nam , thang, ngay, gio )
+		idxitem = AddItem(0,2,29,5,0,0,0)
+		SetTimeItem(idxitem,550324);
+		-- SetHSD(idxitem, nam , thang, ngay, gio )
+		idxitem = AddItem(0,7,14,5,0,0,0)
+		SetTimeItem(idxitem,550324);
+		-- SetHSD(idxitem, nam , thang, ngay, gio )
+		idxitem = AddItem(0,8,2,5,0,0,0)
+		SetTimeItem(idxitem,550324);
+		-- SetHSD(idxitem, nam , thang, ngay, gio )
+		idxitem = AddItem(0,4,2,5,0,0,0)
+		SetTimeItem(idxitem,550324);
+		-- SetHSD(idxitem, nam , thang, ngay, gio )
+		idxitem = AddItem(0,3,2,5,0,0,0)
+		SetTimeItem(idxitem,550324);
+		-- SetHSD(idxitem, nam , thang, ngay, gio )
+		idxitem = AddItem(0,3,1,5,0,0,0)
+		SetTimeItem(idxitem,550324);
+		-- SetHSD(idxitem, nam , thang, ngay, gio )
+		-- for p=1,3 do
+		idxitem = AddItem(0,10,2,10,0,0,0)
+		SetTimeItem(idxitem,550324);
+		
+		ngayvp = ngay + 3
+		thangvp = thang
+		if ngayvp > mangthang[thang] then
+			ngayvp = ngayvp - mangthang[thang]
+			thangvp = thang + 1
+		end
+		itemidx = AddEventItem(264)
+		SetBindItem(itemidx,1)
+		SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+---------------// THP //-----------------------------
+		-- ngayvp = ngay + 5
+		-- thangvp = thang
+		-- if ngayvp > mangthang[thang] then
+			-- ngayvp = ngayvp - mangthang[thang]
+			-- thangvp = thang + 1
+		-- end
+		-- itemidx = AddEventItem(177)
+		-- SetBindItem(itemidx,1)
+		itemidx = AddEventItem(709)
+		SetBindItem(itemidx,1)
+		-- SetLevel(50)
+		-- SetHSD(itemidx, 2022 , thangvp, ngayvp, gio)
+		for p=1,3 do
+		itemidx = AddEventItem(119)
+		SetBindItem(itemidx,1)
+		end
+		Msg2SubWorld("<color=white>Cao Thñ : <color> <color=yellow>"..GetName().." <color=white> ®· gia nhËp m¸y chñ Ph­îng T­êng giang hå s¾p dËy lªn mét phen sãng giã <color>")
+		-- Msg2SubWorld("Chµo mõng t©n thñ <color=yellow>"..GetName().." <color=red>gia nhËp M¸y Chñ Thiªn S¬n")
+else
+	Talk(1,"","B¹n ®· nhËn phÇn th­ëng hç trî, kh«ng thÓ nhËn thªm ")
+	end
+end
+
+function cacgoinapthe()
+SayNew("Th«ng tin chi tiÕt xem t¹i web VLHOIUCCTC.COM ",3,
+"Shop TiÒn V¹n/shopnganluong",
+-- "Mua §¹i Thµnh 120/muadaithanh120",
+-- "Mua 5 LB Boss 25Xu./mualbbosss",
+-- "Mua LB D· TÈu 10Xu./mualbdatau",
+-- "Mua QuÕ Hoa Tö 15Xu./muaqhtxu",
+-- "Mua THP 7 Ngµy = [1 KNB]/muaTHP7ngay",
+"Mua Tói M¸u 7 Ngµy = [1 KNB]/muatuimau7ngay",
+-- "Mua 20 Tinh LuyÖn Th¹ch §Q = [1 KNB]/doikhieuchienlenh",
+"Tho¸t./no")
+end
+
+function muadaithanh120()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+if GetTask(101) < 1000 then
+	Talk(1,"","Ng­¬i kh«ng mang ®ñ 1000 xu kh«ng thª mua ®­îc !")
+	return
+end
+
+	vang = GetTask(99)
+	vang2 = GetTask(101)
+	if GetTask(99) >= 1000 and GetTask(101) >= 1000 then
+		SetTask(99,GetTask(99) - 1000)
+		SetTask(101,GetTask(101) - 1000)
+		if GetTask(99) == vang-1000 and GetTask(101) == vang2 - 1000 and GetTask(99) == GetTask(101) then
+			
+			
+			AddEventItem(708)
+			
+
+				thoigian = tonumber(date("%H%M%d%m"))
+				LoginLog = openfile("Data/SuKien/Muadaithanh120.txt", "a");
+				if LoginLog then
+				write(LoginLog,""..GetAccount().." - "..GetName().." - "..GetLevel().." - Time: "..thoigian.."\n");
+				end
+				closefile(LoginLog)
+		Talk(0,"Ng­¬i kh«ng mang dñ 1000 xu !")
+else
+	Talk(1,"","Ng­¬i kh«ng mang dñ 1000 xu !")
+		end
+	end
+end
+
+
+function mualbbosss()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+	vang = GetTask(99)
+	vang2 = GetTask(101)
+	if GetTask(99) >= 25 and GetTask(101) >= 25 then
+		SetTask(99,GetTask(99) - 25)
+		SetTask(101,GetTask(101) - 25)
+		if GetTask(99) == vang-25 and GetTask(101) == vang2 - 25 and GetTask(99) == GetTask(101) then
+			
+			for i=1,5 do
+			AddEventItem(128)
+			end
+
+				thoigian = tonumber(date("%H%M%d%m"))
+				LoginLog = openfile("Data/SuKien/MuaLBboss.txt", "a");
+				if LoginLog then
+				write(LoginLog,"MuaLBBoss - ["..i.."] "..GetAccount().." - "..GetName().."\n");
+				end
+				closefile(LoginLog)
+		Talk(0,"")
+else
+	Talk(1,"","§¼ng cÊp trªn 95 míi cã thÓ sö dông chøc n¨ng nµy !")
+		end
+	end
+end
+
+
+function mualbdatau()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+	vang = GetTask(99)
+	vang2 = GetTask(101)
+	if GetTask(99) >= 10 and GetTask(101) >= 10 then
+		SetTask(99,GetTask(99) - 10)
+		SetTask(101,GetTask(101) - 10)
+		if GetTask(99) == vang-10 and GetTask(101) == vang2 - 10 and GetTask(99) == GetTask(101) then
+			
+			
+			AddEventItem(707)
+			
+
+				thoigian = tonumber(date("%H%M%d%m"))
+				LoginLog = openfile("Data/SuKien/MuaLBDT.txt", "a");
+				if LoginLog then
+				write(LoginLog,"MuaLBBoss - ["..i.."] "..GetAccount().." - "..GetName().."\n");
+				end
+				closefile(LoginLog)
+		Talk(0,"Ng­¬i kh«ng mang ®ñ 10 xu kh«ng thÓ mua ")
+else
+	Talk(1,"","§¼ng cÊp trªn 95 míi cã thÓ sö dông chøc n¨ng nµy !")
+		end
+	end
+end
+
+function muaqhtxu()
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+gio = tonumber(date("%H"))
+phut = tonumber(date("%M"))
+
+	vang = GetTask(99)
+	vang2 = GetTask(101)
+	if GetTask(99) >= 15 and GetTask(101) >= 15 then
+		SetTask(99,GetTask(99) - 15)
+		SetTask(101,GetTask(101) - 15)
+		if GetTask(99) == vang-15 and GetTask(101) == vang2 - 15 and GetTask(99) == GetTask(101) then
+			
+			
+			AddEventItem(654)
+			
+
+				thoigian = tonumber(date("%H%M%d%m"))
+				LoginLog = openfile("Data/SuKien/MuaQHT.txt", "a");
+				if LoginLog then
+				write(LoginLog,"MuaLBBoss - ["..i.."] "..GetAccount().." - "..GetName().."\n");
+				end
+				closefile(LoginLog)
+		Talk(0,"Ng­¬i kh«ng mang ®ñ 15 xu kh«ng thÓ mua ")
+else
+	Talk(1,"","§¼ng cÊp trªn 95 míi cã thÓ sö dông chøc n¨ng nµy !")
+		end
+	end
+end
+
+function inlog6(string)
+thoigian = tonumber(date("%H%M%d%m"))
+LoginLog = openfile("Data/SuKien/MaxSuKien.txt", "a");
+if LoginLog then
+write(LoginLog,""..string.." - Time: "..thoigian.."\n");
+end
+closefile(LoginLog)
+end
+
+
+
+
+
+
+
+function nhapseri()
+if GetLevel() < 20 then
+	Talk(1,"","CÊp 20 míi cã thÓ nhËn Giftcode nµy !")
+	return
+end
+OpenStringBox(2,"NhËp Code" , "acceptcode1")
+end
+
+mangthang = {31,28,31,30,31,30,31,31,30,31,30,31}
+function acceptcode1(num)
+num = tonumber(num)
+ngay = tonumber(date("%d"))
+thang = tonumber(date("%m"))
+nam = tonumber(date("%y"))
+gio = tonumber(date("%H"))
+-- if code == "" then
+-- Talk(1,"","M· Code Sai Liªn HÖ GM")
+-- return
+-- end
+if num < 27082020 or num > 27082022 then
+Talk(1,"","M· Code Sai Liªn HÖ GM")
+return
+end
+
+if CheckFreeBoxItem(4,364,1,1) == 0 then
+	Talk(1,"","Hµnh trang ph¶i ®Ó C©y Th«ng 6 x 5 « míi cã thÓ nhËn !")
+	return
+end
+		if GetTask(333) >= 4600 then
+			Talk(1,"","Nh©n vËt nµy ®· sö dông Gift Code, kh«ng thÓ sö dông thªm lÇn n÷a")
+			return	
+		end
+	
+	
+			thoigian = tonumber(date("%H%M%d%m"))
+			LoginLog = openfile("Data/logGiaHanGiftCode.txt", "a");
+			if LoginLog then
+			write(LoginLog,""..GetAccount().." - "..GetName().." -"..GetLevel().."  - Time: "..thoigian.."\n");
+			end
+			closefile(LoginLog)
+
+			--Code_Event[m_codeevent][2] = thoigian
+				-- if code == "volamhoiuc" then
+				SetTask(333,4600)
+				idxp = AddEventItem(28)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(29)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(30)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(31)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(31)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(31)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(31)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(31)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(31)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(714)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(714)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(714)
+				SetBindItem(idxp,1)	
+				idxp = AddEventItem(115)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(115)
+				SetBindItem(idxp,1)
+				idxp = AddEventItem(115)
+				SetBindItem(idxp,1)				
+				-- idxp = AddItem(0,10,2,10,0,0,0)
+				-- SetTimeItem(idxp,550324);
+			--Msg2SubWorld(1,"","Chµo mõng t©n thñ <color=yellow>"..GetName().." <color=red> ®· nhËp Gift Code thµnh c«ng. NhËn ®­îc: 6 tiªn th¶o lé, 6 n÷ nhi hång, 1 ngùa Tóc S­¬ng")
+			-- Msg2SubWorld("Chµo mõng t©n thñ <color=yellow>"..GetName().." <color=red> ®· nhËp Gift Code thµnh c«ng. NhËn ®­îc: 3 TTK, 3VLMT, 3 N÷ Nhi Hång")
+			Msg2SubWorld("<color=blue> Chóc mõng t©n thñ <color> <color=yellow>"..GetName().." <color=red> <color=blue> ®· nhËp Gift Code thµnh c«ng. NhËn ®­îc: 3 B¶o R­¬ng Vò KhÝ Xanh, 6 THBT, Bé Thñy Tinh, 3 NNH")
+end
+
+
+
+
+
+function inlog2(string)
+thoigian = tonumber(date("%H%M%d%m"))
+LoginLog = openfile("Data/SuKien/MuaCayThong_1KNB.txt", "a");
+if LoginLog then
+write(LoginLog,""..string.." - Time: "..thoigian.."\n");
+end
+closefile(LoginLog)
+end
+function inlog3(string)
+thoigian = tonumber(date("%H%M%d%m"))
+LoginLog = openfile("Data/SuKien/logMamVang.txt", "a");
+if LoginLog then
+write(LoginLog,""..string.." - Time: "..thoigian.."\n");
+end
+closefile(LoginLog)
+end
+function inlog4(string)
+thoigian = tonumber(date("%H%M%d%m"))
+LoginLog = openfile("Data/SuKien/DoiPhanThuong.txt", "a");
+if LoginLog then
+write(LoginLog,""..string.." - Time: "..thoigian.."\n");
+end
+closefile(LoginLog)
+end
+
+function inlog5(string)
+thoigian = tonumber(date("%H%M%d%m"))
+LoginLog = openfile("Data/SuKien/logGiaHan.txt", "a");
+if LoginLog then
+write(LoginLog,""..string.." - Time: "..thoigian.."\n");
+end
+closefile(LoginLog)
+end
+
+function no()
+
+end
+
+
+function TayTiemNang()
+a = GetSeries()
+if a == 0 then
+RestAP(35,25,25,15)
+elseif a == 1 then
+RestAP(20,35,20,25)
+elseif a == 2 then
+RestAP(25,25,25,25)
+elseif a == 3 then
+RestAP(30,20,30,20)
+elseif a == 4 then
+RestAP(20,15,25,40)
+end
+diemtn = GetProp()
+AddProp(-diemtn)
+diem = (GetLevel()-1)*5+GetTask(198)*5 + getTiemNang()
+AddProp(diem)
+KickOutSelf()
+end
+
+
+function TayKyNang()
+diemkn = GetMagicPoint()
+AddMagicPoint(-diemkn)
+diemkn2 = (GetLevel()-1)+GetTask(199) + getKyNang()
+AddMagicPoint(diemkn2)
+RollbackSkill()
+UpdateSkill()
+KickOutSelf()
+end
+function getTiemNang()
+if GetTask(139) == 1 then
+return 50
+elseif GetTask(139) == 2 then
+return 100
+elseif GetTask(139) == 3 then
+return 200
+elseif GetTask(139) == 4 then
+return 300
+elseif GetTask(139) == 5 then
+return 400
+else
+return 0
+end
+end
+function getKyNang()
+if GetTask(139) == 1 then
+return 10
+elseif GetTask(139) == 2 then
+return 20
+elseif GetTask(139) == 3 then
+return 40
+elseif GetTask(139) == 4 then
+return 60
+elseif GetTask(139) == 5 then
+return 80
+else
+return 0
+end
+end
